@@ -1,0 +1,27 @@
+{
+  "name": "10x-atj",
+  "version": "0.0.1",
+  "description": "Test bed for Access to Justice platform tooling.",
+  "type": "module",
+  "main": "index.js",
+  "license": "CC0",
+  "scripts": {
+    "build": "pnpm --recursive --parallel build",
+    "test": "pnpm --recursive --no-bail --parallel --if-present test",
+    "format": "prettier --write \"packages/**/*.{js,jsx,ts,tsx}\""
+  },
+  "hooks": {
+    "pre-commit": "pnpm format"
+  },
+  "devDependencies": {
+    "@types/node": "^18.16.6",
+    "@vitest/coverage-c8": "^0.31.0",
+    "dependency-cruiser": "^12.12.1",
+    "prettier": "^2.7.1",
+    "ts-node": "^10.9.1",
+    "tsup": "^6.4.0",
+    "typescript": "^5.0.4",
+    "vitest": "^0.31.0",
+    "vitest-mock-extended": "^1.0.7"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "@atj/cli-app",
+  "version": "1.0.0",
+  "description": "10x ATJ command-line interface",
+  "license": "CC0",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc -p .",
+    "cli": "ts-node src/index.ts",
+    "test": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@atj/core": "workspace:*",
+    "@atj/dependency-graph": "workspace:*",
+    "commander": "^9.4.1"
+  }
+}
