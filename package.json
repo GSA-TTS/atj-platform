@@ -1,6 +1,6 @@
 {
   "name": "10x-atj",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Test bed for Access to Justice platform tooling.",
   "type": "module",
   "main": "index.js",

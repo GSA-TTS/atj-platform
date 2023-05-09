@@ -1,13 +1,16 @@
 {
-  "name": "@atj/core",
+  "name": "@atj/pdf-gen",
   "version": "1.0.0",
-  "description": "10x ATJ business logic",
+  "description": "10x ATJ PDF generation",
   "license": "CC0",
   "main": "src/index.ts",
   "scripts": {
     "build": "tsup src/* --env.NODE_ENV production --dts-resolve",
     "test": "vitest run --coverage"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "@types/js-quantities": "^1.6.3",
+    "convert": "^4.5.0",
+    "pdf-lib": "^1.17.1"
+  }
 }
