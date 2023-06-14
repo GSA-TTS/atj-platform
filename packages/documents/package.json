@@ -1,7 +1,7 @@
 {
-  "name": "@atj/pdf-gen",
+  "name": "@atj/documents",
   "version": "1.0.0",
-  "description": "10x ATJ PDF generation",
+  "description": "10x ATJ document generation",
   "license": "CC0",
   "main": "src/index.ts",
   "scripts": {

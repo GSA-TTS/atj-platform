@@ -14,7 +14,7 @@
   "exclude": ["node_modules", "**/*/lib", "**/*/dist"],
   "references": [
     {
-      "path": "./packages/core/tsconfig.json"
+      "path": "./packages/interviews/tsconfig.json"
     },
     {
       "path": "./packages/cli/tsconfig.json"

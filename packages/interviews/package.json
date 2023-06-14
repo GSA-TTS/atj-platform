@@ -1,11 +1,11 @@
 {
-  "name": "@atj/core",
+  "name": "@atj/interviews",
   "version": "1.0.0",
   "description": "10x ATJ business logic",
   "license": "CC0",
   "main": "src/index.ts",
   "scripts": {
-    "build": "tsup src/* --env.NODE_ENV production --dts-resolve",
+    "build": "tsup src/* --env.NODE_ENV production",
     "test": "vitest run --coverage"
   },
   "dependencies": {},

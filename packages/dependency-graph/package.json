@@ -5,7 +5,7 @@
   "license": "CC0",
   "main": "src/index.ts",
   "scripts": {
-    "build": "tsup src/* --env.NODE_ENV production --dts-resolve",
+    "build": "tsup src/* --env.NODE_ENV production",
     "test": "echo no @atj/dependency-graph tests"
   },
   "dependencies": {

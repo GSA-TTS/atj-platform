@@ -1,4 +1,4 @@
-# @atj/core
+# @atj/interviews
 
 This package includes core business logic for the project.
 

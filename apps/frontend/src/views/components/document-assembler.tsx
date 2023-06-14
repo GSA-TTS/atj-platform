@@ -1,4 +1,4 @@
-import { generate } from '@atj/pdf-gen';
+import { generate } from '@atj/documents';
 
 export const downloadPdfBytes = (bytes: Uint8Array) => {
   const base64 = btoa(String.fromCharCode(...bytes));

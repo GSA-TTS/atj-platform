@@ -10,7 +10,7 @@
     "test": "vitest run --coverage"
   },
   "dependencies": {
-    "@atj/core": "workspace:*",
+    "@atj/interviews": "workspace:*",
     "@atj/dependency-graph": "workspace:*",
     "commander": "^9.4.1"
   }
