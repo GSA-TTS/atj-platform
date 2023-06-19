@@ -8,6 +8,7 @@
     "build": "tsup src/* --env.NODE_ENV production",
     "test": "vitest run --coverage"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "ajv": "^8.12.0"
+  }
 }
