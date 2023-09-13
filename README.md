@@ -1,10 +1,10 @@
 # 10x Access to Justice Tooling
 
-Test bed for ATJ platform tooling, completed as part of the [10x Transparency for Fines and Fees](https://trello.com/c/25Jl6NwJ/207-transparency-for-fines-and-fees) project.
+Test bed for ATJ platform tooling, completed as part of the [10x Digital Access to Justice Platform](https://trello.com/c/25Jl6NwJ/207-digital-access-to-justice-platform) project.
 
 ## Overview
 
-This project is structured as a monorepo. The project dependencies within the workspace are:
+The project dependencies within the workspace are:
 
 ![workspace project dependencies](./workspace-dependencies.svg)
 
