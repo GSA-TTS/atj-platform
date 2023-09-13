@@ -9,8 +9,6 @@
     "test": "vitest run --coverage"
   },
   "dependencies": {
-    "@types/js-quantities": "^1.6.3",
-    "convert": "^4.5.0",
     "pdf-lib": "^1.17.1"
   }
 }
