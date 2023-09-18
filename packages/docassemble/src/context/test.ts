@@ -1,0 +1,8 @@
+import { createDocassembleClient } from '.';
+
+export const createTestDocassembleClient = () => {
+  return createDocassembleClient({
+    apiUrl: 'http://localhost:8011',
+    apiKey: (import.meta as any).env.VITE_DOCASSEMBLE_API_KEY || '',
+  });
+};
