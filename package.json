@@ -9,7 +9,7 @@
     "build": "pnpm --recursive --parallel build",
     "build:validation-ui": "cd src/web && npm install && npm run build && cd ../..",
     "link": "ln -sf ./src/frontend/dist _site",
-    "pages": "pnpm build && pnpm link",
+    "pages": "npm i -g pnpm && pnpm build && pnpm link",
     "test": "pnpm --recursive --no-bail --parallel --if-present test",
     "format": "prettier --write \"packages/**/*.{js,jsx,ts,tsx}\""
   },
