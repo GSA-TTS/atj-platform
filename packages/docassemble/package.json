@@ -9,6 +9,7 @@
     "test": "vitest run --coverage"
   },
   "dependencies": {
+    "@atj/documents": "workspace:*",
     "@atj/interviews": "workspace:*"
   },
   "devDependencies": {
