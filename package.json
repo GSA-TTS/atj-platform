@@ -8,8 +8,7 @@
   "scripts": {
     "build": "pnpm --recursive --parallel build",
     "build:validation-ui": "cd src/web && npm install && npm run build && cd ../..",
-    "link": "ln -sf ./src/frontend/dist _site",
-    "pages": "npm i -g pnpm && pnpm i && pnpm build && pnpm link",
+    "pages": "npm i -g pnpm && pnpm i && pnpm build && ln -sf ./apps/frontend/dist _site",
     "test": "pnpm --recursive --no-bail --parallel --if-present test",
     "format": "prettier --write \"packages/**/*.{js,jsx,ts,tsx}\""
   },

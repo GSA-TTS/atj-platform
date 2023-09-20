@@ -1,2 +1,5 @@
+*.code-workspace
+_site
+.vscode/
 coverage/
 node_modules/

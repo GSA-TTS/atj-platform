@@ -50,6 +50,9 @@ importers:
 
   apps/frontend:
     dependencies:
+      '@atj/docassemble':
+        specifier: workspace:*
+        version: link:../../packages/docassemble
       '@atj/documents':
         specifier: workspace:*
         version: link:../../packages/documents
@@ -118,6 +121,9 @@ importers:
 
   packages/docassemble:
     dependencies:
+      '@atj/documents':
+        specifier: workspace:*
+        version: link:../documents
       '@atj/interviews':
         specifier: workspace:*
         version: link:../interviews
