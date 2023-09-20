@@ -1,4 +1,4 @@
-# 1. Generate dependency diagram
+# 2. Generate dependency diagram
 
 Date: 2023-09-13
 
