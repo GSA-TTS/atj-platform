@@ -11,7 +11,11 @@
     "strict": true,
     "target": "ESNext"
   },
-  "exclude": ["node_modules", "**/*/lib", "**/*/dist"],
+  "exclude": [
+    "node_modules",
+    "**/*/lib",
+    "**/*/dist"
+  ],
   "references": [
     {
       "path": "./packages/interviews/tsconfig.json"

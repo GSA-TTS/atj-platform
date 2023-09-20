@@ -10,6 +10,7 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@atj/docassemble": "workspace:*",
     "@atj/documents": "workspace:*",
     "@atj/interviews": "workspace:*",
     "@axe-core/playwright": "^4.7.3",
