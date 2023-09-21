@@ -2,24 +2,42 @@ version: '3'
 
 services:
   web:
-    image: jhpyle/docassemble
+    build: .
     ports:
       - '8011:80'
-    volumes:
-      - data:/usr/share/docassemble/data
-      - log:/usr/share/docassemble/log
-      - config:/usr/share/docassemble/config
-      - webapp:/usr/share/docassemble/webapp
+    # The available environment variables have defaults defined in the base image:
+    #   https://github.com/jhpyle/docassemble/blob/master/Dockerfile
+    # Configuration documentation is available here:
+    #   https://docassemble.org/docs/docker.html#configuration%20options
+    environment:
+      CONTAINERROLE: 'log:cron:mail:redis:rabbitmq'
+      LOCALE: 'en_US.UTF-8 UTF-8'
+      TIMEZONE: 'America/New_York'
+      SUPERVISORLOGLEVEL: 'info'
+      DAHOSTNAME: 'localhost'
+      DBHOST: 'postgres'
+      #LOGSERVER: ''
+      #REDIS: 'redis://redis'
+      #RABBITMQ: 'pyamqp://docassemble:secret-password@rabbitmq/'
+      #DASUPERVISORUSERNAME: ''
+      #DASUPERVISORPASSWORD: ''
   redis:
     image: 'redis:latest'
+    volumes:
+      - redis_data:/data
   postgres:
     image: 'postgres:latest'
     environment:
       POSTGRES_DB: docassemble
       POSTGRES_USER: docassemble
       POSTGRES_PASSWORD: secret-password
+  rabbitmq:
+    image: 'rabbitmq:latest'
+    environment:
+      RABBITMQ_DEFAULT_USER: docassemble
+      RABBITMQ_DEFAULT_PASS: secret-password
 volumes:
-  data:
+  redis_data:
   log:
   config:
   webapp:
