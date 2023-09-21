@@ -10,34 +10,4 @@ services:
     # Configuration documentation is available here:
     #   https://docassemble.org/docs/docker.html#configuration%20options
     environment:
-      CONTAINERROLE: 'log:cron:mail:redis:rabbitmq'
-      LOCALE: 'en_US.UTF-8 UTF-8'
-      TIMEZONE: 'America/New_York'
-      SUPERVISORLOGLEVEL: 'info'
-      DAHOSTNAME: 'localhost'
-      DBHOST: 'postgres'
-      #LOGSERVER: ''
-      #REDIS: 'redis://redis'
-      #RABBITMQ: 'pyamqp://docassemble:secret-password@rabbitmq/'
-      #DASUPERVISORUSERNAME: ''
-      #DASUPERVISORPASSWORD: ''
-  redis:
-    image: 'redis:latest'
-    volumes:
-      - redis_data:/data
-  postgres:
-    image: 'postgres:latest'
-    environment:
-      POSTGRES_DB: docassemble
-      POSTGRES_USER: docassemble
-      POSTGRES_PASSWORD: secret-password
-  rabbitmq:
-    image: 'rabbitmq:latest'
-    environment:
-      RABBITMQ_DEFAULT_USER: docassemble
-      RABBITMQ_DEFAULT_PASS: secret-password
-volumes:
-  redis_data:
-  log:
-  config:
-  webapp:
+      CONTAINERROLE: 'all'
