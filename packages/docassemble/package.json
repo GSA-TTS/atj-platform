@@ -6,7 +6,7 @@
   "main": "src/index.ts",
   "scripts": {
     "build": "tsup src/* --env.NODE_ENV production",
-    "test": "vitest run --coverage"
+    "test:integration": "vitest run --coverage"
   },
   "dependencies": {
     "@atj/documents": "workspace:*",
