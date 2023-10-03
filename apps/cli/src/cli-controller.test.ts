@@ -15,7 +15,7 @@ describe('cli controller', () => {
       },
     };
     const app = CliController(ctx);
-    await app.parseAsync(['node', 'script-name', 'hello-world', 'aardvark']);
-    expect(ctx.console.log).toHaveBeenCalledWith('Hello, aardvark!');
+    await app.parseAsync(['node.js', 'dist/index.js', 'hello']);
+    expect(ctx.console.log).toHaveBeenCalledWith('Hello!');
   });
 });

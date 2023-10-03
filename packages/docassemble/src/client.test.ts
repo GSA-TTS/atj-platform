@@ -17,6 +17,8 @@ describe('docassemble api client', () => {
     // TODO: determine why packages are not populating. We are getting this
     // error back:
     expect(result.ok).toEqual(false);
-    expect((result as any).error).toEqual('No instructions provided.');
+    expect((result as any).error).toEqual(
+      '[400] BAD REQUEST: "No instructions provided."\n'
+    );
   });
 });

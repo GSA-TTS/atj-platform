@@ -10,9 +10,16 @@ type Context = {
 };
 
 export const CliController = (ctx: Context) => {
-  const cli = new Command()
-    .name('atj utilities')
-    .description('CLI the interact with the ATJ workspace');
+  const cli = new Command().description(
+    'CLI to interact with the ATJ workspace'
+  );
+
+  cli
+    .command('hello')
+    .description('say hello')
+    .action(() => {
+      ctx.console.log('Hello!');
+    });
 
   cli
     .command('create-workspace-graph')
@@ -37,9 +44,7 @@ export const CliController = (ctx: Context) => {
     .option('-b, --branch', 'branch of git repository to populate from', 'main')
     .action(async ({ repository, branch }) => {
       const client = new DocassembleClient(ctx.docassemble);
-      console.log(repository, branch);
       const result = await client.addPackage(repository, branch);
-
       ctx.console.log('populated docassemble instance', result);
     });
 
@@ -49,7 +54,6 @@ export const CliController = (ctx: Context) => {
     .action(async () => {
       const client = new DocassembleClient(ctx.docassemble);
       const interviews = await client.getInterviews();
-      console.log(interviews);
       ctx.console.log('populated docassemble instance');
     });
 
