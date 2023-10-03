@@ -2,7 +2,7 @@ version: '3'
 
 services:
   web:
-    build: .
+    image: jhpyle/docassemble:latest
     ports:
       - '8011:80'
     # The available environment variables have defaults defined in the base image:

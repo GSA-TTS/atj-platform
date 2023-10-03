@@ -1,7 +1,6 @@
 #!/bin/bash
 #
-# This script will bootstrap the creation of a cloud.gov deployment
-# environment, to be managed via Terraform.
+# This script will bootstrap the creation of a cloud.gov deployment environment.
 #
 
 #set -eo pipefail
@@ -19,7 +18,7 @@ Usage: cloud.sh <OPERATION> -o <cloud.gov organization name> -s <cloud.gov space
 
 OPERATION:
     setup   - create a new cloud.gov space
-    show    - show Terraform S3 and cloud.gov credentials
+    show    - show cloud.gov credentials
     export  - when used with source, exports credentials to the environment
     deploy  - deploy the locally-built application via the Cloudfoundry CLI
     rotate  - replace current secrets with new secrets

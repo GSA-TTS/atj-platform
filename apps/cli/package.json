@@ -12,6 +12,7 @@
   "dependencies": {
     "@atj/interviews": "workspace:*",
     "@atj/dependency-graph": "workspace:*",
+    "@atj/docassemble": "workspace:*",
     "commander": "^9.4.1"
   }
 }

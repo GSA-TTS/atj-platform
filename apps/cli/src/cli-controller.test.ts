@@ -8,6 +8,11 @@ describe('cli controller', () => {
     const ctx = {
       console: mock<Console>({ log: vi.fn() }),
       workspaceRoot: '.',
+      docassemble: {
+        fetch: fetch,
+        apiUrl: '',
+        apiKey: '',
+      },
     };
     const app = CliController(ctx);
     await app.parseAsync(['node', 'script-name', 'hello-world', 'aardvark']);
