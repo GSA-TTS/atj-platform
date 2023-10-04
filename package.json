@@ -21,7 +21,7 @@
     "prettier": "^2.7.1",
     "ts-node": "^10.9.1",
     "tsup": "^6.4.0",
-    "typescript": "^5.0.4",
+    "typescript": "^5.2.2",
     "vitest": "^0.31.0",
     "vitest-mock-extended": "^1.0.7"
   }
