@@ -32,25 +32,7 @@ class AppStack extends TerraformStack {
         blueprintId: 'amazon_linux_2',
         bundleId: 'small_2_0',
         // Preliminary logic to spin up a configured docassemble instance:
-        userData: `
-          sudo yum -y update && \
-          sudo yum -y install docker && \
-          sudo systemctl enable docker && \
-          sudo systemctl start docker && \
-          sudo usermod -a -G docker ec2-user && \
-          echo "DAHOSTNAME=docassemble.atj.10x.gov
-TIMEZONE=America/New_York
-USEHTTPS=true
-USELETSENCRYPT=true
-LETSENCRYPTEMAIL=daniel.naab@gsa.gov" > /home/ec2-user/env.list && \
-          sudo chown ec2-user:ec2-user /home/ec2-user/env.list && \
-          docker run -d \
-            --env-file=/home/ec2-user/env.list \
-            --volume dabackup:/usr/share/docassemble/backup \
-            --publish 80:80 \
-            --publish 443:443 \
-            --stop-timeout 600 \
-            jhpyle/docassemble`,
+        userData: USER_DATA_COMMAND,
       }
     );
     const staticIp = new LightsailStaticIp(
@@ -101,3 +83,25 @@ LETSENCRYPTEMAIL=daniel.naab@gsa.gov" > /home/ec2-user/env.list && \
     });
   }
 }
+
+const USER_DATA_COMMAND = `
+sudo yum -y update && \
+sudo yum -y install docker && \
+sudo systemctl enable docker && \
+sudo systemctl start docker && \
+sudo usermod -a -G docker ec2-user && \
+echo "DAHOSTNAME=docassemble.atj.10x.gov
+TIMEZONE=America/New_York
+USEHTTPS=true
+USELETSENCRYPT=true
+LETSENCRYPTEMAIL=daniel.naab@gsa.gov" > /home/ec2-user/env.list && \
+sudo chown ec2-user:ec2-user /home/ec2-user/env.list && \
+sudo docker run -d \
+  --user ec2-user \
+  --env-file /home/ec2-user/env.list \
+  --volume dabackup:/usr/share/docassemble/backup \
+  --publish 80:80 \
+  --publish 443:443 \
+  --stop-timeout 600 \
+  jhpyle/docassemble
+`;
