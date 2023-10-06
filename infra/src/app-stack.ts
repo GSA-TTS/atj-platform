@@ -30,7 +30,7 @@ class AppStack extends TerraformStack {
         name: `${id}-docassemble`,
         availabilityZone: 'us-east-2a',
         blueprintId: 'amazon_linux_2',
-        bundleId: 'small_2_0',
+        bundleId: 'medium_2_0',
         // Preliminary logic to spin up a configured docassemble instance:
         userData: USER_DATA_COMMAND,
       }
@@ -70,13 +70,6 @@ class AppStack extends TerraformStack {
         ],
       }
     );
-    //lightsailInstancePublicPorts.overrideLogicalId('test');
-    /*lightsailInstance.addOverride('rule', {
-      cidrBlocks: ['0.0.0.0/0'],
-      fromPort: 443,
-      protocol: 'tcp',
-      toPort: 443,
-    });*/
 
     new TerraformOutput(this, 'docassemble_ip_address', {
       value: staticIp.ipAddress,
@@ -97,7 +90,6 @@ USELETSENCRYPT=true
 LETSENCRYPTEMAIL=daniel.naab@gsa.gov" > /home/ec2-user/env.list && \
 sudo chown ec2-user:ec2-user /home/ec2-user/env.list && \
 sudo docker run -d \
-  --user ec2-user \
   --env-file /home/ec2-user/env.list \
   --volume dabackup:/usr/share/docassemble/backup \
   --publish 80:80 \
