@@ -17,7 +17,6 @@
   "devDependencies": {
     "@types/node": "^18.16.6",
     "@vitest/coverage-c8": "^0.31.0",
-    "dependency-cruiser": "^12.12.1",
     "prettier": "^2.7.1",
     "ts-node": "^10.9.1",
     "tsup": "^6.4.0",
