@@ -6,8 +6,9 @@
   "main": "index.js",
   "license": "CC0",
   "scripts": {
-    "build": "pnpm --recursive --parallel build",
-    "test": "pnpm --recursive --no-bail --parallel --if-present test",
+    "build": "turbo run build",
+    "pages": "rm -rf node_modules && npm i -g pnpm turbo && pnpm i && pnpm build && ln -sf ./apps/frontend/dist _site",
+    "test": "turbo run test",
     "format": "prettier --write \"packages/**/*.{js,jsx,ts,tsx}\""
   },
   "hooks": {
@@ -16,11 +17,11 @@
   "devDependencies": {
     "@types/node": "^18.16.6",
     "@vitest/coverage-c8": "^0.31.0",
-    "dependency-cruiser": "^12.12.1",
     "prettier": "^2.7.1",
     "ts-node": "^10.9.1",
     "tsup": "^6.4.0",
-    "typescript": "^5.0.4",
+    "turbo": "^1.10.15",
+    "typescript": "^5.2.2",
     "vitest": "^0.31.0",
     "vitest-mock-extended": "^1.0.7"
   }

@@ -1,4 +1,5 @@
 import { createContext, useContext } from 'react';
+import { GithubRepository } from './lib/github';
 
 export interface Backend {
   helloWorld(echoValue: string): string;
@@ -6,10 +7,12 @@ export interface Backend {
 
 export interface Context {
   backend: Backend;
+  github: GithubRepository;
 }
 
 export const AppContext = createContext<Context>({
   backend: {} as Backend,
+  github: {} as GithubRepository,
 });
 
 export const useAppContext = () => {

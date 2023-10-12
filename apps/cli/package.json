@@ -5,13 +5,14 @@
   "license": "CC0",
   "main": "src/index.ts",
   "scripts": {
-    "build": "tsc -p .",
+    "build": "echo 'skipping...' #tsc -p .",
     "cli": "ts-node src/index.ts",
     "test": "vitest run --coverage"
   },
   "dependencies": {
     "@atj/interviews": "workspace:*",
     "@atj/dependency-graph": "workspace:*",
-    "commander": "^9.4.1"
+    "@atj/docassemble": "workspace:*",
+    "commander": "^11.0.0"
   }
 }

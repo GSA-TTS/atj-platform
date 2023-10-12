@@ -1,2 +1,7 @@
+.env
+*.code-workspace
+_site
+.turbo/
+.vscode/
 coverage/
 node_modules/
