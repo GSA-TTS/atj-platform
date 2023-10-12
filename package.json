@@ -20,6 +20,7 @@
     "prettier": "^2.7.1",
     "ts-node": "^10.9.1",
     "tsup": "^6.4.0",
+    "turbo": "^1.10.15",
     "typescript": "^5.2.2",
     "vitest": "^0.31.0",
     "vitest-mock-extended": "^1.0.7"
