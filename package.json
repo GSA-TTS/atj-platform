@@ -7,7 +7,7 @@
   "license": "CC0",
   "scripts": {
     "build": "turbo run build",
-    "pages": "rm -rf node_modules && npm i -g pnpm && pnpm i && pnpm build && ln -sf ./apps/frontend/dist _site",
+    "pages": "rm -rf node_modules && npm i -g pnpm turbo && pnpm i && pnpm build && ln -sf ./apps/frontend/dist _site",
     "test": "turbo run test",
     "format": "prettier --write \"packages/**/*.{js,jsx,ts,tsx}\""
   },
