@@ -10,6 +10,16 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^3.3.0"
+    "@astrojs/react": "^3.0.3",
+    "@atj/docassemble": "workspace:*",
+    "@atj/documents": "workspace:*",
+    "@atj/interviews": "workspace:*",
+    "@uswds/uswds": "^3.6.0",
+    "astro": "^3.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.21"
   }
 }
