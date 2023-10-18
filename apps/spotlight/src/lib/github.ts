@@ -22,6 +22,14 @@ export const getBranchTreeUrl = (
   return `https://github.com/${github.owner}/${github.repository}/tree/${github.branch}`;
 };
 
-export const getNewIssueUrl = (github: GithubRepository) => {
-  return `https://github.com/${github.owner}/${github.repository}/issues/new/choose`;
+export const getGithubRepository = async (
+  env?: any
+): Promise<GithubRepository> => {
+  const { execSync } = await import('child_process');
+  return {
+    owner: env.OWNER || 'gsa-tts',
+    repository: env.REPOSITORY || 'atj-platform',
+    branch: env.BRANCH || 'main',
+    commit: execSync('git rev-parse HEAD').toString().trim(),
+  };
 };

@@ -1,23 +1,13 @@
-import { execSync } from 'child_process';
-
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 
-const BASEURL = process.env.BASEURL || '/';
-const GITHUB = {
-  owner: process.env.OWNER || 'gsa-tts',
-  repository: process.env.REPOSITORY || 'atj-platform',
-  branch: process.env.BRANCH || 'main',
-  commit: execSync('git rev-parse HEAD').toString().trim(),
-};
+import { getGithubRepository } from './src/lib/github';
 
-const DEPLOYMENT_ID =
-  process.env.NODE_ENV === 'development'
-    ? 'local'
-    : `${GITHUB.owner}:${GITHUB.branch}`;
+const githubRepository = await getGithubRepository(process.env);
 
 // https://astro.build/config
 export default defineConfig({
+  base: process.env.BASEURL || '/',
   integrations: [
     react({
       include: ['src/components/react/**'],
@@ -25,8 +15,7 @@ export default defineConfig({
   ],
   vite: {
     define: {
-      'import.meta.env.DEPLOYMENT_ID': JSON.stringify(DEPLOYMENT_ID),
-      'import.meta.env.GITHUB': JSON.stringify(GITHUB),
+      'import.meta.env.GITHUB': JSON.stringify(githubRepository),
     },
   },
 });

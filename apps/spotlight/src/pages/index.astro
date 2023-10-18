@@ -1,9 +1,12 @@
 ---
 import { DocumentAssembler } from '../components/react/document-assembler';
+import { getAppContext } from '../context';
 import Layout from '../layouts/Layout.astro';
+
+const context = getAppContext(import.meta.env);
 ---
 
-<Layout title="10x Access to Justice Spotlight">
+<Layout github={context.github} title="10x Access to Justice Spotlight">
   <main id="main-content">
     <div class="bg-base-lightest">
       <section class="grid-container usa-section">
