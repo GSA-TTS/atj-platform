@@ -1,6 +1,6 @@
 ---
+import { DocumentAssembler } from '../components/react/document-assembler';
 import Layout from '../layouts/Layout.astro';
-import { DocumentAssembler } from '../components/document-assembler';
 ---
 
 <Layout title="10x Access to Justice Spotlight">
@@ -11,7 +11,7 @@ import { DocumentAssembler } from '../components/document-assembler';
           <div class="grid-col-12 tablet:grid-col-12 desktop:grid-col-12">
             <div class="bg-white padding-y-3 padding-x-5 border border-base-lighter">
               <h1>ATJ Test Bed</h1>
-              <DocumentAssembler />
+              <DocumentAssembler client:load />
             </div>
           </div>
         </div>

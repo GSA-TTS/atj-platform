@@ -1,14 +1,16 @@
 ---
+import Footer from '../components/Footer.astro';
+import UsaBanner from '../components/UsaBanner.astro';
+
 interface Props {
   title: string;
 }
-
 const { title } = Astro.props;
 ---
 
 <html lang="en">
   <head>
-    <meta charSet="UTF-8" />
+    <meta charset="UTF-8" />
     <meta name="description" content="10x Access to Justice Spotlight" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script async type="text/javascript" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=AGENCY" id="_fed_an_ua_tag"></script>
@@ -20,6 +22,8 @@ const { title } = Astro.props;
     <title>{title}</title>
   </head>
   <body>
+    <UsaBanner />
     <slot />
+    <Footer github={import.meta.env.GITHUB} />
   </body>
 </html>
