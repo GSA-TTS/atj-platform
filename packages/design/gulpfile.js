@@ -10,10 +10,10 @@ const uswds = require('@uswds/compile');
  */
 uswds.settings.version = 3;
 
-uswds.paths.dist.css = './dist/styles';
-uswds.paths.dist.fonts = './dist/fonts';
-uswds.paths.dist.img = './dist/images';
-uswds.paths.dist.js = './dist/js';
+uswds.paths.dist.css = './dist/uswds/styles';
+uswds.paths.dist.fonts = './dist/uswds/fonts';
+uswds.paths.dist.img = './dist/uswds/img';
+uswds.paths.dist.js = './dist/uswds/js';
 
 exports.compile = uswds.compile;
 exports.init = uswds.init;

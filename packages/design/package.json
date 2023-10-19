@@ -1,9 +1,14 @@
 {
   "name": "@atj/design",
   "version": "0.0.1",
+  "main": "src/index.ts",
   "scripts": {
-    "build": "gulp update",
-    "watch": "gulp watch"
+    "build": "pnpm build:uswds && pnpm build:typescript",
+    "build:typescript": "tsup src/* --env.NODE_ENV production --dts-resolve",
+    "build:uswds": "gulp update",
+    "watch": "gulp watch",
+    "watch:typescript": "gulp watch",
+    "watch:uswds": "gulp watch"
   },
   "files": [
     "dist/**/*"
