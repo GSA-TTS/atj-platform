@@ -7,7 +7,7 @@
   "license": "CC0",
   "scripts": {
     "build": "turbo run build",
-    "pages": "rm -rf node_modules && npm i -g pnpm turbo && pnpm i && pnpm build && ln -sf ./apps/frontend/dist _site",
+    "pages": "rm -rf node_modules && npm i -g pnpm turbo && pnpm i && pnpm build && ln -sf ./apps/spotlight/dist _site",
     "test": "turbo run test",
     "format": "prettier --write \"packages/**/*.{js,jsx,ts,tsx}\""
   },
@@ -24,5 +24,8 @@
     "typescript": "^5.2.2",
     "vitest": "^0.31.0",
     "vitest-mock-extended": "^1.0.7"
+  },
+  "dependencies": {
+    "astro": "^3.3.0"
   }
 }

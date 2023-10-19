@@ -1,0 +1,15 @@
+{
+  // For reference, the base Astro tsconfig:
+  // https://github.com/withastro/astro/blob/main/packages/astro/tsconfigs/base.json
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "jsx": "react"
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "src/components/**"
+  ]
+}

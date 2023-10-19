@@ -18,6 +18,9 @@
   ],
   "references": [
     {
+      "path": "./packages/design/tsconfig.json"
+    },
+    {
       "path": "./packages/interviews/tsconfig.json"
     },
     {

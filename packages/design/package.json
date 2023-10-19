@@ -1,0 +1,23 @@
+{
+  "name": "@atj/design",
+  "version": "0.0.1",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "pnpm build:uswds && pnpm build:typescript",
+    "build:typescript": "tsup src/* --env.NODE_ENV production --dts-resolve",
+    "build:uswds": "gulp update",
+    "watch": "gulp watch",
+    "watch:typescript": "gulp watch",
+    "watch:uswds": "gulp watch"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "devDependencies": {
+    "@uswds/compile": "github:danielnaab/uswds-compile#package-json-paths",
+    "gulp": "^4.0.2"
+  },
+  "dependencies": {
+    "@uswds/uswds": "^3.6.0"
+  }
+}
