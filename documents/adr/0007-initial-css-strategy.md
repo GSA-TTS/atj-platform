@@ -16,7 +16,7 @@ The project team desires a method of managing CSS using a method that maximizes 
 
 The project team will theme USWDS via an encapsulated build (`@atj/design`). Any USWDS-related configuration or initialization will reside in this package.
 
-Where necessary, the Spotlight frontend application will use straight CSS.
+The Spotlight frontend will leverage this package via CSS imports. Where necessary, the Spotlight frontend application will use straight CSS.
 
 ## Consequences
 
