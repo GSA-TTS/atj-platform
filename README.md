@@ -8,6 +8,11 @@ The project dependencies within the workspace are:
 
 ![workspace project dependencies](./workspace-dependencies.svg)
 
+Additional documentation:
+
+- [Architectural Decision Records (ADRs)](./documents/adr/)
+- [Non-project contributions](./documents/value-created-log.md)
+
 ## Development
 
 This project uses [pnpm workspaces](https://pnpm.io/workspaces). To work with this project, [install pnpm](https://pnpm.io/installation) and then the project dependencies:
