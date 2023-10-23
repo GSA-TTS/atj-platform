@@ -19,5 +19,5 @@ export const writeDependencyGraph = (
   dependencyGraphOutputPath: string
 ) => {
   const graph = createGraphvizDigraph(workspaceDependencies);
-  graph.output('svg', dependencyGraphOutputPath);
+  graph.output({ type: 'svg', use: 'dot' }, dependencyGraphOutputPath);
 };

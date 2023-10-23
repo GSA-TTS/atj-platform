@@ -16,8 +16,8 @@ A method of structuring cohesive and well-encapsulated modules is required. Addi
 
 A [pnpm](https://pnpm.io/) workspace will be utilized. Workspaces are a standard method of organizing multiple interdependent [node.js](https://nodejs.org/) packages in a single repository. pnpm offers efficient package management and well-implemented workspaces.
 
-[Turborepo](https://turbo.build/) will be leveraged to managed efficient builds. In a multi-project workspace, tracking interdependencies between packages is required. Turborepo implements an efficient caching system and executing engine that leads to efficient and developer-friend builds.
+[Turborepo](https://turbo.build/) will be leveraged to managed efficient builds. In a multi-project workspace, tracking interdependencies between packages is required. Turborepo implements an efficient caching system and execution engine that leads to efficient and developer-friend builds.
 
 ## Consequences
 
-Reasoning about dependencies will be enhanced with explicit packages per module. Additionally, dependencies will be modularized with in a manner that makes it easy to lift and shift the code to another location with a pnpm workspace. Lastly, developer efficiency will be enhanced by the fast builds provided by Turborepo.
+Reasoning about dependencies will be enhanced due to each module having an explicit package. Additionally, dependencies will be modularized in a manner that makes it easy to lift and shift the code to another location. Lastly, developer efficiency will be enhanced by the fast builds provided by Turborepo.
