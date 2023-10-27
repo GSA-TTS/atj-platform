@@ -1,0 +1,31 @@
+---
+import { getAppContext } from '../context';
+import ContentLayout from '../layouts/ContentLayout.astro';
+
+const context = getAppContext(import.meta.env);
+---
+
+<ContentLayout context={context} title="10x Access to Justice Spotlight">
+  <h1>10x Access to Justice Spotlight</h1>
+  <form
+    action="https://yaawr84uu7.execute-api.us-east-2.amazonaws.com"
+    method="post"
+    class="usa-form usa-form--large"
+  >
+    <fieldset class="usa-fieldset">
+      <legend class="usa-legend usa-legend--large"> Sample form</legend>
+      <p>
+        Required fields are marked with an asterisk (<abbr
+          title="required"
+          class="usa-hint usa-hint--required">*</abbr
+        >).
+      </p>
+      <label class="usa-label" for="full_name"
+        >Full Name
+        <abbr title="required" class="usa-hint usa-hint--required">*</abbr>
+        <input class="usa-input" id="full_name" name="full_name" type="text" />
+      </label>
+      <input class="usa-button" type="submit" value="Submit" />
+    </fieldset>
+  </form>
+</ContentLayout>

@@ -1,0 +1,18 @@
+{
+  "name": "@atj/form-service",
+  "private": true,
+  "description": "backend service for handling submitted forms",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=dist/index.js",
+    "build:client": "tsup src/* --env.NODE_ENV production --dts-resolve",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo"
+  },
+  "dependencies": {
+    "@atj/interviews": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.109",
+    "esbuild": "^0.19.5"
+  }
+}

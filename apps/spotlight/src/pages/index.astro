@@ -1,27 +1,20 @@
 ---
 import { DocumentAssembler } from '../components/react/document-assembler';
 import { getAppContext } from '../context';
-import Layout from '../layouts/Layout.astro';
+import ContentLayout from '../layouts/ContentLayout.astro';
 
 const context = getAppContext(import.meta.env);
 ---
 
-<Layout github={context.github} title="10x Access to Justice Spotlight">
-  <main id="main-content">
-    <div class="bg-base-lightest">
-      <section class="grid-container usa-section">
-        <div class="grid-row flex-justify-center">
-          <div class="grid-col-12 tablet:grid-col-12 desktop:grid-col-12">
-            <div class="bg-white padding-y-3 padding-x-5 border border-base-lighter">
-              <h1>10x Access to Justice Spotlight</h1>
-              <ul>
-                <li><a href="https://trello.com/c/25Jl6NwJ/207-digital-access-to-justice-platform">Project overview</a></li>
-              </ul>
-              <DocumentAssembler client:load />
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-  </main>
-</Layout>
+<ContentLayout context={context} title="10x Access to Justice Spotlight">
+  <h1>10x Access to Justice Spotlight</h1>
+  <ul>
+    <li>
+      <a
+        href="https://trello.com/c/25Jl6NwJ/207-digital-access-to-justice-platform"
+        >Project overview</a
+      >
+    </li>
+  </ul>
+  <DocumentAssembler client:load />
+</ContentLayout>
