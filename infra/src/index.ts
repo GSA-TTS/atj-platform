@@ -1,3 +1,3 @@
 import { registerAppStack } from './app-stack';
 
-registerAppStack('10x-atj-dev');
+registerAppStack('tts-10x-atj-dev');
