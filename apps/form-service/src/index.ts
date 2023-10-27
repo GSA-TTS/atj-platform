@@ -12,7 +12,8 @@ export const lambdaHandler = async (
     return response;
   }
 
-  const formData = new URLSearchParams(event.body);
+  const body = Buffer.from(event.body, 'base64').toString('utf-8');
+  const formData = new URLSearchParams(body);
   const fullName = formData.get('full_name');
   if (!fullName) {
     const response: APIGatewayProxyResult = {

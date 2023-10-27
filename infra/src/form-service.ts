@@ -5,6 +5,8 @@ import { Construct } from 'constructs';
 import * as aws from '@cdktf/provider-aws';
 
 export class FormService extends Construct {
+  readonly url: string;
+
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
@@ -54,8 +56,6 @@ export class FormService extends Construct {
         handler: config.handler,
         runtime: config.runtime,
         role: role.arn,
-        //s3Bucket: bucket.bucket,
-        //s3Key: lambdaArchive.key,
         filename: asset.path,
         sourceCodeHash: asset.assetHash,
       }
@@ -74,6 +74,7 @@ export class FormService extends Construct {
       sourceArn: `${api.executionArn}/*/*`,
     });
 
+    this.url = api.apiEndpoint;
     new TerraformOutput(this, 'url', {
       value: api.apiEndpoint,
     });
