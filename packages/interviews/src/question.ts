@@ -1,7 +1,11 @@
-import { type FactPrompt, type Facts } from './fact';
+import { type Fact } from './fact';
+import { type Prompt } from './prompt';
 
-export type Question = {
+export type Question = Readonly<{
   id: string;
-  fact: Facts.Fact;
-  prompt: FactPrompt;
-};
+  fact: Fact;
+  prompt: Prompt;
+  next?: Question['id'];
+}>;
+
+export type QuestionMap = Record<Question['id'], Question>;
