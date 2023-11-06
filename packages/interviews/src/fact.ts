@@ -5,7 +5,7 @@ type BaseFact<typ extends Type, T> = Readonly<{
   initial: T;
 }>;
 
-export type BooleanFact = BaseFact<'boolean', boolean | null>;
+export type BooleanFact = BaseFact<'boolean', boolean | undefined>;
 export type TextFact = BaseFact<'text', string>;
 
 export type Fact = BooleanFact | TextFact;

@@ -6,6 +6,7 @@
   "main": "src/index.ts",
   "scripts": {
     "build": "tsup src/* --env.NODE_ENV production --dts-resolve",
+    "dev": "tsup src/* --watch",
     "test": "vitest run --coverage"
   },
   "dependencies": {

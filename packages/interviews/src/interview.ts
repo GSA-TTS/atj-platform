@@ -15,9 +15,10 @@ export const sampleInterview: Interview = {
       id: 'C0A62964-90A6-4CEE-8C03-9597ECABD21B',
       fact: {
         type: 'boolean',
-        initial: null,
+        initial: false,
       },
       prompt: {
+        required: false,
         title: 'Do you like true or false?',
         description: 'If you like true, enter "yes"; otherwise, enter "no".',
         placeholder: '[yes] or [no]',
@@ -31,6 +32,7 @@ export const sampleInterview: Interview = {
         initial: '',
       },
       prompt: {
+        required: true,
         title: 'Tell us your favorite color.',
         description: 'Enter red, green, or blue.',
         placeholder: 'favorite color',

@@ -6,6 +6,7 @@
     "build": "pnpm build:uswds && pnpm build:typescript",
     "build:typescript": "tsup src/* --env.NODE_ENV production --dts-resolve",
     "build:uswds": "gulp update",
+    "dev": "tsup src/* --watch",
     "watch": "gulp watch",
     "watch:typescript": "gulp watch",
     "watch:uswds": "gulp watch"
