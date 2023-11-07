@@ -9,5 +9,7 @@
     "dev": "tsup src/* --watch",
     "test": "vitest run --coverage"
   },
-  "dependencies": {}
+  "dependencies": {
+    "fast-json-stable-stringify": "^2.1.0"
+  }
 }

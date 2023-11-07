@@ -4,6 +4,7 @@ import React, { ChangeEventHandler, FocusEventHandler } from 'react';
 import { mapValues } from '../../lib/util';
 import { type Interview, sampleInterview } from '@atj/interviews';
 import { type Question } from '@atj/interviews/src/question';
+import { createSequentialInterview } from '@atj/interviews/src/strategies/sequential';
 
 const form = {
   action: 'https://yaawr84uu7.execute-api.us-east-2.amazonaws.com',
@@ -16,6 +17,40 @@ const questionById = (interview: Interview, id: string) => {
   }
   return filtered[0];
 };
+
+const sampleInterview = createSequentialInterview(
+  {
+    title: 'Silly nonsense',
+    description:
+      'This interview helps us wire up a foundation for guided interviews',
+  },
+  [
+    {
+      fact: {
+        type: 'boolean',
+        initial: false,
+      },
+      prompt: {
+        required: false,
+        title: 'Do you like true or false?',
+        description: 'If you like true, enter "yes"; otherwise, enter "no".',
+        placeholder: '[yes] or [no]',
+      },
+    },
+    {
+      fact: {
+        type: 'text',
+        initial: '',
+      },
+      prompt: {
+        required: true,
+        title: 'Tell us your favorite color.',
+        description: 'Enter red, green, or blue.',
+        placeholder: 'favorite color',
+      },
+    },
+  ]
+);
 
 export const InterviewForm = () => {
   return (
