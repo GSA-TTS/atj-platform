@@ -1,7 +1,7 @@
 export type Type = string;
 
-type BaseFact<typ extends Type, T> = Readonly<{
-  type: typ;
+type BaseFact<Typ extends Type, T> = Readonly<{
+  type: Typ;
   initial: T;
 }>;
 

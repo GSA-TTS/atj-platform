@@ -1,9 +1,14 @@
 import { validAnswer, type Answer, type AnswerMap } from './answer';
 import { type Interview } from './interview';
+import { type QuestionId } from './question';
+import { processStrategy } from './strategies';
+
+export const InterviewEnd = null;
+export type InterviewEnd = typeof InterviewEnd;
 
 export type InterviewContext<I extends Interview> = Readonly<{
   interview: I;
-  current: I['questions'][string]['id'] | null;
+  current: Extract<keyof I['questions'], QuestionId> | InterviewEnd;
   answers: AnswerMap<I>;
   error?: string;
 }>;
@@ -13,7 +18,7 @@ export const createInterviewContext = <I extends Interview>(
 ): InterviewContext<I> => {
   return {
     interview,
-    current: interview.questions[0].id,
+    current: processStrategy<typeof interview>(interview.strategy, null),
     answers: {} as AnswerMap<I>,
   };
 };
@@ -21,13 +26,19 @@ export const createInterviewContext = <I extends Interview>(
 export const answerQuestion = <
   I extends Interview,
   C extends InterviewContext<I>,
-  Q extends I['questions'][string]['id'],
+  Q extends Extract<keyof I['questions'], QuestionId>,
 >(
   context: C,
   questionId: Q,
   answer: Answer<I['questions'][string]['fact']>
 ): InterviewContext<I> => {
   const question = context.interview.questions[questionId];
+  if (question === undefined) {
+    return {
+      ...context,
+      error: `invalid question ID: ${questionId}`,
+    };
+  }
 
   if (!validAnswer(question, answer)) {
     return {
@@ -38,7 +49,7 @@ export const answerQuestion = <
 
   return {
     interview: context.interview,
-    current: question.next || null,
+    current: processStrategy(context.interview.strategy, context.current),
     answers: {
       ...context.answers,
       [questionId]: answer,

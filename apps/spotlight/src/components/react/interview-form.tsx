@@ -2,61 +2,19 @@ import { Formik } from 'formik';
 import React, { ChangeEventHandler, FocusEventHandler } from 'react';
 
 import { mapValues } from '../../lib/util';
-import { type Interview, sampleInterview } from '@atj/interviews';
+import { type Interview, createInterviewContext } from '@atj/interviews';
 import { type Question } from '@atj/interviews/src/question';
-import { createSequentialInterview } from '@atj/interviews/src/strategies/sequential';
 
 const form = {
   action: 'https://yaawr84uu7.execute-api.us-east-2.amazonaws.com',
 };
 
-const questionById = (interview: Interview, id: string) => {
-  const filtered = Object.values(interview.questions).filter(q => q.id === id);
-  if (filtered.length !== 1) {
-    throw new Error(`questions '${id} not found in interview`);
-  }
-  return filtered[0];
-};
-
-const sampleInterview = createSequentialInterview(
-  {
-    title: 'Silly nonsense',
-    description:
-      'This interview helps us wire up a foundation for guided interviews',
-  },
-  [
-    {
-      fact: {
-        type: 'boolean',
-        initial: false,
-      },
-      prompt: {
-        required: false,
-        title: 'Do you like true or false?',
-        description: 'If you like true, enter "yes"; otherwise, enter "no".',
-        placeholder: '[yes] or [no]',
-      },
-    },
-    {
-      fact: {
-        type: 'text',
-        initial: '',
-      },
-      prompt: {
-        required: true,
-        title: 'Tell us your favorite color.',
-        description: 'Enter red, green, or blue.',
-        placeholder: 'favorite color',
-      },
-    },
-  ]
-);
-
-export const InterviewForm = () => {
+export const InterviewForm = (props: { interview: Interview }) => {
+  const interviewContext = createInterviewContext(props.interview);
   return (
     <Formik
       initialValues={mapValues(
-        sampleInterview.questions,
+        props.interview.questions,
         question => question.fact.initial
       )}
       onSubmit={values => {
@@ -82,11 +40,12 @@ export const InterviewForm = () => {
               ).
             </p>
             {Object.entries(opts.values).map(([name, value]) => {
-              const question = questionById(sampleInterview, name);
+              const question = props.interview.questions[name];
               if (question.fact.type === 'boolean') {
                 return (
                   <BooleanPrompt
                     key={name}
+                    name={name}
                     question={question}
                     value={value as boolean}
                     onBlur={opts.handleBlur}
@@ -97,6 +56,7 @@ export const InterviewForm = () => {
                 return (
                   <TextPrompt
                     key={name}
+                    name={name}
                     question={question}
                     value={value as string}
                     onBlur={opts.handleBlur}
@@ -118,11 +78,13 @@ export const InterviewForm = () => {
 
 const TextPrompt = ({
   question,
+  name,
   value,
   onBlur,
   onChange,
 }: {
   question: Question;
+  name: string;
   value?: string;
   onBlur: FocusEventHandler;
   onChange: ChangeEventHandler;
@@ -137,7 +99,7 @@ const TextPrompt = ({
       )}
       <input
         className="usa-input"
-        name={question.id}
+        name={name}
         type="text"
         onChange={onChange}
         onBlur={onBlur}
@@ -149,11 +111,13 @@ const TextPrompt = ({
 
 const BooleanPrompt = ({
   question,
+  name,
   value,
   onBlur,
   onChange,
 }: {
   question: Question;
+  name: string;
   value?: boolean;
   onBlur: FocusEventHandler;
   onChange: ChangeEventHandler;
@@ -169,7 +133,7 @@ const BooleanPrompt = ({
     </label>
     <input
       className="usa-checkbox__input"
-      name={question.id}
+      name={name}
       type="checkbox"
       defaultChecked={value}
       onChange={val => {

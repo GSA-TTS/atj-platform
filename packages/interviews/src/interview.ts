@@ -8,6 +8,6 @@ export type InterviewSummary = Readonly<{
 
 export type Interview = Readonly<{
   summary: InterviewSummary;
-  strategy: Strategy;
+  strategy: Strategy<Interview>;
   questions: QuestionMap;
 }>;

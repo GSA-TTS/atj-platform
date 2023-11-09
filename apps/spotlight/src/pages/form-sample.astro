@@ -1,12 +1,47 @@
 ---
+import { createSequentialInterview } from '@atj/interviews';
 import { getAppContext } from '../context';
 import { InterviewForm } from '../components/react/interview-form';
 import ContentLayout from '../layouts/ContentLayout.astro';
 
 const context = getAppContext(import.meta.env);
+
+const sampleInterview = createSequentialInterview({
+  summary: {
+    title: 'Silly nonsense',
+    description:
+      'This interview helps us wire up a foundation for guided interviews',
+  },
+  questionList: [
+    {
+      fact: {
+        type: 'boolean',
+        initial: false,
+      },
+      prompt: {
+        required: false,
+        title: 'Do you like true or false?',
+        description: 'If you like true, enter "yes"; otherwise, enter "no".',
+        placeholder: '[yes] or [no]',
+      },
+    },
+    {
+      fact: {
+        type: 'text',
+        initial: '',
+      },
+      prompt: {
+        required: true,
+        title: 'Tell us your favorite color.',
+        description: 'Enter red, green, or blue.',
+        placeholder: 'favorite color',
+      },
+    },
+  ],
+});
 ---
 
 <ContentLayout context={context} title="10x Access to Justice Spotlight">
   <h1>10x Access to Justice Spotlight</h1>
-  <InterviewForm />
+  <InterviewForm interview={sampleInterview} />
 </ContentLayout>
