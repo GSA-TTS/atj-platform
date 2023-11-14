@@ -22,7 +22,7 @@ The project team will, initially, identify lightweight approaches that are easil
 
 Initially, forms will be implemented as a collection of React components. Each component will be isolated and be configured via props.
 
-[Formik](https://formik.org/docs/overview) will be utilized to bind interactive browser behavior to form components. Formik has minimal surface area as an API, and enables use of UI components that themselves are not directly dependent on Formik.
+Native React components will be bound for form library functionality using lightweight, manual integrations. This will enable creating a lightweight interface that does just what we need, without potential impedance mismatch.
 
 Initially, a simple and bespoke declarative format for form definitions will be utilized. This format will be augmented as integrations are added, and supported interview flows are increased.
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type FocusEventHandler } from 'react';
 
 import { type Interview, createInterviewContext } from '@atj/interviews';
 import { Field } from '@atj/interviews/src/prompt';
@@ -10,10 +10,17 @@ const form = {
 
 export const InterviewForm = (props: { interview: Interview }) => {
   const context = createInterviewContext(props.interview);
+  console.log('InterviewForm');
   return (
     <form
-      action={form.action}
-      method="post"
+      //action={form.action}
+      //method="post"
+      onSubmit={event => {
+        console.log('onSubmit');
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        console.log(formData);
+      }}
       className="usa-form usa-form--large"
     >
       <fieldset className="usa-fieldset">
@@ -60,11 +67,11 @@ const TextPrompt = ({
   field,
 }: {
   field: Field<TextFact>;
-  //onBlur: FocusEventHandler;
+  //</TextFact>onBlur: FocusEventHandler;
   //onChange: ChangeEventHandler;
 }) => {
   return (
-    <label className="usa-label" htmlFor="full_name">
+    <label className="usa-label" htmlFor={field.name}>
       {field.title}
       {field.required && (
         <abbr title="required" className="usa-hint usa-hint--required">
@@ -92,26 +99,32 @@ const BooleanPrompt = ({
   field: Field<BooleanFact>;
   //onBlur: FocusEventHandler;
   //onChange: ChangeEventHandler;
-}) => (
-  <div>
-    <label className="usa-label usa-checkbox__label" htmlFor="full_name">
-      {field.title}
-      {field.required && (
-        <abbr title="required" className="usa-hint usa-hint--required">
-          *
-        </abbr>
-      )}
-    </label>
-    <input
-      className="usa-checkbox__input"
-      name={field.name}
-      type="checkbox"
-      defaultChecked={!!field.value}
-      onChange={val => {
-        console.log(val);
-        //return onChange(val);
-      }}
-      //onBlur={onBlur}
-    />
-  </div>
-);
+}) => {
+  return (
+    <div>
+      <label className="usa-label usa-checkbox__label" htmlFor={field.name}>
+        {field.title}
+        {field.required && (
+          <abbr title="required" className="usa-hint usa-hint--required">
+            *
+          </abbr>
+        )}
+      </label>
+      <input
+        className="usa-checkbox__input"
+        name={field.name}
+        type="checkbox"
+        checked={false}
+        //defaultChecked={!!field.value}
+        onChange={val => {
+          console.log(val);
+          //return onChange(val);
+        }}
+        onClick={() => {
+          console.log('onClick');
+        }}
+        //onBlur={onBlur}
+      />
+    </div>
+  );
+};
