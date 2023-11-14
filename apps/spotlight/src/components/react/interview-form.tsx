@@ -1,4 +1,4 @@
-import React, { type FocusEventHandler } from 'react';
+import React from 'react';
 
 import { type Interview, createInterviewContext } from '@atj/interviews';
 import { Field } from '@atj/interviews/src/prompt';
@@ -16,8 +16,8 @@ export const InterviewForm = (props: { interview: Interview }) => {
       //action={form.action}
       //method="post"
       onSubmit={event => {
-        console.log('onSubmit');
         event.preventDefault();
+        console.log('onSubmit');
         const formData = new FormData(event.currentTarget);
         console.log(formData);
       }}
@@ -33,7 +33,7 @@ export const InterviewForm = (props: { interview: Interview }) => {
           ).
         </p>
         {context.prompt.fields.map(field => {
-          const question = props.interview.questions[field.id];
+          const question = context.interview.questions[field.id];
           if (question.fact.type === 'boolean') {
             return (
               <BooleanPrompt

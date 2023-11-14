@@ -15,13 +15,12 @@
     "@atj/docassemble": "workspace:*",
     "@atj/documents": "workspace:*",
     "@atj/interviews": "workspace:*",
-    "@flipbyte/formik-json": "^0.6.2",
-    "astro": "^3.3.3",
+    "astro": "^3.5.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.2.1",
-    "@types/react": "^18.2.33"
+    "@astrojs/check": "^0.3.1",
+    "@types/react": "^18.2.37"
   }
 }

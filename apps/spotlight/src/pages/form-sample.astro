@@ -15,18 +15,6 @@ const sampleInterview = createSequentialInterview({
   questionList: [
     {
       fact: {
-        type: 'boolean',
-        initial: false,
-      },
-      field: {
-        required: false,
-        title: 'Do you like true or false?',
-        description: 'If you like true, enter "yes"; otherwise, enter "no".',
-        placeholder: '[yes] or [no]',
-      },
-    },
-    {
-      fact: {
         type: 'text',
         initial: '',
       },
@@ -37,11 +25,22 @@ const sampleInterview = createSequentialInterview({
         placeholder: 'favorite color',
       },
     },
+    {
+      fact: {
+        type: 'boolean',
+        initial: false,
+      },
+      field: {
+        required: false,
+        title: 'Do you like true or false?',
+        description: 'If you like true, enter "yes"; otherwise, enter "no".',
+        placeholder: '[yes] or [no]',
+      },
+    },
   ],
 });
 ---
 
 <ContentLayout context={context} title="10x Access to Justice Spotlight">
-  <h1>10x Access to Justice Spotlight</h1>
   <InterviewForm client:load interview={sampleInterview} />
 </ContentLayout>
