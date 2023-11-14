@@ -1,14 +1,12 @@
-import { validAnswer, type Answer, type AnswerMap } from './answer';
+import { validAnswer, type AnswerMap } from './answer';
 import { type Interview } from './interview';
+import { type Prompt } from './prompt';
 import { type QuestionId } from './question';
 import { processStrategy } from './strategies';
 
-export const InterviewEnd = null;
-export type InterviewEnd = typeof InterviewEnd;
-
 export type InterviewContext<I extends Interview> = Readonly<{
   interview: I;
-  current: Extract<keyof I['questions'], QuestionId> | InterviewEnd;
+  prompt: Prompt<I>;
   answers: AnswerMap<I>;
   error?: string;
 }>;
@@ -18,19 +16,40 @@ export const createInterviewContext = <I extends Interview>(
 ): InterviewContext<I> => {
   return {
     interview,
-    current: processStrategy<typeof interview>(interview.strategy, null),
+    prompt: processStrategy<I>(interview, interview.strategy, null, undefined),
     answers: {} as AnswerMap<I>,
   };
+};
+
+export const nextContext = <
+  I extends Interview,
+  C extends InterviewContext<I>,
+  Q extends Extract<keyof I['questions'], QuestionId>,
+  V extends I['questions'][Q]['fact']['initial'],
+>(
+  context: C,
+  action: {
+    name: 'answer-question';
+    questionId: Q;
+    value: V;
+  }
+): InterviewContext<I> => {
+  if (action.name === 'answer-question') {
+    return answerQuestion(context, action.questionId, action.value);
+  } else {
+    return action as never;
+  }
 };
 
 export const answerQuestion = <
   I extends Interview,
   C extends InterviewContext<I>,
   Q extends Extract<keyof I['questions'], QuestionId>,
+  V extends I['questions'][Q]['fact']['initial'],
 >(
   context: C,
   questionId: Q,
-  answer: Answer<I['questions'][string]['fact']>
+  value: V
 ): InterviewContext<I> => {
   const question = context.interview.questions[questionId];
   if (question === undefined) {
@@ -40,19 +59,24 @@ export const answerQuestion = <
     };
   }
 
-  if (!validAnswer(question, answer)) {
+  if (!validAnswer(question, value)) {
     return {
       ...context,
-      error: `invalid answer: ${answer}`,
+      error: `invalid answer: ${value}`,
     };
   }
 
   return {
     interview: context.interview,
-    current: processStrategy(context.interview.strategy, context.current),
+    prompt: processStrategy(
+      context.interview,
+      context.interview.strategy,
+      questionId,
+      value
+    ),
     answers: {
       ...context.answers,
-      [questionId]: answer,
+      [questionId]: value,
     },
   };
 };

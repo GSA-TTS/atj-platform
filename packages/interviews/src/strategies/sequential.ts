@@ -36,6 +36,7 @@ const sequentialQuestionsFromList = (questionList: Question[]) => {
         questionId,
         {
           ...question,
+          id: questionId,
         },
       ];
     })

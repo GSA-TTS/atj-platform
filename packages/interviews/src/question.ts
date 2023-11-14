@@ -1,12 +1,13 @@
 import { type Fact } from './fact';
 import { type Interview } from './interview';
-import { type Prompt } from './prompt';
+import { type Field } from './prompt';
 
 export type QuestionId = string;
 
 export type Question = Readonly<{
   fact: Fact;
-  prompt: Prompt;
+  //prompt: Prompt;
+  field: Field;
 }>;
 
 export type QuestionMap = Record<QuestionId, Question>;
