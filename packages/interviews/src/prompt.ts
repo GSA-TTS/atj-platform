@@ -5,6 +5,7 @@ import { type QuestionId } from './question';
 // Initially, make this very basic. We may want to support variants of prompts
 // for multi-language, or to provide alternative presentation formats.
 export type Field<F extends Fact> = Readonly<{
+  type: F['type'];
   id: QuestionId;
   name: string;
   required: boolean;
@@ -35,7 +36,8 @@ export const createSingleFieldPrompt = <I extends Interview>(
       data
         ? {
             ...field,
-            ...data,
+            id: data.id,
+            value: data.value,
           }
         : field,
     ],

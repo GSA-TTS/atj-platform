@@ -19,6 +19,9 @@ const sampleInterview = createSequentialInterview({
         initial: '',
       },
       field: {
+        id: 'favorite-color',
+        name: 'favorite-color',
+        type: 'text',
         required: true,
         title: 'Tell us your favorite color.',
         description: 'Enter red, green, or blue.',
@@ -31,6 +34,9 @@ const sampleInterview = createSequentialInterview({
         initial: false,
       },
       field: {
+        id: 'test-boolean',
+        name: 'test-boolean',
+        type: 'boolean',
         required: false,
         title: 'Do you like true or false?',
         description: 'If you like true, enter "yes"; otherwise, enter "no".',

@@ -5,7 +5,10 @@ import { type Question } from './question';
 export type Answer<F extends Fact> = factValueType<F>;
 
 export type AnswerMap<I extends Interview> = Readonly<
-  Record<I['questions'][string]['id'], Answer<I['questions'][string]['fact']>>
+  Record<
+    I['questions'][string]['field']['id'],
+    Answer<I['questions'][string]['fact']>
+  >
 >;
 
 export const validAnswer = <A extends Answer<F>, F extends Fact>(

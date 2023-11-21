@@ -7,7 +7,7 @@ export type QuestionId = string;
 export type Question = Readonly<{
   fact: Fact;
   //prompt: Prompt;
-  field: Field;
+  field: Field<Fact>;
 }>;
 
 export type QuestionMap = Record<QuestionId, Question>;

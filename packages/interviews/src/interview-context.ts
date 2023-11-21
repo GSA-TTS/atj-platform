@@ -21,6 +21,16 @@ export const createInterviewContext = <I extends Interview>(
   };
 };
 
+export type InterviewAction<
+  I extends Interview,
+  Q extends Extract<keyof I['questions'], QuestionId>,
+  V extends I['questions'][Q]['fact']['initial'],
+> = {
+  type: 'answer-question';
+  questionId: Q;
+  value: V;
+};
+
 export const nextContext = <
   I extends Interview,
   C extends InterviewContext<I>,
@@ -28,13 +38,9 @@ export const nextContext = <
   V extends I['questions'][Q]['fact']['initial'],
 >(
   context: C,
-  action: {
-    name: 'answer-question';
-    questionId: Q;
-    value: V;
-  }
+  action: InterviewAction<I, Q, V>
 ): InterviewContext<I> => {
-  if (action.name === 'answer-question') {
+  if (action.type === 'answer-question') {
     return answerQuestion(context, action.questionId, action.value);
   } else {
     return action as never;

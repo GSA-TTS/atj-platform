@@ -34,6 +34,8 @@ describe('basic sequential interview flow', () => {
         fields: [
           {
             id: 'question-1',
+            name: 'question-1',
+            type: 'boolean',
             required: false,
             title: 'Do you like true or false?',
             description:
@@ -50,7 +52,7 @@ describe('basic sequential interview flow', () => {
     });
 
     const context2 = interviews.nextContext(context, {
-      name: 'answer-question',
+      type: 'answer-question',
       questionId: 'question-1',
       value: 'q1-answer',
     });
@@ -70,6 +72,8 @@ describe('basic sequential interview flow', () => {
         fields: [
           {
             id: 'question-2',
+            name: 'question-2',
+            type: 'boolean',
             required: true,
             title: 'Tell us your favorite color.',
             description: 'Enter red, green, or blue.',
@@ -86,7 +90,7 @@ describe('basic sequential interview flow', () => {
 
     // Answer the last question should lead to
     const context3 = interviews.nextContext(context2, {
-      name: 'answer-question',
+      type: 'answer-question',
       questionId: 'question-2',
       value: 'q2-answer',
     });
@@ -106,7 +110,7 @@ describe('basic sequential interview flow', () => {
     // Answering a non-existent question should not transition the context, but
     // return an error.
     const context4 = interviews.nextContext(context3, {
-      name: 'answer-question',
+      type: 'answer-question',
       questionId: 'question-3',
       value: 'q3-answer',
     });
@@ -131,6 +135,8 @@ const sequentialInterview: interviews.SequentialInterview = {
       },
       field: {
         id: 'question-1',
+        name: 'question-1',
+        type: 'boolean',
         required: false,
         title: 'Do you like true or false?',
         description: 'If you like true, enter "yes"; otherwise, enter "no".',
@@ -144,6 +150,8 @@ const sequentialInterview: interviews.SequentialInterview = {
       },
       field: {
         id: 'question-2',
+        name: 'question-2',
+        type: 'boolean',
         required: true,
         title: 'Tell us your favorite color.',
         description: 'Enter red, green, or blue.',
