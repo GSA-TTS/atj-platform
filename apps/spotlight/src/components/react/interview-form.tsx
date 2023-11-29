@@ -14,8 +14,7 @@ const form = {
 
 const useInterviewContext = (interview: Interview) => {
   const context = createInterviewContext(interview);
-  const reducer = (state: typeof context, action) =>
-    nextContext(state, action as any);
+  const reducer = (state: typeof context, action) => nextContext(state, action);
   return useReducer(reducer, context);
 };
 
@@ -26,11 +25,12 @@ export const InterviewForm = (props: { interview: Interview }) => {
       //action={form.action}
       //method="post"
       onSubmit={event => {
-        const formData = new FormData(event.currentTarget);
-        console.log(...formData);
         event.preventDefault();
-        console.log('got formdata', formData);
-        dispatch({ type: 'answer-question' });
+        const formData = new FormData(
+          event.currentTarget,
+          (event.nativeEvent as any).submitter
+        );
+        dispatch({ type: 'submit', formData });
       }}
       className="usa-form usa-form--large"
     >
@@ -66,6 +66,7 @@ export const InterviewForm = (props: { interview: Interview }) => {
             key={index}
             className="usa-button"
             type="submit"
+            id={button.name}
             name={button.name}
             value={button.text}
             disabled={button.disabled}

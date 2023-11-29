@@ -11,10 +11,8 @@ export type AnswerMap<I extends Interview> = Readonly<
   >
 >;
 
-export const validAnswer = <A extends Answer<F>, F extends Fact>(
-  question: Question,
-  answer: A
-) => {
+type A<T> = T extends Answer<infer F extends Fact> ? factValueType<F> : never;
+export const validAnswer = <A>(question: Question, answer: A) => {
   // FIXME: actually validate
   return true;
 };

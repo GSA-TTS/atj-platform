@@ -2,6 +2,9 @@ import { Fact } from './fact';
 import { type Interview } from './interview';
 import { type QuestionId } from './question';
 
+type PromptId = string;
+const InterviewEndPrompt: PromptId = 'interview-end';
+
 // Initially, make this very basic. We may want to support variants of prompts
 // for multi-language, or to provide alternative presentation formats.
 export type Field<F extends Fact> = Readonly<{
@@ -22,6 +25,7 @@ export type Button = Readonly<{
 }>;
 
 export type Prompt<I extends Interview> = Readonly<{
+  id: PromptId;
   fields: Field<I['questions'][QuestionId]['fact']>[];
   buttons: Button[];
   information?: string;
@@ -32,6 +36,7 @@ export const createSingleFieldPrompt = <I extends Interview>(
   data?: { id: QuestionId; value: any }
 ): Prompt<I> => {
   return {
+    id: field.id,
     fields: [
       data
         ? {
@@ -60,6 +65,7 @@ export const createInterviewEndPrompt = <I extends Interview>(
   information: string
 ): Prompt<I> => {
   return {
+    id: InterviewEndPrompt,
     information,
     fields: [],
     buttons: [
