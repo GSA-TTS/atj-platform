@@ -5,17 +5,24 @@ import * as forms from '../src';
 const question: forms.Question = {
   id: 'question-1',
   text: 'What is your favorite word?',
+  initial: '',
 };
 
 describe('basic single question form', () => {
   it('initializes', () => {
-    const form = forms.createSingleQuestionForm(question);
+    const form = forms.createForm([question]);
     expect(form).to.not.toBeNull();
   });
 
+  it('non-existent field is ignored', () => {
+    const form = forms.createForm([question]);
+    const nextForm = forms.updateForm(form, 'fake-field-id', '');
+    expect(nextForm).toEqual(form);
+  });
+
   it('empty field value is ignored', () => {
-    const form = forms.createSingleQuestionForm(question);
-    const nextForm = forms.updateForm(form, form.question.id, '');
+    const form = forms.createForm([question]);
+    const nextForm = forms.updateForm(form, question.id, '');
     expect(nextForm).toEqual({
       ...form,
       context: {
@@ -25,15 +32,17 @@ describe('basic single question form', () => {
   });
 
   it('valid field value is stored on context', () => {
-    const form = forms.createSingleQuestionForm(question);
+    const form = forms.createForm([question]);
     const nextForm = forms.updateForm(
       form,
-      form.question.id,
+      question.id,
       'supercalifragilisticexpialidocious'
     );
     expect(nextForm).toEqual({
       ...form,
-      context: { value: 'supercalifragilisticexpialidocious' },
+      context: {
+        values: { 'question-1': 'supercalifragilisticexpialidocious' },
+      },
     });
   });
 });
