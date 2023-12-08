@@ -177,11 +177,9 @@ importers:
         specifier: ^1.17.1
         version: 1.17.1
 
-  packages/interviews:
-    dependencies:
-      fast-json-stable-stringify:
-        specifier: ^2.1.0
-        version: 2.1.0
+  packages/forms: {}
+
+  packages/interviews: {}
 
 packages:
 
@@ -4453,7 +4451,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231121
+      typescript: 5.4.0-dev.20231208
     dev: false
 
   /dset@3.1.3:
@@ -4867,6 +4865,7 @@ packages:
 
   /fast-json-stable-stringify@2.1.0:
     resolution: {integrity: sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==}
+    dev: true
 
   /fast-levenshtein@1.1.4:
     resolution: {integrity: sha512-Ia0sQNrMPXXkqVFt6w6M1n1oKo3NfKs+mvaV811Jwir7vAk9a6PVV9VPYf6X3BU97QiLEmuW3uXH9u87zDFfdw==}
@@ -10640,8 +10639,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  /typescript@5.4.0-dev.20231121:
-    resolution: {integrity: sha512-/JUU1WLbuTBKfivcYHR+gvBAjMdhj1r2+flrnh8z7wdy2MDQgxRzSlfktNsbaqoYsOVolVDAPAoHpxVIvJlEgA==}
+  /typescript@5.4.0-dev.20231208:
+    resolution: {integrity: sha512-arQCsD9Kez3MGAncZci4JS+IfC/tXTKlnCdavEWUtpkfvqy+bWBr/iV76aNI/qrWhsdPyJ20PkkjwP7/p6cvwA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
