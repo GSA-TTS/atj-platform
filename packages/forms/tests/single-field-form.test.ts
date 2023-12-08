@@ -6,6 +6,7 @@ const question: forms.Question = {
   id: 'question-1',
   text: 'What is your favorite word?',
   initial: '',
+  required: true,
 };
 
 describe('basic single question form', () => {
@@ -27,6 +28,9 @@ describe('basic single question form', () => {
       ...form,
       context: {
         error: 'Required value not provided.',
+        values: {
+          'question-1': '',
+        },
       },
     });
   });
@@ -41,7 +45,9 @@ describe('basic single question form', () => {
     expect(nextForm).toEqual({
       ...form,
       context: {
-        values: { 'question-1': 'supercalifragilisticexpialidocious' },
+        values: {
+          'question-1': 'supercalifragilisticexpialidocious',
+        },
       },
     });
   });
