@@ -1,4 +1,5 @@
 import * as pdfLib from 'pdf-lib';
+import { PDFFieldType } from './generate';
 
 export const extractFormFieldData = async (pdfBytes: Uint8Array) => {
   const pdfDoc = await pdfLib.PDFDocument.load(pdfBytes);
@@ -11,16 +12,33 @@ export const extractFormFieldData = async (pdfBytes: Uint8Array) => {
   );
 };
 
-const getFieldValue = (field: pdfLib.PDFField) => {
+const getFieldValue = (
+  field: pdfLib.PDFField
+): { type: PDFFieldType | 'not-supported'; value: any } => {
   if (field instanceof pdfLib.PDFTextField) {
-    return field.getText();
+    return {
+      type: 'TextField',
+      value: field.getText(),
+    };
   } else if (field instanceof pdfLib.PDFCheckBox) {
-    return field.isChecked();
+    return {
+      type: 'CheckBox',
+      value: field.isChecked(),
+    };
   } else if (field instanceof pdfLib.PDFDropdown) {
-    return field.getSelected();
+    return {
+      type: 'Dropdown',
+      value: field.getSelected(),
+    };
   } else if (field instanceof pdfLib.PDFOptionList) {
-    return field.getSelected();
+    return {
+      type: 'OptionList',
+      value: field.getSelected(),
+    };
   } else {
-    return 'not-supported';
+    return {
+      type: 'not-supported',
+      value: 'not-supported',
+    };
   }
 };

@@ -1,41 +1,65 @@
-import { describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it } from 'vitest';
 
 import { extractFormFieldData, fillPDF } from '..';
 import { loadSamplePDF } from './sample-data';
 
-describe('PDF document generation', () => {
-  it('generates pdf from form data', async () => {
+describe('PDF form filler', () => {
+  let pdfBytes: Uint8Array;
+
+  beforeAll(async () => {
+    pdfBytes = await loadSamplePDF('dod_character.pdf');
+  });
+
+  it('generates pdf from valid form data', async () => {
     const pdfBytes = await loadSamplePDF('dod_character.pdf');
-    const filledPdf = await fillPDF(pdfBytes, {
+
+    const result = (await fillPDF(pdfBytes, {
       'CharacterName 2': { type: 'TextField', value: 'nameField' },
-      Age: { type: 'TextField', value: 'ageField' },
-      Height: { type: 'TextField', value: 'heightField' },
-      Weight: { type: 'TextField', value: 'weightField' },
-      Eyes: { type: 'TextField', value: 'eyesField' },
-      Skin: { type: 'TextField', value: 'skinField' },
-      Hair: { type: 'TextField', value: 'hairField' },
-      Allies: { type: 'TextField', value: 'alliesField' },
-      FactionName: { type: 'TextField', value: 'factionField' },
-      Backstory: { type: 'TextField', value: 'backStoryField' },
       'Feat+Traits': { type: 'TextField', value: 'traitsField' },
+      Age: { type: 'TextField', value: 'ageField' },
+      Allies: { type: 'TextField', value: 'alliesField' },
+      Backstory: { type: 'TextField', value: 'backStoryField' },
+      Eyes: { type: 'TextField', value: 'eyesField' },
+      FactionName: { type: 'TextField', value: 'factionField' },
+      Hair: { type: 'TextField', value: 'hairField' },
+      Height: { type: 'TextField', value: 'heightField' },
+      Skin: { type: 'TextField', value: 'skinField' },
       Treasure: { type: 'TextField', value: 'treasureField' },
-    });
-    const fields = await extractFormFieldData(filledPdf);
+      Weight: { type: 'TextField', value: 'weightField' },
+    })) as Success<Uint8Array>;
+    expect(result.success).toEqual(true);
+    const fields = await extractFormFieldData(result.data);
 
     expect(fields).toEqual({
-      'CharacterName 2': 'nameField',
-      Age: 'ageField',
-      Height: 'heightField',
-      Weight: 'weightField',
-      Eyes: 'eyesField',
-      Skin: 'skinField',
-      Hair: 'hairField',
-      Allies: 'alliesField',
-      FactionName: 'factionField',
-      Backstory: 'backStoryField',
-      'Feat+Traits': 'traitsField',
-      Treasure: 'treasureField',
-      'CHARACTER IMAGE': 'not-supported',
+      'CHARACTER IMAGE': { type: 'not-supported', value: 'not-supported' },
+      'CharacterName 2': { type: 'TextField', value: 'nameField' },
+      'Faction Symbol Image': { type: 'TextField' },
+      'Feat+Traits': { type: 'TextField', value: 'traitsField' },
+      Age: { type: 'TextField', value: 'ageField' },
+      Allies: { type: 'TextField', value: 'alliesField' },
+      Backstory: { type: 'TextField', value: 'backStoryField' },
+      Eyes: { type: 'TextField', value: 'eyesField' },
+      FactionName: { type: 'TextField', value: 'factionField' },
+      Hair: { type: 'TextField', value: 'hairField' },
+      Height: { type: 'TextField', value: 'heightField' },
+      Skin: { type: 'TextField', value: 'skinField' },
+      Treasure: { type: 'TextField', value: 'treasureField' },
+      Weight: { type: 'TextField', value: 'weightField' },
     });
+  });
+
+  it('returns an error when provided a non-existent field', async () => {
+    const pdfBytes = await loadSamplePDF('dod_character.pdf');
+
+    const result = (await fillPDF(pdfBytes, {
+      fakeField: {
+        type: 'TextField',
+        value: 'fake data',
+      },
+    })) as Failure<string>;
+    expect(result.success).toEqual(false);
+    expect(result.error).toEqual(
+      'PDFDocument has no form field with the name "fakeField"'
+    );
   });
 });

@@ -29,5 +29,8 @@
     {
       "path": "./packages/interviews/tsconfig.json"
     }
-  ]
+  ],
+  "files": [
+    "./packages/types/custom.d.ts"
+  ],
 }
