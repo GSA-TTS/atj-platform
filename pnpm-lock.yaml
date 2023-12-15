@@ -170,6 +170,13 @@ importers:
       '@atj/interviews':
         specifier: workspace:*
         version: link:../interviews
+    devDependencies:
+      '@vitest/coverage-v8':
+        specifier: ^0.34.6
+        version: 0.34.6(vitest@0.34.6)
+      vitest:
+        specifier: ^0.34.6
+        version: 0.34.6
 
   packages/documents:
     dependencies:
