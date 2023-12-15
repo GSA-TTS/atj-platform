@@ -21,13 +21,15 @@ describe('basic single question form', () => {
     expect(nextForm).toEqual(form);
   });
 
-  it('empty field value is ignored', () => {
+  it('empty field value is set with error on context', () => {
     const form = forms.createForm([question]);
     const nextForm = forms.updateForm(form, question.id, '');
     expect(nextForm).toEqual({
       ...form,
       context: {
-        error: 'Required value not provided.',
+        errors: {
+          'question-1': 'Required value not provided.',
+        },
         values: {
           'question-1': '',
         },
@@ -45,6 +47,7 @@ describe('basic single question form', () => {
     expect(nextForm).toEqual({
       ...form,
       context: {
+        errors: {},
         values: {
           'question-1': 'supercalifragilisticexpialidocious',
         },

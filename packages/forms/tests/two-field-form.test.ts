@@ -23,7 +23,7 @@ describe('two question form', () => {
     expect(form).to.not.toBeNull();
   });
 
-  it('empty field value is stored with error', () => {
+  it('empty field value on required field is stored with error', () => {
     const form = forms.createForm(questions);
     const nextForm = forms.updateForm(form, questions[0].id, null);
     expect(nextForm).toEqual({
@@ -59,7 +59,7 @@ describe('two question form', () => {
     });
   });
 
-  it('empty field value on required field is ignored', () => {
+  it('empty field value on non-required field is set with no errors on context', () => {
     const form = forms.createForm(questions);
     const form2 = forms.updateForm(
       form,
@@ -79,7 +79,7 @@ describe('two question form', () => {
     });
   });
 
-  it('valid second field value is stored on context', () => {
+  it('valid field value on non-required field is stored on context', () => {
     const form = forms.createForm(questions);
     const nextForm = forms.updateForm(
       form,
