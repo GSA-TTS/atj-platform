@@ -4,6 +4,8 @@
     "outDir": "./dist",
     "emitDeclarationOnly": true
   },
-  "include": ["./src"],
+  "include": [
+    "./src"
+  ],
   "references": []
 }

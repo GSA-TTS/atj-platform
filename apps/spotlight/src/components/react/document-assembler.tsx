@@ -1,5 +1,5 @@
 import React from 'react';
-import { generate } from '@atj/documents';
+import { generateDummyPDF } from '@atj/documents';
 
 export const downloadPdfBytes = (bytes: Uint8Array) => {
   const base64 = btoa(String.fromCharCode(...bytes));
@@ -17,7 +17,7 @@ export const downloadPdfBytes = (bytes: Uint8Array) => {
 
 const clickHandler = async () => {
   const timestamp = new Date().toISOString();
-  const pdfBytes = await generate(`Generated at ${timestamp}`);
+  const pdfBytes = await generateDummyPDF({});
   downloadPdfBytes(pdfBytes);
 };
 

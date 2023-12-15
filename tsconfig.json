@@ -18,13 +18,16 @@
   ],
   "references": [
     {
+      "path": "./packages/cli/tsconfig.json"
+    },
+    {
       "path": "./packages/design/tsconfig.json"
     },
     {
-      "path": "./packages/interviews/tsconfig.json"
+      "path": "./packages/documents/tsconfig.json"
     },
     {
-      "path": "./packages/cli/tsconfig.json"
+      "path": "./packages/interviews/tsconfig.json"
     }
   ]
 }
