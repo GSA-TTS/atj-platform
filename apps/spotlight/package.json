@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.3.1",
-    "@types/react": "^18.2.37"
+    "@types/react": "^18.2.37",
+    "jsdom": "^23.0.1"
   }
 }

@@ -12,6 +12,10 @@ export const extractFormFieldData = async (pdfBytes: Uint8Array) => {
   );
 };
 
+export type ExtractedDocumentData = Awaited<
+  ReturnType<typeof extractFormFieldData>
+>;
+
 const getFieldValue = (
   field: pdfLib.PDFField
 ): { type: PDFFieldType | 'not-supported'; value: any } => {

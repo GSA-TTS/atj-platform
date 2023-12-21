@@ -1,5 +1,6 @@
 ---
 import { DocumentAssembler } from '../components/react/document-assembler';
+import { DocumentImporter } from '../components/react/document-importer';
 import { getAppContext } from '../context';
 import ContentLayout from '../layouts/ContentLayout.astro';
 
@@ -20,4 +21,5 @@ const context = getAppContext(import.meta.env);
     </li>
   </ul>
   <DocumentAssembler client:load />
+  <DocumentImporter client:only />
 </ContentLayout>
