@@ -3,8 +3,11 @@ import { DocumentAssembler } from '../components/react/document-assembler';
 import { DocumentImporter } from '../components/react/document-importer';
 import { getAppContext } from '../context';
 import ContentLayout from '../layouts/ContentLayout.astro';
+import formData from '../htmlParser/ud105-form-field-output.json';
 
 const context = getAppContext(import.meta.env);
+const formFields = formData;
+console.log(formFields);
 ---
 
 <ContentLayout context={context} title="10x Access to Justice Spotlight">
@@ -18,6 +21,9 @@ const context = getAppContext(import.meta.env);
     </li>
     <li>
       <a href="/form-sample">Sample form</a>
+    </li>
+    <li>
+      <a href="/ud105-evicition-form">UD 105 - Unlawful Detainment Eviction Form</a>
     </li>
   </ul>
   <DocumentAssembler client:load />
