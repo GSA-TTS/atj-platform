@@ -5,10 +5,15 @@
   "license": "CC0",
   "main": "src/index.ts",
   "scripts": {
-    "build": "tsup src/* --env.NODE_ENV production --dts-resolve",
+    "build": "tsup src/* --env.NODE_ENV production",
+    "dev": "tsup src/* --watch",
     "test": "vitest run --coverage"
   },
   "dependencies": {
+    "@atj/forms": "workspace:*",
     "pdf-lib": "^1.17.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.4"
   }
 }

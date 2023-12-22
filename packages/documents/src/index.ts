@@ -1,8 +1,4 @@
-import { PDFDocument } from 'pdf-lib';
-
-export const generate = async (message: string) => {
-  const pdfDoc = await PDFDocument.create();
-  const page = pdfDoc.addPage();
-  page.drawText(message);
-  return await pdfDoc.save();
-};
+export { extractFormFieldData } from './extract';
+export { fillPDF } from './generate';
+export { generateDummyPDF } from './generate-dummy';
+export { suggestFormDetails } from './suggestions';

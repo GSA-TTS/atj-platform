@@ -27,6 +27,44 @@ Run the test suite with coverage metrics generated:
 pnpm test
 ```
 
+To develop on the frontend app, run:
+
+```bash
+ pnpm build
+```
+
+then 
+
+```bash
+ cd apps/spotlight
+```
+
+To run an app server:
+
+```bash
+ pnpm start
+```
+
+To extract form fields, their attributes and labels from an HTML code and output them in a JSON file, go to the "htmlParser" directory:
+
+```bash
+ cd apps/spotlight/src/htmlParser
+```
+
+If you're already in the "spotlight" directory
+
+```bash
+ cd src/htmlParser
+```
+
+Replace the HTML content that's inside the "form-input.html" with your HTML, then run:
+
+```bash
+ node processHtml.js yourCustomJSONFileName.json
+```
+
+Be sure to replace "yourCustomJSONFileName.json" with whatever name you want your output JSON file to be called. If you don't indicate a new file name, your file will be given the default file name which is "form-field-output.json".
+
 ## Command-line interface
 
 A command-line interface is provided for manually running operations. The corresponding app resides in [./apps/cli](./apps/cli). A wrapper script, in the root directory, is provided.

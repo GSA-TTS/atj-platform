@@ -1,3 +1,4 @@
+.DS_Store
 .env
 *.code-workspace
 _site
@@ -5,3 +6,4 @@ _site
 .vscode/
 coverage/
 node_modules/
+NOTES.md

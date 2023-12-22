@@ -1,6 +1,6 @@
 # 7. Initial CSS strategy
 
-Date: 2023-10-29
+Date: 2023-10-23
 
 ## Status
 
