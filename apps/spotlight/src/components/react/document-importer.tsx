@@ -13,6 +13,10 @@ type Action =
   | {
       type: 'SAVE_FORM_FIELDS';
       data: SuggestedForm;
+    }
+  | {
+      type: 'GOTO_PAGE';
+      page: number;
     };
 
 export const DocumentImporter = () => {
@@ -28,6 +32,12 @@ export const DocumentImporter = () => {
         return {
           page: 3,
           suggestedForm: action.data,
+        };
+      }
+      if (action.type === 'GOTO_PAGE') {
+        return {
+          ...state,
+          page: action.page,
         };
       }
       return state;
@@ -60,11 +70,16 @@ export const DocumentImporter = () => {
     } else {
       return (
         <li className="usa-step-indicator__segment usa-step-indicator__segment--complete">
-          <span className="usa-step-indicator__segment-label">
-            {title}
-            {children}
-            <span className="usa-sr-only">completed</span>
-          </span>
+          <button
+            className="usa-button--unstyled"
+            onClick={() => dispatch({ type: 'GOTO_PAGE', page: step })}
+          >
+            <span className="usa-step-indicator__segment-label">
+              {title}
+              {children}
+              <span className="usa-sr-only">completed</span>
+            </span>
+          </button>
         </li>
       );
     }
@@ -74,24 +89,28 @@ export const DocumentImporter = () => {
     return (
       <div className="usa-form-group">
         <div className="usa-hint" id="file-input-specific-hint">
-          Select a source PDF
+          Select a single PDF file
         </div>
-        <label className="usa-label">
-          Input accepts a single PDF file
-          <input
-            id="file-input-single"
-            className="usa-file-input"
-            type="file"
-            name="file-input-single"
-            aria-describedby="file-input-specific-hint"
-            accept=".pdf"
-            onChange={onFileInputChangeGetFile(async fileDetails => {
-              const fieldData = await extractFormFieldData(fileDetails.data);
-              const fieldInfo = suggestFormDetails(fieldData);
-              dispatch({ type: 'SELECT_PDF', data: fieldInfo });
-            })}
-          />
-        </label>
+        <div className="usa-file-input">
+          <div className="usa-file-input__target">
+            <div className="usa-file-input__instructions" aria-hidden="true">
+              Drag file here or{' '}
+              <span className="usa-file-input__choose">choose from folder</span>
+            </div>
+            <div className="usa-file-input__box"></div>
+            <input
+              className="usa-file-input__input"
+              aria-describedby="file-input-specific-hint"
+              type="file"
+              accept=".pdf"
+              onChange={onFileInputChangeGetFile(async fileDetails => {
+                const fieldData = await extractFormFieldData(fileDetails.data);
+                const fieldInfo = suggestFormDetails(fieldData);
+                dispatch({ type: 'SELECT_PDF', data: fieldInfo });
+              })}
+            />
+          </div>
+        </div>
         <label className="usa-label">
           Or use an example file, the UD-105 unlawful detainer response:
           <button

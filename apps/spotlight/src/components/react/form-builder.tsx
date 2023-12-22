@@ -11,10 +11,13 @@ export const FormBuilder = ({ fields }: { fields: SuggestedForm }) => {
 const FieldBuilder = ({ field }: { field: SuggestedForm[number] }) => {
   const fieldId = `field-${field.id}`;
   return (
-    <fieldset>
-      <div>
-        PDF field id: {field.id}, name: {field.name}
-      </div>
+    <fieldset className="usa-fieldset">
+      <dl>
+        <dt>id</dt>
+        <dd>{field.id}</dd>
+        <dt>name</dt>
+        <dd>{field.name}</dd>
+      </dl>
       <select className="usa-select" name={fieldId}>
         <option value={'input'}>Input</option>
         <option value={'textarea'}>Textarea</option>
