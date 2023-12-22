@@ -11,15 +11,11 @@ interface Field {
   label: string;
   title?: string;
   required?: boolean;
-  options?: string[]; // For select and radio fields
-  items?: string[]; 
+  options?: { name: string; value: string }[]; // For select and radio fields
+  items?: { tag: string; content: string }[];
   arialabelledby?: string;
   ariadescribedby?: string;
   linkurl?: string;
-}
-
-interface FormProps {
-  fields: Field[];
 }
 
 // Capitalization function
@@ -31,15 +27,28 @@ function capitalizeFirstLetter(string) {
     .join(' ');
 }
 
-const DynamicForm: React.FC<FormProps> = ({ fields }) => {
-  console.log(fields);
+interface FormProps {
+  fields: Field[];
+}
+
+const DynamicForm = ({ fields }: FormProps) => {
   return (
     <form className="usa-form usa-form--large">
       <fieldset className="usa-fieldset">
-        <legend className="usa-legend usa-legend--large">UD 105 - Unlawful Detainer Form</legend>
+        <legend className="usa-legend usa-legend--large">
+          UD 105 - Unlawful Detainer Form
+        </legend>
         {fields.map(field => {
           // Use 'tag' for 'select' and 'textarea', 'type' for others
-          const fieldType = field.tag === 'select' || field.tag === 'textarea' || field.tag === 'p' || field.tag === 'h2' || field.tag === 'h3' || field.tag === 'ul' ? field.tag : field.type;
+          const fieldType =
+            field.tag === 'select' ||
+            field.tag === 'textarea' ||
+            field.tag === 'p' ||
+            field.tag === 'h2' ||
+            field.tag === 'h3' ||
+            field.tag === 'ul'
+              ? field.tag
+              : field.type;
 
           switch (fieldType) {
             case 'text':
@@ -78,19 +87,22 @@ const DynamicForm: React.FC<FormProps> = ({ fields }) => {
 const TextField = ({ field }: { field: Field }) => {
   return (
     <div className="usa-form-group">
-      <label className="usa-label" htmlFor={field.name}>{capitalizeFirstLetter(field.label)}
+      <label className="usa-label" htmlFor={field.name}>
+        {capitalizeFirstLetter(field.label)}
         {field.required && (
-          <abbr title="required" className="usa-hint usa-hint--required"> *</abbr>
+          <abbr title="required" className="usa-hint usa-hint--required">
+            {' '}
+            *
+          </abbr>
         )}
       </label>
       <input
-      className={`usa-input ${field.class}`}
-      name={field.name}
-      type="text"
-      defaultValue={field.value}
-    />
-  </div>
-
+        className={`usa-input ${field.class}`}
+        name={field.name}
+        type="text"
+        defaultValue={field.value}
+      />
+    </div>
   );
 };
 
@@ -107,7 +119,10 @@ const BooleanField = ({ field }: { field: Field }) => {
       <label className="usa-label usa-checkbox__label" htmlFor={field.name}>
         {field.label}
         {field.required && (
-          <abbr title="required" className="usa-hint usa-hint--required"> *</abbr>
+          <abbr title="required" className="usa-hint usa-hint--required">
+            {' '}
+            *
+          </abbr>
         )}
       </label>
     </div>
@@ -127,7 +142,10 @@ const CheckBoxField = ({ field }: { field: Field }) => {
       <label className="usa-label usa-checkbox__label" htmlFor={field.name}>
         {field.label}
         {field.required && (
-          <abbr title="required" className="usa-hint usa-hint--required"> *</abbr>
+          <abbr title="required" className="usa-hint usa-hint--required">
+            {' '}
+            *
+          </abbr>
         )}
       </label>
     </div>
@@ -142,7 +160,9 @@ const SelectField = ({ field }: { field: Field }) => {
       </label>
       <select className="usa-select" name={field.name} id={field.id}>
         {field.options?.map((option, index) => (
-          <option key={index} value={option.value}>{option.name}</option>
+          <option key={index} value={option.value}>
+            {option.name}
+          </option>
         ))}
       </select>
     </div>
@@ -155,8 +175,16 @@ const RadioField = ({ field }: { field: Field }) => {
       <legend className="usa-legend">{field.label}</legend>
       {field.options?.map((option, index) => (
         <div key={index} className="usa-radio">
-          <input className="usa-radio__input" type="radio" name={field.name} id={`${field.id}-${index}`} value={option.value} />
-          <label className="usa-radio__label" htmlFor={`${field.id}-${index}`}>{option.name}</label>
+          <input
+            className="usa-radio__input"
+            type="radio"
+            name={field.name}
+            id={`${field.id}-${index}`}
+            value={option.value}
+          />
+          <label className="usa-radio__label" htmlFor={`${field.id}-${index}`}>
+            {option.name}
+          </label>
         </div>
       ))}
     </fieldset>
@@ -169,31 +197,30 @@ const TextareaField = ({ field }: { field: Field }) => {
       <label className="usa-label" htmlFor={field.name}>
         {field.label}
       </label>
-      <textarea className="usa-textarea" name={field.name} id={field.id}></textarea>   
+      <textarea
+        className="usa-textarea"
+        name={field.name}
+        id={field.id}
+      ></textarea>
     </div>
   );
 };
 
 const Header2Block = ({ field }: { field: Field }) => {
-  return (
-    <h2>
-      {field.label}  
-    </h2>
-  );
+  return <h2>{field.label}</h2>;
 };
 
 const Header3Block = ({ field }: { field: Field }) => {
-  return (
-    <h3>
-      {field.label}  
-    </h3>
-  );
+  return <h3>{field.label}</h3>;
 };
 
 const ParagraphBlock = ({ field }: { field: Field }) => {
   return (
     <p>
-      {field.label} <a href={field.linkurl} target="_blank">{field.linkurl}</a>
+      {field.label}{' '}
+      <a href={field.linkurl} target="_blank">
+        {field.linkurl}
+      </a>
     </p>
   );
 };
@@ -201,7 +228,11 @@ const ParagraphBlock = ({ field }: { field: Field }) => {
 const DateField = ({ field }: { field: Field }) => {
   return (
     <div className="usa-form-group">
-      <label className="usa-label" id={field.arialabelledby} htmlFor={field.name}>
+      <label
+        className="usa-label"
+        id={field.arialabelledby}
+        htmlFor={field.name}
+      >
         {field.label}
       </label>
       <div className="usa-date-picker">
@@ -220,9 +251,7 @@ const DateField = ({ field }: { field: Field }) => {
 const UnorderedList = ({ field }: { field: Field }) => {
   return (
     <ul>
-      {field.items?.map((item, index) => (
-        <li key={index}>{item.content}</li>
-      ))}
+      {field.items?.map((item, index) => <li key={index}>{item.content}</li>)}
     </ul>
   );
 };
