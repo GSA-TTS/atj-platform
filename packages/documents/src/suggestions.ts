@@ -30,7 +30,7 @@ const getObjectHash = (docData: ExtractedDocumentData) => {
   return 'hardcoded-hash';
 };
 
-const UD105_TEST_DATA = [
+export const UD105_TEST_DATA = [
   {
     tag: 'input',
     type: 'text',

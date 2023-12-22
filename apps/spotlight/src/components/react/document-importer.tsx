@@ -1,10 +1,11 @@
 import React, { PropsWithChildren, useReducer } from 'react';
 
 import { extractFormFieldData, suggestFormDetails } from '@atj/documents';
-import { SuggestedForm } from '@atj/documents/src/suggestions';
+import { SuggestedForm, UD105_TEST_DATA } from '@atj/documents/src/suggestions';
 
 import { onFileInputChangeGetFile } from '../../lib/file-input';
 import DynamicFormFieldset from './dynamic-form';
+import { FormBuilder } from './form-builder';
 
 type State = { page: number; suggestedForm?: SuggestedForm };
 type Action =
@@ -87,10 +88,20 @@ export const DocumentImporter = () => {
             onChange={onFileInputChangeGetFile(async fileDetails => {
               const fieldData = await extractFormFieldData(fileDetails.data);
               const fieldInfo = suggestFormDetails(fieldData);
-              console.log(fieldInfo);
               dispatch({ type: 'SELECT_PDF', data: fieldInfo });
             })}
           />
+        </label>
+        <label className="usa-label">
+          Or use an example file, the UD-105 unlawful detainer response:
+          <button
+            className="usa-button--unstyled"
+            onClick={() => {
+              dispatch({ type: 'SELECT_PDF', data: UD105_TEST_DATA });
+            }}
+          >
+            UD-105.pdf
+          </button>
         </label>
       </div>
     );
@@ -115,7 +126,7 @@ export const DocumentImporter = () => {
           });
         }}
       >
-        <DynamicFormFieldset fields={state.suggestedForm as SuggestedForm} />
+        <FormBuilder fields={state.suggestedForm as SuggestedForm} />
         <ButtonBar />
       </form>
     );
