@@ -1,13 +1,12 @@
 import React from 'react';
 
 import { Field } from '.';
-import { capitalizeFirstLetter } from '../../../lib/string-format';
 
 export const TextField = ({ field }: { field: Field }) => {
   return (
     <div className="usa-form-group">
       <label className="usa-label" htmlFor={field.name}>
-        {capitalizeFirstLetter(field.label)}
+        {field.label}
         {field.required && (
           <abbr title="required" className="usa-hint usa-hint--required">
             {' '}
