@@ -1,6 +1,6 @@
-import { PDFDocument, PDFForm } from 'pdf-lib';
+import { PDFDocument, type PDFForm } from 'pdf-lib';
 
-export type PDFFieldType = 'TextField' | 'CheckBox' | 'Dropdown' | 'OptionList';
+import { PDFFieldType } from '.';
 
 export const fillPDF = async (
   pdfBytes: Uint8Array,
