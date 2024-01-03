@@ -11,3 +11,4 @@ export type PDFDocument = {
     default?: any;
   }[];
 };
+export type PDFFieldType = 'TextField' | 'CheckBox' | 'Dropdown' | 'OptionList';
