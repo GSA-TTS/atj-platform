@@ -4,7 +4,7 @@ import { extractFormFieldData, suggestFormDetails } from '@atj/documents';
 import { SuggestedForm, UD105_TEST_DATA } from '@atj/documents/src/suggestions';
 
 import { onFileInputChangeGetFile } from '../../../lib/file-input';
-import DynamicFormFieldset from '../form';
+import { FormFieldset } from '../form';
 import { FormBuilder } from '../form-builder';
 
 type State = { page: number; suggestedForm?: SuggestedForm };
@@ -161,7 +161,7 @@ export const DocumentImporter = () => {
           });
         }}
       >
-        <DynamicFormFieldset fields={state.suggestedForm as SuggestedForm} />
+        <FormFieldset fields={state.suggestedForm as SuggestedForm} />
         <ButtonBar />
       </form>
     );
