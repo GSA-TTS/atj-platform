@@ -3,9 +3,9 @@ import React, { PropsWithChildren, useReducer } from 'react';
 import { extractFormFieldData, suggestFormDetails } from '@atj/documents';
 import { SuggestedForm, UD105_TEST_DATA } from '@atj/documents/src/suggestions';
 
-import { onFileInputChangeGetFile } from '../../lib/file-input';
-import DynamicFormFieldset from './dynamic-form';
-import { FormBuilder } from './form-builder';
+import { onFileInputChangeGetFile } from '../../../lib/file-input';
+import DynamicFormFieldset from '../form';
+import { FormBuilder } from '../form-builder';
 
 type State = { page: number; suggestedForm?: SuggestedForm };
 type Action =
