@@ -11,6 +11,7 @@ import {
   Header3Block,
   UnorderedList,
 } from './fields';
+import { getFormFromStorage } from '../../../lib/form-repo';
 
 // Assuming this is the structure of your JSON data
 export interface Field {
@@ -30,11 +31,13 @@ export interface Field {
   linkurl?: string;
 }
 
-interface FormProps {
-  fields: Field[];
-}
+export const ClientLoadedForm = ({ id }: { id: string }) => {
+  // Fallback to hardcoded data if a magic ID is chosen.
+  const fields = getFormFromStorage(window.localStorage, id);
+  return <FormFieldset fields={fields} />;
+};
 
-export const FormFieldset = ({ fields }: FormProps) => {
+export const FormFieldset = ({ fields }: { fields: Field[] }) => {
   return (
     <fieldset className="usa-fieldset">
       <legend className="usa-legend usa-legend--large">

@@ -11,18 +11,18 @@ const question: forms.Question = {
 
 describe('basic single question form', () => {
   it('initializes', () => {
-    const form = forms.createForm([question]);
+    const form = forms.createFormContextFromQuestions([question]);
     expect(form).to.not.toBeNull();
   });
 
   it('non-existent field is ignored', () => {
-    const form = forms.createForm([question]);
+    const form = forms.createFormContextFromQuestions([question]);
     const nextForm = forms.updateForm(form, 'fake-field-id', '');
     expect(nextForm).toEqual(form);
   });
 
   it('empty field value is set with error on context', () => {
-    const form = forms.createForm([question]);
+    const form = forms.createFormContextFromQuestions([question]);
     const nextForm = forms.updateForm(form, question.id, '');
     expect(nextForm).toEqual({
       ...form,
@@ -38,7 +38,7 @@ describe('basic single question form', () => {
   });
 
   it('valid field value is stored on context', () => {
-    const form = forms.createForm([question]);
+    const form = forms.createFormContextFromQuestions([question]);
     const nextForm = forms.updateForm(
       form,
       question.id,

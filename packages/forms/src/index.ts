@@ -18,7 +18,9 @@ export type FormContext = {
   questions: Record<QuestionId, Question>;
 };
 
-export const createForm = (questions: Question[]): FormContext => {
+export const createFormContextFromQuestions = (
+  questions: Question[]
+): FormContext => {
   return {
     context: {
       errors: {},
