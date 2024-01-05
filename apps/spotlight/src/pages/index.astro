@@ -1,30 +1,24 @@
 ---
-import { DocumentAssembler } from '../components/react/document-assembler';
-import { getAppContext } from '../context';
+import { DocumentAssembler } from '../components/react/experiments/document-assembler';
 import ContentLayout from '../layouts/ContentLayout.astro';
-
-const context = getAppContext(import.meta.env);
 ---
 
-<ContentLayout context={context} title="10x Access to Justice Spotlight">
+<ContentLayout title="10x Access to Justice Spotlight">
   <h1>10x Access to Justice Spotlight</h1>
   <ul>
     <li>
-      <a
-        href="https://trello.com/c/25Jl6NwJ/207-digital-access-to-justice-platform"
-        >Project overview</a
-      >
+      <a href={`${import.meta.env.BASE_URL}forms`}>Manage my forms</a>
     </li>
     <li>
-      <a href={`${import.meta.env.BASE_URL}/form-sample`}>Sample form</a>
+      <a href={`${import.meta.env.BASE_URL}form-sample`}>Sample form</a>
     </li>
     <li>
-      <a href={`${import.meta.env.BASE_URL}/ud105-evicition-form`}
+      <a href={`${import.meta.env.BASE_URL}ud105-evicition-form`}
         >UD 105 - Unlawful Detainment Eviction Form</a
       >
     </li>
     <li>
-      <a href={`${import.meta.env.BASE_URL}/import-document`}>Import PDF</a>
+      <a href={`${import.meta.env.BASE_URL}forms/import-pdf`}>Import PDF</a>
     </li>
   </ul>
   <DocumentAssembler client:load />

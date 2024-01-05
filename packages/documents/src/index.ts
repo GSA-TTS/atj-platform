@@ -1,4 +1,2 @@
-export { extractFormFieldData } from './extract';
-export { fillPDF } from './generate';
-export { generateDummyPDF } from './generate-dummy';
+export * from './pdf';
 export { suggestFormDetails } from './suggestions';

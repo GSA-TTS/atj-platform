@@ -1,5 +1,6 @@
 import * as pdfLib from 'pdf-lib';
-import { PDFFieldType } from './generate';
+
+import { type PDFFieldType } from '.';
 
 export const extractFormFieldData = async (pdfBytes: Uint8Array) => {
   const pdfDoc = await pdfLib.PDFDocument.load(pdfBytes);
@@ -11,10 +12,6 @@ export const extractFormFieldData = async (pdfBytes: Uint8Array) => {
     })
   );
 };
-
-export type ExtractedDocumentData = Awaited<
-  ReturnType<typeof extractFormFieldData>
->;
 
 const getFieldValue = (
   field: pdfLib.PDFField

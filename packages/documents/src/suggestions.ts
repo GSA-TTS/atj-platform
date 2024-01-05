@@ -1,5 +1,3 @@
-import { ExtractedDocumentData } from './extract';
-
 export type SuggestedForm = {
   id: string;
   tag: 'input' | 'textarea';
@@ -8,7 +6,7 @@ export type SuggestedForm = {
   value?: string;
   type?: 'text';
 }[];
-export const suggestFormDetails = (docData: ExtractedDocumentData) => {
+export const suggestFormDetails = (docData: any) => {
   const cache = getFakeCache();
   const hash = getObjectHash(docData);
   const data = cache.get(hash);
@@ -26,7 +24,7 @@ const getFakeCache = () => {
   };
 };
 
-const getObjectHash = (docData: ExtractedDocumentData) => {
+const getObjectHash = (docData: any) => {
   return 'hardcoded-hash';
 };
 
