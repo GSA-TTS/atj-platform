@@ -18,6 +18,7 @@ export type FormSummary = {
 export type Form = {
   summary: FormSummary;
   questions: Record<QuestionId, Question>;
+  strategy: SequentialStrategy;
 };
 
 export type FormContext = {
@@ -26,6 +27,11 @@ export type FormContext = {
     values: QuestionValueMap;
   };
   form: Form;
+};
+
+export type SequentialStrategy = {
+  type: 'sequential';
+  order: QuestionId[];
 };
 
 export const createForm = (
@@ -39,28 +45,26 @@ export const createForm = (
         return [question.id, question];
       })
     ),
+    strategy: {
+      type: 'sequential',
+      order: questions.map(question => {
+        return question.id;
+      }),
+    },
   };
 };
 
-export const createFormContextFromQuestions = (
-  questions: Question[]
-): FormContext => {
+export const createFormContext = (form: Form): FormContext => {
   return {
     context: {
       errors: {},
       values: Object.fromEntries(
-        questions.map(question => {
+        Object.values(form.questions).map(question => {
           return [question.id, question.initial];
         })
       ),
     },
-    form: createForm(
-      {
-        title: 'Form sample',
-        description: 'Form sample created via a list of questions.',
-      },
-      questions
-    ),
+    form,
   };
 };
 

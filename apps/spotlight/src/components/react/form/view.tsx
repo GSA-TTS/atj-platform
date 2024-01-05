@@ -12,6 +12,7 @@ import {
   UnorderedList,
 } from './fields';
 import { getFormFromStorage } from '../../../lib/form-repo';
+import { createFormContext } from '@atj/forms';
 
 // Assuming this is the structure of your JSON data
 export interface Field {
@@ -33,11 +34,12 @@ export interface Field {
 
 export const FormView = ({ formId }: { formId: string }) => {
   // Fallback to hardcoded data if a magic ID is chosen.
-  const fields = getFormFromStorage(window.localStorage, formId);
-  if (!fields) {
+  const form = getFormFromStorage(window.localStorage, formId);
+  if (!form) {
     return 'null form retrieved from storage';
   }
-  return <FormFieldset fields={fields} />;
+  const context = createFormContext(form);
+  return <FormFieldset fields={form.questions} />;
 };
 
 export const FormFieldset = ({ fields }: { fields: Field[] }) => {

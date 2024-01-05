@@ -21,7 +21,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var src_exports = {};
 __export(src_exports, {
   createForm: () => createForm,
-  createFormContextFromQuestions: () => createFormContextFromQuestions,
+  createFormContext: () => createFormContext,
   updateForm: () => updateForm
 });
 module.exports = __toCommonJS(src_exports);
@@ -32,40 +32,35 @@ var createForm = (summary, questions = []) => {
       questions.map((question) => {
         return [question.id, question];
       })
-    )
+    ),
+    strategy: {
+      type: "sequential",
+      order: questions.map((question) => {
+        return question.id;
+      })
+    }
   };
 };
-var createFormContextFromQuestions = (questions) => {
+var createFormContext = (form) => {
   return {
     context: {
       errors: {},
       values: Object.fromEntries(
-        questions.map((question) => {
+        Object.values(form.questions).map((question) => {
           return [question.id, question.initial];
         })
       )
     },
-    questions: Object.fromEntries(
-      questions.map((question) => {
-        return [question.id, question];
-      })
-    ),
-    form: createForm(
-      {
-        title: "Form sample",
-        description: "Form sample created via a list of questions."
-      },
-      questions
-    )
+    form
   };
 };
-var updateForm = (form, id, value) => {
-  if (!(id in form.questions)) {
+var updateForm = (context, id, value) => {
+  if (!(id in context.form.questions)) {
     console.error(`Question "${id}" does not exist on form.`);
-    return form;
+    return context;
   }
-  const nextForm = addValue(form, id, value);
-  if (form.questions[id].required && !value) {
+  const nextForm = addValue(context, id, value);
+  if (context.form.questions[id].required && !value) {
     return addError(nextForm, id, "Required value not provided.");
   }
   return nextForm;
@@ -93,6 +88,6 @@ var addError = (form, id, error) => ({
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   createForm,
-  createFormContextFromQuestions,
+  createFormContext,
   updateForm
 });
