@@ -21,10 +21,21 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var src_exports = {};
 __export(src_exports, {
   createForm: () => createForm,
+  createFormContextFromQuestions: () => createFormContextFromQuestions,
   updateForm: () => updateForm
 });
 module.exports = __toCommonJS(src_exports);
-var createForm = (questions) => {
+var createForm = (summary, questions = []) => {
+  return {
+    summary,
+    questions: Object.fromEntries(
+      questions.map((question) => {
+        return [question.id, question];
+      })
+    )
+  };
+};
+var createFormContextFromQuestions = (questions) => {
   return {
     context: {
       errors: {},
@@ -38,6 +49,13 @@ var createForm = (questions) => {
       questions.map((question) => {
         return [question.id, question];
       })
+    ),
+    form: createForm(
+      {
+        title: "Form sample",
+        description: "Form sample created via a list of questions."
+      },
+      questions
     )
   };
 };
@@ -75,5 +93,6 @@ var addError = (form, id, error) => ({
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   createForm,
+  createFormContextFromQuestions,
   updateForm
 });

@@ -1,5 +1,9 @@
 import React from 'react';
-import { getFormListFromStorage } from '../../../lib/form-repo';
+import {
+  addFormToStorage,
+  getFormListFromStorage,
+} from '../../../lib/form-repo';
+import { getFormEditUrl } from '../../../lib/routes';
 
 export const FormList = () => {
   const formIds = getFormListFromStorage(window.localStorage);
@@ -8,7 +12,7 @@ export const FormList = () => {
       <ul className="usa-list usa-list--unstyled">
         {formIds.map(formId => (
           <li>
-            <a href="#">{formId}</a>
+            <a href={getFormEditUrl(formId)}>{formId}</a>
           </li>
         ))}
       </ul>
@@ -17,7 +21,10 @@ export const FormList = () => {
         //method="post"
         onSubmit={event => {
           event.preventDefault();
-          //createFormContextFromQuestions([]);
+          addFormToStorage(window.localStorage, {
+            title: 'My test form',
+            description: 'This is a guided interview long description.',
+          });
         }}
         className="usa-form usa-form--large"
       >

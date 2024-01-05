@@ -4,7 +4,7 @@ import { getAppContext } from '../context';
 import { InterviewForm } from '../components/react/experiments/interview-form';
 import ContentLayout from '../layouts/ContentLayout.astro';
 
-const context = getAppContext(import.meta.env);
+const context = getAppContext();
 
 const sampleInterview = createSequentialInterview({
   summary: {

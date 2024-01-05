@@ -1,9 +1,6 @@
 ---
 import { ClientLoadedForm } from '../../components/react/form';
-import { getAppContext } from '../../context';
 import ContentLayout from '../../layouts/ContentLayout.astro';
-
-const context = getAppContext(import.meta.env);
 
 export function getStaticPaths() {
   return [{ params: { id: 'hardcoded-form-id' } }];
@@ -12,6 +9,6 @@ export function getStaticPaths() {
 const { id } = Astro.params;
 ---
 
-<ContentLayout context={context} title="10x Access to Justice Spotlight">
+<ContentLayout title="10x Access to Justice Spotlight">
   <ClientLoadedForm {id} client:only />
 </ContentLayout>

@@ -1,10 +1,7 @@
 ---
-import { getAppContext } from '../context';
 import ContentLayout from '../layouts/ContentLayout.astro';
-
-const context = getAppContext(import.meta.env);
 ---
 
-<ContentLayout context={context} title="Path not found">
+<ContentLayout title="Path not found">
   <h1>404: Not Found</h1>
 </ContentLayout>

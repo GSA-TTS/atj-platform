@@ -1,11 +1,8 @@
 ---
 import { FormList } from '../../components/react/form/list';
-import { getAppContext } from '../../context';
 import ContentLayout from '../../layouts/ContentLayout.astro';
-
-const context = getAppContext(import.meta.env);
 ---
 
-<ContentLayout context={context} title="10x Access to Justice Spotlight">
+<ContentLayout title="10x Access to Justice Spotlight">
   <FormList client:only />
 </ContentLayout>

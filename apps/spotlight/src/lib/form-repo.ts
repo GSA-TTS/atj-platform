@@ -1,4 +1,4 @@
-import { InterviewSummary } from '@atj/interviews/src/interview';
+import { FormSummary, createForm } from '@atj/forms/src';
 import formData from '../htmlParser/ud105-form-field-output.json';
 
 export const getFormFromStorage = (storage: Storage, id?: string) => {
@@ -25,6 +25,12 @@ export const getFormListFromStorage = (storage: Storage) => {
   return keys;
 };
 
-export const createForm = (storage: Storage, summary: InterviewSummary) => {
-  const form = createFormContextFromQuestions([]);
+export const addFormToStorage = (storage: Storage, summary: FormSummary) => {
+  const form = createForm(summary);
+  const uuid = crypto.randomUUID();
+  storage.setItem(uuid, JSON.stringify(form));
+  return {
+    success: true,
+    data: uuid,
+  };
 };

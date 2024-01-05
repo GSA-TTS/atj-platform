@@ -10,12 +10,36 @@ type QuestionValue = any;
 type QuestionValueMap = Record<QuestionId, QuestionValue>;
 type ErrorMap = Record<QuestionId, string>;
 
+export type FormSummary = {
+  title: string;
+  description: string;
+};
+
+export type Form = {
+  summary: FormSummary;
+  questions: Record<QuestionId, Question>;
+};
+
 export type FormContext = {
   context: {
     errors: ErrorMap;
     values: QuestionValueMap;
   };
-  questions: Record<QuestionId, Question>;
+  form: Form;
+};
+
+export const createForm = (
+  summary: FormSummary,
+  questions: Question[] = []
+): Form => {
+  return {
+    summary,
+    questions: Object.fromEntries(
+      questions.map(question => {
+        return [question.id, question];
+      })
+    ),
+  };
 };
 
 export const createFormContextFromQuestions = (
@@ -30,21 +54,27 @@ export const createFormContextFromQuestions = (
         })
       ),
     },
-    questions: Object.fromEntries(
-      questions.map(question => {
-        return [question.id, question];
-      })
+    form: createForm(
+      {
+        title: 'Form sample',
+        description: 'Form sample created via a list of questions.',
+      },
+      questions
     ),
   };
 };
 
-export const updateForm = (form: FormContext, id: QuestionId, value: any) => {
-  if (!(id in form.questions)) {
+export const updateForm = (
+  context: FormContext,
+  id: QuestionId,
+  value: any
+) => {
+  if (!(id in context.form.questions)) {
     console.error(`Question "${id}" does not exist on form.`);
-    return form;
+    return context;
   }
-  const nextForm = addValue(form, id, value);
-  if (form.questions[id].required && !value) {
+  const nextForm = addValue(context, id, value);
+  if (context.form.questions[id].required && !value) {
     return addError(nextForm, id, 'Required value not provided.');
   }
   return nextForm;
