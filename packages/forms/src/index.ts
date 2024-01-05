@@ -15,10 +15,10 @@ export type FormSummary = {
   description: string;
 };
 
-export type Form = {
+export type Form<T extends FormStrategy> = {
   summary: FormSummary;
   questions: Record<QuestionId, Question>;
-  strategy: SequentialStrategy;
+  strategy: T;
 };
 
 export type FormContext = {
@@ -34,17 +34,19 @@ export type SequentialStrategy = {
   order: QuestionId[];
 };
 
+export type NullStrategy = {
+  type: 'null';
+};
+
+export type FormStrategy = SequentialStrategy | NullStrategy;
+
 export const createForm = (
   summary: FormSummary,
   questions: Question[] = []
 ): Form => {
   return {
     summary,
-    questions: Object.fromEntries(
-      questions.map(question => {
-        return [question.id, question];
-      })
-    ),
+    questions: getQuestionMap(questions),
     strategy: {
       type: 'sequential',
       order: questions.map(question => {
@@ -66,6 +68,31 @@ export const createFormContext = (form: Form): FormContext => {
     },
     form,
   };
+};
+
+// For now, a prompt just returns an array of questions. This will likely need
+// to be filled out to support more complicated display formats.
+export const createPrompt = (formContext: FormContext) => {
+  if (formContext.form.strategy.type === 'sequential') {
+    return formContext.form.strategy.order.map(questionId => {
+      const question = formContext.form.questions[questionId];
+      // This is the structure currently used by FormFieldset in the Astro app.
+      // FIXME: Shore up this type and add to the forms package.
+      return {
+        tag: 'input',
+        type: 'text',
+        name: question.id,
+        id: question.id,
+        value: formContext.context.values[questionId],
+        label: question.text,
+      };
+    });
+  } else if (formContext.form.strategy.type === 'null') {
+    return [];
+  } else {
+    const _exhaustiveCheck: never = formContext.form.strategy;
+    return _exhaustiveCheck;
+  }
 };
 
 export const updateForm = (
@@ -113,3 +140,26 @@ const addError = (
     },
   },
 });
+
+const getQuestionMap = (questions: Question[]) => {
+  return Object.fromEntries(
+    questions.map(question => {
+      return [question.id, question];
+    })
+  );
+};
+
+export const addQuestions = (
+  form: Form<SequentialStrategy>,
+  questions: Question[]
+) => {
+  const questionMap = getQuestionMap(questions);
+  return {
+    ...form,
+    questions: { ...form.questions, ...questionMap },
+    strategy: {
+      ...form.strategy,
+      order: [...form.strategy.order, ...Object.keys(questionMap)],
+    },
+  };
+};

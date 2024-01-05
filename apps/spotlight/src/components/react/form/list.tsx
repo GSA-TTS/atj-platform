@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
 import {
-  addFormToStorage,
+  addFormSummaryToStorage,
   getFormListFromStorage,
 } from '../../../lib/form-repo';
 
@@ -14,8 +14,8 @@ export const FormList = () => {
       <ul className="usa-list usa-list--unstyled">
         {formIds.map((formId, index) => (
           <li key={index}>
-            {formId}
-            <Link to={`/${formId}/edit`}>Edit</Link>
+            {formId} <Link to={`/${formId}`}>View</Link> /{' '}
+            <Link to={`/${formId}/edit`}>Edit</Link> /{' '}
             <Link to={`/${formId}/delete`}>Delete</Link>
           </li>
         ))}
@@ -32,7 +32,7 @@ export const FormList = () => {
             console.error('required fields not found');
             return;
           }
-          const result = addFormToStorage(window.localStorage, {
+          const result = addFormSummaryToStorage(window.localStorage, {
             title,
             description,
           });

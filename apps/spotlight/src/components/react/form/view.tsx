@@ -12,7 +12,7 @@ import {
   UnorderedList,
 } from './fields';
 import { getFormFromStorage } from '../../../lib/form-repo';
-import { createFormContext } from '@atj/forms';
+import { createFormContext, createPrompt } from '@atj/forms';
 
 // Assuming this is the structure of your JSON data
 export interface Field {
@@ -39,7 +39,8 @@ export const FormView = ({ formId }: { formId: string }) => {
     return 'null form retrieved from storage';
   }
   const context = createFormContext(form);
-  return <FormFieldset fields={form.questions} />;
+  const prompt = createPrompt(context);
+  return <FormFieldset fields={prompt} />;
 };
 
 export const FormFieldset = ({ fields }: { fields: Field[] }) => {

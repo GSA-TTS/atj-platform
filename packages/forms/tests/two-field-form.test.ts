@@ -32,8 +32,8 @@ describe('two question form context', () => {
 
   it('empty field value on required field is stored with error', () => {
     const context = forms.createFormContext(form);
-    const nextForm = forms.updateForm(context, questions[0].id, null);
-    expect(nextForm).toEqual({
+    const nextContext = forms.updateForm(context, questions[0].id, null);
+    expect(nextContext).toEqual({
       ...context,
       context: {
         errors: {
@@ -49,12 +49,12 @@ describe('two question form context', () => {
 
   it('valid field value is stored on context', () => {
     const formContext = forms.createFormContext(form);
-    const nextForm = forms.updateForm(
+    const nextContext = forms.updateForm(
       formContext,
       questions[0].id,
       'supercalifragilisticexpialidocious'
     );
-    expect(nextForm).toEqual({
+    expect(nextContext).toEqual({
       ...formContext,
       context: {
         errors: {},
