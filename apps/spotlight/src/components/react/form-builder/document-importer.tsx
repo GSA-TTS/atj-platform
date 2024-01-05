@@ -4,7 +4,7 @@ import { extractFormFieldData, suggestFormDetails } from '@atj/documents';
 import { SuggestedForm, UD105_TEST_DATA } from '@atj/documents/src/suggestions';
 
 import { onFileInputChangeGetFile } from '../../../lib/file-input';
-import { FormFieldset } from '../form';
+import { FormFieldset } from '../form/view';
 import { FormBuilder } from '.';
 
 type State = { page: number; suggestedForm?: SuggestedForm };

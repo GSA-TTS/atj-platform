@@ -5,7 +5,7 @@ export const getFormFromStorage = (storage: Storage, id?: string) => {
   if (!storage || !id) {
     return null;
   }
-  const formString = storage.getItem(`forms/${id}`);
+  const formString = storage.getItem(id);
   if (!formString) {
     // FIXME: hardcode something for now
     if (id === 'hardcoded-form-id') {
@@ -33,4 +33,8 @@ export const addFormToStorage = (storage: Storage, summary: FormSummary) => {
     success: true,
     data: uuid,
   };
+};
+
+export const deleteFormFromStorage = (storage: Storage, formId: string) => {
+  storage.removeItem(formId);
 };

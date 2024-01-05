@@ -1,18 +1,22 @@
 import React from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+
 import {
   addFormToStorage,
   getFormListFromStorage,
 } from '../../../lib/form-repo';
-import { getFormEditUrl } from '../../../lib/routes';
 
 export const FormList = () => {
+  const navigate = useNavigate();
   const formIds = getFormListFromStorage(window.localStorage);
   return (
     <>
       <ul className="usa-list usa-list--unstyled">
-        {formIds.map(formId => (
-          <li>
-            <a href={getFormEditUrl(formId)}>{formId}</a>
+        {formIds.map((formId, index) => (
+          <li key={index}>
+            {formId}
+            <Link to={`/${formId}/edit`}>Edit</Link>
+            <Link to={`/${formId}/delete`}>Delete</Link>
           </li>
         ))}
       </ul>
@@ -21,26 +25,46 @@ export const FormList = () => {
         //method="post"
         onSubmit={event => {
           event.preventDefault();
-          addFormToStorage(window.localStorage, {
-            title: 'My test form',
-            description: 'This is a guided interview long description.',
+          const formData = new FormData(event.currentTarget);
+          const title = formData.get('summary-title')?.toString();
+          const description = formData.get('summary-description')?.toString();
+          if (!title || !description) {
+            console.error('required fields not found');
+            return;
+          }
+          const result = addFormToStorage(window.localStorage, {
+            title,
+            description,
           });
+          if (result.success) {
+            navigate(`/${result.data}/edit`);
+          } else {
+            console.error('Error saving form');
+          }
         }}
         className="usa-form usa-form--large"
       >
         <h2>Create new form</h2>
-        {/*<label className="usa-label">
+        <label className="usa-label">
           Title
-          <input id="summary-title" type="text" className="usa-input" />
+          <input
+            id="summary-title"
+            name="summary-title"
+            type="text"
+            className="usa-input"
+            required
+          />
         </label>
         <label className="usa-label">
           Description
           <input
             id="summary-description"
+            name="summary-description"
             type="textarea"
             className="usa-input"
+            required
           />
-        </label>*/}
+        </label>
         <input className="usa-button" type="submit" value="Create form"></input>
       </form>
     </>
