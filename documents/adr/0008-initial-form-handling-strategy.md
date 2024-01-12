@@ -22,7 +22,7 @@ The project team will, initially, identify lightweight approaches that are easil
 
 Initially, forms will be implemented as a collection of React components. Each component will be isolated and be configured via props.
 
-Native React components will be bound for form library functionality using lightweight, manual integrations. This will enable creating a lightweight interface that does just what we need, without potential impedance mismatch.
+The `react-hook-form` library will be utilized. This library is widely used and provides a simple way to bind dynamic behavior to forms. Additionally, it works well with unmanaged React forms, which we want to maintain options around. To be thoughtful about the surface area over this library, we will wrap it; This will enable creating a lightweight interface that does just what we need, without potential impedance mismatch.
 
 Initially, a simple and bespoke declarative format for form definitions will be utilized. This format will be augmented as integrations are added, and supported interview flows are increased.
 

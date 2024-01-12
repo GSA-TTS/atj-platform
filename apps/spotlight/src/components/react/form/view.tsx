@@ -1,38 +1,21 @@
 import React from 'react';
-import {
-  TextField,
-  BooleanField,
-  CheckBoxField,
-  SelectField,
-  RadioField,
-  DateField,
-  TextareaField,
-  ParagraphBlock,
-  Header3Block,
-  UnorderedList,
-} from './fields';
+import { FormProvider, useForm } from 'react-hook-form';
+
+import { Prompt, createFormContext, createPrompt } from '@atj/forms';
 import { getFormFromStorage } from '../../../lib/form-repo';
-import { createFormContext, createPrompt } from '@atj/forms';
+import { PromptSegment } from './prompts';
 
 // Assuming this is the structure of your JSON data
 export interface Field {
-  tag: string;
-  type: string;
-  name: string;
+  type: 'text';
   id: string;
-  class: string;
-  value?: string;
+  name: string;
   label: string;
-  title?: string;
-  required?: boolean;
-  options?: { name: string; value: string }[]; // For select and radio fields
-  items?: { tag: string; content: string }[];
-  arialabelledby?: string;
-  ariadescribedby?: string;
-  linkurl?: string;
+  required: boolean;
+  initial?: string;
 }
 
-export const FormView = ({ formId }: { formId: string }) => {
+export const FormViewById = ({ formId }: { formId: string }) => {
   // Fallback to hardcoded data if a magic ID is chosen.
   const form = getFormFromStorage(window.localStorage, formId);
   if (!form) {
@@ -40,10 +23,29 @@ export const FormView = ({ formId }: { formId: string }) => {
   }
   const context = createFormContext(form);
   const prompt = createPrompt(context);
-  return <FormFieldset fields={prompt} />;
+
+  return <FormView prompt={prompt} />;
 };
 
-export const FormFieldset = ({ fields }: { fields: Field[] }) => {
+export const FormView = ({ prompt }: { prompt: Prompt }) => {
+  const formMethods = useForm<Record<string, string>>({});
+  return (
+    <FormProvider {...formMethods}>
+      <form>
+        <fieldset className="usa-fieldset">
+          {prompt.map((promptPart, index) => (
+            <PromptSegment key={index} promptPart={promptPart}></PromptSegment>
+          ))}
+          {/* Add submit button or other controls as needed */}
+        </fieldset>
+        <ButtonBar />
+      </form>
+    </FormProvider>
+  );
+};
+
+/*
+export const FormFieldsetUnwired = ({ fields }: { fields: Field[] }) => {
   return (
     <fieldset className="usa-fieldset">
       <legend className="usa-legend usa-legend--large">
@@ -88,7 +90,15 @@ export const FormFieldset = ({ fields }: { fields: Field[] }) => {
             return null;
         }
       })}
-      {/* Add submit button or other controls as needed */}
     </fieldset>
+  );
+};
+*/
+
+const ButtonBar = () => {
+  return (
+    <div>
+      <button className="usa-button">Submit</button>
+    </div>
   );
 };

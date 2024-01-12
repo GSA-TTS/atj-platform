@@ -103,6 +103,9 @@ importers:
       react-dom:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
+      react-hook-form:
+        specifier: ^7.49.3
+        version: 7.49.3(react@18.2.0)
       react-router-dom:
         specifier: ^6.21.1
         version: 6.21.1(react-dom@18.2.0)(react@18.2.0)
@@ -4523,7 +4526,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20240105
+      typescript: 5.4.0-dev.20240108
     dev: false
 
   /dset@3.1.3:
@@ -9141,6 +9144,15 @@ packages:
       scheduler: 0.23.0
     dev: false
 
+  /react-hook-form@7.49.3(react@18.2.0):
+    resolution: {integrity: sha512-foD6r3juidAT1cOZzpmD/gOKt7fRsDhXXZ0y28+Al1CHgX+AY1qIN9VSIIItXRq1dN68QrRwl1ORFlwjBaAqeQ==}
+    engines: {node: '>=18', pnpm: '8'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /react-is@18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
     dev: true
@@ -10878,8 +10890,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  /typescript@5.4.0-dev.20240105:
-    resolution: {integrity: sha512-EShumrhMWO0vjg0BpYtIOOWicTRcWnku+fJfLxnjo4P4h3/Zkz9jkmAbtWqb1c6SPNNrL1zGgVNX38dYZlMinQ==}
+  /typescript@5.4.0-dev.20240108:
+    resolution: {integrity: sha512-flXeU+FYwW3mL6zcOz1lNX0juSolUIeIRs4nO8j77jB+N/3lrqWNOSz05dzRC4eYJcjFIIOvv5y9u8MQ5nTtzg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false

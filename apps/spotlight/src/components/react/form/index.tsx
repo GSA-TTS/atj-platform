@@ -4,7 +4,7 @@ import { useParams, HashRouter, Route, Routes } from 'react-router-dom';
 import { FormDelete } from './delete';
 import { FormEdit } from './edit';
 import { FormList } from './list';
-import { FormView } from './view';
+import { FormViewById } from './view';
 
 export const FormSection = () => {
   return (
@@ -18,7 +18,7 @@ export const FormSection = () => {
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
-            return <FormView formId={formId} />;
+            return <FormViewById formId={formId} />;
           }}
         />
         <Route

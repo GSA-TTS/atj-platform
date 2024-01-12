@@ -4,8 +4,8 @@ import { extractFormFieldData, suggestFormDetails } from '@atj/documents';
 import { SuggestedForm, UD105_TEST_DATA } from '@atj/documents/src/suggestions';
 
 import { onFileInputChangeGetFile } from '../../../lib/file-input';
-import { FormFieldset } from '../form/view';
-import { FormBuilder } from '.';
+import { FormView } from '../form/view';
+import { EditFieldset } from '../form/edit';
 
 type State = { page: number; suggestedForm?: SuggestedForm };
 type Action =
@@ -145,7 +145,7 @@ export const DocumentImporter = () => {
           });
         }}
       >
-        <FormBuilder fields={state.suggestedForm as SuggestedForm} />
+        <EditFieldset fields={state.suggestedForm as SuggestedForm} />
         <ButtonBar />
       </form>
     );
@@ -161,7 +161,7 @@ export const DocumentImporter = () => {
           });
         }}
       >
-        <FormFieldset fields={state.suggestedForm as SuggestedForm} />
+        <FormView prompt={state.suggestedForm as SuggestedForm} />
         <ButtonBar />
       </form>
     );

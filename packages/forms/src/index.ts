@@ -1,3 +1,5 @@
+export * from './prompts';
+
 type QuestionId = string;
 
 export type Question = {
@@ -15,18 +17,18 @@ export type FormSummary = {
   description: string;
 };
 
-export type Form<T extends FormStrategy> = {
+export type Form<T extends FormStrategy = SequentialStrategy> = {
   summary: FormSummary;
   questions: Record<QuestionId, Question>;
   strategy: T;
 };
 
-export type FormContext = {
+export type FormContext<T extends FormStrategy> = {
   context: {
     errors: ErrorMap;
     values: QuestionValueMap;
   };
-  form: Form;
+  form: Form<T>;
 };
 
 export type SequentialStrategy = {
@@ -56,7 +58,9 @@ export const createForm = (
   };
 };
 
-export const createFormContext = (form: Form): FormContext => {
+export const createFormContext = <T extends FormStrategy>(
+  form: Form<T>
+): FormContext<T> => {
   return {
     context: {
       errors: {},
@@ -70,33 +74,8 @@ export const createFormContext = (form: Form): FormContext => {
   };
 };
 
-// For now, a prompt just returns an array of questions. This will likely need
-// to be filled out to support more complicated display formats.
-export const createPrompt = (formContext: FormContext) => {
-  if (formContext.form.strategy.type === 'sequential') {
-    return formContext.form.strategy.order.map(questionId => {
-      const question = formContext.form.questions[questionId];
-      // This is the structure currently used by FormFieldset in the Astro app.
-      // FIXME: Shore up this type and add to the forms package.
-      return {
-        tag: 'input',
-        type: 'text',
-        name: question.id,
-        id: question.id,
-        value: formContext.context.values[questionId],
-        label: question.text,
-      };
-    });
-  } else if (formContext.form.strategy.type === 'null') {
-    return [];
-  } else {
-    const _exhaustiveCheck: never = formContext.form.strategy;
-    return _exhaustiveCheck;
-  }
-};
-
-export const updateForm = (
-  context: FormContext,
+export const updateForm = <T extends FormStrategy>(
+  context: FormContext<T>,
   id: QuestionId,
   value: any
 ) => {
@@ -111,11 +90,11 @@ export const updateForm = (
   return nextForm;
 };
 
-const addValue = (
-  form: FormContext,
+const addValue = <T extends FormStrategy>(
+  form: FormContext<T>,
   id: QuestionId,
   value: QuestionValue
-): FormContext => ({
+): FormContext<T> => ({
   ...form,
   context: {
     ...form.context,
@@ -126,11 +105,11 @@ const addValue = (
   },
 });
 
-const addError = (
-  form: FormContext,
+const addError = <T extends FormStrategy>(
+  form: FormContext<T>,
   id: QuestionId,
   error: string
-): FormContext => ({
+): FormContext<T> => ({
   ...form,
   context: {
     ...form.context,
@@ -162,4 +141,17 @@ export const addQuestions = (
       order: [...form.strategy.order, ...Object.keys(questionMap)],
     },
   };
+};
+
+export const getFlatFieldList = <T extends FormStrategy>(form: Form<T>) => {
+  if (form.strategy.type === 'sequential') {
+    return form.strategy.order.map(questionId => {
+      return form.questions[questionId];
+    });
+  } else if (form.strategy.type === 'null') {
+    return [];
+  } else {
+    const _exhaustiveCheck: never = form.strategy;
+    return _exhaustiveCheck;
+  }
 };

@@ -28,6 +28,9 @@
     },
     {
       "path": "./packages/interviews/tsconfig.json"
+    },
+    {
+      "path": "./apps/spotlight/tsconfig.json"
     }
   ],
   "files": [

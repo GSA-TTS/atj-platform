@@ -20,19 +20,49 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var src_exports = {};
 __export(src_exports, {
+  addQuestions: () => addQuestions,
   createForm: () => createForm,
   createFormContext: () => createFormContext,
+  createPrompt: () => createPrompt,
+  getFlatFieldList: () => getFlatFieldList,
   updateForm: () => updateForm
 });
 module.exports = __toCommonJS(src_exports);
+
+// src/prompts/index.ts
+var createPrompt = (formContext) => {
+  const parts = [
+    {
+      type: "form-summary",
+      title: formContext.form.summary.title,
+      description: formContext.form.summary.description
+    }
+  ];
+  if (formContext.form.strategy.type === "sequential") {
+    parts.push(
+      ...formContext.form.strategy.order.map((questionId) => {
+        const question = formContext.form.questions[questionId];
+        return {
+          type: "text",
+          id: question.id,
+          value: formContext.context.values[questionId],
+          label: question.text,
+          required: question.required
+        };
+      })
+    );
+  } else if (formContext.form.strategy.type === "null") {
+  } else {
+    const _exhaustiveCheck = formContext.form.strategy;
+  }
+  return parts;
+};
+
+// src/index.ts
 var createForm = (summary, questions = []) => {
   return {
     summary,
-    questions: Object.fromEntries(
-      questions.map((question) => {
-        return [question.id, question];
-      })
-    ),
+    questions: getQuestionMap(questions),
     strategy: {
       type: "sequential",
       order: questions.map((question) => {
@@ -85,9 +115,42 @@ var addError = (form, id, error) => ({
     }
   }
 });
+var getQuestionMap = (questions) => {
+  return Object.fromEntries(
+    questions.map((question) => {
+      return [question.id, question];
+    })
+  );
+};
+var addQuestions = (form, questions) => {
+  const questionMap = getQuestionMap(questions);
+  return {
+    ...form,
+    questions: { ...form.questions, ...questionMap },
+    strategy: {
+      ...form.strategy,
+      order: [...form.strategy.order, ...Object.keys(questionMap)]
+    }
+  };
+};
+var getFlatFieldList = (form) => {
+  if (form.strategy.type === "sequential") {
+    return form.strategy.order.map((questionId) => {
+      return form.questions[questionId];
+    });
+  } else if (form.strategy.type === "null") {
+    return [];
+  } else {
+    const _exhaustiveCheck = form.strategy;
+    return _exhaustiveCheck;
+  }
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  addQuestions,
   createForm,
   createFormContext,
+  createPrompt,
+  getFlatFieldList,
   updateForm
 });
