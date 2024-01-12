@@ -4,6 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { Prompt, createFormContext, createPrompt } from '@atj/forms';
 import { getFormFromStorage } from '../../../lib/form-repo';
 import { PromptSegment } from './prompts';
+import { fillPDF } from '@atj/documents';
 
 // Assuming this is the structure of your JSON data
 export interface Field {
@@ -31,7 +32,12 @@ export const FormView = ({ prompt }: { prompt: Prompt }) => {
   const formMethods = useForm<Record<string, string>>({});
   return (
     <FormProvider {...formMethods}>
-      <form>
+      <form
+        onSubmit={formMethods.handleSubmit(async data => {
+          console.log(data);
+          //fillPDF();
+        })}
+      >
         <fieldset className="usa-fieldset">
           {prompt.map((promptPart, index) => (
             <PromptSegment key={index} promptPart={promptPart}></PromptSegment>

@@ -21,6 +21,10 @@ export type Form<T extends FormStrategy = SequentialStrategy> = {
   summary: FormSummary;
   questions: Record<QuestionId, Question>;
   strategy: T;
+  documents: {
+    path: string;
+    fieldMap: Record<string, string>;
+  }[];
 };
 
 export type FormContext<T extends FormStrategy> = {
@@ -55,6 +59,7 @@ export const createForm = (
         return question.id;
       }),
     },
+    documents: [],
   };
 };
 
