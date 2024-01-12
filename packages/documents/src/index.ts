@@ -1,2 +1,2 @@
 export * from './pdf';
-export { suggestFormDetails } from './suggestions';
+export * from './suggestions';

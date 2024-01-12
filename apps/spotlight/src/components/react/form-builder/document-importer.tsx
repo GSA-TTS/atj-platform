@@ -1,11 +1,10 @@
 import React, { PropsWithChildren, useReducer } from 'react';
 
 import { extractFormFieldData, suggestFormDetails } from '@atj/documents';
-import { SuggestedForm, UD105_TEST_DATA } from '@atj/documents/src/suggestions';
+import { SuggestedForm, UD105_TEST_DATA } from '@atj/documents';
 
 import { onFileInputChangeGetFile } from '../../../lib/file-input';
 import { FormView } from '../form/view';
-import { EditFieldset } from '../form/edit';
 
 type State = { page: number; suggestedForm?: SuggestedForm };
 type Action =
@@ -145,7 +144,7 @@ export const DocumentImporter = () => {
           });
         }}
       >
-        <EditFieldset fields={state.suggestedForm as SuggestedForm} />
+        {/*<EditFieldset fields={state.suggestedForm as SuggestedForm} />*/}
         <ButtonBar />
       </form>
     );

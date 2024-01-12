@@ -5,6 +5,7 @@ import { FormDelete } from './delete';
 import { FormEdit } from './edit';
 import { FormList } from './list';
 import { FormViewById } from './view';
+import { FormDocumentImport } from './import-document';
 
 export const FormSection = () => {
   return (
@@ -39,6 +40,16 @@ export const FormSection = () => {
               return <div>formId is undefined</div>;
             }
             return <FormDelete formId={formId} />;
+          }}
+        />
+        <Route
+          path="/:formId/import-document"
+          Component={() => {
+            const { formId } = useParams();
+            if (formId === undefined) {
+              return <div>formId is undefined</div>;
+            }
+            return <FormDocumentImport formId={formId} />;
           }}
         />
       </Routes>

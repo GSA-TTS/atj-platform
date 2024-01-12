@@ -2,13 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
-import {
-  Form,
-  Question,
-  addQuestions,
-  createForm,
-  getFlatFieldList,
-} from '@atj/forms';
+import { Form, addQuestions, createForm, getFlatFieldList } from '@atj/forms';
 import { getFormFromStorage, saveFormToStorage } from '../../../lib/form-repo';
 
 export const FormEdit = ({ formId }: { formId: string }) => {
@@ -48,7 +42,10 @@ export const FormEdit = ({ formId }: { formId: string }) => {
           </button>
         </li>
         <li>
-          <Link to={`/${formId}`}>View form</Link>
+          <Link to={`/${formId}`}>Preview this form</Link>
+        </li>
+        <li>
+          <Link to={`/${formId}/import-document`}>Import document</Link>
         </li>
         <li>
           <Link to="/">View all forms</Link>
