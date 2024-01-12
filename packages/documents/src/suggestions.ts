@@ -1,3 +1,5 @@
+import { DocumentFieldMap } from './document';
+
 export type SuggestedForm = {
   id: string;
   tag: 'input' | 'textarea';
@@ -6,11 +8,15 @@ export type SuggestedForm = {
   value?: string;
   type?: 'text';
 }[];
-export const suggestFormDetails = (docData: any) => {
+export const suggestFormDetails = (
+  docData: DocumentFieldMap
+): DocumentFieldMap => {
+  /*
   const cache = getFakeCache();
   const hash = getObjectHash(docData);
   const data = cache.get(hash);
-  return data as SuggestedForm;
+  */
+  return docData;
 };
 
 const getFakeCache = () => {

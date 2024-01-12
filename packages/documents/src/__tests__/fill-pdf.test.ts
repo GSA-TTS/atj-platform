@@ -1,6 +1,6 @@
 import { beforeAll, describe, expect, it } from 'vitest';
 
-import { extractFormFieldData, fillPDF } from '..';
+import { getDocumentFieldData, fillPDF } from '..';
 import { loadSamplePDF } from './sample-data';
 
 describe('PDF form filler', () => {
@@ -28,7 +28,7 @@ describe('PDF form filler', () => {
       Weight: { type: 'TextField', value: 'weightField' },
     })) as Success<Uint8Array>;
     expect(result.success).toEqual(true);
-    const fields = await extractFormFieldData(result.data);
+    const fields = await getDocumentFieldData(result.data);
 
     expect(fields).toEqual({
       'CHARACTER IMAGE': { type: 'not-supported', value: 'not-supported' },

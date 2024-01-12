@@ -5,7 +5,7 @@ type QuestionId = string;
 export type Question = {
   id: QuestionId;
   text: string;
-  initial: string;
+  initial: string | boolean | string[]; // TODO: create separate types
   required: boolean;
 };
 type QuestionValue = any;

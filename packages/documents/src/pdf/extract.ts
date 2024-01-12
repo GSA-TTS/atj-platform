@@ -1,8 +1,10 @@
 import * as pdfLib from 'pdf-lib';
 
-import { type PDFFieldType } from '.';
+import { DocumentFieldMap, DocumentFieldValue } from '../document';
 
-export const extractFormFieldData = async (pdfBytes: Uint8Array) => {
+export const getDocumentFieldData = async (
+  pdfBytes: Uint8Array
+): Promise<DocumentFieldMap> => {
   const pdfDoc = await pdfLib.PDFDocument.load(pdfBytes);
   const form = pdfDoc.getForm();
   const fields = form.getFields();
@@ -13,33 +15,45 @@ export const extractFormFieldData = async (pdfBytes: Uint8Array) => {
   );
 };
 
-const getFieldValue = (
-  field: pdfLib.PDFField
-): { type: PDFFieldType | 'not-supported'; value: any } => {
+const getFieldValue = (field: pdfLib.PDFField): DocumentFieldValue => {
   if (field instanceof pdfLib.PDFTextField) {
     return {
       type: 'TextField',
-      value: field.getText(),
+      name: field.getName(),
+      label: field.getName(),
+      value: field.getText() || '',
+      maxLength: field.getMaxLength(),
+      required: field.isRequired(),
     };
   } else if (field instanceof pdfLib.PDFCheckBox) {
     return {
       type: 'CheckBox',
+      name: field.getName(),
+      label: field.getName(),
       value: field.isChecked(),
+      required: field.isRequired(),
     };
   } else if (field instanceof pdfLib.PDFDropdown) {
     return {
       type: 'Dropdown',
+      name: field.getName(),
+      label: field.getName(),
       value: field.getSelected(),
+      required: field.isRequired(),
     };
   } else if (field instanceof pdfLib.PDFOptionList) {
     return {
       type: 'OptionList',
+      name: field.getName(),
+      label: field.getName(),
       value: field.getSelected(),
+      required: field.isRequired(),
     };
   } else {
     return {
       type: 'not-supported',
-      value: 'not-supported',
+      name: field.getName(),
+      error: `unsupported type: ${field.constructor.name}`,
     };
   }
 };

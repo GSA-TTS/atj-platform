@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
-import { extractFormFieldData } from '..';
+import { getDocumentFieldData } from '..';
 import { loadSamplePDF } from './sample-data';
 
 describe('PDF form field extraction', () => {
   it('extracts data from California UD-105 form', async () => {
     const pdfBytes = await loadSamplePDF('ca-unlawful-detainer/ud105.pdf');
-    const fields = await extractFormFieldData(pdfBytes);
+    const fields = await getDocumentFieldData(pdfBytes);
     expect(fields).toEqual({
       'UD-105[0].Page4[0].List4[0].Lia[0].Check47[0]': {
         type: 'CheckBox',

@@ -1,6 +1,5 @@
 import React from 'react';
 import { getFormFromStorage } from '../../../lib/form-repo';
-import { createFormContext, createPrompt } from '@atj/forms';
 import { DocumentImporter } from '../form-builder/document-importer';
 
 export const FormDocumentImport = ({ formId }: { formId: string }) => {
@@ -9,8 +8,5 @@ export const FormDocumentImport = ({ formId }: { formId: string }) => {
   if (!form) {
     return 'null form retrieved from storage';
   }
-  const context = createFormContext(form);
-  const prompt = createPrompt(context);
-
-  return <DocumentImporter />;
+  return <DocumentImporter formId={formId} form={form} />;
 };
