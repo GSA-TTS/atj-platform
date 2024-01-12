@@ -4,7 +4,7 @@ import { AwsProvider } from '@cdktf/provider-aws/lib/provider';
 
 import { withBackend } from './backend';
 import { Docassemble } from './docassemble';
-import { FormService } from './form-service';
+import { FormService } from './rest-api';
 
 export const registerAppStack = (stackPrefix: string) => {
   const app = new App();
@@ -22,6 +22,6 @@ class AppStack extends TerraformStack {
     });
 
     new Docassemble(this, `${id}-docassemble`);
-    new FormService(this, `${id}-form-service`);
+    new FormService(this, `${id}-rest-api`);
   }
 }

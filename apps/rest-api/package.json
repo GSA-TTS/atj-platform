@@ -1,5 +1,5 @@
 {
-  "name": "@atj/form-service",
+  "name": "@atj/form-rest-api",
   "private": true,
   "description": "backend service for handling submitted forms",
   "main": "src/index.ts",

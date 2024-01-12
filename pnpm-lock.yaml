@@ -58,7 +58,7 @@ importers:
         specifier: ^11.1.0
         version: 11.1.0
 
-  apps/form-service:
+  apps/rest-api:
     dependencies:
       '@atj/interviews':
         specifier: workspace:*
