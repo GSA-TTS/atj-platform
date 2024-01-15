@@ -1,7 +1,36 @@
-import { DocumentFieldMap, Form, Question, addQuestions } from '@atj/forms';
-import { PDFDocument } from './pdf';
+import {
+  DocumentFieldMap,
+  Form,
+  Question,
+  addDocument,
+  addQuestions,
+} from '@atj/forms';
+import { PDFDocument, getDocumentFieldData } from './pdf';
+import { suggestFormDetails } from './suggestions';
 
 export type DocumentTemplate = PDFDocument;
+
+export const addDocumentAndData = async (
+  form: Form,
+  fileDetails: {
+    name: string;
+    data: Uint8Array;
+  }
+) => {
+  const fields = await getDocumentFieldData(fileDetails.data);
+  const fieldMap = suggestFormDetails(fields);
+  const withFields = addDocumentFieldsToForm(form, fieldMap);
+  const updatedForm = addDocument(withFields, {
+    data: fileDetails.data,
+    path: fileDetails.name,
+    fields,
+    formFields: fieldMap,
+  });
+  return {
+    newFields: fields,
+    updatedForm,
+  };
+};
 
 export const addDocumentFieldsToForm = (
   form: Form,

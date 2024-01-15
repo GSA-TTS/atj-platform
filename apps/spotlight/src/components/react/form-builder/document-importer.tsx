@@ -2,6 +2,7 @@ import React, { PropsWithChildren, useReducer } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import {
+  addDocumentAndData,
   addDocumentFieldsToForm,
   getDocumentFieldData,
   suggestFormDetails,
@@ -255,7 +256,7 @@ const useDocumentImporter = (form: Form) => {
         const blob = await response.blob();
         const data = new Uint8Array(await blob.arrayBuffer());
 
-        const { fields, updatedForm } = await addDocumentAndData(
+        const { newFields, updatedForm } = await addDocumentAndData(
           state.previewForm,
           {
             name: url,
@@ -266,7 +267,7 @@ const useDocumentImporter = (form: Form) => {
           type: 'SELECT_PDF',
           data: {
             path: url,
-            fields,
+            fields: newFields,
             previewForm: updatedForm,
           },
         });
@@ -275,7 +276,7 @@ const useDocumentImporter = (form: Form) => {
         name: string;
         data: Uint8Array;
       }) {
-        const { fields, updatedForm } = await addDocumentAndData(
+        const { newFields, updatedForm } = await addDocumentAndData(
           state.previewForm,
           fileDetails
         );
@@ -283,7 +284,7 @@ const useDocumentImporter = (form: Form) => {
           type: 'SELECT_PDF',
           data: {
             path: fileDetails.name,
-            fields,
+            fields: newFields,
             previewForm: updatedForm,
           },
         });
@@ -302,27 +303,5 @@ const useDocumentImporter = (form: Form) => {
         dispatch({ type: 'GOTO_PAGE', page: step });
       },
     },
-  };
-};
-
-const addDocumentAndData = async (
-  form: Form,
-  fileDetails: {
-    name: string;
-    data: Uint8Array;
-  }
-) => {
-  const fields = await getDocumentFieldData(fileDetails.data);
-  const fieldMap = suggestFormDetails(fields);
-  const withFields = addDocumentFieldsToForm(form, fieldMap);
-  const updatedForm = addDocument(withFields, {
-    data: fileDetails.data,
-    path: fileDetails.name,
-    fields,
-    formFields: fieldMap,
-  });
-  return {
-    fields,
-    updatedForm,
   };
 };
