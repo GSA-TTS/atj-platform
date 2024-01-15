@@ -2,7 +2,7 @@ import {
   DocumentFieldMap,
   Form,
   Question,
-  addDocument,
+  addFormOutput,
   addQuestions,
 } from '@atj/forms';
 import { PDFDocument, getDocumentFieldData } from './pdf';
@@ -10,7 +10,7 @@ import { suggestFormDetails } from './suggestions';
 
 export type DocumentTemplate = PDFDocument;
 
-export const addDocumentAndData = async (
+export const addDocument = async (
   form: Form,
   fileDetails: {
     name: string;
@@ -20,7 +20,7 @@ export const addDocumentAndData = async (
   const fields = await getDocumentFieldData(fileDetails.data);
   const fieldMap = suggestFormDetails(fields);
   const withFields = addDocumentFieldsToForm(form, fieldMap);
-  const updatedForm = addDocument(withFields, {
+  const updatedForm = addFormOutput(withFields, {
     data: fileDetails.data,
     path: fileDetails.name,
     fields,

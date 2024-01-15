@@ -1,16 +1,10 @@
 import React, { PropsWithChildren, useReducer } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import {
-  addDocumentAndData,
-  addDocumentFieldsToForm,
-  getDocumentFieldData,
-  suggestFormDetails,
-} from '@atj/documents';
+import { addDocument, addDocumentFieldsToForm } from '@atj/documents';
 import {
   DocumentFieldMap,
   Form,
-  addDocument,
   createFormContext,
   createPrompt,
 } from '@atj/forms';
@@ -256,7 +250,7 @@ const useDocumentImporter = (form: Form) => {
         const blob = await response.blob();
         const data = new Uint8Array(await blob.arrayBuffer());
 
-        const { newFields, updatedForm } = await addDocumentAndData(
+        const { newFields, updatedForm } = await addDocument(
           state.previewForm,
           {
             name: url,
@@ -276,7 +270,7 @@ const useDocumentImporter = (form: Form) => {
         name: string;
         data: Uint8Array;
       }) {
-        const { newFields, updatedForm } = await addDocumentAndData(
+        const { newFields, updatedForm } = await addDocument(
           state.previewForm,
           fileDetails
         );

@@ -24,7 +24,7 @@ export type Form<T extends FormStrategy = SequentialStrategy> = {
   summary: FormSummary;
   questions: Record<QuestionId, Question>;
   strategy: T;
-  documents: FormDocument[];
+  documents: FormOutput[];
 };
 
 export type FormContext<T extends FormStrategy> = {
@@ -46,7 +46,7 @@ export type NullStrategy = {
 
 export type FormStrategy = SequentialStrategy | NullStrategy;
 
-export type FormDocument = {
+type FormOutput = {
   data: Uint8Array;
   path: string;
   fields: DocumentFieldMap;
@@ -168,9 +168,9 @@ export const getFlatFieldList = <T extends FormStrategy>(form: Form<T>) => {
   }
 };
 
-export const addDocument = <T extends FormStrategy>(
+export const addFormOutput = <T extends FormStrategy>(
   form: Form<T>,
-  document: FormDocument
+  document: FormOutput
 ) => {
   return {
     ...form,
