@@ -1,7 +1,7 @@
 {
-  "name": "@atj/forms",
+  "name": "@atj/form-service",
   "version": "1.0.0",
-  "description": "10x ATJ form handling",
+  "description": "10x ATJ public forms interface",
   "license": "CC0",
   "main": "src/index.ts",
   "scripts": {
@@ -9,5 +9,8 @@
     "dev": "tsup src/* --watch",
     "test": "vitest run --coverage"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@atj/documents": "workspace:*",
+    "@atj/forms": "workspace:*"
+  }
 }

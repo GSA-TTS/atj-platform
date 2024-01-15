@@ -1,3 +1,6 @@
+import { DocumentFieldMap } from './documents';
+
+export * from './documents';
 export * from './prompts';
 
 type QuestionId = string;
@@ -21,10 +24,7 @@ export type Form<T extends FormStrategy = SequentialStrategy> = {
   summary: FormSummary;
   questions: Record<QuestionId, Question>;
   strategy: T;
-  documents: {
-    path: string;
-    fieldMap: Record<string, string>;
-  }[];
+  documents: FormDocument[];
 };
 
 export type FormContext<T extends FormStrategy> = {
@@ -45,6 +45,13 @@ export type NullStrategy = {
 };
 
 export type FormStrategy = SequentialStrategy | NullStrategy;
+
+export type FormDocument = {
+  data: Uint8Array;
+  path: string;
+  fields: DocumentFieldMap;
+  formFields: Record<string, string>;
+};
 
 export const createForm = (
   summary: FormSummary,
@@ -159,4 +166,14 @@ export const getFlatFieldList = <T extends FormStrategy>(form: Form<T>) => {
     const _exhaustiveCheck: never = form.strategy;
     return _exhaustiveCheck;
   }
+};
+
+export const addDocument = <T extends FormStrategy>(
+  form: Form<T>,
+  document: FormDocument
+) => {
+  return {
+    ...form,
+    documents: [...form.documents, document],
+  };
 };

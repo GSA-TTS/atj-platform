@@ -60,9 +60,9 @@ importers:
 
   apps/rest-api:
     dependencies:
-      '@atj/interviews':
+      '@atj/form-service':
         specifier: workspace:*
-        version: link:../../packages/interviews
+        version: link:../../packages/form-service
     devDependencies:
       '@types/aws-lambda':
         specifier: ^8.10.109
@@ -79,12 +79,12 @@ importers:
       '@atj/design':
         specifier: workspace:*
         version: link:../../packages/design
-      '@atj/docassemble':
-        specifier: workspace:*
-        version: link:../../packages/docassemble
       '@atj/documents':
         specifier: workspace:*
         version: link:../../packages/documents
+      '@atj/form-service':
+        specifier: workspace:*
+        version: link:../../packages/form-service
       '@atj/forms':
         specifier: workspace:*
         version: link:../../packages/forms
@@ -205,6 +205,15 @@ importers:
       '@types/node':
         specifier: ^20.10.4
         version: 20.10.4
+
+  packages/form-service:
+    dependencies:
+      '@atj/documents':
+        specifier: workspace:*
+        version: link:../documents
+      '@atj/forms':
+        specifier: workspace:*
+        version: link:../forms
 
   packages/forms: {}
 
@@ -4526,7 +4535,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20240108
+      typescript: 5.4.0-dev.20240112
     dev: false
 
   /dset@3.1.3:
@@ -10890,8 +10899,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  /typescript@5.4.0-dev.20240108:
-    resolution: {integrity: sha512-flXeU+FYwW3mL6zcOz1lNX0juSolUIeIRs4nO8j77jB+N/3lrqWNOSz05dzRC4eYJcjFIIOvv5y9u8MQ5nTtzg==}
+  /typescript@5.4.0-dev.20240112:
+    resolution: {integrity: sha512-jpdPO53r47ZiTebHw2O9jKp1ItTtwPe9kc62LGCZHEexROJn1MXChI7l/UmRtItOhOKwe2ZXOBlNMQh4YTMhIg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false

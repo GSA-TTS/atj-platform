@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import {
   addFormSummaryToStorage,
   getFormListFromStorage,
-} from '../../../lib/form-repo';
+} from '@atj/form-service';
 
 export const FormList = () => {
   const navigate = useNavigate();

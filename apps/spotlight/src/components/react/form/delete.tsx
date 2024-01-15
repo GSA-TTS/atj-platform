@@ -1,9 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  deleteFormFromStorage,
-  getFormFromStorage,
-} from '../../../lib/form-repo';
+import { deleteFormFromStorage, getFormFromStorage } from '@atj/form-service';
 
 export const FormDelete = ({ formId }: { formId: string }) => {
   const navigate = useNavigate();
@@ -16,7 +13,7 @@ export const FormDelete = ({ formId }: { formId: string }) => {
     <div>
       <h1>Delete form</h1>
       <div>Are you sure you want to delete the form with id: `{formId}`?</div>
-      <code>{JSON.stringify(form)}</code>
+      <code>{JSON.stringify(form, null, 4)}</code>
       <div>
         <button onClick={deleteForm}>Delete form</button>
       </div>

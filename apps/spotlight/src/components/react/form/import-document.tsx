@@ -1,5 +1,6 @@
 import React from 'react';
-import { getFormFromStorage } from '../../../lib/form-repo';
+import { getFormFromStorage } from '@atj/form-service';
+
 import { DocumentImporter } from '../form-builder/document-importer';
 
 export const FormDocumentImport = ({ formId }: { formId: string }) => {

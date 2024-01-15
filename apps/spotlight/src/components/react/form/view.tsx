@@ -2,9 +2,12 @@ import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Prompt, createFormContext, createPrompt } from '@atj/forms';
-import { getFormFromStorage } from '../../../lib/form-repo';
+import {
+  createBrowserFormService,
+  getFormFromStorage,
+} from '@atj/form-service';
+
 import { PromptSegment } from './prompts';
-import { fillPDF } from '@atj/documents';
 
 // Assuming this is the structure of your JSON data
 export interface Field {
@@ -25,17 +28,45 @@ export const FormViewById = ({ formId }: { formId: string }) => {
   const context = createFormContext(form);
   const prompt = createPrompt(context);
 
-  return <FormView prompt={prompt} />;
+  return (
+    <FormView
+      prompt={prompt}
+      onSubmit={async data => {
+        const formService = createBrowserFormService(
+          fetch,
+          window.localStorage
+        );
+        const submission = await formService.submitForm(formId, data);
+        if (submission.success) {
+          submission.data.forEach(document => {
+            downloadPdfDocument(document.fileName, document.data);
+          });
+        } else {
+          console.error(submission.error);
+        }
+      }}
+    />
+  );
 };
 
-export const FormView = ({ prompt }: { prompt: Prompt }) => {
+export const FormView = ({
+  prompt,
+  onSubmit,
+}: {
+  prompt: Prompt;
+  onSubmit?: (data: Record<string, string>) => void;
+}) => {
   const formMethods = useForm<Record<string, string>>({});
   return (
     <FormProvider {...formMethods}>
       <form
         onSubmit={formMethods.handleSubmit(async data => {
-          console.log(data);
-          //fillPDF();
+          if (onSubmit) {
+            console.log('Submitting form...');
+            onSubmit(data);
+          } else {
+            console.warn('Skipping form submission...');
+          }
         })}
       >
         <fieldset className="usa-fieldset">
@@ -107,4 +138,16 @@ const ButtonBar = () => {
       <button className="usa-button">Submit</button>
     </div>
   );
+};
+
+export const downloadPdfDocument = (fileName: string, pdfData: Uint8Array) => {
+  const blob = new Blob([pdfData], { type: 'application/pdf' });
+  const url = URL.createObjectURL(blob);
+  const element = document.createElement('a');
+  element.setAttribute('href', url);
+  element.setAttribute('download', fileName);
+  element.style.display = 'none';
+  document.body.appendChild(element);
+  element.click();
+  document.body.removeChild(element);
 };

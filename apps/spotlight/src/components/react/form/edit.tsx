@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
 import { Form, addQuestions, createForm, getFlatFieldList } from '@atj/forms';
-import { getFormFromStorage, saveFormToStorage } from '../../../lib/form-repo';
+import { getFormFromStorage, saveFormToStorage } from '@atj/form-service';
 
 export const FormEdit = ({ formId }: { formId: string }) => {
   const form = getFormFromStorage(window.localStorage, formId);
@@ -14,7 +14,6 @@ export const FormEdit = ({ formId }: { formId: string }) => {
     <div>
       <h1>Edit form interface</h1>
       <div>Editing form {formId}</div>
-      <code>{JSON.stringify(form)}</code>
       <ul>
         <li>
           <button
@@ -81,7 +80,7 @@ const EditForm = ({
         {
           fieldType: 'input',
           label: value.text,
-          initial: value.initial,
+          initial: value.initial.toString(),
           required: value.required,
         },
       ];

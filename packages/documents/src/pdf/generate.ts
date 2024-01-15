@@ -1,6 +1,26 @@
 import { PDFDocument, type PDFForm } from 'pdf-lib';
 
+import { DocumentFieldMap } from '@atj/forms';
 import { PDFFieldType } from '.';
+
+export const createDocumentFieldData = (
+  documentFields: DocumentFieldMap,
+  formFields: Record<string, string>,
+  formData: Record<string, string>
+): Record<string, { value: any; type: PDFFieldType }> => {
+  const results = {} as Record<string, { value: any; type: PDFFieldType }>;
+  Object.entries(documentFields).forEach(([documentId, docField]) => {
+    if (docField.type === 'not-supported') {
+      return;
+    }
+    const fieldId = formFields[documentId];
+    results[documentId] = {
+      type: docField.type,
+      value: formData[fieldId],
+    };
+  });
+  return results;
+};
 
 export const fillPDF = async (
   pdfBytes: Uint8Array,

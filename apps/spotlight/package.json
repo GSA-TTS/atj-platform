@@ -12,8 +12,8 @@
   "dependencies": {
     "@astrojs/react": "^3.0.3",
     "@atj/design": "workspace:*",
-    "@atj/docassemble": "workspace:*",
     "@atj/documents": "workspace:*",
+    "@atj/form-service": "workspace:*",
     "@atj/forms": "workspace:*",
     "@atj/interviews": "workspace:*",
     "astro": "^3.5.4",

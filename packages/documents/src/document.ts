@@ -1,45 +1,7 @@
-import { Form, Question, addQuestions } from '@atj/forms';
+import { DocumentFieldMap, Form, Question, addQuestions } from '@atj/forms';
 import { PDFDocument } from './pdf';
 
 export type DocumentTemplate = PDFDocument;
-
-export type DocumentFieldValue =
-  | {
-      type: 'TextField';
-      name: string;
-      label: string;
-      value: string;
-      maxLength?: number;
-      required: boolean;
-    }
-  | {
-      type: 'CheckBox';
-      name: string;
-      label: string;
-      value: boolean;
-      required: boolean;
-    }
-  | {
-      type: 'Dropdown';
-      name: string;
-      label: string;
-      value: string[];
-      required: boolean;
-    }
-  | {
-      type: 'OptionList';
-      name: string;
-      label: string;
-      value: string[];
-      required: boolean;
-    }
-  | {
-      type: 'not-supported';
-      name: string;
-      error: string;
-    };
-
-export type DocumentFieldMap = Record<string, DocumentFieldValue>;
 
 export const addDocumentFieldsToForm = (
   form: Form,

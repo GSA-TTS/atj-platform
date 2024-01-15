@@ -1,37 +1,22 @@
 import React, { PropsWithChildren, useReducer } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import {
-  DocumentFieldMap,
   addDocumentFieldsToForm,
   getDocumentFieldData,
   suggestFormDetails,
 } from '@atj/documents';
+import {
+  DocumentFieldMap,
+  Form,
+  addDocument,
+  createFormContext,
+  createPrompt,
+} from '@atj/forms';
 
 import { onFileInputChangeGetFile } from '../../../lib/file-input';
 import { FormView } from '../form/view';
-import { Form, createFormContext, createPrompt } from '@atj/forms';
-import { saveFormToStorage } from '../../../lib/form-repo';
-import { useNavigate } from 'react-router-dom';
-
-type State = {
-  page: number;
-  form: Form;
-  documentFields?: DocumentFieldMap;
-  previewForm?: Form;
-};
-type Action =
-  | {
-      type: 'SELECT_PDF';
-      data: DocumentFieldMap;
-    }
-  | {
-      type: 'PREVIEW_FORM';
-      data: DocumentFieldMap;
-    }
-  | {
-      type: 'GOTO_PAGE';
-      page: number;
-    };
+import { saveFormToStorage } from '@atj/form-service';
 
 export const DocumentImporter = ({
   formId,
@@ -40,46 +25,7 @@ export const DocumentImporter = ({
   formId: string;
   form: Form;
 }) => {
-  const navigate = useNavigate();
-  const [state, dispatch] = useReducer(
-    (state: State, action: Action) => {
-      if (action.type === 'SELECT_PDF') {
-        return {
-          page: 2,
-          documentFields: action.data,
-          form: state.form,
-        };
-      }
-      if (action.type === 'PREVIEW_FORM') {
-        return {
-          page: 3,
-          documentFields: action.data,
-          form: state.form,
-        };
-      }
-      if (action.type === 'GOTO_PAGE') {
-        return {
-          ...state,
-          page: action.page,
-          form: state.form,
-        };
-      }
-      return state;
-    },
-    {
-      page: 1,
-      form: form,
-    }
-  );
-
-  const selectDocumentByUrl = async (url: string) => {
-    const response = await fetch(url);
-    const blob = await response.blob();
-    const data = new Uint8Array(await blob.arrayBuffer());
-    const fieldData = await getDocumentFieldData(data);
-    const fieldInfo = suggestFormDetails(fieldData);
-    dispatch({ type: 'SELECT_PDF', data: fieldInfo });
-  };
+  const { state, actions } = useDocumentImporter(form);
 
   const Step: React.FC<
     PropsWithChildren<{ title: string; step: number; current: number }>
@@ -108,7 +54,7 @@ export const DocumentImporter = ({
         <li className="usa-step-indicator__segment usa-step-indicator__segment--complete">
           <button
             className="usa-button--unstyled"
-            onClick={() => dispatch({ type: 'GOTO_PAGE', page: step })}
+            onClick={() => actions.gotoPage(step)}
           >
             <span className="usa-step-indicator__segment-label">
               {title}
@@ -140,9 +86,7 @@ export const DocumentImporter = ({
               type="file"
               accept=".pdf"
               onChange={onFileInputChangeGetFile(async fileDetails => {
-                const fieldData = await getDocumentFieldData(fileDetails.data);
-                const fieldInfo = suggestFormDetails(fieldData);
-                dispatch({ type: 'SELECT_PDF', data: fieldInfo });
+                actions.stepOneSelectPdfByUpload(fileDetails);
               })}
             />
           </div>
@@ -152,7 +96,7 @@ export const DocumentImporter = ({
           <button
             className="usa-button--unstyled"
             onClick={async () => {
-              selectDocumentByUrl(
+              actions.stepOneSelectPdfByUrl(
                 'sample-documents/ca-unlawful-detainer/ud105.pdf'
               );
             }}
@@ -162,7 +106,7 @@ export const DocumentImporter = ({
           <button
             className="usa-button--unstyled"
             onClick={async () => {
-              selectDocumentByUrl(
+              actions.stepOneSelectPdfByUrl(
                 'sample-documents/alabama-name-change/ps-12.pdf'
               );
             }}
@@ -187,10 +131,7 @@ export const DocumentImporter = ({
       <form
         className="usa-form usa-form--large"
         onSubmit={event => {
-          dispatch({
-            type: 'PREVIEW_FORM',
-            data: state.documentFields || {},
-          });
+          actions.stepTwoConfirmFields();
         }}
       >
         {/*<EditFieldset fields={state.suggestedForm} />*/}
@@ -212,13 +153,17 @@ export const DocumentImporter = ({
     const prompt = createPrompt(formContext);
     return (
       <>
-        <FormView prompt={prompt} />
+        <FormView
+          prompt={prompt}
+          onSubmit={data => {
+            //handleFormSubmission(formId, data);
+            console.log(formId, data);
+          }}
+        />
         <form
           className="usa-form usa-form--large"
           onSubmit={event => {
-            event.preventDefault();
-            saveFormToStorage(window.localStorage, formId, previewForm);
-            navigate(`/${formId}/edit`);
+            actions.stepThreeSaveForm(formId);
           }}
         >
           <ButtonBar />
@@ -242,4 +187,127 @@ export const DocumentImporter = ({
       {state.page === 3 && <PreviewFormPage />}
     </div>
   );
+};
+
+type State = {
+  page: number;
+  previewForm: Form;
+  documentFields?: DocumentFieldMap;
+};
+
+const useDocumentImporter = (form: Form) => {
+  const navigate = useNavigate();
+  const [state, dispatch] = useReducer(
+    (
+      state: State,
+      action:
+        | {
+            type: 'SELECT_PDF';
+            data: {
+              path: string;
+              fields: DocumentFieldMap;
+              previewForm: Form;
+            };
+          }
+        | {
+            type: 'PREVIEW_FORM';
+          }
+        | {
+            type: 'GOTO_PAGE';
+            page: number;
+          }
+    ) => {
+      if (action.type === 'SELECT_PDF') {
+        return {
+          page: 2,
+          previewForm: action.data.previewForm,
+          documentFields: action.data.fields,
+        };
+      }
+      if (action.type === 'PREVIEW_FORM') {
+        return {
+          page: 3,
+          documentFields: state.documentFields,
+          previewForm: state.previewForm,
+        };
+      }
+      if (action.type === 'GOTO_PAGE') {
+        return {
+          ...state,
+          page: action.page,
+          previewForm: state.previewForm,
+          documentFields: state.documentFields,
+        };
+      }
+      return state;
+    },
+    {
+      page: 1,
+      previewForm: form,
+    }
+  );
+  return {
+    state,
+    actions: {
+      async stepOneSelectPdfByUrl(url: string) {
+        const completeUrl = `${(import.meta as any).env.BASE_URL}${url}`;
+        const response = await fetch(completeUrl);
+        const blob = await response.blob();
+        const data = new Uint8Array(await blob.arrayBuffer());
+        const fieldData = await getDocumentFieldData(data);
+        const fields = suggestFormDetails(fieldData);
+        const withFields = addDocumentFieldsToForm(state.previewForm, fields);
+        const withDocument = addDocument(withFields, {
+          data,
+          path: url,
+          fields: fieldData,
+          formFields: fields,
+        });
+        console.log('withDocument', withDocument);
+        dispatch({
+          type: 'SELECT_PDF',
+          data: {
+            path: url,
+            fields,
+            previewForm: withDocument,
+          },
+        });
+      },
+      async stepOneSelectPdfByUpload(fileDetails: {
+        name: string;
+        data: Uint8Array;
+      }) {
+        const fieldData = await getDocumentFieldData(fileDetails.data);
+        const fieldMap = suggestFormDetails(fieldData);
+        const withFields = addDocumentFieldsToForm(state.previewForm, fieldMap);
+        const withDocument = addDocument(withFields, {
+          data: fileDetails.data,
+          path: fileDetails.name,
+          fields: fieldData,
+          formFields: fieldMap,
+        });
+        dispatch({
+          type: 'SELECT_PDF',
+          data: {
+            path: fileDetails.name,
+            fields: fieldData,
+            previewForm: withDocument,
+          },
+        });
+      },
+      stepTwoConfirmFields() {
+        dispatch({
+          type: 'PREVIEW_FORM',
+        });
+      },
+      stepThreeSaveForm(formId: string) {
+        console.log('saving form', state.previewForm);
+        saveFormToStorage(window.localStorage, formId, state.previewForm);
+        navigate(`/${formId}/edit`);
+      },
+      gotoPage(step: number) {
+        dispatch({ type: 'GOTO_PAGE', page: step });
+      },
+    },
+  };
 };
