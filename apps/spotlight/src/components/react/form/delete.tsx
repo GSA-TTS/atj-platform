@@ -1,12 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { deleteFormFromStorage, getFormFromStorage } from '@atj/form-service';
+import { createBrowserFormService } from '@atj/form-service';
 
 export const FormDelete = ({ formId }: { formId: string }) => {
   const navigate = useNavigate();
-  const form = getFormFromStorage(window.localStorage, formId);
+  const service = createBrowserFormService();
+  const form = service.getForm(formId);
   const deleteForm = () => {
-    deleteFormFromStorage(window.localStorage, formId);
+    service.deleteForm(formId);
     navigate('/');
   };
   return (

@@ -1,14 +1,13 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
-import {
-  addFormSummaryToStorage,
-  getFormListFromStorage,
-} from '@atj/form-service';
+import { createBrowserFormService } from '@atj/form-service';
+import { createForm } from '@atj/forms';
 
 export const FormList = () => {
   const navigate = useNavigate();
-  const formIds = getFormListFromStorage(window.localStorage);
+  const formService = createBrowserFormService();
+  const formIds = formService.getFormList();
   return (
     <>
       <ul className="usa-list usa-list--unstyled">
@@ -32,10 +31,11 @@ export const FormList = () => {
             console.error('required fields not found');
             return;
           }
-          const result = addFormSummaryToStorage(window.localStorage, {
+          const form = createForm({
             title,
             description,
           });
+          const result = formService.addForm(form);
           if (result.success) {
             navigate(`/${result.data}/edit`);
           } else {

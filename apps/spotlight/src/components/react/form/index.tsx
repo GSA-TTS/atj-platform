@@ -3,9 +3,9 @@ import { useParams, HashRouter, Route, Routes } from 'react-router-dom';
 
 import { FormDelete } from './delete';
 import { FormEdit } from './edit';
+import { FormDocumentImport } from './import-document';
 import { FormList } from './list';
 import { FormViewById } from './view';
-import { FormDocumentImport } from './import-document';
 
 export const FormSection = () => {
   return (

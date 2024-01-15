@@ -18,18 +18,25 @@ export const getFormListFromStorage = (storage: Storage) => {
   const keys = [];
   for (let i = 0; i < storage.length; i++) {
     const key = storage.key(i);
+    if (key === null) {
+      throw new Error('unexpected out of range error');
+    }
     keys.push(key);
   }
   return keys;
 };
 
-export const addFormSummaryToStorage = (
+export const addFormToStorage = (
   storage: Storage,
-  summary: FormSummary
-) => {
-  const form = createForm(summary);
+  form: Form
+): Result<string> => {
   const uuid = crypto.randomUUID();
-  storage.setItem(uuid, stringifyForm(form));
+
+  const result = saveFormToStorage(storage, uuid, form);
+  if (!result.success) {
+    return result;
+  }
+
   return {
     success: true,
     data: uuid,
@@ -41,9 +48,16 @@ export const saveFormToStorage = (
   formId: string,
   form: Form
 ) => {
-  storage.setItem(formId, stringifyForm(form));
+  try {
+    storage.setItem(formId, stringifyForm(form));
+  } catch {
+    return {
+      success: false as const,
+      error: `error saving '${formId}' to storage`,
+    };
+  }
   return {
-    success: true,
+    success: true as const,
   };
 };
 

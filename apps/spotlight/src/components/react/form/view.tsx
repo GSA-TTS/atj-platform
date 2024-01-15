@@ -1,10 +1,10 @@
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { Prompt, createFormContext, createPrompt } from '@atj/forms';
-import { submitForm } from '@atj/form-service';
+import { type Prompt, createFormContext, createPrompt } from '@atj/forms';
 
 import { PromptSegment } from './prompts';
+import { createBrowserFormService } from '@atj/form-service';
 
 // Assuming this is the structure of your JSON data
 export interface Field {
@@ -17,8 +17,9 @@ export interface Field {
 }
 
 export const FormViewById = ({ formId }: { formId: string }) => {
+  const formService = createBrowserFormService();
   // Fallback to hardcoded data if a magic ID is chosen.
-  const form = getFormFromStorage(window.localStorage, formId);
+  const form = formService.getForm(formId);
   if (!form) {
     return 'null form retrieved from storage';
   }
@@ -29,11 +30,7 @@ export const FormViewById = ({ formId }: { formId: string }) => {
     <FormView
       prompt={prompt}
       onSubmit={async data => {
-        const submission = await submitForm(
-          { storage: window.localStorage },
-          formId,
-          data
-        );
+        const submission = await formService.submitForm(formId, data);
         if (submission.success) {
           submission.data.forEach(document => {
             downloadPdfDocument(document.fileName, document.data);

@@ -2,11 +2,12 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
+import { createBrowserFormService } from '@atj/form-service';
 import { Form, addQuestions, createForm, getFlatFieldList } from '@atj/forms';
-import { getFormFromStorage, saveFormToStorage } from '@atj/form-service';
 
 export const FormEdit = ({ formId }: { formId: string }) => {
-  const form = getFormFromStorage(window.localStorage, formId);
+  const formService = createBrowserFormService();
+  const form = formService.getForm(formId);
   if (!form) {
     return 'Form not found';
   }
@@ -33,7 +34,7 @@ export const FormEdit = ({ formId }: { formId: string }) => {
                   required: true,
                 },
               ]);
-              saveFormToStorage(window.localStorage, formId, newForm);
+              formService.saveForm(formId, newForm);
               window.location.reload();
             }}
           >
@@ -52,7 +53,7 @@ export const FormEdit = ({ formId }: { formId: string }) => {
       </ul>
       <EditForm
         form={form}
-        onSave={form => saveFormToStorage(window.localStorage, formId, form)}
+        onSave={form => formService.saveForm(formId, form)}
       />
     </div>
   );

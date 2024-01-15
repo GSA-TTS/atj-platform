@@ -2,16 +2,16 @@ import React, { PropsWithChildren, useReducer } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { addDocument, addDocumentFieldsToForm } from '@atj/documents';
+import { createBrowserFormService } from '@atj/form-service';
 import {
-  DocumentFieldMap,
-  Form,
+  type DocumentFieldMap,
+  type Form,
   createFormContext,
   createPrompt,
 } from '@atj/forms';
 
 import { onFileInputChangeGetFile } from '../../../lib/file-input';
 import { FormView } from '../form/view';
-import { saveFormToStorage } from '@atj/form-service';
 
 export const DocumentImporter = ({
   formId,
@@ -192,6 +192,7 @@ type State = {
 
 const useDocumentImporter = (form: Form) => {
   const navigate = useNavigate();
+  const formService = createBrowserFormService();
   const [state, dispatch] = useReducer(
     (
       state: State,
@@ -289,8 +290,7 @@ const useDocumentImporter = (form: Form) => {
         });
       },
       stepThreeSaveForm(formId: string) {
-        console.log('saving form', state.previewForm);
-        saveFormToStorage(window.localStorage, formId, state.previewForm);
+        formService.saveForm(formId, state.previewForm);
         navigate(`/${formId}/edit`);
       },
       gotoPage(step: number) {
