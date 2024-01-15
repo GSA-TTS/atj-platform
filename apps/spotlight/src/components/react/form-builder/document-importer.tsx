@@ -254,22 +254,20 @@ const useDocumentImporter = (form: Form) => {
         const response = await fetch(completeUrl);
         const blob = await response.blob();
         const data = new Uint8Array(await blob.arrayBuffer());
-        const fieldData = await getDocumentFieldData(data);
-        const fields = suggestFormDetails(fieldData);
-        const withFields = addDocumentFieldsToForm(state.previewForm, fields);
-        const withDocument = addDocument(withFields, {
-          data,
-          path: url,
-          fields: fieldData,
-          formFields: fields,
-        });
-        console.log('withDocument', withDocument);
+
+        const { fields, updatedForm } = await addDocumentAndData(
+          state.previewForm,
+          {
+            name: url,
+            data,
+          }
+        );
         dispatch({
           type: 'SELECT_PDF',
           data: {
             path: url,
             fields,
-            previewForm: withDocument,
+            previewForm: updatedForm,
           },
         });
       },
@@ -277,21 +275,16 @@ const useDocumentImporter = (form: Form) => {
         name: string;
         data: Uint8Array;
       }) {
-        const fieldData = await getDocumentFieldData(fileDetails.data);
-        const fieldMap = suggestFormDetails(fieldData);
-        const withFields = addDocumentFieldsToForm(state.previewForm, fieldMap);
-        const withDocument = addDocument(withFields, {
-          data: fileDetails.data,
-          path: fileDetails.name,
-          fields: fieldData,
-          formFields: fieldMap,
-        });
+        const { fields, updatedForm } = await addDocumentAndData(
+          state.previewForm,
+          fileDetails
+        );
         dispatch({
           type: 'SELECT_PDF',
           data: {
             path: fileDetails.name,
-            fields: fieldData,
-            previewForm: withDocument,
+            fields,
+            previewForm: updatedForm,
           },
         });
       },
@@ -309,5 +302,27 @@ const useDocumentImporter = (form: Form) => {
         dispatch({ type: 'GOTO_PAGE', page: step });
       },
     },
+  };
+};
+
+const addDocumentAndData = async (
+  form: Form,
+  fileDetails: {
+    name: string;
+    data: Uint8Array;
+  }
+) => {
+  const fields = await getDocumentFieldData(fileDetails.data);
+  const fieldMap = suggestFormDetails(fields);
+  const withFields = addDocumentFieldsToForm(form, fieldMap);
+  const updatedForm = addDocument(withFields, {
+    data: fileDetails.data,
+    path: fileDetails.name,
+    fields,
+    formFields: fieldMap,
+  });
+  return {
+    fields,
+    updatedForm,
   };
 };
