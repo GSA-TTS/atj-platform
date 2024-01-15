@@ -19,11 +19,11 @@ export interface Field {
 export const FormViewById = ({ formId }: { formId: string }) => {
   const formService = createBrowserFormService();
   // Fallback to hardcoded data if a magic ID is chosen.
-  const form = formService.getForm(formId);
-  if (!form) {
+  const result = formService.getForm(formId);
+  if (!result.success) {
     return 'null form retrieved from storage';
   }
-  const context = createFormContext(form);
+  const context = createFormContext(result.data);
   const prompt = createPrompt(context);
 
   return (

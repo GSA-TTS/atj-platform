@@ -7,11 +7,14 @@ import { createForm } from '@atj/forms';
 export const FormList = () => {
   const navigate = useNavigate();
   const formService = createBrowserFormService();
-  const formIds = formService.getFormList();
+  const result = formService.getFormList();
+  if (!result.success) {
+    return <div>Error loading form list</div>;
+  }
   return (
     <>
       <ul className="usa-list usa-list--unstyled">
-        {formIds.map((formId, index) => (
+        {result.data.map((formId, index) => (
           <li key={index}>
             {formId} <Link to={`/${formId}`}>View</Link> /{' '}
             <Link to={`/${formId}/edit`}>Edit</Link> /{' '}

@@ -6,7 +6,14 @@ export const submitForm = async (
   ctx: { storage: Storage },
   formId: string,
   formData: Record<string, string>
-) => {
+): Promise<
+  Result<
+    {
+      fileName: string;
+      data: Uint8Array;
+    }[]
+  >
+> => {
   const form = getFormFromStorage(ctx.storage, formId);
   if (form === null) {
     return Promise.resolve({

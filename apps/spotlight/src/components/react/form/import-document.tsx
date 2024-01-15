@@ -6,9 +6,9 @@ import { DocumentImporter } from '../form-builder/document-importer';
 export const FormDocumentImport = ({ formId }: { formId: string }) => {
   const formService = createBrowserFormService();
   // Fallback to hardcoded data if a magic ID is chosen.
-  const form = formService.getForm(formId);
-  if (!form) {
+  const result = formService.getForm(formId);
+  if (!result.success) {
     return 'null form retrieved from storage';
   }
-  return <DocumentImporter formId={formId} form={form} />;
+  return <DocumentImporter formId={formId} form={result.data} />;
 };

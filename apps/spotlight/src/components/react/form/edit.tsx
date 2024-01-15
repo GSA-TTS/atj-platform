@@ -7,10 +7,11 @@ import { Form, addQuestions, createForm, getFlatFieldList } from '@atj/forms';
 
 export const FormEdit = ({ formId }: { formId: string }) => {
   const formService = createBrowserFormService();
-  const form = formService.getForm(formId);
-  if (!form) {
+  const result = formService.getForm(formId);
+  if (!result.success) {
     return 'Form not found';
   }
+  const form = result.data;
   return (
     <div>
       <h1>Edit form interface</h1>

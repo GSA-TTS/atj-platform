@@ -3,8 +3,11 @@ import {
   getFormFromStorage,
 } from '../context/browser/form-repo';
 
-export const deleteForm = (formId: string) => {
-  const form = getFormFromStorage(window.localStorage, formId);
+export const deleteForm = (
+  ctx: { storage: Storage },
+  formId: string
+): VoidResult => {
+  const form = getFormFromStorage(ctx.storage, formId);
   if (form === null) {
     return {
       success: false,

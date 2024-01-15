@@ -5,7 +5,11 @@ import { createBrowserFormService } from '@atj/form-service';
 export const FormDelete = ({ formId }: { formId: string }) => {
   const navigate = useNavigate();
   const service = createBrowserFormService();
-  const form = service.getForm(formId);
+  const result = service.getForm(formId);
+  if (!result.success) {
+    return <div>Form {formId} not found.</div>;
+  }
+  const form = result.data;
   const deleteForm = () => {
     service.deleteForm(formId);
     navigate('/');

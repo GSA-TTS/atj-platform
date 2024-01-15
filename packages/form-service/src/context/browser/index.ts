@@ -1,12 +1,10 @@
+import { addForm } from '../../operations/add-form';
+import { deleteForm } from '../../operations/delete-form';
+import { getForm } from '../../operations/get-form';
+import { getFormList } from '../../operations/get-form-list';
+import { saveForm } from '../../operations/save-form';
 import { submitForm } from '../../operations/submit-form';
-import { FormService } from '../../types';
-import {
-  addFormToStorage,
-  deleteFormFromStorage,
-  getFormFromStorage,
-  getFormListFromStorage,
-  saveFormToStorage,
-} from './form-repo';
+import type { FormService } from '../../types';
 
 type BrowserContext = {
   storage: Storage;
@@ -22,19 +20,19 @@ export const createBrowserFormService = (
   const ctx = opts || createDefaultBrowserContext();
   return {
     addForm(form) {
-      return addFormToStorage(ctx.storage, form);
+      return addForm(ctx, form);
     },
     deleteForm(formId) {
-      return deleteFormFromStorage(ctx.storage, formId);
+      return deleteForm(ctx, formId);
     },
     getForm(formId) {
-      return getFormFromStorage(ctx.storage, formId);
+      return getForm(ctx, formId);
     },
     getFormList() {
-      return getFormListFromStorage(ctx.storage);
+      return getFormList(ctx);
     },
     saveForm(formId, form) {
-      saveFormToStorage(ctx.storage, formId, form);
+      return saveForm(ctx, formId, form);
     },
     submitForm(formId, formData) {
       return submitForm(ctx, formId, formData);

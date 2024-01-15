@@ -14,12 +14,12 @@ export const getFormFromStorage = (
   return parseStringForm(formString);
 };
 
-export const getFormListFromStorage = (storage: Storage) => {
+export const getFormListFromStorage = (storage: Storage): string[] | null => {
   const keys = [];
   for (let i = 0; i < storage.length; i++) {
     const key = storage.key(i);
     if (key === null) {
-      throw new Error('unexpected out of range error');
+      return null;
     }
     keys.push(key);
   }
