@@ -19,12 +19,16 @@ export const addDocument = async (
 ) => {
   const fields = await getDocumentFieldData(fileDetails.data);
   const fieldMap = suggestFormDetails(fields);
-  const withFields = addDocumentFieldsToForm(form, fieldMap);
-  const updatedForm = addFormOutput(withFields, {
+  const formWithFields = addDocumentFieldsToForm(form, fieldMap);
+  const updatedForm = addFormOutput(formWithFields, {
     data: fileDetails.data,
     path: fileDetails.name,
     fields,
-    formFields: fieldMap,
+    // TODO: for now, reuse the field IDs from the PDF. we need to generate
+    // unique ones, instead.
+    formFields: Object.fromEntries(
+      Object.keys(fieldMap).map(field => [field, field])
+    ),
   });
   return {
     newFields: fields,

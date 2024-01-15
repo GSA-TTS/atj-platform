@@ -1,4 +1,4 @@
-import { DocumentFieldMap } from './document';
+import { DocumentFieldMap } from '@atj/forms';
 
 export type SuggestedForm = {
   id: string;
