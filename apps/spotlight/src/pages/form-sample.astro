@@ -1,10 +1,10 @@
 ---
 import { createSequentialInterview } from '@atj/interviews';
 import { getAppContext } from '../context';
-import { InterviewForm } from '../components/react/interview-form';
+import { InterviewForm } from '../components/react/experiments/interview-form';
 import ContentLayout from '../layouts/ContentLayout.astro';
 
-const context = getAppContext(import.meta.env);
+const context = getAppContext();
 
 const sampleInterview = createSequentialInterview({
   summary: {
@@ -47,6 +47,6 @@ const sampleInterview = createSequentialInterview({
 });
 ---
 
-<ContentLayout context={context} title="10x Access to Justice Spotlight">
+<ContentLayout title="10x Access to Justice Spotlight">
   <InterviewForm client:load interview={sampleInterview} />
 </ContentLayout>

@@ -7,7 +7,7 @@ const githubRepository = await getGithubRepository(process.env);
 
 // https://astro.build/config
 export default defineConfig({
-  base: process.env.BASEURL || '/',
+  base: addTrailingSlash(process.env.BASEURL || ''),
   integrations: [
     react({
       include: ['src/components/react/**'],
@@ -19,3 +19,11 @@ export default defineConfig({
     },
   },
 });
+
+function addTrailingSlash(path) {
+  var lastChar = path.substr(-1);
+  if (lastChar === '/') {
+    return path;
+  }
+  return path + '/';
+}

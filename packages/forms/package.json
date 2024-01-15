@@ -1,7 +1,7 @@
 {
   "name": "@atj/forms",
   "version": "1.0.0",
-  "description": "10x ATJ business logic",
+  "description": "10x ATJ form handling",
   "license": "CC0",
   "main": "src/index.ts",
   "scripts": {

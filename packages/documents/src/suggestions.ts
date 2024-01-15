@@ -1,4 +1,4 @@
-import { ExtractedDocumentData } from './extract';
+import { DocumentFieldMap } from '@atj/forms';
 
 export type SuggestedForm = {
   id: string;
@@ -8,11 +8,15 @@ export type SuggestedForm = {
   value?: string;
   type?: 'text';
 }[];
-export const suggestFormDetails = (docData: ExtractedDocumentData) => {
+export const suggestFormDetails = (
+  docData: DocumentFieldMap
+): DocumentFieldMap => {
+  /*
   const cache = getFakeCache();
   const hash = getObjectHash(docData);
   const data = cache.get(hash);
-  return data as SuggestedForm;
+  */
+  return docData;
 };
 
 const getFakeCache = () => {
@@ -26,7 +30,7 @@ const getFakeCache = () => {
   };
 };
 
-const getObjectHash = (docData: ExtractedDocumentData) => {
+const getObjectHash = (docData: any) => {
   return 'hardcoded-hash';
 };
 

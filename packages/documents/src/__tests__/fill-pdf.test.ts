@@ -1,6 +1,6 @@
 import { beforeAll, describe, expect, it } from 'vitest';
 
-import { extractFormFieldData, fillPDF } from '..';
+import { getDocumentFieldData, fillPDF } from '..';
 import { loadSamplePDF } from './sample-data';
 
 describe('PDF form filler', () => {
@@ -28,23 +28,104 @@ describe('PDF form filler', () => {
       Weight: { type: 'TextField', value: 'weightField' },
     })) as Success<Uint8Array>;
     expect(result.success).toEqual(true);
-    const fields = await extractFormFieldData(result.data);
-
+    const fields = await getDocumentFieldData(result.data);
     expect(fields).toEqual({
-      'CHARACTER IMAGE': { type: 'not-supported', value: 'not-supported' },
-      'CharacterName 2': { type: 'TextField', value: 'nameField' },
-      'Faction Symbol Image': { type: 'TextField' },
-      'Feat+Traits': { type: 'TextField', value: 'traitsField' },
-      Age: { type: 'TextField', value: 'ageField' },
-      Allies: { type: 'TextField', value: 'alliesField' },
-      Backstory: { type: 'TextField', value: 'backStoryField' },
-      Eyes: { type: 'TextField', value: 'eyesField' },
-      FactionName: { type: 'TextField', value: 'factionField' },
-      Hair: { type: 'TextField', value: 'hairField' },
-      Height: { type: 'TextField', value: 'heightField' },
-      Skin: { type: 'TextField', value: 'skinField' },
-      Treasure: { type: 'TextField', value: 'treasureField' },
-      Weight: { type: 'TextField', value: 'weightField' },
+      'CharacterName 2': {
+        type: 'TextField',
+        name: 'CharacterName 2',
+        label: 'CharacterName 2',
+        value: 'nameField',
+        required: false,
+      },
+      Age: {
+        type: 'TextField',
+        name: 'Age',
+        label: 'Age',
+        value: 'ageField',
+        required: false,
+      },
+      Height: {
+        type: 'TextField',
+        name: 'Height',
+        label: 'Height',
+        value: 'heightField',
+        required: false,
+      },
+      Weight: {
+        type: 'TextField',
+        name: 'Weight',
+        label: 'Weight',
+        value: 'weightField',
+        required: false,
+      },
+      Eyes: {
+        type: 'TextField',
+        name: 'Eyes',
+        label: 'Eyes',
+        value: 'eyesField',
+        required: false,
+      },
+      Skin: {
+        type: 'TextField',
+        name: 'Skin',
+        label: 'Skin',
+        value: 'skinField',
+        required: false,
+      },
+      Hair: {
+        type: 'TextField',
+        name: 'Hair',
+        label: 'Hair',
+        value: 'hairField',
+        required: false,
+      },
+      Allies: {
+        type: 'TextField',
+        name: 'Allies',
+        label: 'Allies',
+        value: 'alliesField',
+        required: false,
+      },
+      FactionName: {
+        type: 'TextField',
+        name: 'FactionName',
+        label: 'FactionName',
+        value: 'factionField',
+        required: false,
+      },
+      Backstory: {
+        type: 'TextField',
+        name: 'Backstory',
+        label: 'Backstory',
+        value: 'backStoryField',
+        required: false,
+      },
+      'Feat+Traits': {
+        type: 'TextField',
+        name: 'Feat+Traits',
+        label: 'Feat+Traits',
+        value: 'traitsField',
+        required: false,
+      },
+      Treasure: {
+        type: 'TextField',
+        name: 'Treasure',
+        label: 'Treasure',
+        value: 'treasureField',
+        required: false,
+      },
+      'CHARACTER IMAGE': {
+        type: 'not-supported',
+        name: 'CHARACTER IMAGE',
+        error: 'unsupported type: PDFButton',
+      },
+      'Faction Symbol Image': {
+        type: 'TextField',
+        name: 'Faction Symbol Image',
+        label: 'Faction Symbol Image',
+        value: '',
+        required: false,
+      },
     });
   });
 

@@ -1,12 +1,9 @@
 ---
-import { getAppContext } from '../context';
-import DynamicForm from '../components/react/dynamic-form';
+import { FormView } from '../components/react/form/view';
 import formData from '../htmlParser/ud105-form-field-output.json';
 import ContentLayout from '../layouts/ContentLayout.astro';
-
-const context = getAppContext(import.meta.env);
 ---
 
-<ContentLayout context={context} title="10x Access to Justice Spotlight">
-  <DynamicForm fields={formData} />
+<ContentLayout title="10x Access to Justice Spotlight">
+  <FormView prompt={formData} />
 </ContentLayout>

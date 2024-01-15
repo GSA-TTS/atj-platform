@@ -11,7 +11,7 @@ export class FormService extends Construct {
     super(scope, id);
 
     const config = {
-      path: '../../apps/form-service/dist',
+      path: '../../apps/rest-api/dist',
       handler: 'index.lambdaHandler',
       runtime: 'nodejs18.x',
     };

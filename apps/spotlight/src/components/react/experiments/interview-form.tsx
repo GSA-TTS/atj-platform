@@ -5,8 +5,8 @@ import {
   createInterviewContext,
   nextContext,
 } from '@atj/interviews';
-import { Field } from '@atj/interviews/src/prompt';
-import { BooleanFact, TextFact } from '@atj/interviews/src/fact';
+import { Field } from '@atj/interviews';
+import { BooleanFact, TextFact } from '@atj/interviews';
 
 const form = {
   action: 'https://yaawr84uu7.execute-api.us-east-2.amazonaws.com',

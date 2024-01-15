@@ -12,13 +12,16 @@
   "dependencies": {
     "@astrojs/react": "^3.0.3",
     "@atj/design": "workspace:*",
-    "@atj/docassemble": "workspace:*",
     "@atj/documents": "workspace:*",
+    "@atj/form-service": "workspace:*",
+    "@atj/forms": "workspace:*",
     "@atj/interviews": "workspace:*",
     "astro": "^3.5.4",
     "cheerio": "1.0.0-rc.12",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.49.3",
+    "react-router-dom": "^6.21.1"
   },
   "devDependencies": {
     "@astrojs/check": "^0.3.1",

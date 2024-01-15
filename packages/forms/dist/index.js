@@ -20,34 +20,79 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var src_exports = {};
 __export(src_exports, {
+  addFormOutput: () => addFormOutput,
+  addQuestions: () => addQuestions,
   createForm: () => createForm,
+  createFormContext: () => createFormContext,
+  createPrompt: () => createPrompt,
+  getFlatFieldList: () => getFlatFieldList,
   updateForm: () => updateForm
 });
 module.exports = __toCommonJS(src_exports);
-var createForm = (questions) => {
+
+// src/prompts/index.ts
+var createPrompt = (formContext) => {
+  const parts = [
+    {
+      type: "form-summary",
+      title: formContext.form.summary.title,
+      description: formContext.form.summary.description
+    }
+  ];
+  if (formContext.form.strategy.type === "sequential") {
+    parts.push(
+      ...formContext.form.strategy.order.map((questionId) => {
+        const question = formContext.form.questions[questionId];
+        return {
+          type: "text",
+          id: question.id,
+          value: formContext.context.values[questionId],
+          label: question.text,
+          required: question.required
+        };
+      })
+    );
+  } else if (formContext.form.strategy.type === "null") {
+  } else {
+    const _exhaustiveCheck = formContext.form.strategy;
+  }
+  return parts;
+};
+
+// src/index.ts
+var createForm = (summary, questions = []) => {
+  return {
+    summary,
+    questions: getQuestionMap(questions),
+    strategy: {
+      type: "sequential",
+      order: questions.map((question) => {
+        return question.id;
+      })
+    },
+    documents: []
+  };
+};
+var createFormContext = (form) => {
   return {
     context: {
       errors: {},
       values: Object.fromEntries(
-        questions.map((question) => {
+        Object.values(form.questions).map((question) => {
           return [question.id, question.initial];
         })
       )
     },
-    questions: Object.fromEntries(
-      questions.map((question) => {
-        return [question.id, question];
-      })
-    )
+    form
   };
 };
-var updateForm = (form, id, value) => {
-  if (!(id in form.questions)) {
+var updateForm = (context, id, value) => {
+  if (!(id in context.form.questions)) {
     console.error(`Question "${id}" does not exist on form.`);
-    return form;
+    return context;
   }
-  const nextForm = addValue(form, id, value);
-  if (form.questions[id].required && !value) {
+  const nextForm = addValue(context, id, value);
+  if (context.form.questions[id].required && !value) {
     return addError(nextForm, id, "Required value not provided.");
   }
   return nextForm;
@@ -72,8 +117,49 @@ var addError = (form, id, error) => ({
     }
   }
 });
+var getQuestionMap = (questions) => {
+  return Object.fromEntries(
+    questions.map((question) => {
+      return [question.id, question];
+    })
+  );
+};
+var addQuestions = (form, questions) => {
+  const questionMap = getQuestionMap(questions);
+  return {
+    ...form,
+    questions: { ...form.questions, ...questionMap },
+    strategy: {
+      ...form.strategy,
+      order: [...form.strategy.order, ...Object.keys(questionMap)]
+    }
+  };
+};
+var getFlatFieldList = (form) => {
+  if (form.strategy.type === "sequential") {
+    return form.strategy.order.map((questionId) => {
+      return form.questions[questionId];
+    });
+  } else if (form.strategy.type === "null") {
+    return [];
+  } else {
+    const _exhaustiveCheck = form.strategy;
+    return _exhaustiveCheck;
+  }
+};
+var addFormOutput = (form, document) => {
+  return {
+    ...form,
+    documents: [...form.documents, document]
+  };
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  addFormOutput,
+  addQuestions,
   createForm,
+  createFormContext,
+  createPrompt,
+  getFlatFieldList,
   updateForm
 });

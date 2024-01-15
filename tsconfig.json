@@ -27,7 +27,16 @@
       "path": "./packages/documents/tsconfig.json"
     },
     {
+      "path": "./packages/form-service/tsconfig.json"
+    },
+    {
+      "path": "./packages/forms/tsconfig.json"
+    },
+    {
       "path": "./packages/interviews/tsconfig.json"
+    },
+    {
+      "path": "./apps/spotlight/tsconfig.json"
     }
   ],
   "files": [
