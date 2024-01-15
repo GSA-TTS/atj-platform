@@ -2,10 +2,7 @@ import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { Prompt, createFormContext, createPrompt } from '@atj/forms';
-import {
-  createBrowserFormService,
-  getFormFromStorage,
-} from '@atj/form-service';
+import { submitForm } from '@atj/form-service';
 
 import { PromptSegment } from './prompts';
 
@@ -32,11 +29,11 @@ export const FormViewById = ({ formId }: { formId: string }) => {
     <FormView
       prompt={prompt}
       onSubmit={async data => {
-        const formService = createBrowserFormService(
-          fetch,
-          window.localStorage
+        const submission = await submitForm(
+          { storage: window.localStorage },
+          formId,
+          data
         );
-        const submission = await formService.submitForm(formId, data);
         if (submission.success) {
           submission.data.forEach(document => {
             downloadPdfDocument(document.fileName, document.data);

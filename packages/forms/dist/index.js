@@ -20,7 +20,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var src_exports = {};
 __export(src_exports, {
-  addDocument: () => addDocument,
+  addFormOutput: () => addFormOutput,
   addQuestions: () => addQuestions,
   createForm: () => createForm,
   createFormContext: () => createFormContext,
@@ -147,7 +147,7 @@ var getFlatFieldList = (form) => {
     return _exhaustiveCheck;
   }
 };
-var addDocument = (form, document) => {
+var addFormOutput = (form, document) => {
   return {
     ...form,
     documents: [...form.documents, document]
@@ -155,7 +155,7 @@ var addDocument = (form, document) => {
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  addDocument,
+  addFormOutput,
   addQuestions,
   createForm,
   createFormContext,
