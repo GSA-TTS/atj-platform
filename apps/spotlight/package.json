@@ -6,8 +6,7 @@
     "astro": "astro",
     "build": "astro build",
     "dev": "astro dev",
-    "preview": "astro preview",
-    "start": "astro dev"
+    "preview": "astro preview"
   },
   "dependencies": {
     "@astrojs/react": "^3.0.3",
@@ -19,9 +18,7 @@
     "astro": "^3.5.4",
     "cheerio": "1.0.0-rc.12",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-hook-form": "^7.49.3",
-    "react-router-dom": "^6.21.1"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.3.1",

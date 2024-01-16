@@ -2,9 +2,9 @@ import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { type Prompt, createFormContext, createPrompt } from '@atj/forms';
+import { createBrowserFormService } from '@atj/form-service';
 
 import { PromptSegment } from './prompts';
-import { createBrowserFormService } from '@atj/form-service';
 
 // Assuming this is the structure of your JSON data
 export interface Field {

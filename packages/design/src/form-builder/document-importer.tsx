@@ -10,7 +10,7 @@ import {
   createPrompt,
 } from '@atj/forms';
 
-import { onFileInputChangeGetFile } from '../../../lib/file-input';
+import { onFileInputChangeGetFile } from '../util/file-input';
 import { FormView } from '../form/view';
 
 export const DocumentImporter = ({
