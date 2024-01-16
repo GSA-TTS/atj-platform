@@ -13,13 +13,7 @@ import {
 import { onFileInputChangeGetFile } from '../util/file-input';
 import { FormView } from '../form/view';
 
-export const DocumentImporter = ({
-  formId,
-  form,
-}: {
-  formId: string;
-  form: Form;
-}) => {
+const DocumentImporter = ({ formId, form }: { formId: string; form: Form }) => {
   const { state, actions } = useDocumentImporter(form);
 
   const Step: React.FC<
@@ -299,3 +293,5 @@ const useDocumentImporter = (form: Form) => {
     },
   };
 };
+
+export default DocumentImporter;
