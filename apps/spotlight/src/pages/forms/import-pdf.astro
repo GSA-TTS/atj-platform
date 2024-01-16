@@ -1,8 +1,12 @@
 ---
-import { DocumentImporter } from '../../components/react/form-builder/document-importer';
+import DocumentImporter from '@atj/design/src/form-builder/DocumentImporter';
+import { createBrowserFormService } from '@atj/form-service';
+
 import ContentLayout from '../../layouts/ContentLayout.astro';
+
+const formService = createBrowserFormService();
 ---
 
 <ContentLayout title="10x Access to Justice Spotlight">
-  <DocumentImporter client:only />
+  <!--DocumentImporter client:only /-->
 </ContentLayout>

@@ -2,11 +2,16 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
-import { createBrowserFormService } from '@atj/form-service';
+import type { FormService } from '@atj/form-service';
 import { Form, addQuestions, createForm, getFlatFieldList } from '@atj/forms';
 
-export const FormEdit = ({ formId }: { formId: string }) => {
-  const formService = createBrowserFormService();
+export default function FormEdit({
+  formId,
+  formService,
+}: {
+  formId: string;
+  formService: FormService;
+}) {
   const result = formService.getForm(formId);
   if (!result.success) {
     return 'Form not found';
@@ -58,7 +63,7 @@ export const FormEdit = ({ formId }: { formId: string }) => {
       />
     </div>
   );
-};
+}
 
 type FieldProps = {
   fieldType: 'input' | 'textarea';

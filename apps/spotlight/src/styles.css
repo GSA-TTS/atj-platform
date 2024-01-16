@@ -1,9 +1,9 @@
-@import '@atj/design/dist/uswds/styles/styles.css';
+@import '@atj/design/static/uswds/styles/styles.css';
 
 .usa-form--large {
-      max-width: 32rem;
+  max-width: 32rem;
 }
 
 .usa-legend {
-    max-width: 100%;
+  max-width: 100%;
 }

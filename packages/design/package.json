@@ -3,22 +3,53 @@
   "version": "0.0.1",
   "main": "src/index.ts",
   "scripts": {
-    "build": "pnpm build:uswds && pnpm build:typescript",
-    "build:typescript": "tsup src/* --env.NODE_ENV production --dts-resolve",
-    "build:uswds": "gulp update",
-    "dev": "tsup src/* --watch",
-    "watch": "gulp watch",
-    "watch:typescript": "gulp watch",
-    "watch:uswds": "gulp watch"
+    "build": "run-p build:lib build:styles && pnpm build:storybook",
+    "build:lib": "vite build",
+    "build:storybook": "storybook build",
+    "build:styles": "gulp update",
+    "clean": "run-p: clean:*",
+    "clean:lib": "rm -rf dist",
+    "clean:styles": "rm -rf static",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "storybook": "storybook dev -p 6006",
+    "watch": "run-p watch:*",
+    "watch:lib": "vite",
+    "watch:storybook": "storybook dev",
+    "watch:styles": "gulp watch"
   },
   "files": [
     "dist/**/*"
   ],
   "devDependencies": {
+    "@storybook/addon-essentials": "^7.6.8",
+    "@storybook/addon-interactions": "^7.6.8",
+    "@storybook/addon-links": "^7.6.8",
+    "@storybook/addon-onboarding": "^1.0.10",
+    "@storybook/blocks": "^7.6.8",
+    "@storybook/react": "^7.6.8",
+    "@storybook/react-vite": "^7.6.8",
+    "@storybook/test": "^7.6.8",
+    "@types/prop-types": "^15.7.11",
+    "@types/react": "^18.2.37",
     "@uswds/compile": "github:danielnaab/uswds-compile#package-json-paths",
-    "gulp": "^4.0.2"
+    "@vitejs/plugin-react": "^4.2.1",
+    "glob": "^10.3.10",
+    "gulp": "^4.0.2",
+    "npm-run-all": "^4.1.5",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "vite": "^5.0.11",
+    "vite-plugin-dts": "^3.7.1"
   },
   "dependencies": {
-    "@uswds/uswds": "^3.6.1"
+    "@atj/documents": "workspace:*",
+    "@atj/forms": "workspace:*",
+    "@atj/form-service": "workspace:*",
+    "@atj/interviews": "workspace:*",
+    "@uswds/uswds": "^3.6.1",
+    "react-hook-form": "^7.49.3",
+    "react-router-dom": "^6.21.1",
+    "storybook": "^7.6.8"
   }
 }

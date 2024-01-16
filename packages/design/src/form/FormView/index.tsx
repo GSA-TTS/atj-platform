@@ -2,9 +2,9 @@ import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { type Prompt, createFormContext, createPrompt } from '@atj/forms';
+import { type FormService } from '@atj/form-service';
 
-import { PromptSegment } from './prompts';
-import { createBrowserFormService } from '@atj/form-service';
+import { PromptSegment } from '../prompts';
 
 // Assuming this is the structure of your JSON data
 export interface Field {
@@ -16,8 +16,13 @@ export interface Field {
   initial?: string;
 }
 
-export const FormViewById = ({ formId }: { formId: string }) => {
-  const formService = createBrowserFormService();
+export const FormViewById = ({
+  formId,
+  formService,
+}: {
+  formId: string;
+  formService: FormService;
+}) => {
   // Fallback to hardcoded data if a magic ID is chosen.
   const result = formService.getForm(formId);
   if (!result.success) {

@@ -1,12 +1,15 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
-import { createBrowserFormService } from '@atj/form-service';
+import { FormService } from '@atj/form-service';
 import { createForm } from '@atj/forms';
 
-export const FormList = () => {
+export default function FormList({
+  formService,
+}: {
+  formService: FormService;
+}) {
   const navigate = useNavigate();
-  const formService = createBrowserFormService();
   const result = formService.getFormList();
   if (!result.success) {
     return <div>Error loading form list</div>;
@@ -72,4 +75,4 @@ export const FormList = () => {
       </form>
     </>
   );
-};
+}
