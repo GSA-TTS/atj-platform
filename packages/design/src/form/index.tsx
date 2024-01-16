@@ -1,15 +1,16 @@
 import React from 'react';
 import { useParams, HashRouter, Route, Routes } from 'react-router-dom';
 
-import { FormService } from '@atj/form-service';
+import { createBrowserFormService } from '@atj/form-service';
 
 import FormDelete from './FormDelete';
 import FormEdit from './FormEdit';
+import FormList from './FormList';
 import { FormViewById } from './FormView';
 import { FormDocumentImport } from './import-document';
-import FormList from './FormList';
 
-export const FormSection = ({ formService }: { formService: FormService }) => {
+export const FormSection = () => {
+  const formService = createBrowserFormService();
   return (
     <HashRouter>
       <Routes>

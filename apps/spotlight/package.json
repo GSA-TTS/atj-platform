@@ -5,6 +5,7 @@
   "scripts": {
     "astro": "astro",
     "build": "astro build",
+    "clean": "rm -rf dist",
     "dev": "astro dev",
     "preview": "astro preview"
   },
