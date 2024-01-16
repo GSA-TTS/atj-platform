@@ -1,13 +1,15 @@
 import React from 'react';
 import { useParams, HashRouter, Route, Routes } from 'react-router-dom';
 
+import { FormService } from '@atj/form-service';
+
 import FormDelete from './FormDelete';
 import FormEdit from './FormEdit';
+import { FormViewById } from './FormView';
 import { FormDocumentImport } from './import-document';
 import { FormList } from './list';
-import { FormViewById } from './view';
 
-export const FormSection = () => {
+export const FormSection = ({ formService }: { formService: FormService }) => {
   return (
     <HashRouter>
       <Routes>
@@ -19,7 +21,7 @@ export const FormSection = () => {
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
-            return <FormViewById formId={formId} />;
+            return <FormViewById formId={formId} formService={formService} />;
           }}
         />
         <Route
@@ -29,7 +31,7 @@ export const FormSection = () => {
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
-            return <FormEdit formId={formId} />;
+            return <FormEdit formId={formId} formService={formService} />;
           }}
         />
         <Route
@@ -39,7 +41,7 @@ export const FormSection = () => {
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
-            return <FormDelete formId={formId} />;
+            return <FormDelete formId={formId} formService={formService} />;
           }}
         />
         <Route
