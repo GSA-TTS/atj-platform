@@ -11,7 +11,7 @@ import {
 } from '@atj/forms';
 
 import { onFileInputChangeGetFile } from '../util/file-input';
-import { FormView } from '../form/view';
+import { FormView } from '../form/FormView';
 
 const DocumentImporter = ({ formId, form }: { formId: string; form: Form }) => {
   const { state, actions } = useDocumentImporter(form);
