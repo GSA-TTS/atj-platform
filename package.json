@@ -7,6 +7,7 @@
   "license": "CC0",
   "scripts": {
     "build": "turbo run build",
+    "clean": "turbo run clean",
     "dev": "turbo run dev",
     "pages": "rm -rf node_modules && npm i -g pnpm turbo && pnpm i && pnpm build && ln -sf ./apps/spotlight/dist _site",
     "test": "turbo run test",
