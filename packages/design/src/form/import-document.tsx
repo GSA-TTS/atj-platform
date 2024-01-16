@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBrowserFormService } from '@atj/form-service';
 
-import { DocumentImporter } from '../form-builder/document-importer';
+import DocumentImporter from '../form-builder/DocumentImporter';
 
 export const FormDocumentImport = ({ formId }: { formId: string }) => {
   const formService = createBrowserFormService();

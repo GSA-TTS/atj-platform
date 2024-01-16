@@ -5,11 +5,11 @@ export type AppContext = {
   github: GithubRepository;
 };
 
-let _context: AppContext = null;
+let _context: AppContext | null = null;
 
 export const getAppContext = (): AppContext => {
   if (_context === null) {
-    _context = createAppContext(import.meta.env);
+    _context = createAppContext((import.meta as any).env);
   }
   return _context;
 };
