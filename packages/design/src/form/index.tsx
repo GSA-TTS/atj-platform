@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams, HashRouter, Route, Routes } from 'react-router-dom';
 
 import { FormDelete } from './delete';
-import { FormEdit } from './edit';
+import FormEdit from './FormEdit';
 import { FormDocumentImport } from './import-document';
 import { FormList } from './list';
 import { FormViewById } from './view';
