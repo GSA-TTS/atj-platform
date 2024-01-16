@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, HashRouter, Route, Routes } from 'react-router-dom';
 
-import { FormDelete } from './delete';
+import FormDelete from './FormDelete';
 import FormEdit from './FormEdit';
 import { FormDocumentImport } from './import-document';
 import { FormList } from './list';

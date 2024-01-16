@@ -1,18 +1,23 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { createBrowserFormService } from '@atj/form-service';
+import type { FormService } from '@atj/form-service';
 
-export const FormDelete = ({ formId }: { formId: string }) => {
+export default function FormDelete({
+  formId,
+  formService,
+}: {
+  formId: string;
+  formService: FormService;
+}) {
   const navigate = useNavigate();
-  const service = createBrowserFormService();
-  const result = service.getForm(formId);
+  const result = formService.getForm(formId);
   if (!result.success) {
     return <div>Form {formId} not found.</div>;
   }
   const form = result.data;
   const deleteForm = () => {
-    service.deleteForm(formId);
+    formService.deleteForm(formId);
     navigate('/');
   };
   return (
@@ -25,4 +30,4 @@ export const FormDelete = ({ formId }: { formId: string }) => {
       </div>
     </div>
   );
-};
+}
