@@ -7,13 +7,16 @@ import FormDelete from './FormDelete';
 import FormEdit from './FormEdit';
 import { FormViewById } from './FormView';
 import { FormDocumentImport } from './import-document';
-import { FormList } from './list';
+import FormList from './FormList';
 
 export const FormSection = ({ formService }: { formService: FormService }) => {
   return (
     <HashRouter>
       <Routes>
-        <Route path="/" Component={FormList} />
+        <Route
+          path="/"
+          Component={() => <FormList formService={formService} />}
+        />
         <Route
           path="/:formId"
           Component={() => {

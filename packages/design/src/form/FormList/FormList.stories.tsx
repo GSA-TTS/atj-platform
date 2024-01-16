@@ -1,14 +1,22 @@
-// Replace your-framework with the name of your framework
-import type { Meta } from '@storybook/react';
+import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
+import type { Meta, StoryFn, StoryObj } from '@storybook/react';
 
 import { createForm } from '@atj/forms';
 import { createTestFormService } from '@atj/form-service';
 
-import { FormSection } from '.';
+import FormList from '.';
 
 export default {
-  title: 'form/FormSection',
-  component: FormSection,
+  title: 'form/FormView',
+  component: FormList,
+  decorators: [
+    (Story: StoryFn, args: any) => (
+      <MemoryRouter initialEntries={['/']}>
+        <Story {...args} />
+      </MemoryRouter>
+    ),
+  ],
   args: {
     formService: createTestFormService({
       'test-form': createForm(
@@ -34,6 +42,6 @@ export default {
     }),
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof FormSection>;
+} satisfies Meta<typeof FormList>;
 
-export const TestForm = {};
+export const FormListTest = {} satisfies StoryObj<typeof FormList>;
