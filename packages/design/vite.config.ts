@@ -1,7 +1,5 @@
-import { extname, relative, resolve } from 'path';
-import { fileURLToPath } from 'node:url';
+import { resolve } from 'path';
 
-import { glob } from 'glob';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import react from '@vitejs/plugin-react';
