@@ -3,7 +3,9 @@ import { useFormContext } from 'react-hook-form';
 
 import { type TextInputPrompt } from '@atj/forms';
 
-export const TextInput = ({ prompt }: { prompt: TextInputPrompt }) => {
+export type TextInputProps = { prompt: TextInputPrompt };
+
+export default function TextInput({ prompt }: TextInputProps) {
   const { register } = useFormContext();
   return (
     <div className="usa-form-group" key={prompt.id}>
@@ -27,4 +29,4 @@ export const TextInput = ({ prompt }: { prompt: TextInputPrompt }) => {
       />
     </div>
   );
-};
+}

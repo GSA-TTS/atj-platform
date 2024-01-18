@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { type PromptPart } from '@atj/forms';
-import { FormSummary } from './form-summary';
-import { TextInput } from './text-input';
+import FormSummary from './FormSummary';
+import TextInput from './TextInput';
 
 export const PromptSegment = ({ promptPart }: { promptPart: PromptPart }) => {
   if (promptPart.type === 'form-summary') {
