@@ -5,6 +5,8 @@ const {
 
 export default {
   test: {
-    reporters: new GithubActionsReporter(),
+    reporters: process.env.GITHUB_ACTIONS
+      ? ['default', new GithubActionsReporter()]
+      : ['default'],
   },
 } satisfies UserConfig;
