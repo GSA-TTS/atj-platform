@@ -7,6 +7,6 @@ export default {
   test: {
     reporters: process.env.GITHUB_ACTIONS
       ? ['default', new GithubActionsReporter()]
-      : ['default'],
+      : 'default',
   },
 } satisfies UserConfig;
