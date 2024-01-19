@@ -1,5 +1,7 @@
 import type { UserConfig } from 'vitest/config';
-import { default as GithubActionsReporter } from 'vitest-github-actions-reporter';
+const {
+  default: GithubActionsReporter,
+} = require('vitest-github-actions-reporter');
 
 export default {
   test: {
