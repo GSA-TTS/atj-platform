@@ -2,6 +2,7 @@
   "name": "@atj/documents",
   "version": "1.0.0",
   "description": "10x ATJ document generation",
+  "type": "module",
   "license": "CC0",
   "main": "src/index.ts",
   "scripts": {

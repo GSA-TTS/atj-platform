@@ -2,6 +2,7 @@
   "name": "@atj/interviews",
   "version": "1.0.0",
   "description": "10x ATJ business logic",
+  "type": "module",
   "license": "CC0",
   "main": "src/index.ts",
   "scripts": {

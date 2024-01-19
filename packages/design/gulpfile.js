@@ -1,7 +1,7 @@
 /**
  * Import uswds-compile
  */
-const uswds = require('@uswds/compile');
+import uswds from '@uswds/compile';
 
 /**
  * USWDS version
@@ -15,7 +15,7 @@ uswds.paths.dist.fonts = './static/uswds/fonts';
 uswds.paths.dist.img = './static/uswds/img';
 uswds.paths.dist.js = './static/uswds/js';
 
-exports.compile = uswds.compile;
-exports.init = uswds.init;
-exports.update = uswds.updateUswds;
-exports.watch = uswds.watch;
+export const compile = uswds.compile;
+export const init = uswds.init;
+export const update = uswds.updateUswds;
+export const watch = uswds.watch;
