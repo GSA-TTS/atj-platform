@@ -56,3 +56,7 @@ jobs:
       - name: Run test suite
         shell: bash
         run: pnpm test
+
+      - name: Vitest Coverage Report
+        if: always()
+        uses: davelosert/vitest-coverage-report-action@v2.2.0

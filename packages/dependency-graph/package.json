@@ -2,6 +2,7 @@
   "name": "@atj/dependency-graph",
   "version": "1.0.0",
   "description": "generates a dependency graph of projects in a pnpm workspace",
+  "type": "module",
   "license": "CC0",
   "main": "src/index.ts",
   "scripts": {

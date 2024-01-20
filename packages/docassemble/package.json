@@ -2,6 +2,7 @@
   "name": "@atj/docassemble",
   "version": "1.0.0",
   "description": "10x ATJ docassemble adapter",
+  "type": "module",
   "license": "CC0",
   "main": "src/index.ts",
   "scripts": {

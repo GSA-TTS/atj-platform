@@ -3,7 +3,8 @@
   "compilerOptions": {
     "emitDeclarationOnly": true,
     "jsx": "react",
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "module": "esnext"
   },
   "include": [
     "./src"

@@ -2,6 +2,7 @@
   "name": "@atj/form-service",
   "version": "1.0.0",
   "description": "10x ATJ public forms interface",
+  "type": "module",
   "license": "CC0",
   "main": "src/index.ts",
   "scripts": {
