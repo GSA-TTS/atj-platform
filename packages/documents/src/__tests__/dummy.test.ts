@@ -7,7 +7,4 @@ describe('PDF document generation', () => {
     const pdfBytes = await generateDummyPDF({ someData: 'test data' });
     expect(pdfBytes).toBeDefined();
   });
-  it('fails so I can demo an error on a PR', () => {
-    expect(true).toEqual(false);
-  });
 });
