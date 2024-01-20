@@ -5,13 +5,18 @@ import GithubActionsReporter from 'vitest-github-actions-reporter';
 
 export default {
   test: {
-    coverage: {
-      enabled: true,
-      //reporter: ['text', 'json-summary', 'json'],
-      //reportOnFailure: true,
-    },
+    //coverage: {
+    //enabled: true,
+    //reporter: ['text', 'json-summary', 'json'],
+    //reportOnFailure: true,
+    //},
     reporters: env.GITHUB_ACTIONS
       ? ['default', new GithubActionsReporter()]
       : ['default', 'html'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['lcov', 'text-summary', 'json-summary', 'text', 'html'],
+      //reportOnFailure: true,
+    },
   },
 } satisfies UserConfig;
