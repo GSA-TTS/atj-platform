@@ -8,6 +8,6 @@ describe('PDF document generation', () => {
     expect(pdfBytes).toBeDefined();
   });
   it('fails so I can demo an error on a PR', () => {
-    expect(true).toEqual(true);
+    expect(true).toEqual(false);
   });
 });
