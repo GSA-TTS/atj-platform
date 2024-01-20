@@ -24,7 +24,7 @@ export default {
         'json',
         'json-summary',
       ],
-      //reportOnFailure: true,
+      reportOnFailure: true,
     },
   },
 } satisfies UserConfig;
