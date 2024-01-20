@@ -15,7 +15,14 @@ export default {
       : ['default', 'html'],
     coverage: {
       provider: 'v8',
-      reporter: ['lcov', 'text-summary', 'json-summary', 'text', 'html'],
+      reporter: [
+        'lcov',
+        'html',
+        'text',
+        'text-summary',
+        'json',
+        'json-summary',
+      ],
       //reportOnFailure: true,
     },
   },
