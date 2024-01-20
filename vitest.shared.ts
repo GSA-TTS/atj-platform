@@ -14,7 +14,8 @@ export default {
       ? ['default', new GithubActionsReporter()]
       : ['default', 'html'],
     coverage: {
-      provider: 'v8',
+      enabled: true,
+      //provider: 'istanbul',
       reporter: [
         'lcov',
         'html',

@@ -4,6 +4,7 @@
 _site
 .turbo/
 .vscode/
+coverage/
 html/
 node_modules/
 NOTES.md

@@ -12,7 +12,7 @@
     "pages": "rm -rf node_modules && npm i -g pnpm turbo && pnpm i && pnpm build && ln -sf ./apps/spotlight/dist _site",
     "test": "run-p test:*",
     "test:infra": "turbo run --filter=infra test",
-    "test:vitest": "vitest run --coverage.enabled true",
+    "test:vitest": "vitest run --coverage.enabled --coverage.reporter=text --coverage.reporter=json-summary --coverage.reporter=json",
     "format": "prettier --write \"packages/**/*.{js,jsx,ts,tsx}\""
   },
   "hooks": {
