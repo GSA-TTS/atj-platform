@@ -10,8 +10,8 @@ import {
   createPrompt,
 } from '@atj/forms';
 
-import { onFileInputChangeGetFile } from '../util/file-input';
-import { FormView } from '../form/FormView';
+import { onFileInputChangeGetFile } from '../../util/file-input';
+import { FormView } from '../FormView';
 
 const DocumentImporter = ({ formId, form }: { formId: string; form: Form }) => {
   const { state, actions } = useDocumentImporter(form);

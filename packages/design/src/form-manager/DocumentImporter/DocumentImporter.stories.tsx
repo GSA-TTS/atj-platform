@@ -5,7 +5,7 @@ import type { Meta, StoryFn } from '@storybook/react';
 
 import { createForm } from '@atj/forms';
 
-import DocumentImporter from './DocumentImporter';
+import DocumentImporter from '.';
 
 export default {
   title: 'form-builder/DocumentImporter',
