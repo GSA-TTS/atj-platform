@@ -1,14 +1,18 @@
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { createFormContext, createPrompt, type Form } from '@atj/forms';
+import {
+  createFormContext,
+  createPrompt,
+  type FormDefinition,
+} from '@atj/forms';
 import { PromptSegment } from '../FormManager/prompts';
 
 export default function Form({
   form,
   onSubmit,
 }: {
-  form: Form;
+  form: FormDefinition;
   onSubmit?: (data: Record<string, string>) => void;
 }) {
   const context = createFormContext(form);

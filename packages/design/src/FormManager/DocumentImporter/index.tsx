@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { addDocument, addDocumentFieldsToForm } from '@atj/documents';
 import { createBrowserFormService } from '@atj/form-service';
-import { type DocumentFieldMap, type Form as FormDefinition } from '@atj/forms';
+import { type DocumentFieldMap, type FormDefinition } from '@atj/forms';
 
 import { onFileInputChangeGetFile } from '../../util/file-input';
 import Form from '../../Form';

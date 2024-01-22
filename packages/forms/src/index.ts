@@ -20,7 +20,7 @@ export type FormSummary = {
   description: string;
 };
 
-export type Form<T extends FormStrategy = SequentialStrategy> = {
+export type FormDefinition<T extends FormStrategy = SequentialStrategy> = {
   summary: FormSummary;
   questions: Record<QuestionId, Question>;
   strategy: T;

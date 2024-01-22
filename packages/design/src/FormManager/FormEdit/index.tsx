@@ -3,7 +3,12 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
 import type { FormService } from '@atj/form-service';
-import { Form, addQuestions, createForm, getFlatFieldList } from '@atj/forms';
+import {
+  FormDefinition,
+  addQuestions,
+  createForm,
+  getFlatFieldList,
+} from '@atj/forms';
 
 export default function FormEdit({
   formId,

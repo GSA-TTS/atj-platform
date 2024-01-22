@@ -6,5 +6,5 @@ import ContentLayout from '../layouts/ContentLayout.astro';
 ---
 
 <ContentLayout title="10x Access to Justice Spotlight">
-  <Form prompt={formData} />
+  <Form client:only form={formData} />
 </ContentLayout>
