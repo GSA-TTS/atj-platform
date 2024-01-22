@@ -8,7 +8,7 @@ import { createForm } from '@atj/forms';
 import DocumentImporter from '.';
 
 export default {
-  title: 'form-builder/DocumentImporter',
+  title: 'FormManager/DocumentImporter',
   component: DocumentImporter,
   decorators: [
     (Story: StoryFn, args: any) => (

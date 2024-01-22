@@ -3,17 +3,18 @@ import { useNavigate } from 'react-router-dom';
 
 import { addDocument, addDocumentFieldsToForm } from '@atj/documents';
 import { createBrowserFormService } from '@atj/form-service';
-import {
-  type DocumentFieldMap,
-  type Form,
-  createFormContext,
-  createPrompt,
-} from '@atj/forms';
+import { type DocumentFieldMap, type Form as FormDefinition } from '@atj/forms';
 
 import { onFileInputChangeGetFile } from '../../util/file-input';
-import { FormView } from '../FormView';
+import Form from '../../Form';
 
-const DocumentImporter = ({ formId, form }: { formId: string; form: Form }) => {
+const DocumentImporter = ({
+  formId,
+  form,
+}: {
+  formId: string;
+  form: FormDefinition;
+}) => {
   const { state, actions } = useDocumentImporter(form);
 
   const Step: React.FC<
@@ -138,12 +139,10 @@ const DocumentImporter = ({ formId, form }: { formId: string; form: Form }) => {
       form,
       state.documentFields || {}
     );
-    const formContext = createFormContext(previewForm);
-    const prompt = createPrompt(formContext);
     return (
       <>
-        <FormView
-          prompt={prompt}
+        <Form
+          form={previewForm}
           onSubmit={data => {
             //handleFormSubmission(formId, data);
             console.log(formId, data);
@@ -180,11 +179,11 @@ const DocumentImporter = ({ formId, form }: { formId: string; form: Form }) => {
 
 type State = {
   page: number;
-  previewForm: Form;
+  previewForm: FormDefinition;
   documentFields?: DocumentFieldMap;
 };
 
-const useDocumentImporter = (form: Form) => {
+const useDocumentImporter = (form: FormDefinition) => {
   const navigate = useNavigate();
   const formService = createBrowserFormService();
   const [state, dispatch] = useReducer(
@@ -196,7 +195,7 @@ const useDocumentImporter = (form: Form) => {
             data: {
               path: string;
               fields: DocumentFieldMap;
-              previewForm: Form;
+              previewForm: FormDefinition;
             };
           }
         | {

@@ -8,7 +8,7 @@ import { createTestFormService } from '@atj/form-service';
 import FormDelete from '.';
 
 export default {
-  title: 'form/FormDelete',
+  title: 'FormManager/FormDelete',
   component: FormDelete,
   decorators: [
     (Story: StoryFn, args: any) => (

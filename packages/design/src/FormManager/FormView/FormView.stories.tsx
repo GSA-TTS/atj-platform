@@ -8,7 +8,7 @@ import { createTestFormService } from '@atj/form-service';
 import { FormViewById } from '.';
 
 export default {
-  title: 'form/FormView',
+  title: 'FormManager/FormView',
   component: FormViewById,
   decorators: [
     (Story: StoryFn, args: any) => (

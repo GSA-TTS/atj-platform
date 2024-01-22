@@ -8,7 +8,7 @@ import { createTestFormService } from '@atj/form-service';
 import FormEdit from '.';
 
 export default {
-  title: 'form/FormEdit',
+  title: 'FormManager/FormEdit',
   component: FormEdit,
   decorators: [
     (Story: StoryFn, args: any) => (
