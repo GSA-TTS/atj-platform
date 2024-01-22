@@ -4,11 +4,11 @@
   "main": "src/index.js",
   "types": "src/index.ts",
   "scripts": {
-    "get": "cdktf get",
-    "deploy": "cdktf deploy",
-    "synth": "cdktf synth",
     "compile": "tsc --pretty",
-    "watch": "tsc -w",
+    "dev": "tsc -w",
+    "deploy": "cdktf deploy",
+    "get": "cdktf get",
+    "synth": "cdktf synth",
     "test": "jest",
     "test:watch": "jest --watch"
   },

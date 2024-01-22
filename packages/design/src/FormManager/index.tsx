@@ -9,7 +9,7 @@ import FormList from './FormList';
 import { FormViewById } from './FormView';
 import { FormDocumentImport } from './import-document';
 
-export const FormSection = () => {
+export default function () {
   const formService = createBrowserFormService();
   return (
     <HashRouter>
@@ -61,4 +61,4 @@ export const FormSection = () => {
       </Routes>
     </HashRouter>
   );
-};
+}

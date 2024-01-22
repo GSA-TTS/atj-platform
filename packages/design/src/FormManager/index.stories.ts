@@ -4,13 +4,13 @@ import type { Meta } from '@storybook/react';
 import { createForm } from '@atj/forms';
 import { createTestFormService } from '@atj/form-service';
 
-import { FormSection } from '.';
+import FormManager from '.';
 
 export default {
-  title: 'form/FormSection',
-  component: FormSection,
+  title: 'form/FormManager',
+  component: FormManager,
   args: {},
   tags: ['autodocs'],
-} satisfies Meta<typeof FormSection>;
+} satisfies Meta<typeof FormManager>;
 
 export const TestForm = {};

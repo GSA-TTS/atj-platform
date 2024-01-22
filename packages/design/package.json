@@ -11,12 +11,12 @@
     "clean": "run-p: clean:*",
     "clean:lib": "rm -rf dist",
     "clean:styles": "rm -rf static",
+    "dev": "run-p dev:*",
+    "dev:lib": "vite",
+    "dev:storybook": "storybook dev",
+    "dev:styles": "gulp watch",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "storybook": "storybook dev -p 6006",
-    "watch": "run-p watch:*",
-    "watch:lib": "vite",
-    "watch:storybook": "storybook dev",
-    "watch:styles": "gulp watch"
+    "storybook": "storybook dev -p 6006"
   },
   "files": [
     "dist/**/*"
