@@ -1,10 +1,7 @@
 // Replace your-framework with the name of your framework
 import type { Meta } from '@storybook/react';
 
-import { createForm } from '@atj/forms';
-import { createTestFormService } from '@atj/form-service';
-
-import FormManager from '.';
+import FormManager from './FormManager';
 
 export default {
   title: 'form/FormManager',

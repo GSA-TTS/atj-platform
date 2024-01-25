@@ -1,6 +1,6 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { userEvent, within } from '@storybook/test';
+import { expect, userEvent, within } from '@storybook/test';
 import type { Meta, StoryFn, StoryObj } from '@storybook/react';
 
 import { createForm } from '@atj/forms';
@@ -63,5 +63,7 @@ export const FormListFilled = {
     // See https://storybook.js.org/docs/essentials/actions#automatically-matching-args
     // to learn how to setup logging in the Actions panel
     //await userEvent.click(canvas.getByRole('button'));
+
+    expect(canvas.getByRole('button')).toBeEnabled();
   },
 } satisfies StoryObj<typeof FormList>;
