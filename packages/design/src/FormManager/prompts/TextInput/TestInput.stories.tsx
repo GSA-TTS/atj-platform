@@ -1,24 +1,23 @@
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import type { Meta, StoryFn, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import TextInput, { TextInputProps } from '.';
-
-const FormDecorator = ({ Story, args }: { Story: StoryFn; args: any }) => {
-  const formMethods = useForm();
-  return (
-    <FormProvider {...formMethods}>
-      <Story {...args} />
-    </FormProvider>
-  );
-};
 
 export default {
   title: 'prompts/TextInput',
   component: TextInput,
   decorators: [
-    (Story: StoryFn, args: any) => {
-      return <FormDecorator Story={Story} args={args} />;
+    (Story, args) => {
+      const FormDecorator = () => {
+        const formMethods = useForm();
+        return (
+          <FormProvider {...formMethods}>
+            <Story {...args} />
+          </FormProvider>
+        );
+      };
+      return <FormDecorator />;
     },
   ],
   tags: ['autodocs'],

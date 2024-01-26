@@ -1,6 +1,6 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import type { Meta, StoryFn, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { createForm } from '@atj/forms';
 import { createTestFormService } from '@atj/form-service';
@@ -11,7 +11,7 @@ export default {
   title: 'FormManager/FormView',
   component: FormViewById,
   decorators: [
-    (Story: StoryFn, args: any) => (
+    (Story, args) => (
       <MemoryRouter initialEntries={['/']}>
         <Story {...args} />
       </MemoryRouter>

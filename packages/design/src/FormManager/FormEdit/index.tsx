@@ -82,8 +82,8 @@ const EditForm = ({
   form,
   onSave,
 }: {
-  form: Form;
-  onSave: (form: Form) => void;
+  form: FormDefinition;
+  onSave: (form: FormDefinition) => void;
 }) => {
   const formData: FieldMap = Object.fromEntries(
     Object.entries(form.questions).map(([key, value]) => {
@@ -180,7 +180,7 @@ const ButtonBar = () => {
   );
 };
 
-const replaceFormQuestions = (form: Form, data: FieldMap) => {
+const replaceFormQuestions = (form: FormDefinition, data: FieldMap) => {
   const questions = Object.entries(data).map(([id, field]) => ({
     id,
     text: field.label,

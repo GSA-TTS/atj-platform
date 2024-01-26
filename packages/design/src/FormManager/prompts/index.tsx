@@ -10,7 +10,7 @@ export const PromptSegment = ({ promptPart }: { promptPart: PromptPart }) => {
   } else if (promptPart.type === 'text') {
     return <TextInput prompt={promptPart} />;
   } else {
-    const _exhaustiveCheck: never = promptPart;
-    return <></>;
+    const _exhaustiveCheck: never = promptPart; // eslint-disable-line @typescript-eslint/no-unused-vars
+    return (<></>) as never;
   }
 };

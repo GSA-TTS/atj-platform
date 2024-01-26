@@ -9,13 +9,15 @@ import { onFileInputChangeGetFile } from '../../util/file-input';
 import Form from '../../Form';
 
 const DocumentImporter = ({
+  baseUrl,
   formId,
   form,
 }: {
+  baseUrl: string;
   formId: string;
   form: FormDefinition;
 }) => {
-  const { state, actions } = useDocumentImporter(form);
+  const { state, actions } = useDocumentImporter(form, baseUrl);
 
   const Step: React.FC<
     PropsWithChildren<{ title: string; step: number; current: number }>
@@ -120,7 +122,7 @@ const DocumentImporter = ({
     return (
       <form
         className="usa-form usa-form--large"
-        onSubmit={event => {
+        onSubmit={() => {
           actions.stepTwoConfirmFields();
         }}
       >
@@ -150,7 +152,7 @@ const DocumentImporter = ({
         />
         <form
           className="usa-form usa-form--large"
-          onSubmit={event => {
+          onSubmit={() => {
             actions.stepThreeSaveForm(formId);
           }}
         >
@@ -183,7 +185,7 @@ type State = {
   documentFields?: DocumentFieldMap;
 };
 
-const useDocumentImporter = (form: FormDefinition) => {
+const useDocumentImporter = (form: FormDefinition, baseUrl: string) => {
   const navigate = useNavigate();
   const formService = createBrowserFormService();
   const [state, dispatch] = useReducer(
@@ -239,7 +241,7 @@ const useDocumentImporter = (form: FormDefinition) => {
     state,
     actions: {
       async stepOneSelectPdfByUrl(url: string) {
-        const completeUrl = `${(import.meta as any).env.BASE_URL}${url}`;
+        const completeUrl = `${baseUrl}${url}`;
         const response = await fetch(completeUrl);
         const blob = await response.blob();
         const data = new Uint8Array(await blob.arrayBuffer());

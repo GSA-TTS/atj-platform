@@ -151,7 +151,7 @@ export const ParagraphBlock = ({ field }: { field: Field }) => {
   return (
     <p>
       {field.label}{' '}
-      <a href={field.linkurl} target="_blank">
+      <a href={field.linkurl} target="_blank" rel="noreferrer">
         {field.linkurl}
       </a>
     </p>

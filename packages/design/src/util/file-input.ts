@@ -2,7 +2,7 @@ import { ChangeEvent } from 'react';
 
 const readFileAsync = (file: File) => {
   return new Promise<ArrayBuffer>((resolve, reject) => {
-    let reader = new FileReader();
+    const reader = new FileReader();
     reader.onload = () => {
       resolve(reader.result as ArrayBuffer);
     };

@@ -1,7 +1,7 @@
 // Replace your-framework with the name of your framework
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import type { Meta, StoryFn } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
 import { createForm } from '@atj/forms';
 
@@ -11,7 +11,7 @@ export default {
   title: 'FormManager/DocumentImporter',
   component: DocumentImporter,
   decorators: [
-    (Story: StoryFn, args: any) => (
+    (Story, args) => (
       <MemoryRouter initialEntries={['/']}>
         <Story {...args} />
       </MemoryRouter>

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Meta, StoryFn, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { createForm } from '@atj/forms';
 
@@ -8,7 +8,7 @@ import Form from '.';
 export default {
   title: 'Form',
   component: Form,
-  decorators: [(Story: StoryFn, args: any) => <Story {...args} />],
+  decorators: [(Story, args) => <Story {...args} />],
   args: {
     form: createForm(
       {

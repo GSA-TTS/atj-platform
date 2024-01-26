@@ -9,7 +9,7 @@ import FormList from './FormList';
 import { FormViewById } from './FormView';
 import { FormDocumentImport } from './import-document';
 
-export default function () {
+export default function FormManager({ baseUrl }: { baseUrl: string }) {
   const formService = createBrowserFormService();
   return (
     <HashRouter>
@@ -55,7 +55,7 @@ export default function () {
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
-            return <FormDocumentImport formId={formId} />;
+            return <FormDocumentImport baseUrl={baseUrl} formId={formId} />;
           }}
         />
       </Routes>
