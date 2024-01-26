@@ -53,6 +53,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Lint source code
+        shell: bash
+        run: pnpm lint
+
       - name: Run test suite
         shell: bash
         run: pnpm test
