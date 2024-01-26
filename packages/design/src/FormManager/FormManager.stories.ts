@@ -1,7 +1,7 @@
 // Replace your-framework with the name of your framework
 import type { Meta } from '@storybook/react';
 
-import FormManager from './FormManager';
+import FormManager from '.';
 
 export default {
   title: 'form/FormManager',
