@@ -9,9 +9,11 @@ import {
   nextContext,
 } from '@atj/interviews';
 
+/*
 const form = {
   action: 'https://yaawr84uu7.execute-api.us-east-2.amazonaws.com',
 };
+*/
 
 const useInterviewContext = (interview: Interview) => {
   const context = createInterviewContext(interview);
@@ -28,8 +30,8 @@ export const InterviewForm = (props: { interview: Interview }) => {
       onSubmit={event => {
         event.preventDefault();
         const formData = new FormData(
-          event.currentTarget,
-          (event.nativeEvent as any).submitter
+          event.currentTarget
+          //(event.nativeEvent as any).submitter
         );
         dispatch({ type: 'submit', formData });
       }}
@@ -58,7 +60,7 @@ export const InterviewForm = (props: { interview: Interview }) => {
               <TextPrompt key={field.id} field={field as Field<TextFact>} />
             );
           } else {
-            const _exhaustiveCheck: never = question.fact;
+            const _exhaustiveCheck: never = question.fact; // eslint-disable-line @typescript-eslint/no-unused-vars
             return <></>;
           }
         })}

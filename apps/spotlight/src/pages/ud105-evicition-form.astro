@@ -1,9 +1,10 @@
 ---
-import { FormView } from '@atj/design/src/form/FormView';
+import { Form } from '@atj/design';
+
 import formData from '../htmlParser/ud105-form-field-output.json';
 import ContentLayout from '../layouts/ContentLayout.astro';
 ---
 
 <ContentLayout title="10x Access to Justice Spotlight">
-  <FormView prompt={formData} />
+  <Form client:only form={formData} />
 </ContentLayout>

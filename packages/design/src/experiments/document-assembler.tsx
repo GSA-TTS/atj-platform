@@ -3,7 +3,7 @@ import { generateDummyPDF } from '@atj/documents';
 
 export const downloadPdfBytes = (bytes: Uint8Array) => {
   const base64 = btoa(String.fromCharCode(...bytes));
-  var element = document.createElement('a');
+  const element = document.createElement('a');
   element.setAttribute(
     'href',
     'data:application/pdf;base64,' + encodeURIComponent(base64)

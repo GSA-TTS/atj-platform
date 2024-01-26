@@ -21,49 +21,34 @@ This project uses [pnpm workspaces](https://pnpm.io/workspaces). To work with th
 pnpm install
 ```
 
-Run the test suite with coverage metrics generated:
+To run the complete test suite, with coverage metrics generated:
 
 ```bash
 pnpm test
 ```
 
-To develop on the frontend app, run:
+To run tests in watch mode (except the `infra` tests, which use Jest):
 
 ```bash
- pnpm build
+pnpm vitest
 ```
 
-then 
+To start developing with hot reloading, use:
 
 ```bash
- cd apps/spotlight
+pnpm dev --concurrency 12
 ```
 
-To run an app server:
+These local servers will be started:
+
+- Astro website - http://localhost:4321/
+- Storybook - http://localhost:61610/
+
+To lint the source code:
 
 ```bash
- pnpm start
+pnpm lint
 ```
-
-To extract form fields, their attributes and labels from an HTML code and output them in a JSON file, go to the "htmlParser" directory:
-
-```bash
- cd apps/spotlight/src/htmlParser
-```
-
-If you're already in the "spotlight" directory
-
-```bash
- cd src/htmlParser
-```
-
-Replace the HTML content that's inside the "form-input.html" with your HTML, then run:
-
-```bash
- node processHtml.js yourCustomJSONFileName.json
-```
-
-Be sure to replace "yourCustomJSONFileName.json" with whatever name you want your output JSON file to be called. If you don't indicate a new file name, your file will be given the default file name which is "form-field-output.json".
 
 ## Command-line interface
 
