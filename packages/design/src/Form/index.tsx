@@ -6,7 +6,7 @@ import {
   createPrompt,
   type FormDefinition,
 } from '@atj/forms';
-import { PromptSegment } from '../FormManager/prompts';
+import PromptSegment from './PromptSegment';
 import ActionBar from './ActionBar';
 
 export default function Form({
