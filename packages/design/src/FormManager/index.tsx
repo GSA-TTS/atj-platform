@@ -16,7 +16,9 @@ export default function FormManager({ baseUrl }: { baseUrl: string }) {
       <Routes>
         <Route
           path="/"
-          Component={() => <FormList formService={formService} />}
+          Component={() => (
+            <FormList baseUrl={baseUrl} formService={formService} />
+          )}
         />
         <Route
           path="/:formId"

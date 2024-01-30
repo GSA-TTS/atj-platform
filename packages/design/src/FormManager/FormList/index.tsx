@@ -1,15 +1,16 @@
 import React from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { FormService } from '@atj/form-service';
-import { createForm } from '@atj/forms';
+import { PDFFileSelect } from './PDFFileSelect';
 
 export default function FormList({
+  baseUrl,
   formService,
 }: {
+  baseUrl: string;
   formService: FormService;
 }) {
-  const navigate = useNavigate();
   const result = formService.getFormList();
   if (!result.success) {
     return <div>Error loading form list</div>;
@@ -25,54 +26,7 @@ export default function FormList({
           </li>
         ))}
       </ul>
-      <form
-        //action={form.action}
-        //method="post"
-        onSubmit={event => {
-          event.preventDefault();
-          const formData = new FormData(event.currentTarget);
-          const title = formData.get('summary-title')?.toString();
-          const description = formData.get('summary-description')?.toString();
-          if (!title || !description) {
-            console.error('required fields not found');
-            return;
-          }
-          const form = createForm({
-            title,
-            description,
-          });
-          const result = formService.addForm(form);
-          if (result.success) {
-            navigate(`/${result.data}/edit`);
-          } else {
-            console.error('Error saving form');
-          }
-        }}
-        className="usa-form usa-form--large"
-      >
-        <h2>Create new form</h2>
-        <label className="usa-label">
-          Title
-          <input
-            id="summary-title"
-            name="summary-title"
-            type="text"
-            className="usa-input"
-            required
-          />
-        </label>
-        <label className="usa-label">
-          Description
-          <input
-            id="summary-description"
-            name="summary-description"
-            type="textarea"
-            className="usa-input"
-            required
-          />
-        </label>
-        <input className="usa-button" type="submit" value="Create form"></input>
-      </form>
+      <PDFFileSelect baseUrl={baseUrl} />
     </>
   );
 }

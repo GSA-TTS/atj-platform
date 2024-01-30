@@ -5,7 +5,7 @@ import { addDocument, addDocumentFieldsToForm } from '@atj/documents';
 import { createBrowserFormService } from '@atj/form-service';
 import { type DocumentFieldMap, type FormDefinition } from '@atj/forms';
 
-import { onFileInputChangeGetFile } from '../../util/file-input';
+import { onFileInputChangeGetFile } from '../FormList/PDFFileSelect/file-input';
 import Form from '../../Form';
 
 const DocumentImporter = ({
