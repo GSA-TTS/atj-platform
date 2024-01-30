@@ -1,6 +1,7 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, test } from 'vitest';
 
 import * as forms from '../src';
+import { createPrompt } from '../src';
 
 const questions: forms.Question[] = [
   {
@@ -25,12 +26,12 @@ const form = forms.createForm(
 );
 
 describe('two question form context', () => {
-  it('initializes', () => {
+  test('initializes', () => {
     const context = forms.createFormContext(form);
     expect(context).to.not.toBeNull();
   });
 
-  it('empty field value on required field is stored with error', () => {
+  test('empty field value on required field is stored with error', () => {
     const context = forms.createFormContext(form);
     const nextContext = forms.updateForm(context, questions[0].id, null);
     expect(nextContext).toEqual({
@@ -47,7 +48,7 @@ describe('two question form context', () => {
     });
   });
 
-  it('valid field value is stored on context', () => {
+  test('valid field value is stored on context', () => {
     const formContext = forms.createFormContext(form);
     const nextContext = forms.updateForm(
       formContext,
@@ -66,7 +67,7 @@ describe('two question form context', () => {
     });
   });
 
-  it('empty field value on non-required field is set with no errors on context', () => {
+  test('empty field value on non-required field is set with no errors on context', () => {
     const context = forms.createFormContext(form);
     const context2 = forms.updateForm(
       context,
@@ -86,7 +87,7 @@ describe('two question form context', () => {
     });
   });
 
-  it('valid field value on non-required field is stored on context', () => {
+  test('valid field value on non-required field is stored on context', () => {
     const context = forms.createFormContext(form);
     const nextContext = forms.updateForm(
       context,
@@ -103,5 +104,18 @@ describe('two question form context', () => {
         },
       },
     });
+  });
+});
+
+describe('two question prompt', () => {
+  const context = forms.createFormContext(form);
+  test('includes a submit button', () => {
+    const prompt = createPrompt(context);
+    expect(prompt.actions).toEqual([
+      {
+        type: 'submit',
+        text: 'Submit',
+      },
+    ]);
   });
 });

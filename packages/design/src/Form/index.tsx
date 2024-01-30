@@ -7,6 +7,7 @@ import {
   type FormDefinition,
 } from '@atj/forms';
 import { PromptSegment } from '../FormManager/prompts';
+import ActionBar from './ActionBar';
 
 export default function Form({
   form,
@@ -32,12 +33,12 @@ export default function Form({
         })}
       >
         <fieldset className="usa-fieldset">
-          {prompt.map((promptPart, index) => (
+          {prompt.parts.map((promptPart, index) => (
             <PromptSegment key={index} promptPart={promptPart}></PromptSegment>
           ))}
           {/* Add submit button or other controls as needed */}
         </fieldset>
-        <ButtonBar />
+        <ActionBar actions={prompt.actions} />
       </form>
     </FormProvider>
   );
@@ -93,11 +94,3 @@ export const FormFieldsetUnwired = ({ fields }: { fields: Field[] }) => {
   );
 };
 */
-
-const ButtonBar = () => {
-  return (
-    <div>
-      <button className="usa-button">Submit</button>
-    </div>
-  );
-};

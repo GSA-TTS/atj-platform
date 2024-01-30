@@ -1,7 +1,6 @@
-// Replace your-framework with the name of your framework
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import type { Meta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { createForm } from '@atj/forms';
 
@@ -37,4 +36,4 @@ export default {
   tags: ['autodocs'],
 } satisfies Meta<typeof DocumentImporter>;
 
-export const TestForm = {};
+export const TestForm = {} satisfies StoryObj<typeof DocumentImporter>;
