@@ -2,7 +2,7 @@ import React from 'react';
 import { onFileInputChangeGetFile } from './file-input';
 import { useDocumentImporter } from './hooks';
 
-export function PDFFileSelect({ baseUrl }: { baseUrl: string }) {
+export default function PDFFileSelect({ baseUrl }: { baseUrl: string }) {
   const { actions } = useDocumentImporter(baseUrl);
   return (
     <div className="usa-form-group">

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { FormService } from '@atj/form-service';
-import { PDFFileSelect } from './PDFFileSelect';
+import PDFFileSelect from './PDFFileSelect';
 
 export default function FormList({
   baseUrl,
