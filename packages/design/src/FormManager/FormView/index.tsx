@@ -3,16 +3,6 @@ import React from 'react';
 import { type FormService } from '@atj/form-service';
 import Form from '../../Form';
 
-// Assuming this is the structure of your JSON data
-export interface Field {
-  type: 'text';
-  id: string;
-  name: string;
-  label: string;
-  required: boolean;
-  initial?: string;
-}
-
 export const FormViewById = ({
   formId,
   formService,

@@ -9,7 +9,7 @@ let _context: AppContext | null = null;
 
 export const getAppContext = (): AppContext => {
   if (_context === null) {
-    _context = createAppContext((import.meta as any).env);
+    _context = createAppContext(import.meta.env);
   }
   return _context;
 };

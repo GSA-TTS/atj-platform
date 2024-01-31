@@ -1,8 +1,10 @@
 ---
-import { FormLoader } from '@atj/design';
+import { FormManager } from '@atj/design';
 import ContentLayout from '../../layouts/ContentLayout.astro';
+
+const baseUrl = import.meta.env.BASE_URL;
 ---
 
 <ContentLayout title="10x Access to Justice Spotlight">
-  <FormLoader client:only />
+  <FormManager client:only baseUrl={baseUrl} />
 </ContentLayout>
