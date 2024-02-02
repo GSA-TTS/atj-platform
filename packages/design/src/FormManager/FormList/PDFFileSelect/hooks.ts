@@ -2,11 +2,13 @@ import { useNavigate } from 'react-router-dom';
 
 import { addDocument } from '@atj/documents';
 import { createForm } from '@atj/forms';
-import { type FormService, createBrowserFormService } from '@atj/form-service';
+import { type FormService } from '@atj/form-service';
 
-export const useDocumentImporter = (baseUrl: string) => {
+export const useDocumentImporter = (
+  formService: FormService,
+  baseUrl: string
+) => {
   const navigate = useNavigate();
-  const formService = createBrowserFormService();
 
   return {
     actions: {

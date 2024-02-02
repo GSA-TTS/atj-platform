@@ -155,6 +155,22 @@ export const addQuestions = (
   };
 };
 
+export const replaceQuestions = (
+  form: FormDefinition,
+  questions: Question[]
+): FormDefinition => {
+  return {
+    ...form,
+    questions: questions.reduce(
+      (acc, question) => {
+        acc[question.id] = question;
+        return acc;
+      },
+      {} as Record<QuestionId, Question>
+    ),
+  };
+};
+
 export const getFlatFieldList = <T extends FormStrategy>(
   form: FormDefinition<T>
 ) => {

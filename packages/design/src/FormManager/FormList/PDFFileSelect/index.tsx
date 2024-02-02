@@ -1,9 +1,18 @@
 import React from 'react';
+
+import { FormService } from '@atj/form-service';
+
 import { onFileInputChangeGetFile } from './file-input';
 import { useDocumentImporter } from './hooks';
 
-export default function PDFFileSelect({ baseUrl }: { baseUrl: string }) {
-  const { actions } = useDocumentImporter(baseUrl);
+export default function PDFFileSelect({
+  formService,
+  baseUrl,
+}: {
+  formService: FormService;
+  baseUrl: string;
+}) {
+  const { actions } = useDocumentImporter(formService, baseUrl);
   return (
     <div className="usa-form-group">
       <div className="usa-hint" id="file-input-specific-hint">

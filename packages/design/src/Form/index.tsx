@@ -1,62 +1,14 @@
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { HashRouter, Route, Routes, useParams } from 'react-router-dom';
 
 import {
   createFormContext,
   createPrompt,
   type FormDefinition,
 } from '@atj/forms';
-import { createBrowserFormService } from '@atj/form-service';
 
 import PromptSegment from './PromptSegment';
 import ActionBar from './ActionBar';
-
-// Wrapper around Form that includes a client-side router for loading forms.
-export const FormLoader = () => {
-  const formService = createBrowserFormService();
-  return (
-    <HashRouter>
-      <Routes>
-        <Route
-          path="/:formId"
-          Component={() => {
-            const { formId } = useParams();
-            if (formId === undefined) {
-              return <div>formId is undefined</div>;
-            }
-            const result = formService.getForm(formId);
-            if (!result.success) {
-              return (
-                <div className="usa-alert usa-alert--error" role="alert">
-                  <div className="usa-alert__body">
-                    <h4 className="usa-alert__heading">Error loading form</h4>
-                    <p className="usa-alert__text">{result.error}</p>
-                  </div>
-                </div>
-              );
-            }
-            return (
-              <Form
-                form={result.data}
-                onSubmit={async data => {
-                  const submission = await formService.submitForm(formId, data);
-                  if (submission.success) {
-                    submission.data.forEach(document => {
-                      downloadPdfDocument(document.fileName, document.data);
-                    });
-                  } else {
-                    console.error(submission.error);
-                  }
-                }}
-              />
-            );
-          }}
-        />
-      </Routes>
-    </HashRouter>
-  );
-};
 
 export default function Form({
   form,
@@ -92,18 +44,6 @@ export default function Form({
     </FormProvider>
   );
 }
-
-export const downloadPdfDocument = (fileName: string, pdfData: Uint8Array) => {
-  const blob = new Blob([pdfData], { type: 'application/pdf' });
-  const url = URL.createObjectURL(blob);
-  const element = document.createElement('a');
-  element.setAttribute('href', url);
-  element.setAttribute('download', fileName);
-  element.style.display = 'none';
-  document.body.appendChild(element);
-  element.click();
-  document.body.removeChild(element);
-};
 
 /*
 export const FormFieldsetUnwired = ({ fields }: { fields: Field[] }) => {

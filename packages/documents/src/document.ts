@@ -1,6 +1,6 @@
 import {
   DocumentFieldMap,
-  Form,
+  FormDefinition,
   Question,
   addFormOutput,
   addQuestions,
@@ -11,7 +11,7 @@ import { suggestFormDetails } from './suggestions';
 export type DocumentTemplate = PDFDocument;
 
 export const addDocument = async (
-  form: Form,
+  form: FormDefinition,
   fileDetails: {
     name: string;
     data: Uint8Array;
@@ -37,7 +37,7 @@ export const addDocument = async (
 };
 
 export const addDocumentFieldsToForm = (
-  form: Form,
+  form: FormDefinition,
   fields: DocumentFieldMap
 ) => {
   const questions: Question[] = [];

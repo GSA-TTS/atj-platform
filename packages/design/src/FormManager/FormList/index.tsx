@@ -17,16 +17,31 @@ export default function FormList({
   }
   return (
     <>
-      <ul className="usa-list usa-list--unstyled">
-        {result.data.map((formId, index) => (
-          <li key={index}>
-            {formId} <Link to={`/${formId}`}>View</Link> /{' '}
-            <Link to={`/${formId}/edit`}>Edit</Link> /{' '}
-            <Link to={`/${formId}/delete`}>Delete</Link>
-          </li>
-        ))}
-      </ul>
-      <PDFFileSelect baseUrl={baseUrl} />
+      {' '}
+      <table className="usa-table">
+        <caption>My forms</caption>
+        <thead>
+          <tr>
+            <th scope="col">Form title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {result.data.map((form, index) => (
+            <tr key={index}>
+              <th scope="row">{form.title}</th>
+              <td>{form.description}</td>
+              <td>
+                <Link to={`/${form.id}`}>Preview</Link> /
+                <Link to={`/${form.id}/edit`}>Edit</Link> /
+                <Link to={`/${form.id}/delete`}>Delete</Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <PDFFileSelect baseUrl={baseUrl} formService={formService} />
     </>
   );
 }

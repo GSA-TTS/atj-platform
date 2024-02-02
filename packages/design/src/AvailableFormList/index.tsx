@@ -1,13 +1,41 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+import { FormService } from '@atj/form-service';
+
+type FormDetails = {
+  id: string;
+  title: string;
+  description: string;
+};
+type UrlForForm = (id: string) => string;
 
 export default function AvailableFormList({
-  forms,
+  formService,
+  urlForForm,
 }: {
-  forms: { title: string; description: string; url: string }[];
+  formService: FormService;
+  urlForForm: UrlForForm;
 }) {
+  const [forms, setForms] = useState<FormDetails[]>([]);
+  useEffect(() => {
+    const result = formService.getFormList();
+    if (result.success) {
+      setForms(result.data);
+    }
+  }, []);
+  return <FormList forms={forms} urlForForm={urlForForm} />;
+}
+
+const FormList = ({
+  forms,
+  urlForForm,
+}: {
+  forms: FormDetails[];
+  urlForForm: UrlForForm;
+}) => {
   return (
     <table className="usa-table">
-      <caption>Bordered table</caption>
+      <caption>Available forms</caption>
       <thead>
         <tr>
           <th scope="col">Form title</th>
@@ -21,7 +49,7 @@ export default function AvailableFormList({
             <th scope="row">{form.title}</th>
             <td>{form.description}</td>
             <td>
-              <a href={form.url} title={form.title}>
+              <a href={urlForForm(form.id)} title={form.title}>
                 Go to form
               </a>
             </td>
@@ -30,4 +58,4 @@ export default function AvailableFormList({
       </tbody>
     </table>
   );
-}
+};

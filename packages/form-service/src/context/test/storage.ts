@@ -1,7 +1,7 @@
-import { Form } from '@atj/forms';
+import { type FormDefinition } from '@atj/forms';
 import { saveFormToStorage } from '../browser/form-repo';
 
-export type TestData = Record<string, Form>;
+export type TestData = Record<string, FormDefinition>;
 
 export const createTestStorage = (testData: TestData): Storage => {
   const records: Record<string, string> = {};

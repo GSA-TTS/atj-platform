@@ -1,18 +1,9 @@
 ---
-import { DocumentAssembler } from '@atj/design/src/experiments/document-assembler';
 import ContentLayout from '../layouts/ContentLayout.astro';
-import * as routes from '../routes';
+import AppAvailableFormList from '../components/AppAvailableFormList';
 ---
 
 <ContentLayout title="10x Access to Justice Spotlight">
   <h1>10x Access to Justice Spotlight</h1>
-  <ul>
-    <li>
-      <a href={routes.getStorybookUrl()}>View Storybook</a>
-    </li>
-    <li>
-      <a href={routes.getManageUrl()}>Manage my forms</a>
-    </li>
-  </ul>
-  <DocumentAssembler client:load />
+  <AppAvailableFormList client:only />
 </ContentLayout>
