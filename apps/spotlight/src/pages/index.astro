@@ -1,9 +1,11 @@
 ---
 import ContentLayout from '../layouts/ContentLayout.astro';
 import AppAvailableFormList from '../components/AppAvailableFormList';
+import DebugTools from '../components/DebugTools';
 ---
 
 <ContentLayout title="10x Access to Justice Spotlight">
   <h1>10x Access to Justice Spotlight</h1>
   <AppAvailableFormList client:only />
+  <DebugTools client:only />
 </ContentLayout>
