@@ -1,30 +1,11 @@
 ---
-import { DocumentAssembler } from '@atj/design/src/experiments/document-assembler';
 import ContentLayout from '../layouts/ContentLayout.astro';
+import AppAvailableFormList from '../components/AppAvailableFormList';
+import DebugTools from '../components/DebugTools';
 ---
 
 <ContentLayout title="10x Access to Justice Spotlight">
   <h1>10x Access to Justice Spotlight</h1>
-  <ul>
-    <li>
-      <a href={`${import.meta.env.BASE_URL}design/index.html`}
-        >View frontend workshop</a
-      >
-    </li>
-    <li>
-      <a href={`${import.meta.env.BASE_URL}forms`}>Manage my forms</a>
-    </li>
-    <li>
-      <a href={`${import.meta.env.BASE_URL}form-sample`}>Sample form</a>
-    </li>
-    <li>
-      <a href={`${import.meta.env.BASE_URL}ud105-evicition-form`}
-        >UD 105 - Unlawful Detainment Eviction Form</a
-      >
-    </li>
-    <li>
-      <a href={`${import.meta.env.BASE_URL}forms/import-pdf`}>Import PDF</a>
-    </li>
-  </ul>
-  <DocumentAssembler client:load />
+  <AppAvailableFormList client:only />
+  <DebugTools client:only />
 </ContentLayout>

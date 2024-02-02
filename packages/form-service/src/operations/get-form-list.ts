@@ -1,8 +1,16 @@
-import { getFormListFromStorage } from '../context/browser/form-repo';
+import { getFormSummaryListFromStorage } from '../context/browser/form-repo';
 
-export const getFormList = (ctx: { storage: Storage }): Result<string[]> => {
-  const result = getFormListFromStorage(ctx.storage);
-  if (result === null) {
+export type FormListItem = {
+  id: string;
+  title: string;
+  description: string;
+};
+
+export const getFormList = (ctx: {
+  storage: Storage;
+}): Result<FormListItem[]> => {
+  const forms = getFormSummaryListFromStorage(ctx.storage);
+  if (forms === null) {
     return {
       success: false,
       error: 'error getting form list',
@@ -10,6 +18,6 @@ export const getFormList = (ctx: { storage: Storage }): Result<string[]> => {
   }
   return {
     success: true,
-    data: result,
+    data: forms,
   };
 };

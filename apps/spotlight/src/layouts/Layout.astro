@@ -2,8 +2,9 @@
 import '../styles.css';
 
 import UsaBanner from '../components/UsaBanner.astro';
-import { getAppContext } from '../context';
 import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { getAppContext } from '../context';
 
 interface Props {
   title: string;
@@ -49,6 +50,7 @@ const context = getAppContext();
   </head>
   <body>
     <UsaBanner />
+    <Header />
     <slot />
     <Footer github={context.github} />
   </body>

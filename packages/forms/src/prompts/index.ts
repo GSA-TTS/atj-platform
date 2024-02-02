@@ -18,7 +18,16 @@ export type FormSummaryPrompt = {
 
 export type PromptPart = FormSummaryPrompt | TextInputPrompt;
 
-export type Prompt = PromptPart[];
+export type SubmitAction = {
+  type: 'submit';
+  text: 'Submit';
+};
+export type PromptAction = SubmitAction;
+
+export type Prompt = {
+  actions: PromptAction[];
+  parts: PromptPart[];
+};
 
 // to be filled out to support more complicated display formats.
 export const createPrompt = <T extends FormStrategy>(
@@ -49,5 +58,13 @@ export const createPrompt = <T extends FormStrategy>(
     const _exhaustiveCheck: never = formContext.form.strategy;
   }
 
-  return parts;
+  return {
+    actions: [
+      {
+        type: 'submit',
+        text: 'Submit',
+      },
+    ],
+    parts,
+  };
 };

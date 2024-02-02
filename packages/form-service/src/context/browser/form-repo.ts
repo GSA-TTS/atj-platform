@@ -1,9 +1,9 @@
-import { Form } from '@atj/forms';
+import { type FormDefinition } from '@atj/forms';
 
 export const getFormFromStorage = (
   storage: Storage,
   id?: string
-): Form | null => {
+): FormDefinition | null => {
   if (!storage || !id) {
     return null;
   }
@@ -14,7 +14,7 @@ export const getFormFromStorage = (
   return parseStringForm(formString);
 };
 
-export const getFormListFromStorage = (storage: Storage): string[] | null => {
+export const getFormListFromStorage = (storage: Storage) => {
   const keys = [];
   for (let i = 0; i < storage.length; i++) {
     const key = storage.key(i);
@@ -26,9 +26,27 @@ export const getFormListFromStorage = (storage: Storage): string[] | null => {
   return keys;
 };
 
+export const getFormSummaryListFromStorage = (storage: Storage) => {
+  const forms = getFormListFromStorage(storage);
+  if (forms === null) {
+    return null;
+  }
+  return forms.map(key => {
+    const form = getFormFromStorage(storage, key) as FormDefinition;
+    if (form === null) {
+      throw new Error('key mismatch');
+    }
+    return {
+      id: key,
+      title: form.summary.title,
+      description: form.summary.description,
+    };
+  });
+};
+
 export const addFormToStorage = (
   storage: Storage,
-  form: Form
+  form: FormDefinition
 ): Result<string> => {
   const uuid = crypto.randomUUID();
 
@@ -46,7 +64,7 @@ export const addFormToStorage = (
 export const saveFormToStorage = (
   storage: Storage,
   formId: string,
-  form: Form
+  form: FormDefinition
 ) => {
   try {
     storage.setItem(formId, stringifyForm(form));
@@ -65,7 +83,7 @@ export const deleteFormFromStorage = (storage: Storage, formId: string) => {
   storage.removeItem(formId);
 };
 
-const stringifyForm = (form: Form) => {
+const stringifyForm = (form: FormDefinition) => {
   return JSON.stringify({
     ...form,
     documents: form.documents.map(document => ({
@@ -76,8 +94,8 @@ const stringifyForm = (form: Form) => {
   });
 };
 
-const parseStringForm = (formString: string): Form => {
-  const form = JSON.parse(formString) as Form;
+const parseStringForm = (formString: string): FormDefinition => {
+  const form = JSON.parse(formString) as FormDefinition;
   return {
     ...form,
     documents: form.documents.map(document => ({

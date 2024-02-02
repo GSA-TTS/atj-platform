@@ -6,8 +6,8 @@ import type { FormService } from '@atj/form-service';
 import {
   FormDefinition,
   addQuestions,
-  createForm,
   getFlatFieldList,
+  replaceQuestions,
 } from '@atj/forms';
 
 export default function FormEdit({
@@ -105,7 +105,15 @@ const EditForm = ({
   return (
     <form
       onSubmit={handleSubmit(data => {
-        const updatedForm = replaceFormQuestions(form, data);
+        const updatedForm = replaceQuestions(
+          form,
+          Object.entries(data).map(([id, field]) => ({
+            id,
+            text: field.label,
+            initial: field.initial,
+            required: field.required,
+          }))
+        );
         onSave(updatedForm);
       })}
     >
@@ -178,15 +186,4 @@ const ButtonBar = () => {
       <button className="usa-button">Save</button>
     </div>
   );
-};
-
-const replaceFormQuestions = (form: FormDefinition, data: FieldMap) => {
-  const questions = Object.entries(data).map(([id, field]) => ({
-    id,
-    text: field.label,
-    initial: field.initial,
-    required: field.required,
-  }));
-  const newForm = createForm(form.summary);
-  return addQuestions(newForm, questions);
 };

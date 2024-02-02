@@ -24,14 +24,12 @@ export const submitForm = async (
   const errors = new Array<string>();
   const documents = new Array<{ fileName: string; data: Uint8Array }>();
   for (const document of form.documents) {
-    const response = await fetch(document.path);
-    const pdfBytes = new Uint8Array(await response.arrayBuffer());
     const docFieldData = createDocumentFieldData(
       document.fields,
       document.formFields,
       formData
     );
-    const pdfDocument = await fillPDF(pdfBytes, docFieldData);
+    const pdfDocument = await fillPDF(document.data, docFieldData);
     if (!pdfDocument.success) {
       errors.push(pdfDocument.error);
     } else {

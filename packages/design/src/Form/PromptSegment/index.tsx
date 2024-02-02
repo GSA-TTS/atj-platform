@@ -4,7 +4,11 @@ import { type PromptPart } from '@atj/forms';
 import FormSummary from './FormSummary';
 import TextInput from './TextInput';
 
-export const PromptSegment = ({ promptPart }: { promptPart: PromptPart }) => {
+export default function PromptSegment({
+  promptPart,
+}: {
+  promptPart: PromptPart;
+}) {
   if (promptPart.type === 'form-summary') {
     return <FormSummary prompt={promptPart} />;
   } else if (promptPart.type === 'text') {
@@ -13,4 +17,4 @@ export const PromptSegment = ({ promptPart }: { promptPart: PromptPart }) => {
     const _exhaustiveCheck: never = promptPart; // eslint-disable-line @typescript-eslint/no-unused-vars
     return (<></>) as never;
   }
-};
+}

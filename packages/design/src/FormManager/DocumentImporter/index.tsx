@@ -2,22 +2,24 @@ import React, { PropsWithChildren, useReducer } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { addDocument, addDocumentFieldsToForm } from '@atj/documents';
-import { createBrowserFormService } from '@atj/form-service';
+import { type FormService } from '@atj/form-service';
 import { type DocumentFieldMap, type FormDefinition } from '@atj/forms';
 
-import { onFileInputChangeGetFile } from '../../util/file-input';
+import { onFileInputChangeGetFile } from '../FormList/PDFFileSelect/file-input';
 import Form from '../../Form';
 
 const DocumentImporter = ({
   baseUrl,
   formId,
   form,
+  formService,
 }: {
   baseUrl: string;
   formId: string;
   form: FormDefinition;
+  formService: FormService;
 }) => {
-  const { state, actions } = useDocumentImporter(form, baseUrl);
+  const { state, actions } = useDocumentImporter(formService, form, baseUrl);
 
   const Step: React.FC<
     PropsWithChildren<{ title: string; step: number; current: number }>
@@ -185,9 +187,12 @@ type State = {
   documentFields?: DocumentFieldMap;
 };
 
-const useDocumentImporter = (form: FormDefinition, baseUrl: string) => {
+const useDocumentImporter = (
+  formService: FormService,
+  form: FormDefinition,
+  baseUrl: string
+) => {
   const navigate = useNavigate();
-  const formService = createBrowserFormService();
   const [state, dispatch] = useReducer(
     (
       state: State,

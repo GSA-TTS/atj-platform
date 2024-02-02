@@ -1,22 +1,29 @@
 import React from 'react';
 import { useParams, HashRouter, Route, Routes } from 'react-router-dom';
 
-import { createBrowserFormService } from '@atj/form-service';
+import { type FormService } from '@atj/form-service';
 
 import FormDelete from './FormDelete';
 import FormEdit from './FormEdit';
 import FormList from './FormList';
-import { FormViewById } from './FormView';
+import { FormViewById } from './FormPreview';
 import { FormDocumentImport } from './import-document';
 
-export default function FormManager({ baseUrl }: { baseUrl: string }) {
-  const formService = createBrowserFormService();
+export default function FormManager({
+  baseUrl,
+  formService,
+}: {
+  baseUrl: string;
+  formService: FormService;
+}) {
   return (
     <HashRouter>
       <Routes>
         <Route
           path="/"
-          Component={() => <FormList formService={formService} />}
+          Component={() => (
+            <FormList baseUrl={baseUrl} formService={formService} />
+          )}
         />
         <Route
           path="/:formId"
@@ -55,7 +62,13 @@ export default function FormManager({ baseUrl }: { baseUrl: string }) {
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
-            return <FormDocumentImport baseUrl={baseUrl} formId={formId} />;
+            return (
+              <FormDocumentImport
+                baseUrl={baseUrl}
+                formId={formId}
+                formService={formService}
+              />
+            );
           }}
         />
       </Routes>

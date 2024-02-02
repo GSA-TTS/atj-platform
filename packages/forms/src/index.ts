@@ -32,7 +32,7 @@ export type FormContext<T extends FormStrategy> = {
     errors: ErrorMap;
     values: QuestionValueMap;
   };
-  form: Form<T>;
+  form: FormDefinition<T>;
 };
 
 export type SequentialStrategy = {
@@ -56,7 +56,7 @@ type FormOutput = {
 export const createForm = (
   summary: FormSummary,
   questions: Question[] = []
-): Form => {
+): FormDefinition => {
   return {
     summary,
     questions: getQuestionMap(questions),
@@ -71,7 +71,7 @@ export const createForm = (
 };
 
 export const createFormContext = <T extends FormStrategy>(
-  form: Form<T>
+  form: FormDefinition<T>
 ): FormContext<T> => {
   return {
     context: {
@@ -141,7 +141,7 @@ const getQuestionMap = (questions: Question[]) => {
 };
 
 export const addQuestions = (
-  form: Form<SequentialStrategy>,
+  form: FormDefinition<SequentialStrategy>,
   questions: Question[]
 ) => {
   const questionMap = getQuestionMap(questions);
@@ -155,7 +155,25 @@ export const addQuestions = (
   };
 };
 
-export const getFlatFieldList = <T extends FormStrategy>(form: Form<T>) => {
+export const replaceQuestions = (
+  form: FormDefinition,
+  questions: Question[]
+): FormDefinition => {
+  return {
+    ...form,
+    questions: questions.reduce(
+      (acc, question) => {
+        acc[question.id] = question;
+        return acc;
+      },
+      {} as Record<QuestionId, Question>
+    ),
+  };
+};
+
+export const getFlatFieldList = <T extends FormStrategy>(
+  form: FormDefinition<T>
+) => {
   if (form.strategy.type === 'sequential') {
     return form.strategy.order.map(questionId => {
       return form.questions[questionId];
@@ -169,7 +187,7 @@ export const getFlatFieldList = <T extends FormStrategy>(form: Form<T>) => {
 };
 
 export const addFormOutput = <T extends FormStrategy>(
-  form: Form<T>,
+  form: FormDefinition<T>,
   document: FormOutput
 ) => {
   return {
