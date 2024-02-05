@@ -8,6 +8,7 @@ export type FormElement = {
 };
 export type FormElementValue = any;
 export type FormElementValueMap = Record<FormElementId, FormElementValue>;
+export type FormElementMap = Record<FormElementId, FormElement>;
 
 export const getFormElementMap = (elements: FormElement[]) => {
   return Object.fromEntries(

@@ -5,6 +5,7 @@ import {
   type FormElementId,
   type FormElementValue,
   type FormElementValueMap,
+  type FormElementMap,
 } from './elements';
 
 export * from './documents';
@@ -13,7 +14,7 @@ export * from './prompts';
 
 export type FormDefinition<T extends FormStrategy = SequentialStrategy> = {
   summary: FormSummary;
-  elements: Record<FormElementId, FormElement>;
+  elements: FormElementMap;
   strategy: T;
   documents: FormOutput[];
 };
