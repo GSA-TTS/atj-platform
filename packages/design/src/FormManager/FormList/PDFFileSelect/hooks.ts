@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
+import { type Result } from '@atj/common';
 import { addDocument } from '@atj/documents';
 import { createForm } from '@atj/forms';
 import { type FormService } from '@atj/form-service';
@@ -40,7 +41,7 @@ export const useDocumentImporter = (
 export const stepOneSelectPdfByUrl = async (
   ctx: { formService: FormService; baseUrl: string },
   url: string
-) => {
+): Promise<Result<string>> => {
   const completeUrl = `${ctx.baseUrl}${url}`;
   const response = await fetch(completeUrl);
   const blob = await response.blob();
@@ -65,7 +66,7 @@ export const stepOneSelectPdfByUpload = async (
     name: string;
     data: Uint8Array;
   }
-) => {
+): Promise<Result<string>> => {
   const { updatedForm } = await addDocument(
     createForm({
       title: fileDetails.name,

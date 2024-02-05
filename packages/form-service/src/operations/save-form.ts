@@ -1,10 +1,12 @@
-import { Form } from '@atj/forms';
+import { VoidResult } from '@atj/common';
+import { FormDefinition } from '@atj/forms';
+
 import { saveFormToStorage } from '../context/browser/form-repo';
 
 export const saveForm = (
   ctx: { storage: Storage },
   formId: string,
-  form: Form
+  form: FormDefinition
 ): VoidResult => {
   const result = saveFormToStorage(ctx.storage, formId, form);
   if (result.success === false) {
