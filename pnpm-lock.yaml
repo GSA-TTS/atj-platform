@@ -63,9 +63,6 @@ importers:
       '@atj/dependency-graph':
         specifier: workspace:*
         version: link:../../packages/dependency-graph
-      '@atj/docassemble':
-        specifier: workspace:*
-        version: link:../../packages/docassemble
       commander:
         specifier: ^11.1.0
         version: 11.1.0

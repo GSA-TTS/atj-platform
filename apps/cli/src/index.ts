@@ -10,10 +10,10 @@ const workspaceRoot = join(process.cwd(), '../../');
 const app = CliController({
   console,
   workspaceRoot,
-  docassemble: {
+  /*docassemble: {
     fetch,
     apiUrl: 'http://localhost:8011',
     apiKey: process.env.VITE_DOCASSEMBLE_API_KEY || '',
-  },
+  },*/
 });
 app.parseAsync(process.argv).then(() => console.log('Done'));
