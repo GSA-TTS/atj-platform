@@ -86,10 +86,10 @@ export const deleteFormFromStorage = (storage: Storage, formId: string) => {
 const stringifyForm = (form: FormDefinition) => {
   return JSON.stringify({
     ...form,
-    documents: form.documents.map(document => ({
-      ...document,
+    outputs: form.outputs.map(output => ({
+      ...output,
       // TODO: we probably want to do this somewhere in the documents module
-      data: uint8ArrayToBase64(document.data),
+      data: uint8ArrayToBase64(output.data),
     })),
   });
 };
@@ -98,9 +98,9 @@ const parseStringForm = (formString: string): FormDefinition => {
   const form = JSON.parse(formString) as FormDefinition;
   return {
     ...form,
-    documents: form.documents.map(document => ({
-      ...document,
-      data: base64ToUint8Array((document as any).data),
+    outputs: form.outputs.map(output => ({
+      ...output,
+      data: base64ToUint8Array((output as any).data),
     })),
   };
 };

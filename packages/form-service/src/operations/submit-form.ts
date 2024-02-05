@@ -23,7 +23,7 @@ export const submitForm = async (
   }
   const errors = new Array<string>();
   const documents = new Array<{ fileName: string; data: Uint8Array }>();
-  for (const document of form.documents) {
+  for (const document of form.outputs) {
     const docFieldData = createDocumentFieldData(
       document.fields,
       document.formFields,

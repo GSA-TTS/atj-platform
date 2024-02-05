@@ -16,7 +16,7 @@ export type FormDefinition<T extends FormStrategy = SequentialStrategy> = {
   summary: FormSummary;
   elements: FormElementMap;
   strategy: T;
-  documents: FormOutput[];
+  outputs: FormOutput[];
 };
 
 export type FormSummary = {
@@ -64,7 +64,7 @@ export const createForm = (
         return element.id;
       }),
     },
-    documents: [],
+    outputs: [],
   };
 };
 
@@ -182,6 +182,6 @@ export const addFormOutput = <T extends FormStrategy>(
 ) => {
   return {
     ...form,
-    documents: [...form.documents, document],
+    outputs: [...form.outputs, document],
   };
 };
