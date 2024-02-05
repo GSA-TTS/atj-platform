@@ -1,6 +1,6 @@
 import { type Interview } from '../interview';
 import { type Prompt } from '../prompt';
-import { type QuestionId, type InterviewQuestion } from '../question';
+import { type FormElementId, type InterviewFormElement } from '../element';
 import {
   processSequentialStrategy,
   type SequentialStrategyData,
@@ -19,15 +19,15 @@ export type Strategy<I extends Interview> =
 export interface IStrategy<I extends Interview> {
   nextPrompt<
     I extends Interview,
-    Q extends Extract<keyof I['questions'], QuestionId> = Extract<
-      keyof I['questions'],
-      QuestionId
+    Q extends Extract<keyof I['elements'], FormElementId> = Extract<
+      keyof I['elements'],
+      FormElementId
     >,
     V extends
-      I['questions'][Q]['fact']['initial'] = I['questions'][Q]['fact']['initial'],
+      I['elements'][Q]['fact']['initial'] = I['elements'][Q]['fact']['initial'],
   >(
     interview: I,
-    currentQuestionId: InterviewQuestion<I> | null,
+    currentFormElementId: InterviewFormElement<I> | null,
     value: V
   ): Prompt<I>;
 }
@@ -35,10 +35,10 @@ export interface IStrategy<I extends Interview> {
 export const processStrategy = <
   I extends Interview,
   V extends
-    I['questions'][QuestionId]['fact']['initial'] = I['questions'][QuestionId]['fact']['initial'],
+    I['elements'][FormElementId]['fact']['initial'] = I['elements'][FormElementId]['fact']['initial'],
 >(
   interview: I,
-  current: InterviewQuestion<I> | null,
+  current: InterviewFormElement<I> | null,
   value: V
 ): Prompt<I> => {
   if (interview.strategy.type === 'sequential') {

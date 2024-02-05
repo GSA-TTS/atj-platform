@@ -1,4 +1,4 @@
-import { type QuestionMap } from './question';
+import { type FormElementMap } from './element';
 import { type Strategy } from './strategies';
 
 export type InterviewSummary = Readonly<{
@@ -9,5 +9,5 @@ export type InterviewSummary = Readonly<{
 export type Interview = Readonly<{
   summary: InterviewSummary;
   strategy: Strategy<Interview>;
-  questions: QuestionMap;
+  elements: FormElementMap;
 }>;

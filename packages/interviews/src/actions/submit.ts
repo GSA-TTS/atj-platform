@@ -2,7 +2,7 @@ import { validAnswer } from '../answer';
 import { Interview } from '../interview';
 import { InterviewContext } from '../interview-context';
 import { Button } from '../prompt';
-import { Question, QuestionId } from '../question';
+import { FormElement, FormElementId } from '../element';
 import { type IStrategy, processStrategy } from '../strategies';
 
 export const handleSubmit = <
@@ -15,7 +15,7 @@ export const handleSubmit = <
 ): C => {
   const submitButton = getSubmitButton(context.prompt.buttons, formData);
   //const nextContext = applyPrompt(context.prompt, formData);
-  //const nextContext = answerQuestionById(context, action.questionId, formData);
+  //const nextContext = answerFormElementById(context, action.elementId, formData);
   if (submitButton === 'next') {
     return {
       prompt: strategy.nextPrompt(context.interview, prompt),
@@ -24,26 +24,26 @@ export const handleSubmit = <
   return context;
 };
 
-const answerQuestionById = <
+const answerFormElementById = <
   I extends Interview,
   C extends InterviewContext<I>,
-  Q extends Extract<keyof I['questions'], QuestionId>,
-  V extends I['questions'][Q]['fact']['initial'],
+  Q extends Extract<keyof I['elements'], FormElementId>,
+  V extends I['elements'][Q]['fact']['initial'],
 >(
   context: C,
-  questionId: Q,
+  elementId: Q,
   formData: FormData
 ): InterviewContext<I> => {
-  const question = context.interview.questions[questionId];
-  if (question === undefined) {
+  const element = context.interview.elements[elementId];
+  if (element === undefined) {
     return {
       ...context,
-      error: `invalid question ID: ${questionId}`,
+      error: `invalid element ID: ${elementId}`,
     };
   }
 
-  const value = getFieldValue(formData, question);
-  if (!validAnswer(question, formData.get('questionId'))) {
+  const value = getFieldValue(formData, element);
+  if (!validAnswer(element, formData.get('elementId'))) {
     return {
       ...context,
       error: `invalid answer: ${value}`,
@@ -52,21 +52,21 @@ const answerQuestionById = <
 
   return {
     interview: context.interview,
-    prompt: processStrategy(context.interview, questionId, value),
+    prompt: processStrategy(context.interview, elementId, value),
     answers: {
       ...context.answers,
-      [questionId]: value,
+      [elementId]: value,
     },
   };
 };
 
-const answerQuestion = <I extends Interview, C extends InterviewContext<I>>(
+const answerFormElement = <I extends Interview, C extends InterviewContext<I>>(
   context: C,
-  question: Question,
+  element: FormElement,
   formData: FormData
 ): InterviewContext<I> => {
-  const value = getFieldValue(formData, question);
-  if (!validAnswer(question, formData.get('questionId'))) {
+  const value = getFieldValue(formData, element);
+  if (!validAnswer(element, formData.get('elementId'))) {
     return {
       ...context,
       error: `invalid answer: ${value}`,
@@ -75,10 +75,10 @@ const answerQuestion = <I extends Interview, C extends InterviewContext<I>>(
 
   return {
     interview: context.interview,
-    prompt: processStrategy(context.interview, question.field.id, value),
+    prompt: processStrategy(context.interview, element.field.id, value),
     answers: {
       ...context.answers,
-      [questionId]: value,
+      [elementId]: value,
     },
   };
 };
@@ -99,15 +99,15 @@ const getSubmitButton = <I extends Interview>(
   return matches[0];
 };
 
-const getFieldValue = (formData: FormData, question: Question) => {
-  const field = formData.get(question.field.name);
+const getFieldValue = (formData: FormData, element: FormElement) => {
+  const field = formData.get(element.field.name);
   if (field === null) {
-    throw new Error(`field not found: ${question.field.name}`);
+    throw new Error(`field not found: ${element.field.name}`);
   }
   // For expediency, hardcode some checks for now.
-  if (question.fact.type === 'boolean') {
+  if (element.fact.type === 'boolean') {
     return field.toString() === '1';
-  } else if (question.fact.type === 'text') {
+  } else if (element.fact.type === 'text') {
     return field.toString();
   }
 };

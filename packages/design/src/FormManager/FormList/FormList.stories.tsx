@@ -27,14 +27,14 @@ export default {
         },
         [
           {
-            id: 'question-1',
-            text: 'Question 1',
+            id: 'element-1',
+            text: 'FormElement 1',
             initial: '',
             required: true,
           },
           {
-            id: 'question-2',
-            text: 'Question 2',
+            id: 'element-2',
+            text: 'FormElement 2',
             initial: 'initial value',
             required: false,
           },

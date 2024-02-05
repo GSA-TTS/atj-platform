@@ -2,16 +2,16 @@ import { type Fact } from './fact';
 import { type Interview } from './interview';
 import { type Field } from './prompt';
 
-export type QuestionId = string;
+export type FormElementId = string;
 
-export type Question = Readonly<{
+export type FormElement = Readonly<{
   fact: Fact;
   //prompt: Prompt;
   field: Field<Fact>;
 }>;
 
-export type QuestionMap = Record<QuestionId, Question>;
-export type InterviewQuestion<I extends Interview> = Extract<
-  keyof I['questions'],
+export type FormElementMap = Record<FormElementId, FormElement>;
+export type InterviewFormElement<I extends Interview> = Extract<
+  keyof I['elements'],
   string
 >;

@@ -47,20 +47,20 @@ export const InterviewForm = (props: { interview: Interview }) => {
           ).
         </p>
         {context.prompt.fields.map(field => {
-          const question = context.interview.questions[field.id];
-          if (question.fact.type === 'boolean') {
+          const element = context.interview.elements[field.id];
+          if (element.fact.type === 'boolean') {
             return (
               <BooleanPrompt
                 key={field.id}
                 field={field as Field<BooleanFact>}
               />
             );
-          } else if (question.fact.type === 'text') {
+          } else if (element.fact.type === 'text') {
             return (
               <TextPrompt key={field.id} field={field as Field<TextFact>} />
             );
           } else {
-            const _exhaustiveCheck: never = question.fact; // eslint-disable-line @typescript-eslint/no-unused-vars
+            const _exhaustiveCheck: never = element.fact; // eslint-disable-line @typescript-eslint/no-unused-vars
             return <></>;
           }
         })}

@@ -1,9 +1,9 @@
 import {
   DocumentFieldMap,
   FormDefinition,
-  Question,
+  FormElement,
   addFormOutput,
-  addQuestions,
+  addFormElements,
 } from '@atj/forms';
 import { PDFDocument, getDocumentFieldData } from './pdf';
 import { suggestFormDetails } from './suggestions';
@@ -40,31 +40,31 @@ export const addDocumentFieldsToForm = (
   form: FormDefinition,
   fields: DocumentFieldMap
 ) => {
-  const questions: Question[] = [];
+  const elements: FormElement[] = [];
   Object.entries(fields).map(([key, field]) => {
     if (field.type === 'CheckBox') {
-      questions.push({
+      elements.push({
         id: field.name,
         text: field.label,
         initial: field.value,
         required: field.required,
       });
     } else if (field.type === 'OptionList') {
-      questions.push({
+      elements.push({
         id: field.name,
         text: field.label,
         initial: field.value,
         required: field.required,
       });
     } else if (field.type === 'Dropdown') {
-      questions.push({
+      elements.push({
         id: field.name,
         text: field.label,
         initial: field.value,
         required: field.required,
       });
     } else if (field.type === 'TextField') {
-      questions.push({
+      elements.push({
         id: field.name,
         text: field.label,
         initial: field.value,
@@ -76,5 +76,5 @@ export const addDocumentFieldsToForm = (
       const _exhaustiveCheck: never = field;
     }
   });
-  return addQuestions(form, questions);
+  return addFormElements(form, elements);
 };

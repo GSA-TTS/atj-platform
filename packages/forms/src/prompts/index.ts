@@ -1,6 +1,6 @@
-// For now, a prompt just returns an array of questions. This will likely need
+// For now, a prompt just returns an array of elements. This will likely need
 
-import { FormContext, FormStrategy } from '..';
+import { type FormContext, type FormStrategy } from '..';
 
 export type TextInputPrompt = {
   type: 'text';
@@ -42,14 +42,14 @@ export const createPrompt = <T extends FormStrategy>(
   ];
   if (formContext.form.strategy.type === 'sequential') {
     parts.push(
-      ...formContext.form.strategy.order.map(questionId => {
-        const question = formContext.form.questions[questionId];
+      ...formContext.form.strategy.order.map(elementId => {
+        const element = formContext.form.elements[elementId];
         return {
           type: 'text' as const,
-          id: question.id,
-          value: formContext.context.values[questionId],
-          label: question.text,
-          required: question.required,
+          id: element.id,
+          value: formContext.context.values[elementId],
+          label: element.text,
+          required: element.required,
         };
       })
     );

@@ -2,7 +2,7 @@ import { handleSubmit } from './actions/submit';
 import { type AnswerMap } from './answer';
 import { type Interview } from './interview';
 import { type Prompt } from './prompt';
-import { type QuestionId } from './question';
+import { type FormElementId } from './element';
 import { SequentialStrategy } from './strategies/sequential';
 
 export type InterviewContext<I extends Interview> = Readonly<{
@@ -35,12 +35,12 @@ export const createInterviewContext = <I extends Interview>(
 
 export type InterviewAction<
   I extends Interview,
-  Q extends Extract<keyof I['questions'], QuestionId>,
-  V extends I['questions'][Q]['fact']['initial'],
+  Q extends Extract<keyof I['elements'], FormElementId>,
+  V extends I['elements'][Q]['fact']['initial'],
 > =
   | {
-      type: 'answer-question';
-      questionId: Q;
+      type: 'answer-element';
+      elementId: Q;
       value: V;
     }
   | {
@@ -51,8 +51,8 @@ export type InterviewAction<
 export const nextContext = <
   I extends Interview,
   C extends InterviewContext<I>,
-  Q extends Extract<keyof I['questions'], QuestionId>,
-  V extends I['questions'][Q]['fact']['initial'],
+  Q extends Extract<keyof I['elements'], FormElementId>,
+  V extends I['elements'][Q]['fact']['initial'],
 >(
   context: C,
   action: InterviewAction<I, Q, V>

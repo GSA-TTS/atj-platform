@@ -3,15 +3,15 @@ import { describe, expect, test } from 'vitest';
 import * as forms from '../src';
 import { createPrompt } from '../src';
 
-const questions: forms.Question[] = [
+const elements: forms.FormElement[] = [
   {
-    id: 'question-1',
+    id: 'element-1',
     text: 'What is your first name?',
     initial: '',
     required: true,
   },
   {
-    id: 'question-2',
+    id: 'element-2',
     text: 'What is your favorite word?',
     initial: '',
     required: false,
@@ -20,12 +20,12 @@ const questions: forms.Question[] = [
 const form = forms.createForm(
   {
     title: 'Form sample',
-    description: 'Form sample created via a list of questions.',
+    description: 'Form sample created via a list of elements.',
   },
-  questions
+  elements
 );
 
-describe('two question form context', () => {
+describe('two element form context', () => {
   test('initializes', () => {
     const context = forms.createFormContext(form);
     expect(context).to.not.toBeNull();
@@ -33,16 +33,16 @@ describe('two question form context', () => {
 
   test('empty field value on required field is stored with error', () => {
     const context = forms.createFormContext(form);
-    const nextContext = forms.updateForm(context, questions[0].id, null);
+    const nextContext = forms.updateForm(context, elements[0].id, null);
     expect(nextContext).toEqual({
       ...context,
       context: {
         errors: {
-          'question-1': 'Required value not provided.',
+          'element-1': 'Required value not provided.',
         },
         values: {
-          'question-1': null,
-          'question-2': '',
+          'element-1': null,
+          'element-2': '',
         },
       },
     });
@@ -52,7 +52,7 @@ describe('two question form context', () => {
     const formContext = forms.createFormContext(form);
     const nextContext = forms.updateForm(
       formContext,
-      questions[0].id,
+      elements[0].id,
       'supercalifragilisticexpialidocious'
     );
     expect(nextContext).toEqual({
@@ -60,8 +60,8 @@ describe('two question form context', () => {
       context: {
         errors: {},
         values: {
-          'question-1': 'supercalifragilisticexpialidocious',
-          'question-2': '',
+          'element-1': 'supercalifragilisticexpialidocious',
+          'element-2': '',
         },
       },
     });
@@ -71,17 +71,17 @@ describe('two question form context', () => {
     const context = forms.createFormContext(form);
     const context2 = forms.updateForm(
       context,
-      questions[1].id,
+      elements[1].id,
       'supercalifragilisticexpialidocious'
     );
-    const context3 = forms.updateForm(context2, questions[1].id, '');
+    const context3 = forms.updateForm(context2, elements[1].id, '');
     expect(context3).toEqual({
       ...context,
       context: {
         errors: {},
         values: {
-          'question-1': '',
-          'question-2': '',
+          'element-1': '',
+          'element-2': '',
         },
       },
     });
@@ -91,7 +91,7 @@ describe('two question form context', () => {
     const context = forms.createFormContext(form);
     const nextContext = forms.updateForm(
       context,
-      questions[1].id,
+      elements[1].id,
       'supercalifragilisticexpialidocious'
     );
     expect(nextContext).toEqual({
@@ -99,15 +99,15 @@ describe('two question form context', () => {
       context: {
         errors: {},
         values: {
-          'question-1': '',
-          'question-2': 'supercalifragilisticexpialidocious',
+          'element-1': '',
+          'element-2': 'supercalifragilisticexpialidocious',
         },
       },
     });
   });
 });
 
-describe('two question prompt', () => {
+describe('two element prompt', () => {
   const context = forms.createFormContext(form);
   test('includes a submit button', () => {
     const prompt = createPrompt(context);

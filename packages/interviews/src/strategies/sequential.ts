@@ -5,44 +5,48 @@ import {
   createInterviewEndPrompt,
   createSingleFieldPrompt,
 } from '../prompt';
-import type { InterviewQuestion, Question, QuestionId } from '../question';
+import type {
+  InterviewFormElement,
+  FormElement,
+  FormElementId,
+} from '../element';
 
 export type SequentialStrategyData<I extends Interview> = {
-  initial: InterviewQuestion<I>;
-  order: InterviewQuestion<I>[];
+  initial: InterviewFormElement<I>;
+  order: InterviewFormElement<I>[];
 };
 
 export type SequentialInterview = {
   summary: InterviewSummary;
-  questionList: Question[];
+  elements: FormElement[];
 };
 
 export const createSequentialInterview = (
   opts: SequentialInterview
 ): Interview => {
-  const questions = sequentialQuestionsFromList(opts.questionList);
+  const elements = sequentialFormElementsFromList(opts.elements);
   return {
     summary: opts.summary,
-    questions,
+    elements,
     strategy: {
       type: 'sequential',
       data: {
-        initial: 'question-1',
-        order: Object.keys(questions),
+        initial: 'element-1',
+        order: Object.keys(elements),
       },
     },
   };
 };
 
-const sequentialQuestionsFromList = (questionList: Question[]) => {
+const sequentialFormElementsFromList = (elements: FormElement[]) => {
   return Object.fromEntries(
-    questionList.map((question, index) => {
-      const questionId: QuestionId = `question-${index + 1}`;
+    elements.map((element, index) => {
+      const elementId: FormElementId = `element-${index + 1}`;
       return [
-        questionId,
+        elementId,
         {
-          ...question,
-          id: questionId,
+          ...element,
+          id: elementId,
         },
       ];
     })
@@ -52,10 +56,10 @@ const sequentialQuestionsFromList = (questionList: Question[]) => {
 export const processSequentialStrategy = <
   I extends Interview,
   V extends
-    I['questions'][QuestionId]['fact']['initial'] = I['questions'][QuestionId]['fact']['initial'],
+    I['elements'][FormElementId]['fact']['initial'] = I['elements'][FormElementId]['fact']['initial'],
 >(
   interview: I,
-  current: InterviewQuestion<I> | null,
+  current: InterviewFormElement<I> | null,
   value: V
 ): Prompt<I> => {
   const temp = new SequentialStrategy(interview.strategy.data);
@@ -67,33 +71,33 @@ export class SequentialStrategy<I extends Interview> implements IStrategy<I> {
 
   nextPrompt<
     I extends Interview,
-    Q extends Extract<keyof I['questions'], QuestionId> = Extract<
-      keyof I['questions'],
-      QuestionId
+    Q extends Extract<keyof I['elements'], FormElementId> = Extract<
+      keyof I['elements'],
+      FormElementId
     >,
     V extends
-      I['questions'][Q]['fact']['initial'] = I['questions'][Q]['fact']['initial'],
-  >(interview: I, currentQuestionId: Q, value: V) {
-    if (currentQuestionId === null) {
-      const questionId = this.opts.order[0];
-      const question = interview.questions[questionId];
+      I['elements'][Q]['fact']['initial'] = I['elements'][Q]['fact']['initial'],
+  >(interview: I, currentFormElementId: Q, value: V) {
+    if (currentFormElementId === null) {
+      const elementId = this.opts.order[0];
+      const element = interview.elements[elementId];
       const value = this.opts.initial;
-      return createSingleFieldPrompt<I>(question.field, {
-        id: questionId,
+      return createSingleFieldPrompt<I>(element.field, {
+        id: elementId,
         value,
       });
     }
-    const index = this.opts.order.indexOf(currentQuestionId);
+    const index = this.opts.order.indexOf(currentFormElementId);
     if (index === -1) {
-      throw new Error(`not found: "${currentQuestionId}"`);
+      throw new Error(`not found: "${currentFormElementId}"`);
     }
     if (index === this.opts.order.length - 1) {
       return createInterviewEndPrompt('Thanks for completing this interview');
     } else {
-      const questionId = this.opts.order[index + 1];
-      const question = interview.questions[questionId];
-      return createSingleFieldPrompt<I>(question.field, {
-        id: questionId,
+      const elementId = this.opts.order[index + 1];
+      const element = interview.elements[elementId];
+      return createSingleFieldPrompt<I>(element.field, {
+        id: elementId,
         value,
       });
     }

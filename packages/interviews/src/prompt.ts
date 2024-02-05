@@ -1,6 +1,6 @@
 import { Fact } from './fact';
 import { type Interview } from './interview';
-import { type QuestionId } from './question';
+import { type FormElementId } from './element';
 
 type PromptId = string;
 const InterviewEndPrompt: PromptId = 'interview-end';
@@ -9,7 +9,7 @@ const InterviewEndPrompt: PromptId = 'interview-end';
 // for multi-language, or to provide alternative presentation formats.
 export type Field<F extends Fact> = Readonly<{
   type: F['type'];
-  id: QuestionId;
+  id: FormElementId;
   name: string;
   required: boolean;
   title: string;
@@ -26,14 +26,14 @@ export type Button = Readonly<{
 
 export type Prompt<I extends Interview> = Readonly<{
   id: PromptId;
-  fields: Field<I['questions'][QuestionId]['fact']>[];
+  fields: Field<I['elements'][FormElementId]['fact']>[];
   buttons: Button[];
   information?: string;
 }>;
 
 export const createSingleFieldPrompt = <I extends Interview>(
-  field: Field<I['questions'][QuestionId]['fact']>,
-  data?: { id: QuestionId; value: any }
+  field: Field<I['elements'][FormElementId]['fact']>,
+  data?: { id: FormElementId; value: any }
 ): Prompt<I> => {
   return {
     id: field.id,
