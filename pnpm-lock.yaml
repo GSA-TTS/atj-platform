@@ -66,9 +66,6 @@ importers:
       '@atj/docassemble':
         specifier: workspace:*
         version: link:../../packages/docassemble
-      '@atj/interviews':
-        specifier: workspace:*
-        version: link:../../packages/interviews
       commander:
         specifier: ^11.1.0
         version: 11.1.0
@@ -103,9 +100,6 @@ importers:
       '@atj/forms':
         specifier: workspace:*
         version: link:../../packages/forms
-      '@atj/interviews':
-        specifier: workspace:*
-        version: link:../../packages/interviews
       astro:
         specifier: ^3.5.4
         version: 3.5.4(@types/node@18.18.6)(typescript@5.3.3)
@@ -187,9 +181,6 @@ importers:
       '@atj/forms':
         specifier: workspace:*
         version: link:../forms
-      '@atj/interviews':
-        specifier: workspace:*
-        version: link:../interviews
       '@uswds/uswds':
         specifier: ^3.7.1
         version: 3.7.1
@@ -314,9 +305,6 @@ importers:
       '@atj/documents':
         specifier: workspace:*
         version: link:../documents
-      '@atj/interviews':
-        specifier: workspace:*
-        version: link:../interviews
     devDependencies:
       '@vitest/coverage-v8':
         specifier: ^0.34.6
@@ -348,8 +336,6 @@ importers:
         version: link:../forms
 
   packages/forms: {}
-
-  packages/interviews: {}
 
 packages:
 
@@ -9056,7 +9042,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20240202
+      typescript: 5.4.0-dev.20240205
     dev: false
 
   /dset@3.1.3:
@@ -17894,8 +17880,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  /typescript@5.4.0-dev.20240202:
-    resolution: {integrity: sha512-z7JmYSrDsCg9yCfckUT1KAFc6QbUzSYOArsclCqLUJVMxmCIC1pqHOe01DN1qQ2yz8Loj693uU8mH88jQ/BT8A==}
+  /typescript@5.4.0-dev.20240205:
+    resolution: {integrity: sha512-waxaX9QSNlTxyhaeS398h73fWzOr0DOq2rV6ZQSDywcabZjxeiCv18hYDIZXRk4dT0Q0DxhbNAL/THzjKjtDlQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false

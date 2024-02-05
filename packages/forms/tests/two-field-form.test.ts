@@ -3,15 +3,15 @@ import { describe, expect, test } from 'vitest';
 import * as forms from '../src';
 import { createPrompt } from '../src';
 
-const questions: forms.Question[] = [
+const elements: forms.FormElement[] = [
   {
-    id: 'question-1',
+    id: 'element-1',
     text: 'What is your first name?',
     initial: '',
     required: true,
   },
   {
-    id: 'question-2',
+    id: 'element-2',
     text: 'What is your favorite word?',
     initial: '',
     required: false,
@@ -20,97 +20,97 @@ const questions: forms.Question[] = [
 const form = forms.createForm(
   {
     title: 'Form sample',
-    description: 'Form sample created via a list of questions.',
+    description: 'Form sample created via a list of elements.',
   },
-  questions
+  elements
 );
 
-describe('two question form context', () => {
+describe('two element form session', () => {
   test('initializes', () => {
-    const context = forms.createFormContext(form);
-    expect(context).to.not.toBeNull();
+    const session = forms.createFormSession(form);
+    expect(session).to.not.toBeNull();
   });
 
   test('empty field value on required field is stored with error', () => {
-    const context = forms.createFormContext(form);
-    const nextContext = forms.updateForm(context, questions[0].id, null);
-    expect(nextContext).toEqual({
-      ...context,
-      context: {
+    const session = forms.createFormSession(form);
+    const nextSession = forms.updateForm(session, elements[0].id, null);
+    expect(nextSession).toEqual({
+      ...session,
+      data: {
         errors: {
-          'question-1': 'Required value not provided.',
+          'element-1': 'Required value not provided.',
         },
         values: {
-          'question-1': null,
-          'question-2': '',
-        },
-      },
-    });
-  });
-
-  test('valid field value is stored on context', () => {
-    const formContext = forms.createFormContext(form);
-    const nextContext = forms.updateForm(
-      formContext,
-      questions[0].id,
-      'supercalifragilisticexpialidocious'
-    );
-    expect(nextContext).toEqual({
-      ...formContext,
-      context: {
-        errors: {},
-        values: {
-          'question-1': 'supercalifragilisticexpialidocious',
-          'question-2': '',
+          'element-1': null,
+          'element-2': '',
         },
       },
     });
   });
 
-  test('empty field value on non-required field is set with no errors on context', () => {
-    const context = forms.createFormContext(form);
-    const context2 = forms.updateForm(
-      context,
-      questions[1].id,
+  test('valid field value is stored on session', () => {
+    const formSession = forms.createFormSession(form);
+    const nextSession = forms.updateForm(
+      formSession,
+      elements[0].id,
       'supercalifragilisticexpialidocious'
     );
-    const context3 = forms.updateForm(context2, questions[1].id, '');
-    expect(context3).toEqual({
-      ...context,
-      context: {
+    expect(nextSession).toEqual({
+      ...formSession,
+      data: {
         errors: {},
         values: {
-          'question-1': '',
-          'question-2': '',
+          'element-1': 'supercalifragilisticexpialidocious',
+          'element-2': '',
         },
       },
     });
   });
 
-  test('valid field value on non-required field is stored on context', () => {
-    const context = forms.createFormContext(form);
-    const nextContext = forms.updateForm(
-      context,
-      questions[1].id,
+  test('empty field value on non-required field is set with no errors on the session', () => {
+    const session = forms.createFormSession(form);
+    const session2 = forms.updateForm(
+      session,
+      elements[1].id,
       'supercalifragilisticexpialidocious'
     );
-    expect(nextContext).toEqual({
-      ...context,
-      context: {
+    const session3 = forms.updateForm(session2, elements[1].id, '');
+    expect(session3).toEqual({
+      ...session,
+      data: {
         errors: {},
         values: {
-          'question-1': '',
-          'question-2': 'supercalifragilisticexpialidocious',
+          'element-1': '',
+          'element-2': '',
+        },
+      },
+    });
+  });
+
+  test('valid field value on non-required field is stored on the session', () => {
+    const session = forms.createFormSession(form);
+    const nextSession = forms.updateForm(
+      session,
+      elements[1].id,
+      'supercalifragilisticexpialidocious'
+    );
+    expect(nextSession).toEqual({
+      ...session,
+      data: {
+        errors: {},
+        values: {
+          'element-1': '',
+          'element-2': 'supercalifragilisticexpialidocious',
         },
       },
     });
   });
 });
 
-describe('two question prompt', () => {
-  const context = forms.createFormContext(form);
+describe('two element prompt', () => {
+  const session = forms.createFormSession(form);
   test('includes a submit button', () => {
-    const prompt = createPrompt(context);
+    const prompt = createPrompt(session);
     expect(prompt.actions).toEqual([
       {
         type: 'submit',

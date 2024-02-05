@@ -64,7 +64,6 @@
     "@atj/documents": "workspace:*",
     "@atj/form-service": "workspace:*",
     "@atj/forms": "workspace:*",
-    "@atj/interviews": "workspace:*",
     "@uswds/uswds": "^3.7.1",
     "react-hook-form": "^7.49.3",
     "react-router-dom": "^6.21.2",

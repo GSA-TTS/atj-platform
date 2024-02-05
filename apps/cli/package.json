@@ -12,7 +12,6 @@
     "test": "vitest run --coverage"
   },
   "dependencies": {
-    "@atj/interviews": "workspace:*",
     "@atj/dependency-graph": "workspace:*",
     "@atj/docassemble": "workspace:*",
     "commander": "^11.1.0"

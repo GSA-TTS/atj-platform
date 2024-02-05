@@ -2,7 +2,7 @@ import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import {
-  createFormContext,
+  createFormSession,
   createPrompt,
   type FormDefinition,
 } from '@atj/forms';
@@ -17,8 +17,8 @@ export default function Form({
   form: FormDefinition;
   onSubmit?: (data: Record<string, string>) => void;
 }) {
-  const context = createFormContext(form);
-  const prompt = createPrompt(context);
+  const session = createFormSession(form);
+  const prompt = createPrompt(session);
 
   const formMethods = useForm<Record<string, string>>({});
   return (

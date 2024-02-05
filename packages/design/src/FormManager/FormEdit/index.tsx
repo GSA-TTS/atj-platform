@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
 import type { FormService } from '@atj/form-service';
 import {
   FormDefinition,
-  addQuestions,
+  addFormElements,
   getFlatFieldList,
-  replaceQuestions,
+  replaceFormElements,
 } from '@atj/forms';
 
 export default function FormEdit({
@@ -31,16 +31,16 @@ export default function FormEdit({
           <button
             className="usa-button usa-button--unstyled"
             onClick={() => {
-              const newForm = addQuestions(form, [
+              const newForm = addFormElements(form, [
                 {
-                  id: 'question-1',
-                  text: 'Test question',
+                  id: 'element-1',
+                  text: 'Test element',
                   initial: 'initial value',
                   required: true,
                 },
                 {
-                  id: 'question-2',
-                  text: 'Test question 2',
+                  id: 'element-2',
+                  text: 'Test element 2',
                   initial: 'initial value 2',
                   required: true,
                 },
@@ -86,7 +86,7 @@ const EditForm = ({
   onSave: (form: FormDefinition) => void;
 }) => {
   const formData: FieldMap = Object.fromEntries(
-    Object.entries(form.questions).map(([key, value]) => {
+    Object.entries(form.elements).map(([key, value]) => {
       return [
         key,
         {
@@ -105,7 +105,7 @@ const EditForm = ({
   return (
     <form
       onSubmit={handleSubmit(data => {
-        const updatedForm = replaceQuestions(
+        const updatedForm = replaceFormElements(
           form,
           Object.entries(data).map(([id, field]) => ({
             id,

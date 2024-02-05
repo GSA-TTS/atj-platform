@@ -11,8 +11,7 @@
     "test:integration": "vitest run --coverage"
   },
   "dependencies": {
-    "@atj/documents": "workspace:*",
-    "@atj/interviews": "workspace:*"
+    "@atj/documents": "workspace:*"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^0.34.6",

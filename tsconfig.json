@@ -29,9 +29,6 @@
     },
     {
       "path": "./packages/forms/tsconfig.json"
-    },
-    {
-      "path": "./packages/interviews/tsconfig.json"
     }
   ],
   "files": [
