@@ -10,7 +10,7 @@ describe('basic sequential interview flow', () => {
   });
 
   it('interview flow is correct', async () => {
-    const context = interviews.createInterviewContext(interview);
+    const context = interviews.createFormContext(interview);
     expect(context).toEqual({
       interview: {
         summary: sequentialInterview.summary,

@@ -1,6 +1,6 @@
 // For now, a prompt just returns an array of elements. This will likely need
 
-import { type FormContext, type FormStrategy } from '..';
+import { type FormSession, type FormStrategy } from '..';
 
 export type TextInputPrompt = {
   type: 'text';
@@ -31,31 +31,31 @@ export type Prompt = {
 
 // to be filled out to support more complicated display formats.
 export const createPrompt = <T extends FormStrategy>(
-  formContext: FormContext<T>
+  session: FormSession<T>
 ): Prompt => {
   const parts: PromptPart[] = [
     {
       type: 'form-summary',
-      title: formContext.form.summary.title,
-      description: formContext.form.summary.description,
+      title: session.form.summary.title,
+      description: session.form.summary.description,
     },
   ];
-  if (formContext.form.strategy.type === 'sequential') {
+  if (session.form.strategy.type === 'sequential') {
     parts.push(
-      ...formContext.form.strategy.order.map(elementId => {
-        const element = formContext.form.elements[elementId];
+      ...session.form.strategy.order.map(elementId => {
+        const element = session.form.elements[elementId];
         return {
           type: 'text' as const,
           id: element.id,
-          value: formContext.context.values[elementId],
+          value: session.data.values[elementId],
           label: element.text,
           required: element.required,
         };
       })
     );
-  } else if (formContext.form.strategy.type === 'null') {
+  } else if (session.form.strategy.type === 'null') {
   } else {
-    const _exhaustiveCheck: never = formContext.form.strategy;
+    const _exhaustiveCheck: never = session.form.strategy;
   }
 
   return {

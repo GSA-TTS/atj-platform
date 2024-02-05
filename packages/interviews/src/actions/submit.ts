@@ -1,14 +1,11 @@
 import { validAnswer } from '../answer';
 import { Interview } from '../interview';
-import { InterviewContext } from '../interview-context';
+import { FormContext } from '../interview-context';
 import { Button } from '../prompt';
 import { FormElement, FormElementId } from '../element';
 import { type IStrategy, processStrategy } from '../strategies';
 
-export const handleSubmit = <
-  I extends Interview,
-  C extends InterviewContext<I>,
->(
+export const handleSubmit = <I extends Interview, C extends FormContext<I>>(
   context: C,
   strategy: IStrategy<I>,
   formData: FormData
@@ -26,14 +23,14 @@ export const handleSubmit = <
 
 const answerFormElementById = <
   I extends Interview,
-  C extends InterviewContext<I>,
+  C extends FormContext<I>,
   Q extends Extract<keyof I['elements'], FormElementId>,
   V extends I['elements'][Q]['fact']['initial'],
 >(
   context: C,
   elementId: Q,
   formData: FormData
-): InterviewContext<I> => {
+): FormContext<I> => {
   const element = context.interview.elements[elementId];
   if (element === undefined) {
     return {
@@ -60,11 +57,11 @@ const answerFormElementById = <
   };
 };
 
-const answerFormElement = <I extends Interview, C extends InterviewContext<I>>(
+const answerFormElement = <I extends Interview, C extends FormContext<I>>(
   context: C,
   element: FormElement,
   formData: FormData
-): InterviewContext<I> => {
+): FormContext<I> => {
   const value = getFieldValue(formData, element);
   if (!validAnswer(element, formData.get('elementId'))) {
     return {

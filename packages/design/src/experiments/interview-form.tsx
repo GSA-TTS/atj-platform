@@ -5,7 +5,7 @@ import {
   type Field,
   type Interview,
   type TextFact,
-  createInterviewContext,
+  createFormContext,
   nextContext,
 } from '@atj/interviews';
 
@@ -15,14 +15,14 @@ const form = {
 };
 */
 
-const useInterviewContext = (interview: Interview) => {
-  const context = createInterviewContext(interview);
-  const reducer = (state: typeof context, action) => nextContext(state, action);
-  return useReducer(reducer, context);
+const useFormSession = (interview: Interview) => {
+  const session = createFormContext(interview);
+  const reducer = (state: typeof session, action) => nextContext(state, action);
+  return useReducer(reducer, session);
 };
 
 export const InterviewForm = (props: { interview: Interview }) => {
-  const [context, dispatch] = useInterviewContext(props.interview);
+  const [session, dispatch] = useFormSession(props.interview);
   return (
     <form
       //action={form.action}
@@ -46,8 +46,8 @@ export const InterviewForm = (props: { interview: Interview }) => {
           </abbr>
           ).
         </p>
-        {context.prompt.fields.map(field => {
-          const element = context.interview.elements[field.id];
+        {session.prompt.fields.map(field => {
+          const element = session.interview.elements[field.id];
           if (element.fact.type === 'boolean') {
             return (
               <BooleanPrompt
@@ -64,7 +64,7 @@ export const InterviewForm = (props: { interview: Interview }) => {
             return <></>;
           }
         })}
-        {context.prompt.buttons.map((button, index) => (
+        {session.prompt.buttons.map((button, index) => (
           <input
             key={index}
             className="usa-button"

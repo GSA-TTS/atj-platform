@@ -5,7 +5,7 @@ import { type Prompt } from './prompt';
 import { type FormElementId } from './element';
 import { SequentialStrategy } from './strategies/sequential';
 
-export type InterviewContext<I extends Interview> = Readonly<{
+export type FormContext<I extends Interview> = Readonly<{
   interview: I;
   prompt: Prompt<I>;
   answers: AnswerMap<I>;
@@ -22,9 +22,9 @@ const getStrategy = <I extends Interview>(interview: I) => {
   }
 };
 
-export const createInterviewContext = <I extends Interview>(
+export const createFormContext = <I extends Interview>(
   interview: I
-): InterviewContext<I> => {
+): FormContext<I> => {
   const strategy = getStrategy(interview);
   return {
     interview,
@@ -50,13 +50,13 @@ export type InterviewAction<
 
 export const nextContext = <
   I extends Interview,
-  C extends InterviewContext<I>,
+  C extends FormContext<I>,
   Q extends Extract<keyof I['elements'], FormElementId>,
   V extends I['elements'][Q]['fact']['initial'],
 >(
   context: C,
   action: InterviewAction<I, Q, V>
-): InterviewContext<I> => {
+): FormContext<I> => {
   if (action.type === 'submit') {
     const strategy = getStrategy(context.interview);
     return handleSubmit(context, strategy, action.formData);

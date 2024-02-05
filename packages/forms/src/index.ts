@@ -24,8 +24,8 @@ export type FormSummary = {
 };
 
 type ErrorMap = Record<FormElementId, string>;
-export type FormContext<T extends FormStrategy> = {
-  context: {
+export type FormSession<T extends FormStrategy> = {
+  data: {
     errors: ErrorMap;
     values: FormElementValueMap;
   };
@@ -67,11 +67,11 @@ export const createForm = (
   };
 };
 
-export const createFormContext = <T extends FormStrategy>(
+export const createFormSession = <T extends FormStrategy>(
   form: FormDefinition<T>
-): FormContext<T> => {
+): FormSession<T> => {
   return {
-    context: {
+    data: {
       errors: {},
       values: Object.fromEntries(
         Object.values(form.elements).map(element => {
@@ -84,7 +84,7 @@ export const createFormContext = <T extends FormStrategy>(
 };
 
 export const updateForm = <T extends FormStrategy>(
-  context: FormContext<T>,
+  context: FormSession<T>,
   id: FormElementId,
   value: any
 ) => {
@@ -100,30 +100,30 @@ export const updateForm = <T extends FormStrategy>(
 };
 
 const addValue = <T extends FormStrategy>(
-  form: FormContext<T>,
+  form: FormSession<T>,
   id: FormElementId,
   value: FormElementValue
-): FormContext<T> => ({
+): FormSession<T> => ({
   ...form,
-  context: {
-    ...form.context,
+  data: {
+    ...form.data,
     values: {
-      ...form.context.values,
+      ...form.data.values,
       [id]: value,
     },
   },
 });
 
 const addError = <T extends FormStrategy>(
-  form: FormContext<T>,
+  session: FormSession<T>,
   id: FormElementId,
   error: string
-): FormContext<T> => ({
-  ...form,
-  context: {
-    ...form.context,
+): FormSession<T> => ({
+  ...session,
+  data: {
+    ...session.data,
     errors: {
-      ...form.context.errors,
+      ...session.data.errors,
       [id]: error,
     },
   },
