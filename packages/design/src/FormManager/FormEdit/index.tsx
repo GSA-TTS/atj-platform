@@ -1,13 +1,14 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, UseFormRegister } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
 import { type FormService } from '@atj/form-service';
 import {
   type FormDefinition,
-  getFlatFieldList,
-  replaceFormElements,
-  FormElementMap,
+  type FormElementMap,
+  type FormElement,
+  getRootFormElement,
+  updateElements,
 } from '@atj/forms';
 
 export default function FormEdit({
@@ -45,20 +46,13 @@ export default function FormEdit({
   );
 }
 
-type FieldProps = {
-  fieldType: 'input' | 'textarea';
-  label: string;
-  initial: string;
-  required: boolean;
-};
-type FieldMap = Record<string, FieldProps>;
-
 const getFormFieldMap = (elements: FormElementMap) => {
   return Object.values(elements).reduce((acc, element) => {
     if (element.type === 'input') {
       acc[element.id] = {
-        fieldType: 'input',
-        label: element.text,
+        type: 'input',
+        id: element.id,
+        text: element.text,
         initial: element.initial.toString(),
         required: element.required,
       };
@@ -69,7 +63,7 @@ const getFormFieldMap = (elements: FormElementMap) => {
       const _exhaustiveCheck: never = element;
       return _exhaustiveCheck;
     }
-  }, {} as FieldMap);
+  }, {} as FormElementMap);
 };
 
 const EditForm = ({
@@ -79,87 +73,20 @@ const EditForm = ({
   form: FormDefinition;
   onSave: (form: FormDefinition) => void;
 }) => {
-  const formData: FieldMap = getFormFieldMap(form.elements);
-  const { register, handleSubmit } = useForm<FieldMap>({
-    defaultValues: formData,
+  const formElements: FormElementMap = getFormFieldMap(form.elements);
+  const { register, handleSubmit } = useForm<FormElementMap>({
+    defaultValues: formElements,
   });
-  const fields = getFlatFieldList(form);
+  const rootField = getRootFormElement(form);
   return (
     <form
       onSubmit={handleSubmit(data => {
-        const updatedForm = replaceFormElements(
-          form,
-          Object.entries(data).map(([id, field]) => {
-            return {
-              type: 'input',
-              id,
-              text: field.label,
-              initial: field.initial,
-              required: field.required,
-            };
-          })
-        );
+        const updatedForm = updateElements(form, data);
         onSave(updatedForm);
       })}
     >
       <ButtonBar />
-      <fieldset>
-        {fields.map((field, index) => {
-          const fieldId = field.id;
-          return (
-            <div key={index} className="grid-row grid-gap">
-              <div className="grid-col">
-                <label className="usa-label">
-                  Input type
-                  <select
-                    className="usa-select"
-                    {...register(`${fieldId}.fieldType`)}
-                  >
-                    <option value={'input'}>Input</option>
-                    <option value={'textarea'}>Textarea</option>
-                  </select>
-                </label>
-              </div>
-              <div className="grid-col">
-                <label className="usa-label">
-                  Field label
-                  <input
-                    className="usa-input"
-                    {...register(`${fieldId}.label`)}
-                    type="text"
-                  ></input>
-                </label>
-              </div>
-              <div className="grid-col">
-                <label className="usa-label">
-                  Default value
-                  <input
-                    className="usa-input"
-                    type="text"
-                    {...register(`${fieldId}.initial`)}
-                  ></input>
-                </label>
-              </div>
-              <div className="grid-col">
-                <div className="usa-checkbox">
-                  <input
-                    className="usa-checkbox__input"
-                    type="checkbox"
-                    id={`${fieldId}.required`}
-                    {...register(`${fieldId}.required`)}
-                  />
-                  <label
-                    className="usa-checkbox__label"
-                    htmlFor={`${fieldId}.required`}
-                  >
-                    Required
-                  </label>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </fieldset>
+      <RenderField form={form} element={rootField} register={register} />
       <ButtonBar />
     </form>
   );
@@ -171,4 +98,86 @@ const ButtonBar = () => {
       <button className="usa-button">Save</button>
     </div>
   );
+};
+
+const RenderField = ({
+  form,
+  element,
+  register,
+}: {
+  form: FormDefinition;
+  element: FormElement;
+  register: UseFormRegister<FormElementMap>;
+}) => {
+  const fieldId = element.id;
+  if (element.type === 'input') {
+    return (
+      <div className="grid-row grid-gap">
+        <div className="grid-col">
+          <label className="usa-label">
+            Input type
+            <select className="usa-select" {...register(`${fieldId}.type`)}>
+              <option value={'input'}>Input</option>
+              <option value={'textarea'}>Textarea</option>
+            </select>
+          </label>
+        </div>
+        <div className="grid-col">
+          <label className="usa-label">
+            Field label
+            <input
+              className="usa-input"
+              {...register(`${fieldId}.text`)}
+              type="text"
+            ></input>
+          </label>
+        </div>
+        <div className="grid-col">
+          <label className="usa-label">
+            Default value
+            <input
+              className="usa-input"
+              type="text"
+              {...register(`${fieldId}.initial`)}
+            ></input>
+          </label>
+        </div>
+        <div className="grid-col">
+          <div className="usa-checkbox">
+            <input
+              className="usa-checkbox__input"
+              type="checkbox"
+              id={`${fieldId}.required`}
+              {...register(`${fieldId}.required`)}
+            />
+            <label
+              className="usa-checkbox__label"
+              htmlFor={`${fieldId}.required`}
+            >
+              Required
+            </label>
+          </div>
+        </div>
+      </div>
+    );
+  } else if (element.type == 'sequence') {
+    return (
+      <fieldset>
+        {element.elements.map((elementId, index) => {
+          const sequenceElement = form.elements[elementId];
+          return (
+            <RenderField
+              key={index}
+              element={sequenceElement}
+              form={form}
+              register={register}
+            />
+          );
+        })}
+      </fieldset>
+    );
+  } else {
+    const _exhaustiveCheck: never = element;
+    return _exhaustiveCheck;
+  }
 };

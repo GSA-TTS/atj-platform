@@ -207,6 +207,43 @@ export const replaceFormElements = (
   };
 };
 
+export const updateElements = (
+  form: FormDefinition,
+  newElements: FormElementMap
+): FormDefinition => {
+  const root = form.elements[form.root];
+  const targetElements: FormElementMap = {
+    root,
+  };
+  contributeElements(targetElements, newElements, root);
+  return {
+    ...form,
+    elements: targetElements,
+  };
+};
+
+// Contribute a FormElement and all its children to a FormElementMap.
+// This function may be used to create a minimal map of required fields.
+const contributeElements = (
+  target: FormElementMap,
+  source: FormElementMap,
+  element: FormElement
+): FormElementMap => {
+  if (element.type === 'input') {
+    target[element.id] = element;
+    return target;
+  } else if (element.type === 'sequence') {
+    element.elements.forEach(elementId => {
+      const sequenceElement = source[elementId];
+      return contributeElements(target, source, sequenceElement);
+    });
+    return target;
+  } else {
+    const _exhaustiveCheck: never = element;
+    return _exhaustiveCheck;
+  }
+};
+
 export const getFlatFieldList = <T extends FormStrategy>(
   form: FormDefinition<T>
 ) => {
