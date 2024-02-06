@@ -185,7 +185,7 @@ export const updateElements = (
   form: FormDefinition,
   newElements: FormElementMap
 ): FormDefinition => {
-  const root = form.elements[form.root];
+  const root = newElements[form.root];
   const targetElements: FormElementMap = {
     root,
   };

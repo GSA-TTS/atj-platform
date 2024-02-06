@@ -6,7 +6,7 @@ export default function DebugTools() {
       <button
         className="usa-button"
         onClick={() => {
-          console.log('clearing');
+          console.warn('clearing localStorage...');
           window.localStorage.clear();
           window.location.reload();
         }}

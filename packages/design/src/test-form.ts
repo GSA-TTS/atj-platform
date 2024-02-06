@@ -12,7 +12,7 @@ export const createTestForm = () => {
         {
           type: 'sequence',
           id: 'root',
-          elements: [],
+          elements: ['element-1', 'element-2'],
         },
         {
           type: 'input',

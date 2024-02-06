@@ -1,15 +1,16 @@
 import React from 'react';
-import { useForm, UseFormRegister } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
 import { type FormService } from '@atj/form-service';
 import {
   type FormDefinition,
   type FormElementMap,
-  type FormElement,
   getRootFormElement,
   updateElements,
 } from '@atj/forms';
+
+import RenderField from './FormElementEdit/RenderField';
 
 export default function FormEdit({
   formId,
@@ -46,6 +47,7 @@ export default function FormEdit({
   );
 }
 
+// FIXME: Once we clean up the input type, this function should be unnecessary.
 const getFormFieldMap = (elements: FormElementMap) => {
   return Object.values(elements).reduce((acc, element) => {
     if (element.type === 'input') {
@@ -58,6 +60,11 @@ const getFormFieldMap = (elements: FormElementMap) => {
       };
       return acc;
     } else if (element.type === 'sequence') {
+      acc[element.id] = {
+        type: 'sequence',
+        id: element.id,
+        elements: element.elements,
+      };
       return acc;
     } else {
       const _exhaustiveCheck: never = element;
@@ -74,21 +81,23 @@ const EditForm = ({
   onSave: (form: FormDefinition) => void;
 }) => {
   const formElements: FormElementMap = getFormFieldMap(form.elements);
-  const { register, handleSubmit } = useForm<FormElementMap>({
+  const methods = useForm<FormElementMap>({
     defaultValues: formElements,
   });
   const rootField = getRootFormElement(form);
   return (
-    <form
-      onSubmit={handleSubmit(data => {
-        const updatedForm = updateElements(form, data);
-        onSave(updatedForm);
-      })}
-    >
-      <ButtonBar />
-      <RenderField form={form} element={rootField} register={register} />
-      <ButtonBar />
-    </form>
+    <FormProvider {...methods}>
+      <form
+        onSubmit={methods.handleSubmit(data => {
+          const updatedForm = updateElements(form, data);
+          onSave(updatedForm);
+        })}
+      >
+        <ButtonBar />
+        <RenderField form={form} element={rootField} />
+        <ButtonBar />
+      </form>
+    </FormProvider>
   );
 };
 
@@ -98,86 +107,4 @@ const ButtonBar = () => {
       <button className="usa-button">Save</button>
     </div>
   );
-};
-
-const RenderField = ({
-  form,
-  element,
-  register,
-}: {
-  form: FormDefinition;
-  element: FormElement;
-  register: UseFormRegister<FormElementMap>;
-}) => {
-  const fieldId = element.id;
-  if (element.type === 'input') {
-    return (
-      <div className="grid-row grid-gap">
-        <div className="grid-col">
-          <label className="usa-label">
-            Input type
-            <select className="usa-select" {...register(`${fieldId}.type`)}>
-              <option value={'input'}>Input</option>
-              <option value={'textarea'}>Textarea</option>
-            </select>
-          </label>
-        </div>
-        <div className="grid-col">
-          <label className="usa-label">
-            Field label
-            <input
-              className="usa-input"
-              {...register(`${fieldId}.text`)}
-              type="text"
-            ></input>
-          </label>
-        </div>
-        <div className="grid-col">
-          <label className="usa-label">
-            Default value
-            <input
-              className="usa-input"
-              type="text"
-              {...register(`${fieldId}.initial`)}
-            ></input>
-          </label>
-        </div>
-        <div className="grid-col">
-          <div className="usa-checkbox">
-            <input
-              className="usa-checkbox__input"
-              type="checkbox"
-              id={`${fieldId}.required`}
-              {...register(`${fieldId}.required`)}
-            />
-            <label
-              className="usa-checkbox__label"
-              htmlFor={`${fieldId}.required`}
-            >
-              Required
-            </label>
-          </div>
-        </div>
-      </div>
-    );
-  } else if (element.type == 'sequence') {
-    return (
-      <fieldset>
-        {element.elements.map((elementId, index) => {
-          const sequenceElement = form.elements[elementId];
-          return (
-            <RenderField
-              key={index}
-              element={sequenceElement}
-              form={form}
-              register={register}
-            />
-          );
-        })}
-      </fieldset>
-    );
-  } else {
-    const _exhaustiveCheck: never = element;
-    return _exhaustiveCheck;
-  }
 };
