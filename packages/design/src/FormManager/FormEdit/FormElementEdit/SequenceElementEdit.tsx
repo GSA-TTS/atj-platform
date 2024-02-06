@@ -38,7 +38,10 @@ const SortableItem = ({ id, form, element }: ItemProps) => {
   };
 
   return (
-    <li ref={setNodeRef} style={style} {...attributes} {...listeners}>
+    <li ref={setNodeRef} style={style}>
+      <div {...listeners} {...attributes} style={{ cursor: 'grab' }}>
+        :::
+      </div>
       <RenderField key={element.id} element={element} form={form} />
     </li>
   );

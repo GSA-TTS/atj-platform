@@ -56,9 +56,6 @@ export const createForm = (
     root: 'root',
   }
 ): FormDefinition => {
-  const order = initial.elements.map(element => {
-    return element.id;
-  });
   return {
     summary,
     root: 'root',
@@ -66,7 +63,9 @@ export const createForm = (
       root: {
         id: 'root',
         type: 'sequence',
-        elements: order,
+        elements: initial.elements.map(element => {
+          return element.id;
+        }),
       },
       ...getFormElementMap(initial.elements),
     },
