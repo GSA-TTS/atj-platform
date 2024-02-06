@@ -44,6 +44,7 @@ export const addDocumentFieldsToForm = (
   Object.entries(fields).map(([key, field]) => {
     if (field.type === 'CheckBox') {
       elements.push({
+        type: 'input',
         id: field.name,
         text: field.label,
         initial: field.value,
@@ -51,6 +52,7 @@ export const addDocumentFieldsToForm = (
       });
     } else if (field.type === 'OptionList') {
       elements.push({
+        type: 'input',
         id: field.name,
         text: field.label,
         initial: field.value,
@@ -58,6 +60,7 @@ export const addDocumentFieldsToForm = (
       });
     } else if (field.type === 'Dropdown') {
       elements.push({
+        type: 'input',
         id: field.name,
         text: field.label,
         initial: field.value,
@@ -65,6 +68,7 @@ export const addDocumentFieldsToForm = (
       });
     } else if (field.type === 'TextField') {
       elements.push({
+        type: 'input',
         id: field.name,
         text: field.label,
         initial: field.value,
@@ -76,5 +80,10 @@ export const addDocumentFieldsToForm = (
       const _exhaustiveCheck: never = field;
     }
   });
-  return addFormElements(form, elements);
+  elements.push({
+    id: 'root',
+    type: 'sequence',
+    elements: elements.map(element => element.id),
+  });
+  return addFormElements(form, elements, 'root');
 };

@@ -2,12 +2,12 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
-import type { FormService } from '@atj/form-service';
+import { type FormService } from '@atj/form-service';
 import {
-  FormDefinition,
-  addFormElements,
+  type FormDefinition,
   getFlatFieldList,
   replaceFormElements,
+  FormElementMap,
 } from '@atj/forms';
 
 export default function FormEdit({
@@ -27,31 +27,6 @@ export default function FormEdit({
       <h1>Edit form interface</h1>
       <div>Editing form {formId}</div>
       <ul>
-        <li>
-          <button
-            className="usa-button usa-button--unstyled"
-            onClick={() => {
-              const newForm = addFormElements(form, [
-                {
-                  id: 'element-1',
-                  text: 'Test element',
-                  initial: 'initial value',
-                  required: true,
-                },
-                {
-                  id: 'element-2',
-                  text: 'Test element 2',
-                  initial: 'initial value 2',
-                  required: true,
-                },
-              ]);
-              formService.saveForm(formId, newForm);
-              window.location.reload();
-            }}
-          >
-            ***Append sample form fields***
-          </button>
-        </li>
         <li>
           <Link to={`/${formId}`}>Preview this form</Link>
         </li>
@@ -78,6 +53,25 @@ type FieldProps = {
 };
 type FieldMap = Record<string, FieldProps>;
 
+const getFormFieldMap = (elements: FormElementMap) => {
+  return Object.values(elements).reduce((acc, element) => {
+    if (element.type === 'input') {
+      acc[element.id] = {
+        fieldType: 'input',
+        label: element.text,
+        initial: element.initial.toString(),
+        required: element.required,
+      };
+      return acc;
+    } else if (element.type === 'sequence') {
+      return acc;
+    } else {
+      const _exhaustiveCheck: never = element;
+      return _exhaustiveCheck;
+    }
+  }, {} as FieldMap);
+};
+
 const EditForm = ({
   form,
   onSave,
@@ -85,19 +79,7 @@ const EditForm = ({
   form: FormDefinition;
   onSave: (form: FormDefinition) => void;
 }) => {
-  const formData: FieldMap = Object.fromEntries(
-    Object.entries(form.elements).map(([key, value]) => {
-      return [
-        key,
-        {
-          fieldType: 'input',
-          label: value.text,
-          initial: value.initial.toString(),
-          required: value.required,
-        },
-      ];
-    })
-  );
+  const formData: FieldMap = getFormFieldMap(form.elements);
   const { register, handleSubmit } = useForm<FieldMap>({
     defaultValues: formData,
   });
@@ -107,12 +89,15 @@ const EditForm = ({
       onSubmit={handleSubmit(data => {
         const updatedForm = replaceFormElements(
           form,
-          Object.entries(data).map(([id, field]) => ({
-            id,
-            text: field.label,
-            initial: field.initial,
-            required: field.required,
-          }))
+          Object.entries(data).map(([id, field]) => {
+            return {
+              type: 'input',
+              id,
+              text: field.label,
+              initial: field.initial,
+              required: field.required,
+            };
+          })
         );
         onSave(updatedForm);
       })}

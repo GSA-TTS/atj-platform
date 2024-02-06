@@ -14,9 +14,12 @@ export * from './prompts';
 
 export type FormDefinition<T extends FormStrategy = SequentialStrategy> = {
   summary: FormSummary;
+  root: FormElementId;
   elements: FormElementMap;
-  strategy: T;
   outputs: FormOutput[];
+
+  // to remove?
+  strategy: T;
 };
 
 export type FormSummary = {
@@ -53,19 +56,57 @@ type FormOutput = {
 
 export const createForm = (
   summary: FormSummary,
-  elements: FormElement[] = []
+  initial: {
+    elements: FormElement[];
+    root: FormElementId;
+  } = {
+    elements: [
+      {
+        id: 'root',
+        type: 'sequence',
+        elements: [],
+      },
+    ],
+    root: 'root',
+  }
 ): FormDefinition => {
+  const order = initial.elements.map(element => {
+    return element.id;
+  });
   return {
     summary,
-    elements: getFormElementMap(elements),
+    root: 'root',
+    elements: {
+      root: {
+        id: 'root',
+        type: 'sequence',
+        elements: order,
+      },
+      ...getFormElementMap(initial.elements),
+    },
     strategy: {
       type: 'sequential',
-      order: elements.map(element => {
-        return element.id;
-      }),
+      order,
     },
     outputs: [],
   };
+};
+
+export const getRootFormElement = <T extends FormStrategy>(
+  form: FormDefinition<T>
+) => {
+  return form.elements[form.root];
+};
+
+const initialValueForFormElement = (element: FormElement) => {
+  if (element.type === 'input') {
+    return element.initial;
+  } else if (element.type === 'sequence') {
+    return [];
+  } else {
+    const _exhaustiveCheck: never = element;
+    return _exhaustiveCheck;
+  }
 };
 
 export const createFormSession = <T extends FormStrategy>(
@@ -76,7 +117,7 @@ export const createFormSession = <T extends FormStrategy>(
       errors: {},
       values: Object.fromEntries(
         Object.values(form.elements).map(element => {
-          return [element.id, element.initial];
+          return [element.id, initialValueForFormElement(element)];
         })
       ),
     },
@@ -94,8 +135,11 @@ export const updateForm = <T extends FormStrategy>(
     return context;
   }
   const nextForm = addValue(context, id, value);
-  if (context.form.elements[id].required && !value) {
-    return addError(nextForm, id, 'Required value not provided.');
+  const element = context.form.elements[id];
+  if (element.type === 'input') {
+    if (element.required && !value) {
+      return addError(nextForm, id, 'Required value not provided.');
+    }
   }
   return nextForm;
 };
@@ -132,7 +176,8 @@ const addError = <T extends FormStrategy>(
 
 export const addFormElements = (
   form: FormDefinition<SequentialStrategy>,
-  elements: FormElement[]
+  elements: FormElement[],
+  root?: FormElementId
 ) => {
   const formElementMap = getFormElementMap(elements);
   return {
@@ -142,6 +187,7 @@ export const addFormElements = (
       ...form.strategy,
       order: [...form.strategy.order, ...Object.keys(formElementMap)],
     },
+    root: root !== undefined ? root : form.root,
   };
 };
 
