@@ -12,14 +12,11 @@ export * from './documents';
 export * from './elements';
 export * from './prompts';
 
-export type FormDefinition<T extends FormStrategy = SequentialStrategy> = {
+export type FormDefinition = {
   summary: FormSummary;
   root: FormElementId;
   elements: FormElementMap;
   outputs: FormOutput[];
-
-  // to remove?
-  strategy: T;
 };
 
 export type FormSummary = {
@@ -28,24 +25,13 @@ export type FormSummary = {
 };
 
 type ErrorMap = Record<FormElementId, string>;
-export type FormSession<T extends FormStrategy> = {
+export type FormSession = {
   data: {
     errors: ErrorMap;
     values: FormElementValueMap;
   };
-  form: FormDefinition<T>;
+  form: FormDefinition;
 };
-
-export type SequentialStrategy = {
-  type: 'sequential';
-  order: FormElementId[];
-};
-
-export type NullStrategy = {
-  type: 'null';
-};
-
-export type FormStrategy = SequentialStrategy | NullStrategy;
 
 type FormOutput = {
   data: Uint8Array;
@@ -84,17 +70,11 @@ export const createForm = (
       },
       ...getFormElementMap(initial.elements),
     },
-    strategy: {
-      type: 'sequential',
-      order,
-    },
     outputs: [],
   };
 };
 
-export const getRootFormElement = <T extends FormStrategy>(
-  form: FormDefinition<T>
-) => {
+export const getRootFormElement = (form: FormDefinition) => {
   return form.elements[form.root];
 };
 
@@ -109,9 +89,7 @@ const initialValueForFormElement = (element: FormElement) => {
   }
 };
 
-export const createFormSession = <T extends FormStrategy>(
-  form: FormDefinition<T>
-): FormSession<T> => {
+export const createFormSession = (form: FormDefinition): FormSession => {
   return {
     data: {
       errors: {},
@@ -125,8 +103,8 @@ export const createFormSession = <T extends FormStrategy>(
   };
 };
 
-export const updateForm = <T extends FormStrategy>(
-  context: FormSession<T>,
+export const updateForm = (
+  context: FormSession,
   id: FormElementId,
   value: any
 ) => {
@@ -144,11 +122,11 @@ export const updateForm = <T extends FormStrategy>(
   return nextForm;
 };
 
-const addValue = <T extends FormStrategy>(
-  form: FormSession<T>,
+const addValue = (
+  form: FormSession,
   id: FormElementId,
   value: FormElementValue
-): FormSession<T> => ({
+): FormSession => ({
   ...form,
   data: {
     ...form.data,
@@ -159,11 +137,11 @@ const addValue = <T extends FormStrategy>(
   },
 });
 
-const addError = <T extends FormStrategy>(
-  session: FormSession<T>,
+const addError = (
+  session: FormSession,
   id: FormElementId,
   error: string
-): FormSession<T> => ({
+): FormSession => ({
   ...session,
   data: {
     ...session.data,
@@ -175,7 +153,7 @@ const addError = <T extends FormStrategy>(
 });
 
 export const addFormElements = (
-  form: FormDefinition<SequentialStrategy>,
+  form: FormDefinition,
   elements: FormElement[],
   root?: FormElementId
 ) => {
@@ -183,10 +161,6 @@ export const addFormElements = (
   return {
     ...form,
     elements: { ...form.elements, ...formElementMap },
-    strategy: {
-      ...form.strategy,
-      order: [...form.strategy.order, ...Object.keys(formElementMap)],
-    },
     root: root !== undefined ? root : form.root,
   };
 };
@@ -244,25 +218,7 @@ const contributeElements = (
   }
 };
 
-export const getFlatFieldList = <T extends FormStrategy>(
-  form: FormDefinition<T>
-) => {
-  if (form.strategy.type === 'sequential') {
-    return form.strategy.order.map(elementId => {
-      return form.elements[elementId];
-    });
-  } else if (form.strategy.type === 'null') {
-    return [];
-  } else {
-    const _exhaustiveCheck: never = form.strategy;
-    return _exhaustiveCheck;
-  }
-};
-
-export const addFormOutput = <T extends FormStrategy>(
-  form: FormDefinition<T>,
-  document: FormOutput
-) => {
+export const addFormOutput = (form: FormDefinition, document: FormOutput) => {
   return {
     ...form,
     outputs: [...form.outputs, document],

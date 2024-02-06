@@ -1,11 +1,6 @@
 // For now, a prompt just returns an array of elements. This will likely need
 
-import {
-  getRootFormElement,
-  type FormSession,
-  type FormStrategy,
-  FormElement,
-} from '..';
+import { getRootFormElement, type FormSession, type FormElement } from '..';
 
 export type TextInputPrompt = {
   type: 'text';
@@ -35,9 +30,7 @@ export type Prompt = {
 };
 
 // to be filled out to support more complicated display formats.
-export const createPrompt = <T extends FormStrategy>(
-  session: FormSession<T>
-): Prompt => {
+export const createPrompt = (session: FormSession): Prompt => {
   const parts: PromptPart[] = [
     {
       type: 'form-summary',
@@ -58,8 +51,8 @@ export const createPrompt = <T extends FormStrategy>(
   };
 };
 
-const createPromptForElement = <T extends FormStrategy>(
-  session: FormSession<T>,
+const createPromptForElement = (
+  session: FormSession,
   element: FormElement
 ): PromptPart[] => {
   if (element.type === 'input') {
