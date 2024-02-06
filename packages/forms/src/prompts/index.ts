@@ -1,6 +1,6 @@
 // For now, a prompt just returns an array of elements. This will likely need
 
-import { type FormSession, type FormStrategy } from '..';
+import { getRootFormElement, type FormSession, type FormElement } from '..';
 
 export type TextInputPrompt = {
   type: 'text';
@@ -30,9 +30,7 @@ export type Prompt = {
 };
 
 // to be filled out to support more complicated display formats.
-export const createPrompt = <T extends FormStrategy>(
-  session: FormSession<T>
-): Prompt => {
+export const createPrompt = (session: FormSession): Prompt => {
   const parts: PromptPart[] = [
     {
       type: 'form-summary',
@@ -40,24 +38,8 @@ export const createPrompt = <T extends FormStrategy>(
       description: session.form.summary.description,
     },
   ];
-  if (session.form.strategy.type === 'sequential') {
-    parts.push(
-      ...session.form.strategy.order.map(elementId => {
-        const element = session.form.elements[elementId];
-        return {
-          type: 'text' as const,
-          id: element.id,
-          value: session.data.values[elementId],
-          label: element.text,
-          required: element.required,
-        };
-      })
-    );
-  } else if (session.form.strategy.type === 'null') {
-  } else {
-    const _exhaustiveCheck: never = session.form.strategy;
-  }
-
+  const root = getRootFormElement(session.form);
+  parts.push(...createPromptForElement(session, root));
   return {
     actions: [
       {
@@ -67,4 +49,29 @@ export const createPrompt = <T extends FormStrategy>(
     ],
     parts,
   };
+};
+
+const createPromptForElement = (
+  session: FormSession,
+  element: FormElement
+): PromptPart[] => {
+  if (element.type === 'input') {
+    return [
+      {
+        type: 'text' as const,
+        id: element.id,
+        value: session.data.values[element.id],
+        label: element.text,
+        required: element.required,
+      },
+    ];
+  } else if (element.type === 'sequence') {
+    return element.elements.flatMap(elementId => {
+      const element = session.form.elements[elementId];
+      return createPromptForElement(session, element);
+    });
+  } else {
+    const _exhaustiveCheck: never = element;
+    return _exhaustiveCheck;
+  }
 };

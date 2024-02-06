@@ -11,6 +11,7 @@
     "test": "vitest run --coverage"
   },
   "dependencies": {
+    "@atj/common": "workspace:*",
     "@atj/forms": "workspace:*",
     "pdf-lib": "^1.17.1"
   },

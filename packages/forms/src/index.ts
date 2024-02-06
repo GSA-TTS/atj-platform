@@ -12,10 +12,10 @@ export * from './documents';
 export * from './elements';
 export * from './prompts';
 
-export type FormDefinition<T extends FormStrategy = SequentialStrategy> = {
+export type FormDefinition = {
   summary: FormSummary;
+  root: FormElementId;
   elements: FormElementMap;
-  strategy: T;
   outputs: FormOutput[];
 };
 
@@ -25,24 +25,13 @@ export type FormSummary = {
 };
 
 type ErrorMap = Record<FormElementId, string>;
-export type FormSession<T extends FormStrategy> = {
+export type FormSession = {
   data: {
     errors: ErrorMap;
     values: FormElementValueMap;
   };
-  form: FormDefinition<T>;
+  form: FormDefinition;
 };
-
-export type SequentialStrategy = {
-  type: 'sequential';
-  order: FormElementId[];
-};
-
-export type NullStrategy = {
-  type: 'null';
-};
-
-export type FormStrategy = SequentialStrategy | NullStrategy;
 
 type FormOutput = {
   data: Uint8Array;
@@ -53,30 +42,59 @@ type FormOutput = {
 
 export const createForm = (
   summary: FormSummary,
-  elements: FormElement[] = []
+  initial: {
+    elements: FormElement[];
+    root: FormElementId;
+  } = {
+    elements: [
+      {
+        id: 'root',
+        type: 'sequence',
+        elements: [],
+      },
+    ],
+    root: 'root',
+  }
 ): FormDefinition => {
   return {
     summary,
-    elements: getFormElementMap(elements),
-    strategy: {
-      type: 'sequential',
-      order: elements.map(element => {
-        return element.id;
-      }),
+    root: 'root',
+    elements: {
+      root: {
+        id: 'root',
+        type: 'sequence',
+        elements: initial.elements.map(element => {
+          return element.id;
+        }),
+      },
+      ...getFormElementMap(initial.elements),
     },
     outputs: [],
   };
 };
 
-export const createFormSession = <T extends FormStrategy>(
-  form: FormDefinition<T>
-): FormSession<T> => {
+export const getRootFormElement = (form: FormDefinition) => {
+  return form.elements[form.root];
+};
+
+const initialValueForFormElement = (element: FormElement) => {
+  if (element.type === 'input') {
+    return element.initial;
+  } else if (element.type === 'sequence') {
+    return [];
+  } else {
+    const _exhaustiveCheck: never = element;
+    return _exhaustiveCheck;
+  }
+};
+
+export const createFormSession = (form: FormDefinition): FormSession => {
   return {
     data: {
       errors: {},
       values: Object.fromEntries(
         Object.values(form.elements).map(element => {
-          return [element.id, element.initial];
+          return [element.id, initialValueForFormElement(element)];
         })
       ),
     },
@@ -84,8 +102,8 @@ export const createFormSession = <T extends FormStrategy>(
   };
 };
 
-export const updateForm = <T extends FormStrategy>(
-  context: FormSession<T>,
+export const updateForm = (
+  context: FormSession,
   id: FormElementId,
   value: any
 ) => {
@@ -94,17 +112,20 @@ export const updateForm = <T extends FormStrategy>(
     return context;
   }
   const nextForm = addValue(context, id, value);
-  if (context.form.elements[id].required && !value) {
-    return addError(nextForm, id, 'Required value not provided.');
+  const element = context.form.elements[id];
+  if (element.type === 'input') {
+    if (element.required && !value) {
+      return addError(nextForm, id, 'Required value not provided.');
+    }
   }
   return nextForm;
 };
 
-const addValue = <T extends FormStrategy>(
-  form: FormSession<T>,
+const addValue = (
+  form: FormSession,
   id: FormElementId,
   value: FormElementValue
-): FormSession<T> => ({
+): FormSession => ({
   ...form,
   data: {
     ...form.data,
@@ -115,11 +136,11 @@ const addValue = <T extends FormStrategy>(
   },
 });
 
-const addError = <T extends FormStrategy>(
-  session: FormSession<T>,
+const addError = (
+  session: FormSession,
   id: FormElementId,
   error: string
-): FormSession<T> => ({
+): FormSession => ({
   ...session,
   data: {
     ...session.data,
@@ -131,17 +152,15 @@ const addError = <T extends FormStrategy>(
 });
 
 export const addFormElements = (
-  form: FormDefinition<SequentialStrategy>,
-  elements: FormElement[]
+  form: FormDefinition,
+  elements: FormElement[],
+  root?: FormElementId
 ) => {
   const formElementMap = getFormElementMap(elements);
   return {
     ...form,
     elements: { ...form.elements, ...formElementMap },
-    strategy: {
-      ...form.strategy,
-      order: [...form.strategy.order, ...Object.keys(formElementMap)],
-    },
+    root: root !== undefined ? root : form.root,
   };
 };
 
@@ -161,25 +180,44 @@ export const replaceFormElements = (
   };
 };
 
-export const getFlatFieldList = <T extends FormStrategy>(
-  form: FormDefinition<T>
-) => {
-  if (form.strategy.type === 'sequential') {
-    return form.strategy.order.map(elementId => {
-      return form.elements[elementId];
+export const updateElements = (
+  form: FormDefinition,
+  newElements: FormElementMap
+): FormDefinition => {
+  const root = newElements[form.root];
+  const targetElements: FormElementMap = {
+    root,
+  };
+  contributeElements(targetElements, newElements, root);
+  return {
+    ...form,
+    elements: targetElements,
+  };
+};
+
+// Contribute a FormElement and all its children to a FormElementMap.
+// This function may be used to create a minimal map of required fields.
+const contributeElements = (
+  target: FormElementMap,
+  source: FormElementMap,
+  element: FormElement
+): FormElementMap => {
+  if (element.type === 'input') {
+    target[element.id] = element;
+    return target;
+  } else if (element.type === 'sequence') {
+    element.elements.forEach(elementId => {
+      const sequenceElement = source[elementId];
+      return contributeElements(target, source, sequenceElement);
     });
-  } else if (form.strategy.type === 'null') {
-    return [];
+    return target;
   } else {
-    const _exhaustiveCheck: never = form.strategy;
+    const _exhaustiveCheck: never = element;
     return _exhaustiveCheck;
   }
 };
 
-export const addFormOutput = <T extends FormStrategy>(
-  form: FormDefinition<T>,
-  document: FormOutput
-) => {
+export const addFormOutput = (form: FormDefinition, document: FormOutput) => {
   return {
     ...form,
     outputs: [...form.outputs, document],

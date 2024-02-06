@@ -1,3 +1,5 @@
+import { VoidResult } from '@atj/common';
+
 import {
   deleteFormFromStorage,
   getFormFromStorage,

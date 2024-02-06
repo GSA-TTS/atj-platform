@@ -1,4 +1,6 @@
+import { Result } from '@atj/common';
 import { FormDefinition } from '@atj/forms';
+
 import { addFormToStorage } from '../context/browser/form-repo';
 
 export const addForm = (

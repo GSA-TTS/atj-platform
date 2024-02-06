@@ -2,9 +2,8 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { createForm } from '@atj/forms';
-
 import DocumentImporter from '.';
+import { createTestForm } from '../../test-form';
 
 export default {
   title: 'FormManager/DocumentImporter',
@@ -18,20 +17,7 @@ export default {
   ],
   parameters: {
     formId: 'test-id',
-    form: createForm(
-      {
-        title: '10x Test Form',
-        description: 'This is a sample form being testing via Storybook',
-      },
-      [
-        {
-          id: 'full-name',
-          text: 'Full name',
-          initial: '',
-          required: true,
-        },
-      ]
-    ),
+    form: createTestForm(),
   },
   tags: ['autodocs'],
 } satisfies Meta<typeof DocumentImporter>;

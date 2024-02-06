@@ -19,6 +19,9 @@
   ],
   "references": [
     {
+      "path": "./packages/common/tsconfig.json"
+    },
+    {
       "path": "./packages/design/tsconfig.json"
     },
     {
@@ -30,8 +33,5 @@
     {
       "path": "./packages/forms/tsconfig.json"
     }
-  ],
-  "files": [
-    "./packages/types/custom.d.ts"
-  ],
+  ]
 }

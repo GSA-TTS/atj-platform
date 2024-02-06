@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
+import { type Result } from '@atj/common';
 import { addDocument } from '@atj/documents';
 import { createForm } from '@atj/forms';
 import { type FormService } from '@atj/form-service';
@@ -40,22 +41,20 @@ export const useDocumentImporter = (
 export const stepOneSelectPdfByUrl = async (
   ctx: { formService: FormService; baseUrl: string },
   url: string
-) => {
+): Promise<Result<string>> => {
   const completeUrl = `${ctx.baseUrl}${url}`;
   const response = await fetch(completeUrl);
   const blob = await response.blob();
   const data = new Uint8Array(await blob.arrayBuffer());
 
-  const { updatedForm } = await addDocument(
-    createForm({
-      title: url,
-      description: '',
-    }),
-    {
-      name: url,
-      data,
-    }
-  );
+  const emptyForm = createForm({
+    title: url,
+    description: '',
+  });
+  const { updatedForm } = await addDocument(emptyForm, {
+    name: url,
+    data,
+  });
   return ctx.formService.addForm(updatedForm);
 };
 
@@ -65,13 +64,11 @@ export const stepOneSelectPdfByUpload = async (
     name: string;
     data: Uint8Array;
   }
-) => {
-  const { updatedForm } = await addDocument(
-    createForm({
-      title: fileDetails.name,
-      description: '',
-    }),
-    fileDetails
-  );
+): Promise<Result<string>> => {
+  const emptyForm = createForm({
+    title: fileDetails.name,
+    description: '',
+  });
+  const { updatedForm } = await addDocument(emptyForm, fileDetails);
   return ctx.formService.addForm(updatedForm);
 };

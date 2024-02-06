@@ -2,10 +2,10 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { createForm } from '@atj/forms';
 import { createTestFormService } from '@atj/form-service';
 
 import FormList from '.';
+import { createTestForm } from '../../test-form';
 
 export default {
   title: 'FormManager/FormList',
@@ -20,26 +20,7 @@ export default {
   args: {
     baseUrl: '/',
     formService: createTestFormService({
-      'test-form': createForm(
-        {
-          title: 'Test form',
-          description: 'Test description',
-        },
-        [
-          {
-            id: 'element-1',
-            text: 'FormElement 1',
-            initial: '',
-            required: true,
-          },
-          {
-            id: 'element-2',
-            text: 'FormElement 2',
-            initial: 'initial value',
-            required: false,
-          },
-        ]
-      ),
+      'test-form': createTestForm(),
     }),
   },
   tags: ['autodocs'],

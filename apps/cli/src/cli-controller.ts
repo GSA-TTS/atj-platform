@@ -1,12 +1,11 @@
 import { Command } from 'commander';
 
 import { createDependencyGraph } from '@atj/dependency-graph';
-import { DocassembleClient, DocassembleClientContext } from '@atj/docassemble';
 
 type Context = {
   console: Console;
   workspaceRoot: string;
-  docassemble: DocassembleClientContext;
+  //docassemble: DocassembleClientContext;
 };
 
 export const CliController = (ctx: Context) => {
@@ -29,6 +28,7 @@ export const CliController = (ctx: Context) => {
       ctx.console.log('wrote workspace dependency graph');
     });
 
+  /*
   const docassemble = cli
     .command('docassemble')
     .description('docassemble commands');
@@ -56,6 +56,7 @@ export const CliController = (ctx: Context) => {
       const interviews = await client.getInterviews();
       ctx.console.log('populated docassemble instance');
     });
+    */
 
   return cli;
 };

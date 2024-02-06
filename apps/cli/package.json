@@ -2,7 +2,7 @@
   "name": "@atj/cli-app",
   "version": "1.0.0",
   "description": "10x ATJ command-line interface",
-  "type": "module",
+  "type": "commonjs",
   "license": "CC0",
   "main": "src/index.ts",
   "scripts": {
@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@atj/dependency-graph": "workspace:*",
-    "@atj/docassemble": "workspace:*",
     "commander": "^11.1.0"
   }
 }
