@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams, HashRouter, Route, Routes } from 'react-router-dom';
 
+import { type FormConfig } from '@atj/forms';
 import { type FormService } from '@atj/form-service';
 
 import FormDelete from './FormDelete';
@@ -12,9 +13,11 @@ import { FormDocumentImport } from './import-document';
 export default function FormManager({
   baseUrl,
   formService,
+  config,
 }: {
   baseUrl: string;
   formService: FormService;
+  config: FormConfig;
 }) {
   return (
     <HashRouter>
@@ -32,7 +35,13 @@ export default function FormManager({
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
-            return <FormViewById formId={formId} formService={formService} />;
+            return (
+              <FormViewById
+                config={config}
+                formId={formId}
+                formService={formService}
+              />
+            );
           }}
         />
         <Route
@@ -42,7 +51,13 @@ export default function FormManager({
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
-            return <FormEdit formId={formId} formService={formService} />;
+            return (
+              <FormEdit
+                config={config}
+                formId={formId}
+                formService={formService}
+              />
+            );
           }}
         />
         <Route

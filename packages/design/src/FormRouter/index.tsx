@@ -3,11 +3,14 @@ import { useParams, HashRouter, Route, Routes } from 'react-router-dom';
 
 import { type FormService } from '@atj/form-service';
 import Form from '../Form';
+import { type FormConfig } from '@atj/forms';
 
 // Wrapper around Form that includes a client-side router for loading forms.
 export default function FormRouter({
+  config,
   formService,
 }: {
+  config: FormConfig;
   formService: FormService;
 }) {
   return (
@@ -33,6 +36,7 @@ export default function FormRouter({
             }
             return (
               <Form
+                config={config}
                 form={result.data}
                 onSubmit={async data => {
                   const submission = await formService.submitForm(formId, data);

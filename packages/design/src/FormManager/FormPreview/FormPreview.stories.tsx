@@ -5,7 +5,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { createTestFormService } from '@atj/form-service';
 
 import { FormViewById } from '.';
-import { createTestForm } from '../../test-form';
+import { createTestForm, createTestFormConfig } from '../../test-form';
 
 export default {
   title: 'FormManager/FormView',
@@ -18,6 +18,7 @@ export default {
     ),
   ],
   args: {
+    config: createTestFormConfig(),
     formId: 'test-form',
     formService: createTestFormService({
       'test-form': createTestForm(),

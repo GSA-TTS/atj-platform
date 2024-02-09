@@ -5,5 +5,11 @@ import { getAppContext } from '../context';
 
 export default function () {
   const ctx = getAppContext();
-  return <FormManager formService={ctx.formService} baseUrl={ctx.baseUrl} />;
+  return (
+    <FormManager
+      config={ctx.formConfig}
+      formService={ctx.formService}
+      baseUrl={ctx.baseUrl}
+    />
+  );
 }

@@ -1,4 +1,4 @@
-import { createForm } from '@atj/forms';
+import { createForm, defaultFormConfig } from '@atj/forms';
 
 export const createTestForm = () => {
   return createForm(
@@ -12,23 +12,33 @@ export const createTestForm = () => {
         {
           type: 'sequence',
           id: 'root',
-          elements: ['element-1', 'element-2'],
+          data: {
+            elements: ['element-1', 'element-2'],
+          },
         },
         {
           type: 'input',
           id: 'element-1',
-          text: 'FormElement 1',
-          initial: '',
-          required: true,
+          data: {
+            text: 'FormElement 1',
+            required: true,
+            initial: '',
+          },
         },
         {
           type: 'input',
           id: 'element-2',
-          text: 'FormElement 2',
-          initial: 'initial value',
-          required: false,
+          data: {
+            text: 'FormElement 2',
+            required: false,
+            initial: 'test',
+          },
         },
       ],
     }
   );
+};
+
+export const createTestFormConfig = () => {
+  return defaultFormConfig;
 };

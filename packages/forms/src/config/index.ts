@@ -1,15 +1,19 @@
-import { PromptPart } from '../prompts';
+import { type CreatePrompt } from '../prompts';
+import { type FormElement, type FormElementId } from '../elements';
+export { defaultFormConfig } from './config';
 
-type FormConfigContext = {};
-
-type FormElement<Schema extends { type: string }> = {
-  parseData: (data: Schema) => Schema | Error;
-  createPrompt?: (session: any, data: Schema) => PromptPart[]; // if a terminal element???
+export type FormElementConfig<ThisFormElement extends FormElement<any>> = {
+  initial: ThisFormElement['data'];
+  parseData: (obj: any) => ThisFormElement;
+  getChildren: (
+    element: ThisFormElement,
+    elements: Record<FormElementId, FormElement<any>>
+  ) => FormElement<any>[];
+  createPrompt: CreatePrompt<ThisFormElement>;
+};
+export type FormConfig<T extends FormElement<any> = FormElement<any>> = {
+  elements: Record<string, FormElementConfig<T>>;
 };
 
-export const createFormConfig = (context: FormConfigContext) => {
-  // or should this be createFormManager?
-};
-
-// don't design this backwards. might want to start at createPrompt, and add
-// in the bits that are actually required.
+export type ConfigElements<Config extends FormConfig> =
+  keyof Config['elements'];

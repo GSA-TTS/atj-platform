@@ -40,39 +40,47 @@ export const addDocumentFieldsToForm = (
   form: FormDefinition,
   fields: DocumentFieldMap
 ) => {
-  const elements: FormElement[] = [];
+  const elements: FormElement<any>[] = [];
   Object.entries(fields).map(([key, field]) => {
     if (field.type === 'CheckBox') {
       elements.push({
         type: 'input',
         id: field.name,
-        text: field.label,
-        initial: field.value,
-        required: field.required,
+        data: {
+          text: field.label,
+          initial: field.value,
+          required: field.required,
+        },
       });
     } else if (field.type === 'OptionList') {
       elements.push({
         type: 'input',
         id: field.name,
-        text: field.label,
-        initial: field.value,
-        required: field.required,
+        data: {
+          text: field.label,
+          initial: field.value,
+          required: field.required,
+        },
       });
     } else if (field.type === 'Dropdown') {
       elements.push({
         type: 'input',
         id: field.name,
-        text: field.label,
-        initial: field.value,
-        required: field.required,
+        data: {
+          text: field.label,
+          initial: field.value,
+          required: field.required,
+        },
       });
     } else if (field.type === 'TextField') {
       elements.push({
         type: 'input',
         id: field.name,
-        text: field.label,
-        initial: field.value,
-        required: field.required,
+        data: {
+          text: field.label,
+          initial: field.value,
+          required: field.required,
+        },
       });
     } else if (field.type === 'not-supported') {
       console.error(`Skipping field: ${field.error}`);
@@ -83,7 +91,9 @@ export const addDocumentFieldsToForm = (
   elements.push({
     id: 'root',
     type: 'sequence',
-    elements: elements.map(element => element.id),
+    data: {
+      elements: elements.map(element => element.id),
+    },
   });
   return addFormElements(form, elements, 'root');
 };

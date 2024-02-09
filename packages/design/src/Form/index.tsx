@@ -4,6 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import {
   createFormSession,
   createPrompt,
+  type FormConfig,
   type FormDefinition,
 } from '@atj/forms';
 
@@ -11,14 +12,16 @@ import PromptSegment from './PromptSegment';
 import ActionBar from './ActionBar';
 
 export default function Form({
+  config,
   form,
   onSubmit,
 }: {
+  config: FormConfig;
   form: FormDefinition;
   onSubmit?: (data: Record<string, string>) => void;
 }) {
   const session = createFormSession(form);
-  const prompt = createPrompt(session);
+  const prompt = createPrompt(config, session);
 
   const formMethods = useForm<Record<string, string>>({});
   return (
