@@ -15,5 +15,6 @@ export type FormConfig<T extends FormElement<any> = FormElement<any>> = {
   elements: Record<string, FormElementConfig<T>>;
 };
 
-export type ConfigElements<Config extends FormConfig> =
-  keyof Config['elements'];
+export type ConfigElements<Config extends FormConfig> = ReturnType<
+  Config['elements'][keyof Config['elements']]['parseData']
+>;

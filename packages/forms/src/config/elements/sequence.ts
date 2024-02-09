@@ -14,7 +14,7 @@ export const sequenceConfig: FormElementConfig<SequenceElement> = {
     return obj;
   },
   getChildren(element, elements) {
-    return (element as SequenceElement).data.elements.map(
+    return element.data.elements.map(
       (elementId: string) => elements[elementId]
     );
   },
