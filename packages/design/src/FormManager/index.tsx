@@ -1,7 +1,6 @@
 import React from 'react';
 import { useParams, HashRouter, Route, Routes } from 'react-router-dom';
 
-import { type FormConfig } from '@atj/forms';
 import { type FormService } from '@atj/form-service';
 
 import FormDelete from './FormDelete';
@@ -38,7 +37,7 @@ export default function FormManager({
             }
             return (
               <FormViewById
-                config={config}
+                config={context.config}
                 formId={formId}
                 formService={formService}
               />
@@ -80,7 +79,7 @@ export default function FormManager({
             }
             return (
               <FormDocumentImport
-                config={config}
+                config={context.config}
                 baseUrl={baseUrl}
                 formId={formId}
                 formService={formService}
