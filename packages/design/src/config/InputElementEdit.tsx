@@ -1,13 +1,11 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { InputElement } from '@atj/forms/src/config/elements/input';
+import { type InputElement } from '@atj/forms/src/config/elements/input';
 
-export default function InputElementEdit({
-  element,
-}: {
-  element: InputElement;
-}) {
+import { type FormElementComponent } from '.';
+
+const InputElementEdit: FormElementComponent<InputElement> = ({ element }) => {
   const { register } = useFormContext();
   return (
     <div className="grid-row grid-gap">
@@ -58,4 +56,6 @@ export default function InputElementEdit({
       </div>
     </div>
   );
-}
+};
+
+export default InputElementEdit;

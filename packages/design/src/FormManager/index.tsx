@@ -9,15 +9,16 @@ import FormEdit from './FormEdit';
 import FormList from './FormList';
 import { FormViewById } from './FormPreview';
 import { FormDocumentImport } from './import-document';
+import { FormUIContext } from '../config';
 
 export default function FormManager({
+  context,
   baseUrl,
   formService,
-  config,
 }: {
+  context: FormUIContext;
   baseUrl: string;
   formService: FormService;
-  config: FormConfig;
 }) {
   return (
     <HashRouter>
@@ -53,7 +54,7 @@ export default function FormManager({
             }
             return (
               <FormEdit
-                config={config}
+                context={context}
                 formId={formId}
                 formService={formService}
               />
@@ -79,6 +80,7 @@ export default function FormManager({
             }
             return (
               <FormDocumentImport
+                config={config}
                 baseUrl={baseUrl}
                 formId={formId}
                 formService={formService}

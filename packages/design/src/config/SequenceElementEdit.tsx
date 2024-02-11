@@ -17,22 +17,19 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import { useFormContext } from 'react-hook-form';
 
-import {
-  type FormConfig,
-  type FormDefinition,
-  type FormElement,
-} from '@atj/forms';
-import { getEditComponentForFormElement } from '../user';
-import { SequenceElement } from '@atj/forms/src/config/elements/sequence';
+import { type FormDefinition, type FormElement } from '@atj/forms';
+import { type SequenceElement } from '@atj/forms/src/config/elements/sequence';
+
+import { type FormElementComponent, type FormUIContext } from '.';
 
 interface ItemProps<T> {
   id: string;
   form: FormDefinition;
   element: FormElement<T>;
-  config: FormConfig;
+  context: FormUIContext;
 }
 
-const SortableItem = <T,>({ id, form, element, config }: ItemProps<T>) => {
+const SortableItem = <T,>({ id, form, element, context }: ItemProps<T>) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
 
@@ -41,7 +38,7 @@ const SortableItem = <T,>({ id, form, element, config }: ItemProps<T>) => {
     transition,
   };
 
-  const Component = getEditComponentForFormElement(element.type);
+  const Component = context.components[element.type];
 
   return (
     <li ref={setNodeRef} style={style}>
@@ -50,7 +47,7 @@ const SortableItem = <T,>({ id, form, element, config }: ItemProps<T>) => {
       </div>
       <Component
         key={element.id}
-        config={config}
+        context={context}
         element={element}
         form={form}
       />
@@ -58,14 +55,10 @@ const SortableItem = <T,>({ id, form, element, config }: ItemProps<T>) => {
   );
 };
 
-export const SequenceElementEdit = ({
-  config,
+const SequenceElementEdit: FormElementComponent<SequenceElement> = ({
+  context,
   form,
   element,
-}: {
-  config: FormConfig;
-  form: FormDefinition;
-  element: SequenceElement;
 }) => {
   const { register, setValue } = useFormContext();
   const [elements, setElements] = useState(
@@ -119,7 +112,7 @@ export const SequenceElementEdit = ({
               <SortableItem
                 key={elements.id}
                 id={elements.id}
-                config={config}
+                context={context}
                 element={elements}
                 form={form}
               />
@@ -130,3 +123,5 @@ export const SequenceElementEdit = ({
     </fieldset>
   );
 };
+
+export default SequenceElementEdit;

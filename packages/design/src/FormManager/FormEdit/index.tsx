@@ -6,19 +6,18 @@ import { type FormService } from '@atj/form-service';
 import {
   type FormDefinition,
   type FormElementMap,
-  type FormConfig,
   getRootFormElement,
   updateElements,
 } from '@atj/forms';
 
-import { getEditComponentForFormElement } from '../../user';
+import { type FormUIContext } from '../../config';
 
 export default function FormEdit({
-  config,
+  context,
   formId,
   formService,
 }: {
-  config: FormConfig;
+  context: FormUIContext;
   formId: string;
   formService: FormService;
 }) {
@@ -43,7 +42,7 @@ export default function FormEdit({
         </li>
       </ul>
       <EditForm
-        config={config}
+        context={context}
         form={form}
         onSave={form => formService.saveForm(formId, form)}
       />
@@ -52,11 +51,11 @@ export default function FormEdit({
 }
 
 const EditForm = ({
-  config,
+  context,
   form,
   onSave,
 }: {
-  config: FormConfig;
+  context: FormUIContext;
   form: FormDefinition;
   onSave: (form: FormDefinition) => void;
 }) => {
@@ -64,17 +63,17 @@ const EditForm = ({
     defaultValues: form.elements,
   });
   const rootField = getRootFormElement(form);
-  const Component = getEditComponentForFormElement(rootField.type);
+  const Component = context.components[rootField.type];
   return (
     <FormProvider {...methods}>
       <form
         onSubmit={methods.handleSubmit(data => {
-          const updatedForm = updateElements(config, form, data);
+          const updatedForm = updateElements(context.config, form, data);
           onSave(updatedForm);
         })}
       >
         <ButtonBar />
-        <Component config={config} form={form} element={rootField} />
+        <Component context={context} form={form} element={rootField} />
         <ButtonBar />
       </form>
     </FormProvider>

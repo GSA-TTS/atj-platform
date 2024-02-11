@@ -1,6 +1,6 @@
 import { FormDefinition } from '..';
 
-export type FormElement<T> = {
+export type FormElement<T = any> = {
   type: string;
   id: FormElementId;
   data: T;

@@ -1,5 +1,6 @@
-import { type CreatePrompt } from '../prompts';
 import { type FormElement, type FormElementId } from '../elements';
+import { type CreatePrompt } from '../prompts';
+
 export { defaultFormConfig } from './config';
 
 export type FormElementConfig<ThisFormElement extends FormElement<any>> = {

@@ -5,7 +5,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { createTestFormService } from '@atj/form-service';
 
 import FormEdit from '.';
-import { createTestForm, createTestFormConfig } from '../../test-form';
+import { createTestForm, createTestFormContext } from '../../test-form';
 
 export default {
   title: 'FormManager/FormEdit',
@@ -18,7 +18,7 @@ export default {
     ),
   ],
   args: {
-    config: createTestFormConfig(),
+    context: createTestFormContext(),
     formId: 'test-form',
     formService: createTestFormService({
       'test-form': createTestForm(),
