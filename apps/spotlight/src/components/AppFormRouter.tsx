@@ -5,5 +5,5 @@ import { getAppContext } from '../context';
 
 export default function AppFormRouter() {
   const ctx = getAppContext();
-  return <FormRouter formService={ctx.formService} />;
+  return <FormRouter config={ctx.formConfig} formService={ctx.formService} />;
 }

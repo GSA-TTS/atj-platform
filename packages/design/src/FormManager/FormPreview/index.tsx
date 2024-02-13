@@ -1,12 +1,16 @@
 import React from 'react';
 
+import { type FormConfig } from '@atj/forms';
 import { type FormService } from '@atj/form-service';
+
 import Form from '../../Form';
 
 export const FormViewById = ({
+  config,
   formId,
   formService,
 }: {
+  config: FormConfig;
   formId: string;
   formService: FormService;
 }) => {
@@ -18,6 +22,7 @@ export const FormViewById = ({
 
   return (
     <Form
+      config={config}
       form={result.data}
       onSubmit={async data => {
         const submission = await formService.submitForm(formId, data);

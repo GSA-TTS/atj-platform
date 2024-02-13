@@ -1,6 +1,11 @@
 // For now, a prompt just returns an array of elements. This will likely need
 
-import { getRootFormElement, type FormSession, type FormElement } from '..';
+import {
+  getRootFormElement,
+  type FormSession,
+  type FormElement,
+  FormConfig,
+} from '..';
 
 export type TextInputPrompt = {
   type: 'text';
@@ -30,7 +35,10 @@ export type Prompt = {
 };
 
 // to be filled out to support more complicated display formats.
-export const createPrompt = (session: FormSession): Prompt => {
+export const createPrompt = (
+  config: FormConfig,
+  session: FormSession
+): Prompt => {
   const parts: PromptPart[] = [
     {
       type: 'form-summary',
@@ -39,7 +47,7 @@ export const createPrompt = (session: FormSession): Prompt => {
     },
   ];
   const root = getRootFormElement(session.form);
-  parts.push(...createPromptForElement(session, root));
+  parts.push(...createPromptForElement(config, session, root));
   return {
     actions: [
       {
@@ -51,27 +59,16 @@ export const createPrompt = (session: FormSession): Prompt => {
   };
 };
 
-const createPromptForElement = (
+export type CreatePrompt<T> = (
+  config: FormConfig,
   session: FormSession,
-  element: FormElement
-): PromptPart[] => {
-  if (element.type === 'input') {
-    return [
-      {
-        type: 'text' as const,
-        id: element.id,
-        value: session.data.values[element.id],
-        label: element.text,
-        required: element.required,
-      },
-    ];
-  } else if (element.type === 'sequence') {
-    return element.elements.flatMap(elementId => {
-      const element = session.form.elements[elementId];
-      return createPromptForElement(session, element);
-    });
-  } else {
-    const _exhaustiveCheck: never = element;
-    return _exhaustiveCheck;
-  }
+  element: T
+) => PromptPart[];
+
+export const createPromptForElement: CreatePrompt<FormElement<any>> = (
+  config,
+  session,
+  element
+) => {
+  return config.elements[element.type].createPrompt(config, session, element);
 };

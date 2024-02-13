@@ -8,11 +8,14 @@ import FormEdit from './FormEdit';
 import FormList from './FormList';
 import { FormViewById } from './FormPreview';
 import { FormDocumentImport } from './import-document';
+import { FormUIContext } from '../config';
 
 export default function FormManager({
+  context,
   baseUrl,
   formService,
 }: {
+  context: FormUIContext;
   baseUrl: string;
   formService: FormService;
 }) {
@@ -32,7 +35,13 @@ export default function FormManager({
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
-            return <FormViewById formId={formId} formService={formService} />;
+            return (
+              <FormViewById
+                config={context.config}
+                formId={formId}
+                formService={formService}
+              />
+            );
           }}
         />
         <Route
@@ -42,7 +51,13 @@ export default function FormManager({
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
-            return <FormEdit formId={formId} formService={formService} />;
+            return (
+              <FormEdit
+                context={context}
+                formId={formId}
+                formService={formService}
+              />
+            );
           }}
         />
         <Route
@@ -64,6 +79,7 @@ export default function FormManager({
             }
             return (
               <FormDocumentImport
+                config={context.config}
                 baseUrl={baseUrl}
                 formId={formId}
                 formService={formService}

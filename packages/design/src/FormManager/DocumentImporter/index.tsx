@@ -3,7 +3,11 @@ import { useNavigate } from 'react-router-dom';
 
 import { addDocument, addDocumentFieldsToForm } from '@atj/documents';
 import { type FormService } from '@atj/form-service';
-import { type DocumentFieldMap, type FormDefinition } from '@atj/forms';
+import {
+  type FormConfig,
+  type DocumentFieldMap,
+  type FormDefinition,
+} from '@atj/forms';
 
 import { onFileInputChangeGetFile } from '../FormList/PDFFileSelect/file-input';
 import Form from '../../Form';
@@ -11,11 +15,13 @@ import Form from '../../Form';
 const DocumentImporter = ({
   baseUrl,
   formId,
+  config,
   form,
   formService,
 }: {
   baseUrl: string;
   formId: string;
+  config: FormConfig;
   form: FormDefinition;
   formService: FormService;
 }) => {
@@ -146,6 +152,7 @@ const DocumentImporter = ({
     return (
       <>
         <Form
+          config={config}
           form={previewForm}
           onSubmit={data => {
             //handleFormSubmission(formId, data);

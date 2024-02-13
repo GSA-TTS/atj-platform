@@ -3,25 +3,31 @@ import { describe, expect, test } from 'vitest';
 import * as forms from '../src';
 import { createPrompt } from '../src';
 
-const elements: forms.FormElement[] = [
+const elements: forms.FormElement<any>[] = [
   {
     type: 'sequence',
     id: 'root',
-    elements: ['element-1', 'element-2'],
+    data: {
+      elements: ['element-1', 'element-2'],
+    },
   },
   {
     type: 'input',
     id: 'element-1',
-    text: 'What is your first name?',
-    initial: '',
-    required: true,
+    data: {
+      text: 'What is your first name?',
+      initial: '',
+      required: true,
+    },
   },
   {
     type: 'input',
     id: 'element-2',
-    text: 'What is your favorite word?',
-    initial: '',
-    required: false,
+    data: {
+      text: 'What is your favorite word?',
+      initial: '',
+      required: false,
+    },
   },
 ];
 const form = forms.createForm(
@@ -123,9 +129,10 @@ describe('two element form session', () => {
 });
 
 describe('two element prompt', () => {
+  const config = forms.defaultFormConfig;
   const session = forms.createFormSession(form);
   test('includes a submit button', () => {
-    const prompt = createPrompt(session);
+    const prompt = createPrompt(config, session);
     expect(prompt.actions).toEqual([
       {
         type: 'submit',

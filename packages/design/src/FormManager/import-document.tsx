@@ -1,14 +1,18 @@
 import React from 'react';
+
+import { FormConfig } from '@atj/forms';
 import { type FormService } from '@atj/form-service';
 
 import DocumentImporter from './DocumentImporter';
 
 export const FormDocumentImport = ({
   baseUrl,
+  config,
   formId,
   formService,
 }: {
   baseUrl: string;
+  config: FormConfig;
   formId: string;
   formService: FormService;
 }) => {
@@ -19,6 +23,7 @@ export const FormDocumentImport = ({
   }
   return (
     <DocumentImporter
+      config={config}
       formService={formService}
       baseUrl={baseUrl}
       formId={formId}
