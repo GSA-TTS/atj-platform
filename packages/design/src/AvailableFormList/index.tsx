@@ -50,8 +50,8 @@ const FormList = ({
             <th data-label="Form title" scope="row">{form.title}</th>
             <td data-label="Description">{form.description}</td>
             <td data-label="Actions">
-              <a href={`/manage/#/${form.id}`} title={form.title}>
-                Preview form
+              <a href={urlForForm(form.id)} title={form.title}>
+                Go to form
               </a>
             </td>
           </tr>
