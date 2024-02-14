@@ -2,6 +2,7 @@ import React from 'react';
 import { type FormService } from '@atj/form-service';
 
 import DocumentImporter from './DocumentImporter';
+import InnerPageTopNav from './internalPageTopNav';
 
 export const FormDocumentImport = ({
   baseUrl,
@@ -18,11 +19,15 @@ export const FormDocumentImport = ({
     return 'null form retrieved from storage';
   }
   return (
-    <DocumentImporter
-      formService={formService}
-      baseUrl={baseUrl}
-      formId={formId}
-      form={result.data}
-    />
+    <>
+      <InnerPageTopNav formId={formId} formService={formService} />
+      <DocumentImporter
+        formService={formService}
+        baseUrl={baseUrl}
+        formId={formId}
+        form={result.data}
+      />  
+    </>
+
   );
 };

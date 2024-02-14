@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext, useContext } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
@@ -11,6 +11,7 @@ import {
 } from '@atj/forms';
 
 import RenderField from './FormElementEdit/RenderField';
+import InnerPageTopNav from '../internalPageTopNav';
 
 export default function FormEdit({
   formId,
@@ -25,21 +26,10 @@ export default function FormEdit({
   }
   const form = result.data;
   return (
-    <div>
-      <h1>Edit form interface</h1>
-      <div>Editing form {formId}</div>
-      <ul>
-        <li>
-          <Link to={`/${formId}`}>Preview this form</Link>
-        </li>
-        <li>
-          <Link to={`/${formId}/import-document`}>Import document</Link>
-        </li>
-        <li>
-          <Link to="/">View all forms</Link>
-        </li>
-      </ul>
+    <div className="editFormPage">
       <EditForm
+        formId={formId} 
+        formService={formService}
         form={form}
         onSave={form => formService.saveForm(formId, form)}
       />
@@ -76,9 +66,13 @@ const getFormFieldMap = (elements: FormElementMap) => {
 const EditForm = ({
   form,
   onSave,
+  formId,
+  formService,
 }: {
   form: FormDefinition;
   onSave: (form: FormDefinition) => void;
+  formId: string;
+  formService: FormService;
 }) => {
   const formElements: FormElementMap = getFormFieldMap(form.elements);
   const methods = useForm<FormElementMap>({
@@ -87,13 +81,18 @@ const EditForm = ({
   const rootField = getRootFormElement(form);
   return (
     <FormProvider {...methods}>
-      <form
+      <form className="editForm"
         onSubmit={methods.handleSubmit(data => {
           const updatedForm = updateElements(form, data);
           onSave(updatedForm);
         })}
       >
-        <ButtonBar />
+        <InnerPageTopNav formId={formId} formService={formService} />
+        <h1>
+          <span>Edit form interface</span>
+          <span><ButtonBar /></span>
+        </h1>
+        <h3 className="descriptionText text-normal">Editing form {form.summary.title}</h3>       
         <RenderField form={form} element={rootField} />
         <ButtonBar />
       </form>
@@ -104,7 +103,7 @@ const EditForm = ({
 const ButtonBar = () => {
   return (
     <div>
-      <button className="usa-button">Save</button>
+      <button className="usa-button margin-top-0">Save Changes</button>
     </div>
   );
 };

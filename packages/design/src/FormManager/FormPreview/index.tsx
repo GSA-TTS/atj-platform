@@ -2,6 +2,7 @@ import React from 'react';
 
 import { type FormService } from '@atj/form-service';
 import Form from '../../Form';
+import InnerPageTopNav from '../internalPageTopNav';
 
 export const FormViewById = ({
   formId,
@@ -17,6 +18,8 @@ export const FormViewById = ({
   }
 
   return (
+    <>
+    <InnerPageTopNav formId={formId} formService={formService} />
     <Form
       form={result.data}
       onSubmit={async data => {
@@ -30,8 +33,10 @@ export const FormViewById = ({
         }
       }}
     />
+    </>
   );
 };
+
 
 export const downloadPdfDocument = (fileName: string, pdfData: Uint8Array) => {
   const blob = new Blob([pdfData], { type: 'application/pdf' });

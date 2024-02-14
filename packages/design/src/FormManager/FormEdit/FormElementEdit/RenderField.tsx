@@ -16,16 +16,7 @@ export default function RenderField({
   if (element.type === 'input') {
     return (
       <div className="grid-row grid-gap">
-        <div className="grid-col">
-          <label className="usa-label">
-            Input type
-            <select className="usa-select" {...register(`${fieldId}.type`)}>
-              <option value={'input'}>Input</option>
-              <option value={'textarea'}>Textarea</option>
-            </select>
-          </label>
-        </div>
-        <div className="grid-col">
+        <div className="grid-col grid-col-4">
           <label className="usa-label">
             Field label
             <input
@@ -35,9 +26,9 @@ export default function RenderField({
             ></input>
           </label>
         </div>
-        <div className="grid-col">
+        <div className="grid-col grid-col-4">
           <label className="usa-label">
-            Default value
+            Default field value
             <input
               className="usa-input"
               type="text"
@@ -45,7 +36,16 @@ export default function RenderField({
             ></input>
           </label>
         </div>
-        <div className="grid-col">
+        <div className="grid-col grid-col-2">
+          <label className="usa-label">
+            Field type
+            <select className="usa-select" {...register(`${fieldId}.type`)}>
+              <option value={'input'}>Input</option>
+              <option value={'textarea'}>Textarea</option>
+            </select>
+          </label>
+        </div>
+        <div className="grid-col grid-col-2">
           <div className="usa-checkbox">
             <input
               className="usa-checkbox__input"

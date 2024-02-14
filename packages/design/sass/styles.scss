@@ -1,2 +1,263 @@
 @forward "uswds-theme";
 @forward "uswds";
+
+.usa-app {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  width: 100%;
+}
+
+.usa-banner__inner,
+.usa-header--extended .usa-navbar,
+.usa-header--extended .usa-nav__inner,
+.grid-container,
+.usa-footer>.grid-container,
+.usa-footer__primary-container,
+.usa-footer__primary-section>.grid-container {
+  max-width: 75rem;
+}
+
+.usa-header {
+  background: #18161d;
+}
+
+.usa-nav {
+  background: white;
+}
+
+a,
+.usa-link,
+.usa-button--unstyled {
+  color: #54278f;
+}
+
+h1 {
+  span {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 20px;
+  }
+}
+.usa-button,
+.usa-menu-btn {
+  background-color: #54278f;
+}
+
+.usa-header,
+.usa-header a {
+  color: white;
+}
+
+.usa-table {
+  width: 100%;
+
+  .column1 {
+    width: 50%;
+  }
+
+  .column2 {
+    width: 30%;
+  }
+
+  .column3 {
+    width: 20%;
+  }
+
+  .actionColumn {
+    span {
+      margin: 0 30px 0 0;
+
+      &:last-child {
+        margin: 0;
+      }
+    }
+  }
+}
+
+.usa-form--large {
+  max-width: 32rem;
+}
+
+.usa-legend {
+  max-width: 100%;
+}
+
+.previewForm {
+  .usa-button {
+    margin-top: 20px;
+  }
+}
+
+.innerPageTopNavWrapper {
+  margin-bottom: 50px;
+
+  .innerPageTopNav {
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 auto;
+
+      li {
+        margin: 0 1px;
+
+        &.currentPage {
+          a,
+          a:hover {
+            background: #454540;
+            color: white;
+          }
+        }
+
+        a {
+          display: block;
+          background: #ede3ff;
+          color: #39215e;
+          border: 1px solid #ede3ff;
+        }
+
+        a,
+        .usa-button {
+          text-decoration: none;
+          padding: 15px;
+          font-size: 20px;
+          text-align: center;
+           
+          &:hover {
+            background: #f5f2ff;
+            border: 1px solid #e4deff;
+          }
+        }
+
+        .usa-button {
+          margin-top: 0;
+        }
+      }
+    }
+
+    .usa-button {
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  }
+}
+
+[contentEditable=true]:focus, 
+[href]:focus, 
+[tabindex]:focus, 
+iframe:focus {
+  outline: 0.25rem solid #783cb9;
+}
+
+.editFormPage {
+  fieldset {
+    border: none;
+    padding: 0;
+  }
+}
+
+.editFormWrapper {
+  list-style: none;
+  padding: 0;
+  border-top: 1px solid #c9c9c9;
+
+  li {
+    padding: 15px 0 20px;
+    border-bottom: 1px solid #c9c9c9;
+  }
+
+  .usa-label {
+    margin-top: 0;
+  }
+}
+
+.editPageGrabButtonWrapper {
+  font-size: 20px;
+  text-align: center;
+  width: 45px;
+
+  span {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .grabber2 {
+    margin-top: -6px;
+  }
+}
+
+.usa-step-indicator__segment {
+  max-width: 22rem;
+
+  &--current {
+
+    .usa-step-indicator__segment-label {
+      color: #783cb9;
+    }
+
+    &::after {
+      background: #783cb9;
+    }
+  }
+}
+
+@media (min-width: 64em) {
+  .usa-header--extended {
+    .usa-nav__primary-item {
+
+      &>.usa-current::after,
+      &>.usa-nav__link:hover::after {
+        background-color: #783cb9;
+      }
+    }
+
+    .usa-logo {
+      max-width: 100%;
+    }
+  }
+
+  .usa-link:active,
+  .usa-link:visited,
+  .usa-file-input__choose,
+  .usa-nav__primary>.usa-nav__primary-item>a:hover {
+    color: #39215e;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .usa-legend,
+  .usa-label {
+    word-break: break-all;
+  }
+
+  .innerPageTopNavWrapper {
+    .innerPageTopNav {
+      ul {
+        li {
+          flex: 0 1 auto;
+          width: 100%;
+          margin: 0 0 4px;
+        }
+      }
+    }
+  }
+
+  .editFieldsWrapper {
+    width: 85%;
+
+    .grid-col {
+      width: 100%;
+      flex: 0 1 auto;
+    }
+
+    .usa-label {
+      margin-bottom: 16px;
+    }
+  }
+
+}

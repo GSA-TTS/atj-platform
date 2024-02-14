@@ -45,13 +45,16 @@ const context = getAppContext();
     />
     <link href="/favicon/favicon.ico" rel="shortcut icon" />
     <meta name="generator" content={Astro.generator} />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="../lib/initialize.ts"></script>
     <title>{title}</title>
   </head>
   <body>
-    <UsaBanner />
-    <Header />
-    <slot />
-    <Footer github={context.github} />
+    <div class="usa-app usa-app__theme-1">
+      <UsaBanner />
+      <Header />
+      <slot />
+      <Footer github={context.github} />  
+    </div>
   </body>
 </html>

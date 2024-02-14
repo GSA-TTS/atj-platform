@@ -64,9 +64,9 @@ const DocumentImporter = ({
   const PDFFileSelect = () => {
     return (
       <div className="usa-form-group">
-        <div className="usa-hint" id="file-input-specific-hint">
+        <label className="usa-label" id="file-input-specific-hint" htmlFor="file-input-specific">
           Select a single PDF file
-        </div>
+        </label>
         <div className="usa-file-input">
           <div className="usa-file-input__target">
             <div className="usa-file-input__instructions" aria-hidden="true">
@@ -76,6 +76,7 @@ const DocumentImporter = ({
             <div className="usa-file-input__box"></div>
             <input
               className="usa-file-input__input"
+              id="file-input-specific"
               aria-describedby="file-input-specific-hint"
               type="file"
               accept=".pdf"
@@ -166,7 +167,7 @@ const DocumentImporter = ({
 
   return (
     <div>
-      <h1>Create an interview from PDF</h1>
+      <h1>Import a PDF</h1>
       <div className="usa-step-indicator" aria-label="progress">
         <ol className="usa-step-indicator__segments">
           <Step title="Select a PDF" step={1} current={state.page} />

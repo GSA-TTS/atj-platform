@@ -15,18 +15,21 @@ export default function PDFFileSelect({
   const { actions } = useDocumentImporter(formService, baseUrl);
   return (
     <div className="usa-form-group">
-      <div className="usa-hint" id="file-input-specific-hint">
+      <label className="usa-label" id="file-input-specific-hint" htmlFor="file-input-specific">
         Select a single PDF file
-      </div>
+      </label>
       <div className="usa-file-input">
+        <div className="usa-sr-only" aria-live="polite">No files selected.</div>
         <div className="usa-file-input__target">
+          <div className="usa-file-input__box"></div>
           <div className="usa-file-input__instructions" aria-hidden="true">
             Drag file here or{' '}
             <span className="usa-file-input__choose">choose from folder</span>
           </div>
-          <div className="usa-file-input__box"></div>
+          
           <input
             className="usa-file-input__input"
+            id="file-input-specific"
             aria-describedby="file-input-specific-hint"
             type="file"
             accept=".pdf"

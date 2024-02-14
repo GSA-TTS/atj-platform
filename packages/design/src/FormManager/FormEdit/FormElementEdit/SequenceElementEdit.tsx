@@ -39,10 +39,15 @@ const SortableItem = ({ id, form, element }: ItemProps) => {
 
   return (
     <li ref={setNodeRef} style={style}>
-      <div {...listeners} {...attributes} style={{ cursor: 'grab' }}>
-        :::
+      <div className="editFieldsRowWrapper grid-row grid-gap">
+        <div className="editPageGrabButtonWrapper grid-col-1 grid-col" {...listeners} {...attributes} style={{ cursor: 'grab' }}>
+          <span className="grabber1">:::</span>
+          <span className="grabber2">:::</span>
+        </div>
+        <div className="editFieldsWrapper grid-col-11 grid-col">
+          <RenderField key={element.id} element={element} form={form} />
+        </div>  
       </div>
-      <RenderField key={element.id} element={element} form={form} />
     </li>
   );
 };
@@ -92,7 +97,7 @@ export const SequenceElementEdit = ({
       }}
     >
       <SortableContext items={elements} strategy={verticalListSortingStrategy}>
-        <ul>
+        <ul className="editFormWrapper">
           <input type="hidden" {...register(`${element.id}.id`)} />
           <input type="hidden" {...register(`${element.id}.type`)} />
           <input type="hidden" {...register(`${element.id}.elements`)} />
