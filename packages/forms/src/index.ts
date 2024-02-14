@@ -1,13 +1,16 @@
+import { FormConfig } from './config';
+import { SequenceElement } from './config/elements/sequence';
 import { type DocumentFieldMap } from './documents';
 import {
-  getFormElementMap,
-  type FormElement,
   type FormElementId,
+  type FormElementMap,
   type FormElementValue,
   type FormElementValueMap,
-  type FormElementMap,
+  getFormElementMap,
+  FormElement,
 } from './elements';
 
+export * from './config';
 export * from './documents';
 export * from './elements';
 export * from './prompts';
@@ -43,32 +46,25 @@ type FormOutput = {
 export const createForm = (
   summary: FormSummary,
   initial: {
-    elements: FormElement[];
+    elements: FormElement<any>[];
     root: FormElementId;
   } = {
     elements: [
       {
         id: 'root',
         type: 'sequence',
-        elements: [],
-      },
+        data: {
+          elements: [],
+        },
+      } satisfies SequenceElement,
     ],
     root: 'root',
   }
 ): FormDefinition => {
   return {
     summary,
-    root: 'root',
-    elements: {
-      root: {
-        id: 'root',
-        type: 'sequence',
-        elements: initial.elements.map(element => {
-          return element.id;
-        }),
-      },
-      ...getFormElementMap(initial.elements),
-    },
+    root: initial.root,
+    elements: getFormElementMap(initial.elements),
     outputs: [],
   };
 };
@@ -77,24 +73,13 @@ export const getRootFormElement = (form: FormDefinition) => {
   return form.elements[form.root];
 };
 
-const initialValueForFormElement = (element: FormElement) => {
-  if (element.type === 'input') {
-    return element.initial;
-  } else if (element.type === 'sequence') {
-    return [];
-  } else {
-    const _exhaustiveCheck: never = element;
-    return _exhaustiveCheck;
-  }
-};
-
 export const createFormSession = (form: FormDefinition): FormSession => {
   return {
     data: {
       errors: {},
       values: Object.fromEntries(
         Object.values(form.elements).map(element => {
-          return [element.id, initialValueForFormElement(element)];
+          return [element.id, form.elements[element.id].data.initial];
         })
       ),
     },
@@ -114,7 +99,7 @@ export const updateForm = (
   const nextForm = addValue(context, id, value);
   const element = context.form.elements[id];
   if (element.type === 'input') {
-    if (element.required && !value) {
+    if (element.data.required && !value) {
       return addError(nextForm, id, 'Required value not provided.');
     }
   }
@@ -153,7 +138,7 @@ const addError = (
 
 export const addFormElements = (
   form: FormDefinition,
-  elements: FormElement[],
+  elements: FormElement<any>[],
   root?: FormElementId
 ) => {
   const formElementMap = getFormElementMap(elements);
@@ -166,7 +151,7 @@ export const addFormElements = (
 
 export const replaceFormElements = (
   form: FormDefinition,
-  elements: FormElement[]
+  elements: FormElement<any>[]
 ): FormDefinition => {
   return {
     ...form,
@@ -175,12 +160,13 @@ export const replaceFormElements = (
         acc[element.id] = element;
         return acc;
       },
-      {} as Record<FormElementId, FormElement>
+      {} as Record<FormElementId, FormElement<any>>
     ),
   };
 };
 
 export const updateElements = (
+  config: FormConfig,
   form: FormDefinition,
   newElements: FormElementMap
 ): FormDefinition => {
@@ -188,33 +174,15 @@ export const updateElements = (
   const targetElements: FormElementMap = {
     root,
   };
-  contributeElements(targetElements, newElements, root);
+  const resource = config.elements[root.type as keyof FormConfig];
+  const children = resource.getChildren(root, newElements);
+  targetElements[root.id] = root;
+  children.forEach(child => (targetElements[child.id] = child));
+
   return {
     ...form,
     elements: targetElements,
   };
-};
-
-// Contribute a FormElement and all its children to a FormElementMap.
-// This function may be used to create a minimal map of required fields.
-const contributeElements = (
-  target: FormElementMap,
-  source: FormElementMap,
-  element: FormElement
-): FormElementMap => {
-  if (element.type === 'input') {
-    target[element.id] = element;
-    return target;
-  } else if (element.type === 'sequence') {
-    element.elements.forEach(elementId => {
-      const sequenceElement = source[elementId];
-      return contributeElements(target, source, sequenceElement);
-    });
-    return target;
-  } else {
-    const _exhaustiveCheck: never = element;
-    return _exhaustiveCheck;
-  }
 };
 
 export const addFormOutput = (form: FormDefinition, document: FormOutput) => {

@@ -8,3 +8,4 @@ coverage/
 html/
 node_modules/
 NOTES.md
+tsconfig.tsbuildinfo

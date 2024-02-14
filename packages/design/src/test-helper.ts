@@ -1,7 +1,7 @@
-import { Store_CSFExports } from '@storybook/types';
-import { ReactRenderer, composeStories } from '@storybook/react';
+import { type Store_CSFExports } from '@storybook/types';
+import { type ReactRenderer, composeStories } from '@storybook/react';
 import { render } from '@testing-library/react';
-import { Entries } from 'type-fest';
+import { type Entries } from 'type-fest';
 import { describe, test } from 'vitest';
 
 /**

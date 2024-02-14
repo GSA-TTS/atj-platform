@@ -1,6 +1,5 @@
 import React, { createContext, useContext } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
 
 import { type FormService } from '@atj/form-service';
 import {
@@ -10,13 +9,15 @@ import {
   updateElements,
 } from '@atj/forms';
 
-import RenderField from './FormElementEdit/RenderField';
+import { type FormUIContext } from '../../config';
 import InnerPageTopNav from '../internalPageTopNav';
 
 export default function FormEdit({
+  context,
   formId,
   formService,
 }: {
+  context: FormUIContext;
   formId: string;
   formService: FormService;
 }) {
@@ -28,7 +29,8 @@ export default function FormEdit({
   return (
     <div className="editFormPage">
       <EditForm
-        formId={formId} 
+        context={context}
+        formId={formId}
         formService={formService}
         form={form}
         onSave={form => formService.saveForm(formId, form)}
@@ -37,63 +39,46 @@ export default function FormEdit({
   );
 }
 
-// FIXME: Once we clean up the input type, this function should be unnecessary.
-const getFormFieldMap = (elements: FormElementMap) => {
-  return Object.values(elements).reduce((acc, element) => {
-    if (element.type === 'input') {
-      acc[element.id] = {
-        type: 'input',
-        id: element.id,
-        text: element.text,
-        initial: element.initial.toString(),
-        required: element.required,
-      };
-      return acc;
-    } else if (element.type === 'sequence') {
-      acc[element.id] = {
-        type: 'sequence',
-        id: element.id,
-        elements: element.elements,
-      };
-      return acc;
-    } else {
-      const _exhaustiveCheck: never = element;
-      return _exhaustiveCheck;
-    }
-  }, {} as FormElementMap);
-};
-
 const EditForm = ({
+  context,
   form,
   onSave,
   formId,
   formService,
 }: {
+  context: FormUIContext;
   form: FormDefinition;
   onSave: (form: FormDefinition) => void;
   formId: string;
   formService: FormService;
 }) => {
-  const formElements: FormElementMap = getFormFieldMap(form.elements);
   const methods = useForm<FormElementMap>({
-    defaultValues: formElements,
+    defaultValues: form.elements,
   });
   const rootField = getRootFormElement(form);
+  const Component = context.components[rootField.type];
   return (
     <FormProvider {...methods}>
-      <form className="editForm"
+      <form
+        className="editForm"
         onSubmit={methods.handleSubmit(data => {
-          const updatedForm = updateElements(form, data);
+          const updatedForm = updateElements(context.config, form, data);
           onSave(updatedForm);
         })}
       >
+        <ButtonBar />
+        <Component context={context} form={form} element={rootField} />
         <InnerPageTopNav formId={formId} formService={formService} />
         <h1>
           <span>Edit form interface</span>
-          <span><ButtonBar /></span>
+          <span>
+            <ButtonBar />
+          </span>
         </h1>
-        <h3 className="descriptionText text-normal">Editing form {form.summary.title}</h3>       
-        <RenderField form={form} element={rootField} />
+        <h3 className="descriptionText text-normal">
+          Editing form {form.summary.title}
+        </h3>
+        <Component context={context} form={form} element={rootField} />
         <ButtonBar />
       </form>
     </FormProvider>

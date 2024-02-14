@@ -1,13 +1,17 @@
+import { FormConfig } from '@atj/forms';
+import { defaultFormConfig } from '@atj/forms';
 import {
   type FormService,
   createBrowserFormService,
   createTestFormService,
 } from '@atj/form-service';
+
 import { type GithubRepository } from './lib/github';
 
 export type AppContext = {
   baseUrl: `${string}/`;
   github: GithubRepository;
+  formConfig: FormConfig;
   formService: FormService;
 };
 
@@ -24,6 +28,7 @@ const createAppContext = (env: any) => {
   return {
     github: env.GITHUB,
     baseUrl: env.BASE_URL,
+    formConfig: defaultFormConfig,
     formService: createAppFormService(),
   };
 };

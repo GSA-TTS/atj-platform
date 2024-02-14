@@ -1,13 +1,17 @@
 import React from 'react';
 
+import { type FormConfig } from '@atj/forms';
 import { type FormService } from '@atj/form-service';
+
 import Form from '../../Form';
 import InnerPageTopNav from '../internalPageTopNav';
 
 export const FormViewById = ({
+  config,
   formId,
   formService,
 }: {
+  config: FormConfig;
   formId: string;
   formService: FormService;
 }) => {
@@ -21,6 +25,7 @@ export const FormViewById = ({
     <>
     <InnerPageTopNav formId={formId} formService={formService} />
     <Form
+      config={config}
       form={result.data}
       onSubmit={async data => {
         const submission = await formService.submitForm(formId, data);
