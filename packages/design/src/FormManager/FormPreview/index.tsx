@@ -4,6 +4,7 @@ import { type FormConfig } from '@atj/forms';
 import { type FormService } from '@atj/form-service';
 
 import Form from '../../Form';
+import InnerPageTopNav from '../internalPageTopNav';
 
 export const FormViewById = ({
   config,
@@ -21,6 +22,8 @@ export const FormViewById = ({
   }
 
   return (
+    <>
+    <InnerPageTopNav formId={formId} formService={formService} />
     <Form
       config={config}
       form={result.data}
@@ -35,8 +38,10 @@ export const FormViewById = ({
         }
       }}
     />
+    </>
   );
 };
+
 
 export const downloadPdfDocument = (fileName: string, pdfData: Uint8Array) => {
   const blob = new Blob([pdfData], { type: 'application/pdf' });

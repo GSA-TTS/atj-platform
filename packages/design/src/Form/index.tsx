@@ -26,7 +26,7 @@ export default function Form({
   const formMethods = useForm<Record<string, string>>({});
   return (
     <FormProvider {...formMethods}>
-      <form
+      <form className="previewForm"
         onSubmit={formMethods.handleSubmit(async data => {
           if (onSubmit) {
             console.log('Submitting form...');

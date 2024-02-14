@@ -36,7 +36,12 @@ pnpm vitest
 To start developing with hot reloading, use:
 
 ```bash
-pnpm dev --concurrency 12
+pnpm build
+```
+then run:
+
+```bash
+pnpm dev
 ```
 
 These local servers will be started:
