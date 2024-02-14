@@ -66,8 +66,6 @@ const EditForm = ({
           onSave(updatedForm);
         })}
       >
-        <ButtonBar />
-        <Component context={context} form={form} element={rootField} />
         <InnerPageTopNav formId={formId} formService={formService} />
         <h1>
           <span>Edit form interface</span>
