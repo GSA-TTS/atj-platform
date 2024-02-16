@@ -2,10 +2,11 @@
 
 import {
   getRootFormElement,
-  type FormSession,
+  type FormConfig,
   type FormElement,
-  FormConfig,
+  type FormSession,
 } from '..';
+import { getFormElementConfig } from './element';
 
 export type TextInputPrompt = {
   type: 'text';
@@ -70,5 +71,10 @@ export const createPromptForElement: CreatePrompt<FormElement<any>> = (
   session,
   element
 ) => {
-  return config.elements[element.type].createPrompt(config, session, element);
+  const formElementConfig = getFormElementConfig(config, element.type);
+  return formElementConfig.createPrompt(config, session, element);
+};
+
+export const isPromptAction = (prompt: Prompt, action: string) => {
+  return prompt.actions.find(a => a.type === action);
 };

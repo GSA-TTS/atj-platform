@@ -1,6 +1,6 @@
 import { type FormElementConfig } from '..';
-import { type FormElement } from '../../elements';
-import { PromptPart } from '../../prompts';
+import { type FormElement } from '../../element';
+import { PromptPart } from '../../prompt';
 
 export type InputElement = FormElement<{
   text: string;

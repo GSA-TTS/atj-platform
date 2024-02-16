@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import {
+  applyPromptResponse,
   createFormSession,
   createPrompt,
   type FormConfig,
   type FormDefinition,
+  type Prompt,
 } from '@atj/forms';
 
 import PromptSegment from './PromptSegment';
@@ -21,16 +23,27 @@ export default function Form({
   onSubmit?: (data: Record<string, string>) => void;
 }) {
   const session = createFormSession(form);
-  const prompt = createPrompt(config, session);
+  const initialPrompt = createPrompt(config, session);
+  const [prompt, setPrompt] = useState<Prompt>(initialPrompt);
 
   const formMethods = useForm<Record<string, string>>({});
   return (
     <FormProvider {...formMethods}>
       <form
         onSubmit={formMethods.handleSubmit(async data => {
+          const result = applyPromptResponse(config, session, {
+            action: 'submit',
+            data,
+          });
+          if (!result.success) {
+            console.warn('Error applying prompt response...');
+            return;
+          }
+          const prompt = createPrompt(config, result.data);
+          setPrompt(prompt);
           if (onSubmit) {
             console.log('Submitting form...');
-            onSubmit(data);
+            //onSubmit(data);
           } else {
             console.warn('Skipping form submission...');
           }

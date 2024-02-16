@@ -1,6 +1,6 @@
 import { type FormElementConfig } from '..';
-import { type FormElement, type FormElementId } from '../../elements';
-import { type PromptPart, createPromptForElement } from '../../prompts';
+import { type FormElement, type FormElementId } from '../../element';
+import { type PromptPart, createPromptForElement } from '../../prompt';
 
 export type SequenceElement = FormElement<{
   elements: FormElementId[];

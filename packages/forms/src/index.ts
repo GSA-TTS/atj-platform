@@ -2,18 +2,20 @@ import { FormConfig } from './config';
 import { SequenceElement } from './config/elements/sequence';
 import { type DocumentFieldMap } from './documents';
 import {
+  type FormElement,
   type FormElementId,
   type FormElementMap,
   type FormElementValue,
   type FormElementValueMap,
   getFormElementMap,
-  FormElement,
-} from './elements';
+} from './element';
 
 export * from './config';
 export * from './documents';
-export * from './elements';
-export * from './prompts';
+export * from './element';
+export * from './prompt';
+export * from './response';
+export * from './session';
 
 export type FormDefinition = {
   summary: FormSummary;
@@ -56,6 +58,10 @@ export const createForm = (
         data: {
           elements: [],
         },
+        default: {
+          elements: [],
+        },
+        required: true,
       } satisfies SequenceElement,
     ],
     root: 'root',
