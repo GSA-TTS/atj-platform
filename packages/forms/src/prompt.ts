@@ -14,6 +14,7 @@ export type TextInputPrompt = {
   value: string;
   label: string;
   required: boolean;
+  error?: string;
 };
 
 export type FormSummaryPrompt = {

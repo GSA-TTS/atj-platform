@@ -13,6 +13,9 @@ export const sequenceConfig: FormElementConfig<SequenceElement> = {
   parseData(obj) {
     return obj;
   },
+  isValid: function (obj: any): boolean {
+    return true;
+  },
   getChildren(element, elements) {
     return element.data.elements.map(
       (elementId: string) => elements[elementId]

@@ -43,12 +43,9 @@ const parsePromptResponse = (
     const parseResult = formElementConfig.parseData(promptValue);
     values[elementId] = parseResult.data;
     const isValid = formElementConfig.isValid(parseResult.data);
-    /*if (parseResult.success) {
-      values[elementId] = parseResult.data;
-    } else {
-      values[elementId] = promptValue;
-      //errors[elementId] = parseResult.error;
-    }*/
+    if (!isValid) {
+      errors[elementId] = 'This value is invalid.';
+    }
   }
   return { errors, values };
 };

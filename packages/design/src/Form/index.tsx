@@ -43,7 +43,7 @@ export default function Form({
           setPrompt(prompt);
           if (onSubmit) {
             console.log('Submitting form...');
-            //onSubmit(data);
+            onSubmit(data);
           } else {
             console.warn('Skipping form submission...');
           }

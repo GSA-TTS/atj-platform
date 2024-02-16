@@ -18,10 +18,18 @@ export const inputConfig: FormElementConfig<InputElement> = {
     // TODO: runtime validation
     return obj;
   },
+  isValid: function (obj: any): boolean {
+    return false;
+  },
   getChildren() {
     return [];
   },
   createPrompt(_, session, element): PromptPart[] {
+    const error = session.data.errors[element.id]
+      ? {
+          error: session.data.errors[element.id],
+        }
+      : {};
     return [
       {
         type: 'text' as const,
@@ -29,6 +37,7 @@ export const inputConfig: FormElementConfig<InputElement> = {
         value: session.data.values[element.id],
         label: element.data.text,
         required: element.data.required,
+        ...error,
       },
     ];
   },
