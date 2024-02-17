@@ -1,4 +1,4 @@
-import { type FormDefinition } from '.';
+import { getFormElementConfig, type FormDefinition, FormConfig } from '.';
 import {
   type FormElementValue,
   type FormElementValueMap,
@@ -81,6 +81,14 @@ export const updateSession = (
       },
     },
   };
+};
+
+export const sessionIsComplete = (config: FormConfig, session: FormSession) => {
+  return Object.values(session.form.elements).every(element => {
+    const elementConfig = getFormElementConfig(config, element.type);
+    const value = getFormSessionValue(session, element.id);
+    return elementConfig.isValid(value);
+  });
 };
 
 const addValue = (

@@ -24,6 +24,7 @@ export const applyPromptResponse = (
   }
   const { errors, values } = parsePromptResponse(session, config, response);
   const newSession = updateSession(session, values, errors);
+
   return {
     success: true,
     data: newSession,

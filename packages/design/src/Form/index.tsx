@@ -36,7 +36,7 @@ export default function Form({
             data,
           });
           if (!result.success) {
-            console.warn('Error applying prompt response...');
+            console.warn('Error applying prompt response...', result.error);
             return;
           }
           const prompt = createPrompt(config, result.data);

@@ -1,12 +1,14 @@
 // For now, a prompt just returns an array of elements. This will likely need
 
 import {
-  getRootFormElement,
   type FormConfig,
   type FormElement,
   type FormSession,
+  getRootFormElement,
 } from '..';
 import { getFormElementConfig } from './element';
+
+import { sessionIsComplete } from './session';
 
 export type TextInputPrompt = {
   type: 'text';
@@ -23,7 +25,15 @@ export type FormSummaryPrompt = {
   description: string;
 };
 
-export type PromptPart = FormSummaryPrompt | TextInputPrompt;
+export type SubmissionConfirmationPrompt = {
+  type: 'submission-confirmation';
+  table: { label: string; value: string }[];
+};
+
+export type PromptPart =
+  | FormSummaryPrompt
+  | TextInputPrompt
+  | SubmissionConfirmationPrompt;
 
 export type SubmitAction = {
   type: 'submit';
@@ -36,11 +46,28 @@ export type Prompt = {
   parts: PromptPart[];
 };
 
-// to be filled out to support more complicated display formats.
 export const createPrompt = (
   config: FormConfig,
   session: FormSession
 ): Prompt => {
+  if (sessionIsComplete(config, session)) {
+    return {
+      actions: [],
+      parts: [
+        {
+          type: 'submission-confirmation',
+          table: Object.entries(session.data.values).map(
+            ([elementId, value]) => {
+              return {
+                label: session.form.elements[elementId].id,
+                value: value,
+              };
+            }
+          ),
+        },
+      ],
+    };
+  }
   const parts: PromptPart[] = [
     {
       type: 'form-summary',

@@ -19,7 +19,7 @@ export const inputConfig: FormElementConfig<InputElement> = {
     return obj;
   },
   isValid: function (obj: any): boolean {
-    return false;
+    return true;
   },
   getChildren() {
     return [];
