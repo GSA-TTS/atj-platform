@@ -1,5 +1,5 @@
-import { type Result } from '@atj/common';
-import { type FormConfig, type FormDefinition } from '..';
+import { VoidResult, type Result } from '@atj/common';
+import { FormElementConfig, type FormConfig, type FormDefinition } from '..';
 
 export type FormElement<T = any, C = any> = {
   type: string;
@@ -36,4 +36,28 @@ export const getFormElementConfig = (
   elementType: FormElement['type']
 ) => {
   return config.elements[elementType];
+};
+
+export const validateElement = (
+  elementConfig: FormElementConfig<FormElement>,
+  element: FormElement,
+  value: any
+): Result<FormElement['data']> => {
+  const parseResult = elementConfig.parseData(element, value);
+  if (!parseResult.success) {
+    return {
+      success: false,
+      error: parseResult.error,
+    };
+  }
+  if (element.required && !parseResult.data) {
+    return {
+      success: false,
+      error: 'Required value not provided.',
+    };
+  }
+  return {
+    success: true,
+    data: parseResult.data,
+  };
 };

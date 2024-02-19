@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import deepEqual from 'deep-equal';
+import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import {
@@ -7,11 +8,38 @@ import {
   createPrompt,
   type FormConfig,
   type FormDefinition,
+  type FormSession,
   type Prompt,
 } from '@atj/forms';
 
 import PromptSegment from './PromptSegment';
 import ActionBar from './ActionBar';
+
+const usePrompt = (
+  initialPrompt: Prompt,
+  config: FormConfig,
+  session: FormSession
+) => {
+  const [prompt, _setPrompt] = useState<Prompt>(initialPrompt);
+  const setPrompt = (newPrompt: Prompt) => {
+    if (!deepEqual(newPrompt, prompt)) {
+      _setPrompt(newPrompt);
+    }
+  };
+  const updatePrompt = (data: Record<string, string>) => {
+    const result = applyPromptResponse(config, session, {
+      action: 'submit',
+      data,
+    });
+    if (!result.success) {
+      console.warn('Error applying prompt response...', result.error);
+      return;
+    }
+    const prompt = createPrompt(config, result.data);
+    setPrompt(prompt);
+  };
+  return { prompt, updatePrompt };
+};
 
 export default function Form({
   config,
@@ -24,23 +52,22 @@ export default function Form({
 }) {
   const session = createFormSession(form);
   const initialPrompt = createPrompt(config, session);
-  const [prompt, setPrompt] = useState<Prompt>(initialPrompt);
+  const { prompt, updatePrompt } = usePrompt(initialPrompt, config, session);
 
   const formMethods = useForm<Record<string, string>>({});
+
+  // Regenerate the prompt whenever the form changes.
+  // We'll probably need to do this in a more efficient way later.
+  const allFormData = formMethods.watch();
+  useEffect(() => {
+    updatePrompt(allFormData);
+  }, [allFormData]);
+
   return (
     <FormProvider {...formMethods}>
       <form
         onSubmit={formMethods.handleSubmit(async data => {
-          const result = applyPromptResponse(config, session, {
-            action: 'submit',
-            data,
-          });
-          if (!result.success) {
-            console.warn('Error applying prompt response...', result.error);
-            return;
-          }
-          const prompt = createPrompt(config, result.data);
-          setPrompt(prompt);
+          updatePrompt(allFormData);
           if (onSubmit) {
             console.log('Submitting form...');
             onSubmit(data);

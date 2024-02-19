@@ -1,8 +1,13 @@
-import { getFormElementConfig, type FormDefinition, FormConfig } from '.';
 import {
+  type FormConfig,
+  type FormDefinition,
+  getFormElementConfig,
+  validateElement,
+} from '.';
+import {
+  type FormElementId,
   type FormElementValue,
   type FormElementValueMap,
-  type FormElementId,
 } from './element';
 
 type ErrorMap = Record<FormElementId, string>;
@@ -87,7 +92,8 @@ export const sessionIsComplete = (config: FormConfig, session: FormSession) => {
   return Object.values(session.form.elements).every(element => {
     const elementConfig = getFormElementConfig(config, element.type);
     const value = getFormSessionValue(session, element.id);
-    return elementConfig.parseData(element, value).success;
+    const isValidResult = validateElement(elementConfig, element, value);
+    return isValidResult.success;
   });
 };
 

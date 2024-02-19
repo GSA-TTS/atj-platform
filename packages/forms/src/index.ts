@@ -197,3 +197,7 @@ export const addFormOutput = (form: FormDefinition, document: FormOutput) => {
     outputs: [...form.outputs, document],
   };
 };
+
+export const getFormElement = (form: FormDefinition, id: FormElementId) => {
+  return form.elements[id];
+};
