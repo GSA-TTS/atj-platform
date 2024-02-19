@@ -1,8 +1,9 @@
 import { type Result } from '@atj/common';
 
-import { type FormConfig, getFormElementConfig } from '.';
+import { type FormConfig, getFormElementConfig, FormElementId } from '.';
 import { type PromptAction, createPrompt, isPromptAction } from './prompt';
 import { type FormSession, updateSession } from './session';
+import { parse } from 'path';
 
 export type PromptResponse = {
   action: PromptAction['type'];
@@ -31,6 +32,17 @@ export const applyPromptResponse = (
   };
 };
 
+const parseElementValue = (
+  config: FormConfig,
+  session: FormSession,
+  elementId: FormElementId,
+  promptValue: string
+) => {
+  const element = session.form.elements[elementId];
+  const formElementConfig = getFormElementConfig(config, element.type);
+  return formElementConfig.parseData(element, promptValue);
+};
+
 const parsePromptResponse = (
   session: FormSession,
   config: FormConfig,
@@ -39,12 +51,15 @@ const parsePromptResponse = (
   const values: Record<string, any> = {};
   const errors: Record<string, string> = {};
   for (const [elementId, promptValue] of Object.entries(response.data)) {
-    const element = session.form.elements[elementId];
-    const formElementConfig = getFormElementConfig(config, element.type);
-    const parseResult = formElementConfig.parseData(promptValue);
-    values[elementId] = parseResult.data;
-    const isValid = formElementConfig.isValid(parseResult.data);
-    if (!isValid) {
+    const parseResult = parseElementValue(
+      config,
+      session,
+      elementId,
+      promptValue
+    );
+    if (parseResult.success) {
+      values[elementId] = parseResult.data;
+    } else {
       errors[elementId] = 'This value is invalid.';
     }
   }

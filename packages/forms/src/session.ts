@@ -87,7 +87,7 @@ export const sessionIsComplete = (config: FormConfig, session: FormSession) => {
   return Object.values(session.form.elements).every(element => {
     const elementConfig = getFormElementConfig(config, element.type);
     const value = getFormSessionValue(session, element.id);
-    return elementConfig.isValid(value);
+    return elementConfig.parseData(element, value).success;
   });
 };
 

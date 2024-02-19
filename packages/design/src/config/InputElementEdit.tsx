@@ -39,6 +39,16 @@ const InputElementEdit: FormElementComponent<InputElement> = ({ element }) => {
         </label>
       </div>
       <div className="grid-col">
+        <label className="usa-label">
+          Maximum length
+          <input
+            className="usa-input"
+            type="text"
+            {...register(`${element.id}.data.maxLength`)}
+          ></input>
+        </label>
+      </div>
+      <div className="grid-col">
         <div className="usa-checkbox">
           <input
             className="usa-checkbox__input"

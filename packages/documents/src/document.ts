@@ -48,9 +48,10 @@ export const addDocumentFieldsToForm = (
         id: field.name,
         data: {
           text: field.label,
-          initial: field.value,
-          required: field.required,
+          maxLength: 128,
         },
+        default: field.value,
+        required: field.required,
       });
     } else if (field.type === 'OptionList') {
       elements.push({
@@ -58,9 +59,10 @@ export const addDocumentFieldsToForm = (
         id: field.name,
         data: {
           text: field.label,
-          initial: field.value,
-          required: field.required,
+          maxLength: 128,
         },
+        default: field.value,
+        required: field.required,
       });
     } else if (field.type === 'Dropdown') {
       elements.push({
@@ -68,9 +70,10 @@ export const addDocumentFieldsToForm = (
         id: field.name,
         data: {
           text: field.label,
-          initial: field.value,
-          required: field.required,
+          maxLength: 128,
         },
+        default: field.value,
+        required: field.required,
       });
     } else if (field.type === 'TextField') {
       elements.push({
@@ -78,9 +81,10 @@ export const addDocumentFieldsToForm = (
         id: field.name,
         data: {
           text: field.label,
-          initial: field.value,
-          required: field.required,
+          maxLength: 128,
         },
+        default: field.value,
+        required: field.required,
       });
     } else if (field.type === 'not-supported') {
       console.error(`Skipping field: ${field.error}`);
@@ -94,6 +98,8 @@ export const addDocumentFieldsToForm = (
     data: {
       elements: elements.map(element => element.id),
     },
+    default: [],
+    required: true,
   });
   return addFormElements(form, elements, 'root');
 };

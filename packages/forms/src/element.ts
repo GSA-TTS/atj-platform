@@ -18,8 +18,8 @@ export type GetFormElement = (
   id: FormElementId
 ) => FormElement;
 
-export type ParseFormElementData<T extends FormElement> = (
-  element: T,
+export type ParseFormElementData<T extends FormElement = FormElement> = (
+  elementData: T['data'],
   obj: string
 ) => Result<T['data']>;
 
