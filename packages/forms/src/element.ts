@@ -1,5 +1,9 @@
-import { VoidResult, type Result } from '@atj/common';
-import { FormElementConfig, type FormConfig, type FormDefinition } from '..';
+import { type Result } from '@atj/common';
+import {
+  type FormElementConfig,
+  type FormConfig,
+  type FormDefinition,
+} from '..';
 
 export type FormElement<T = any, C = any> = {
   type: string;

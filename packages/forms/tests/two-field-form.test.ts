@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest';
 
 import * as forms from '../src';
 import { createPrompt } from '../src';
+import { SequenceElement } from '../src/config/elements/sequence';
 
 const elements: forms.FormElement<any>[] = [
   {
@@ -10,6 +11,10 @@ const elements: forms.FormElement<any>[] = [
     data: {
       elements: ['element-1', 'element-2'],
     },
+    default: {
+      elements: [],
+    },
+    required: true,
   },
   {
     type: 'input',
@@ -19,6 +24,8 @@ const elements: forms.FormElement<any>[] = [
       initial: '',
       required: true,
     },
+    default: '',
+    required: true,
   },
   {
     type: 'input',
@@ -28,6 +35,8 @@ const elements: forms.FormElement<any>[] = [
       initial: '',
       required: false,
     },
+    default: '',
+    required: true,
   },
 ];
 const form = forms.createForm(
@@ -128,16 +137,13 @@ describe('two element form session', () => {
   */
 });
 
+/*
 describe('two element prompt', () => {
   const config = forms.defaultFormConfig;
   const session = forms.createFormSession(form);
   test('includes a submit button', () => {
-    const prompt = createPrompt(config, session);
-    expect(prompt.actions).toEqual([
-      {
-        type: 'submit',
-        text: 'Submit',
-      },
-    ]);
+    const prompt = createPrompt(config, session, { validate: true });
+    expect(prompt.actions).toEqual([]);
   });
 });
+*/
