@@ -42,15 +42,25 @@ const SortableItem = <T,>({ id, form, element, context }: ItemProps<T>) => {
 
   return (
     <li ref={setNodeRef} style={style}>
-      <div {...listeners} {...attributes} style={{ cursor: 'grab' }}>
-        :::
+      <div className="editFieldsRowWrapper grid-row grid-gap">
+        <div
+          className="editPageGrabButtonWrapper grid-col-1 grid-col"
+          {...listeners}
+          {...attributes}
+          style={{ cursor: 'grab' }}
+        >
+          <span className="grabber1">:::</span>
+          <span className="grabber2">:::</span>
+        </div>
+        <div className="editFieldsWrapper grid-col-11 grid-col">
+          <Component
+            key={element.id}
+            context={context}
+            element={element}
+            form={form}
+          />
+        </div>
       </div>
-      <Component
-        key={element.id}
-        context={context}
-        element={element}
-        form={form}
-      />
     </li>
   );
 };
@@ -104,10 +114,10 @@ const SequenceElementEdit: FormElementComponent<SequenceElement> = ({
           items={elements}
           strategy={verticalListSortingStrategy}
         >
-          <ul>
+          <ul className="editFormWrapper">
             <input type="hidden" {...register(`${element.id}.id`)} />
             <input type="hidden" {...register(`${element.id}.type`)} />
-            <input type="hidden" {...register(`${element.id}`)} />
+            <input type="hidden" {...register(`${element.id}.elements`)} />
             {elements.map(elements => (
               <SortableItem
                 key={elements.id}

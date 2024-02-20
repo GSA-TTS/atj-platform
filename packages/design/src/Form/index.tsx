@@ -68,7 +68,7 @@ export default function Form({
 
   return (
     <FormProvider {...formMethods}>
-      <form
+      <form className="previewForm"
         onSubmit={formMethods.handleSubmit(async data => {
           updatePrompt(data);
           if (onSubmit) {

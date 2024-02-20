@@ -9,16 +9,7 @@ const InputElementEdit: FormElementComponent<InputElement> = ({ element }) => {
   const { register } = useFormContext();
   return (
     <div className="grid-row grid-gap">
-      <div className="grid-col">
-        <label className="usa-label">
-          Input type
-          <select className="usa-select" {...register(`${element.id}.type`)}>
-            <option value={'input'}>Input</option>
-            <option value={'textarea'}>Textarea</option>
-          </select>
-        </label>
-      </div>
-      <div className="grid-col">
+      <div className="grid-col grid-col-4">
         <label className="usa-label">
           Field label
           <input
@@ -28,9 +19,9 @@ const InputElementEdit: FormElementComponent<InputElement> = ({ element }) => {
           ></input>
         </label>
       </div>
-      <div className="grid-col">
+      <div className="grid-col grid-col-2">
         <label className="usa-label">
-          Default value
+          Default field value
           <input
             className="usa-input"
             type="text"
@@ -38,7 +29,7 @@ const InputElementEdit: FormElementComponent<InputElement> = ({ element }) => {
           ></input>
         </label>
       </div>
-      <div className="grid-col">
+      <div className="grid-col grid-col-2">
         <label className="usa-label">
           Maximum length
           <input
@@ -48,12 +39,20 @@ const InputElementEdit: FormElementComponent<InputElement> = ({ element }) => {
           ></input>
         </label>
       </div>
-      <div className="grid-col">
+      <div className="grid-col grid-col-2">
+        <label className="usa-label">
+          Field type
+          <select className="usa-select" {...register(`${element.id}.type`)}>
+            <option value={'input'}>Input</option>
+          </select>
+        </label>
+      </div>
+      <div className="grid-col grid-col-2">
         <div className="usa-checkbox">
           <input
             className="usa-checkbox__input"
             type="checkbox"
-            id={`${element.id}.data.required`}
+            id={`${element.id}.required`}
             {...register(`${element.id}.data.required`)}
           />
           <label

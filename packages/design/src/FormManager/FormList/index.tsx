@@ -18,29 +18,30 @@ export default function FormList({
   return (
     <>
       {' '}
-      <table className="usa-table">
-        <caption>My forms</caption>
+      <h1>Manage Forms</h1>
+      <table className="usa-table usa-table--stacked">
         <thead>
           <tr>
-            <th scope="col">Form title</th>
-            <th scope="col">Description</th>
-            <th scope="col">Actions</th>
+          <th className="column1" scope="col">Form title</th>
+          <th className="column2" scope="col">Description</th>
+          <th className="column3" scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
           {result.data.map((form, index) => (
             <tr key={index}>
-              <th scope="row">{form.title}</th>
-              <td>{form.description}</td>
-              <td>
-                <Link to={`/${form.id}`}>Preview</Link> /
-                <Link to={`/${form.id}/edit`}>Edit</Link> /
-                <Link to={`/${form.id}/delete`}>Delete</Link>
+              <th data-label="Form title" scope="row">{form.title}</th>
+              <td data-label="Description">{form.description}</td>
+              <td data-label="Actions" className="actionColumn">
+                <span><Link to={`/${form.id}`}>Preview</Link></span>
+                <span><Link to={`/${form.id}/edit`}>Edit</Link></span>
+                <span><Link to={`/${form.id}/delete`}>Delete</Link></span>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
       <PDFFileSelect baseUrl={baseUrl} formService={formService} />
     </>
   );
