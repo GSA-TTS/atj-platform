@@ -1,5 +1,6 @@
 ---
 import closeSvg from '@atj/design/static/uswds/img/usa-icons/close.svg';
+import logoSvg from '@atj/design/images/logo.svg';
 
 import * as routes from '../routes';
 
@@ -12,21 +13,21 @@ const getNavLinkClasses = (url: string) => {
 };
 ---
 
-<header class="usa-header usa-header--basic usa-header--megamenu"></header>
 <div class="usa-overlay"></div>
-<header class="usa-header usa-header--basic">
-  <div class="usa-nav-container">
-    <div class="usa-navbar">
-      <div class="usa-logo">
-        <em class="usa-logo__text">
-          <a href={routes.getHomeUrl()} title="10x Access to Justice">
-            10x Access to Justice
-          </a>
-        </em>
-      </div>
-      <button type="button" class="usa-menu-btn">Menu</button>
+<header class="usa-header usa-header--extended">
+  <div class="usa-navbar">
+    <div class="usa-logo">
+      <em class="usa-logo__text">
+        <a href={routes.getHomeUrl()} title="10x Access to Justice">
+          <img src={logoSvg.src} role="img" alt="10x Logo" />
+          <span>Access to Justice Form Builder</span>
+        </a>
+      </em>
     </div>
-    <nav aria-label="Primary navigation" class="usa-nav">
+    <button type="button" class="usa-menu-btn">Menu</button>
+  </div>
+  <nav aria-label="Primary navigation" class="usa-nav">
+    <div class="usa-nav__inner">
       <button type="button" class="usa-nav__close">
         <img src={closeSvg.src} role="img" alt="Close" />
       </button>
@@ -52,6 +53,6 @@ const getNavLinkClasses = (url: string) => {
           >
         </li>
       </ul>
-    </nav>
-  </div>
+    </div>
+  </nav>
 </header>
