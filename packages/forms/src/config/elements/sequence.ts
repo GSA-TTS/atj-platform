@@ -12,19 +12,22 @@ export type SequenceElement = FormElement<{
 const sequenceSchema = z.array(z.string());
 
 export const sequenceConfig: FormElementConfig<SequenceElement> = {
+  acceptsInput: false,
   initial: {
     elements: [],
   },
-  parseData: (_, obj) => safeZodParse(sequenceSchema, obj),
+  parseData: (_, obj) => {
+    return safeZodParse(sequenceSchema, obj);
+  },
   getChildren(element, elements) {
     return element.data.elements.map(
       (elementId: string) => elements[elementId]
     );
   },
-  createPrompt(config, session, element): PromptPart[] {
+  createPrompt(config, session, element, options): PromptPart[] {
     return element.data.elements.flatMap((elementId: string) => {
       const element = session.form.elements[elementId];
-      return createPromptForElement(config, session, element);
+      return createPromptForElement(config, session, element, options);
     });
   },
 };

@@ -39,7 +39,7 @@ export default function TextInput({ prompt }: TextInputProps) {
           id={`input-${prompt.id}`}
           defaultValue={prompt.value}
           {...register(prompt.id, {
-            required: prompt.required,
+            //required: prompt.required,
           })}
           type="text"
           aria-describedby={`input-message-${prompt.id}`}

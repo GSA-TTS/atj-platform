@@ -8,6 +8,7 @@ import { type CreatePrompt } from '../prompt';
 export { defaultFormConfig } from './config';
 
 export type FormElementConfig<ThisFormElement extends FormElement<any>> = {
+  acceptsInput: boolean;
   initial: ThisFormElement['data'];
   parseData: ParseFormElementData<ThisFormElement>;
   getChildren: (

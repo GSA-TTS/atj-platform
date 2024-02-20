@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { type FormConfig } from '@atj/forms';
+import { type FormConfig, createFormSession } from '@atj/forms';
 import { type FormService } from '@atj/form-service';
 
 import Form from '../../Form';
@@ -19,13 +19,14 @@ export const FormViewById = ({
   if (!result.success) {
     return 'null form retrieved from storage';
   }
-
+  const form = result.data;
+  const session = createFormSession(form);
   return (
     <Form
       config={config}
-      form={result.data}
+      session={session}
       onSubmit={async data => {
-        const submission = await formService.submitForm(formId, data);
+        const submission = await formService.submitForm(session, formId, data);
         if (submission.success) {
           submission.data.forEach(document => {
             downloadPdfDocument(document.fileName, document.data);

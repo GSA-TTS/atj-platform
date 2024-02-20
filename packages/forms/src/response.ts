@@ -9,6 +9,7 @@ import {
 } from '.';
 import { type PromptAction, createPrompt, isPromptAction } from './prompt';
 import { type FormSession, updateSession } from './session';
+import { isValid } from 'zod';
 
 export type PromptResponse = {
   action: PromptAction['type'];
@@ -18,10 +19,11 @@ export type PromptResponse = {
 export const applyPromptResponse = (
   config: FormConfig,
   session: FormSession,
-  response: PromptResponse
+  response: PromptResponse,
+  options: { validate: true }
 ): Result<FormSession> => {
   // Get the current prompt for this session.
-  const prompt = createPrompt(config, session);
+  const prompt = createPrompt(config, session, { validate: false });
   if (!isPromptAction(prompt, response.action)) {
     return {
       success: false,

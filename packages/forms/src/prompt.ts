@@ -1,14 +1,9 @@
 // For now, a prompt just returns an array of elements. This will likely need
 
-import {
-  type FormConfig,
-  type FormElement,
-  type FormSession,
-  getRootFormElement,
-} from '..';
+import { type FormConfig, type FormElement, getRootFormElement } from '..';
 import { getFormElementConfig } from './element';
 
-import { sessionIsComplete } from './session';
+import { type FormSession, sessionIsComplete } from './session';
 
 export type TextInputPrompt = {
   type: 'text';
@@ -48,7 +43,8 @@ export type Prompt = {
 
 export const createPrompt = (
   config: FormConfig,
-  session: FormSession
+  session: FormSession,
+  options: { validate: boolean }
 ): Prompt => {
   if (sessionIsComplete(config, session)) {
     return {
@@ -76,7 +72,7 @@ export const createPrompt = (
     },
   ];
   const root = getRootFormElement(session.form);
-  parts.push(...createPromptForElement(config, session, root));
+  parts.push(...createPromptForElement(config, session, root, options));
   return {
     actions: [
       {
@@ -91,16 +87,18 @@ export const createPrompt = (
 export type CreatePrompt<T> = (
   config: FormConfig,
   session: FormSession,
-  element: T
+  element: T,
+  options: { validate: boolean }
 ) => PromptPart[];
 
 export const createPromptForElement: CreatePrompt<FormElement<any>> = (
   config,
   session,
-  element
+  element,
+  options
 ) => {
   const formElementConfig = getFormElementConfig(config, element.type);
-  return formElementConfig.createPrompt(config, session, element);
+  return formElementConfig.createPrompt(config, session, element, options);
 };
 
 export const isPromptAction = (prompt: Prompt, action: string) => {

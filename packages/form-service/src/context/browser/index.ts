@@ -1,3 +1,5 @@
+import { type FormConfig, defaultFormConfig } from '@atj/forms';
+
 import { addForm } from '../../operations/add-form';
 import { deleteForm } from '../../operations/delete-form';
 import { getForm } from '../../operations/get-form';
@@ -8,10 +10,12 @@ import type { FormService } from '../../types';
 
 type BrowserContext = {
   storage: Storage;
+  config: FormConfig;
 };
 
 const createDefaultBrowserContext = (): BrowserContext => ({
   storage: window.localStorage,
+  config: defaultFormConfig,
 });
 
 export const createBrowserFormService = (
@@ -34,8 +38,8 @@ export const createBrowserFormService = (
     saveForm(formId, form) {
       return saveForm(ctx, formId, form);
     },
-    submitForm(formId, formData) {
-      return submitForm(ctx, formId, formData);
+    submitForm(session, formId, formData) {
+      return submitForm(ctx, session, formId, formData);
     },
   };
 };

@@ -3,7 +3,7 @@ import { useParams, HashRouter, Route, Routes } from 'react-router-dom';
 
 import { type FormService } from '@atj/form-service';
 import Form from '../Form';
-import { applyPromptResponse, type FormConfig } from '@atj/forms';
+import { createFormSession, type FormConfig } from '@atj/forms';
 
 // Wrapper around Form that includes a client-side router for loading forms.
 export default function FormRouter({
@@ -34,17 +34,22 @@ export default function FormRouter({
                 </div>
               );
             }
+            const session = createFormSession(result.data);
             return (
               <Form
                 config={config}
-                form={result.data}
+                session={session}
                 onSubmit={async data => {
                   /*const newSession = applyPromptResponse(
                     config,
                     session,
                     response
                   );*/
-                  const submission = await formService.submitForm(formId, data);
+                  const submission = await formService.submitForm(
+                    session,
+                    formId,
+                    data
+                  );
                   if (submission.success) {
                     submission.data.forEach(document => {
                       downloadPdfDocument(document.fileName, document.data);

@@ -29,8 +29,10 @@ export type FormSummary = {
   description: string;
 };
 
+export type FormSessionId = string;
 type ErrorMap = Record<FormElementId, string>;
 export type FormSession = {
+  id: FormSessionId;
   data: {
     errors: ErrorMap;
     values: FormElementValueMap;
@@ -81,6 +83,7 @@ export const getRootFormElement = (form: FormDefinition) => {
 
 export const createFormSession = (form: FormDefinition): FormSession => {
   return {
+    id: crypto.randomUUID(),
     data: {
       errors: {},
       values: Object.fromEntries(

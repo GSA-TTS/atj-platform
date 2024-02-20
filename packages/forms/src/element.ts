@@ -43,6 +43,12 @@ export const validateElement = (
   element: FormElement,
   value: any
 ): Result<FormElement['data']> => {
+  if (!elementConfig.acceptsInput) {
+    return {
+      success: true,
+      data: value,
+    };
+  }
   const parseResult = elementConfig.parseData(element, value);
   if (!parseResult.success) {
     return {
@@ -50,7 +56,7 @@ export const validateElement = (
       error: parseResult.error,
     };
   }
-  if (element.required && !parseResult.data) {
+  if (element.data.required && !parseResult.data) {
     return {
       success: false,
       error: 'Required value not provided.',

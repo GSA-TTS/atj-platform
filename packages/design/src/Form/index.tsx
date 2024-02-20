@@ -1,13 +1,11 @@
 import deepEqual from 'deep-equal';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import {
   applyPromptResponse,
-  createFormSession,
   createPrompt,
   type FormConfig,
-  type FormDefinition,
   type FormSession,
   type Prompt,
 } from '@atj/forms';
@@ -27,15 +25,20 @@ const usePrompt = (
     }
   };
   const updatePrompt = (data: Record<string, string>) => {
-    const result = applyPromptResponse(config, session, {
-      action: 'submit',
-      data,
-    });
+    const result = applyPromptResponse(
+      config,
+      session,
+      {
+        action: 'submit',
+        data,
+      },
+      { validate: true }
+    );
     if (!result.success) {
       console.warn('Error applying prompt response...', result.error);
       return;
     }
-    const prompt = createPrompt(config, result.data);
+    const prompt = createPrompt(config, result.data, { validate: true });
     setPrompt(prompt);
   };
   return { prompt, updatePrompt };
@@ -43,31 +46,31 @@ const usePrompt = (
 
 export default function Form({
   config,
-  form,
+  session,
   onSubmit,
 }: {
   config: FormConfig;
-  form: FormDefinition;
+  session: FormSession;
   onSubmit?: (data: Record<string, string>) => void;
 }) {
-  const session = createFormSession(form);
-  const initialPrompt = createPrompt(config, session);
+  const initialPrompt = createPrompt(config, session, { validate: false });
   const { prompt, updatePrompt } = usePrompt(initialPrompt, config, session);
 
   const formMethods = useForm<Record<string, string>>({});
 
-  // Regenerate the prompt whenever the form changes.
-  // We'll probably need to do this in a more efficient way later.
+  /**
+   * Regenerate the prompt whenever the form changes.
   const allFormData = formMethods.watch();
   useEffect(() => {
     updatePrompt(allFormData);
   }, [allFormData]);
+  */
 
   return (
     <FormProvider {...formMethods}>
       <form
         onSubmit={formMethods.handleSubmit(async data => {
-          updatePrompt(allFormData);
+          updatePrompt(data);
           if (onSubmit) {
             console.log('Submitting form...');
             onSubmit(data);
