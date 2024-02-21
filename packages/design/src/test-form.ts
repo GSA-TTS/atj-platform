@@ -1,4 +1,4 @@
-import { createForm, defaultFormConfig } from '@atj/forms';
+import { createForm, createFormSession, defaultFormConfig } from '@atj/forms';
 
 import { defaultFormElementComponent } from './config';
 
@@ -17,6 +17,10 @@ export const createTestForm = () => {
           data: {
             elements: ['element-1', 'element-2'],
           },
+          default: {
+            elements: [],
+          },
+          required: true,
         },
         {
           type: 'input',
@@ -26,6 +30,8 @@ export const createTestForm = () => {
             required: true,
             initial: '',
           },
+          default: '',
+          required: true,
         },
         {
           type: 'input',
@@ -35,6 +41,8 @@ export const createTestForm = () => {
             required: false,
             initial: 'test',
           },
+          default: '',
+          required: true,
         },
       ],
     }
@@ -54,4 +62,9 @@ export const createTestFormContext = () => {
     config: defaultFormConfig,
     components: defaultFormElementComponent,
   };
+};
+
+export const createTestSession = () => {
+  const form = createTestForm();
+  return createFormSession(form);
 };

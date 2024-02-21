@@ -1,11 +1,16 @@
-import { type FormElement, type FormElementId } from '../elements';
-import { type CreatePrompt } from '../prompts';
+import {
+  type FormElement,
+  type FormElementId,
+  type ParseFormElementData,
+} from '../element';
+import { type CreatePrompt } from '../prompt';
 
 export { defaultFormConfig } from './config';
 
 export type FormElementConfig<ThisFormElement extends FormElement<any>> = {
+  acceptsInput: boolean;
   initial: ThisFormElement['data'];
-  parseData: (obj: any) => ThisFormElement;
+  parseData: ParseFormElementData<ThisFormElement>;
   getChildren: (
     element: ThisFormElement,
     elements: Record<FormElementId, FormElement<any>>

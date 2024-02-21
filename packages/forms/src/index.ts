@@ -2,18 +2,20 @@ import { FormConfig } from './config';
 import { SequenceElement } from './config/elements/sequence';
 import { type DocumentFieldMap } from './documents';
 import {
+  type FormElement,
   type FormElementId,
   type FormElementMap,
   type FormElementValue,
   type FormElementValueMap,
   getFormElementMap,
-  FormElement,
-} from './elements';
+} from './element';
 
 export * from './config';
 export * from './documents';
-export * from './elements';
-export * from './prompts';
+export * from './element';
+export * from './prompt';
+export * from './response';
+export * from './session';
 
 export type FormDefinition = {
   summary: FormSummary;
@@ -27,8 +29,10 @@ export type FormSummary = {
   description: string;
 };
 
+export type FormSessionId = string;
 type ErrorMap = Record<FormElementId, string>;
 export type FormSession = {
+  id: FormSessionId;
   data: {
     errors: ErrorMap;
     values: FormElementValueMap;
@@ -56,6 +60,10 @@ export const createForm = (
         data: {
           elements: [],
         },
+        default: {
+          elements: [],
+        },
+        required: true,
       } satisfies SequenceElement,
     ],
     root: 'root',
@@ -75,6 +83,7 @@ export const getRootFormElement = (form: FormDefinition) => {
 
 export const createFormSession = (form: FormDefinition): FormSession => {
   return {
+    id: crypto.randomUUID(),
     data: {
       errors: {},
       values: Object.fromEntries(
@@ -190,4 +199,8 @@ export const addFormOutput = (form: FormDefinition, document: FormOutput) => {
     ...form,
     outputs: [...form.outputs, document],
   };
+};
+
+export const getFormElement = (form: FormDefinition, id: FormElementId) => {
+  return form.elements[id];
 };

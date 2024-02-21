@@ -1,5 +1,5 @@
 import { Result, VoidResult } from '@atj/common';
-import { FormDefinition } from '@atj/forms';
+import { FormDefinition, FormSession } from '@atj/forms';
 
 import { FormListItem } from './operations/get-form-list';
 
@@ -10,6 +10,8 @@ export type FormService = {
   getFormList: () => Result<FormListItem[]>;
   saveForm: (formId: string, form: FormDefinition) => VoidResult;
   submitForm: (
+    //sessionId: string,
+    session: FormSession, // TODO: load session from storage by ID
     formId: string,
     formData: Record<string, string>
   ) => Promise<Result<{ fileName: string; data: Uint8Array }[]>>;

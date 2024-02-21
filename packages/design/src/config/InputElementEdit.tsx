@@ -19,13 +19,23 @@ const InputElementEdit: FormElementComponent<InputElement> = ({ element }) => {
           ></input>
         </label>
       </div>
-      <div className="grid-col grid-col-4">
+      <div className="grid-col grid-col-2">
         <label className="usa-label">
           Default field value
           <input
             className="usa-input"
             type="text"
             {...register(`${element.id}.data.initial`)}
+          ></input>
+        </label>
+      </div>
+      <div className="grid-col grid-col-2">
+        <label className="usa-label">
+          Maximum length
+          <input
+            className="usa-input"
+            type="text"
+            {...register(`${element.id}.data.maxLength`)}
           ></input>
         </label>
       </div>

@@ -10,5 +10,8 @@
     "dev": "tsup src/* --watch",
     "test": "vitest run --coverage"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@atj/common": "workspace:*",
+    "zod": "^3.22.4"
+  }
 }

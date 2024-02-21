@@ -1,17 +1,22 @@
 import { describe, expect, it } from 'vitest';
 
-import { createForm } from '@atj/forms';
+import { createForm, createFormSession } from '@atj/forms';
 import { createTestFormService } from '../context/test';
 
 describe('submitForm', () => {
-  it('works with empty form', async () => {
+  it('fails with empty form', async () => {
     const service = createTestFormService({
       'test-form': createForm({ title: 'test', description: 'description' }),
     });
-    const result = await service.submitForm('test-form', {});
+    const formResult = service.getForm('test-form');
+    if (!formResult.success) {
+      throw new Error('form not found');
+    }
+    const session = createFormSession(formResult.data);
+    const result = await service.submitForm(session, 'test-form', {});
     expect(result).toEqual({
-      success: true,
-      data: [],
+      success: false,
+      error: 'invalid action',
     });
   });
 });
