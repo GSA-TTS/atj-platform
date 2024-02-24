@@ -3,10 +3,11 @@ import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { type TextInputPrompt } from '@atj/forms';
+import { type FormElementComponent } from '../../../Form';
 
 export type TextInputProps = { prompt: TextInputPrompt };
 
-export default function TextInput({ prompt }: TextInputProps) {
+const TextInput: FormElementComponent<TextInputPrompt> = ({ prompt }) => {
   const { register } = useFormContext();
   return (
     <div className="usa-form-group" key={prompt.id}>
@@ -47,4 +48,6 @@ export default function TextInput({ prompt }: TextInputProps) {
       </div>
     </div>
   );
-}
+};
+
+export default TextInput;

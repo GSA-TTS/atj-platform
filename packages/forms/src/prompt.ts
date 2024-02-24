@@ -2,8 +2,7 @@
 
 import { type FormConfig, type FormElement, getRootFormElement } from '..';
 import { getFormElementConfig } from './element';
-
-import { type FormSession, sessionIsComplete } from './session';
+import { type FormSession, nullSession, sessionIsComplete } from './session';
 
 export type TextInputPrompt = {
   type: 'text';
@@ -25,10 +24,9 @@ export type SubmissionConfirmationPrompt = {
   table: { label: string; value: string }[];
 };
 
-export type PromptPart =
-  | FormSummaryPrompt
-  | TextInputPrompt
-  | SubmissionConfirmationPrompt;
+export type PromptPart<T = any> = {
+  type: string;
+} & T;
 
 export type SubmitAction = {
   type: 'submit';
@@ -91,7 +89,7 @@ export type CreatePrompt<T> = (
   options: { validate: boolean }
 ) => PromptPart[];
 
-export const createPromptForElement: CreatePrompt<FormElement<any>> = (
+export const createPromptForElement: CreatePrompt<FormElement> = (
   config,
   session,
   element,
@@ -103,4 +101,20 @@ export const createPromptForElement: CreatePrompt<FormElement<any>> = (
 
 export const isPromptAction = (prompt: Prompt, action: string) => {
   return prompt.actions.find(a => a.type === action);
+};
+
+export const createNullPrompt = ({
+  config,
+  element,
+}: {
+  config: FormConfig;
+  element: FormElement;
+}): Prompt => {
+  const formElementConfig = getFormElementConfig(config, element.type);
+  return {
+    parts: formElementConfig.createPrompt(config, nullSession, element, {
+      validate: false,
+    }),
+    actions: [],
+  };
 };

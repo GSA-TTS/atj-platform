@@ -4,6 +4,7 @@ import {
   getFormElementConfig,
   validateElement,
 } from '.';
+import { SequenceElement } from './config/elements/sequence';
 import {
   type FormElementId,
   type FormElementValue,
@@ -18,6 +19,34 @@ export type FormSession = {
     values: FormElementValueMap;
   };
   form: FormDefinition;
+};
+
+export const nullSession: FormSession = {
+  data: {
+    errors: {},
+    values: {
+      root: [],
+    },
+  },
+  form: {
+    elements: {
+      root: {
+        id: 'root',
+        type: 'root',
+        required: false,
+        default: {
+          elements: [],
+        },
+        data: {},
+      } as SequenceElement,
+    },
+    root: 'root',
+    summary: {
+      title: '',
+      description: '',
+    },
+    outputs: [],
+  },
 };
 
 export const createFormSession = (form: FormDefinition): FormSession => {

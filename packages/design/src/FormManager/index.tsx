@@ -6,16 +6,16 @@ import { type FormService } from '@atj/form-service';
 import FormDelete from './FormDelete';
 import FormEdit from './FormEdit';
 import FormList from './FormList';
-import { FormViewById } from './FormPreview';
+import { FormPreviewById } from './FormPreview';
 import { FormDocumentImport } from './import-document';
-import { FormUIContext } from '../config';
+import { type FormEditUIContext } from '../config';
 
 export default function FormManager({
   context,
   baseUrl,
   formService,
 }: {
-  context: FormUIContext;
+  context: FormEditUIContext;
   baseUrl: string;
   formService: FormService;
 }) {
@@ -36,7 +36,7 @@ export default function FormManager({
               return <div>formId is undefined</div>;
             }
             return (
-              <FormViewById
+              <FormPreviewById
                 config={context.config}
                 formId={formId}
                 formService={formService}

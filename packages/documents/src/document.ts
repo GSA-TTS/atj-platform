@@ -40,7 +40,7 @@ export const addDocumentFieldsToForm = (
   form: FormDefinition,
   fields: DocumentFieldMap
 ) => {
-  const elements: FormElement<any>[] = [];
+  const elements: FormElement[] = [];
   Object.entries(fields).map(([key, field]) => {
     if (field.type === 'CheckBox') {
       elements.push({

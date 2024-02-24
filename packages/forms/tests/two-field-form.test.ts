@@ -1,10 +1,8 @@
 import { describe, expect, test } from 'vitest';
 
 import * as forms from '../src';
-import { createPrompt } from '../src';
-import { SequenceElement } from '../src/config/elements/sequence';
 
-const elements: forms.FormElement<any>[] = [
+const elements: forms.FormElement[] = [
   {
     type: 'sequence',
     id: 'root',

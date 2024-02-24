@@ -50,7 +50,7 @@ type FormOutput = {
 export const createForm = (
   summary: FormSummary,
   initial: {
-    elements: FormElement<any>[];
+    elements: FormElement[];
     root: FormElementId;
   } = {
     elements: [
@@ -147,7 +147,7 @@ const addError = (
 
 export const addFormElements = (
   form: FormDefinition,
-  elements: FormElement<any>[],
+  elements: FormElement[],
   root?: FormElementId
 ) => {
   const formElementMap = getFormElementMap(elements);
@@ -160,7 +160,7 @@ export const addFormElements = (
 
 export const replaceFormElements = (
   form: FormDefinition,
-  elements: FormElement<any>[]
+  elements: FormElement[]
 ): FormDefinition => {
   return {
     ...form,
@@ -169,7 +169,7 @@ export const replaceFormElements = (
         acc[element.id] = element;
         return acc;
       },
-      {} as Record<FormElementId, FormElement<any>>
+      {} as Record<FormElementId, FormElement>
     ),
   };
 };

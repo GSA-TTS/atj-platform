@@ -2,14 +2,12 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { createTestFormService } from '@atj/form-service';
-
-import { FormViewById } from '.';
+import FormPreview from '.';
 import { createTestForm, createTestFormConfig } from '../../test-form';
 
 export default {
-  title: 'FormManager/FormView',
-  component: FormViewById,
+  title: 'FormManager/FormPreview',
+  component: FormPreview,
   decorators: [
     (Story, args) => (
       <MemoryRouter initialEntries={['/']}>
@@ -19,12 +17,9 @@ export default {
   ],
   args: {
     config: createTestFormConfig(),
-    formId: 'test-form',
-    formService: createTestFormService({
-      'test-form': createTestForm(),
-    }),
+    form: createTestForm(),
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof FormViewById>;
+} satisfies Meta<typeof FormPreview>;
 
-export const FormViewTest = {} satisfies StoryObj<typeof FormViewById>;
+export const FormViewTest = {} satisfies StoryObj<typeof FormPreview>;

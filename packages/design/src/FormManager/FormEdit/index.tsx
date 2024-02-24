@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { type FormService } from '@atj/form-service';
@@ -9,15 +9,16 @@ import {
   updateElements,
 } from '@atj/forms';
 
-import { type FormUIContext } from '../../config';
+import { type FormEditUIContext } from '../../config';
 import InnerPageTopNav from '../internalPageTopNav';
+import { PreviewForm } from './Preview';
 
 export default function FormEdit({
   context,
   formId,
   formService,
 }: {
-  context: FormUIContext;
+  context: FormEditUIContext;
   formId: string;
   formService: FormService;
 }) {
@@ -28,11 +29,10 @@ export default function FormEdit({
   const form = result.data;
   return (
     <div className="editFormPage">
+      <InnerPageTopNav formId={formId} formService={formService} />
       <EditForm
         context={context}
-        formId={formId}
-        formService={formService}
-        form={form}
+        initialForm={form}
         onSave={form => formService.saveForm(formId, form)}
       />
     </div>
@@ -41,45 +41,61 @@ export default function FormEdit({
 
 const EditForm = ({
   context,
-  form,
+  initialForm,
   onSave,
-  formId,
-  formService,
 }: {
-  context: FormUIContext;
-  form: FormDefinition;
+  context: FormEditUIContext;
+  initialForm: FormDefinition;
   onSave: (form: FormDefinition) => void;
-  formId: string;
-  formService: FormService;
 }) => {
+  const [currentForm, setCurrentForm] = useState(initialForm);
   const methods = useForm<FormElementMap>({
-    defaultValues: form.elements,
+    defaultValues: currentForm.elements,
   });
-  const rootField = getRootFormElement(form);
-  const Component = context.components[rootField.type];
+  const rootField = getRootFormElement(currentForm);
+  const EditComponent = context.editComponents[rootField.type];
   return (
-    <FormProvider {...methods}>
-      <form
-        className="editForm"
-        onSubmit={methods.handleSubmit(data => {
-          const updatedForm = updateElements(context.config, form, data);
-          onSave(updatedForm);
-        })}
-      >
-        <InnerPageTopNav formId={formId} formService={formService} />
-        <h1>
-          <span>Edit form interface</span>
-          <span>
-            <ButtonBar />
-          </span>
-        </h1>
-        <h3 className="descriptionText text-normal">
-          Editing form {form.summary.title}
-        </h3>
-        <Component context={context} form={form} element={rootField} />
-        <ButtonBar />
-      </form>
-    </FormProvider>
+    <>
+      <PreviewForm
+        uiContext={context}
+        form={currentForm}
+        onFormElementSelected={id => {
+          console.log('form element selected', id);
+        }}
+      />
+      <hr />
+      <FormProvider {...methods}>
+        <form
+          className="editForm"
+          onSubmit={methods.handleSubmit(data => {
+            const updatedForm = updateElements(
+              context.config,
+              currentForm,
+              data
+            );
+            setCurrentForm(updatedForm);
+            onSave(updatedForm);
+          })}
+        >
+          <h1>
+            <span>Edit form interface</span>
+            <span>
+              <ButtonBar />
+            </span>
+          </h1>
+          <h3 className="descriptionText text-normal">
+            Editing form {currentForm.summary.title}
+          </h3>
+          <EditComponent
+            context={context}
+            form={currentForm}
+            element={rootField}
+          />
+          <ButtonBar />
+        </form>
+      </FormProvider>
+      );
+    </>
   );
 };
 
