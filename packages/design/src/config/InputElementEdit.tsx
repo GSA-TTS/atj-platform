@@ -37,7 +37,7 @@ const InputElementEdit: FormElementComponent<InputElement> = ({ element }) => {
             <p className="usa-hint font-ui-3xs">Input type</p>
             <select className="usa-select" {...register(`${element.id}.type`)}>
               <option value={'input'}>{`${element.default} (${element.data.maxLength} chars)`}</option>
-              <option value={'input'}>Long Answer (500 chars)</option>
+              <option value={'input'}>Long Answer (500 chars)</option> {/* this is a stub */}
             </select>
           </label>
         </div>

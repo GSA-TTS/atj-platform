@@ -23,9 +23,9 @@ const ParagraphElementEdit: FormElementComponent<ParagraphElement> = ({ element 
         <label className="usa-label">
           <p className="usa-hint font-ui-3xs">Style</p>
           <select className="usa-select" {...register(`${element.id}.type`)}>
-            <option value={'paragraph'}>Question</option>
-            <option value={'paragraph'}>Title</option>
-            <option value={'paragraph'}>Instructions</option>
+            <option value={'paragraph'}>Question</option> {/* this is a stub */}
+            <option value={'paragraph'}>Title</option> {/* this is a stub */}
+            <option value={'paragraph'}>Instructions</option> {/* this is a stub */}
           </select>
         </label>
       </div>
