@@ -2,7 +2,7 @@ import * as z from 'zod';
 
 import { type FormElementConfig } from '..';
 import { type FormElement, validateElement } from '../../element';
-import { type PromptPart } from '../../prompt';
+import { TextInputPattern, type Pattern } from '../../prompt';
 import { getFormSessionValue } from '../../session';
 import { safeZodParse } from '../../util/zod';
 
@@ -28,7 +28,7 @@ export const inputConfig: FormElementConfig<InputElement> = {
   getChildren() {
     return [];
   },
-  createPrompt(_, session, element, options): PromptPart[] {
+  createPrompt(_, session, element, options): Pattern[] {
     const extraAttributes: Record<string, any> = {};
     const sessionValue = getFormSessionValue(session, element.id);
     if (options.validate) {
@@ -39,13 +39,14 @@ export const inputConfig: FormElementConfig<InputElement> = {
     }
     return [
       {
-        type: 'text' as const,
-        id: element.id,
+        _elementId: element.id,
+        type: 'input',
+        inputId: element.id,
         value: sessionValue,
         label: element.data.text,
         required: element.data.required,
         ...extraAttributes,
-      },
+      } as Pattern<TextInputPattern>,
     ];
   },
 };

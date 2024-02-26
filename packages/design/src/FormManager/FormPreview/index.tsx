@@ -1,31 +1,27 @@
 import React from 'react';
 
-import {
-  type FormConfig,
-  type FormDefinition,
-  createFormSession,
-} from '@atj/forms';
-
-import Form from '../../Form';
+import { type FormDefinition, createFormSession } from '@atj/forms';
 import { FormService } from '@atj/form-service';
 
+import Form, { type FormUIContext } from '../../Form';
+
 export default function FormPreview({
-  config,
+  context,
   form,
 }: {
-  config: FormConfig;
+  context: FormUIContext;
   form: FormDefinition;
 }) {
   const session = createFormSession(form);
-  return <Form config={config} session={session} />;
+  return <Form context={context} session={session} />;
 }
 
 export const FormPreviewById = ({
-  config,
+  context,
   formService,
   formId,
 }: {
-  config: FormConfig;
+  context: FormUIContext;
   formService: FormService;
   formId: string;
 }) => {
@@ -33,5 +29,5 @@ export const FormPreviewById = ({
   if (!form.success) {
     return <div>Error loading form preview</div>;
   }
-  return <FormPreview config={config} form={form.data} />;
+  return <FormPreview context={context} form={form.data} />;
 };

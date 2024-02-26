@@ -1,30 +1,34 @@
-// For now, a prompt just returns an array of elements. This will likely need
-
-import { type FormConfig, type FormElement, getRootFormElement } from '..';
+import {
+  type FormConfig,
+  type FormElement,
+  type FormElementId,
+  getRootFormElement,
+} from '..';
 import { getFormElementConfig } from './element';
 import { type FormSession, nullSession, sessionIsComplete } from './session';
 
-export type TextInputPrompt = {
-  type: 'text';
-  id: string;
+export type TextInputPattern = {
+  type: 'input';
+  inputId: string;
   value: string;
   label: string;
   required: boolean;
   error?: string;
 };
 
-export type FormSummaryPrompt = {
+export type FormSummaryPattern = {
   type: 'form-summary';
   title: string;
   description: string;
 };
 
-export type SubmissionConfirmationPrompt = {
+export type SubmissionConfirmationPattern = {
   type: 'submission-confirmation';
   table: { label: string; value: string }[];
 };
 
-export type PromptPart<T = any> = {
+export type Pattern<T = {}> = {
+  _elementId: FormElementId;
   type: string;
 } & T;
 
@@ -36,7 +40,7 @@ export type PromptAction = SubmitAction;
 
 export type Prompt = {
   actions: PromptAction[];
-  parts: PromptPart[];
+  parts: Pattern[];
 };
 
 export const createPrompt = (
@@ -49,6 +53,7 @@ export const createPrompt = (
       actions: [],
       parts: [
         {
+          _elementId: 'submission-confirmation',
           type: 'submission-confirmation',
           table: Object.entries(session.data.values).map(
             ([elementId, value]) => {
@@ -58,16 +63,17 @@ export const createPrompt = (
               };
             }
           ),
-        },
+        } as Pattern<SubmissionConfirmationPattern>,
       ],
     };
   }
-  const parts: PromptPart[] = [
+  const parts: Pattern[] = [
     {
+      _elementId: 'form-summary',
       type: 'form-summary',
       title: session.form.summary.title,
       description: session.form.summary.description,
-    },
+    } as Pattern<FormSummaryPattern>,
   ];
   const root = getRootFormElement(session.form);
   parts.push(...createPromptForElement(config, session, root, options));
@@ -87,7 +93,7 @@ export type CreatePrompt<T> = (
   session: FormSession,
   element: T,
   options: { validate: boolean }
-) => PromptPart[];
+) => Pattern[];
 
 export const createPromptForElement: CreatePrompt<FormElement> = (
   config,

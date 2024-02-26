@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import FormPreview from '.';
-import { createTestForm, createTestFormConfig } from '../../test-form';
+import { createTestForm, createTestFormContext } from '../../test-form';
 
 export default {
   title: 'FormManager/FormPreview',
@@ -16,7 +16,7 @@ export default {
     ),
   ],
   args: {
-    config: createTestFormConfig(),
+    context: createTestFormContext(),
     form: createTestForm(),
   },
   tags: ['autodocs'],

@@ -1,9 +1,11 @@
 import React from 'react';
 
-import { type FormSummaryPrompt } from '@atj/forms';
-import { FormElementComponent } from '../../../Form';
+import { Pattern, type FormSummaryPattern } from '@atj/forms';
+import { type FormElementComponent } from '../../../Form';
 
-const FormSummary: FormElementComponent<FormSummaryPrompt> = ({ prompt }) => {
+const FormSummary: FormElementComponent<Pattern<FormSummaryPattern>> = ({
+  prompt,
+}) => {
   return (
     <>
       <legend className="usa-legend usa-legend--large">{prompt.title}</legend>

@@ -7,11 +7,12 @@ import {
   type FormElementMap,
   getRootFormElement,
   updateElements,
+  FormElementId,
 } from '@atj/forms';
 
 import { type FormEditUIContext } from '../../config';
 import InnerPageTopNav from '../internalPageTopNav';
-import { PreviewForm } from './Preview';
+import { PreviewContext, PreviewForm } from './Preview';
 
 export default function FormEdit({
   context,
@@ -49,52 +50,56 @@ const EditForm = ({
   onSave: (form: FormDefinition) => void;
 }) => {
   const [currentForm, setCurrentForm] = useState(initialForm);
+  const [selectedId, setSelectedId] = useState<FormElementId>();
   const methods = useForm<FormElementMap>({
     defaultValues: currentForm.elements,
   });
   const rootField = getRootFormElement(currentForm);
   const EditComponent = context.editComponents[rootField.type];
+  //const SelectedEditComponent = context.editComponents[rootField.type];
   return (
     <>
-      <PreviewForm
-        uiContext={context}
-        form={currentForm}
-        onFormElementSelected={id => {
-          console.log('form element selected', id);
-        }}
-      />
-      <hr />
-      <FormProvider {...methods}>
-        <form
-          className="editForm"
-          onSubmit={methods.handleSubmit(data => {
-            const updatedForm = updateElements(
-              context.config,
-              currentForm,
-              data
-            );
-            setCurrentForm(updatedForm);
-            onSave(updatedForm);
-          })}
-        >
-          <h1>
-            <span>Edit form interface</span>
-            <span>
-              <ButtonBar />
-            </span>
-          </h1>
-          <h3 className="descriptionText text-normal">
-            Editing form {currentForm.summary.title}
-          </h3>
-          <EditComponent
-            context={context}
-            form={currentForm}
-            element={rootField}
-          />
-          <ButtonBar />
-        </form>
-      </FormProvider>
-      );
+      <ButtonBar />
+      <div className="grid-row">
+        <div className="grid-col-6">
+          <PreviewContext.Provider
+            value={{
+              selectedId,
+              setSelectedId: id => {
+                setSelectedId(id);
+                console.log('setting id', id);
+              },
+            }}
+          >
+            <PreviewForm uiContext={context} form={currentForm} />
+          </PreviewContext.Provider>
+        </div>
+        <div className="grid-col-6">
+          <div className="editForm">
+            <h2>Editing {selectedId}...</h2>
+            <FormProvider {...methods}>
+              <form
+                className="editForm"
+                onSubmit={methods.handleSubmit(data => {
+                  const updatedForm = updateElements(
+                    context.config,
+                    currentForm,
+                    data
+                  );
+                  setCurrentForm(updatedForm);
+                  onSave(updatedForm);
+                })}
+              >
+                <EditComponent
+                  context={context}
+                  form={currentForm}
+                  element={rootField}
+                />
+              </form>
+            </FormProvider>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

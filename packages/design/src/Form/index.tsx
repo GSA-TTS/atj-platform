@@ -8,13 +8,22 @@ import {
   type FormConfig,
   type FormSession,
   type Prompt,
-  type PromptPart,
+  type Pattern,
 } from '@atj/forms';
 
 import ActionBar from './ActionBar';
-import { defaultFormElementComponent } from '../config';
 
-export type FormElementComponent<T extends PromptPart = PromptPart> =
+export type FormUIContext = {
+  config: FormConfig;
+  components: ComponentForPattern;
+};
+
+export type ComponentForPattern<T extends Pattern = Pattern> = Record<
+  string,
+  FormElementComponent<T>
+>;
+
+export type FormElementComponent<T extends Pattern = Pattern> =
   React.ComponentType<{
     prompt: T;
   }>;
@@ -51,16 +60,22 @@ const usePrompt = (
 };
 
 export default function Form({
-  config,
+  context,
   session,
   onSubmit,
 }: {
-  config: FormConfig;
+  context: FormUIContext;
   session: FormSession;
   onSubmit?: (data: Record<string, string>) => void;
 }) {
-  const initialPrompt = createPrompt(config, session, { validate: false });
-  const { prompt, updatePrompt } = usePrompt(initialPrompt, config, session);
+  const initialPrompt = createPrompt(context.config, session, {
+    validate: false,
+  });
+  const { prompt, updatePrompt } = usePrompt(
+    initialPrompt,
+    context.config,
+    session
+  );
 
   const formMethods = useForm<Record<string, string>>({});
 
@@ -71,7 +86,6 @@ export default function Form({
     updatePrompt(allFormData);
   }, [allFormData]);
   */
-
   return (
     <FormProvider {...formMethods}>
       <form
@@ -87,10 +101,16 @@ export default function Form({
         })}
       >
         <fieldset className="usa-fieldset">
-          {prompt.parts.map((promptPart, index) => {
-            const Component = defaultFormElementComponent[promptPart.type];
-            return <Component key={index} prompt={promptPart} />;
-          })}
+          {prompt.parts
+            .map((pattern, index) => {
+              if (pattern.type === 'text') {
+                console.log('skipping', pattern.type);
+                return null;
+              }
+              const Component = context.components[pattern.type];
+              return <Component key={index} prompt={pattern} />;
+            })
+            .filter(a => a)}
           {/* Add submit button or other controls as needed */}
         </fieldset>
         <ActionBar actions={prompt.actions} />

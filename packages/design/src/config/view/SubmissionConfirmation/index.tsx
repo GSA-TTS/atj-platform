@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { type SubmissionConfirmationPrompt } from '@atj/forms';
-import { type FormElementComponent } from '..';
+import { Pattern, type SubmissionConfirmationPattern } from '@atj/forms';
+import { FormElementComponent } from '../../../Form';
 
 const SubmissionConfirmation: FormElementComponent<
-  SubmissionConfirmationPrompt
+  Pattern<SubmissionConfirmationPattern>
 > = ({ prompt }) => {
   return (
     <>

@@ -13,7 +13,7 @@ import {
 export * from './config';
 export * from './documents';
 export * from './element';
-export * from './prompt';
+export * from './pattern';
 export * from './response';
 export * from './session';
 

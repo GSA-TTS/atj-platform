@@ -1,96 +1,78 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import React, { createContext, useContext } from 'react';
 
 import {
-  type FormConfig,
-  type FormElement,
-  type Prompt,
-  createNullPrompt,
-  FormElementId,
-  FormDefinition,
-  getRootFormElement,
-  getFormElements,
+  type FormDefinition,
+  type FormElementId,
+  type Pattern,
+  createFormSession,
 } from '@atj/forms';
 
-import { FormElementComponent } from '../../Form';
-import { type FormUIContext } from '../../config';
+import Form, {
+  type ComponentForPattern,
+  type FormElementComponent,
+  type FormUIContext,
+} from '../../Form';
 
-type PreviewComponentProps<
-  P extends Prompt = Prompt,
-  F extends FormElement = FormElement,
-> = {
-  config: FormConfig;
-  Component: FormElementComponent<P>;
-  element: F;
-  onSelected: (id: string) => void;
-  isSelected: boolean;
-};
-
-const PreviewComponent = ({
-  config,
-  Component,
-  element,
-  onSelected,
-  isSelected,
-}: PreviewComponentProps) => {
-  const nullPrompt = createNullPrompt({ config, element });
-  return (
-    <div
-      className={classNames('tablet:grid-col-12', {
-        'bg-primary-lighter': isSelected,
-      })}
-      onClick={event => {
-        event.stopPropagation();
-        onSelected(element.id);
-      }}
-      //onKeyDown={handleKeyDown}
-      role="button"
-      aria-pressed={isSelected}
-      aria-label="Select this pattern"
-      tabIndex={0}
-    >
-      {nullPrompt.parts.map((pattern, index) => (
-        <Component key={index} prompt={pattern} />
-      ))}
-
-      <div style={{ backgroundColor: 'white', padding: '1rem' }}>Hello</div>
-    </div>
-  );
-};
-
-export const PreviewForm = ({
-  uiContext,
-  form,
-  onFormElementSelected,
-}: {
+type PreviewFormProps = {
   uiContext: FormUIContext;
   form: FormDefinition;
-  onFormElementSelected: (elementId: FormElementId) => void;
-}) => {
-  const formMethods = useForm<Record<string, string>>({});
-  const [selectedId, setSeleectedId] = useState<FormElementId>();
-  const onSelected = (id: FormElementId) => {
-    setSeleectedId(id);
-    onFormElementSelected(id);
+};
+
+export const PreviewForm = ({ uiContext, form }: PreviewFormProps) => {
+  const previewUiContext: FormUIContext = {
+    config: uiContext.config,
+    // I think we want to hoist this definition up to a higher level, so we
+    // don't have to regenerate it every time we render the form.
+    components: createPreviewComponents(uiContext.components),
   };
-  const root = getRootFormElement(form);
-  const elements = getFormElements(form, root.data.elements);
-  return (
-    <FormProvider {...formMethods}>
-      {elements.map(element => {
-        const Component = uiContext.components[element.type];
-        return (
-          <PreviewComponent
-            key={element.id}
-            config={uiContext.config}
-            Component={Component}
-            element={element}
-            onSelected={onSelected}
-            isSelected={selectedId === element.id}
-          />
-        );
-      })}
-    </FormProvider>
-  );
+  const disposable = createFormSession(form);
+  return <Form context={previewUiContext} session={disposable}></Form>;
+};
+
+const createPreviewComponents = (
+  components: ComponentForPattern
+): ComponentForPattern => {
+  const previewComponents: ComponentForPattern = {};
+  // TODO: Create a configurable way to to defined preview components.
+  for (const [patternType, Component] of Object.entries(components)) {
+    if (patternType === 'sequence') {
+      previewComponents[patternType] = Component;
+    } else {
+      previewComponents[patternType] = createPatternPreviewComponent(Component);
+    }
+  }
+  return previewComponents;
+};
+
+type PreviewContextValue = {
+  selectedId?: FormElementId;
+  setSelectedId: (id: FormElementId) => void;
+};
+
+export const PreviewContext = createContext<PreviewContextValue>(
+  null as unknown as PreviewContextValue
+);
+
+const createPatternPreviewComponent = (Component: FormElementComponent) => {
+  return function PatternPreviewComponent({ prompt }: { prompt: Pattern }) {
+    const { selectedId, setSelectedId } = useContext(PreviewContext);
+    return (
+      <div
+        onClick={() => {
+          setSelectedId(prompt._elementId);
+        }}
+        className={classNames({
+          'bg-primary-lighter': selectedId === prompt._elementId,
+        })}
+        //onKeyDown={handleKeyDown}
+        role="button"
+        aria-pressed={selectedId === prompt._elementId}
+        aria-label="Select this pattern"
+        tabIndex={0}
+      >
+        <Component prompt={prompt} />
+      </div>
+    );
+  };
 };
