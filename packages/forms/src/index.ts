@@ -88,6 +88,7 @@ export const createFormSession = (form: FormDefinition): FormSession => {
       errors: {},
       values: Object.fromEntries(
         Object.values(form.elements).map(element => {
+          console.log('element', element);
           return [element.id, form.elements[element.id].data.initial];
         })
       ),

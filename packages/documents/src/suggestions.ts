@@ -1,4 +1,5 @@
 import { DocumentFieldMap } from '@atj/forms';
+import { PDFDocument, getDocumentFieldData, parsedPDF } from './pdf';
 
 export type SuggestedForm = {
   id: string;
@@ -8,20 +9,25 @@ export type SuggestedForm = {
   value?: string;
   type?: 'text';
 }[];
-export const suggestFormDetails = (
-  docData: DocumentFieldMap
-): DocumentFieldMap => {
-  /*
+
+export const suggestFormDetails = async (
+  rawData: Uint8Array,
+  rawFields: DocumentFieldMap
+): Promise<DocumentFieldMap> => {
   const cache = getFakeCache();
-  const hash = getObjectHash(docData);
-  const data = cache.get(hash);
-  */
-  return docData;
+  const hash = await getObjectHash(rawData);
+  console.log('hash', hash);
+  const newFields = cache.get(hash);
+  console.log('newFields', newFields);
+  return newFields || rawFields;
+  // return rawFields;
 };
 
 const getFakeCache = () => {
   const cache = {
     'hardcoded-hash': UD105_TEST_DATA,
+    '179be8c1c78b01ed7c45569912c2bb862ec3764617f908ebc29178e36fd6316d':
+      parsedPDF,
   } as { [key: string]: any };
   return {
     get(hashKey: string) {
@@ -30,8 +36,59 @@ const getFakeCache = () => {
   };
 };
 
-const getObjectHash = (docData: any) => {
-  return 'hardcoded-hash';
+const getObjectHash = async (buffer: Uint8Array) => {
+  const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+  const hashArray = new Uint8Array(hashBuffer);
+  const hashHex = hashArray.reduce(
+    (str, byte) => str + byte.toString(16).padStart(2, '0'),
+    ''
+  );
+  return hashHex;
+};
+
+export const AL_NAME_TEST_DATA = {
+  Radio_group_test: {
+    type: 'RadioGroup',
+    name: 'Radio_group_test',
+    label: 'Radio_group_test',
+    value: '',
+    groupId: 3,
+    instructions: 'Select something.',
+    required: true,
+  },
+  Some_random_key_name: {
+    type: 'Paragraph',
+    name: 'Some_random_key_name',
+    value: 'Your current name: ',
+    groupId: 3,
+  },
+  Current_First_Name1: {
+    type: 'TextField',
+    name: 'Current_First_Name1',
+    label: 'Current_First_Name1',
+    value: 'Short answer',
+    groupId: 3,
+    instructions: 'Type your current first name.',
+    required: true,
+  },
+  Current_Middle_Name1: {
+    type: 'TextField',
+    name: 'Current_Middle_Name1',
+    label: 'Current_Middle_Name1',
+    value: 'Short answer',
+    groupId: 3,
+    instructions: 'Type your current middle name.',
+    required: true,
+  },
+  Current_Last_Name1: {
+    type: 'TextField',
+    name: 'Current_Last_Name1',
+    label: 'Current_Last_Name1',
+    value: 'Short answer',
+    groupId: 3,
+    instructions: 'Type your current last name.',
+    required: true,
+  },
 };
 
 export const UD105_TEST_DATA = [

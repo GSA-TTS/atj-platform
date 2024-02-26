@@ -3,6 +3,7 @@ import React from 'react';
 import { FormElement, type FormConfig, type FormDefinition } from '@atj/forms';
 
 import InputElementEdit from './InputElementEdit';
+import ParagraphElementEdit from './ParagraphElementEdit';
 import SequenceElementEdit from './SequenceElementEdit';
 
 export type FormUIContext = {
@@ -22,4 +23,5 @@ export type ComponentForFormElement<T extends FormElement = FormElement> =
 export const defaultFormElementComponent: ComponentForFormElement = {
   sequence: SequenceElementEdit,
   input: InputElementEdit,
+  paragraph: ParagraphElementEdit,
 };

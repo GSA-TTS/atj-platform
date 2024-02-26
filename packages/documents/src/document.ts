@@ -18,8 +18,14 @@ export const addDocument = async (
   }
 ) => {
   const fields = await getDocumentFieldData(fileDetails.data);
-  const fieldMap = suggestFormDetails(fields);
+  console.log('fields', fields);
+
+  const fieldMap = await suggestFormDetails(fileDetails.data, fields);
+  console.log('fieldMap', fieldMap);
+
   const formWithFields = addDocumentFieldsToForm(form, fieldMap);
+  console.log('formWithFields', formWithFields);
+
   const updatedForm = addFormOutput(formWithFields, {
     data: fileDetails.data,
     path: fileDetails.name,
@@ -30,6 +36,8 @@ export const addDocument = async (
       Object.keys(fieldMap).map(field => [field, field])
     ),
   });
+  console.log('updatedForm', updatedForm);
+
   return {
     newFields: fields,
     updatedForm,
@@ -81,10 +89,33 @@ export const addDocumentFieldsToForm = (
         id: field.name,
         data: {
           text: field.label,
+          instructions: field.instructions,
           maxLength: 128,
         },
         default: field.value,
         required: field.required,
+      });
+    } else if (field.type === 'RadioGroup') {
+      elements.push({
+        type: 'input',
+        id: field.name,
+        data: {
+          text: field.label,
+          instructions: field.instructions,
+          maxLength: 128,
+        },
+        default: field.value,
+        required: field.required,
+      });
+    } else if (field.type === 'Paragraph') {
+      elements.push({
+        type: 'paragraph',
+        id: field.name,
+        data: {
+          text: field.value,
+        },
+        default: 'remove me from FormElement', // TODO: remove default from FormElement
+        required: false, // TODO: remove required from FormElement
       });
     } else if (field.type === 'not-supported') {
       console.error(`Skipping field: ${field.error}`);

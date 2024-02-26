@@ -11,6 +11,14 @@ export type TextInputPrompt = {
   value: string;
   label: string;
   required: boolean;
+  instructions?: string;
+  error?: string;
+};
+
+export type TextPrompt = {
+  type: 'text';
+  id: string;
+  value: string;
   error?: string;
 };
 
@@ -28,6 +36,7 @@ export type SubmissionConfirmationPrompt = {
 export type PromptPart =
   | FormSummaryPrompt
   | TextInputPrompt
+  | TextPrompt
   | SubmissionConfirmationPrompt;
 
 export type SubmitAction = {

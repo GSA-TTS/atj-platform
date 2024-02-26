@@ -31,6 +31,7 @@ export const fillPDF = async (
   const form = pdfDoc.getForm();
   try {
     Object.entries(fieldData).forEach(([name, value]) => {
+      console.log('setting field', name, value);
       setFormFieldData(form, value.type, name, value.value);
     });
   } catch (error: any) {
@@ -68,6 +69,11 @@ const setFormFieldData = (
   } else if (fieldType === 'OptionList') {
     const field = form.getDropdown(fieldName);
     field.select(fieldValue);
+  } else if (fieldType === 'RadioGroup') {
+    const field = form.getRadioGroup(fieldName);
+    field.select(fieldValue);
+  } else if (fieldType === 'Paragraph') {
+    // do nothing
   } else {
     const exhaustiveCheck: never = fieldType;
   }

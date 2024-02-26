@@ -1,6 +1,7 @@
 export { getDocumentFieldData } from './extract';
 export * from './generate';
 export { generateDummyPDF } from './generate-dummy';
+export { parsedPDF } from './mock-api';
 
 export type PDFDocument = {
   type: 'pdf';
@@ -12,4 +13,10 @@ export type PDFField = {
   label: string;
   default?: any;
 };
-export type PDFFieldType = 'TextField' | 'CheckBox' | 'Dropdown' | 'OptionList';
+export type PDFFieldType =
+  | 'TextField'
+  | 'CheckBox'
+  | 'Dropdown'
+  | 'OptionList'
+  | 'RadioGroup'
+  | 'Paragraph';

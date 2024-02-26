@@ -21,7 +21,7 @@ export default function TextInput({ prompt }: TextInputProps) {
           })}
           htmlFor="input-error"
         >
-          {prompt.label}
+          {prompt.instructions}
         </label>
         {prompt.error && (
           <span
