@@ -18,14 +18,8 @@ export const addDocument = async (
   }
 ) => {
   const fields = await getDocumentFieldData(fileDetails.data);
-  console.log('fields', fields);
-
   const fieldMap = await suggestFormDetails(fileDetails.data, fields);
-  console.log('fieldMap', fieldMap);
-
   const formWithFields = addDocumentFieldsToForm(form, fieldMap);
-  console.log('formWithFields', formWithFields);
-
   const updatedForm = addFormOutput(formWithFields, {
     data: fileDetails.data,
     path: fileDetails.name,
@@ -36,8 +30,6 @@ export const addDocument = async (
       Object.keys(fieldMap).map(field => [field, field])
     ),
   });
-  console.log('updatedForm', updatedForm);
-
   return {
     newFields: fields,
     updatedForm,

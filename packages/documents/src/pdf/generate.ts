@@ -31,7 +31,6 @@ export const fillPDF = async (
   const form = pdfDoc.getForm();
   try {
     Object.entries(fieldData).forEach(([name, value]) => {
-      console.log('setting field', name, value);
       setFormFieldData(form, value.type, name, value.value);
     });
   } catch (error: any) {
