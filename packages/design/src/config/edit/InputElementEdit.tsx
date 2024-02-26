@@ -3,9 +3,11 @@ import { useFormContext } from 'react-hook-form';
 
 import { type InputElement } from '@atj/forms/src/config/elements/input';
 
-import { type FormElementComponent } from '.';
+import { FormElementEditComponent } from '..';
 
-const InputElementEdit: FormElementComponent<InputElement> = ({ element }) => {
+const InputElementEdit: FormElementEditComponent<InputElement> = ({
+  element,
+}) => {
   const { register } = useFormContext();
   return (
     <div>

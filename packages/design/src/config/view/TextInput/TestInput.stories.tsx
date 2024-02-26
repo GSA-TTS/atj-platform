@@ -3,9 +3,10 @@ import { FormProvider, useForm } from 'react-hook-form';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import TextInput, { TextInputProps } from '.';
+import { Pattern, TextInputPattern } from '@atj/forms';
 
 export default {
-  title: 'prompts/TextInput',
+  title: 'patterns/TextInput',
   component: TextInput,
   decorators: [
     (Story, args) => {
@@ -26,23 +27,25 @@ export default {
 export const Required = {
   args: {
     prompt: {
-      type: 'text',
-      id: 'test-prompt',
+      _elementId: '',
+      type: 'input',
+      inputId: 'test-prompt',
       value: '',
       label: 'Please enter your first name.',
       required: true,
-    },
+    } as Pattern<TextInputPattern>,
   } satisfies TextInputProps,
 } satisfies StoryObj<typeof TextInput>;
 
 export const NotRequired = {
   args: {
     prompt: {
-      type: 'text',
-      id: 'test-prompt',
+      _elementId: '',
+      type: 'input',
+      inputId: 'test-prompt',
       value: '',
       label: 'Please enter your first name.',
       required: false,
-    },
+    } as Pattern<TextInputPattern>,
   } satisfies TextInputProps,
 } satisfies StoryObj<typeof TextInput>;

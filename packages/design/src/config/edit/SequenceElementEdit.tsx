@@ -20,13 +20,13 @@ import { useFormContext } from 'react-hook-form';
 import { type FormDefinition, type FormElement } from '@atj/forms';
 import { type SequenceElement } from '@atj/forms/src/config/elements/sequence';
 
-import { type FormElementComponent, type FormUIContext } from '.';
+import { type FormElementEditComponent, type FormEditUIContext } from '.';
 
 interface ItemProps<T> {
   id: string;
   form: FormDefinition;
   element: FormElement<T>;
-  context: FormUIContext;
+  context: FormEditUIContext;
 }
 
 const SortableItem = <T,>({ id, form, element, context }: ItemProps<T>) => {
@@ -38,7 +38,7 @@ const SortableItem = <T,>({ id, form, element, context }: ItemProps<T>) => {
     transition,
   };
 
-  const Component = context.components[element.type];
+  const Component = context.editComponents[element.type];
 
   return (
     <li ref={setNodeRef} style={style}>
@@ -65,7 +65,7 @@ const SortableItem = <T,>({ id, form, element, context }: ItemProps<T>) => {
   );
 };
 
-const SequenceElementEdit: FormElementComponent<SequenceElement> = ({
+const SequenceElementEdit: FormElementEditComponent<SequenceElement> = ({
   context,
   form,
   element,
@@ -76,7 +76,7 @@ const SequenceElementEdit: FormElementComponent<SequenceElement> = ({
       return form.elements[elementId];
     })
   );
-  
+
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
@@ -107,6 +107,8 @@ const SequenceElementEdit: FormElementComponent<SequenceElement> = ({
               data: {
                 elements: newOrder.map(element => element.id),
               },
+              default: { elements: [] },
+              required: true,
             } satisfies SequenceElement);
           }
         }}

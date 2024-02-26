@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import SubmissionConfirmation, { type SubmissionConfirmationProps } from '.';
 
 export default {
-  title: 'prompts/SubmissionConfirmation',
+  title: 'patterns/SubmissionConfirmation',
   component: SubmissionConfirmation,
   tags: ['autodocs'],
 } satisfies Meta<typeof SubmissionConfirmation>;

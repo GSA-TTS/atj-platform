@@ -1,6 +1,10 @@
 import React from 'react';
 
-import { FormManager, defaultFormElementComponent } from '@atj/design';
+import {
+  FormManager,
+  defaultFormElementComponents,
+  defaultFormElementEditComponents,
+} from '@atj/design';
 
 import { getAppContext } from '../context';
 
@@ -10,7 +14,8 @@ export default function () {
     <FormManager
       context={{
         config: ctx.formConfig,
-        components: defaultFormElementComponent,
+        components: defaultFormElementComponents,
+        editComponents: defaultFormElementEditComponents,
       }}
       formService={ctx.formService}
       baseUrl={ctx.baseUrl}

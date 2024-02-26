@@ -2,9 +2,12 @@ import React from 'react';
 
 import { FormElement, type FormConfig, type FormDefinition } from '@atj/forms';
 
-import InputElementEdit from './InputElementEdit';
-import ParagraphElementEdit from './ParagraphElementEdit';
-import SequenceElementEdit from './SequenceElementEdit';
+import InputElementEdit from './edit/InputElementEdit';
+import ParagraphElementEdit from './edit/ParagraphElementEdit';
+import SequenceElementEdit from './edit/SequenceElementEdit';
+
+export * from './edit';
+export * from './view';
 
 export type FormUIContext = {
   config: FormConfig;
@@ -20,7 +23,7 @@ export type FormElementComponent<T extends FormElement> = React.ComponentType<{
 export type ComponentForFormElement<T extends FormElement = FormElement> =
   Record<string, FormElementComponent<T>>;
 
-export const defaultFormElementComponent: ComponentForFormElement = {
+export const defaultFormElementComponents: ComponentForFormElement = {
   sequence: SequenceElementEdit,
   input: InputElementEdit,
   paragraph: ParagraphElementEdit,

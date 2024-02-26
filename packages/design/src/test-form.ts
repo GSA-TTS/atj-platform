@@ -1,6 +1,9 @@
 import { createForm, createFormSession, defaultFormConfig } from '@atj/forms';
 
-import { defaultFormElementComponent } from './config';
+import {
+  defaultFormElementComponents,
+  defaultFormElementEditComponents,
+} from './config';
 
 export const createTestForm = () => {
   return createForm(
@@ -54,13 +57,21 @@ export const createTestFormConfig = () => {
 };
 
 export const createTestFormElementComponentMap = () => {
-  return defaultFormElementComponent;
+  return defaultFormElementComponents;
 };
 
 export const createTestFormContext = () => {
   return {
     config: defaultFormConfig,
-    components: defaultFormElementComponent,
+    components: defaultFormElementComponents,
+  };
+};
+
+export const createTestFormEditContext = () => {
+  return {
+    config: defaultFormConfig,
+    components: defaultFormElementComponents,
+    editComponents: defaultFormElementEditComponents,
   };
 };
 

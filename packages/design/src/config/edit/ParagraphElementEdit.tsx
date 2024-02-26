@@ -3,9 +3,11 @@ import { useFormContext } from 'react-hook-form';
 
 import { type ParagraphElement } from '@atj/forms/src/config/elements/paragraph';
 
-import { type FormElementComponent } from '.';
+import { type FormElementComponent } from '..';
 
-const ParagraphElementEdit: FormElementComponent<ParagraphElement> = ({ element }) => {
+const ParagraphElementEdit: FormElementComponent<ParagraphElement> = ({
+  element,
+}) => {
   const { register } = useFormContext();
   return (
     <div className="grid-row grid-gap">
@@ -25,7 +27,8 @@ const ParagraphElementEdit: FormElementComponent<ParagraphElement> = ({ element 
           <select className="usa-select" {...register(`${element.id}.type`)}>
             <option value={'paragraph'}>Question</option> {/* this is a stub */}
             <option value={'paragraph'}>Title</option> {/* this is a stub */}
-            <option value={'paragraph'}>Instructions</option> {/* this is a stub */}
+            <option value={'paragraph'}>Instructions</option>{' '}
+            {/* this is a stub */}
           </select>
         </label>
       </div>

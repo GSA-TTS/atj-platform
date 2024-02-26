@@ -7,9 +7,8 @@ import {
   getFormElementConfig,
   validateElement,
 } from '.';
-import { type PromptAction, createPrompt, isPromptAction } from './prompt';
+import { type PromptAction, createPrompt, isPromptAction } from './pattern';
 import { type FormSession, updateSession } from './session';
-import { isValid } from 'zod';
 
 export type PromptResponse = {
   action: PromptAction['type'];

@@ -2,14 +2,14 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import Form from '.';
-import { createTestFormConfig, createTestSession } from '../test-form';
+import { createTestFormContext, createTestSession } from '../test-form';
 
 export default {
   title: 'Form',
   component: Form,
   decorators: [(Story, args) => <Story {...args} />],
   args: {
-    config: createTestFormConfig(),
+    context: createTestFormContext(),
     session: createTestSession(),
   },
   tags: ['autodocs'],

@@ -18,7 +18,8 @@ export const addDocument = async (
   }
 ) => {
   const fields = await getDocumentFieldData(fileDetails.data);
-  const fieldMap = await suggestFormDetails(fileDetails.data, fields);
+  //const fieldMap = await suggestFormDetails(fileDetails.data, fields);
+  const fieldMap = fields;
   const formWithFields = addDocumentFieldsToForm(form, fieldMap);
   const updatedForm = addFormOutput(formWithFields, {
     data: fileDetails.data,
@@ -40,7 +41,7 @@ export const addDocumentFieldsToForm = (
   form: FormDefinition,
   fields: DocumentFieldMap
 ) => {
-  const elements: FormElement<any>[] = [];
+  const elements: FormElement[] = [];
   Object.entries(fields).map(([key, field]) => {
     if (field.type === 'CheckBox') {
       elements.push({

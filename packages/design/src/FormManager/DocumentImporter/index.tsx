@@ -4,24 +4,25 @@ import { useNavigate } from 'react-router-dom';
 import { addDocument, addDocumentFieldsToForm } from '@atj/documents';
 import { type FormService } from '@atj/form-service';
 import {
-  type FormConfig,
   type DocumentFieldMap,
   type FormDefinition,
+  createFormSession,
 } from '@atj/forms';
 
 import { onFileInputChangeGetFile } from '../FormList/PDFFileSelect/file-input';
 import Form from '../../Form';
+import { FormUIContext } from 'config';
 
 const DocumentImporter = ({
   baseUrl,
   formId,
-  config,
+  context,
   form,
   formService,
 }: {
   baseUrl: string;
   formId: string;
-  config: FormConfig;
+  context: FormUIContext;
   form: FormDefinition;
   formService: FormService;
 }) => {
@@ -70,7 +71,11 @@ const DocumentImporter = ({
   const PDFFileSelect = () => {
     return (
       <div className="usa-form-group">
-        <label className="usa-label" id="file-input-specific-hint" htmlFor="file-input-specific">
+        <label
+          className="usa-label"
+          id="file-input-specific-hint"
+          htmlFor="file-input-specific"
+        >
           Select a single PDF file
         </label>
         <div className="usa-file-input">
@@ -153,8 +158,8 @@ const DocumentImporter = ({
     return (
       <>
         <Form
-          config={config}
-          form={previewForm}
+          context={context}
+          session={createFormSession(previewForm)}
           onSubmit={data => {
             //handleFormSubmission(formId, data);
             console.log(formId, data);

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import FormSummary, { TextSummaryProps } from '.';
 
 export default {
-  title: 'prompts/FormSummary',
+  title: 'patterns/FormSummary',
   component: FormSummary,
   tags: ['autodocs'],
 } satisfies Meta<typeof FormSummary>;
