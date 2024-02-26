@@ -1,14 +1,11 @@
 import React from 'react';
 
-import { type SubmissionConfirmationPrompt } from '@atj/forms';
+import { Pattern, type SubmissionConfirmationPattern } from '@atj/forms';
+import { FormElementComponent } from '../../../Form';
 
-export type SubmissionConfirmationProps = {
-  prompt: SubmissionConfirmationPrompt;
-};
-
-export default function SubmissionConfirmation({
-  prompt,
-}: SubmissionConfirmationProps) {
+const SubmissionConfirmation: FormElementComponent<
+  Pattern<SubmissionConfirmationPattern>
+> = ({ prompt }) => {
   return (
     <>
       <legend className="usa-legend usa-legend--large">
@@ -34,4 +31,6 @@ export default function SubmissionConfirmation({
       </table>
     </>
   );
-}
+};
+
+export default SubmissionConfirmation;

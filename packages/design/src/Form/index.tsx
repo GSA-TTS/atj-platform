@@ -8,10 +8,25 @@ import {
   type FormConfig,
   type FormSession,
   type Prompt,
+  type Pattern,
 } from '@atj/forms';
 
-import PromptSegment from './PromptSegment';
 import ActionBar from './ActionBar';
+
+export type FormUIContext = {
+  config: FormConfig;
+  components: ComponentForPattern;
+};
+
+export type ComponentForPattern<T extends Pattern = Pattern<unknown>> = Record<
+  string,
+  FormElementComponent<T>
+>;
+
+export type FormElementComponent<T extends Pattern = Pattern<unknown>> =
+  React.ComponentType<{
+    prompt: T;
+  }>;
 
 const usePrompt = (
   initialPrompt: Prompt,
@@ -45,16 +60,22 @@ const usePrompt = (
 };
 
 export default function Form({
-  config,
+  context,
   session,
   onSubmit,
 }: {
-  config: FormConfig;
+  context: FormUIContext;
   session: FormSession;
   onSubmit?: (data: Record<string, string>) => void;
 }) {
-  const initialPrompt = createPrompt(config, session, { validate: false });
-  const { prompt, updatePrompt } = usePrompt(initialPrompt, config, session);
+  const initialPrompt = createPrompt(context.config, session, {
+    validate: false,
+  });
+  const { prompt, updatePrompt } = usePrompt(
+    initialPrompt,
+    context.config,
+    session
+  );
 
   const formMethods = useForm<Record<string, string>>({});
 
@@ -65,10 +86,10 @@ export default function Form({
     updatePrompt(allFormData);
   }, [allFormData]);
   */
-
   return (
     <FormProvider {...formMethods}>
-      <form className="previewForm"
+      <form
+        className="previewForm"
         onSubmit={formMethods.handleSubmit(async data => {
           updatePrompt(data);
           if (onSubmit) {
@@ -80,9 +101,16 @@ export default function Form({
         })}
       >
         <fieldset className="usa-fieldset">
-          {prompt.parts.map((promptPart, index) => (
-            <PromptSegment key={index} promptPart={promptPart}></PromptSegment>
-          ))}
+          {prompt.parts
+            .map((pattern, index) => {
+              if (pattern.type === 'text') {
+                console.log('skipping', pattern.type);
+                return null;
+              }
+              const Component = context.components[pattern.type];
+              return <Component key={index} prompt={pattern} />;
+            })
+            .filter(a => a)}
           {/* Add submit button or other controls as needed */}
         </fieldset>
         <ActionBar actions={prompt.actions} />
@@ -90,54 +118,3 @@ export default function Form({
     </FormProvider>
   );
 }
-
-/*
-export const FormFieldsetUnwired = ({ fields }: { fields: Field[] }) => {
-  return (
-    <fieldset className="usa-fieldset">
-      <legend className="usa-legend usa-legend--large">
-        UD 105 - Unlawful Detainer Form
-      </legend>
-      {fields.map(field => {
-        // Use 'tag' for 'select' and 'textarea', 'type' for others
-        const fieldType =
-          field.tag === 'select' ||
-          field.tag === 'textarea' ||
-          field.tag === 'p' ||
-          field.tag === 'h2' ||
-          field.tag === 'h3' ||
-          field.tag === 'ul'
-            ? field.tag
-            : field.type;
-
-        switch (fieldType) {
-          case 'text':
-            return <TextField key={field.id} field={field} />;
-          case 'boolean':
-            return <BooleanField key={field.id} field={field} />;
-          case 'checkbox':
-            return <CheckBoxField key={field.id} field={field} />;
-          case 'select':
-            return <SelectField key={field.id} field={field} />;
-          case 'radio':
-            return <RadioField key={field.id} field={field} />;
-          case 'date':
-            return <DateField key={field.id} field={field} />;
-          case 'textarea':
-            return <TextareaField key={field.id} field={field} />;
-          case 'p':
-            return <ParagraphBlock key={field.id} field={field} />;
-          case 'h2':
-            return <Header3Block key={field.id} field={field} />;
-          case 'h3':
-            return <Header3Block key={field.id} field={field} />;
-          case 'ul':
-            return <UnorderedList key={field.id} field={field} />;
-          default:
-            return null;
-        }
-      })}
-    </fieldset>
-  );
-};
-*/

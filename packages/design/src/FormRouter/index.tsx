@@ -2,15 +2,15 @@ import React from 'react';
 import { useParams, HashRouter, Route, Routes } from 'react-router-dom';
 
 import { type FormService } from '@atj/form-service';
-import Form from '../Form';
-import { createFormSession, type FormConfig } from '@atj/forms';
+import Form, { type FormUIContext } from '../Form';
+import { createFormSession } from '@atj/forms';
 
 // Wrapper around Form that includes a client-side router for loading forms.
 export default function FormRouter({
-  config,
+  context,
   formService,
 }: {
-  config: FormConfig;
+  context: FormUIContext;
   formService: FormService;
 }) {
   return (
@@ -37,7 +37,7 @@ export default function FormRouter({
             const session = createFormSession(result.data);
             return (
               <Form
-                config={config}
+                context={context}
                 session={session}
                 onSubmit={async data => {
                   /*const newSession = applyPromptResponse(

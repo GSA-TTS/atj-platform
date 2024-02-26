@@ -13,7 +13,7 @@ import {
 export * from './config';
 export * from './documents';
 export * from './element';
-export * from './prompt';
+export * from './pattern';
 export * from './response';
 export * from './session';
 
@@ -50,7 +50,7 @@ type FormOutput = {
 export const createForm = (
   summary: FormSummary,
   initial: {
-    elements: FormElement<any>[];
+    elements: FormElement[];
     root: FormElementId;
   } = {
     elements: [
@@ -87,7 +87,7 @@ export const createFormSession = (form: FormDefinition): FormSession => {
     data: {
       errors: {},
       values: Object.fromEntries(
-        Object.values(form.elements).map(element => {
+        Object.values(form.elements).map((element, index) => {
           return [element.id, form.elements[element.id].data.initial];
         })
       ),
@@ -147,7 +147,7 @@ const addError = (
 
 export const addFormElements = (
   form: FormDefinition,
-  elements: FormElement<any>[],
+  elements: FormElement[],
   root?: FormElementId
 ) => {
   const formElementMap = getFormElementMap(elements);
@@ -160,7 +160,7 @@ export const addFormElements = (
 
 export const replaceFormElements = (
   form: FormDefinition,
-  elements: FormElement<any>[]
+  elements: FormElement[]
 ): FormDefinition => {
   return {
     ...form,
@@ -169,7 +169,7 @@ export const replaceFormElements = (
         acc[element.id] = element;
         return acc;
       },
-      {} as Record<FormElementId, FormElement<any>>
+      {} as Record<FormElementId, FormElement>
     ),
   };
 };
@@ -187,10 +187,29 @@ export const updateElements = (
   const children = resource.getChildren(root, newElements);
   targetElements[root.id] = root;
   children.forEach(child => (targetElements[child.id] = child));
-
   return {
     ...form,
     elements: targetElements,
+  };
+};
+
+export const updateElement = (
+  config: FormConfig,
+  form: FormDefinition,
+  elementId: FormElementId,
+  data: FormElementMap
+): FormDefinition => {
+  if (form.elements[elementId] === undefined) {
+    console.error(`Element "${elementId}" does not exist on form.`);
+    return form;
+  }
+  const formElement = data[elementId];
+  return {
+    ...form,
+    elements: {
+      ...form.elements,
+      [elementId]: formElement,
+    },
   };
 };
 

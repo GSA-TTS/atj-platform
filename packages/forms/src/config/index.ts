@@ -3,21 +3,21 @@ import {
   type FormElementId,
   type ParseFormElementData,
 } from '../element';
-import { type CreatePrompt } from '../prompt';
+import { type CreatePrompt } from '../pattern';
 
 export { defaultFormConfig } from './config';
 
-export type FormElementConfig<ThisFormElement extends FormElement<any>> = {
+export type FormElementConfig<ThisFormElement extends FormElement> = {
   acceptsInput: boolean;
   initial: ThisFormElement['data'];
   parseData: ParseFormElementData<ThisFormElement>;
   getChildren: (
     element: ThisFormElement,
-    elements: Record<FormElementId, FormElement<any>>
-  ) => FormElement<any>[];
+    elements: Record<FormElementId, FormElement>
+  ) => FormElement[];
   createPrompt: CreatePrompt<ThisFormElement>;
 };
-export type FormConfig<T extends FormElement<any> = FormElement<any>> = {
+export type FormConfig<T extends FormElement = FormElement> = {
   elements: Record<string, FormElementConfig<T>>;
 };
 

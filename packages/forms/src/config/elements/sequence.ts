@@ -2,7 +2,7 @@ import * as z from 'zod';
 
 import { type FormElementConfig } from '..';
 import { type FormElement, type FormElementId } from '../../element';
-import { type PromptPart, createPromptForElement } from '../../prompt';
+import { type Pattern, createPromptForElement } from '../../pattern';
 import { safeZodParse } from '../../util/zod';
 
 export type SequenceElement = FormElement<{
@@ -24,7 +24,7 @@ export const sequenceConfig: FormElementConfig<SequenceElement> = {
       (elementId: string) => elements[elementId]
     );
   },
-  createPrompt(config, session, element, options): PromptPart[] {
+  createPrompt(config, session, element, options): Pattern[] {
     return element.data.elements.flatMap((elementId: string) => {
       const element = session.form.elements[elementId];
       return createPromptForElement(config, session, element, options);
