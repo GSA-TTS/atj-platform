@@ -6,7 +6,7 @@ import TextInput, { TextInputProps } from '.';
 import { Pattern, TextInputPattern } from '@atj/forms';
 
 export default {
-  title: 'prompts/TextInput',
+  title: 'patterns/TextInput',
   component: TextInput,
   decorators: [
     (Story, args) => {

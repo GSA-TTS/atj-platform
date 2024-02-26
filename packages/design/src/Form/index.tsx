@@ -18,12 +18,12 @@ export type FormUIContext = {
   components: ComponentForPattern;
 };
 
-export type ComponentForPattern<T extends Pattern = Pattern> = Record<
+export type ComponentForPattern<T extends Pattern = Pattern<unknown>> = Record<
   string,
   FormElementComponent<T>
 >;
 
-export type FormElementComponent<T extends Pattern = Pattern> =
+export type FormElementComponent<T extends Pattern = Pattern<unknown>> =
   React.ComponentType<{
     prompt: T;
   }>;

@@ -8,11 +8,13 @@ import {
   getRootFormElement,
   updateElements,
   FormElementId,
+  getFormElement,
 } from '@atj/forms';
 
 import { type FormEditUIContext } from '../../config';
 import InnerPageTopNav from '../internalPageTopNav';
 import { PreviewContext, PreviewForm } from './Preview';
+import { FormElementEdit } from './FormElementEdit';
 
 export default function FormEdit({
   context,
@@ -51,12 +53,8 @@ const EditForm = ({
 }) => {
   const [currentForm, setCurrentForm] = useState(initialForm);
   const [selectedId, setSelectedId] = useState<FormElementId>();
-  const methods = useForm<FormElementMap>({
-    defaultValues: currentForm.elements,
-  });
   const rootField = getRootFormElement(currentForm);
-  const EditComponent = context.editComponents[rootField.type];
-  //const SelectedEditComponent = context.editComponents[rootField.type];
+  const formElement = getFormElement(currentForm, selectedId || rootField.id);
   return (
     <>
       <ButtonBar />
@@ -67,7 +65,6 @@ const EditForm = ({
               selectedId,
               setSelectedId: id => {
                 setSelectedId(id);
-                console.log('setting id', id);
               },
             }}
           >
@@ -75,8 +72,20 @@ const EditForm = ({
           </PreviewContext.Provider>
         </div>
         <div className="grid-col-6">
+          <h2>Editing {selectedId}...</h2>
+          {formElement && (
+            <FormElementEdit
+              context={context}
+              initialForm={currentForm}
+              formElement={formElement}
+              onChange={function (form: FormDefinition): void {
+                setCurrentForm(form);
+              }}
+            />
+          )}
+          <hr />
+          {/*
           <div className="editForm">
-            <h2>Editing {selectedId}...</h2>
             <FormProvider {...methods}>
               <form
                 className="editForm"
@@ -98,6 +107,7 @@ const EditForm = ({
               </form>
             </FormProvider>
           </div>
+          */}
         </div>
       </div>
     </>

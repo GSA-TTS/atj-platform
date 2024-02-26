@@ -2,9 +2,8 @@ import React from 'react';
 import { useParams, HashRouter, Route, Routes } from 'react-router-dom';
 
 import { type FormService } from '@atj/form-service';
-import Form from '../Form';
+import Form, { type FormUIContext } from '../Form';
 import { createFormSession } from '@atj/forms';
-import { FormUIContext } from '../config';
 
 // Wrapper around Form that includes a client-side router for loading forms.
 export default function FormRouter({

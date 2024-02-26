@@ -87,7 +87,7 @@ export const createFormSession = (form: FormDefinition): FormSession => {
     data: {
       errors: {},
       values: Object.fromEntries(
-        Object.values(form.elements).map(element => {
+        Object.values(form.elements).map((element, index) => {
           return [element.id, form.elements[element.id].data.initial];
         })
       ),
@@ -187,10 +187,29 @@ export const updateElements = (
   const children = resource.getChildren(root, newElements);
   targetElements[root.id] = root;
   children.forEach(child => (targetElements[child.id] = child));
-
   return {
     ...form,
     elements: targetElements,
+  };
+};
+
+export const updateElement = (
+  config: FormConfig,
+  form: FormDefinition,
+  elementId: FormElementId,
+  data: FormElementMap
+): FormDefinition => {
+  if (form.elements[elementId] === undefined) {
+    console.error(`Element "${elementId}" does not exist on form.`);
+    return form;
+  }
+  const formElement = data[elementId];
+  return {
+    ...form,
+    elements: {
+      ...form.elements,
+      [elementId]: formElement,
+    },
   };
 };
 

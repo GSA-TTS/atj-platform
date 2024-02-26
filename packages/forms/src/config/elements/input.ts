@@ -2,7 +2,7 @@ import * as z from 'zod';
 
 import { type FormElementConfig } from '..';
 import { type FormElement, validateElement } from '../../element';
-import { TextInputPattern, type Pattern } from '../../prompt';
+import { type Pattern, type TextInputPattern } from '../../pattern';
 import { getFormSessionValue } from '../../session';
 import { safeZodParse } from '../../util/zod';
 

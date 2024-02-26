@@ -3,7 +3,7 @@ import {
   type FormElementId,
   type ParseFormElementData,
 } from '../element';
-import { type CreatePrompt } from '../prompt';
+import { type CreatePrompt } from '../pattern';
 
 export { defaultFormConfig } from './config';
 

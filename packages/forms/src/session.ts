@@ -32,7 +32,7 @@ export const nullSession: FormSession = {
     elements: {
       root: {
         id: 'root',
-        type: 'root',
+        type: 'sequence',
         required: false,
         default: {
           elements: [],
