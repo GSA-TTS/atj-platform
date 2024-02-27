@@ -6,9 +6,11 @@ import {
   type FormElement,
 } from '@atj/forms';
 
+import { ComponentForPattern } from '../../Form';
+
 import InputElementEdit from './InputElementEdit';
 import SequenceElementEdit from './SequenceElementEdit';
-import { ComponentForPattern } from '../../Form';
+import SubmissionConfirmationEdit from './SubmissionConfirmationEdit';
 
 export type FormEditUIContext = {
   config: FormConfig;
@@ -27,6 +29,7 @@ export type EditComponentForFormElement<T extends FormElement = FormElement> =
   Record<string, FormElementEditComponent<T>>;
 
 export const defaultFormElementEditComponents: EditComponentForFormElement = {
-  sequence: SequenceElementEdit,
   input: InputElementEdit,
+  sequence: SequenceElementEdit,
+  'submission-confirmation': SubmissionConfirmationEdit,
 };

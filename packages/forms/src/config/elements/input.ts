@@ -12,7 +12,7 @@ const configSchema = z.object({
   required: z.boolean(),
   maxLength: z.coerce.number(),
 });
-type InputElement = FormElement<z.infer<typeof configSchema>>;
+export type InputElement = FormElement<z.infer<typeof configSchema>>;
 
 const createSchema = (data: InputElement['data']) =>
   z.string().max(data.maxLength);

@@ -9,9 +9,8 @@ import {
   createFormSession,
 } from '@atj/forms';
 
+import Form, { FormUIContext } from '../../Form';
 import { onFileInputChangeGetFile } from '../FormList/PDFFileSelect/file-input';
-import Form from '../../Form';
-import { FormUIContext } from 'config';
 
 const DocumentImporter = ({
   baseUrl,
