@@ -10,56 +10,59 @@ const InputElementEdit: FormElementEditComponent<InputElement> = ({
 }) => {
   const { register } = useFormContext();
   return (
-    <div>
-      <div className="grid-row grid-gap padding-left-5">
-        <div className="grid-col grid-col-4 flex-fill flex-align-self-end">
-          <label className="usa-label">
-            Input
-            <p className="usa-hint font-ui-3xs">Instructions:</p>
-            <input
-              className="usa-input"
-              {...register(`${element.id}.data.instructions`)}
-              type="text"
-              placeholder={`Short answer: ${element.data.maxLength} chars`}
-            ></input>
-          </label>
-        </div>
-        {/* <div className="grid-col grid-col-2 flex-align-self-end">
-          <label className="usa-label">
-            <p className="usa-hint font-ui-3xs">Max length</p>
-            <input
-              className="usa-input"
-              type="text"
-              {...register(`${element.id}.data.maxLength`)}
-            ></input>
-          </label>
-        </div> */}
-        <div className="grid-col grid-col-4 flex-align-self-end">
-          <label className="usa-label">
-            <p className="usa-hint font-ui-3xs">Input type</p>
-            <select className="usa-select" {...register(`${element.id}.type`)}>
-              <option
-                value={'input'}
-              >{`${element.default} (${element.data.maxLength} chars)`}</option>
-              <option value={'input'}>Long Answer (500 chars)</option>{' '}
-              {/* this is a stub */}
-            </select>
-          </label>
-        </div>
+    <div className="grid-row grid-gap formRowEditFields">
+      <div className="grid-col grid-col-4">
+        <label className="usa-label" htmlFor={`${element.id}.data.text`}>
+          Field label
+        </label>
+        <input
+          className="usa-input"
+          id={`${element.id}.data.text`}
+          defaultValue={`${element.id}`}
+          {...register(`${element.id}.data.text`)}
+          type="text"
+        ></input>
       </div>
-      <div className="grid-row grid-gap padding-left-5 flex-justify-end">
-        <div>
-          <label className="usa-label">
-            <p className="usa-hint font-ui-3xs">
-              PDF Field ID: {`${element.data.text}`}
-            </p>
-          </label>
-        </div>
+      <div className="grid-col grid-col-2">
+        <label className="usa-label" htmlFor={`${element.id}.data.initial`}>
+          Default field value
+        </label>
+        <input
+          className="usa-input"
+          id={`${element.id}.data.initial`}
+          type="text"
+          {...register(`${element.id}.data.initial`)}
+        ></input>
+      </div>
+      <div className="grid-col grid-col-2">
+        <label className="usa-label" htmlFor={`${element.id}.data.maxLength`}>
+          Maximum length
+        </label>
+        <input
+          className="usa-input"
+          id={`${element.id}.data.maxLength`}
+          type="text"
+          {...register(`${element.id}.data.maxLength`)}
+        ></input>
+      </div>
+      <div className="grid-col grid-col-2">
+        <label className="usa-label" htmlFor={`${element.id}.type`}>
+          Field type
+        </label>
+        <select
+          className="usa-select"
+          {...register(`${element.id}.type`)}
+          id={`${element.id}.type`}
+        >
+          <option value={'input'}>Input</option>
+        </select>
+      </div>
+      <div className="grid-col grid-col-2">
         <div className="usa-checkbox">
           <input
             className="usa-checkbox__input"
             type="checkbox"
-            id={`${element.id}.required`}
+            id={`${element.id}.data.required`}
             {...register(`${element.id}.data.required`)}
             checked={element.required}
           />

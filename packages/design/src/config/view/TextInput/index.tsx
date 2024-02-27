@@ -10,7 +10,7 @@ const TextInput: FormElementComponent<Pattern<TextInputPattern>> = ({
 }) => {
   const { register } = useFormContext();
   return (
-    <div className="usa-form-group" key={pattern.inputId}>
+    <div className="usa-form-group-wrapper" key={pattern.inputId}>
       <div
         className={classNames('usa-form-group', {
           'usa-form-group--error': pattern.error,

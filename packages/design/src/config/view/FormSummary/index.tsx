@@ -8,8 +8,10 @@ const FormSummary: FormElementComponent<Pattern<FormSummaryPattern>> = ({
 }) => {
   return (
     <>
-      <legend className="usa-legend usa-legend--large">{pattern.title}</legend>
-      <p>{pattern.description}</p>
+      <div className="usa-legend-wrapper">
+        <legend className="usa-legend">{pattern.title}</legend>
+        {pattern.description !== '' && <p>{pattern.description}</p>}
+      </div>
     </>
   );
 };
