@@ -46,11 +46,11 @@ export default function FormEdit({
 const EditForm = ({
   context,
   initialForm,
-  onSave,
+  //onSave,
 }: {
   context: FormEditUIContext;
   initialForm: FormDefinition;
-  onSave: (form: FormDefinition) => void;
+  //onSave: (form: FormDefinition) => void;
 }) => {
   const [currentForm, setCurrentForm] = useState(initialForm);
   const [selectedId, setSelectedId] = useState<FormElementId | null>(null);
