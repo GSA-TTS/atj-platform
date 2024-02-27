@@ -94,12 +94,14 @@ const createPatternPreviewComponent = (Component: FormElementComponent) => {
             title="Click to edit">
             <svg
               className="usa-icon"
-              aria-hidden="true"
+              aria-label="Click here to edit form group"
               focusable="false"
               role="img"
             >
+                <title>Edit form group</title>
+                <desc>Click here to edit form group</desc>
               <use
-                xlinkHref={`${staticRoot}static/uswds/img/sprite.svg#settings`}
+                xlinkHref={`${staticRoot}static1/uswds/img/sprite.svg#settings`}
               ></use>
             </svg>
           </a>
