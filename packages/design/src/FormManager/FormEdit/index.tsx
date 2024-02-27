@@ -80,6 +80,7 @@ const EditForm = ({
               formElement={formElement}
               onChange={function (form: FormDefinition): void {
                 setCurrentForm(form);
+                onSave(form);
               }}
             />
           )}

@@ -194,21 +194,14 @@ export const updateElements = (
 };
 
 export const updateElement = (
-  config: FormConfig,
   form: FormDefinition,
-  elementId: FormElementId,
-  data: FormElementMap
+  formElement: FormElement
 ): FormDefinition => {
-  if (form.elements[elementId] === undefined) {
-    console.error(`Element "${elementId}" does not exist on form.`);
-    return form;
-  }
-  const formElement = data[elementId];
   return {
     ...form,
     elements: {
       ...form.elements,
-      [elementId]: formElement,
+      [formElement.id]: formElement,
     },
   };
 };

@@ -6,12 +6,13 @@ import { type Pattern, type TextInputPattern } from '../../pattern';
 import { getFormSessionValue } from '../../session';
 import { safeZodParse } from '../../util/zod';
 
-export type InputElement = FormElement<{
-  text: string;
-  initial: string;
-  required: boolean;
-  maxLength: number;
-}>;
+const configSchema = z.object({
+  text: z.string(),
+  initial: z.string(),
+  required: z.boolean(),
+  maxLength: z.coerce.number(),
+});
+type InputElement = FormElement<z.infer<typeof configSchema>>;
 
 const createSchema = (data: InputElement['data']) =>
   z.string().max(data.maxLength);
@@ -25,6 +26,7 @@ export const inputConfig: FormElementConfig<InputElement> = {
     maxLength: 128,
   },
   parseData: (elementData, obj) => safeZodParse(createSchema(elementData), obj),
+  parseConfigData: obj => safeZodParse(configSchema, obj),
   getChildren() {
     return [];
   },

@@ -27,6 +27,10 @@ export type ParseFormElementData<T extends FormElement = FormElement> = (
   obj: string
 ) => Result<T['data']>;
 
+export type ParseFormElementConfigData<T extends FormElement = FormElement> = (
+  elementData: T['data']
+) => Result<T['data']>;
+
 export const getFormElement: GetFormElement = (form, elementId) => {
   return form.elements[elementId];
 };

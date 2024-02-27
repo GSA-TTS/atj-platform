@@ -37,7 +37,7 @@ export default function FormManager({
             }
             return (
               <FormPreviewById
-                config={context.config}
+                context={context}
                 formId={formId}
                 formService={formService}
               />

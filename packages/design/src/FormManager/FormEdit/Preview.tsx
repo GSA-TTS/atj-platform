@@ -6,6 +6,7 @@ import {
   type FormElementId,
   type Pattern,
   createFormSession,
+  nullSession,
 } from '@atj/forms';
 
 import Form, {
@@ -26,7 +27,6 @@ export const PreviewForm = ({ uiContext, form }: PreviewFormProps) => {
     // don't have to regenerate it every time we render the form.
     components: createPreviewComponents(uiContext.components),
   };
-  console.log('creating session');
   const disposable = createFormSession(form); // nullSession instead?
   return <Form context={previewUiContext} session={disposable}></Form>;
 };

@@ -48,7 +48,7 @@ export const createPrompt = (
   session: FormSession,
   options: { validate: boolean }
 ): Prompt => {
-  if (sessionIsComplete(config, session)) {
+  if (options.validate && sessionIsComplete(config, session)) {
     return {
       actions: [],
       parts: [

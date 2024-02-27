@@ -5,7 +5,9 @@ import {
   FormDefinition,
   FormElement,
   FormElementMap,
+  getFormElementConfig,
   updateElement,
+  validateElement,
 } from '@atj/forms';
 import { FormEditUIContext } from '../../config';
 
@@ -31,13 +33,20 @@ export const FormElementEdit = ({
       <form
         className="editForm"
         onSubmit={methods.handleSubmit(formData => {
-          const updatedForm = updateElement(
+          const elementConfig = getFormElementConfig(
             context.config,
-            initialForm,
-            formElement.id,
-            formData
+            formElement.type
           );
-          //onChange(updatedForm);
+          const data = formData[formElement.id].data;
+          const result = elementConfig.parseConfigData(data);
+          if (!result.success) {
+            return;
+          }
+          const updatedForm = updateElement(initialForm, {
+            ...formElement,
+            data: result.data,
+          });
+          onChange(updatedForm);
         })}
       >
         <input className="usa-button" type="submit" value="Save" />
