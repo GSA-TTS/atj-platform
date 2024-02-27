@@ -10,52 +10,61 @@ const InputElementEdit: FormElementEditComponent<InputElement> = ({
 }) => {
   const { register } = useFormContext();
   return (
-    <div className="grid-row grid-gap">
+    <div className="grid-row grid-gap formRowEditFields">
       <div className="grid-col grid-col-4">
-        <label className="usa-label">
+        <label className="usa-label" htmlFor={`${element.id}.data.text`}>
           Field label
-          <input
-            className="usa-input"
-            {...register(`${element.id}.data.text`)}
-            type="text"
-          ></input>
         </label>
+        <input
+          className="usa-input"
+          id={`${element.id}.data.text`}
+          defaultValue={`${element.id}`}
+          {...register(`${element.id}.data.text`)}
+          type="text"
+        ></input>
       </div>
       <div className="grid-col grid-col-2">
-        <label className="usa-label">
+        <label className="usa-label" htmlFor={`${element.id}.data.initial`}>
           Default field value
-          <input
-            className="usa-input"
-            type="text"
-            {...register(`${element.id}.data.initial`)}
-          ></input>
         </label>
+        <input
+          className="usa-input"
+          id={`${element.id}.data.initial`}
+          type="text"
+          {...register(`${element.id}.data.initial`)}
+        ></input>
       </div>
       <div className="grid-col grid-col-2">
-        <label className="usa-label">
+        <label className="usa-label" htmlFor={`${element.id}.data.maxLength`}>
           Maximum length
-          <input
-            className="usa-input"
-            type="text"
-            {...register(`${element.id}.data.maxLength`)}
-          ></input>
         </label>
+        <input
+          className="usa-input"
+          id={`${element.id}.data.maxLength`}
+          type="text"
+          {...register(`${element.id}.data.maxLength`)}
+        ></input>
       </div>
       <div className="grid-col grid-col-2">
-        <label className="usa-label">
+        <label className="usa-label" htmlFor={`${element.id}.type`}>
           Field type
-          <select className="usa-select" {...register(`${element.id}.type`)}>
-            <option value={'input'}>Input</option>
-          </select>
         </label>
+        <select
+          className="usa-select"
+          {...register(`${element.id}.type`)}
+          id={`${element.id}.type`}
+        >
+          <option value={'input'}>Input</option>
+        </select>
       </div>
       <div className="grid-col grid-col-2">
         <div className="usa-checkbox">
           <input
             className="usa-checkbox__input"
             type="checkbox"
-            id={`${element.id}.required`}
+            id={`${element.id}.data.required`}
             {...register(`${element.id}.data.required`)}
+            checked={element.required}
           />
           <label
             className="usa-checkbox__label"

@@ -48,12 +48,14 @@ export const FormElementEdit = ({
           onChange(updatedForm);
         })}
       >
-        <input className="usa-button" type="submit" value="Save" />
         <SelectedEditComponent
           context={context}
           form={initialForm}
           element={formElement}
         />
+        <p>
+          <input className="usa-button" type="submit" value="Save" />
+        </p>
       </form>
     </FormProvider>
   );

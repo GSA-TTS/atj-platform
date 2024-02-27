@@ -4,12 +4,14 @@ import { Pattern, type FormSummaryPattern } from '@atj/forms';
 import { type FormElementComponent } from '../../../Form';
 
 const FormSummary: FormElementComponent<Pattern<FormSummaryPattern>> = ({
-  prompt,
+  pattern,
 }) => {
   return (
     <>
-      <legend className="usa-legend usa-legend--large">{prompt.title}</legend>
-      <p>{prompt.description}</p>
+      <div className="usa-legend-wrapper">
+        <legend className="usa-legend">{pattern.title}</legend>
+        {pattern.description !== '' && <p>{pattern.description}</p>}
+      </div>
     </>
   );
 };

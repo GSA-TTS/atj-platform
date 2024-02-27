@@ -6,7 +6,7 @@ import {
   addFormElements,
 } from '@atj/forms';
 import { PDFDocument, getDocumentFieldData } from './pdf';
-import { suggestFormDetails } from './suggestions';
+import { getSuggestedFormElementsFromCache } from './suggestions';
 
 export type DocumentTemplate = PDFDocument;
 
@@ -18,22 +18,49 @@ export const addDocument = async (
   }
 ) => {
   const fields = await getDocumentFieldData(fileDetails.data);
-  const fieldMap = suggestFormDetails(fields);
-  const formWithFields = addDocumentFieldsToForm(form, fieldMap);
-  const updatedForm = addFormOutput(formWithFields, {
-    data: fileDetails.data,
-    path: fileDetails.name,
-    fields,
-    // TODO: for now, reuse the field IDs from the PDF. we need to generate
-    // unique ones, instead.
-    formFields: Object.fromEntries(
-      Object.keys(fieldMap).map(field => [field, field])
-    ),
-  });
-  return {
-    newFields: fields,
-    updatedForm,
-  };
+  const cachedPdf = await getSuggestedFormElementsFromCache(fileDetails.data);
+
+  if (cachedPdf) {
+    const updatedForm = addFormElements(
+      form,
+      [
+        ...cachedPdf.elements,
+        {
+          id: 'root',
+          type: 'sequence',
+          data: {
+            elements: cachedPdf.elements.map(element => element.id),
+          },
+          default: {
+            elements: [],
+          },
+          required: true,
+        },
+      ],
+      'root'
+    );
+    // TODO: add form outputs
+    return {
+      newFields: fields,
+      updatedForm,
+    };
+  } else {
+    const formWithFields = addDocumentFieldsToForm(form, fields);
+    const updatedForm = addFormOutput(formWithFields, {
+      data: fileDetails.data,
+      path: fileDetails.name,
+      fields,
+      // TODO: for now, reuse the field IDs from the PDF. we need to generate
+      // unique ones, instead.
+      formFields: Object.fromEntries(
+        Object.keys(fields).map(field => [field, field])
+      ),
+    });
+    return {
+      newFields: fields,
+      updatedForm,
+    };
+  }
 };
 
 export const addDocumentFieldsToForm = (
@@ -81,10 +108,33 @@ export const addDocumentFieldsToForm = (
         id: field.name,
         data: {
           text: field.label,
+          instructions: field.instructions,
           maxLength: 128,
         },
         default: field.value,
         required: field.required,
+      });
+    } else if (field.type === 'RadioGroup') {
+      elements.push({
+        type: 'input',
+        id: field.name,
+        data: {
+          text: field.label,
+          instructions: field.instructions,
+          maxLength: 128,
+        },
+        default: field.value,
+        required: field.required,
+      });
+    } else if (field.type === 'Paragraph') {
+      elements.push({
+        type: 'paragraph',
+        id: field.name,
+        data: {
+          text: field.value,
+        },
+        default: 'remove me from FormElement', // TODO: remove default from FormElement
+        required: false, // TODO: remove required from FormElement
       });
     } else if (field.type === 'not-supported') {
       console.error(`Skipping field: ${field.error}`);

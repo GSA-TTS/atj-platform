@@ -5,47 +5,45 @@ import { useFormContext } from 'react-hook-form';
 import { Pattern, type TextInputPattern } from '@atj/forms';
 import { type FormElementComponent } from '../../../Form';
 
-export type TextInputProps = { prompt: Pattern<TextInputPattern> };
-
 const TextInput: FormElementComponent<Pattern<TextInputPattern>> = ({
-  prompt,
+  pattern,
 }) => {
   const { register } = useFormContext();
   return (
-    <div className="usa-form-group" key={prompt.inputId}>
+    <div className="usa-form-group-wrapper" key={pattern.inputId}>
       <div
         className={classNames('usa-form-group', {
-          'usa-form-group--error': prompt.error,
+          'usa-form-group--error': pattern.error,
         })}
       >
         <label
           className={classNames('usa-label', {
-            'usa-label--error': prompt.error,
+            'usa-label--error': pattern.error,
           })}
           htmlFor="input-error"
         >
-          {prompt.label}
+          {pattern.label}
         </label>
-        {prompt.error && (
+        {pattern.error && (
           <span
             className="usa-error-message"
-            id={`input-error-message-${prompt.inputId}`}
+            id={`input-error-message-${pattern.inputId}`}
             role="alert"
           >
-            {prompt.error}
+            {pattern.error}
           </span>
         )}
         <input
           className={classNames('usa-input', {
-            'usa-input--error': prompt.error,
+            'usa-input--error': pattern.error,
           })}
-          id={`input-${prompt.inputId}`}
-          defaultValue={prompt.value}
-          {...register(prompt.inputId, {
-            //required: prompt.required,
+          id={`input-${pattern.inputId}`}
+          defaultValue={pattern.value}
+          {...register(pattern.inputId, {
+            //required: pattern.required,
           })}
           type="text"
-          aria-describedby={`input-message-${prompt.inputId}`}
+          aria-describedby={`input-message-${pattern.inputId}`}
         />
       </div>
     </div>

@@ -22,6 +22,7 @@ export const inputConfig: FormElementConfig<InputElement> = {
   initial: {
     text: '',
     initial: '',
+    instructions: '',
     required: true,
     maxLength: 128,
   },
@@ -46,6 +47,7 @@ export const inputConfig: FormElementConfig<InputElement> = {
         inputId: element.id,
         value: sessionValue,
         label: element.data.text,
+        instructions: element.data.instructions,
         required: element.data.required,
         ...extraAttributes,
       } as Pattern<TextInputPattern>,

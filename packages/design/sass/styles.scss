@@ -1,6 +1,35 @@
 @forward "uswds-theme";
 @forward "uswds";
 
+h1 {
+  font-size: 2.5em;
+  
+  span {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 20px;
+  }
+}
+
+.usa-legend {
+  font-size: 1.7rem;
+  font-weight: 700;
+}
+
+a,
+.usa-link,
+.usa-button--unstyled {
+  color: #54278f;
+}
+
+.hide {
+  display: none;
+}
+
+.show  {
+  display: block;
+}
+
 .usa-app {
   display: flex;
   min-height: 100vh;
@@ -22,6 +51,16 @@ main {
   max-width: 75rem;
 }
 
+.usa-combo-box__input, 
+.usa-input, 
+.usa-input-group, 
+.usa-range, 
+.usa-select, 
+.usa-textarea {
+  max-width: 40rem;
+  height: 3rem;
+}
+
 .usa-header {
   background: #18161d;
 }
@@ -30,17 +69,18 @@ main {
   background: white;
 }
 
-a,
-.usa-link,
-.usa-button--unstyled {
-  color: #54278f;
+.usa-section {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
 }
 
-h1 {
-  span {
-    display: inline-block;
-    vertical-align: top;
-    margin-right: 20px;
+.usa-checkbox {
+  background: none;
+}
+
+.usa-button-wrapper {
+  .usa-button {
+    margin: 0;
   }
 }
 .usa-button,
@@ -89,7 +129,7 @@ h1 {
 
 .previewForm {
   .usa-button {
-    margin-top: 20px;
+    margin: 1rem 0 0 1rem;
   }
 }
 
@@ -155,16 +195,72 @@ iframe:focus {
 }
 
 .editFormPage {
+
+  .usa-intro {
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #bbb;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 50px;
+  }
+
   fieldset {
     border: none;
     padding: 0;
   }
+
+  .form-group-row {
+    padding: 1rem;
+    cursor: pointer;
+    display: flex;
+
+    &:first-child {
+      .edit-button-icon {
+        padding: 0 10px;
+        flex: none;
+      }     
+    }
+
+    &.field-selected {
+      background: #e7e3fa;
+    }
+
+    .usa-form-group-wrapper {
+      flex: 12;
+    }
+
+    .edit-button-icon {
+      flex: 1;
+      text-align: center;
+      padding: 30px 0 0;
+    }
+
+    label {
+      cursor: pointer;
+    }
+
+    .usa-icon {
+      height: 2.5em;
+      width: 2.5em;
+      fill: #777;
+    }
+  }
+
+  .usa-form-group {
+    margin: 0 0 0.5rem;
+  }
+
+  legend {
+    margin-top: 0;
+  }
+
 }
 
 .editFormWrapper {
   list-style: none;
   padding: 0;
   border-top: 1px solid #c9c9c9;
+  display: none;
 
   li {
     padding: 15px 0 20px;
@@ -191,6 +287,25 @@ iframe:focus {
   }
 }
 
+.settingsContainer {
+  background: #e7e3fa;
+  padding: 30px;
+
+  h2 {
+    margin-top: 0;
+  }
+
+  .formRowEditFields {
+    .grid-col {
+      width: 100%;
+    }
+  }
+
+  .usa-buttom {
+    margin: 20px 0 0;
+  }
+}
+
 .usa-step-indicator__segment {
   max-width: 22rem;
 
@@ -207,6 +322,12 @@ iframe:focus {
 }
 
 @media (min-width: 64em) {
+  .usa-nav__primary {
+
+    &>.usa-nav__primary-item {
+      font-size: 1.3rem;
+    }
+  }
   .usa-header--extended {
     .usa-nav__primary-item {
 

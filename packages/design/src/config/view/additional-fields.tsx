@@ -7,6 +7,7 @@ interface Field {
   id: string;
   class: string;
   value?: string;
+  instructions?: string;
   label: string;
   title?: string;
   required?: boolean;
@@ -29,6 +30,7 @@ export const TextField = ({ field }: { field: Field }) => {
           </abbr>
         )}
       </label>
+      {field.instructions && <p>{field.instructions}</p>}
       <input
         className={`usa-input ${field.class}`}
         name={field.name}
@@ -115,6 +117,7 @@ export const RadioField = ({ field }: { field: Field }) => {
             id={`${field.id}-${index}`}
             value={option.value}
           />
+          {field.instructions && <p>{field.instructions}</p>}
           <label className="usa-radio__label" htmlFor={`${field.id}-${index}`}>
             {option.name}
           </label>

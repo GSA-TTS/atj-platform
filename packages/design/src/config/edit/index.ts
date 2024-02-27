@@ -16,6 +16,7 @@ export type FormEditUIContext = {
   config: FormConfig;
   components: ComponentForPattern;
   editComponents: EditComponentForFormElement;
+  uswdsRoot: `${string}/`;
 };
 
 export type FormElementEditComponent<T extends FormElement> =

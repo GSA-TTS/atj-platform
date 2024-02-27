@@ -30,6 +30,7 @@ const createAppContext = (env: any) => {
     baseUrl: env.BASE_URL,
     formConfig: defaultFormConfig,
     formService: createAppFormService(),
+    uswdsRoot: `${env.BASE_URL}uswds/`,
   };
 };
 

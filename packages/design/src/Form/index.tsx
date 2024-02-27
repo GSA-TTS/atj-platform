@@ -17,6 +17,7 @@ import ActionBar from './ActionBar';
 export type FormUIContext = {
   config: FormConfig;
   components: ComponentForPattern;
+  uswdsRoot: `${string}/`;
 };
 
 export type ComponentForPattern<T extends Pattern = Pattern<unknown>> = Record<
@@ -26,7 +27,7 @@ export type ComponentForPattern<T extends Pattern = Pattern<unknown>> = Record<
 
 export type FormElementComponent<T extends Pattern = Pattern<unknown>> =
   React.ComponentType<{
-    prompt: T;
+    pattern: T;
     children?: React.ReactNode;
   }>;
 
@@ -105,10 +106,6 @@ export default function Form({
         <fieldset className="usa-fieldset">
           {prompt.parts
             .map((part, index) => {
-              if (part.pattern.type === 'text') {
-                console.log('skipping', part.pattern.type);
-                return null;
-              }
               return (
                 <PromptComponent
                   key={index}
@@ -135,7 +132,7 @@ const PromptComponent = ({
 }) => {
   const Component = context.components[promptPart.pattern.type];
   return (
-    <Component prompt={promptPart.pattern}>
+    <Component pattern={promptPart.pattern}>
       {promptPart.children?.map((child, index) => (
         <PromptComponent key={index} context={context} promptPart={child} />
       ))}
