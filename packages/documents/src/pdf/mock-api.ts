@@ -81,6 +81,22 @@ type ExtractedJsonType = z.infer<typeof ExtractedObject>;
 const parsedJson: ExtractedJsonType = ExtractedObject.parse(json);
 export const parsedPDF = parseJson(parsedJson);
 
+const convertExtractedDataToPDFFields = (
+  extractedData: ExtractedJsonType
+): PDFField[] => {
+  const fields: PDFField[] = [];
+  for (const element of extractedData.elements) {
+    if (element.element_type === 'text') {
+      fields.push({
+        id: element.id,
+        type: 'Paragraph',
+        label: element.element_params.text,
+      });
+    }
+  }
+  return fields;
+};
+
 function parseJson(obj: ExtractedJsonType): Array<any> {
   return parseElements(obj.elements);
 }
@@ -122,13 +138,10 @@ function parseInputs(
 
 function parseElements(elements: ExtractedJsonType['elements']): Array<any> {
   const output = elements.reduce((acc, element) => {
-    const elementId = element.id;
-    const groupId = element.group_id;
-
     const elementOutput = {
       type: 'Paragraph',
-      name: elementId,
-      groupId,
+      name: element.id,
+      groupId: element.group_id,
       value: element.element_params['text'],
       elementTextStyle: element.element_params.text_style,
       elementOptions: element.element_params.options,
@@ -137,7 +150,7 @@ function parseElements(elements: ExtractedJsonType['elements']): Array<any> {
 
     const parsedInputs = parseInputs(element['inputs']);
     parsedInputs.forEach(input => {
-      input['groupId'] = groupId;
+      input['groupId'] = element.group_id;
     });
 
     if (!element.element_params.text) {
