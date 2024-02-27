@@ -8,6 +8,7 @@ import { type FormElementComponent } from '..';
 const ParagraphElementEdit: FormElementComponent<ParagraphElement> = ({
   element,
 }) => {
+  throw new Error('hello');
   const { register } = useFormContext();
   return (
     <div className="grid-row grid-gap">

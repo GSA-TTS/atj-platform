@@ -18,8 +18,8 @@ export const addDocument = async (
   }
 ) => {
   const fields = await getDocumentFieldData(fileDetails.data);
-  //const fieldMap = await suggestFormDetails(fileDetails.data, fields);
-  const fieldMap = fields;
+  const fieldMap = await suggestFormDetails(fileDetails.data, fields);
+  console.log('fieldMap', fieldMap);
   const formWithFields = addDocumentFieldsToForm(form, fieldMap);
   const updatedForm = addFormOutput(formWithFields, {
     data: fileDetails.data,

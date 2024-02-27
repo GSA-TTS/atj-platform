@@ -76,7 +76,6 @@ const SequenceElementEdit: FormElementEditComponent<SequenceElement> = ({
       return form.elements[elementId];
     })
   );
-
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
@@ -107,8 +106,6 @@ const SequenceElementEdit: FormElementEditComponent<SequenceElement> = ({
               data: {
                 elements: newOrder.map(element => element.id),
               },
-              default: { elements: [] },
-              required: true,
             } satisfies SequenceElement);
           }
         }}
@@ -121,12 +118,12 @@ const SequenceElementEdit: FormElementEditComponent<SequenceElement> = ({
             <input type="hidden" {...register(`${element.id}.id`)} />
             <input type="hidden" {...register(`${element.id}.type`)} />
             <input type="hidden" {...register(`${element.id}.elements`)} />
-            {elements.map(el => (
+            {elements.map(elements => (
               <SortableItem
-                key={el.id}
-                id={el.id}
+                key={elements.id}
+                id={elements.id}
                 context={context}
-                element={el}
+                element={elements}
                 form={form}
               />
             ))}

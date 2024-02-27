@@ -14,21 +14,19 @@ export const suggestFormDetails = async (
   rawData: Uint8Array,
   rawFields: DocumentFieldMap
 ): Promise<DocumentFieldMap> => {
+  //return rawFields;
   const cache = getFakeCache();
   const hash = await getObjectHash(rawData);
-  console.log('hash', hash);
   const newFields = cache.get(hash);
-  console.log('newFields', newFields);
   return newFields || rawFields;
-  // return rawFields;
 };
 
 const getFakeCache = () => {
-  const cache = {
+  const cache: Record<string, any> = {
     'hardcoded-hash': UD105_TEST_DATA,
     '179be8c1c78b01ed7c45569912c2bb862ec3764617f908ebc29178e36fd6316d':
       parsedPDF,
-  } as { [key: string]: any };
+  };
   return {
     get(hashKey: string) {
       return cache[hashKey];

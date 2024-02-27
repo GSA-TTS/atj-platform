@@ -38,8 +38,11 @@ const InputElementEdit: FormElementEditComponent<InputElement> = ({
           <label className="usa-label">
             <p className="usa-hint font-ui-3xs">Input type</p>
             <select className="usa-select" {...register(`${element.id}.type`)}>
-              <option value={'input'}>{`${element.default} (${element.data.maxLength} chars)`}</option>
-              <option value={'input'}>Long Answer (500 chars)</option> {/* this is a stub */}
+              <option
+                value={'input'}
+              >{`${element.default} (${element.data.maxLength} chars)`}</option>
+              <option value={'input'}>Long Answer (500 chars)</option>{' '}
+              {/* this is a stub */}
             </select>
           </label>
         </div>
@@ -47,7 +50,9 @@ const InputElementEdit: FormElementEditComponent<InputElement> = ({
       <div className="grid-row grid-gap padding-left-5 flex-justify-end">
         <div>
           <label className="usa-label">
-            <p className="usa-hint font-ui-3xs">PDF Field ID: {`${element.data.text}`}</p>
+            <p className="usa-hint font-ui-3xs">
+              PDF Field ID: {`${element.data.text}`}
+            </p>
           </label>
         </div>
         <div className="usa-checkbox">

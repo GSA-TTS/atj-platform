@@ -24,7 +24,7 @@ const TextInput: FormElementComponent<Pattern<TextInputPattern>> = ({
           })}
           htmlFor="input-error"
         >
-          {prompt.instructions}
+          {prompt.label}
         </label>
         {prompt.error && (
           <span

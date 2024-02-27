@@ -1,50 +1,118 @@
-import json from './al_name_change.json' assert { type: 'json' };
+import * as z from 'zod';
 
-export function parseJson(obj: any): Array<any> {
-  const elements = obj['elements'];
-  const output = parseElements(elements);
-  return output;
+import json from './al_name_change.json' assert { type: 'json' };
+import { type DocumentFieldValue } from '@atj/forms';
+import { PDFField } from '.';
+
+const TxInput = z.object({
+  input_type: z.literal('Tx'),
+  input_params: z.object({
+    text: z.string(),
+    text_style: z.string(),
+    output_id: z.string(),
+    placeholder: z.string(),
+    instructions: z.string(),
+    required: z.boolean(),
+    options: z.array(z.string()),
+  }),
+});
+
+const BtnInput = z.object({
+  input_type: z.literal('Btn'),
+  input_params: z.object({
+    text: z.string(),
+    text_style: z.string(),
+    output_id: z.string(),
+    placeholder: z.string(),
+    instructions: z.string(),
+    required: z.boolean(),
+    options: z.array(z.string()),
+  }),
+});
+
+const Element = z.object({
+  id: z.string(),
+  group_id: z.number(),
+  element_type: z.string(),
+  element_params: z.object({
+    text: z.string(),
+    text_style: z.string(),
+    options: z.null(),
+  }),
+  inputs: z.discriminatedUnion('input_type', [TxInput, BtnInput]).array(),
+  parent: z.string().nullable(),
+});
+
+const RawTxField = z.object({
+  type: z.literal('/Tx'),
+  var_name: z.string(),
+  field_dict: z.object({
+    font_info: z.string(),
+    field_type: z.string(),
+    coordinates: z.number().array().optional(),
+    field_label: z.string(),
+    field_instructions: z.string(),
+  }),
+});
+
+const RawBtnField = z.object({
+  type: z.literal('/Btn'),
+  var_name: z.string(),
+  field_dict: z.object({
+    font_info: z.string(),
+    flags: z.number(),
+    field_type: z.string(),
+    field_label: z.string(),
+    child_fields: z.array(z.object({ coordinates: z.number().array() })),
+    num_children: z.number(),
+  }),
+});
+
+const ExtractedObject = z.object({
+  raw_text: z.string(),
+  title: z.string(),
+  description: z.string(),
+  elements: Element.array(),
+  raw_fields: z.discriminatedUnion('type', [RawTxField, RawBtnField]).array(),
+});
+
+type ExtractedJsonType = z.infer<typeof ExtractedObject>;
+
+const parsedJson: ExtractedJsonType = ExtractedObject.parse(json);
+export const parsedPDF = parseJson(parsedJson);
+
+function parseJson(obj: ExtractedJsonType): Array<any> {
+  return parseElements(obj.elements);
 }
 
-export const parsedPDF = parseJson(json);
-
-export function parseInputs(inputs: Array<any>): Array<Record<string, any>> {
-  const output = inputs.reduce((acc, input) => {
-    const inputType = input['input_type'];
+function parseInputs(
+  inputs: ExtractedJsonType['elements'][0]['inputs']
+): Array<Record<string, any>> {
+  const output = inputs.reduce((acc: any[], input) => {
     const params = input['input_params'];
-    const inputText = params['text'];
-    const inputTextStyle = params['text_style'];
-    const inputId = params['output_id'];
-    const inputPlaceholder = params['placeholder'];
-    const inputInstructions = params['instructions'];
-    const inputRequired = params['required'];
-    const inputOptions = params['options'];
 
     // const formElementType should be 'Textfield' if inputType is 'Tx'
-    // const formElementType should be 'RedioGroup' if inputType is 'Btn'
+    // const formElementType should be 'RadioGroup' if inputType is 'Btn'
     // const formElementType should be 'Checkbox' if inputType is 'Ch'
     // const formElementType should be 'Dropdown' if inputType is 'Dr'
 
-    if (inputType === 'Btn') {
-      return acc;
+    if (input['input_type'] === 'Tx') {
+      const value: DocumentFieldValue = {
+        type: 'TextField', // modify api so we can use inputType directly here
+        //elementType: 'input',
+        //inputType: input['input_type'],
+        //inputText: params.text,
+        //inputTextStyle: params.text_style,
+        name: params.output_id,
+        label: params.output_id,
+        value: 'Short answer', // modify api to provide this
+        //inputPlaceholder: params.placeholder,
+        instructions: params.instructions,
+        required: true, // api should check if there's a mix, default to true? Can't all be false...
+        ///inputOptions: params.options,
+      };
+      acc.push(value);
     }
-
-    const output = {
-      type: 'TextField', // modify api so we can use inputType directly here
-      elementType: 'input',
-      inputType,
-      inputText,
-      inputTextStyle,
-      name: inputId,
-      label: inputId,
-      value: 'Short answer', // modify api to provide this
-      inputPlaceholder,
-      instructions: inputInstructions,
-      required: true, // api should check if there's a mix, default to true? Can't all be false...
-      inputOptions,
-    };
-
-    acc.push(output);
 
     return acc;
   }, []);
@@ -52,35 +120,27 @@ export function parseInputs(inputs: Array<any>): Array<Record<string, any>> {
   return output;
 }
 
-export function parseElements(elements: Array<any>): Array<any> {
+function parseElements(elements: ExtractedJsonType['elements']): Array<any> {
   const output = elements.reduce((acc, element) => {
-    const elementId = element['id'];
-    const groupId = element['group_id'];
-    const elementParams = element['element_params'];
-    const elementText = elementParams['text'];
-    const elementTextStyle = elementParams['text_style'];
-    const elementOptions = elementParams['options'];
-    const elementType = element['element_type'];
+    const elementId = element.id;
+    const groupId = element.group_id;
 
     const elementOutput = {
       type: 'Paragraph',
       name: elementId,
       groupId,
-      value: elementText,
-      elementTextStyle,
-      elementOptions,
-      elementType,
+      value: element.element_params['text'],
+      elementTextStyle: element.element_params.text_style,
+      elementOptions: element.element_params.options,
+      elementType: element.element_params.elementType,
     };
 
-    const inputs = element['inputs'];
-    const parsedInputs = parseInputs(inputs);
-
+    const parsedInputs = parseInputs(element['inputs']);
     parsedInputs.forEach(input => {
       input['groupId'] = groupId;
     });
 
-    // these elements are garbage should be removed when creating the json
-    if (!elementText) {
+    if (!element.element_params.text) {
       acc.push(...parsedInputs);
       return acc;
     }
