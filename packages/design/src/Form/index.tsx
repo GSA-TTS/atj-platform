@@ -25,7 +25,7 @@ export type ComponentForPattern<T extends Pattern = Pattern<unknown>> = Record<
 
 export type FormElementComponent<T extends Pattern = Pattern<unknown>> =
   React.ComponentType<{
-    prompt: T;
+    pattern: T;
   }>;
 
 const usePrompt = (

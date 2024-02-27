@@ -35,6 +35,11 @@ export type SubmissionConfirmationPattern = {
   table: { label: string; value: string }[];
 };
 
+export type ParagraphPattern = {
+  type: 'paragraph';
+  text: string;
+};
+
 export type Pattern<T = {}> = {
   _elementId: FormElementId;
   type: string;

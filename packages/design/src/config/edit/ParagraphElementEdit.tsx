@@ -1,14 +1,12 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
+import { type FormElementComponent } from '../../Form';
 import { type ParagraphElement } from '@atj/forms/src/config/elements/paragraph';
-
-import { type FormElementComponent } from '..';
 
 const ParagraphElementEdit: FormElementComponent<ParagraphElement> = ({
   element,
 }) => {
-  throw new Error('hello');
   const { register } = useFormContext();
   return (
     <div className="grid-row grid-gap">
