@@ -38,9 +38,14 @@ export type SubmitAction = {
 };
 export type PromptAction = SubmitAction;
 
+export type PromptPart = {
+  pattern: Pattern;
+  children: PromptPart[];
+};
+
 export type Prompt = {
   actions: PromptAction[];
-  parts: Pattern[];
+  parts: PromptPart[];
 };
 
 export const createPrompt = (
@@ -53,30 +58,36 @@ export const createPrompt = (
       actions: [],
       parts: [
         {
-          _elementId: 'submission-confirmation',
-          type: 'submission-confirmation',
-          table: Object.entries(session.data.values).map(
-            ([elementId, value]) => {
-              return {
-                label: session.form.elements[elementId].id,
-                value: value,
-              };
-            }
-          ),
-        } as Pattern<SubmissionConfirmationPattern>,
+          pattern: {
+            _elementId: 'submission-confirmation',
+            type: 'submission-confirmation',
+            table: Object.entries(session.data.values).map(
+              ([elementId, value]) => {
+                return {
+                  label: session.form.elements[elementId].id,
+                  value: value,
+                };
+              }
+            ),
+          } as Pattern<SubmissionConfirmationPattern>,
+          children: [],
+        },
       ],
     };
   }
-  const parts: Pattern[] = [
+  const parts: PromptPart[] = [
     {
-      _elementId: 'form-summary',
-      type: 'form-summary',
-      title: session.form.summary.title,
-      description: session.form.summary.description,
-    } as Pattern<FormSummaryPattern>,
+      pattern: {
+        _elementId: 'form-summary',
+        type: 'form-summary',
+        title: session.form.summary.title,
+        description: session.form.summary.description,
+      } as Pattern<FormSummaryPattern>,
+      children: [],
+    },
   ];
   const root = getRootFormElement(session.form);
-  parts.push(...createPromptForElement(config, session, root, options));
+  parts.push(createPromptForElement(config, session, root, options));
   return {
     actions: [
       {
@@ -93,7 +104,7 @@ export type CreatePrompt<T> = (
   session: FormSession,
   element: T,
   options: { validate: boolean }
-) => Pattern[];
+) => PromptPart;
 
 export const createPromptForElement: CreatePrompt<FormElement> = (
   config,
@@ -118,9 +129,11 @@ export const createNullPrompt = ({
 }): Prompt => {
   const formElementConfig = getFormElementConfig(config, element.type);
   return {
-    parts: formElementConfig.createPrompt(config, nullSession, element, {
-      validate: false,
-    }),
+    parts: [
+      formElementConfig.createPrompt(config, nullSession, element, {
+        validate: false,
+      }),
+    ],
     actions: [],
   };
 };

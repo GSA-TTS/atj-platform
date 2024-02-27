@@ -6,7 +6,6 @@ import {
   type FormElementId,
   type Pattern,
   createFormSession,
-  nullSession,
 } from '@atj/forms';
 
 import Form, {

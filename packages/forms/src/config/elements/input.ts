@@ -30,7 +30,7 @@ export const inputConfig: FormElementConfig<InputElement> = {
   getChildren() {
     return [];
   },
-  createPrompt(_, session, element, options): Pattern[] {
+  createPrompt(_, session, element, options) {
     const extraAttributes: Record<string, any> = {};
     const sessionValue = getFormSessionValue(session, element.id);
     if (options.validate) {
@@ -39,8 +39,8 @@ export const inputConfig: FormElementConfig<InputElement> = {
         extraAttributes['error'] = isValidResult.error;
       }
     }
-    return [
-      {
+    return {
+      pattern: {
         _elementId: element.id,
         type: 'input',
         inputId: element.id,
@@ -49,6 +49,7 @@ export const inputConfig: FormElementConfig<InputElement> = {
         required: element.data.required,
         ...extraAttributes,
       } as Pattern<TextInputPattern>,
-    ];
+      children: [],
+    };
   },
 };

@@ -7,7 +7,6 @@ import {
   FormElementMap,
   getFormElementConfig,
   updateElement,
-  validateElement,
 } from '@atj/forms';
 import { FormEditUIContext } from '../../config';
 

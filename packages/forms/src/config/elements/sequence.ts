@@ -11,6 +11,10 @@ export type SequenceElement = FormElement<{
 
 const sequenceSchema = z.array(z.string());
 
+const configSchema = z.object({
+  elements: z.array(z.string()),
+});
+
 export const sequenceConfig: FormElementConfig<SequenceElement> = {
   acceptsInput: false,
   initial: {
@@ -19,15 +23,22 @@ export const sequenceConfig: FormElementConfig<SequenceElement> = {
   parseData: (_, obj) => {
     return safeZodParse(sequenceSchema, obj);
   },
+  parseConfigData: obj => safeZodParse(configSchema, obj),
   getChildren(element, elements) {
     return element.data.elements.map(
       (elementId: string) => elements[elementId]
     );
   },
-  createPrompt(config, session, element, options): Pattern[] {
-    return element.data.elements.flatMap((elementId: string) => {
-      const element = session.form.elements[elementId];
-      return createPromptForElement(config, session, element, options);
-    });
+  createPrompt(config, session, element, options) {
+    return {
+      pattern: {
+        _elementId: element.id,
+        type: 'sequence',
+      },
+      children: element.data.elements.flatMap((elementId: string) => {
+        const element = session.form.elements[elementId];
+        return createPromptForElement(config, session, element, options);
+      }),
+    };
   },
 };

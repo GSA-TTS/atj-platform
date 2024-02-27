@@ -7,8 +7,9 @@ import {
   createPrompt,
   type FormConfig,
   type FormSession,
-  type Prompt,
   type Pattern,
+  type Prompt,
+  type PromptPart,
 } from '@atj/forms';
 
 import ActionBar from './ActionBar';
@@ -26,6 +27,7 @@ export type ComponentForPattern<T extends Pattern = Pattern<unknown>> = Record<
 export type FormElementComponent<T extends Pattern = Pattern<unknown>> =
   React.ComponentType<{
     prompt: T;
+    children?: React.ReactNode;
   }>;
 
 const usePrompt = (
@@ -102,13 +104,18 @@ export default function Form({
       >
         <fieldset className="usa-fieldset">
           {prompt.parts
-            .map((pattern, index) => {
-              if (pattern.type === 'text') {
-                console.log('skipping', pattern.type);
+            .map((part, index) => {
+              if (part.pattern.type === 'text') {
+                console.log('skipping', part.pattern.type);
                 return null;
               }
-              const Component = context.components[pattern.type];
-              return <Component key={index} prompt={pattern} />;
+              return (
+                <PromptComponent
+                  key={index}
+                  context={context}
+                  promptPart={part}
+                />
+              );
             })
             .filter(a => a)}
           {/* Add submit button or other controls as needed */}
@@ -118,3 +125,20 @@ export default function Form({
     </FormProvider>
   );
 }
+
+const PromptComponent = ({
+  context,
+  promptPart,
+}: {
+  context: FormUIContext;
+  promptPart: PromptPart;
+}) => {
+  const Component = context.components[promptPart.pattern.type];
+  return (
+    <Component prompt={promptPart.pattern}>
+      {promptPart.children?.map((child, index) => (
+        <PromptComponent key={index} context={context} promptPart={child} />
+      ))}
+    </Component>
+  );
+};
