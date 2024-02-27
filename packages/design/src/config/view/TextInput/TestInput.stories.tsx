@@ -28,7 +28,7 @@ export const Required = {
   args: {
     prompt: {
       _elementId: '',
-      type: 'text',
+      type: 'input',
       inputId: 'test-prompt',
       value: '',
       label: 'Please enter your first name.',
@@ -41,7 +41,7 @@ export const NotRequired = {
   args: {
     prompt: {
       _elementId: '',
-      type: 'text',
+      type: 'input',
       inputId: 'test-prompt',
       value: '',
       label: 'Please enter your first name.',

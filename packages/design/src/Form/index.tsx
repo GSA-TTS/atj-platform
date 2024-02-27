@@ -25,7 +25,7 @@ export type ComponentForPattern<T extends Pattern = Pattern<unknown>> = Record<
 
 export type FormElementComponent<T extends Pattern = Pattern<unknown>> =
   React.ComponentType<{
-    prompt: T;
+    pattern: T;
   }>;
 
 const usePrompt = (
@@ -103,12 +103,8 @@ export default function Form({
         <fieldset className="usa-fieldset">
           {prompt.parts
             .map((pattern, index) => {
-              if (pattern.type === 'text') {
-                console.log('skipping', pattern.type);
-                return null;
-              }
               const Component = context.components[pattern.type];
-              return <Component key={index} prompt={pattern} />;
+              return <Component key={index} pattern={pattern} />;
             })
             .filter(a => a)}
           {/* Add submit button or other controls as needed */}

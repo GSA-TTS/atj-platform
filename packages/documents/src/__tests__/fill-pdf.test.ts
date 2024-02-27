@@ -2,6 +2,7 @@ import { beforeAll, describe, expect, it } from 'vitest';
 
 import { getDocumentFieldData, fillPDF } from '..';
 import { loadSamplePDF } from './sample-data';
+import { type Failure, type Success } from '@atj/common';
 
 describe('PDF form filler', () => {
   let pdfBytes: Uint8Array;

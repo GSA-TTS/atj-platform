@@ -49,6 +49,15 @@ const getFieldValue = (field: pdfLib.PDFField): DocumentFieldValue => {
       value: field.getSelected(),
       required: field.isRequired(),
     };
+  } else if (field instanceof pdfLib.PDFRadioGroup) {
+    return {
+      type: 'RadioGroup',
+      name: field.getName(),
+      options: field.getOptions(),
+      label: field.getName(),
+      value: field.getSelected() || '', // pdfLib allows this to be undefined
+      required: field.isRequired(),
+    };
   } else {
     return {
       type: 'not-supported',

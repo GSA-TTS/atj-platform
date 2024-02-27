@@ -13,6 +13,14 @@ export type TextInputPattern = {
   value: string;
   label: string;
   required: boolean;
+  instructions?: string;
+  error?: string;
+};
+
+export type TextPrompt = {
+  type: 'text';
+  id: string;
+  value: string;
   error?: string;
 };
 
@@ -25,6 +33,11 @@ export type FormSummaryPattern = {
 export type SubmissionConfirmationPattern = {
   type: 'submission-confirmation';
   table: { label: string; value: string }[];
+};
+
+export type ParagraphPattern = {
+  type: 'paragraph';
+  text: string;
 };
 
 export type Pattern<T = {}> = {

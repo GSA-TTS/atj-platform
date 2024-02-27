@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { createContext, useContext } from 'react';
 
 import {
@@ -26,7 +25,6 @@ export const PreviewForm = ({ uiContext, form }: PreviewFormProps) => {
     // don't have to regenerate it every time we render the form.
     components: createPreviewComponents(uiContext.components),
   };
-  console.log('creating session');
   const disposable = createFormSession(form); // nullSession instead?
   return <Form context={previewUiContext} session={disposable}></Form>;
 };
@@ -56,27 +54,34 @@ export const PreviewContext = createContext<PreviewContextValue>(
 );
 
 const createPatternPreviewComponent = (Component: FormElementComponent) => {
-  return function PatternPreviewComponent({ prompt }: { prompt: Pattern }) {
+  const PatternPreviewComponent: FormElementComponent = ({
+    pattern,
+  }: {
+    pattern: Pattern;
+  }) => {
     const { selectedId, setSelectedId } = useContext(PreviewContext);
 
     const handleEditClick = () => {
-      if (selectedId === prompt._elementId) {
-          setSelectedId(null); 
+      if (selectedId === pattern._elementId) {
+        setSelectedId(null);
       } else {
-          setSelectedId(prompt._elementId);
+        setSelectedId(pattern._elementId);
       }
-  };
+    };
 
-    const isSelected = selectedId === prompt._elementId;
-    const divClassNames = isSelected ? 'form-group-row field-selected' : 'form-group-row';
+    const isSelected = selectedId === pattern._elementId;
+    const divClassNames = isSelected
+      ? 'form-group-row field-selected'
+      : 'form-group-row';
 
-    // console.log("Current Selected ID:", selectedId); 
-    // console.log("Prompt ID:", prompt); 
+    // console.log("Current Selected ID:", selectedId);
+    // console.log("Prompt ID:", prompt);
 
-    // console.log("setSelectedId : ", setSelectedId ); 
-    // console.log("Is Selected:", isSelected); 
-    // console.log("Class Names:", divClassNames); 
-    const staticRoot = "/@fs/Users/npierrelouis/Documents/Git Repos/atj-platform/packages/design/";
+    // console.log("setSelectedId : ", setSelectedId );
+    // console.log("Is Selected:", isSelected);
+    // console.log("Class Names:", divClassNames);
+    const staticRoot =
+      '/@fs/Users/npierrelouis/Documents/Git Repos/atj-platform/packages/design/';
     return (
       <div
         onClick={handleEditClick}
@@ -87,27 +92,29 @@ const createPatternPreviewComponent = (Component: FormElementComponent) => {
         aria-label="Select this pattern"
         tabIndex={0}
       >
-        <Component prompt={prompt} />
+        <Component pattern={pattern} />
         <span className="edit-button-icon">
-          <a className="usa-link" 
+          <a
+            className="usa-link"
             href="javascript:void(0);"
-            title="Click to edit">
+            title="Click to edit"
+          >
             <svg
               className="usa-icon"
               aria-label="Click here to edit form group"
               focusable="false"
               role="img"
             >
-                <title>Edit form group</title>
-                <desc>Click here to edit form group</desc>
+              <title>Edit form group</title>
+              <desc>Click here to edit form group</desc>
               <use
                 xlinkHref={`${staticRoot}static/uswds/img/sprite.svg#settings`}
               ></use>
             </svg>
           </a>
-
         </span>
       </div>
     );
   };
+  return PatternPreviewComponent;
 };

@@ -5,7 +5,7 @@ import { FormElementComponent } from '../../../Form';
 
 const SubmissionConfirmation: FormElementComponent<
   Pattern<SubmissionConfirmationPattern>
-> = ({ prompt }) => {
+> = ({ pattern }) => {
   return (
     <>
       <legend className="usa-legend usa-legend--large">
@@ -19,7 +19,7 @@ const SubmissionConfirmation: FormElementComponent<
           </tr>
         </thead>
         <tbody>
-          {prompt.table.map((row, index) => {
+          {pattern.table.map((row, index) => {
             return (
               <tr key={index}>
                 <td>{row.label}</td>

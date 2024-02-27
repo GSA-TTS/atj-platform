@@ -68,6 +68,11 @@ const setFormFieldData = (
   } else if (fieldType === 'OptionList') {
     const field = form.getDropdown(fieldName);
     field.select(fieldValue);
+  } else if (fieldType === 'RadioGroup') {
+    const field = form.getRadioGroup(fieldName);
+    field.select(fieldValue);
+  } else if (fieldType === 'Paragraph') {
+    // do nothing
   } else {
     const exhaustiveCheck: never = fieldType;
   }

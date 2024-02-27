@@ -1,5 +1,6 @@
 import { type FormConfig } from '.';
 import { inputConfig } from './elements/input';
+import { paragraphConfig } from './elements/paragraph';
 import { sequenceConfig } from './elements/sequence';
 
 // This configuration reflects what a user of this library would provide for
@@ -8,6 +9,7 @@ import { sequenceConfig } from './elements/sequence';
 export const defaultFormConfig: FormConfig = {
   elements: {
     input: inputConfig,
+    paragraph: paragraphConfig,
     sequence: sequenceConfig,
   },
 };
