@@ -37,7 +37,7 @@ export const FormElementEdit = ({
             formElement.id,
             formData
           );
-          //onChange(updatedForm);
+          onChange(updatedForm);
         })}
       >
         <input className="usa-button" type="submit" value="Save" />

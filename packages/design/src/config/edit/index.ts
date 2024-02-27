@@ -8,7 +8,7 @@ import {
 
 import InputElementEdit from './InputElementEdit';
 import SequenceElementEdit from './SequenceElementEdit';
-import { type ComponentForPattern } from 'config/view';
+import { ComponentForPattern } from '../../Form';
 
 export type FormEditUIContext = {
   config: FormConfig;

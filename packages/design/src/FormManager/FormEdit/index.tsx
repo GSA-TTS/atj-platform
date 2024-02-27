@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
 
 import { type FormService } from '@atj/form-service';
 import {
   type FormDefinition,
-  type FormElementMap,
   getRootFormElement,
-  updateElements,
   FormElementId,
   getFormElement,
 } from '@atj/forms';
@@ -78,8 +75,9 @@ const EditForm = ({
               context={context}
               initialForm={currentForm}
               formElement={formElement}
-              onChange={function (form: FormDefinition): void {
-                setCurrentForm(form);
+              onChange={(form: FormDefinition) => {
+                //setCurrentForm(form);
+                console.log('setting form onChange', form);
               }}
             />
           )}

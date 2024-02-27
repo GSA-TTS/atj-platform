@@ -26,7 +26,6 @@ export const PreviewForm = ({ uiContext, form }: PreviewFormProps) => {
     // don't have to regenerate it every time we render the form.
     components: createPreviewComponents(uiContext.components),
   };
-  console.log('creating session');
   const disposable = createFormSession(form); // nullSession instead?
   return <Form context={previewUiContext} session={disposable}></Form>;
 };
@@ -56,24 +55,29 @@ export const PreviewContext = createContext<PreviewContextValue>(
 );
 
 const createPatternPreviewComponent = (Component: FormElementComponent) => {
-  return function PatternPreviewComponent({ prompt }: { prompt: Pattern }) {
+  const PatternPreviewComponent: FormElementComponent = ({
+    pattern,
+  }: {
+    pattern: Pattern;
+  }) => {
     const { selectedId, setSelectedId } = useContext(PreviewContext);
     return (
       <div
         onClick={() => {
-          setSelectedId(prompt._elementId);
+          setSelectedId(pattern._elementId);
         }}
         className={classNames({
-          'bg-primary-lighter': selectedId === prompt._elementId,
+          'bg-primary-lighter': selectedId === pattern._elementId,
         })}
         //onKeyDown={handleKeyDown}
         role="button"
-        aria-pressed={selectedId === prompt._elementId}
+        aria-pressed={selectedId === pattern._elementId}
         aria-label="Select this pattern"
         tabIndex={0}
       >
-        <Component prompt={prompt} />
+        <Component pattern={pattern} />
       </div>
     );
   };
+  return PatternPreviewComponent;
 };

@@ -4,6 +4,7 @@ export type DocumentFieldValue =
       name: string;
       label: string;
       value: string;
+      instructions?: string;
       maxLength?: number;
       required: boolean;
     }
@@ -12,6 +13,7 @@ export type DocumentFieldValue =
       name: string;
       label: string;
       value: boolean;
+      instructions?: string;
       required: boolean;
     }
   | {
@@ -19,6 +21,7 @@ export type DocumentFieldValue =
       name: string;
       label: string;
       value: string[];
+      instructions?: string;
       required: boolean;
     }
   | {
@@ -26,6 +29,24 @@ export type DocumentFieldValue =
       name: string;
       label: string;
       value: string[];
+      instructions?: string;
+      required: boolean;
+    }
+  | {
+      type: 'RadioGroup';
+      name: string;
+      options: string[];
+      label: string;
+      value: string;
+      instructions?: string;
+      required: boolean;
+    }
+  | {
+      type: 'Paragraph';
+      name: string;
+      options: string[];
+      label: string;
+      value: string;
       required: boolean;
     }
   | {
