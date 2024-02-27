@@ -1,8 +1,9 @@
 import * as z from 'zod';
 
+import { type FormElement } from '@atj/forms';
+import { type InputElement } from '@atj/forms/src/config/elements/input';
+
 import json from './al_name_change.json' assert { type: 'json' };
-import { type DocumentFieldValue } from '@atj/forms';
-import { PDFField } from '.';
 
 const TxInput = z.object({
   input_type: z.literal('Tx'),
@@ -30,7 +31,10 @@ const BtnInput = z.object({
   }),
 });
 
-const Element = z.object({
+const ExtractedInput = z.discriminatedUnion('input_type', [TxInput, BtnInput]);
+type ExtractedInput = z.infer<typeof ExtractedInput>;
+
+const ExtractedElement = z.object({
   id: z.string(),
   group_id: z.number(),
   element_type: z.string(),
@@ -39,9 +43,10 @@ const Element = z.object({
     text_style: z.string(),
     options: z.null(),
   }),
-  inputs: z.discriminatedUnion('input_type', [TxInput, BtnInput]).array(),
+  inputs: ExtractedInput.array(),
   parent: z.string().nullable(),
 });
+type ExtractedElement = z.infer<typeof ExtractedElement>;
 
 const RawTxField = z.object({
   type: z.literal('/Tx'),
@@ -72,31 +77,42 @@ const ExtractedObject = z.object({
   raw_text: z.string(),
   title: z.string(),
   description: z.string(),
-  elements: Element.array(),
+  elements: ExtractedElement.array(),
   raw_fields: z.discriminatedUnion('type', [RawTxField, RawBtnField]).array(),
 });
 
 type ExtractedJsonType = z.infer<typeof ExtractedObject>;
 
-const parsedJson: ExtractedJsonType = ExtractedObject.parse(json);
-export const parsedPDF = parseJson(parsedJson);
+export type ParsedPdf = { elements: FormElement[] };
 
-const convertExtractedDataToPDFFields = (
-  extractedData: ExtractedJsonType
-): PDFField[] => {
-  const fields: PDFField[] = [];
-  for (const element of extractedData.elements) {
-    if (element.element_type === 'text') {
-      fields.push({
-        id: element.id,
-        type: 'Paragraph',
-        label: element.element_params.text,
-      });
-    }
-  }
-  return fields;
+export const parseAlabamaNameChangeForm = (): ParsedPdf => {
+  const parsedPDF: ExtractedJsonType = ExtractedObject.parse(json);
+  return {
+    elements: parsedPDF.elements.flatMap(getElementInputs),
+  };
 };
 
+const getElementInputs = (element: ExtractedElement): FormElement[] => {
+  return element.inputs
+    .map((input: ExtractedInput) => {
+      if (input.input_type === 'Tx') {
+        return {
+          type: 'input',
+          id: input.input_params.output_id,
+          default: {},
+          data: {
+            text: input.input_params.text,
+            instructions: input.input_params.instructions,
+          },
+          required: true,
+        } satisfies FormElement<InputElement>;
+      }
+      return null as unknown as FormElement;
+    })
+    .filter((item): item is NonNullable<FormElement> => item !== null);
+};
+
+/*
 function parseJson(obj: ExtractedJsonType): Array<any> {
   return parseElements(obj.elements);
 }
@@ -136,8 +152,10 @@ function parseInputs(
   return output;
 }
 
-function parseElements(elements: ExtractedJsonType['elements']): Array<any> {
-  const output = elements.reduce((acc, element) => {
+function parseElements(
+  pdfElements: ExtractedJsonType['elements']
+): FormElement[] {
+  const output = pdfElements.reduce((acc, element) => {
     const elementOutput = {
       type: 'Paragraph',
       name: element.id,
@@ -163,5 +181,10 @@ function parseElements(elements: ExtractedJsonType['elements']): Array<any> {
     return acc;
   }, []);
 
+  pdfElements.map(pdfElement => {
+    const inputs = getElementInputs(pdfElement);
+  });
+
   return output;
 }
+*/

@@ -1,5 +1,4 @@
-import { type DocumentFieldMap } from '@atj/forms';
-import { parsedPDF } from './pdf';
+import { type ParsedPdf, parseAlabamaNameChangeForm } from './pdf/mock-api';
 
 export type SuggestedForm = {
   id: string;
@@ -10,22 +9,19 @@ export type SuggestedForm = {
   type?: 'text';
 }[];
 
-export const suggestFormDetails = async (
-  rawData: Uint8Array,
-  rawFields: DocumentFieldMap
-): Promise<DocumentFieldMap> => {
-  //return rawFields;
+export const getSuggestedFormElementsFromCache = async (
+  rawData: Uint8Array
+): Promise<ParsedPdf | null> => {
   const cache = getFakeCache();
   const hash = await getObjectHash(rawData);
-  const newFields = cache.get(hash);
-  return newFields || rawFields;
+  return cache.get(hash);
 };
 
 const getFakeCache = () => {
   const cache: Record<string, any> = {
     'hardcoded-hash': UD105_TEST_DATA,
     '179be8c1c78b01ed7c45569912c2bb862ec3764617f908ebc29178e36fd6316d':
-      parsedPDF,
+      parseAlabamaNameChangeForm(),
   };
   return {
     get(hashKey: string) {

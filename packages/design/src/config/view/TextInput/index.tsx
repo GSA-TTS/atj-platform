@@ -5,8 +5,6 @@ import { useFormContext } from 'react-hook-form';
 import { Pattern, type TextInputPattern } from '@atj/forms';
 import { type FormElementComponent } from '../../../Form';
 
-export type TextInputProps = { prompt: Pattern<TextInputPattern> };
-
 const TextInput: FormElementComponent<Pattern<TextInputPattern>> = ({
   pattern,
 }) => {

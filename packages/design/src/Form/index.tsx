@@ -104,7 +104,7 @@ export default function Form({
           {prompt.parts
             .map((pattern, index) => {
               const Component = context.components[pattern.type];
-              return <Component key={index} prompt={pattern} />;
+              return <Component key={index} pattern={pattern} />;
             })
             .filter(a => a)}
           {/* Add submit button or other controls as needed */}
