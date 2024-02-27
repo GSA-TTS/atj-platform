@@ -33,7 +33,7 @@ export default function FormList({
               <th data-label="Form title" scope="row">{form.title}</th>
               <td data-label="Description">{form.description}</td>
               <td data-label="Actions" className="actionColumn">
-                <span><Link to={`/${form.id}`}>Preview</Link></span>
+                {/* <span><Link to={`/${form.id}`}>Preview</Link></span> */}
                 <span><Link to={`/${form.id}/edit`}>Edit</Link></span>
                 <span><Link to={`/${form.id}/delete`}>Delete</Link></span>
               </td>

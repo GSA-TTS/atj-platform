@@ -12,7 +12,7 @@ const TextInput: FormElementComponent<Pattern<TextInputPattern>> = ({
 }) => {
   const { register } = useFormContext();
   return (
-    <div className="usa-form-group" key={prompt.inputId}>
+    <div className="usa-form-group-wrapper" key={prompt.inputId}>
       <div
         className={classNames('usa-form-group', {
           'usa-form-group--error': prompt.error,

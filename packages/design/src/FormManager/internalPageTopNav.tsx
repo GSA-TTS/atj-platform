@@ -23,11 +23,6 @@ export default function InnerPageTopNav({
     <div className="innerPageTopNavWrapper">
       <div className="innerPageTopNav">
         <ul className="grid-row">
-          {(isPreviewPage || isEditPage) && (
-            <li className={`grid-col ${isPreviewPage ? 'currentPage' : ''}`}>
-              <Link to={`/${formId}`}>Preview</Link>
-            </li>
-          )}
           {(isPreviewPage || isEditPage || isImportDocuments) && (
             <li className={`grid-col ${isEditPage ? 'currentPage' : ''}`}>
               <Link to={`/${formId}/edit`}>
@@ -35,11 +30,13 @@ export default function InnerPageTopNav({
               </Link>
             </li>
           )}
-          <li className={`grid-col ${isImportDocuments ? 'currentPage' : ''}`}>
-            <Link to={`/${formId}/import-document`}>Import</Link>
-          </li>
+          {/* {(isPreviewPage || isEditPage) && (
+            <li className={`grid-col ${isPreviewPage ? 'currentPage' : ''}`}>
+              <Link to={`/forms/${formId}`}>Preview</Link>
+            </li>
+          )} */}
           <li className="grid-col">
-            <Link to="/">Manage Forms</Link>
+            <Link to="/">View all Forms</Link>
           </li>
         </ul>
       </div>

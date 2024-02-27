@@ -4,7 +4,7 @@ import { PromptAction } from '@atj/forms';
 
 export default function ActionBar({ actions }: { actions: PromptAction[] }) {
   return (
-    <div className="usa-fieldset">
+    <p className="usa-button-wrapper">
       {actions.map((action, index) => {
         if (action.type === 'submit') {
           return (
@@ -14,6 +14,6 @@ export default function ActionBar({ actions }: { actions: PromptAction[] }) {
           );
         }
       })}
-    </div>
+    </p>
   );
 }

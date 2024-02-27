@@ -47,8 +47,8 @@ const createPreviewComponents = (
 };
 
 type PreviewContextValue = {
-  selectedId?: FormElementId;
-  setSelectedId: (id: FormElementId) => void;
+  selectedId?: FormElementId | null;
+  setSelectedId: (id: FormElementId | null) => void;
 };
 
 export const PreviewContext = createContext<PreviewContextValue>(
@@ -58,21 +58,53 @@ export const PreviewContext = createContext<PreviewContextValue>(
 const createPatternPreviewComponent = (Component: FormElementComponent) => {
   return function PatternPreviewComponent({ prompt }: { prompt: Pattern }) {
     const { selectedId, setSelectedId } = useContext(PreviewContext);
+
+    const handleEditClick = () => {
+      if (selectedId === prompt._elementId) {
+          setSelectedId(null); 
+      } else {
+          setSelectedId(prompt._elementId);
+      }
+  };
+
+    const isSelected = selectedId === prompt._elementId;
+    const divClassNames = isSelected ? 'form-group-row field-selected' : 'form-group-row';
+
+    // console.log("Current Selected ID:", selectedId); 
+    // console.log("Prompt ID:", prompt); 
+
+    // console.log("setSelectedId : ", setSelectedId ); 
+    // console.log("Is Selected:", isSelected); 
+    // console.log("Class Names:", divClassNames); 
+    const staticRoot = "/@fs/Users/npierrelouis/Documents/Git Repos/atj-platform/packages/design/";
     return (
       <div
-        onClick={() => {
-          setSelectedId(prompt._elementId);
-        }}
-        className={classNames({
-          'bg-primary-lighter': selectedId === prompt._elementId,
-        })}
+        onClick={handleEditClick}
+        className={divClassNames}
         //onKeyDown={handleKeyDown}
         role="button"
-        aria-pressed={selectedId === prompt._elementId}
+        aria-pressed={isSelected}
         aria-label="Select this pattern"
         tabIndex={0}
       >
         <Component prompt={prompt} />
+        <span className="edit-button-icon">
+          <a className="usa-link" 
+            href="javascript:void(0);"
+            title="Click to edit">
+            <svg
+              className="usa-icon"
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+            >
+              <use
+                xlinkHref={`${staticRoot}static/uswds/img/sprite.svg#settings`}
+              ></use>
+            </svg>
+          </a>
+
+        </span>
       </div>
     );
   };

@@ -32,7 +32,10 @@ export default function FormEdit({
   const form = result.data;
   return (
     <div className="editFormPage">
-      <InnerPageTopNav formId={formId} formService={formService} />
+      <h1>Form Editor Portal</h1>
+      <p className="usa-intro">
+        Welcome to the Form Editor Portal, where you can effortlessly personalize your form by modifying labels, attributes, and other settings to better suit your needs.
+      </p>
       <EditForm
         context={context}
         initialForm={form}
@@ -52,64 +55,53 @@ const EditForm = ({
   onSave: (form: FormDefinition) => void;
 }) => {
   const [currentForm, setCurrentForm] = useState(initialForm);
-  const [selectedId, setSelectedId] = useState<FormElementId>();
+  const [selectedId, setSelectedId] = useState<FormElementId | null>(null);
+  const [isSettingsVisible, setIsSettingsVisible] = useState(false);
+  
   const rootField = getRootFormElement(currentForm);
   const formElement = getFormElement(currentForm, selectedId || rootField.id);
+
+  const handleSelect = (id: FormElementId | null) => {
+    setSelectedId(id); // Always update the selectedId
+    setIsSettingsVisible(selectedId !== id || !isSettingsVisible);
+  };
+
   return (
     <>
-      <ButtonBar />
+    <div className="editFormContentWrapper">
       <div className="grid-row">
-        <div className="grid-col-6">
+        <div className="grid-col-8">
           <PreviewContext.Provider
             value={{
               selectedId,
-              setSelectedId: id => {
-                setSelectedId(id);
-              },
+              setSelectedId: handleSelect
             }}
           >
             <PreviewForm uiContext={context} form={currentForm} />
           </PreviewContext.Provider>
         </div>
-        <div className="grid-col-6">
-          <h2>Editing {selectedId}...</h2>
-          {formElement && (
-            <FormElementEdit
-              context={context}
-              initialForm={currentForm}
-              formElement={formElement}
-              onChange={function (form: FormDefinition): void {
-                setCurrentForm(form);
-              }}
-            />
-          )}
-          <hr />
-          {/*
-          <div className="editForm">
-            <FormProvider {...methods}>
-              <form
-                className="editForm"
-                onSubmit={methods.handleSubmit(data => {
-                  const updatedForm = updateElements(
-                    context.config,
-                    currentForm,
-                    data
-                  );
-                  setCurrentForm(updatedForm);
-                  onSave(updatedForm);
-                })}
-              >
-                <EditComponent
-                  context={context}
-                  form={currentForm}
-                  element={rootField}
-                />
-              </form>
-            </FormProvider>
+        {isSettingsVisible && (
+        <div className={`grid-col-4 ${selectedId !== null ? "show" : "hide"}`}>
+          <div className="settingsContainer">
+            <h2>Editing {selectedId}...</h2>
+            {formElement && (
+              <FormElementEdit
+                key={selectedId}
+                context={context}
+                initialForm={currentForm}
+                formElement={formElement}
+                onChange={function (form: FormDefinition): void {
+                  setCurrentForm(form);
+                }}
+              />
+            )}
           </div>
-          */}
+
         </div>
+        )}
       </div>
+    </div>
+
     </>
   );
 };
