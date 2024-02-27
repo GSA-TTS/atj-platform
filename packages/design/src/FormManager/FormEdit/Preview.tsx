@@ -101,7 +101,7 @@ const createPatternPreviewComponent = (Component: FormElementComponent) => {
                 <title>Edit form group</title>
                 <desc>Click here to edit form group</desc>
               <use
-                xlinkHref={`${staticRoot}static1/uswds/img/sprite.svg#settings`}
+                xlinkHref={`${staticRoot}static/uswds/img/sprite.svg#settings`}
               ></use>
             </svg>
           </a>
