@@ -1,6 +1,7 @@
 import {
   type FormConfig,
   type FormDefinition,
+  type FormElement,
   getFormElementConfig,
   validateElement,
 } from '.';
@@ -73,7 +74,7 @@ export const getFormSessionValue = (
 export const updateSessionValue = (
   session: FormSession,
   id: FormElementId,
-  value: any
+  value: FormElementValue
 ): FormSession => {
   if (!(id in session.form.elements)) {
     console.error(`FormElement "${id}" does not exist on form.`);
@@ -126,10 +127,10 @@ export const sessionIsComplete = (config: FormConfig, session: FormSession) => {
   });
 };
 
-const addValue = (
+const addValue = <T extends FormElement = FormElement>(
   form: FormSession,
   id: FormElementId,
-  value: FormElementValue
+  value: FormElementValue<T>
 ): FormSession => ({
   ...form,
   data: {

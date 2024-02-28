@@ -14,7 +14,8 @@ export type FormElement<T = any, C = any> = {
 };
 
 export type FormElementId = string;
-export type FormElementValue = any;
+export type FormElementValue<T extends FormElement = FormElement> =
+  T['default'];
 export type FormElementValueMap = Record<FormElementId, FormElementValue>;
 export type FormElementMap = Record<FormElementId, FormElement>;
 export type GetFormElement = (

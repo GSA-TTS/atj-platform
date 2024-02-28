@@ -115,10 +115,10 @@ export const updateForm = (
   return nextForm;
 };
 
-const addValue = (
+const addValue = <T extends FormElement = FormElement>(
   form: FormSession,
   id: FormElementId,
-  value: FormElementValue
+  value: FormElementValue<T>
 ): FormSession => ({
   ...form,
   data: {
