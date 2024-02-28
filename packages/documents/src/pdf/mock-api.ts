@@ -103,7 +103,7 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
           id,
           default: {} as unknown as any,
           data: {
-            text: input.input_params.instructions,
+            text: element.element_params.text,
             instructions: input.input_params.instructions,
           },
           required: true,
@@ -129,7 +129,7 @@ const getElementInputs = (element: ExtractedElement): FormElement[] => {
         return {
           type: 'input',
           id: input.input_params.output_id,
-          default: {},
+          default: {} as unknown as any,
           data: {
             text: input.input_params.text,
             instructions: input.input_params.instructions,

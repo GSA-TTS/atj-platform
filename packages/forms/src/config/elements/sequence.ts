@@ -4,6 +4,7 @@ import { type FormElementConfig } from '..';
 import { type FormElement, type FormElementId } from '../../element';
 import { type Pattern, createPromptForElement } from '../../pattern';
 import { safeZodParse } from '../../util/zod';
+import { getFormElement } from '../..';
 
 export type SequenceElement = FormElement<{
   elements: FormElementId[];
@@ -30,15 +31,17 @@ export const sequenceConfig: FormElementConfig<SequenceElement> = {
     );
   },
   createPrompt(config, session, element, options) {
+    const children = element.data.elements.map((elementId: string) => {
+      const element = getFormElement(session.form, elementId);
+      return createPromptForElement(config, session, element, options);
+    });
     return {
       pattern: {
+        _children: children,
         _elementId: element.id,
         type: 'sequence',
       },
-      children: element.data.elements.flatMap((elementId: string) => {
-        const element = session.form.elements[elementId];
-        return createPromptForElement(config, session, element, options);
-      }),
+      children,
     };
   },
 };

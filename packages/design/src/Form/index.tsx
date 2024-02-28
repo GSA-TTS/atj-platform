@@ -104,17 +104,15 @@ export default function Form({
         })}
       >
         <fieldset className="usa-fieldset">
-          {prompt.parts
-            .map((part, index) => {
-              return (
-                <PromptComponent
-                  key={index}
-                  context={context}
-                  promptPart={part}
-                />
-              );
-            })
-            .filter(a => a)}
+          {prompt.parts.map((part, index) => {
+            return (
+              <PromptComponent
+                key={index}
+                context={context}
+                promptPart={part}
+              />
+            );
+          })}
           {/* Add submit button or other controls as needed */}
         </fieldset>
         <ActionBar actions={prompt.actions} />
@@ -133,9 +131,11 @@ const PromptComponent = ({
   const Component = context.components[promptPart.pattern.type];
   return (
     <Component pattern={promptPart.pattern}>
-      {promptPart.children?.map((child, index) => (
-        <PromptComponent key={index} context={context} promptPart={child} />
-      ))}
+      {promptPart.children?.map((child, index) => {
+        return (
+          <PromptComponent key={index} context={context} promptPart={child} />
+        );
+      })}
     </Component>
   );
 };

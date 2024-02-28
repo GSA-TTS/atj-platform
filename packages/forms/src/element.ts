@@ -86,3 +86,19 @@ export const validateElement = (
     data: parseResult.data,
   };
 };
+
+export const getFirstFormElement = (
+  config: FormConfig,
+  form: FormDefinition,
+  element?: FormElement
+): FormElement => {
+  if (!element) {
+    element = form.elements[form.root];
+  }
+  const elemConfig = getFormElementConfig(config, element.type);
+  const children = elemConfig.getChildren(element, form.elements);
+  if (children?.length === 0) {
+    return element;
+  }
+  return getFirstFormElement(config, form, children[0]);
+};

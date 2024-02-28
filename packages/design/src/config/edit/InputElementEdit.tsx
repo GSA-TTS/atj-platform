@@ -24,6 +24,20 @@ const InputElementEdit: FormElementEditComponent<InputElement> = ({
         ></input>
       </div>
       <div className="grid-col grid-col-2">
+        <label
+          className="usa-label"
+          htmlFor={`${element.id}.data.instructions`}
+        >
+          Instructions
+        </label>
+        <input
+          className="usa-input"
+          id={`${element.id}.data.instructions`}
+          type="text"
+          {...register(`${element.id}.data.instructions`)}
+        ></input>
+      </div>
+      <div className="grid-col grid-col-2">
         <label className="usa-label" htmlFor={`${element.id}.data.initial`}>
           Default field value
         </label>

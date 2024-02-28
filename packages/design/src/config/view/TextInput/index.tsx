@@ -24,6 +24,9 @@ const TextInput: FormElementComponent<Pattern<TextInputPattern>> = ({
         >
           {pattern.label}
         </label>
+        {pattern.instructions && (
+          <span className="usa-hint">{pattern.instructions}</span>
+        )}
         {pattern.error && (
           <span
             className="usa-error-message"

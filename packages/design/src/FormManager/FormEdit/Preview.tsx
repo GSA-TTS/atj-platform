@@ -1,17 +1,19 @@
-import React, { createContext, useContext } from 'react';
+import React from 'react';
 
 import {
   type FormDefinition,
-  type FormElementId,
   type Pattern,
   createFormSession,
+  getFormElement,
 } from '@atj/forms';
 
+import { usePreviewContext } from './context';
 import Form, {
   type ComponentForPattern,
   type FormElementComponent,
   type FormUIContext,
 } from '../../Form';
+import DraggableList from './DraggableList';
 
 type PreviewFormProps = {
   uiContext: FormUIContext;
@@ -21,7 +23,7 @@ type PreviewFormProps = {
 export const PreviewForm = ({ uiContext, form }: PreviewFormProps) => {
   const previewUiContext: FormUIContext = {
     config: uiContext.config,
-    // I think we want to hoist this definition up to a higher level, so we
+    // TODO: We'll want to hoist this definition up to a higher level, so we
     // don't have to regenerate it every time we render the form.
     components: createPreviewComponents(
       uiContext.components,
@@ -38,11 +40,21 @@ const createPreviewComponents = (
   uswdsRoot: string
 ): ComponentForPattern => {
   const previewComponents: ComponentForPattern = {};
-  // TODO: Create a configurable way to to defined preview components.
+  // TODO: Create a configurable way to to define preview components.
   for (const [patternType, Component] of Object.entries(components)) {
     if (patternType === 'sequence') {
       previewComponents[patternType] = Component;
+      /*
+      previewComponents[patternType] = createSequencePatternPreviewComponent(
+        Component,
+        previewComponents
+      );
+      */
+    } else if (patternType === 'form-summary') {
+      console.log('skipping form-summary...');
+      previewComponents[patternType] = Component;
     } else {
+      previewComponents[patternType] = Component;
       previewComponents[patternType] = createPatternPreviewComponent(
         Component,
         uswdsRoot
@@ -52,14 +64,32 @@ const createPreviewComponents = (
   return previewComponents;
 };
 
-type PreviewContextValue = {
-  selectedId?: FormElementId | null;
-  setSelectedId: (id: FormElementId | null) => void;
+const createSequencePatternPreviewComponent = (
+  Component: FormElementComponent,
+  previewComponents: ComponentForPattern
+) => {
+  const PatternPreviewSequenceComponent: FormElementComponent = ({
+    pattern,
+  }) => {
+    const { form, setSelectedElement } = usePreviewContext();
+    const element = getFormElement(form, pattern._elementId);
+    const Component = previewComponents[pattern.type];
+    return (
+      <DraggableList
+        form={form}
+        element={element}
+        setSelectedElement={setSelectedElement}
+      >
+        <Component pattern={pattern} />
+        {/*pattern._children.map((promptPart, index) => {
+          const ChildComponent = previewComponents[promptPart.pattern.type];
+          return <ChildComponent key={index} pattern={promptPart.pattern} />;
+        })*/}
+      </DraggableList>
+    );
+  };
+  return PatternPreviewSequenceComponent;
 };
-
-export const PreviewContext = createContext<PreviewContextValue>(
-  null as unknown as PreviewContextValue
-);
 
 const createPatternPreviewComponent = (
   Component: FormElementComponent,
@@ -70,17 +100,18 @@ const createPatternPreviewComponent = (
   }: {
     pattern: Pattern;
   }) => {
-    const { selectedId, setSelectedId } = useContext(PreviewContext);
+    const { form, selectedElement, setSelectedElement } = usePreviewContext();
 
     const handleEditClick = () => {
-      if (selectedId === pattern._elementId) {
-        setSelectedId(null);
+      if (selectedElement.id === pattern._elementId) {
+        //setSelectedElement(null);
       } else {
-        setSelectedId(pattern._elementId);
+        const element = getFormElement(form, pattern._elementId);
+        setSelectedElement(element);
       }
     };
 
-    const isSelected = selectedId === pattern._elementId;
+    const isSelected = selectedElement.id === pattern._elementId;
     const divClassNames = isSelected
       ? 'form-group-row field-selected'
       : 'form-group-row';

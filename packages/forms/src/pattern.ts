@@ -42,6 +42,7 @@ export type ParagraphPattern = {
 
 export type Pattern<T = {}> = {
   _elementId: FormElementId;
+  _children: PromptPart[];
   type: string;
 } & T;
 
