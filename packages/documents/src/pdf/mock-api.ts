@@ -1,6 +1,6 @@
 import * as z from 'zod';
 
-import { type FormElement } from '@atj/forms';
+import { type DocumentFieldMap, type FormElement } from '@atj/forms';
 import { type InputElement } from '@atj/forms/src/config/elements/input';
 
 import json from './al_name_change.json' assert { type: 'json' };
@@ -81,15 +81,45 @@ const ExtractedObject = z.object({
   raw_fields: z.discriminatedUnion('type', [RawTxField, RawBtnField]).array(),
 });
 
-type ExtractedJsonType = z.infer<typeof ExtractedObject>;
+type ExtractedObject = z.infer<typeof ExtractedObject>;
 
-export type ParsedPdf = { elements: FormElement[] };
+export type ParsedPdf = {
+  elements: FormElement[];
+  outputs: DocumentFieldMap; // to populate FormOutput
+};
 
 export const parseAlabamaNameChangeForm = (): ParsedPdf => {
-  const parsedPDF: ExtractedJsonType = ExtractedObject.parse(json);
-  return {
-    elements: parsedPDF.elements.flatMap(getElementInputs),
+  const extracted: ExtractedObject = ExtractedObject.parse(json);
+  const parsedPdf: ParsedPdf = {
+    elements: [],
+    outputs: {},
   };
+  for (const element of extracted.elements) {
+    for (const input of element.inputs) {
+      if (input.input_type === 'Tx') {
+        const id = input.input_params.output_id.toLowerCase();
+        parsedPdf.elements.push({
+          type: 'input',
+          id,
+          default: {} as unknown as any,
+          data: {
+            text: input.input_params.instructions,
+            instructions: input.input_params.instructions,
+          },
+          required: true,
+        } satisfies FormElement<InputElement>);
+        parsedPdf.outputs[id] = {
+          type: 'TextField',
+          name: input.input_params.text,
+          label: input.input_params.instructions,
+          value: '',
+          maxLength: 1024,
+          required: input.input_params.required,
+        };
+      }
+    }
+  }
+  return parsedPdf;
 };
 
 const getElementInputs = (element: ExtractedElement): FormElement[] => {

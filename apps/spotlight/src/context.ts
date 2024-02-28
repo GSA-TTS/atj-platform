@@ -13,6 +13,7 @@ export type AppContext = {
   github: GithubRepository;
   formConfig: FormConfig;
   formService: FormService;
+  uswdsRoot: `${string}/`;
 };
 
 let _context: AppContext | null = null;
@@ -24,7 +25,7 @@ export const getAppContext = (): AppContext => {
   return _context;
 };
 
-const createAppContext = (env: any) => {
+const createAppContext = (env: any): AppContext => {
   return {
     github: env.GITHUB,
     baseUrl: env.BASE_URL,

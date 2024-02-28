@@ -21,7 +21,7 @@ export const addDocument = async (
   const cachedPdf = await getSuggestedFormElementsFromCache(fileDetails.data);
 
   if (cachedPdf) {
-    const updatedForm = addFormElements(
+    const withElements = addFormElements(
       form,
       [
         ...cachedPdf.elements,
@@ -39,6 +39,14 @@ export const addDocument = async (
       ],
       'root'
     );
+    const updatedForm = addFormOutput(withElements, {
+      data: fileDetails.data,
+      path: fileDetails.name,
+      fields: cachedPdf.outputs,
+      formFields: Object.fromEntries(
+        Object.keys(fields).map(field => [field, field])
+      ),
+    });
     // TODO: add form outputs
     return {
       newFields: fields,
