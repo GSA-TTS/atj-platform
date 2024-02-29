@@ -30,7 +30,7 @@ export const paragraphConfig: FormElementConfig<ParagraphElement> = {
     return {
       pattern: {
         _elementId: element.id,
-        type: 'paragraph',
+        type: 'paragraph' as const,
         text: element.data.text,
         style: element.data.style,
       } as Pattern<ParagraphPattern>,
