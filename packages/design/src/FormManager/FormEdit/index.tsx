@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
 
 import { type FormService } from '@atj/form-service';
 import {
@@ -27,7 +26,6 @@ export default function FormEdit({
     return 'Form not found';
   }
   const form = result.data;
-  const customBaseUrl = window.location.href + "/#top";
 
   return (
     <div className="editFormPage">
@@ -40,7 +38,7 @@ export default function FormEdit({
       <EditForm
         context={context}
         initialForm={form}
-        onSave={form => formService.saveForm(formId, form)}
+        onSave={(form: FormDefinition) => formService.saveForm(formId, form)}
       />
     </div>
   );

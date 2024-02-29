@@ -77,7 +77,7 @@ const createPatternPreviewComponent = (Component: FormElementComponent) => {
     const staticRoot = "/@fs/Users/npierrelouis/Documents/Git Repos/atj-platform/packages/design/";
     return (
       <div className={divClassNames}
-        data-id={prompt._elementId}
+        data-id={pattern._elementId}
       >
         <Component pattern={pattern} />
         <span className="edit-button-icon">
