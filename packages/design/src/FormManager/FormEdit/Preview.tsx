@@ -13,7 +13,6 @@ import Form, {
   type FormElementComponent,
   type FormUIContext,
 } from '../../Form';
-import DraggableList from './DraggableList';
 
 type PreviewFormProps = {
   uiContext: FormUIContext;
@@ -64,6 +63,7 @@ const createPreviewComponents = (
   return previewComponents;
 };
 
+/*
 const createSequencePatternPreviewComponent = (
   Component: FormElementComponent,
   previewComponents: ComponentForPattern
@@ -81,15 +81,12 @@ const createSequencePatternPreviewComponent = (
         setSelectedElement={setSelectedElement}
       >
         <Component pattern={pattern} />
-        {/*pattern._children.map((promptPart, index) => {
-          const ChildComponent = previewComponents[promptPart.pattern.type];
-          return <ChildComponent key={index} pattern={promptPart.pattern} />;
-        })*/}
       </DraggableList>
     );
   };
   return PatternPreviewSequenceComponent;
 };
+*/
 
 const createPatternPreviewComponent = (
   Component: FormElementComponent,
