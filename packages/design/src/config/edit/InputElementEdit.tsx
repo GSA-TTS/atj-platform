@@ -12,14 +12,14 @@ const InputElementEdit: FormElementEditComponent<InputElement> = ({
   return (
     <div className="grid-row grid-gap formRowEditFields">
       <div className="grid-col grid-col-4">
-        <label className="usa-label" htmlFor={`${element.id}.data.text`}>
+        <label className="usa-label" htmlFor={`${element.id}.data.label`}>
           Field label
         </label>
         <input
           className="usa-input"
-          id={`${element.id}.data.text`}
+          id={`${element.id}.data.label`}
           defaultValue={`${element.id}`}
-          {...register(`${element.id}.data.text`)}
+          {...register(`${element.id}.data.label`)}
           type="text"
         ></input>
       </div>

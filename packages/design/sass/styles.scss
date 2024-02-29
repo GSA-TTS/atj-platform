@@ -7,7 +7,7 @@ html {
 
 h1 {
   font-size: 2.5em;
-  
+
   span {
     display: inline-block;
     vertical-align: top;
@@ -43,6 +43,14 @@ a,
 main {
   flex: 1;
   width: 100%;
+/*
+  >section {
+    &.grid-container {
+      margin: 0;
+      padding: 0;
+    }
+  }
+*/
 }
 
 .usa-banner__inner,
@@ -55,11 +63,11 @@ main {
   max-width: 75rem;
 }
 
-.usa-combo-box__input, 
-.usa-input, 
-.usa-input-group, 
-.usa-range, 
-.usa-select, 
+.usa-combo-box__input,
+.usa-input,
+.usa-input-group,
+.usa-range,
+.usa-select,
 .usa-textarea {
   max-width: 40rem;
   height: 3rem;
@@ -133,9 +141,50 @@ main {
 
 .usa-legend {
   max-width: 100%;
+  font-weight: 600;
+  width: -webkit-fill-available;
 }
 
+nav {
+  background: #F7F9FD;
+  padding: 0 1.5rem;
+
+  >ul {
+    padding-top: 2.6rem;
+  }
+}
 .previewForm {
+  padding-left: 1rem;
+
+  >fieldset {
+    margin-bottom: 10em;
+
+    >legend {
+      border-bottom: 1px #DCDEE0 solid;
+      font-size: 2rem;
+    }
+
+    >.usa-form-group {
+      margin-left: 3rem;
+    }
+
+    .usa-form-group {
+      >fieldset {
+        border-bottom: 1px #DCDEE0 solid;
+        padding-bottom: 2rem;
+
+        legend {
+          font-size: 1.5rem;
+          border-bottom: none;
+        }
+
+        p {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
   .usa-button {
     margin: 1rem 0 0 1rem;
   }
@@ -174,7 +223,7 @@ main {
           padding: 15px;
           font-size: 20px;
           text-align: center;
-           
+
           &:hover {
             background: #f5f2ff;
             border: 1px solid #e4deff;
@@ -195,9 +244,9 @@ main {
   }
 }
 
-[contentEditable=true]:focus, 
-[href]:focus, 
-[tabindex]:focus, 
+[contentEditable=true]:focus,
+[href]:focus,
+[tabindex]:focus,
 iframe:focus {
   outline: 0.25rem solid #783cb9;
 }
@@ -226,7 +275,7 @@ iframe:focus {
       .edit-button-icon {
         padding: 0 10px;
         flex: none;
-      }     
+      }
     }
 
     &.field-selected {
@@ -254,9 +303,9 @@ iframe:focus {
     }
 
     .usa-icon {
-      height: 2.5em;
-      width: 2.5em;
-      fill: #76766a;
+      height: 1.75em;
+      width: 1.75em;
+      fill: #777;
     }
   }
 
@@ -324,6 +373,7 @@ iframe:focus {
   .usa-button {
     width: 100%;
     padding: 1rem 1.25rem;
+    margin: 20px 0 0;
 
     &.close-button {
       background-color: #76766a;
@@ -397,7 +447,7 @@ iframe:focus {
       position: fixed;
       top: 15%;
       left: 50%;
-      transform: translate(-50%, 0);  
+      transform: translate(-50%, 0);
       width: 90%;
       margin: 0 auto;
       height: auto;

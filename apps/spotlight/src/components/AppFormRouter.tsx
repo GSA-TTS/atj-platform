@@ -10,6 +10,7 @@ export default function AppFormRouter() {
       context={{
         config: ctx.formConfig,
         components: defaultFormElementComponents,
+        uswdsRoot: ctx.uswdsRoot,
       }}
       formService={ctx.formService}
     />

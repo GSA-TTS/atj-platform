@@ -1,9 +1,11 @@
 import { createForm, createFormSession, defaultFormConfig } from '@atj/forms';
 
 import {
+  FormEditUIContext,
   defaultFormElementComponents,
   defaultFormElementEditComponents,
 } from './config';
+import { FormUIContext } from 'Form';
 
 export const createTestForm = () => {
   return createForm(
@@ -60,18 +62,20 @@ export const createTestFormElementComponentMap = () => {
   return defaultFormElementComponents;
 };
 
-export const createTestFormContext = () => {
+export const createTestFormContext = (): FormUIContext => {
   return {
     config: defaultFormConfig,
     components: defaultFormElementComponents,
+    uswdsRoot: '/uswds/',
   };
 };
 
-export const createTestFormEditContext = () => {
+export const createTestFormEditContext = (): FormEditUIContext => {
   return {
     config: defaultFormConfig,
     components: defaultFormElementComponents,
     editComponents: defaultFormElementEditComponents,
+    uswdsRoot: `/static/uswds/`,
   };
 };
 

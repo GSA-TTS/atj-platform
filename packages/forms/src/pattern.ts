@@ -13,7 +13,6 @@ export type TextInputPattern = {
   value: string;
   label: string;
   required: boolean;
-  instructions?: string;
   error?: string;
 };
 
@@ -38,10 +37,17 @@ export type SubmissionConfirmationPattern = {
 export type ParagraphPattern = {
   type: 'paragraph';
   text: string;
+  style: 'indent' | 'normal' | 'heading' | 'subheading';
+};
+
+export type FieldsetPattern = {
+  type: 'fieldset';
+  legend: string;
 };
 
 export type Pattern<T = {}> = {
   _elementId: FormElementId;
+  _children: PromptPart[];
   type: string;
 } & T;
 
@@ -51,9 +57,14 @@ export type SubmitAction = {
 };
 export type PromptAction = SubmitAction;
 
+export type PromptPart = {
+  pattern: Pattern;
+  children: PromptPart[];
+};
+
 export type Prompt = {
   actions: PromptAction[];
-  parts: Pattern[];
+  parts: PromptPart[];
 };
 
 export const createPrompt = (
@@ -61,35 +72,41 @@ export const createPrompt = (
   session: FormSession,
   options: { validate: boolean }
 ): Prompt => {
-  if (sessionIsComplete(config, session)) {
+  if (options.validate && sessionIsComplete(config, session)) {
     return {
       actions: [],
       parts: [
         {
-          _elementId: 'submission-confirmation',
-          type: 'submission-confirmation',
-          table: Object.entries(session.data.values).map(
-            ([elementId, value]) => {
-              return {
-                label: session.form.elements[elementId].id,
-                value: value,
-              };
-            }
-          ),
-        } as Pattern<SubmissionConfirmationPattern>,
+          pattern: {
+            _elementId: 'submission-confirmation',
+            type: 'submission-confirmation',
+            table: Object.entries(session.data.values).map(
+              ([elementId, value]) => {
+                return {
+                  label: session.form.elements[elementId].id,
+                  value: value,
+                };
+              }
+            ),
+          } as Pattern<SubmissionConfirmationPattern>,
+          children: [],
+        },
       ],
     };
   }
-  const parts: Pattern[] = [
+  const parts: PromptPart[] = [
     {
-      _elementId: 'form-summary',
-      type: 'form-summary',
-      title: session.form.summary.title,
-      description: session.form.summary.description,
-    } as Pattern<FormSummaryPattern>,
+      pattern: {
+        _elementId: 'form-summary',
+        type: 'form-summary',
+        title: session.form.summary.title,
+        description: session.form.summary.description,
+      } as Pattern<FormSummaryPattern>,
+      children: [],
+    },
   ];
   const root = getRootFormElement(session.form);
-  parts.push(...createPromptForElement(config, session, root, options));
+  parts.push(createPromptForElement(config, session, root, options));
   return {
     actions: [
       {
@@ -106,7 +123,7 @@ export type CreatePrompt<T> = (
   session: FormSession,
   element: T,
   options: { validate: boolean }
-) => Pattern[];
+) => PromptPart;
 
 export const createPromptForElement: CreatePrompt<FormElement> = (
   config,
@@ -131,9 +148,11 @@ export const createNullPrompt = ({
 }): Prompt => {
   const formElementConfig = getFormElementConfig(config, element.type);
   return {
-    parts: formElementConfig.createPrompt(config, nullSession, element, {
-      validate: false,
-    }),
+    parts: [
+      formElementConfig.createPrompt(config, nullSession, element, {
+        validate: false,
+      }),
+    ],
     actions: [],
   };
 };

@@ -14,7 +14,8 @@ export type FormElement<T = any, C = any> = {
 };
 
 export type FormElementId = string;
-export type FormElementValue = any;
+export type FormElementValue<T extends FormElement = FormElement> =
+  T['default'];
 export type FormElementValueMap = Record<FormElementId, FormElementValue>;
 export type FormElementMap = Record<FormElementId, FormElement>;
 export type GetFormElement = (
@@ -25,6 +26,10 @@ export type GetFormElement = (
 export type ParseFormElementData<T extends FormElement = FormElement> = (
   elementData: T['data'],
   obj: string
+) => Result<T['data']>;
+
+export type ParseFormElementConfigData<T extends FormElement = FormElement> = (
+  elementData: T['data']
 ) => Result<T['data']>;
 
 export const getFormElement: GetFormElement = (form, elementId) => {
@@ -81,4 +86,20 @@ export const validateElement = (
     success: true,
     data: parseResult.data,
   };
+};
+
+export const getFirstFormElement = (
+  config: FormConfig,
+  form: FormDefinition,
+  element?: FormElement
+): FormElement => {
+  if (!element) {
+    element = form.elements[form.root];
+  }
+  const elemConfig = getFormElementConfig(config, element.type);
+  const children = elemConfig.getChildren(element, form.elements);
+  if (children?.length === 0) {
+    return element;
+  }
+  return getFirstFormElement(config, form, children[0]);
 };
