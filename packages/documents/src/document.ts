@@ -141,16 +141,6 @@ export const addDocumentFieldsToForm = (
         },
         required: field.required,
       } satisfies InputElement);
-    } else if (field.type === 'Paragraph') {
-      elements.push({
-        type: 'paragraph',
-        id: field.name,
-        data: {
-          text: field.value,
-        },
-        default: 'remove me from FormElement', // TODO: remove default from FormElement
-        required: false, // TODO: remove required from FormElement
-      });
     } else if (field.type === 'not-supported') {
       console.error(`Skipping field: ${field.error}`);
     } else {

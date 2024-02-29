@@ -113,15 +113,18 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
         type: 'paragraph',
         id: element.id,
         default: {
-          text: '',
           maxLength: 2048,
+          required: false,
+          label: '',
+          initial: '',
         },
         data: {
           text: element.element_params.text,
-          maxLength: 2048,
+          style: element.element_params.text_style,
         },
         required: false,
       } satisfies ParagraphElement;
+      rootSequence.push(element.id);
       continue;
     }
     for (const input of element.inputs) {

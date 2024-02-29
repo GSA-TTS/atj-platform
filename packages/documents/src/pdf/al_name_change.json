@@ -1,5 +1,5 @@
 {
-  "raw_text": "Request to Change Name Case Number: (the clerk fills this in) \n8/08 (For An Adult) \n<question>In the Probate Court of (county): County, Alabama <input label=County_Name1 instructions={field_dict['field_instructions']}></question>\n<question>Your current name: <input label=Current_First_Name1 instructions={field_dict['field_instructions']}><input label=Current_Middle_Name1 instructions={field_dict['field_instructions']}><input label=Current_Last_Name1 instructions={field_dict['field_instructions']}></question>\nfirst middle last \nTo ask the court to change your name, you must fill out this form, and: \n\u2022 Attach a certified copy of your birth certificate and a copy of your photo ID, and \n\u2022 File your form and attachments in the same county where you live. \nI declare that the following information is true: \n<question>My current name is: <input label=Current_First_Name2 instructions={field_dict['field_instructions']}><input label=Current_Middle_Name2 instructions={field_dict['field_instructions']}><input label=Current_Last_Name2 instructions={field_dict['field_instructions']}></question>\nfirst middle last \n<question>My address is: <input label=Street_Address instructions={field_dict['field_instructions']}><input label=City instructions={field_dict['field_instructions']}><input label=State instructions={field_dict['field_instructions']}><input label=Zip instructions={field_dict['field_instructions']}></question>\nstreet city state zip \n<question>My phone numbers are (home): (work): <input label=Home_Phone instructions={field_dict['field_instructions']}><input label=Work_Phone instructions={field_dict['field_instructions']}></question>\n<question>My date of birth is (mm/dd/yyyy): <input label=DOB instructions={field_dict['field_instructions']}></question>\n<question>My name at birth was: <input label=Birth_First_Name instructions={field_dict['field_instructions']}><input label=Birth_Middle_Name instructions={field_dict['field_instructions']}><input label=Birth_Last_Name instructions={field_dict['field_instructions']}></question>\nfirst middle last \n<question>I am an adult (19 or older), of sound mind, and live in (name of Alabama county): <input label=County_Name2 instructions={field_dict['field_instructions']}></question>\n<question>The attached copy of my photo ID is my (check one): <button type=radio> Driver\u2019s license, # <input label=PhotoID instructions=NA><input label=DL# instructions={field_dict['field_instructions']}></question>\n<question><input label=PhotoID instructions=NA><button type=radio> Non-driver\u2019s photo, ID #: <input label=ID# instructions={field_dict['field_instructions']}></question>\n<question>I ask the court to change my name because (explain why you want to change your name): <input label=Why_change_name1 instructions={field_dict['field_instructions']}></question>\n<question><input label=Why_change_name2 instructions={field_dict['field_instructions']}></question>\n<question><input label=Why_change_name3 instructions={field_dict['field_instructions']}></question>\n<question>I want my new name to be: <input label=New_First_Name instructions={field_dict['field_instructions']}><input label=New_Middle_Name instructions={field_dict['field_instructions']}><input label=New_Last_Name instructions={field_dict['field_instructions']}></question>\nfirst middle last \nI also declare: \n\u2022 I am not now facing criminal charges, nor am I involved in any other court case. \n\u2022 I have never been convicted of a criminal sex offense (as defined in Alabama Code \u00a7 15-20-21), \na crime of moral turpitude, or a felony. \n\u2022 I am not asking to change my name to avoid paying my debts or to commit fraud. \n\u2022 I swear that all of the information I have provided above is complete and accurate. \nI ask the court to grant this request and to issue an order changing my name. \nSign below in front of a notary: \n Date: \nNotary fills out below\u2014 \nSworn to and subscribed before me, the undersigned authority, \nBy (Print name of notary): \nOn this date: (Notary\u2019s seal here) \n / / \n Notary signs here Date notary\u2019s commission expires \nRev. 8/08 \uf8e9 2008 Alabama State Bar ",
+  "raw_text": "Request to Change Name",
   "title": "Request to Change Name (For An Adult)",
   "description": "",
   "elements": [
@@ -78,24 +78,12 @@
       "parent": null
     },
     {
-      "id": "f35107d6-91e4-4a30-8152-e2ce3827c71b",
-      "group_id": 4,
-      "element_type": "text",
-      "element_params": {
-        "text": "first middle last ",
-        "text_style": "DYNNJN+Arial-ItalicMT 8.879999999999995",
-        "options": null
-      },
-      "inputs": [],
-      "parent": null
-    },
-    {
       "id": "0a10d256-c938-4c83-9045-8f31df99bbff",
       "group_id": 5,
       "element_type": "text",
       "element_params": {
         "text": "To ask the court to change your name, you must fill out this form, and: ",
-        "text_style": "JTUTCJ+ArialMT 10.799999999999955",
+        "text_style": "subheading",
         "options": null
       },
       "inputs": [],
@@ -106,8 +94,8 @@
       "group_id": 6,
       "element_type": "text",
       "element_params": {
-        "text": "\u2022 Attach a certified copy of your birth certificate and a copy of your photo ID, and ",
-        "text_style": "JTUTCJ+ArialMT 10.799999999999955",
+        "text": "Attach a certified copy of your birth certificate and a copy of your photo ID, and ",
+        "text_style": "indent",
         "options": null
       },
       "inputs": [],
@@ -118,8 +106,8 @@
       "group_id": 7,
       "element_type": "text",
       "element_params": {
-        "text": "\u2022 File your form and attachments in the same county where you live. ",
-        "text_style": "JTUTCJ+ArialMT 10.799999999999955",
+        "text": "  File your form and attachments in the same county where you live. ",
+        "text_style": "indent",
         "options": null
       },
       "inputs": [],
@@ -131,7 +119,7 @@
       "element_type": "text",
       "element_params": {
         "text": "I declare that the following information is true: ",
-        "text_style": "JTUTCJ+ArialMT 10.32000000000005",
+        "text_style": "subheading",
         "options": null
       },
       "inputs": [],
@@ -184,18 +172,6 @@
           }
         }
       ],
-      "parent": null
-    },
-    {
-      "id": "123200d4-d0e9-45a6-b598-3457430188a5",
-      "group_id": 10,
-      "element_type": "text",
-      "element_params": {
-        "text": "first middle last ",
-        "text_style": "DYNNJN+Arial-ItalicMT 8.879999999999995",
-        "options": null
-      },
-      "inputs": [],
       "parent": null
     },
     {
@@ -257,18 +233,6 @@
           }
         }
       ],
-      "parent": null
-    },
-    {
-      "id": "f17418c5-4108-4b47-b263-050d44115d56",
-      "group_id": 12,
-      "element_type": "text",
-      "element_params": {
-        "text": "street city state zip ",
-        "text_style": "DYNNJN+Arial-ItalicMT 8.879999999999995",
-        "options": null
-      },
-      "inputs": [],
       "parent": null
     },
     {
@@ -383,18 +347,6 @@
       "parent": null
     },
     {
-      "id": "af424f15-6937-40ed-aedb-ee2e06d02bd9",
-      "group_id": 16,
-      "element_type": "text",
-      "element_params": {
-        "text": "first middle last ",
-        "text_style": "DYNNJN+Arial-ItalicMT 8.879999999999995",
-        "options": null
-      },
-      "inputs": [],
-      "parent": null
-    },
-    {
       "id": "f228e971-d4db-43f6-a03b-4eb009f214b0",
       "group_id": 17,
       "element_type": "text",
@@ -424,8 +376,8 @@
       "group_id": 18,
       "element_type": "text",
       "element_params": {
-        "text": "The attached copy of my photo ID is my (check one):",
-        "text_style": "JTUTCJ+ArialMT 12.0",
+        "text": "The attached copy of my photo ID is my (choose one):",
+        "text_style": "heading",
         "options": null
       },
       "inputs": [],
@@ -556,24 +508,12 @@
       "parent": null
     },
     {
-      "id": "36cc43a5-2b04-4f82-a57d-7303a75c7658",
-      "group_id": 23,
-      "element_type": "text",
-      "element_params": {
-        "text": "first middle last ",
-        "text_style": "DYNNJN+Arial-ItalicMT 8.879999999999995",
-        "options": null
-      },
-      "inputs": [],
-      "parent": null
-    },
-    {
       "id": "9a3644e2-05f3-4dae-8c64-6abd788d0c67",
       "group_id": 24,
       "element_type": "text",
       "element_params": {
         "text": "I also declare: ",
-        "text_style": "JTUTCJ+ArialMT 10.319999999999993",
+        "text_style": "subheading",
         "options": null
       },
       "inputs": [],
@@ -584,8 +524,8 @@
       "group_id": 25,
       "element_type": "text",
       "element_params": {
-        "text": "\u2022 I am not now facing criminal charges, nor am I involved in any other court case. ",
-        "text_style": "JTUTCJ+ArialMT 10.319999999999993",
+        "text": "  I am not now facing criminal charges, nor am I involved in any other court case. ",
+        "text_style": "indent",
         "options": null
       },
       "inputs": [],
@@ -596,20 +536,8 @@
       "group_id": 26,
       "element_type": "text",
       "element_params": {
-        "text": "\u2022 I have never been convicted of a criminal sex offense (as defined in Alabama Code \u00a7 15-20-21), ",
-        "text_style": "JTUTCJ+ArialMT 10.319999999999993",
-        "options": null
-      },
-      "inputs": [],
-      "parent": null
-    },
-    {
-      "id": "39f1a85b-1f5b-478b-a966-2ecf1e6abd7d",
-      "group_id": 27,
-      "element_type": "text",
-      "element_params": {
-        "text": "a crime of moral turpitude, or a felony. ",
-        "text_style": "JTUTCJ+ArialMT 10.319999999999993",
+        "text": "  I have never been convicted of a criminal sex offense (as defined in Alabama Code \u00a7 15-20-21), a crime of moral turpitude, or a felony. ",
+        "text_style": "indent",
         "options": null
       },
       "inputs": [],
@@ -620,140 +548,8 @@
       "group_id": 28,
       "element_type": "text",
       "element_params": {
-        "text": "\u2022 I am not asking to change my name to avoid paying my debts or to commit fraud. ",
-        "text_style": "JTUTCJ+ArialMT 10.319999999999993",
-        "options": null
-      },
-      "inputs": [],
-      "parent": null
-    },
-    {
-      "id": "be6f511d-89b5-4f53-a18e-acef61fc4097",
-      "group_id": 29,
-      "element_type": "text",
-      "element_params": {
-        "text": "\u2022 I swear that all of the information I have provided above is complete and accurate. ",
-        "text_style": "JTUTCJ+ArialMT 10.319999999999993",
-        "options": null
-      },
-      "inputs": [],
-      "parent": null
-    },
-    {
-      "id": "cbbc19e8-2485-4467-8d47-fe0b17e49c12",
-      "group_id": 30,
-      "element_type": "text",
-      "element_params": {
-        "text": "I ask the court to grant this request and to issue an order changing my name. ",
-        "text_style": "JTUTCJ+ArialMT 10.319999999999993",
-        "options": null
-      },
-      "inputs": [],
-      "parent": null
-    },
-    {
-      "id": "f01e62f3-fd2d-496f-9296-931e583b4ecf",
-      "group_id": 31,
-      "element_type": "text",
-      "element_params": {
-        "text": "Sign below in front of a notary: ",
-        "text_style": "DYNNJN+Arial-ItalicMT 9.359999999999985",
-        "options": null
-      },
-      "inputs": [],
-      "parent": null
-    },
-    {
-      "id": "23069e87-4933-4247-a91a-3ec81904cd48",
-      "group_id": 32,
-      "element_type": "text",
-      "element_params": {
-        "text": " Date: ",
-        "text_style": "JTUTCJ+ArialMT 8.880000000000024",
-        "options": null
-      },
-      "inputs": [],
-      "parent": null
-    },
-    {
-      "id": "4c3c9923-5728-4a57-995f-255d8325d54d",
-      "group_id": 33,
-      "element_type": "text",
-      "element_params": {
-        "text": "Notary fills out below\u2014 ",
-        "text_style": "PEUTYI+Arial-BoldItalicMT 9.840000000000003",
-        "options": null
-      },
-      "inputs": [],
-      "parent": null
-    },
-    {
-      "id": "d0eedd4a-68f9-477b-94c7-48bda71e2497",
-      "group_id": 34,
-      "element_type": "text",
-      "element_params": {
-        "text": "Sworn to and subscribed before me, the undersigned authority, ",
-        "text_style": "LEDWHU+TimesNewRomanPSMT 7.920000000000002",
-        "options": null
-      },
-      "inputs": [],
-      "parent": null
-    },
-    {
-      "id": "0e01909f-d65c-4046-98f2-8712d5acb95d",
-      "group_id": 35,
-      "element_type": "text",
-      "element_params": {
-        "text": "By (Print name of notary): ",
-        "text_style": "LEDWHU+TimesNewRomanPSMT 7.920000000000002",
-        "options": null
-      },
-      "inputs": [],
-      "parent": null
-    },
-    {
-      "id": "1a4e2d74-9689-481b-b745-418a0489ce18",
-      "group_id": 36,
-      "element_type": "text",
-      "element_params": {
-        "text": "On this date: (Notary\u2019s seal here) ",
-        "text_style": "DYNNJN+Arial-ItalicMT 7.920000000000002",
-        "options": null
-      },
-      "inputs": [],
-      "parent": null
-    },
-    {
-      "id": "f44677d5-88be-489e-a9b7-5cf9e411ab13",
-      "group_id": 37,
-      "element_type": "text",
-      "element_params": {
-        "text": " / / ",
-        "text_style": "JTUTCJ+ArialMT 10.799999999999997",
-        "options": null
-      },
-      "inputs": [],
-      "parent": null
-    },
-    {
-      "id": "9e60c1be-0a30-4658-9982-10155208ad02",
-      "group_id": 38,
-      "element_type": "text",
-      "element_params": {
-        "text": " Notary signs here Date notary\u2019s commission expires ",
-        "text_style": "PCNLPI+TimesNewRomanPS-ItalicMT 7.920000000000002",
-        "options": null
-      },
-      "inputs": [],
-      "parent": null
-    },
-    {
-      "id": "42525ddc-db9d-40b9-a51a-f415e9cc94c2",
-      "group_id": 39,
-      "element_type": "text",
-      "element_params": {
-        "text": "Rev. 8/08 \uf8e9 2008 Alabama State Bar ",
-        "text_style": "JTUTCJ+ArialMT 8.879999999999995",
+        "text": "  I am not asking to change my name to avoid paying my debts or to commit fraud. ",
+        "text_style": "indent",
         "options": null
       },
       "inputs": [],
