@@ -31,7 +31,13 @@ export const PreviewForm = ({ uiContext, form }: PreviewFormProps) => {
     uswdsRoot: uiContext.uswdsRoot,
   };
   const disposable = createFormSession(form); // nullSession instead?
-  return <Form context={previewUiContext} session={disposable}></Form>;
+  return (
+    <Form
+      isPreview={true}
+      context={previewUiContext}
+      session={disposable}
+    ></Form>
+  );
 };
 
 const createPreviewComponents = (

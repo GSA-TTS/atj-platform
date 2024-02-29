@@ -66,10 +66,12 @@ export default function Form({
   context,
   session,
   onSubmit,
+  isPreview, // ideally this should be removed. just here now for the FFP demo
 }: {
   context: FormUIContext;
   session: FormSession;
   onSubmit?: (data: Record<string, string>) => void;
+  isPreview?: boolean;
 }) {
   const initialPrompt = createPrompt(context.config, session, {
     validate: false,
@@ -93,44 +95,46 @@ export default function Form({
     <FormProvider {...formMethods}>
       <div className="preview">
         <div className="grid-row">
-          <nav className="sideNav tablet:grid-col-3 margin-bottom-4 tablet:margin-bottom-0">
-            <ul className="usa-sidenav">
-              <li className="usa-sidenav__item">
-                <a className="usa-current" href="">
-                  County
-                </a>
-              </li>
-              <li className="usa-sidenav__item">
-                <a href="">Current name</a>
-              </li>
-              <ul className="usa-sidenav__sublist">
+          {!isPreview && (
+            <nav className="sideNav tablet:grid-col-3 margin-bottom-4 tablet:margin-bottom-0">
+              <ul className="usa-sidenav">
                 <li className="usa-sidenav__item">
-                  <a href="">First name</a>
+                  <a className="usa-current" href="">
+                    County
+                  </a>
                 </li>
                 <li className="usa-sidenav__item">
-                  <a href="">Middle name</a>
+                  <a href="">Current name</a>
+                </li>
+                <ul className="usa-sidenav__sublist">
+                  <li className="usa-sidenav__item">
+                    <a href="">First name</a>
+                  </li>
+                  <li className="usa-sidenav__item">
+                    <a href="">Middle name</a>
+                  </li>
+                  <li className="usa-sidenav__item">
+                    <a href="">Last name</a>
+                  </li>
+                </ul>
+                <li className="usa-sidenav__item">
+                  <a href="">Declarations</a>
                 </li>
                 <li className="usa-sidenav__item">
-                  <a href="">Last name</a>
+                  <a href="">Address</a>
+                </li>
+                <li className="usa-sidenav__item">
+                  <a href="">Telephone</a>
+                </li>
+                <li className="usa-sidenav__item">
+                  <a href="">Date of Birth</a>
+                </li>
+                <li className="usa-sidenav__item">
+                  <a href="">Name at Birth</a>
                 </li>
               </ul>
-              <li className="usa-sidenav__item">
-                <a href="">Declarations</a>
-              </li>
-              <li className="usa-sidenav__item">
-                <a href="">Address</a>
-              </li>
-              <li className="usa-sidenav__item">
-                <a href="">Telephone</a>
-              </li>
-              <li className="usa-sidenav__item">
-                <a href="">Date of Birth</a>
-              </li>
-              <li className="usa-sidenav__item">
-                <a href="">Name at Birth</a>
-              </li>
-            </ul>
-          </nav>
+            </nav>
+          )}
           <div className="grid-col-9 usa-prose">
             <form
               className="previewForm usa-form usa-form--large margin-bottom-3"
