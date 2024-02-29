@@ -1,6 +1,11 @@
 import * as z from 'zod';
 
-import { type DocumentFieldMap, type FormElement } from '@atj/forms';
+import {
+  type DocumentFieldMap,
+  type FormElement,
+  type FormElementId,
+  type FormElementMap,
+} from '@atj/forms';
 import { type InputElement } from '@atj/forms/src/config/elements/input';
 
 import json from './al_name_change.json' assert { type: 'json' };
@@ -84,30 +89,34 @@ const ExtractedObject = z.object({
 type ExtractedObject = z.infer<typeof ExtractedObject>;
 
 export type ParsedPdf = {
-  elements: FormElement[];
+  elements: FormElementMap;
   outputs: DocumentFieldMap; // to populate FormOutput
+  root: FormElementId;
 };
 
 export const parseAlabamaNameChangeForm = (): ParsedPdf => {
   const extracted: ExtractedObject = ExtractedObject.parse(json);
   const parsedPdf: ParsedPdf = {
-    elements: [],
+    elements: {},
     outputs: {},
+    root: 'root',
   };
+  const rootSequence: FormElementId[] = [];
   for (const element of extracted.elements) {
+    const sequenceElements: FormElementId[] = [];
     for (const input of element.inputs) {
       if (input.input_type === 'Tx') {
         const id = input.input_params.output_id.toLowerCase();
-        parsedPdf.elements.push({
+        sequenceElements.push(id);
+        parsedPdf.elements[id] = {
           type: 'input',
           id,
           default: {} as unknown as any,
           data: {
-            text: element.element_params.text,
-            instructions: input.input_params.instructions,
+            label: input.input_params.instructions,
           },
-          required: true,
-        } satisfies FormElement<InputElement>);
+          required: false,
+        } satisfies FormElement<InputElement>;
         parsedPdf.outputs[id] = {
           type: 'TextField',
           name: input.input_params.text,
@@ -118,7 +127,34 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
         };
       }
     }
+    if (sequenceElements.length === 1) {
+      rootSequence.push(sequenceElements[0]);
+    } else if (sequenceElements.length > 1) {
+      parsedPdf.elements[element.id] = {
+        id: element.id,
+        type: 'sequence',
+        data: {
+          elements: sequenceElements,
+        },
+        default: {
+          elements: [],
+        },
+        required: true,
+      };
+      rootSequence.push(element.id);
+    }
   }
+  parsedPdf.elements['root'] = {
+    id: 'root',
+    type: 'sequence',
+    data: {
+      elements: rootSequence,
+    },
+    default: {
+      elements: [],
+    },
+    required: true,
+  };
   return parsedPdf;
 };
 
@@ -131,11 +167,10 @@ const getElementInputs = (element: ExtractedElement): FormElement[] => {
           id: input.input_params.output_id,
           default: {} as unknown as any,
           data: {
-            text: input.input_params.text,
-            instructions: input.input_params.instructions,
+            label: input.input_params.instructions,
           },
           required: true,
-        } satisfies FormElement<InputElement>;
+        } satisfies InputElement;
       }
       return null as unknown as FormElement;
     })

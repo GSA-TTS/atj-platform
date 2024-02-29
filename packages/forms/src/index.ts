@@ -145,17 +145,25 @@ const addError = (
   },
 });
 
+export const addFormElementMap = (
+  form: FormDefinition,
+  elements: FormElementMap,
+  root?: FormElementId
+) => {
+  return {
+    ...form,
+    elements: { ...form.elements, ...elements },
+    root: root !== undefined ? root : form.root,
+  };
+};
+
 export const addFormElements = (
   form: FormDefinition,
   elements: FormElement[],
   root?: FormElementId
 ) => {
   const formElementMap = getFormElementMap(elements);
-  return {
-    ...form,
-    elements: { ...form.elements, ...formElementMap },
-    root: root !== undefined ? root : form.root,
-  };
+  return addFormElementMap(form, formElementMap, root);
 };
 
 export const replaceFormElements = (

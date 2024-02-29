@@ -2,9 +2,9 @@ import * as z from 'zod';
 
 import { type FormElementConfig } from '..';
 import { type FormElement, type FormElementId } from '../../element';
-import { type Pattern, createPromptForElement } from '../../pattern';
+import { createPromptForElement } from '../../pattern';
 import { safeZodParse } from '../../util/zod';
-import { getFormElement } from '../..';
+import { getFormElement, getFormElementMap } from '../..';
 
 export type SequenceElement = FormElement<{
   elements: FormElementId[];

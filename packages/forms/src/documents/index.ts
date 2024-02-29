@@ -4,7 +4,6 @@ export type DocumentFieldValue =
       name: string;
       label: string;
       value: string;
-      instructions?: string;
       maxLength?: number;
       required: boolean;
     }
@@ -13,7 +12,6 @@ export type DocumentFieldValue =
       name: string;
       label: string;
       value: boolean;
-      instructions?: string;
       required: boolean;
     }
   | {
@@ -21,7 +19,6 @@ export type DocumentFieldValue =
       name: string;
       label: string;
       value: string[];
-      instructions?: string;
       required: boolean;
     }
   | {
@@ -29,7 +26,6 @@ export type DocumentFieldValue =
       name: string;
       label: string;
       value: string[];
-      instructions?: string;
       required: boolean;
     }
   | {
@@ -38,7 +34,6 @@ export type DocumentFieldValue =
       options: string[];
       label: string;
       value: string;
-      instructions?: string;
       required: boolean;
     }
   | {

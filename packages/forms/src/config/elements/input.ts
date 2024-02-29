@@ -7,7 +7,7 @@ import { getFormSessionValue } from '../../session';
 import { safeZodParse } from '../../util/zod';
 
 const configSchema = z.object({
-  text: z.string(),
+  label: z.string(),
   initial: z.string(),
   required: z.boolean(),
   maxLength: z.coerce.number(),
@@ -20,9 +20,8 @@ const createSchema = (data: InputElement['data']) =>
 export const inputConfig: FormElementConfig<InputElement> = {
   acceptsInput: true,
   initial: {
-    text: '',
+    label: '',
     initial: '',
-    instructions: '',
     required: true,
     maxLength: 128,
   },
@@ -46,8 +45,7 @@ export const inputConfig: FormElementConfig<InputElement> = {
         type: 'input',
         inputId: element.id,
         value: sessionValue,
-        label: element.data.text,
-        instructions: element.data.instructions,
+        label: element.data.label,
         required: element.data.required,
         ...extraAttributes,
       } as Pattern<TextInputPattern>,

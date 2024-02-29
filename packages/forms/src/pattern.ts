@@ -13,7 +13,6 @@ export type TextInputPattern = {
   value: string;
   label: string;
   required: boolean;
-  instructions?: string;
   error?: string;
 };
 

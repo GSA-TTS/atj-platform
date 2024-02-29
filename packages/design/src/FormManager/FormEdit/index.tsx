@@ -22,6 +22,7 @@ export default function FormEdit({
     return 'Form not found';
   }
   const form = result.data;
+  console.log(form);
   return (
     <div className="editFormPage">
       <h1>Form Editor Portal</h1>
