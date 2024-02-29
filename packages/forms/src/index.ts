@@ -224,3 +224,13 @@ export const addFormOutput = (form: FormDefinition, document: FormOutput) => {
 export const getFormElement = (form: FormDefinition, id: FormElementId) => {
   return form.elements[id];
 };
+
+export const updateFormSummary = (
+  form: FormDefinition,
+  summary: FormSummary
+) => {
+  return {
+    ...form,
+    summary,
+  };
+};

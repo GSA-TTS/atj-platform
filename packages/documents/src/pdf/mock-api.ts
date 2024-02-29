@@ -10,6 +10,7 @@ import { type InputElement } from '@atj/forms/src/config/elements/input';
 
 import json from './al_name_change.json' assert { type: 'json' };
 import { FieldsetElement } from '@atj/forms/src/config/elements/fieldset';
+import { ParagraphElement } from '@atj/forms/src/config/elements/paragraph';
 
 const TxInput = z.object({
   input_type: z.literal('Tx'),
@@ -93,6 +94,7 @@ export type ParsedPdf = {
   elements: FormElementMap;
   outputs: DocumentFieldMap; // to populate FormOutput
   root: FormElementId;
+  title: string;
 };
 
 export const parseAlabamaNameChangeForm = (): ParsedPdf => {
@@ -101,24 +103,45 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
     elements: {},
     outputs: {},
     root: 'root',
+    title: extracted.title,
   };
   const rootSequence: FormElementId[] = [];
   for (const element of extracted.elements) {
     const fieldsetElements: FormElementId[] = [];
+    if (element.inputs.length === 0) {
+      parsedPdf.elements[element.id] = {
+        type: 'paragraph',
+        id: element.id,
+        default: {
+          text: '',
+          maxLength: 2048,
+        },
+        data: {
+          text: element.element_params.text,
+          maxLength: 2048,
+        },
+        required: false,
+      } satisfies ParagraphElement;
+      continue;
+    }
     for (const input of element.inputs) {
       if (input.input_type === 'Tx') {
         const id = PdfFieldMap[input.input_params.output_id];
-        console.log(input.input_params.output_id.toLowerCase(), id);
-        fieldsetElements.push(id);
         parsedPdf.elements[id] = {
           type: 'input',
           id,
-          default: {} as unknown as any,
+          default: {
+            required: false,
+            label: '',
+            initial: '',
+            maxLength: 128,
+          },
           data: {
             label: input.input_params.instructions,
           },
           required: false,
-        } satisfies FormElement<InputElement>;
+        } satisfies InputElement;
+        fieldsetElements.push(id);
         parsedPdf.outputs[id] = {
           type: 'TextField',
           name: input.input_params.text,

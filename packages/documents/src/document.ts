@@ -5,6 +5,7 @@ import {
   addFormOutput,
   addFormElements,
   addFormElementMap,
+  updateFormSummary,
 } from '@atj/forms';
 import { PDFDocument, getDocumentFieldData } from './pdf';
 import { getSuggestedFormElementsFromCache } from './suggestions';
@@ -23,12 +24,12 @@ export const addDocument = async (
   const cachedPdf = await getSuggestedFormElementsFromCache(fileDetails.data);
 
   if (cachedPdf) {
-    const withElements = addFormElementMap(
-      form,
-      cachedPdf.elements,
-      cachedPdf.root
-    );
-    const updatedForm = addFormOutput(withElements, {
+    form = updateFormSummary(form, {
+      title: cachedPdf.title,
+      description: '',
+    });
+    form = addFormElementMap(form, cachedPdf.elements, cachedPdf.root);
+    const updatedForm = addFormOutput(form, {
       data: fileDetails.data,
       path: fileDetails.name,
       fields: cachedPdf.outputs,
