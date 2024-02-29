@@ -96,18 +96,16 @@ export default function Form({
           <nav className="sideNav tablet:grid-col-3 margin-bottom-4 tablet:margin-bottom-0">
             <ul className="usa-sidenav">
               <li className="usa-sidenav__item">
-                <a href="">County</a>
+                <a className="usa-current" href="">
+                  County
+                </a>
               </li>
               <li className="usa-sidenav__item">
-                <a className="usa-current" href="">
-                  Current name
-                </a>
+                <a href="">Current name</a>
               </li>
               <ul className="usa-sidenav__sublist">
                 <li className="usa-sidenav__item">
-                  <a className="usa-current" href="">
-                    First name
-                  </a>
+                  <a href="">First name</a>
                 </li>
                 <li className="usa-sidenav__item">
                   <a href="">Middle name</a>
