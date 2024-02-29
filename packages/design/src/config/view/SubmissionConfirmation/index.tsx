@@ -23,8 +23,8 @@ const SubmissionConfirmation: FormElementComponent<
       <h2>Next steps:</h2>
       <div className="margin-bottom-4">
         <ul className="usa-list">
-          <li>Review your document package for accuracy</li>
-          <li>Print your document package </li>
+          <li>Print your document package</li>
+          <li>Review your documents for accuracy</li>
           <li>Follow the instructions on the first page of your package</li>
         </ul>
       </div>
