@@ -1,6 +1,10 @@
 @forward "uswds-theme";
 @forward "uswds";
 
+html {
+  scroll-behavior: smooth;
+}
+
 h1 {
   font-size: 2.5em;
 
@@ -94,6 +98,10 @@ main {
 .usa-button,
 .usa-menu-btn {
   background-color: #54278f;
+
+  &:hover {
+    background-color: #783cb9;
+  }
 }
 
 .usa-header,
@@ -145,12 +153,12 @@ nav {
     padding-top: 2.6rem;
   }
 }
-.previewForm { 
+.previewForm {
   padding-left: 1rem;
-  
+
   >fieldset {
     margin-bottom: 10em;
-    
+
     >legend {
       border-bottom: 1px #DCDEE0 solid;
       font-size: 2rem;
@@ -288,6 +296,12 @@ iframe:focus {
       cursor: pointer;
     }
 
+    .usa-button {
+      background: #e7e3fa;
+      margin: 0;
+      padding: 2px;
+    }
+
     .usa-icon {
       height: 1.75em;
       width: 1.75em;
@@ -339,9 +353,15 @@ iframe:focus {
 .settingsContainer {
   background: #e7e3fa;
   padding: 30px;
+  position: -webkit-sticky; /* Safari */
+  top: 10px;
 
   h2 {
     margin-top: 0;
+    font-size: 1.2em;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
   }
 
   .formRowEditFields {
@@ -350,8 +370,18 @@ iframe:focus {
     }
   }
 
-  .usa-buttom {
+  .usa-button {
+    width: 100%;
+    padding: 1rem 1.25rem;
     margin: 20px 0 0;
+
+    &.close-button {
+      background-color: #76766a;
+
+      &:hover {
+        background-color: #929285;
+      }
+    }
   }
 }
 
@@ -398,6 +428,34 @@ iframe:focus {
     color: #39215e;
   }
 }
+
+@media screen and (max-width: 879px) {
+  .editFormContentWrapper {
+    .grid-col {
+      width: 100%;
+    }
+
+    .usa-button{
+      margin-left: 0;
+    }
+
+    .grid-col-4 {
+      position: static;
+    }
+
+    .settingsContainer {
+      position: fixed;
+      top: 15%;
+      left: 50%;
+      transform: translate(-50%, 0);
+      width: 90%;
+      margin: 0 auto;
+      height: auto;
+      box-shadow: 1px 4px 12px #76766a;
+    }
+  }
+}
+
 
 @media screen and (max-width: 480px) {
   .usa-legend,

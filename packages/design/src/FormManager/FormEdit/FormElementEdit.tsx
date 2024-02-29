@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import {
-  getFormElementConfig,
   updateElement,
   type FormElementMap,
+  getFormElementConfig,
 } from '@atj/forms';
 import { FormEditUIContext } from '../../config';
 import { usePreviewContext } from './context';
@@ -32,7 +32,6 @@ export const FormElementEdit = ({
   return (
     <FormProvider {...methods}>
       <div className="settingsContainer">
-        <h2>Editing {selectedElement.id}...</h2>
         <form
           className="editForm"
           onSubmit={methods.handleSubmit(formData => {

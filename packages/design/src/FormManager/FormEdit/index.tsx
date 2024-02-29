@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 
+import { FormDefinition } from '@atj/forms';
 import { type FormService } from '@atj/form-service';
 
 import { type FormEditUIContext } from '../../config';
 import { PreviewContextProvider, usePreviewContext } from './context';
 import { FormElementEdit } from './FormElementEdit';
 import { PreviewForm } from './Preview';
-import { FormDefinition } from '@atj/forms';
 
 export default function FormEdit({
   context,
@@ -22,11 +22,16 @@ export default function FormEdit({
     return 'Form not found';
   }
   const form = result.data;
+
   return (
     <div className="editFormPage">
       <h1>Edit form</h1>
       <p className="usa-intro">Your form has been imported for web delivery.</p>
       <PreviewContextProvider config={context.config} initialForm={form}>
+        <EditForm
+          context={context}
+          saveForm={form => formService.saveForm(formId, form)}
+        />{' '}
         <EditForm
           context={context}
           saveForm={form => formService.saveForm(formId, form)}
@@ -48,7 +53,7 @@ const EditForm = ({
     saveForm(form);
   }, [form]);
   return (
-    <div className="editFormContentWrapper">
+    <div className="editFormContentWrapper position-relative">
       <div className="grid-row">
         <div className="grid-col-8">
           <PreviewForm uiContext={context} form={form} />

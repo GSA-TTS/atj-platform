@@ -89,7 +89,6 @@ export default function Form({
     updatePrompt(allFormData);
   }, [allFormData]);
   */
-  console.log(JSON.stringify(prompt, null, 2));
   return (
     <FormProvider {...formMethods}>
       <div className="preview">

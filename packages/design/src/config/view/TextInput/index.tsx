@@ -20,7 +20,8 @@ const TextInput: FormElementComponent<Pattern<TextInputPattern>> = ({
           className={classNames('usa-label', {
             'usa-label--error': pattern.error,
           })}
-          htmlFor="input-error"
+          htmlFor={`input-${pattern.inputId}`}
+          id={`input-message-${pattern.inputId}`}
         >
           {pattern.label}
         </label>
