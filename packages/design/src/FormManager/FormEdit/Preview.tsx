@@ -96,6 +96,7 @@ const createPatternPreviewComponent = (Component: FormElementComponent) => {
               className="usa-icon"
               aria-hidden="true"
               focusable="false"
+              role="img"
             >
               <use xlinkHref={`${staticRoot}static/uswds/img/sprite.svg#settings`}></use>
             </svg>
