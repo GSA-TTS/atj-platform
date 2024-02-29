@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { type FormService } from '@atj/form-service';
@@ -30,6 +30,8 @@ export default function FormEdit({
     return 'Form not found';
   }
   const form = result.data;
+  const customBaseUrl = window.location.href + "/#top";
+
   return (
     <div className="editFormPage">
       <h1>Form Editor Portal</h1>
@@ -60,17 +62,51 @@ const EditForm = ({
   
   const rootField = getRootFormElement(currentForm);
   const formElement = getFormElement(currentForm, selectedId || rootField.id);
+  const settingsContainerRef = useRef<HTMLDivElement>(null);
+  const firstFocusableRef = useRef<HTMLHeadingElement>(null);
 
   const handleSelect = (id: FormElementId | null) => {
-    setSelectedId(id); // Always update the selectedId
+    setSelectedId(id);
     setIsSettingsVisible(selectedId !== id || !isSettingsVisible);
+
+    if (firstFocusableRef.current) {
+      firstFocusableRef.current.focus();
+    }
   };
+
+  const handleClose = () => {
+    setIsSettingsVisible(false);
+    setSelectedId(null);
+  };
+  
+  useEffect(() => {
+    let frameId: number;
+    
+    const updatePosition = () => {
+      if (window.innerWidth > 879) { // Only update position for non-mobile screens
+        if (selectedId && settingsContainerRef.current) {
+          const element = document.querySelector<HTMLDivElement>(`.form-group-row[data-id="${selectedId}"]`);
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            settingsContainerRef.current.style.top = `${rect.top}px`;
+          }
+        }
+      }
+      frameId = requestAnimationFrame(updatePosition);
+    };
+    
+    frameId = requestAnimationFrame(updatePosition);    
+
+    return () => {
+      cancelAnimationFrame(frameId);
+    };
+  }, [selectedId]);
 
   return (
     <>
-    <div className="editFormContentWrapper">
+    <div className="editFormContentWrapper position-relative">
       <div className="grid-row">
-        <div className="grid-col-8">
+        <div className="grid-col grid-col-8">
           <PreviewContext.Provider
             value={{
               selectedId,
@@ -81,9 +117,9 @@ const EditForm = ({
           </PreviewContext.Provider>
         </div>
         {isSettingsVisible && (
-        <div className={`grid-col-4 ${selectedId !== null ? "show" : "hide"}`}>
-          <div className="settingsContainer">
-            <h2>Editing {selectedId}...</h2>
+        <div className={`grid-col grid-col-4 ${selectedId !== null ? "show" : "hide"}`}>
+          <div ref={settingsContainerRef} className="settingsContainer position-sticky">
+            <h2 ref={firstFocusableRef}>Editing {selectedId}...</h2>
             {formElement && (
               <FormElementEdit
                 key={selectedId}
@@ -95,6 +131,13 @@ const EditForm = ({
                 }}
               />
             )}
+            <button 
+              className="usa-button close-button"
+              onClick={handleClose}
+              aria-label="Close settings"
+            >
+              Cancel
+            </button>
           </div>
 
         </div>

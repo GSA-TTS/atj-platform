@@ -60,52 +60,38 @@ const createPatternPreviewComponent = (Component: FormElementComponent) => {
     const { selectedId, setSelectedId } = useContext(PreviewContext);
 
     const handleEditClick = () => {
-      if (selectedId === prompt._elementId) {
-          setSelectedId(null); 
-      } else {
-          setSelectedId(prompt._elementId);
-      }
-  };
+      setSelectedId(selectedId === prompt._elementId ? null : prompt._elementId);
+    };
 
     const isSelected = selectedId === prompt._elementId;
     const divClassNames = isSelected ? 'form-group-row field-selected' : 'form-group-row';
 
-    // console.log("Current Selected ID:", selectedId); 
-    // console.log("Prompt ID:", prompt); 
-
-    // console.log("setSelectedId : ", setSelectedId ); 
-    // console.log("Is Selected:", isSelected); 
-    // console.log("Class Names:", divClassNames); 
     const staticRoot = "/@fs/Users/npierrelouis/Documents/Git Repos/atj-platform/packages/design/";
     return (
-      <div
-        onClick={handleEditClick}
-        className={divClassNames}
-        //onKeyDown={handleKeyDown}
-        role="button"
-        aria-pressed={isSelected}
-        aria-label="Select this pattern"
-        tabIndex={0}
+      <div className={divClassNames}
+        data-id={prompt._elementId}
       >
         <Component prompt={prompt} />
         <span className="edit-button-icon">
-          <a className="usa-link" 
-            href="javascript:void(0);"
-            title="Click to edit">
+          <button 
+            className="usa-button usa-button--secondary usa-button--unstyled"
+            onClick={handleEditClick}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                handleEditClick();
+              }
+            }}
+            tabIndex={0}
+            aria-label="Edit form group"
+          >
             <svg
               className="usa-icon"
-              aria-label="Click here to edit form group"
+              aria-hidden="true"
               focusable="false"
-              role="img"
             >
-                <title>Edit form group</title>
-                <desc>Click here to edit form group</desc>
-              <use
-                xlinkHref={`${staticRoot}static/uswds/img/sprite.svg#settings`}
-              ></use>
+              <use xlinkHref={`${staticRoot}static/uswds/img/sprite.svg#settings`}></use>
             </svg>
-          </a>
-
+          </button>
         </span>
       </div>
     );

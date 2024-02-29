@@ -22,7 +22,7 @@ const TextInput: FormElementComponent<Pattern<TextInputPattern>> = ({
           className={classNames('usa-label', {
             'usa-label--error': prompt.error,
           })}
-          htmlFor="input-error"
+          htmlFor={`input-${prompt.inputId}`}
         >
           {prompt.label}
         </label>
