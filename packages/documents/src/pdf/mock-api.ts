@@ -113,8 +113,8 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
         type: 'paragraph',
         id: element.id,
         default: {
-          maxLength: 2048,
           text: '',
+          maxLength: 2048,
         },
         data: {
           text: element.element_params.text,
