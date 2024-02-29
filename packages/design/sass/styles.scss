@@ -39,6 +39,14 @@ a,
 main {
   flex: 1;
   width: 100%;
+/*
+  >section {
+    &.grid-container {
+      margin: 0;
+      padding: 0;
+    }
+  }
+*/
 }
 
 .usa-banner__inner,
@@ -125,9 +133,50 @@ main {
 
 .usa-legend {
   max-width: 100%;
+  font-weight: 600;
+  width: -webkit-fill-available;
 }
 
-.previewForm {
+nav {
+  background: #F7F9FD;
+  padding: 0 1.5rem;
+
+  >ul {
+    padding-top: 2.6rem;
+  }
+}
+.previewForm { 
+  padding-left: 1rem;
+  
+  >fieldset {
+    margin-bottom: 10em;
+    
+    >legend {
+      border-bottom: 1px #DCDEE0 solid;
+      font-size: 2rem;
+    }
+
+    >.usa-form-group {
+      margin-left: 3rem;
+    }
+
+    .usa-form-group {
+      >fieldset {
+        border-bottom: 1px #DCDEE0 solid;
+        padding-bottom: 2rem;
+
+        legend {
+          font-size: 1.5rem;
+          border-bottom: none;
+        }
+
+        p {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
   .usa-button {
     margin: 1rem 0 0 1rem;
   }
