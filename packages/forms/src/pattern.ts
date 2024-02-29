@@ -37,6 +37,7 @@ export type SubmissionConfirmationPattern = {
 export type ParagraphPattern = {
   type: 'paragraph';
   text: string;
+  style: 'indent' | 'normal' | 'heading' | 'subheading';
 };
 
 export type FieldsetPattern = {

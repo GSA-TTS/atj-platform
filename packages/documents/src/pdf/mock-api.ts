@@ -118,10 +118,11 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
         },
         data: {
           text: element.element_params.text,
-          maxLength: 2048,
+          style: element.element_params.text_style,
         },
         required: false,
       } satisfies ParagraphElement;
+      rootSequence.push(element.id);
       continue;
     }
     for (const input of element.inputs) {
@@ -152,9 +153,7 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
         };
       }
     }
-    if (fieldsetElements.length === 1) {
-      rootSequence.push(fieldsetElements[0]);
-    } else if (fieldsetElements.length > 1) {
+    if (fieldsetElements.length > 0) {
       parsedPdf.elements[element.id] = {
         id: element.id,
         type: 'fieldset',
