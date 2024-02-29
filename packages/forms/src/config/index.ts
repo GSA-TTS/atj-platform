@@ -2,6 +2,7 @@ import {
   type FormElement,
   type FormElementId,
   type ParseFormElementData,
+  type ParseFormElementConfigData,
 } from '../element';
 import { type CreatePrompt } from '../pattern';
 
@@ -11,6 +12,7 @@ export type FormElementConfig<ThisFormElement extends FormElement> = {
   acceptsInput: boolean;
   initial: ThisFormElement['data'];
   parseData: ParseFormElementData<ThisFormElement>;
+  parseConfigData: ParseFormElementConfigData<ThisFormElement>;
   getChildren: (
     element: ThisFormElement,
     elements: Record<FormElementId, FormElement>

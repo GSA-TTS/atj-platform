@@ -45,7 +45,7 @@
       "group_id": 3,
       "element_type": "text",
       "element_params": {
-        "text": "Your current name: ",
+        "text": "Your current name",
         "text_style": "JTUTCJ+ArialMT 9.840000000000032",
         "options": null
       },
@@ -154,7 +154,7 @@
       "group_id": 9,
       "element_type": "text",
       "element_params": {
-        "text": "My current name is: ",
+        "text": "My current name",
         "text_style": "JTUTCJ+ArialMT 8.879999999999995",
         "options": null
       },
@@ -215,7 +215,7 @@
       "group_id": 11,
       "element_type": "text",
       "element_params": {
-        "text": "My address is: ",
+        "text": "My address",
         "text_style": "JTUTCJ+ArialMT 8.879999999999995",
         "options": null
       },
@@ -288,7 +288,7 @@
       "group_id": 13,
       "element_type": "text",
       "element_params": {
-        "text": "My phone numbers are (home): (work): ",
+        "text": "My phone numbers",
         "text_style": "DURMBL+Arial-BoldMT 8.879999999999995",
         "options": null
       },
@@ -350,7 +350,7 @@
       "group_id": 15,
       "element_type": "text",
       "element_params": {
-        "text": "My name at birth was: ",
+        "text": "My name at birth",
         "text_style": "JTUTCJ+ArialMT 8.879999999999995",
         "options": null
       },
@@ -598,7 +598,7 @@
       "group_id": 22,
       "element_type": "text",
       "element_params": {
-        "text": "I want my new name to be: ",
+        "text": "My new name",
         "text_style": "JTUTCJ+ArialMT 8.879999999999995",
         "options": null
       },

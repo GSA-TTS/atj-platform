@@ -2,8 +2,8 @@ import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { type Pattern, type TextInputPattern } from '@atj/forms';
 import TextInput from '.';
-import { Pattern, TextInputPattern } from '@atj/forms';
 
 export default {
   title: 'patterns/TextInput',

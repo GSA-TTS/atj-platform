@@ -1,12 +1,13 @@
-import React, { createContext, useContext } from 'react';
+import React from 'react';
 
 import {
   type FormDefinition,
-  type FormElementId,
   type Pattern,
   createFormSession,
+  getFormElement,
 } from '@atj/forms';
 
+import { usePreviewContext } from './context';
 import Form, {
   type ComponentForPattern,
   type FormElementComponent,
@@ -21,55 +22,92 @@ type PreviewFormProps = {
 export const PreviewForm = ({ uiContext, form }: PreviewFormProps) => {
   const previewUiContext: FormUIContext = {
     config: uiContext.config,
-    // I think we want to hoist this definition up to a higher level, so we
+    // TODO: We'll want to hoist this definition up to a higher level, so we
     // don't have to regenerate it every time we render the form.
-    components: createPreviewComponents(uiContext.components),
+    components: createPreviewComponents(
+      uiContext.components,
+      uiContext.uswdsRoot
+    ),
+    uswdsRoot: uiContext.uswdsRoot,
   };
   const disposable = createFormSession(form); // nullSession instead?
   return <Form context={previewUiContext} session={disposable}></Form>;
 };
 
 const createPreviewComponents = (
-  components: ComponentForPattern
+  components: ComponentForPattern,
+  uswdsRoot: string
 ): ComponentForPattern => {
   const previewComponents: ComponentForPattern = {};
-  // TODO: Create a configurable way to to defined preview components.
+  // TODO: Create a configurable way to to define preview components.
   for (const [patternType, Component] of Object.entries(components)) {
-    if (patternType === 'sequence') {
+    if (patternType === 'sequence' || patternType === 'fieldset') {
+      previewComponents[patternType] = Component;
+      /*
+      previewComponents[patternType] = createSequencePatternPreviewComponent(
+        Component,
+        previewComponents
+      );
+      */
+    } else if (patternType === 'form-summary') {
       previewComponents[patternType] = Component;
     } else {
-      previewComponents[patternType] = createPatternPreviewComponent(Component);
+      //previewComponents[patternType] = Component;
+      previewComponents[patternType] = createPatternPreviewComponent(
+        Component,
+        uswdsRoot
+      );
     }
   }
   return previewComponents;
 };
 
-type PreviewContextValue = {
-  selectedId?: FormElementId | null;
-  setSelectedId: (id: FormElementId | null) => void;
+/*
+const createSequencePatternPreviewComponent = (
+  Component: FormElementComponent,
+  previewComponents: ComponentForPattern
+) => {
+  const PatternPreviewSequenceComponent: FormElementComponent = ({
+    pattern,
+  }) => {
+    const { form, setSelectedElement } = usePreviewContext();
+    const element = getFormElement(form, pattern._elementId);
+    const Component = previewComponents[pattern.type];
+    return (
+      <DraggableList
+        form={form}
+        element={element}
+        setSelectedElement={setSelectedElement}
+      >
+        <Component pattern={pattern} />
+      </DraggableList>
+    );
+  };
+  return PatternPreviewSequenceComponent;
 };
+*/
 
-export const PreviewContext = createContext<PreviewContextValue>(
-  null as unknown as PreviewContextValue
-);
-
-const createPatternPreviewComponent = (Component: FormElementComponent) => {
+const createPatternPreviewComponent = (
+  Component: FormElementComponent,
+  uswdsRoot: string
+) => {
   const PatternPreviewComponent: FormElementComponent = ({
     pattern,
   }: {
     pattern: Pattern;
   }) => {
-    const { selectedId, setSelectedId } = useContext(PreviewContext);
+    const { form, selectedElement, setSelectedElement } = usePreviewContext();
 
     const handleEditClick = () => {
-      if (selectedId === pattern._elementId) {
-        setSelectedId(null);
+      if (selectedElement.id === pattern._elementId) {
+        //setSelectedElement(null);
       } else {
-        setSelectedId(pattern._elementId);
+        const element = getFormElement(form, pattern._elementId);
+        setSelectedElement(element);
       }
     };
 
-    const isSelected = selectedId === pattern._elementId;
+    const isSelected = selectedElement.id === pattern._elementId;
     const divClassNames = isSelected
       ? 'form-group-row field-selected'
       : 'form-group-row';
@@ -80,8 +118,6 @@ const createPatternPreviewComponent = (Component: FormElementComponent) => {
     // console.log("setSelectedId : ", setSelectedId );
     // console.log("Is Selected:", isSelected);
     // console.log("Class Names:", divClassNames);
-    const staticRoot =
-      '/@fs/Users/npierrelouis/Documents/Git Repos/atj-platform/packages/design/';
     return (
       <div
         onClick={handleEditClick}
@@ -107,9 +143,7 @@ const createPatternPreviewComponent = (Component: FormElementComponent) => {
             >
               <title>Edit form group</title>
               <desc>Click here to edit form group</desc>
-              <use
-                xlinkHref={`${staticRoot}static/uswds/img/sprite.svg#settings`}
-              ></use>
+              <use xlinkHref={`${uswdsRoot}img/sprite.svg#settings`}></use>
             </svg>
           </a>
         </span>

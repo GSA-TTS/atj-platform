@@ -1,9 +1,15 @@
 import * as z from 'zod';
 
-import { type FormElement } from '@atj/forms';
+import {
+  type DocumentFieldMap,
+  type FormElement,
+  type FormElementId,
+  type FormElementMap,
+} from '@atj/forms';
 import { type InputElement } from '@atj/forms/src/config/elements/input';
 
 import json from './al_name_change.json' assert { type: 'json' };
+import { FieldsetElement } from '@atj/forms/src/config/elements/fieldset';
 
 const TxInput = z.object({
   input_type: z.literal('Tx'),
@@ -81,15 +87,78 @@ const ExtractedObject = z.object({
   raw_fields: z.discriminatedUnion('type', [RawTxField, RawBtnField]).array(),
 });
 
-type ExtractedJsonType = z.infer<typeof ExtractedObject>;
+type ExtractedObject = z.infer<typeof ExtractedObject>;
 
-export type ParsedPdf = { elements: FormElement[] };
+export type ParsedPdf = {
+  elements: FormElementMap;
+  outputs: DocumentFieldMap; // to populate FormOutput
+  root: FormElementId;
+};
 
 export const parseAlabamaNameChangeForm = (): ParsedPdf => {
-  const parsedPDF: ExtractedJsonType = ExtractedObject.parse(json);
-  return {
-    elements: parsedPDF.elements.flatMap(getElementInputs),
+  const extracted: ExtractedObject = ExtractedObject.parse(json);
+  const parsedPdf: ParsedPdf = {
+    elements: {},
+    outputs: {},
+    root: 'root',
   };
+  const rootSequence: FormElementId[] = [];
+  for (const element of extracted.elements) {
+    const fieldsetElements: FormElementId[] = [];
+    for (const input of element.inputs) {
+      if (input.input_type === 'Tx') {
+        const id = PdfFieldMap[input.input_params.output_id];
+        console.log(input.input_params.output_id.toLowerCase(), id);
+        fieldsetElements.push(id);
+        parsedPdf.elements[id] = {
+          type: 'input',
+          id,
+          default: {} as unknown as any,
+          data: {
+            label: input.input_params.instructions,
+          },
+          required: false,
+        } satisfies FormElement<InputElement>;
+        parsedPdf.outputs[id] = {
+          type: 'TextField',
+          name: input.input_params.text,
+          label: input.input_params.instructions,
+          value: '',
+          maxLength: 1024,
+          required: input.input_params.required,
+        };
+      }
+    }
+    if (fieldsetElements.length === 1) {
+      rootSequence.push(fieldsetElements[0]);
+    } else if (fieldsetElements.length > 1) {
+      parsedPdf.elements[element.id] = {
+        id: element.id,
+        type: 'fieldset',
+        data: {
+          legend: element.element_params.text,
+          elements: fieldsetElements,
+        },
+        default: {
+          elements: [],
+        },
+        required: true,
+      } as FieldsetElement;
+      rootSequence.push(element.id);
+    }
+  }
+  parsedPdf.elements['root'] = {
+    id: 'root',
+    type: 'sequence',
+    data: {
+      elements: rootSequence,
+    },
+    default: {
+      elements: [],
+    },
+    required: true,
+  };
+  return parsedPdf;
 };
 
 const getElementInputs = (element: ExtractedElement): FormElement[] => {
@@ -99,17 +168,46 @@ const getElementInputs = (element: ExtractedElement): FormElement[] => {
         return {
           type: 'input',
           id: input.input_params.output_id,
-          default: {},
+          default: {} as unknown as any,
           data: {
-            text: input.input_params.text,
-            instructions: input.input_params.instructions,
+            label: input.input_params.instructions,
           },
           required: true,
-        } satisfies FormElement<InputElement>;
+        } satisfies InputElement;
       }
       return null as unknown as FormElement;
     })
     .filter((item): item is NonNullable<FormElement> => item !== null);
+};
+
+const PdfFieldMap: Record<string, string> = {
+  County_Name1: 'users1_address_county',
+  Current_First_Name1: 'users1_name_first',
+  Current_Middle_Name1: 'users1_name_middle',
+  Current_Last_Name1: 'users1_name_last',
+  Current_First_Name2: 'users1_name_first__2',
+  Current_Middle_Name2: 'users1_name_middle__2',
+  Current_Last_Name2: 'users1_name_last__2',
+  Street_Address: 'users1_address_line_one',
+  City: 'users1_address_city',
+  State: 'users1_address_state',
+  Zip: 'users1_address_zip',
+  Home_Phone: 'users1_phone',
+  Work_Phone: 'work_phone',
+  DOB: 'users1_birthdate',
+  Birth_First_Name: 'user1_preferred_name_first',
+  Birth_Middle_Name: 'user1_preferred_name_middle',
+  Birth_Last_Name: 'user1_preferred_name_last',
+  County_Name2: 'user1_address_county__2',
+  PhotoID: 'photo_id',
+  'DL#': 'driver_license_number',
+  'ID#': 'non_driver_id_number',
+  Why_change_name1: 'reasons_for_change', // pdf-lib combines the three input lines into a single input
+  Why_change_name2: 'reasons_for_change',
+  Why_change_name3: 'reasons_for_change',
+  New_First_Name: 'users1_previous_names1_first',
+  New_Middle_Name: 'users1_previous_names1_middle',
+  New_Last_Name: 'users1_previous_names1_last',
 };
 
 /*

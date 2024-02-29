@@ -16,6 +16,7 @@ export default function () {
         config: ctx.formConfig,
         components: defaultFormElementComponents,
         editComponents: defaultFormElementEditComponents,
+        uswdsRoot: ctx.uswdsRoot,
       }}
       formService={ctx.formService}
       baseUrl={ctx.baseUrl}

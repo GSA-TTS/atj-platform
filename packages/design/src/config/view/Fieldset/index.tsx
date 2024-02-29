@@ -1,17 +1,18 @@
 import React from 'react';
 
-import { type Pattern } from '@atj/forms';
-import { type ParagraphElement } from '@atj/forms/src/config/elements/paragraph';
+import { type FieldsetPattern, type Pattern } from '@atj/forms';
 
 import { type FormElementComponent } from '../../../Form';
 
-const FormSummary: FormElementComponent<Pattern<ParagraphElement>> = ({
+const FormSummary: FormElementComponent<Pattern<FieldsetPattern>> = ({
   pattern,
+  children,
 }) => {
   return (
-    <>
-      <p>{pattern.data.text}</p>
-    </>
+    <fieldset className="usa-fieldset">
+      <legend className="usa-legend">{pattern.legend}</legend>
+      {children}
+    </fieldset>
   );
 };
 export default FormSummary;

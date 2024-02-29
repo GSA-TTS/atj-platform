@@ -23,13 +23,14 @@ export const paragraphConfig: FormElementConfig<ParagraphElement> = {
   getChildren() {
     return [];
   },
-  createPrompt(_, session, element, options): Pattern[] {
-    return [
-      {
+  createPrompt(_, session, element, options) {
+    return {
+      pattern: {
         _elementId: element.id,
         type: 'paragraph' as const,
         text: element.data.text,
       } as Pattern<ParagraphPattern>,
-    ];
+      children: [],
+    };
   },
 };
