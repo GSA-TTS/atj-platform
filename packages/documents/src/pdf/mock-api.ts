@@ -107,7 +107,8 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
     const fieldsetElements: FormElementId[] = [];
     for (const input of element.inputs) {
       if (input.input_type === 'Tx') {
-        const id = input.input_params.output_id.toLowerCase();
+        const id = PdfFieldMap[input.input_params.output_id];
+        console.log(input.input_params.output_id.toLowerCase(), id);
         fieldsetElements.push(id);
         parsedPdf.elements[id] = {
           type: 'input',
@@ -177,6 +178,36 @@ const getElementInputs = (element: ExtractedElement): FormElement[] => {
       return null as unknown as FormElement;
     })
     .filter((item): item is NonNullable<FormElement> => item !== null);
+};
+
+const PdfFieldMap: Record<string, string> = {
+  County_Name1: 'users1_address_county',
+  Current_First_Name1: 'users1_name_first',
+  Current_Middle_Name1: 'users1_name_middle',
+  Current_Last_Name1: 'users1_name_last',
+  Current_First_Name2: 'users1_name_first__2',
+  Current_Middle_Name2: 'users1_name_middle__2',
+  Current_Last_Name2: 'users1_name_last__2',
+  Street_Address: 'users1_address_line_one',
+  City: 'users1_address_city',
+  State: 'users1_address_state',
+  Zip: 'users1_address_zip',
+  Home_Phone: 'users1_phone',
+  Work_Phone: 'work_phone',
+  DOB: 'users1_birthdate',
+  Birth_First_Name: 'user1_preferred_name_first',
+  Birth_Middle_Name: 'user1_preferred_name_middle',
+  Birth_Last_Name: 'user1_preferred_name_last',
+  County_Name2: 'user1_address_county__2',
+  PhotoID: 'photo_id',
+  'DL#': 'driver_license_number',
+  'ID#': 'non_driver_id_number',
+  Why_change_name1: 'reasons_for_change', // pdf-lib combines the three input lines into a single input
+  Why_change_name2: 'reasons_for_change',
+  Why_change_name3: 'reasons_for_change',
+  New_First_Name: 'users1_previous_names1_first',
+  New_Middle_Name: 'users1_previous_names1_middle',
+  New_Last_Name: 'users1_previous_names1_last',
 };
 
 /*
