@@ -4,15 +4,12 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { type FormService } from '@atj/form-service';
 import {
   type FormDefinition,
-  type FormElementMap,
   getRootFormElement,
-  updateElements,
   FormElementId,
   getFormElement,
 } from '@atj/forms';
 
 import { type FormEditUIContext } from '../../config';
-import InnerPageTopNav from '../internalPageTopNav';
 import { PreviewContext, PreviewForm } from './Preview';
 import { FormElementEdit } from './FormElementEdit';
 
@@ -36,7 +33,9 @@ export default function FormEdit({
     <div className="editFormPage">
       <h1>Form Editor Portal</h1>
       <p className="usa-intro">
-        Welcome to the Form Editor Portal, where you can effortlessly personalize your form by modifying labels, attributes, and other settings to better suit your needs.
+        Welcome to the Form Editor Portal, where you can effortlessly
+        personalize your form by modifying labels, attributes, and other
+        settings to better suit your needs.
       </p>
       <EditForm
         context={context}
@@ -50,16 +49,16 @@ export default function FormEdit({
 const EditForm = ({
   context,
   initialForm,
-  onSave,
+  //onSave,
 }: {
   context: FormEditUIContext;
   initialForm: FormDefinition;
-  onSave: (form: FormDefinition) => void;
+  //onSave: (form: FormDefinition) => void;
 }) => {
   const [currentForm, setCurrentForm] = useState(initialForm);
   const [selectedId, setSelectedId] = useState<FormElementId | null>(null);
   const [isSettingsVisible, setIsSettingsVisible] = useState(false);
-  
+
   const rootField = getRootFormElement(currentForm);
   const formElement = getFormElement(currentForm, selectedId || rootField.id);
   const settingsContainerRef = useRef<HTMLDivElement>(null);
@@ -146,13 +145,5 @@ const EditForm = ({
     </div>
 
     </>
-  );
-};
-
-const ButtonBar = () => {
-  return (
-    <div>
-      <button className="usa-button margin-top-0">Save Changes</button>
-    </div>
   );
 };

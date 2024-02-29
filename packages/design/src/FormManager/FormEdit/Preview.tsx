@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { createContext, useContext } from 'react';
 
 import {
@@ -26,7 +25,6 @@ export const PreviewForm = ({ uiContext, form }: PreviewFormProps) => {
     // don't have to regenerate it every time we render the form.
     components: createPreviewComponents(uiContext.components),
   };
-  console.log('creating session');
   const disposable = createFormSession(form); // nullSession instead?
   return <Form context={previewUiContext} session={disposable}></Form>;
 };
@@ -56,22 +54,32 @@ export const PreviewContext = createContext<PreviewContextValue>(
 );
 
 const createPatternPreviewComponent = (Component: FormElementComponent) => {
-  return function PatternPreviewComponent({ prompt }: { prompt: Pattern }) {
+  const PatternPreviewComponent: FormElementComponent = ({
+    pattern,
+  }: {
+    pattern: Pattern;
+  }) => {
     const { selectedId, setSelectedId } = useContext(PreviewContext);
 
     const handleEditClick = () => {
-      setSelectedId(selectedId === prompt._elementId ? null : prompt._elementId);
+      if (selectedId === pattern._elementId) {
+        setSelectedId(null);
+      } else {
+        setSelectedId(pattern._elementId);
+      }
     };
 
-    const isSelected = selectedId === prompt._elementId;
-    const divClassNames = isSelected ? 'form-group-row field-selected' : 'form-group-row';
+    const isSelected = selectedId === pattern._elementId;
+    const divClassNames = isSelected
+      ? 'form-group-row field-selected'
+      : 'form-group-row';
 
     const staticRoot = "/@fs/Users/npierrelouis/Documents/Git Repos/atj-platform/packages/design/";
     return (
       <div className={divClassNames}
         data-id={prompt._elementId}
       >
-        <Component prompt={prompt} />
+        <Component pattern={pattern} />
         <span className="edit-button-icon">
           <button 
             className="usa-button usa-button--secondary usa-button--unstyled"
@@ -96,4 +104,5 @@ const createPatternPreviewComponent = (Component: FormElementComponent) => {
       </div>
     );
   };
+  return PatternPreviewComponent;
 };

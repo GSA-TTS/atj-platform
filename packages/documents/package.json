@@ -13,7 +13,8 @@
   "dependencies": {
     "@atj/common": "workspace:*",
     "@atj/forms": "workspace:*",
-    "pdf-lib": "^1.17.1"
+    "pdf-lib": "^1.17.1",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/node": "^20.10.4"
