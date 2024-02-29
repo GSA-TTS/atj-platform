@@ -4,9 +4,11 @@ import {
   FormElement,
   addFormOutput,
   addFormElements,
+  addFormElementMap,
 } from '@atj/forms';
 import { PDFDocument, getDocumentFieldData } from './pdf';
 import { getSuggestedFormElementsFromCache } from './suggestions';
+import { InputElement } from '@atj/forms/src/config/elements/input';
 
 export type DocumentTemplate = PDFDocument;
 
@@ -21,25 +23,19 @@ export const addDocument = async (
   const cachedPdf = await getSuggestedFormElementsFromCache(fileDetails.data);
 
   if (cachedPdf) {
-    const updatedForm = addFormElements(
+    const withElements = addFormElementMap(
       form,
-      [
-        ...cachedPdf.elements,
-        {
-          id: 'root',
-          type: 'sequence',
-          data: {
-            elements: cachedPdf.elements.map(element => element.id),
-          },
-          default: {
-            elements: [],
-          },
-          required: true,
-        },
-      ],
-      'root'
+      cachedPdf.elements,
+      cachedPdf.root
     );
-    // TODO: add form outputs
+    const updatedForm = addFormOutput(withElements, {
+      data: fileDetails.data,
+      path: fileDetails.name,
+      fields: cachedPdf.outputs,
+      formFields: Object.fromEntries(
+        Object.keys(fields).map(field => [field, field])
+      ),
+    });
     return {
       newFields: fields,
       updatedForm,
@@ -74,58 +70,76 @@ export const addDocumentFieldsToForm = (
         type: 'input',
         id: field.name,
         data: {
-          text: field.label,
+          label: field.label,
+        },
+        default: {
+          label: '',
+          initial: '',
+          required: false,
           maxLength: 128,
         },
-        default: field.value,
         required: field.required,
-      });
+      } satisfies InputElement);
     } else if (field.type === 'OptionList') {
       elements.push({
         type: 'input',
         id: field.name,
         data: {
-          text: field.label,
+          label: field.label,
+        },
+        default: {
+          label: '',
+          initial: '',
+          required: false,
           maxLength: 128,
         },
-        default: field.value,
         required: field.required,
-      });
+      } satisfies InputElement);
     } else if (field.type === 'Dropdown') {
       elements.push({
         type: 'input',
         id: field.name,
         data: {
-          text: field.label,
+          label: field.label,
+        },
+        default: {
+          label: '',
+          initial: '',
+          required: false,
           maxLength: 128,
         },
-        default: field.value,
         required: field.required,
-      });
+      } satisfies InputElement);
     } else if (field.type === 'TextField') {
       elements.push({
         type: 'input',
         id: field.name,
         data: {
-          text: field.label,
-          instructions: field.instructions,
+          label: field.label,
+        },
+        default: {
+          label: '',
+          initial: '',
+          required: false,
           maxLength: 128,
         },
-        default: field.value,
         required: field.required,
-      });
+      } satisfies InputElement);
     } else if (field.type === 'RadioGroup') {
       elements.push({
         type: 'input',
         id: field.name,
         data: {
-          text: field.label,
-          instructions: field.instructions,
+          label: field.label,
+        },
+        default: {
+          label: '',
+          initial: '',
+          required: false,
           maxLength: 128,
         },
-        default: field.value,
         required: field.required,
-      });
+      } satisfies InputElement);
     } else if (field.type === 'Paragraph') {
       elements.push({
         type: 'paragraph',

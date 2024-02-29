@@ -6,12 +6,13 @@ import { type Pattern, type TextInputPattern } from '../../pattern';
 import { getFormSessionValue } from '../../session';
 import { safeZodParse } from '../../util/zod';
 
-export type InputElement = FormElement<{
-  text: string;
-  initial: string;
-  required: boolean;
-  maxLength: number;
-}>;
+const configSchema = z.object({
+  label: z.string(),
+  initial: z.string(),
+  required: z.boolean(),
+  maxLength: z.coerce.number(),
+});
+export type InputElement = FormElement<z.infer<typeof configSchema>>;
 
 const createSchema = (data: InputElement['data']) =>
   z.string().max(data.maxLength);
@@ -19,17 +20,17 @@ const createSchema = (data: InputElement['data']) =>
 export const inputConfig: FormElementConfig<InputElement> = {
   acceptsInput: true,
   initial: {
-    text: '',
+    label: '',
     initial: '',
-    instructions: '',
     required: true,
     maxLength: 128,
   },
   parseData: (elementData, obj) => safeZodParse(createSchema(elementData), obj),
+  parseConfigData: obj => safeZodParse(configSchema, obj),
   getChildren() {
     return [];
   },
-  createPrompt(_, session, element, options): Pattern[] {
+  createPrompt(_, session, element, options) {
     const extraAttributes: Record<string, any> = {};
     const sessionValue = getFormSessionValue(session, element.id);
     if (options.validate) {
@@ -38,17 +39,17 @@ export const inputConfig: FormElementConfig<InputElement> = {
         extraAttributes['error'] = isValidResult.error;
       }
     }
-    return [
-      {
+    return {
+      pattern: {
         _elementId: element.id,
         type: 'input',
         inputId: element.id,
         value: sessionValue,
-        label: element.data.text,
-        instructions: element.data.instructions,
+        label: element.data.label,
         required: element.data.required,
         ...extraAttributes,
       } as Pattern<TextInputPattern>,
-    ];
+      children: [],
+    };
   },
 };

@@ -115,10 +115,10 @@ export const updateForm = (
   return nextForm;
 };
 
-const addValue = (
+const addValue = <T extends FormElement = FormElement>(
   form: FormSession,
   id: FormElementId,
-  value: FormElementValue
+  value: FormElementValue<T>
 ): FormSession => ({
   ...form,
   data: {
@@ -145,17 +145,25 @@ const addError = (
   },
 });
 
+export const addFormElementMap = (
+  form: FormDefinition,
+  elements: FormElementMap,
+  root?: FormElementId
+) => {
+  return {
+    ...form,
+    elements: { ...form.elements, ...elements },
+    root: root !== undefined ? root : form.root,
+  };
+};
+
 export const addFormElements = (
   form: FormDefinition,
   elements: FormElement[],
   root?: FormElementId
 ) => {
   const formElementMap = getFormElementMap(elements);
-  return {
-    ...form,
-    elements: { ...form.elements, ...formElementMap },
-    root: root !== undefined ? root : form.root,
-  };
+  return addFormElementMap(form, formElementMap, root);
 };
 
 export const replaceFormElements = (
@@ -194,21 +202,14 @@ export const updateElements = (
 };
 
 export const updateElement = (
-  config: FormConfig,
   form: FormDefinition,
-  elementId: FormElementId,
-  data: FormElementMap
+  formElement: FormElement
 ): FormDefinition => {
-  if (form.elements[elementId] === undefined) {
-    console.error(`Element "${elementId}" does not exist on form.`);
-    return form;
-  }
-  const formElement = data[elementId];
   return {
     ...form,
     elements: {
       ...form.elements,
-      [elementId]: formElement,
+      [formElement.id]: formElement,
     },
   };
 };

@@ -2,14 +2,19 @@ import * as z from 'zod';
 
 import { type FormElementConfig } from '..';
 import { type FormElement, type FormElementId } from '../../element';
-import { type Pattern, createPromptForElement } from '../../pattern';
+import { createPromptForElement } from '../../pattern';
 import { safeZodParse } from '../../util/zod';
+import { getFormElement, getFormElementMap } from '../..';
 
 export type SequenceElement = FormElement<{
   elements: FormElementId[];
 }>;
 
 const sequenceSchema = z.array(z.string());
+
+const configSchema = z.object({
+  elements: z.array(z.string()),
+});
 
 export const sequenceConfig: FormElementConfig<SequenceElement> = {
   acceptsInput: false,
@@ -19,15 +24,24 @@ export const sequenceConfig: FormElementConfig<SequenceElement> = {
   parseData: (_, obj) => {
     return safeZodParse(sequenceSchema, obj);
   },
+  parseConfigData: obj => safeZodParse(configSchema, obj),
   getChildren(element, elements) {
     return element.data.elements.map(
       (elementId: string) => elements[elementId]
     );
   },
-  createPrompt(config, session, element, options): Pattern[] {
-    return element.data.elements.flatMap((elementId: string) => {
-      const element = session.form.elements[elementId];
+  createPrompt(config, session, element, options) {
+    const children = element.data.elements.map((elementId: string) => {
+      const element = getFormElement(session.form, elementId);
       return createPromptForElement(config, session, element, options);
     });
+    return {
+      pattern: {
+        _children: children,
+        _elementId: element.id,
+        type: 'sequence',
+      },
+      children,
+    };
   },
 };
