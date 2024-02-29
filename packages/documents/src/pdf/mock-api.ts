@@ -9,6 +9,7 @@ import {
 import { type InputElement } from '@atj/forms/src/config/elements/input';
 
 import json from './al_name_change.json' assert { type: 'json' };
+import { FieldsetElement } from '@atj/forms/src/config/elements/fieldset';
 
 const TxInput = z.object({
   input_type: z.literal('Tx'),
@@ -103,11 +104,11 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
   };
   const rootSequence: FormElementId[] = [];
   for (const element of extracted.elements) {
-    const sequenceElements: FormElementId[] = [];
+    const fieldsetElements: FormElementId[] = [];
     for (const input of element.inputs) {
       if (input.input_type === 'Tx') {
         const id = input.input_params.output_id.toLowerCase();
-        sequenceElements.push(id);
+        fieldsetElements.push(id);
         parsedPdf.elements[id] = {
           type: 'input',
           id,
@@ -127,20 +128,21 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
         };
       }
     }
-    if (sequenceElements.length === 1) {
-      rootSequence.push(sequenceElements[0]);
-    } else if (sequenceElements.length > 1) {
+    if (fieldsetElements.length === 1) {
+      rootSequence.push(fieldsetElements[0]);
+    } else if (fieldsetElements.length > 1) {
       parsedPdf.elements[element.id] = {
         id: element.id,
-        type: 'sequence',
+        type: 'fieldset',
         data: {
-          elements: sequenceElements,
+          legend: element.element_params.text,
+          elements: fieldsetElements,
         },
         default: {
           elements: [],
         },
         required: true,
-      };
+      } as FieldsetElement;
       rootSequence.push(element.id);
     }
   }

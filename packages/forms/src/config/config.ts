@@ -1,4 +1,5 @@
 import { type FormConfig } from '.';
+import { fieldsetConfig } from './elements/fieldset';
 import { inputConfig } from './elements/input';
 import { paragraphConfig } from './elements/paragraph';
 import { sequenceConfig } from './elements/sequence';
@@ -8,6 +9,7 @@ import { sequenceConfig } from './elements/sequence';
 // understand the usage scenarios better.
 export const defaultFormConfig: FormConfig = {
   elements: {
+    fieldset: fieldsetConfig,
     input: inputConfig,
     paragraph: paragraphConfig,
     sequence: sequenceConfig,

@@ -39,6 +39,11 @@ export type ParagraphPattern = {
   text: string;
 };
 
+export type FieldsetPattern = {
+  type: 'fieldset';
+  legend: string;
+};
+
 export type Pattern<T = {}> = {
   _elementId: FormElementId;
   _children: PromptPart[];

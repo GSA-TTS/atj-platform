@@ -41,7 +41,7 @@ const createPreviewComponents = (
   const previewComponents: ComponentForPattern = {};
   // TODO: Create a configurable way to to define preview components.
   for (const [patternType, Component] of Object.entries(components)) {
-    if (patternType === 'sequence') {
+    if (patternType === 'sequence' || patternType === 'fieldset') {
       previewComponents[patternType] = Component;
       /*
       previewComponents[patternType] = createSequencePatternPreviewComponent(
@@ -50,10 +50,9 @@ const createPreviewComponents = (
       );
       */
     } else if (patternType === 'form-summary') {
-      console.log('skipping form-summary...');
       previewComponents[patternType] = Component;
     } else {
-      previewComponents[patternType] = Component;
+      //previewComponents[patternType] = Component;
       previewComponents[patternType] = createPatternPreviewComponent(
         Component,
         uswdsRoot

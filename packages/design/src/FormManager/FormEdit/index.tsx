@@ -24,12 +24,8 @@ export default function FormEdit({
   const form = result.data;
   return (
     <div className="editFormPage">
-      <h1>Form Editor Portal</h1>
-      <p className="usa-intro">
-        Welcome to the Form Editor Portal, where you can effortlessly
-        personalize your form by modifying labels, attributes, and other
-        settings to better suit your needs.
-      </p>
+      <h1>Edit form</h1>
+      <p className="usa-intro">Your form has been imported for web delivery.</p>
       <PreviewContextProvider config={context.config} initialForm={form}>
         <EditForm
           context={context}
