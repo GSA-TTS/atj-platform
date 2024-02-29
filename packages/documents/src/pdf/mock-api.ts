@@ -114,9 +114,7 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
         id: element.id,
         default: {
           maxLength: 2048,
-          required: false,
-          label: '',
-          initial: '',
+          text: '',
         },
         data: {
           text: element.element_params.text,

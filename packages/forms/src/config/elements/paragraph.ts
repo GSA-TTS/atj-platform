@@ -7,9 +7,7 @@ import { getFormSessionValue } from '../../session';
 import { safeZodParse } from '../../util/zod';
 
 const configSchema = z.object({
-  label: z.string(),
-  initial: z.string(),
-  required: z.boolean(),
+  text: z.string(),
   maxLength: z.coerce.number(),
 });
 export type ParagraphElement = FormElement<z.infer<typeof configSchema>>;
@@ -20,10 +18,8 @@ const createSchema = (data: ParagraphElement['data']) =>
 export const paragraphConfig: FormElementConfig<ParagraphElement> = {
   acceptsInput: false,
   initial: {
-    label: '',
-    initial: '',
-    required: true,
-    maxLength: 128,
+    text: 'normal',
+    maxLength: 2048,
   },
   parseData: (elementData, obj) => safeZodParse(createSchema(elementData), obj),
   parseConfigData: obj => safeZodParse(configSchema, obj),
@@ -31,14 +27,6 @@ export const paragraphConfig: FormElementConfig<ParagraphElement> = {
     return [];
   },
   createPrompt(_, session, element, options) {
-    // const extraAttributes: Record<string, any> = {};
-    // const sessionValue = getFormSessionValue(session, element.id);
-    // if (options.validate) {
-    //   const isValidResult = validateElement(paragraphConfig, element, sessionValue);
-    //   if (!isValidResult.success) {
-    //     extraAttributes['error'] = isValidResult.error;
-    //   }
-    // }
     return {
       pattern: {
         _elementId: element.id,
