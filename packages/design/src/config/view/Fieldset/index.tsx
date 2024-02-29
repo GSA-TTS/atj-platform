@@ -9,7 +9,7 @@ const FormSummary: FormElementComponent<Pattern<FieldsetPattern>> = ({
   children,
 }) => {
   return (
-    <fieldset className="usa-fieldset">
+    <fieldset className="usa-fieldset margin-top-4">
       <legend className="usa-legend">{pattern.legend}</legend>
       {children}
     </fieldset>
