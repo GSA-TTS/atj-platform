@@ -4,6 +4,7 @@ import { type FormElementConfig } from '..';
 import { type FormElement } from '../../element';
 import { type Pattern, type ParagraphPattern } from '../../pattern';
 import { safeZodParse } from '../../util/zod';
+import { Result } from '@atj/common';
 
 export type ParagraphElement = FormElement<{
   text: string;
@@ -32,5 +33,8 @@ export const paragraphConfig: FormElementConfig<ParagraphElement> = {
       } as Pattern<ParagraphPattern>,
       children: [],
     };
+  },
+  parseConfigData: function (elementData: any): Result<any> {
+    throw new Error('Function not implemented.');
   },
 };
