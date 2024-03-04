@@ -10,8 +10,8 @@ import {
 type PreviewContextValue = {
   form: FormDefinition;
   setCurrentForm: (form: FormDefinition) => void;
-  selectedElement: FormElement;
-  setSelectedElement: (element: FormElement) => void;
+  selectedElement?: FormElement;
+  setSelectedElement: (element?: FormElement) => void;
 };
 
 export const PreviewContext = createContext<PreviewContextValue>(

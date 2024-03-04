@@ -105,15 +105,15 @@ const createPatternPreviewComponent = (
     const { form, selectedElement, setSelectedElement } = usePreviewContext();
 
     const handleEditClick = () => {
-      if (selectedElement.id === pattern._elementId) {
-        //setSelectedElement(null);
+      if (selectedElement?.id === pattern._elementId) {
+        setSelectedElement(undefined);
       } else {
         const element = getFormElement(form, pattern._elementId);
         setSelectedElement(element);
       }
     };
 
-    const isSelected = selectedElement.id === pattern._elementId;
+    const isSelected = selectedElement?.id === pattern._elementId;
     const divClassNames = isSelected
       ? 'form-group-row field-selected'
       : 'form-group-row';
