@@ -14,7 +14,7 @@ export const FormElementEdit = ({
 }: {
   context: FormEditUIContext;
 }) => {
-  const { form, selectedElement, setCurrentForm, selectedElementTop, setSelectedElement, isSettingsVisible } = usePreviewContext();
+  const { form, selectedElement, setCurrentForm, setSelectedElement, isSettingsVisible } = usePreviewContext();
   const handleClose = () => {
     setSelectedElement(undefined);
   };
@@ -86,7 +86,7 @@ export const FormElementEdit = ({
             setCurrentForm(updatedForm);
           })}
         >
-          <h3>Editing "{selectedElement.data.label}"...</h3>
+          <h3>Editing &quot;{selectedElement.data.label}&quot;...</h3>
           <SelectedEditComponent
             context={context}
             form={form}
