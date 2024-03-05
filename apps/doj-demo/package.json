@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.5.6",
+    "@astrojs/node": "^8.2.3",
     "@astrojs/react": "^3.0.9",
     "@atj/design": "workspace:*",
     "@atj/documents": "workspace:*",
@@ -19,6 +20,7 @@
     "astro": "^4.4.11",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-error-boundary": "^4.0.12",
     "typescript": "^5.3.3"
   },
   "devDependencies": {
