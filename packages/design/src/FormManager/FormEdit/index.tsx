@@ -31,10 +31,6 @@ export default function FormEdit({
         <EditForm
           context={context}
           saveForm={form => formService.saveForm(formId, form)}
-        />{' '}
-        <EditForm
-          context={context}
-          saveForm={form => formService.saveForm(formId, form)}
         />
       </PreviewContextProvider>
     </div>

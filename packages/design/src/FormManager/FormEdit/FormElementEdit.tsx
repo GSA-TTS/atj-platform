@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import {
@@ -14,8 +14,17 @@ export const FormElementEdit = ({
 }: {
   context: FormEditUIContext;
 }) => {
-  const { form, selectedElement, setCurrentForm } = usePreviewContext();
-  if (!selectedElement) {
+  const { form, selectedElement, setCurrentForm, selectedElementTop, setSelectedElement, isSettingsVisible } = usePreviewContext();
+  const handleClose = () => {
+    setSelectedElement(undefined);
+  };
+  
+  if (!selectedElement || !isSettingsVisible) {
+    return;
+  }
+
+  //TODO: Add the following to the if statement below if we decide to hide the edit form on page load: || !isSettingsVisible 
+  if (!selectedElement || !isSettingsVisible) {
     return;
   }
 
@@ -24,14 +33,40 @@ export const FormElementEdit = ({
       [selectedElement.id]: selectedElement,
     },
   });
+  const settingsContainerRef = useRef<HTMLDivElement>(null);
+  
   useEffect(() => {
     methods.setValue(selectedElement.id, selectedElement);
+  }, [selectedElement]);
+
+  //Updates the scroll position of the edit form when it's visible
+  useEffect(() => {
+    let frameId: number;
+  
+    const updatePosition = () => {
+      if (window.innerWidth > 879) {
+        if (selectedElement) {
+          const element = document.querySelector(`[data-id="${selectedElement.id}"]`);
+          if (element && settingsContainerRef.current) {
+            const rect = element.getBoundingClientRect();
+            settingsContainerRef.current.style.top = `${rect.top}px`;
+          }
+        }
+      }
+      frameId = requestAnimationFrame(updatePosition);
+    };
+  
+    frameId = requestAnimationFrame(updatePosition);
+  
+    return () => {
+      cancelAnimationFrame(frameId);
+    };
   }, [selectedElement]);
 
   const SelectedEditComponent = context.editComponents[selectedElement.type];
   return (
     <FormProvider {...methods}>
-      <div className="settingsContainer">
+      <div ref={settingsContainerRef} className="settingsContainer position-sticky">
         <form
           className="editForm"
           onSubmit={methods.handleSubmit(formData => {
@@ -51,6 +86,7 @@ export const FormElementEdit = ({
             setCurrentForm(updatedForm);
           })}
         >
+          <h3>Editing "{selectedElement.data.label}"...</h3>
           <SelectedEditComponent
             context={context}
             form={form}
@@ -58,6 +94,7 @@ export const FormElementEdit = ({
           />
           <p>
             <input className="usa-button" type="submit" value="Save" />
+            <input onClick={handleClose} className="usa-button close-button" type="submit" value="Cancel" />
           </p>
         </form>
       </div>
