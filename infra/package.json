@@ -4,18 +4,20 @@
   "main": "src/index.js",
   "types": "src/index.ts",
   "scripts": {
-    "compile": "tsc --pretty",
-    "dev": "tsc -w",
+    "build": "pnpm build:tsc && pnpm build:synth",
+    "build:get": "cdktf get",
+    "build:synth": "cdktf synth",
+    "build:tsc": "tsc --pretty",
+    "clean": "rm -rf .gen cdktf.out",
     "deploy": "cdktf deploy",
-    "get": "cdktf get",
-    "synth": "cdktf synth",
+    "dev": "tsc -w",
     "test": "jest",
     "test:watch": "jest --watch"
   },
   "dependencies": {
     "@cdktf/provider-aws": "18.0.1",
-    "cdktf": "^0.19.0",
-    "cdktf-cli": "^0.19.0",
+    "cdktf": "^0.20.4",
+    "cdktf-cli": "^0.20.4",
     "constructs": "^10.3.0"
   },
   "devDependencies": {
