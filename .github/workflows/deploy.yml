@@ -92,5 +92,5 @@ jobs:
         shell: bash
         run: |
           cd infra
-          source ./scripts/cloud.sh export -o gsa-10x-prototyping -s tts-10x-atj-dev
+          cf api https://api.fr.cloud.gov
           pnpm cdktf deploy --auto-approve
