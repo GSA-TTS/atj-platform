@@ -5,7 +5,6 @@
 
 #set -eo pipefail
 
-CMS_SERVICE=cms-service
 DEPLOY_USER=a2j-deployer
 DEPLOY_USER_KEY=${DEPLOY_USER}-key
 
@@ -67,8 +66,8 @@ export_service_key() {
   echo "Querying for ${DEPLOY_USER_KEY}..."
   SERVICE_KEY=$(cf service-key ${DEPLOY_USER} ${DEPLOY_USER_KEY} | tail -n +2)
   echo "Exporting ${DEPLOY_USER_KEY} CF_USER, CF_PASSWORD..."
-  export CF_USER=$(echo $SERVICE_KEY | jq -r .username)
-  export CF_PASSWORD=$(echo $SERVICE_KEY | jq -r .password)
+  export CF_USER=$(echo $SERVICE_KEY | jq -r .credentials.username)
+  export CF_PASSWORD=$(echo $SERVICE_KEY | jq -r .credentials.password)
 }
 
 export_environment() {
@@ -80,6 +79,7 @@ setup() {
     echo space "${space_name}" already created
   else
     cf create-space ${space_name} -o ${organization_name}
+    cf target -o ${organization_name} -s ${space_name}
   fi
 
   if service_exists "${DEPLOY_USER}" ; then
@@ -101,7 +101,7 @@ setup_keys() {
     cf create-service-key ${DEPLOY_USER} ${DEPLOY_USER_KEY}
   fi
 
-  echo "To see service keys, execute './cloud.sh'"
+  echo "To see service keys, execute: ./scripts/cloud.sh show -o <org> -s <space>"
 }
 
 update_keys() {
@@ -127,21 +127,9 @@ deploy() {
   cf push -f manifest.yml
 }
 
-rotate() {
-  update_keys
-  cat << EOF
-
-
-You need to update CI/CD github secrets with ./cloud.sh show
-
-  a2j-deployer-key.password => CF_PASSWORD_ENV
-  a2j-deployer-key.username => CF_USER_ENV
-EOF
-}
-
 while [ "$1" != "" ]; do
   case $1 in
-    rotate | setup | show | export | deploy )  operation=$1
+    setup | show | export | deploy )  operation=$1
                                 ;;
     -o | --organization )       shift
                                 organization_name=$1
@@ -164,8 +152,6 @@ validate_parameters
 cf target -o ${organization_name} -s ${space_name}
 
 case $operation in
-  rotate )                        rotate
-                                  ;;
   setup )                         setup
                                   ;;
   show )                          show

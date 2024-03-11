@@ -1,28 +1,29 @@
 {
-  "name": "@atj/spotlight",
+  "name": "doj-demo",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "astro": "astro",
-    "build": "astro build",
-    "clean": "rm -rf dist",
     "dev": "astro dev",
-    "preview": "astro preview"
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/check": "^0.5.6",
+    "@astrojs/node": "^8.2.3",
     "@astrojs/react": "^3.0.9",
     "@atj/design": "workspace:*",
     "@atj/documents": "workspace:*",
     "@atj/form-service": "workspace:*",
     "@atj/forms": "workspace:*",
-    "astro": "^4.3.3",
+    "astro": "^4.4.11",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-error-boundary": "^4.0.12"
+    "react-error-boundary": "^4.0.12",
+    "typescript": "^5.3.3"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.4.1",
-    "@types/react": "^18.2.37",
-    "jsdom": "^23.0.1"
+    "@types/react": "^18.2.62"
   }
 }

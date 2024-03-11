@@ -9,17 +9,3 @@ The configuration does not mount volumes for persistent data, because it is inte
 ```bash
 docker-compose up
 ```
-
-## Cloud.gov deployment
-
-To login with the Cloudfoundry CLI:
-
-```bash
-cf login -a api.fr.cloud.gov --sso
-```
-
-Deployment operations are available via this script:
-
-```bash
-./cloud.sh --help
-```
