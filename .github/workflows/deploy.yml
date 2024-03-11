@@ -79,4 +79,7 @@ jobs:
           pnpm build:tsc
 
       - name: Apply Terraform CDK configuration
-        run: pnpm cdktf deploy --auto-approve
+        shell: bash
+        run: |
+          cd infra
+          pnpm cdktf deploy --auto-approve
