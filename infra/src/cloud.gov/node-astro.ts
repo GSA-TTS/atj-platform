@@ -23,15 +23,14 @@ export class AstroService extends Construct {
     new cloudfoundry.app.App(this, `${id}-app`, {
       name: `${id}-app`,
       space: spaceId,
-      //path: asset.path,
-      //sourceCodeHash: asset.assetHash,
-      //command: 'node ./dist/server/entry.mjs',
-      //buildpack: 'nodejs_buildpack',
-      dockerImage: 'cloudfoundry/test-app',
+      dockerImage: 'ghcr.io/gsa-tts/tts-10x-atj-dev/doj-demo:latest',
+      memory: 1024,
+      diskQuota: 4096,
+      healthCheckType: 'http',
+      healthCheckHttpEndpoint: '/',
       routes: [
         {
           route: route.id,
-          //port: 7777,
         },
       ],
     });

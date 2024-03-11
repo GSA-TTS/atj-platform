@@ -15,6 +15,9 @@ export default defineConfig({
       include: ['src/components/react/**'],
     }),
   ],
+  server: {
+    port: 80,
+  },
 });
 
 function addTrailingSlash(path) {
