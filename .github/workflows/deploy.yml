@@ -78,6 +78,11 @@ jobs:
           pnpm cdktf get
           pnpm build:tsc
 
+      - name: Install CloudFoundry CLI
+        run: |
+          curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v8&source=github" | sudo tar -zx --directory=/usr/local/bin
+          cf --version
+
       - name: Apply Terraform CDK configuration
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
