@@ -58,6 +58,13 @@ jobs:
       - name: Build container image
         run: docker build . --platform linux/amd64 --target doj-demo --tag ${TAG_NAME}
 
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Publish to container registry
         run: docker push ${TAG_NAME}
 
