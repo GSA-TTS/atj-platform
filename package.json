@@ -12,9 +12,8 @@
     "format": "prettier --write \"packages/**/*.{js,jsx,ts,tsx}\"",
     "lint": "turbo run lint",
     "pages": "rm -rf node_modules && npm i -g pnpm turbo && pnpm i && pnpm build && ln -sf ./apps/spotlight/dist _site",
-    "test": "run-p test:*",
-    "test:infra": "turbo run --filter=infra test",
-    "test:vitest": "vitest run --coverage.enabled --coverage.reporter=text --coverage.reporter=json-summary --coverage.reporter=json --coverage.reportOnFailure --reporter vitest-github-actions-reporter"
+    "test": "vitest run --coverage.enabled --coverage.reporter=text --coverage.reporter=json-summary --coverage.reporter=json --coverage.reportOnFailure --reporter vitest-github-actions-reporter",
+    "test:infra": "turbo run --filter=infra test"
   },
   "hooks": {
     "pre-commit": "pnpm format"
