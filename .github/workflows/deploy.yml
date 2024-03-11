@@ -85,4 +85,5 @@ jobs:
         shell: bash
         run: |
           cd infra
+          source ./scripts/cloud.sh export -o gsa-10x-prototyping -s tts-10x-atj-dev
           pnpm cdktf deploy --auto-approve
