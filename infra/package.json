@@ -4,13 +4,13 @@
   "main": "src/index.js",
   "types": "src/index.ts",
   "scripts": {
-    "build": "pnpm build:get && pnpm build:tsc && pnpm build:synth",
+    "build": "pnpm build:tsc && pnpm build:synth",
+    "build:get": "cdktf get",
     "build:synth": "cdktf synth",
     "build:tsc": "tsc --pretty",
     "clean": "rm -rf .gen cdktf.out",
     "deploy": "cdktf deploy",
     "dev": "tsc -w",
-    "postinstall": "cdktf get",
     "test": "jest",
     "test:watch": "jest --watch"
   },
