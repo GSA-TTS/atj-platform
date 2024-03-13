@@ -8,6 +8,7 @@ import {
   type FormElementValue,
   type FormElementValueMap,
   getFormElementMap,
+  getFormElementConfig,
 } from './element';
 
 export * from './config';
@@ -233,4 +234,23 @@ export const updateFormSummary = (
     ...form,
     summary,
   };
+};
+
+export const updateFormElement = (
+  config: FormConfig,
+  form: FormDefinition,
+  formElement: FormElement,
+  formData: FormElementMap
+) => {
+  const elementConfig = getFormElementConfig(config, formElement.type);
+  const data = formData[formElement.id].data;
+  const result = elementConfig.parseConfigData(data);
+  if (!result.success) {
+    return;
+  }
+  const updatedForm = updateElement(form, {
+    ...formElement,
+    data: result.data,
+  });
+  return updatedForm;
 };

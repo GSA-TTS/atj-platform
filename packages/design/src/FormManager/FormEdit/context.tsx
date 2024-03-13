@@ -4,10 +4,14 @@ import {
   type FormConfig,
   type FormDefinition,
   type FormElement,
-  getFirstFormElement,
+  type FormElementMap,
+  updateFormElement,
 } from '@atj/forms';
 
 type PreviewContextValue = {
+  actions: {
+    updateSelectedFormElement: (formData: FormElementMap) => void;
+  };
   form: FormDefinition;
   setCurrentForm: (form: FormDefinition) => void;
   selectedElement?: FormElement;
@@ -32,20 +36,32 @@ export const PreviewContextProvider = ({
   children: React.ReactNode;
 }) => {
   const [form, setCurrentForm] = useState(initialForm);
-  const element = getFirstFormElement(config, form);
-  //TODO: replace '(undefined)' with '(element)' if we decide to make first field selected on page load
-  const [selectedElement, setSelectedElement] = useState<FormElement | undefined>(undefined); 
+  const [selectedElement, setSelectedElement] = useState<FormElement>();
   const [selectedElementTop, setSelectedElementTop] = useState(0);
   const [isSettingsVisible, setIsSettingsVisible] = useState(false);
 
-  
-  if (!element) {
-    throw new Error('Form has no elements');
-  }
+  const actions: PreviewContextValue['actions'] = {
+    updateSelectedFormElement: formData => {
+      if (selectedElement === undefined) {
+        console.warn('No selected element');
+        return;
+      }
+      const updatedForm = updateFormElement(
+        config,
+        form,
+        selectedElement,
+        formData
+      );
+      if (updatedForm) {
+        setCurrentForm(updatedForm);
+      }
+    },
+  };
 
   return (
     <PreviewContext.Provider
       value={{
+        actions,
         form,
         setCurrentForm,
         selectedElement,

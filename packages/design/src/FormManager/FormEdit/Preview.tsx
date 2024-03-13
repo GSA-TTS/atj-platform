@@ -102,14 +102,22 @@ const createPatternPreviewComponent = (
   }: {
     pattern: Pattern;
   }) => {
-    const { form, selectedElement, setSelectedElement, setSelectedElementTop, setIsSettingsVisible } = usePreviewContext();
+    const {
+      form,
+      selectedElement,
+      setSelectedElement,
+      setSelectedElementTop,
+      setIsSettingsVisible,
+    } = usePreviewContext();
 
-    //Handles the positioning of the edit form
+    // Handles the positioning of the edit form
     const handleEditClick = () => {
       if (selectedElement?.id === pattern._elementId) {
         setSelectedElement(undefined);
       } else {
-        const element = document.querySelector(`[data-id="${pattern._elementId}"]`);
+        const element = document.querySelector(
+          `[data-id="${pattern._elementId}"]`
+        );
         if (element) {
           const rect = element.getBoundingClientRect();
           setSelectedElementTop(rect.top);
@@ -120,7 +128,7 @@ const createPatternPreviewComponent = (
 
       setIsSettingsVisible(true);
     };
-    
+
     const isSelected = selectedElement?.id === pattern._elementId;
     const divClassNames = isSelected
       ? 'form-group-row field-selected'
