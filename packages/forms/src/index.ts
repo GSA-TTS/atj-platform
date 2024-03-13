@@ -25,6 +25,28 @@ export type FormDefinition = {
   outputs: FormOutput[];
 };
 
+export const nullFormDefinition: FormDefinition = {
+  summary: {
+    title: '',
+    description: '',
+  },
+  root: 'root',
+  elements: {
+    root: {
+      type: 'sequence',
+      id: 'root',
+      data: {
+        elements: [],
+      },
+      default: {
+        elements: [],
+      },
+      required: true,
+    },
+  },
+  outputs: [],
+};
+
 export type FormSummary = {
   title: string;
   description: string;

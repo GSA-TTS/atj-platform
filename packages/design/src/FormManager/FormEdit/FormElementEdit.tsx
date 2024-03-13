@@ -2,19 +2,18 @@ import React, { useEffect, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { type FormElementMap } from '@atj/forms';
-import { FormEditUIContext } from '../../config';
-import { usePreviewContext } from './context';
+import { useFormEditStore } from './store';
 
-export const FormElementEdit = ({
-  context,
-}: {
-  context: FormEditUIContext;
-}) => {
-  const { actions, form, isSettingsVisible, selectedElement } =
-    usePreviewContext();
-  const handleClose = () => {
-    actions.setSelectedElement(undefined);
-  };
+export const FormElementEdit = () => {
+  const context = useFormEditStore(state => state.context);
+  const form = useFormEditStore(state => state.form);
+  const selectedElement = useFormEditStore(state => state.selectedElement);
+  const setSelectedElement = useFormEditStore(
+    state => state.setSelectedElement
+  );
+  const updateSelectedFormElement = useFormEditStore(
+    state => state.updateSelectedFormElement
+  );
 
   const methods = useForm<FormElementMap>({
     defaultValues: selectedElement
@@ -58,7 +57,7 @@ export const FormElementEdit = ({
     };
   }, [selectedElement]);
 
-  if (!selectedElement || !isSettingsVisible) {
+  if (!selectedElement) {
     return;
   }
 
@@ -72,7 +71,7 @@ export const FormElementEdit = ({
         <form
           className="editForm"
           onSubmit={methods.handleSubmit(formData => {
-            actions.updateSelectedFormElement(formData);
+            updateSelectedFormElement(formData);
           })}
         >
           <h3>Editing &quot;{selectedElement.data.label}&quot;...</h3>
@@ -84,7 +83,7 @@ export const FormElementEdit = ({
           <p>
             <input className="usa-button" type="submit" value="Save" />
             <input
-              onClick={handleClose}
+              onClick={() => setSelectedElement(undefined)}
               className="usa-button close-button"
               type="submit"
               value="Cancel"

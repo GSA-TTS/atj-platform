@@ -1,24 +1,18 @@
 import React from 'react';
 
-import {
-  type FormDefinition,
-  type Pattern,
-  createFormSession,
-} from '@atj/forms';
+import { type Pattern, createFormSession } from '@atj/forms';
 
-import { usePreviewContext } from './context';
 import Form, {
   type ComponentForPattern,
   type FormElementComponent,
   type FormUIContext,
 } from '../../Form';
+import { useFormEditStore } from './store';
 
-type PreviewFormProps = {
-  uiContext: FormUIContext;
-  form: FormDefinition;
-};
+export const PreviewForm = () => {
+  const uiContext = useFormEditStore(state => state.context);
+  const form = useFormEditStore(state => state.form);
 
-export const PreviewForm = ({ uiContext, form }: PreviewFormProps) => {
   const previewUiContext: FormUIContext = {
     config: uiContext.config,
     // TODO: We'll want to hoist this definition up to a higher level, so we
@@ -101,7 +95,8 @@ const createPatternPreviewComponent = (
   }: {
     pattern: Pattern;
   }) => {
-    const { actions, selectedElement } = usePreviewContext();
+    const selectedElement = useFormEditStore(state => state.selectedElement);
+    const handleEditClick = useFormEditStore(state => state.handleEditClick);
 
     const isSelected = selectedElement?.id === pattern._elementId;
     const divClassNames = isSelected
@@ -114,10 +109,10 @@ const createPatternPreviewComponent = (
         <span className="edit-button-icon">
           <button
             className="usa-button usa-button--secondary usa-button--unstyled"
-            onClick={() => actions.handleEditClick(pattern)}
+            onClick={() => handleEditClick(pattern)}
             onKeyDown={e => {
               if (e.key === 'Enter') {
-                actions.handleEditClick(pattern);
+                handleEditClick(pattern);
               }
             }}
             tabIndex={0}

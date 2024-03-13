@@ -4,9 +4,9 @@ import { FormDefinition } from '@atj/forms';
 import { type FormService } from '@atj/form-service';
 
 import { type FormEditUIContext } from '../../config';
-import { PreviewContextProvider, usePreviewContext } from './context';
 import { FormElementEdit } from './FormElementEdit';
 import { PreviewForm } from './Preview';
+import { FormEditProvider, useFormEditStore } from './store';
 
 export default function FormEdit({
   context,
@@ -27,12 +27,12 @@ export default function FormEdit({
     <div className="editFormPage">
       <h1>Edit form</h1>
       <p className="usa-intro">Your form has been imported for web delivery.</p>
-      <PreviewContextProvider config={context.config} initialForm={form}>
+      <FormEditProvider context={context} form={form}>
         <EditForm
           context={context}
           saveForm={form => formService.saveForm(formId, form)}
         />
-      </PreviewContextProvider>
+      </FormEditProvider>
     </div>
   );
 }
@@ -44,18 +44,19 @@ const EditForm = ({
   context: FormEditUIContext;
   saveForm: (form: FormDefinition) => void;
 }) => {
-  const { form, selectedElement } = usePreviewContext();
+  const { form, selectedElement } = useFormEditStore();
   useEffect(() => {
     saveForm(form);
   }, [form]);
+
   return (
     <div className="editFormContentWrapper position-relative">
       <div className="grid-row">
         <div className="grid-col-8">
-          <PreviewForm uiContext={context} form={form} />
+          <PreviewForm />
         </div>
         <div className={`grid-col-4 ${selectedElement ? 'show' : 'hide'}`}>
-          <FormElementEdit context={context} />
+          <FormElementEdit />
         </div>
       </div>
     </div>
