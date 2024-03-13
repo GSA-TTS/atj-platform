@@ -8,11 +8,11 @@ export const FormElementEdit = () => {
   const context = useFormEditStore(state => state.context);
   const form = useFormEditStore(state => state.form);
   const selectedElement = useFormEditStore(state => state.selectedElement);
-  const setSelectedElement = useFormEditStore(
-    state => state.setSelectedElement
-  );
-  const updateSelectedFormElement = useFormEditStore(
-    state => state.updateSelectedFormElement
+  const { setSelectedElement, updateSelectedFormElement } = useFormEditStore(
+    state => ({
+      setSelectedElement: state.setSelectedElement,
+      updateSelectedFormElement: state.updateSelectedFormElement,
+    })
   );
 
   const methods = useForm<FormElementMap>({
@@ -28,13 +28,13 @@ export const FormElementEdit = () => {
     if (selectedElement === undefined) {
       return;
     }
+    methods.reset();
     methods.setValue(selectedElement.id, selectedElement);
   }, [selectedElement]);
 
   // Updates the scroll position of the edit form when it's visible
   useEffect(() => {
     let frameId: number;
-
     const updatePosition = () => {
       if (window.innerWidth > 879) {
         if (selectedElement) {
@@ -49,9 +49,7 @@ export const FormElementEdit = () => {
       }
       frameId = requestAnimationFrame(updatePosition);
     };
-
     frameId = requestAnimationFrame(updatePosition);
-
     return () => {
       cancelAnimationFrame(frameId);
     };
