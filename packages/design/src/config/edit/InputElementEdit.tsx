@@ -64,7 +64,6 @@ const InputElementEdit: FormElementEditComponent<InputElement> = ({
             type="checkbox"
             id={`${element.id}.data.required`}
             {...register(`${element.id}.data.required`)}
-            checked={element.required}
           />
           <label
             className="usa-checkbox__label"
