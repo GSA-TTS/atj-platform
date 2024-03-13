@@ -21,23 +21,19 @@ export const FormElementEdit = ({
     setSelectedElement(undefined);
   };
 
-  if (!selectedElement || !isSettingsVisible) {
-    return;
-  }
-
-  // TODO: Add the following to the if statement below if we decide to hide the edit form on page load: || !isSettingsVisible
-  if (!selectedElement || !isSettingsVisible) {
-    return;
-  }
-
   const methods = useForm<FormElementMap>({
-    defaultValues: {
-      [selectedElement.id]: selectedElement,
-    },
+    defaultValues: selectedElement
+      ? {
+          [selectedElement.id]: selectedElement,
+        }
+      : {},
   });
   const settingsContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (selectedElement === undefined) {
+      return;
+    }
     methods.setValue(selectedElement.id, selectedElement);
   }, [selectedElement]);
 
@@ -66,6 +62,10 @@ export const FormElementEdit = ({
       cancelAnimationFrame(frameId);
     };
   }, [selectedElement]);
+
+  if (!selectedElement || !isSettingsVisible) {
+    return;
+  }
 
   const SelectedEditComponent = context.editComponents[selectedElement.type];
   return (
