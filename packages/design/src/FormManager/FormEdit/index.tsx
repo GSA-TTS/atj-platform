@@ -28,20 +28,15 @@ export default function FormEdit({
       <h1>Edit form</h1>
       <p className="usa-intro">Your form has been imported for web delivery.</p>
       <FormEditProvider context={context} form={form}>
-        <EditForm
-          context={context}
-          saveForm={form => formService.saveForm(formId, form)}
-        />
+        <EditForm saveForm={form => formService.saveForm(formId, form)} />
       </FormEditProvider>
     </div>
   );
 }
 
 const EditForm = ({
-  context,
   saveForm,
 }: {
-  context: FormEditUIContext;
   saveForm: (form: FormDefinition) => void;
 }) => {
   const { form, selectedElement } = useFormEditStore();
