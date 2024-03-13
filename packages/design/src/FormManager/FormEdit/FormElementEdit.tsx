@@ -10,15 +10,10 @@ export const FormElementEdit = ({
 }: {
   context: FormEditUIContext;
 }) => {
-  const {
-    actions,
-    form,
-    selectedElement,
-    setSelectedElement,
-    isSettingsVisible,
-  } = usePreviewContext();
+  const { actions, form, isSettingsVisible, selectedElement } =
+    usePreviewContext();
   const handleClose = () => {
-    setSelectedElement(undefined);
+    actions.setSelectedElement(undefined);
   };
 
   const methods = useForm<FormElementMap>({

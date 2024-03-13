@@ -5,13 +5,13 @@ import {
   type FormDefinition,
   type FormElement,
   type FormElementMap,
+  type Pattern,
+  getFormElement,
   updateFormElement,
 } from '@atj/forms';
 
 type PreviewContextValue = {
-  actions: {
-    updateSelectedFormElement: (formData: FormElementMap) => void;
-  };
+  config: FormConfig;
   form: FormDefinition;
   setCurrentForm: (form: FormDefinition) => void;
   selectedElement?: FormElement;
@@ -40,28 +40,10 @@ export const PreviewContextProvider = ({
   const [selectedElementTop, setSelectedElementTop] = useState(0);
   const [isSettingsVisible, setIsSettingsVisible] = useState(false);
 
-  const actions: PreviewContextValue['actions'] = {
-    updateSelectedFormElement: formData => {
-      if (selectedElement === undefined) {
-        console.warn('No selected element');
-        return;
-      }
-      const updatedForm = updateFormElement(
-        config,
-        form,
-        selectedElement,
-        formData
-      );
-      if (updatedForm) {
-        setCurrentForm(updatedForm);
-      }
-    },
-  };
-
   return (
     <PreviewContext.Provider
       value={{
-        actions,
+        config,
         form,
         setCurrentForm,
         selectedElement,
@@ -78,5 +60,44 @@ export const PreviewContextProvider = ({
 };
 
 export const usePreviewContext = () => {
-  return useContext(PreviewContext);
+  const context = useContext(PreviewContext);
+  return {
+    form: context.form,
+    isSettingsVisible: context.isSettingsVisible,
+    selectedElement: context.selectedElement,
+    actions: {
+      handleEditClick: (pattern: Pattern) => {
+        if (context.selectedElement?.id === pattern._elementId) {
+          context.setSelectedElement(undefined);
+        } else {
+          const element = document.querySelector(
+            `[data-id="${pattern._elementId}"]`
+          );
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            context.setSelectedElementTop(rect.top);
+          }
+          const elementToSet = getFormElement(context.form, pattern._elementId);
+          context.setSelectedElement(elementToSet);
+        }
+        context.setIsSettingsVisible(true);
+      },
+      updateSelectedFormElement: (formData: FormElementMap) => {
+        if (context.selectedElement === undefined) {
+          console.warn('No selected element');
+          return;
+        }
+        const updatedForm = updateFormElement(
+          context.config,
+          context.form,
+          context.selectedElement,
+          formData
+        );
+        if (updatedForm) {
+          context.setCurrentForm(updatedForm);
+        }
+      },
+      setSelectedElement: context.setSelectedElement,
+    },
+  };
 };

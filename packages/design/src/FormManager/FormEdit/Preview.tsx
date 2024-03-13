@@ -4,7 +4,6 @@ import {
   type FormDefinition,
   type Pattern,
   createFormSession,
-  getFormElement,
 } from '@atj/forms';
 
 import { usePreviewContext } from './context';
@@ -102,32 +101,7 @@ const createPatternPreviewComponent = (
   }: {
     pattern: Pattern;
   }) => {
-    const {
-      form,
-      selectedElement,
-      setSelectedElement,
-      setSelectedElementTop,
-      setIsSettingsVisible,
-    } = usePreviewContext();
-
-    // Handles the positioning of the edit form
-    const handleEditClick = () => {
-      if (selectedElement?.id === pattern._elementId) {
-        setSelectedElement(undefined);
-      } else {
-        const element = document.querySelector(
-          `[data-id="${pattern._elementId}"]`
-        );
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          setSelectedElementTop(rect.top);
-        }
-        const elementToSet = getFormElement(form, pattern._elementId);
-        setSelectedElement(elementToSet);
-      }
-
-      setIsSettingsVisible(true);
-    };
+    const { actions, selectedElement } = usePreviewContext();
 
     const isSelected = selectedElement?.id === pattern._elementId;
     const divClassNames = isSelected
@@ -140,10 +114,10 @@ const createPatternPreviewComponent = (
         <span className="edit-button-icon">
           <button
             className="usa-button usa-button--secondary usa-button--unstyled"
-            onClick={handleEditClick}
+            onClick={() => actions.handleEditClick(pattern)}
             onKeyDown={e => {
               if (e.key === 'Enter') {
-                handleEditClick();
+                actions.handleEditClick(pattern);
               }
             }}
             tabIndex={0}
