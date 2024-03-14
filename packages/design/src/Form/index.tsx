@@ -1,5 +1,5 @@
 import deepEqual from 'deep-equal';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import {
@@ -59,7 +59,7 @@ const usePrompt = (
     const prompt = createPrompt(config, result.data, { validate: true });
     setPrompt(prompt);
   };
-  return { prompt, updatePrompt };
+  return { prompt, setPrompt, updatePrompt };
 };
 
 export default function Form({
@@ -76,11 +76,17 @@ export default function Form({
   const initialPrompt = createPrompt(context.config, session, {
     validate: false,
   });
-  const { prompt, updatePrompt } = usePrompt(
+  const { prompt, setPrompt, updatePrompt } = usePrompt(
     initialPrompt,
     context.config,
     session
   );
+
+  // So the preview view can update the session, regen the prompt.
+  // This feels smelly.
+  useEffect(() => {
+    setPrompt(initialPrompt);
+  }, [initialPrompt]);
 
   const formMethods = useForm<Record<string, string>>({});
 
@@ -91,6 +97,7 @@ export default function Form({
     updatePrompt(allFormData);
   }, [allFormData]);
   */
+
   return (
     <FormProvider {...formMethods}>
       <div className="preview">
