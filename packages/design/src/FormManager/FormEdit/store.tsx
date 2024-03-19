@@ -1,4 +1,6 @@
+import React from 'react';
 import { StoreApi, create } from 'zustand';
+import { createContext } from 'zustand-utils';
 
 import {
   type FormDefinition,
@@ -8,9 +10,7 @@ import {
   updateFormElement,
   FormElement,
 } from '@atj/forms';
-import { FormEditUIContext } from '../../config';
-import { createContext } from 'zustand-utils';
-import React from 'react';
+import { type FormEditUIContext } from './types';
 
 const { Provider, useStore } = createContext<StoreApi<FormEditState>>();
 

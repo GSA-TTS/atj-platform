@@ -3,10 +3,10 @@ import React, { useEffect } from 'react';
 import { FormDefinition } from '@atj/forms';
 import { type FormService } from '@atj/form-service';
 
-import { type FormEditUIContext } from '../../config';
 import { FormElementEdit } from './FormElementEdit';
 import { PreviewForm } from './Preview';
 import { FormEditProvider, useFormEditStore } from './store';
+import { type FormEditUIContext } from './types';
 
 export default function FormEdit({
   context,
