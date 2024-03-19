@@ -1,5 +1,6 @@
 // Replace your-framework with the name of your framework
-import type { Meta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
+import { userEvent, within, expect } from '@storybook/test';
 
 import { createTestFormService } from '@atj/form-service';
 
@@ -14,4 +15,4 @@ export default {
   tags: ['autodocs'],
 } satisfies Meta<typeof FormManager>;
 
-export const TestForm = {};
+export const TestForm: StoryObj = {};

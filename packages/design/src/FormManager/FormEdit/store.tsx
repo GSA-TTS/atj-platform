@@ -71,7 +71,7 @@ const createFormEditStore = ({
         formData
       );
       if (updatedForm) {
-        set({ form: updatedForm });
+        set({ form: updatedForm, selectedElement: undefined });
       }
     },
   }));
