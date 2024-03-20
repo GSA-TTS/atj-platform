@@ -32,8 +32,8 @@ export const sequenceConfig: FormElementConfig<SequenceElement> = {
   },
   createPrompt(config, session, element, options) {
     const children = element.data.elements.map((elementId: string) => {
-      const childElement = getFormElement(session.form, elementId);
-      return createPromptForElement(config, session, childElement, options);
+      const element = getFormElement(session.form, elementId);
+      return createPromptForElement(config, session, element, options);
     });
     return {
       pattern: {
