@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { SAMPLE_DOCUMENTS } from '@atj/documents';
 import { FormService } from '@atj/form-service';
 
 import { onFileInputChangeGetFile } from './file-input';
@@ -46,19 +47,14 @@ export default function PDFFileSelect({
         </div>
       </div>
       <label className="usa-label">
-        Or use an example file, selected for testing purposes:
-        <SampleDocumentButton
-          callback={actions.stepOneSelectPdfByUrl}
-          documentPath="sample-documents/ca-unlawful-detainer/ud105.pdf"
-        />
-        <SampleDocumentButton
-          callback={actions.stepOneSelectPdfByUrl}
-          documentPath="sample-documents/alabama-name-change/ps-12.pdf"
-        />
-        <SampleDocumentButton
-          callback={actions.stepOneSelectPdfByUrl}
-          documentPath="sample-documents/doj-pardon-marijuana/application_for_certificate_of_pardon_for_simple_marijuana_possession.pdf"
-        />
+        Or use an example file, selected for testing purposes
+        {SAMPLE_DOCUMENTS.map((document, index) => (
+          <SampleDocumentButton
+            key={index}
+            callback={actions.stepOneSelectPdfByUrl}
+            documentPath={document.path}
+          />
+        ))}
       </label>
     </div>
   );

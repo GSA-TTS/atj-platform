@@ -1,10 +1,6 @@
 import * as pdfLib from 'pdf-lib';
 
-import {
-  createForm,
-  type DocumentFieldMap,
-  type DocumentFieldValue,
-} from '@atj/forms';
+import { type DocumentFieldMap, type DocumentFieldValue } from '@atj/forms';
 
 export const getDocumentFieldData = async (
   pdfBytes: Uint8Array
