@@ -1,10 +1,9 @@
 import { type Result } from '@atj/common';
-import { createDocumentFieldData, fillPDF } from '@atj/documents';
+import { createFormOutputFieldData, fillPDF } from '@atj/documents';
 import {
   type FormConfig,
   sessionIsComplete,
   FormDefinition,
-  createFormSession,
   FormSession,
   applyPromptResponse,
 } from '@atj/forms';
@@ -68,11 +67,7 @@ const generateDocumentPackage = async (
   const errors = new Array<string>();
   const documents = new Array<{ fileName: string; data: Uint8Array }>();
   for (const document of form.outputs) {
-    const docFieldData = createDocumentFieldData(
-      document.fields,
-      document.formFields,
-      formData
-    );
+    const docFieldData = createFormOutputFieldData(document, formData);
     const pdfDocument = await fillPDF(document.data, docFieldData);
     if (!pdfDocument.success) {
       errors.push(pdfDocument.error);

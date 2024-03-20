@@ -11,6 +11,7 @@ import { type InputElement } from '@atj/forms/src/config/elements/input';
 import json from './al_name_change.json' assert { type: 'json' };
 import { FieldsetElement } from '@atj/forms/src/config/elements/fieldset';
 import { ParagraphElement } from '@atj/forms/src/config/elements/paragraph';
+import { stringToBase64 } from '../util';
 
 const TxInput = z.object({
   input_type: z.literal('Tx'),
@@ -127,7 +128,7 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
     }
     for (const input of element.inputs) {
       if (input.input_type === 'Tx') {
-        const id = PdfFieldMap[input.input_params.output_id];
+        const id = stringToBase64(PdfFieldMap[input.input_params.output_id]);
         parsedPdf.elements[id] = {
           type: 'input',
           id,
@@ -145,7 +146,7 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
         fieldsetElements.push(id);
         parsedPdf.outputs[id] = {
           type: 'TextField',
-          name: input.input_params.text,
+          name: PdfFieldMap[input.input_params.output_id],
           label: input.input_params.instructions,
           value: '',
           maxLength: 1024,

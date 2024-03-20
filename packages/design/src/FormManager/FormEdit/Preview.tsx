@@ -1,25 +1,18 @@
 import React from 'react';
 
-import {
-  type FormDefinition,
-  type Pattern,
-  createFormSession,
-  getFormElement,
-} from '@atj/forms';
+import { type Pattern, createFormSession } from '@atj/forms';
 
-import { usePreviewContext } from './context';
 import Form, {
   type ComponentForPattern,
   type FormElementComponent,
   type FormUIContext,
 } from '../../Form';
+import { useFormEditStore } from './store';
 
-type PreviewFormProps = {
-  uiContext: FormUIContext;
-  form: FormDefinition;
-};
+export const PreviewForm = () => {
+  const uiContext = useFormEditStore(state => state.context);
+  const form = useFormEditStore(state => state.form);
 
-export const PreviewForm = ({ uiContext, form }: PreviewFormProps) => {
   const previewUiContext: FormUIContext = {
     config: uiContext.config,
     // TODO: We'll want to hoist this definition up to a higher level, so we
@@ -31,6 +24,7 @@ export const PreviewForm = ({ uiContext, form }: PreviewFormProps) => {
     uswdsRoot: uiContext.uswdsRoot,
   };
   const disposable = createFormSession(form); // nullSession instead?
+
   return (
     <Form
       isPreview={true}
@@ -102,25 +96,9 @@ const createPatternPreviewComponent = (
   }: {
     pattern: Pattern;
   }) => {
-    const { form, selectedElement, setSelectedElement, setSelectedElementTop, setIsSettingsVisible } = usePreviewContext();
+    const selectedElement = useFormEditStore(state => state.selectedElement);
+    const handleEditClick = useFormEditStore(state => state.handleEditClick);
 
-    //Handles the positioning of the edit form
-    const handleEditClick = () => {
-      if (selectedElement?.id === pattern._elementId) {
-        setSelectedElement(undefined);
-      } else {
-        const element = document.querySelector(`[data-id="${pattern._elementId}"]`);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          setSelectedElementTop(rect.top);
-        }
-        const elementToSet = getFormElement(form, pattern._elementId);
-        setSelectedElement(elementToSet);
-      }
-
-      setIsSettingsVisible(true);
-    };
-    
     const isSelected = selectedElement?.id === pattern._elementId;
     const divClassNames = isSelected
       ? 'form-group-row field-selected'
@@ -132,10 +110,10 @@ const createPatternPreviewComponent = (
         <span className="edit-button-icon">
           <button
             className="usa-button usa-button--secondary usa-button--unstyled"
-            onClick={handleEditClick}
+            onClick={() => handleEditClick(pattern)}
             onKeyDown={e => {
               if (e.key === 'Enter') {
-                handleEditClick();
+                handleEditClick(pattern);
               }
             }}
             tabIndex={0}

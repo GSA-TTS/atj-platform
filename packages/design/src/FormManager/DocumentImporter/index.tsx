@@ -1,7 +1,11 @@
 import React, { PropsWithChildren, useReducer } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { addDocument, addDocumentFieldsToForm } from '@atj/documents';
+import {
+  SAMPLE_DOCUMENTS,
+  addDocument,
+  addDocumentFieldsToForm,
+} from '@atj/documents';
 import { type FormService } from '@atj/form-service';
 import {
   type DocumentFieldMap,
@@ -98,26 +102,13 @@ const DocumentImporter = ({
         </div>
         <label className="usa-label">
           Or use an example file, selected for testing purposes:
-          <button
-            className="usa-button--unstyled"
-            onClick={async () => {
-              actions.stepOneSelectPdfByUrl(
-                'sample-documents/ca-unlawful-detainer/ud105.pdf'
-              );
-            }}
-          >
-            sample-documents/ca-unlawful-detainer/ud105.pdf
-          </button>
-          <button
-            className="usa-button--unstyled"
-            onClick={async () => {
-              actions.stepOneSelectPdfByUrl(
-                'sample-documents/alabama-name-change/ps-12.pdf'
-              );
-            }}
-          >
-            sample-documents/alabama-name-change/ps-12.pdf
-          </button>
+          {SAMPLE_DOCUMENTS.map((document, index) => (
+            <SampleDocumentButton
+              key={index}
+              callback={actions.stepOneSelectPdfByUrl}
+              documentPath={document.path}
+            />
+          ))}
         </label>
       </div>
     );
@@ -310,6 +301,25 @@ const useDocumentImporter = (
       },
     },
   };
+};
+
+const SampleDocumentButton = ({
+  callback,
+  documentPath,
+}: {
+  callback: (path: string) => Promise<void>;
+  documentPath: string;
+}) => {
+  return (
+    <button
+      className="usa-button--unstyled"
+      onClick={async () => {
+        await callback(documentPath);
+      }}
+    >
+      {documentPath}
+    </button>
+  );
 };
 
 export default DocumentImporter;
