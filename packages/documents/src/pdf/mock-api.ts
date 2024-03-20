@@ -48,7 +48,7 @@ const ExtractedElement = z.object({
   element_params: z.object({
     text: z.string(),
     text_style: z.string(),
-    options: z.null(),
+    options: z.nullable(z.array(z.string())),
   }),
   inputs: ExtractedInput.array(),
   parent: z.string().nullable(),

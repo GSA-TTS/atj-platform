@@ -10,7 +10,7 @@
       "element_params": {
         "text": "In the Probate Court of (county): ",
         "text_style": "JTUTCJ+ArialMT 9.840000000000032",
-        "options": null
+        "options": []
       },
       "inputs": [
         {
@@ -35,7 +35,7 @@
       "element_params": {
         "text": "Your current name",
         "text_style": "JTUTCJ+ArialMT 9.840000000000032",
-        "options": null
+        "options": []
       },
       "inputs": [
         {
@@ -84,7 +84,7 @@
       "element_params": {
         "text": "To ask the court to change your name, you must fill out this form, and: ",
         "text_style": "subheading",
-        "options": null
+        "options": []
       },
       "inputs": [],
       "parent": null
@@ -96,7 +96,7 @@
       "element_params": {
         "text": "Attach a certified copy of your birth certificate and a copy of your photo ID, and ",
         "text_style": "indent",
-        "options": null
+        "options": []
       },
       "inputs": [],
       "parent": null
@@ -108,7 +108,7 @@
       "element_params": {
         "text": "  File your form and attachments in the same county where you live. ",
         "text_style": "indent",
-        "options": null
+        "options": []
       },
       "inputs": [],
       "parent": null
@@ -120,7 +120,7 @@
       "element_params": {
         "text": "I declare that the following information is true: ",
         "text_style": "subheading",
-        "options": null
+        "options": []
       },
       "inputs": [],
       "parent": null
@@ -132,7 +132,7 @@
       "element_params": {
         "text": "My current name",
         "text_style": "JTUTCJ+ArialMT 8.879999999999995",
-        "options": null
+        "options": []
       },
       "inputs": [
         {
@@ -181,7 +181,7 @@
       "element_params": {
         "text": "My address",
         "text_style": "JTUTCJ+ArialMT 8.879999999999995",
-        "options": null
+        "options": []
       },
       "inputs": [
         {
@@ -242,7 +242,7 @@
       "element_params": {
         "text": "My phone numbers",
         "text_style": "DURMBL+Arial-BoldMT 8.879999999999995",
-        "options": null
+        "options": []
       },
       "inputs": [
         {
@@ -279,7 +279,7 @@
       "element_params": {
         "text": "My date of birth is (mm/dd/yyyy): ",
         "text_style": "JTUTCJ+ArialMT 8.879999999999995",
-        "options": null
+        "options": []
       },
       "inputs": [
         {
@@ -304,7 +304,7 @@
       "element_params": {
         "text": "My name at birth",
         "text_style": "JTUTCJ+ArialMT 8.879999999999995",
-        "options": null
+        "options": []
       },
       "inputs": [
         {
@@ -353,7 +353,7 @@
       "element_params": {
         "text": "I am an adult (19 or older), of sound mind, and live in (name of Alabama county): ",
         "text_style": "LEDWHU+TimesNewRomanPSMT 8.879999999999995",
-        "options": null
+        "options": []
       },
       "inputs": [
         {
@@ -415,7 +415,7 @@
       "element_params": {
         "text": "I ask the court to change my name because (explain why you want to change your name): ",
         "text_style": "LEDWHU+TimesNewRomanPSMT 8.879999999999995",
-        "options": null
+        "options": []
       },
       "inputs": [
         {
@@ -440,7 +440,7 @@
       "element_params": {
         "text": "My new name",
         "text_style": "JTUTCJ+ArialMT 8.879999999999995",
-        "options": null
+        "options": []
       },
       "inputs": [
         {
@@ -489,7 +489,7 @@
       "element_params": {
         "text": "I also declare: ",
         "text_style": "subheading",
-        "options": null
+        "options": []
       },
       "inputs": [],
       "parent": null
@@ -501,7 +501,7 @@
       "element_params": {
         "text": "  I am not now facing criminal charges, nor am I involved in any other court case. ",
         "text_style": "indent",
-        "options": null
+        "options": []
       },
       "inputs": [],
       "parent": null
@@ -513,7 +513,7 @@
       "element_params": {
         "text": "  I have never been convicted of a criminal sex offense (as defined in Alabama Code \u00a7 15-20-21), a crime of moral turpitude, or a felony. ",
         "text_style": "indent",
-        "options": null
+        "options": []
       },
       "inputs": [],
       "parent": null
@@ -525,7 +525,7 @@
       "element_params": {
         "text": "  I am not asking to change my name to avoid paying my debts or to commit fraud. ",
         "text_style": "indent",
-        "options": null
+        "options": []
       },
       "inputs": [],
       "parent": null
