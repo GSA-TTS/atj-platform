@@ -6,7 +6,7 @@ import { createTestFormService } from '@atj/form-service';
 
 import FormEdit from '.';
 import { createTestForm, createTestFormEditContext } from '../../test-form';
-import { userEvent, within } from '@storybook/test';
+import { expect, userEvent, waitFor, within } from '@storybook/test';
 
 export default {
   title: 'FormManager/FormEdit',
@@ -52,4 +52,12 @@ const editFieldLabel = async (
 
   // Save the field to the form
   await userEvent.click(canvas.getByRole('button', { name: 'Save' }));
+
+  waitFor(
+    async () => {
+      const newLabel = await canvas.getByLabelText(fieldLabel);
+      await expect(newLabel).toBeInTheDocument();
+    },
+    { interval: 5 }
+  );
 };
