@@ -10,6 +10,7 @@ import {
 import { PDFDocument, getDocumentFieldData } from './pdf';
 import { getSuggestedFormElementsFromCache } from './suggestions';
 import { InputElement } from '@atj/forms/src/config/elements/input';
+import { stringToBase64 } from './util';
 
 export type DocumentTemplate = PDFDocument;
 
@@ -34,9 +35,13 @@ export const addDocument = async (
       path: fileDetails.name,
       fields: cachedPdf.outputs,
       formFields: Object.fromEntries(
-        Object.keys(fields).map(field => [field, field])
+        Object.keys(cachedPdf.outputs).map(output => {
+          console.log(cachedPdf.outputs[output]);
+          return [output, cachedPdf.outputs[output].name];
+        })
       ),
     });
+    console.log(updatedForm);
     return {
       newFields: fields,
       updatedForm,
@@ -50,7 +55,9 @@ export const addDocument = async (
       // TODO: for now, reuse the field IDs from the PDF. we need to generate
       // unique ones, instead.
       formFields: Object.fromEntries(
-        Object.keys(fields).map(field => [field, field])
+        Object.keys(fields).map(field => {
+          return [field, fields[field].name];
+        })
       ),
     });
     return {
@@ -65,11 +72,11 @@ export const addDocumentFieldsToForm = (
   fields: DocumentFieldMap
 ) => {
   const elements: FormElement[] = [];
-  Object.entries(fields).map(([key, field]) => {
+  Object.entries(fields).map(([elementId, field]) => {
     if (field.type === 'CheckBox') {
       elements.push({
         type: 'input',
-        id: field.name,
+        id: elementId,
         data: {
           label: field.label,
         },
@@ -84,7 +91,7 @@ export const addDocumentFieldsToForm = (
     } else if (field.type === 'OptionList') {
       elements.push({
         type: 'input',
-        id: field.name,
+        id: elementId,
         data: {
           label: field.label,
         },
@@ -99,7 +106,7 @@ export const addDocumentFieldsToForm = (
     } else if (field.type === 'Dropdown') {
       elements.push({
         type: 'input',
-        id: field.name,
+        id: elementId,
         data: {
           label: field.label,
         },
@@ -114,7 +121,7 @@ export const addDocumentFieldsToForm = (
     } else if (field.type === 'TextField') {
       elements.push({
         type: 'input',
-        id: field.name,
+        id: elementId,
         data: {
           label: field.label,
         },
@@ -129,7 +136,7 @@ export const addDocumentFieldsToForm = (
     } else if (field.type === 'RadioGroup') {
       elements.push({
         type: 'input',
-        id: field.name,
+        id: elementId,
         data: {
           label: field.label,
         },
@@ -141,6 +148,8 @@ export const addDocumentFieldsToForm = (
         },
         required: field.required,
       } satisfies InputElement);
+    } else if (field.type === 'Paragraph') {
+      // skip purely presentational fields
     } else if (field.type === 'not-supported') {
       console.error(`Skipping field: ${field.error}`);
     } else {

@@ -63,7 +63,7 @@ export type FormSession = {
   form: FormDefinition;
 };
 
-type FormOutput = {
+export type FormOutput = {
   data: Uint8Array;
   path: string;
   fields: DocumentFieldMap;

@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { loadSamplePDF } from './sample-data';
 import { fillPDF, getDocumentFieldData } from '../pdf';
 import { Success } from '@atj/common';
+import { DocumentFieldMap } from '@atj/forms';
 
 describe('DOJ Pardon Office marijuana pardon application form', () => {
   it('produces valid PDF from imported PDF', async () => {
@@ -21,7 +22,7 @@ describe('DOJ Pardon Office marijuana pardon application form', () => {
     })) as Success<Uint8Array>;
     expect(result.success).toEqual(true);
     const fields = await getDocumentFieldData(result.data);
-    expect(fields.Gender).toEqual({
+    expect(getFieldByName(fields, 'Gender')).toEqual({
       label: 'Gender',
       name: 'Gender',
       maxLength: undefined,
@@ -29,7 +30,7 @@ describe('DOJ Pardon Office marijuana pardon application form', () => {
       type: 'TextField',
       value: 'female',
     });
-    expect(fields['Docket No']).toEqual({
+    expect(getFieldByName(fields, 'Docket No')).toEqual({
       label: 'Docket No',
       name: 'Docket No',
       maxLength: undefined,
@@ -39,3 +40,12 @@ describe('DOJ Pardon Office marijuana pardon application form', () => {
     });
   });
 });
+
+const getFieldByName = (fields: DocumentFieldMap, name: string) => {
+  for (const field of Object.values(fields)) {
+    if (field.name === name) {
+      return field;
+    }
+  }
+  throw new Error(`field with name ${name} not found`);
+};

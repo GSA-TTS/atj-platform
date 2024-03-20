@@ -31,96 +31,96 @@ describe('PDF form filler', () => {
     expect(result.success).toEqual(true);
     const fields = await getDocumentFieldData(result.data);
     expect(fields).toEqual({
-      'CharacterName 2': {
+      Q2hhcmFjdGVyTmFtZSAy: {
         type: 'TextField',
         name: 'CharacterName 2',
         label: 'CharacterName 2',
         value: 'nameField',
         required: false,
       },
-      Age: {
+      QWdl: {
         type: 'TextField',
         name: 'Age',
         label: 'Age',
         value: 'ageField',
         required: false,
       },
-      Height: {
+      SGVpZ2h0: {
         type: 'TextField',
         name: 'Height',
         label: 'Height',
         value: 'heightField',
         required: false,
       },
-      Weight: {
+      V2VpZ2h0: {
         type: 'TextField',
         name: 'Weight',
         label: 'Weight',
         value: 'weightField',
         required: false,
       },
-      Eyes: {
+      'RXllcw==': {
         type: 'TextField',
         name: 'Eyes',
         label: 'Eyes',
         value: 'eyesField',
         required: false,
       },
-      Skin: {
+      'U2tpbg==': {
         type: 'TextField',
         name: 'Skin',
         label: 'Skin',
         value: 'skinField',
         required: false,
       },
-      Hair: {
+      'SGFpcg==': {
         type: 'TextField',
         name: 'Hair',
         label: 'Hair',
         value: 'hairField',
         required: false,
       },
-      Allies: {
+      QWxsaWVz: {
         type: 'TextField',
         name: 'Allies',
         label: 'Allies',
         value: 'alliesField',
         required: false,
       },
-      FactionName: {
+      'RmFjdGlvbk5hbWU=': {
         type: 'TextField',
         name: 'FactionName',
         label: 'FactionName',
         value: 'factionField',
         required: false,
       },
-      Backstory: {
+      QmFja3N0b3J5: {
         type: 'TextField',
         name: 'Backstory',
         label: 'Backstory',
         value: 'backStoryField',
         required: false,
       },
-      'Feat+Traits': {
+      'RmVhdCtUcmFpdHM=': {
         type: 'TextField',
         name: 'Feat+Traits',
         label: 'Feat+Traits',
         value: 'traitsField',
         required: false,
       },
-      Treasure: {
+      'VHJlYXN1cmU=': {
         type: 'TextField',
         name: 'Treasure',
         label: 'Treasure',
         value: 'treasureField',
         required: false,
       },
-      'CHARACTER IMAGE': {
+      Q0hBUkFDVEVSIElNQUdF: {
         type: 'not-supported',
         name: 'CHARACTER IMAGE',
         error: 'unsupported type: PDFButton',
       },
-      'Faction Symbol Image': {
+      'RmFjdGlvbiBTeW1ib2wgSW1hZ2U=': {
         type: 'TextField',
         name: 'Faction Symbol Image',
         label: 'Faction Symbol Image',
