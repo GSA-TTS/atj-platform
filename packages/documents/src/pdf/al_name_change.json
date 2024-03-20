@@ -372,31 +372,19 @@
       "parent": null
     },
     {
-      "id": "dcb5d901-a293-4f53-b663-a4d401af0812",
+      "id": "e42da30c-63c0-463d-af6a-f55f9a885ca9",
       "group_id": 18,
-      "element_type": "text",
+      "element_type": "radio_group",
       "element_params": {
-        "text": "The attached copy of my photo ID is my (choose one):",
+        "text": "The attached copy of my photo ID is my (check one): ",
         "text_style": "heading",
-        "options": null
-      },
-      "inputs": [],
-      "parent": "PhotoID"
-    },
-    {
-      "id": "dcb5d901-a293-4f53-b663-a4d401ac0812",
-      "group_id": 18,
-      "element_type": "text",
-      "element_params": {
-        "text": "Driver\u2019s license, # ",
-        "text_style": "JTUTCJ+ArialMT 12.0",
-        "options": null
+        "options": []
       },
       "inputs": [
         {
           "input_type": "Tx",
           "input_params": {
-            "text": "<input label=DL# instructions={field_dict['field_instructions']}>",
+            "text": "Driver\u2019s license, #",
             "text_style": "Helv 10 Tf 0 g",
             "output_id": "DL#",
             "placeholder": "",
@@ -404,24 +392,11 @@
             "required": false,
             "options": []
           }
-        }
-      ],
-      "parent": "PhotoID"
-    },
-    {
-      "id": "1a8cbd28-f600-47f8-9ce0-85ae136ba338",
-      "group_id": 18,
-      "element_type": "text",
-      "element_params": {
-        "text": "Non-driver\u2019s photo, ID #: ",
-        "text_style": "JTUTCJ+ArialMT 8.879999999999995",
-        "options": null
-      },
-      "inputs": [
+        },
         {
           "input_type": "Tx",
           "input_params": {
-            "text": "<input label=ID# instructions={field_dict['field_instructions']}>",
+            "text": "Non-driver\u2019s photo, ID #:",
             "text_style": "Helv 10 Tf 0 g",
             "output_id": "ID#",
             "placeholder": "",
