@@ -43,15 +43,10 @@ const usePrompt = (
     }
   };
   const updatePrompt = (data: Record<string, string>) => {
-    const result = applyPromptResponse(
-      config,
-      session,
-      {
-        action: 'submit',
-        data,
-      },
-      { validate: true }
-    );
+    const result = applyPromptResponse(config, session, {
+      action: 'submit',
+      data,
+    });
     if (!result.success) {
       console.warn('Error applying prompt response...', result.error);
       return;

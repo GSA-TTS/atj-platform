@@ -35,17 +35,10 @@ export const submitForm = async (
   //const session = getSessionFromStorage(ctx.storage, sessionId) || createFormSession(form);
   // For now, the client-side is producing its own error messages.
   // In the future, we'll want this service to return errors to the client.
-  const newSessionResult = applyPromptResponse(
-    ctx.config,
-    session,
-    {
-      action: 'submit',
-      data: formData,
-    },
-    {
-      validate: true,
-    }
-  );
+  const newSessionResult = applyPromptResponse(ctx.config, session, {
+    action: 'submit',
+    data: formData,
+  });
   if (!newSessionResult.success) {
     return Promise.resolve({
       success: false,
