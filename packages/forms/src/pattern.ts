@@ -80,14 +80,20 @@ export const createPrompt = (
           pattern: {
             _elementId: 'submission-confirmation',
             type: 'submission-confirmation',
-            table: Object.entries(session.data.values).map(
-              ([elementId, value]) => {
+            table: Object.entries(session.data.values)
+              .filter(([elementId, value]) => {
+                const elemConfig = getFormElementConfig(
+                  config,
+                  session.form.elements[elementId].type
+                );
+                return elemConfig.acceptsInput;
+              })
+              .map(([elementId, value]) => {
                 return {
-                  label: session.form.elements[elementId].id,
+                  label: session.form.elements[elementId].data.label,
                   value: value,
                 };
-              }
-            ),
+              }),
           } as Pattern<SubmissionConfirmationPattern>,
           children: [],
         },

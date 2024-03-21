@@ -6,6 +6,7 @@ import { createTestFormService } from '@atj/form-service';
 
 import FormEdit from '.';
 import { createTestForm, createTestFormEditContext } from '../../test-form';
+import { expect, userEvent, waitFor, within } from '@storybook/test';
 
 export default {
   title: 'FormManager/FormEdit',
@@ -27,4 +28,36 @@ export default {
   tags: ['autodocs'],
 } satisfies Meta<typeof FormEdit>;
 
-export const FormEditTest = {} satisfies StoryObj<typeof FormEdit>;
+export const FormEditTest: StoryObj<typeof FormEdit> = {
+  play: async ({ canvasElement }) => {
+    await editFieldLabel(canvasElement, 0, 'First field label');
+    await editFieldLabel(canvasElement, 1, 'Second field label');
+  },
+};
+
+const editFieldLabel = async (
+  element: HTMLElement,
+  buttonIndex: number,
+  fieldLabel: string
+) => {
+  const canvas = within(element);
+
+  // Click "edit form" button for first field
+  await userEvent.click(canvas.getAllByRole('button')[buttonIndex]);
+
+  // Enter new text for first field
+  const input = canvas.getByLabelText('Field label');
+  await userEvent.clear(input);
+  await userEvent.type(input, fieldLabel);
+
+  // Save the field to the form
+  await userEvent.click(canvas.getByRole('button', { name: 'Save' }));
+
+  waitFor(
+    async () => {
+      const newLabel = await canvas.getByLabelText(fieldLabel);
+      await expect(newLabel).toBeInTheDocument();
+    },
+    { interval: 5 }
+  );
+};

@@ -1,0 +1,15 @@
+node_modules
+#.git
+.env
+.gitignore
+
+.DS_Store
+.env
+*.code-workspace
+_site
+.turbo/
+.vscode/
+coverage/
+html/
+NOTES.md
+tsconfig.tsbuildinfo

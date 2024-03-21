@@ -1,25 +1,18 @@
 import React from 'react';
 
-import {
-  type FormDefinition,
-  type Pattern,
-  createFormSession,
-  getFormElement,
-} from '@atj/forms';
+import { type Pattern, createFormSession } from '@atj/forms';
 
-import { usePreviewContext } from './context';
 import Form, {
   type ComponentForPattern,
   type FormElementComponent,
   type FormUIContext,
 } from '../../Form';
+import { useFormEditStore } from './store';
 
-type PreviewFormProps = {
-  uiContext: FormUIContext;
-  form: FormDefinition;
-};
+export const PreviewForm = () => {
+  const uiContext = useFormEditStore(state => state.context);
+  const form = useFormEditStore(state => state.form);
 
-export const PreviewForm = ({ uiContext, form }: PreviewFormProps) => {
   const previewUiContext: FormUIContext = {
     config: uiContext.config,
     // TODO: We'll want to hoist this definition up to a higher level, so we
@@ -31,7 +24,14 @@ export const PreviewForm = ({ uiContext, form }: PreviewFormProps) => {
     uswdsRoot: uiContext.uswdsRoot,
   };
   const disposable = createFormSession(form); // nullSession instead?
-  return <Form context={previewUiContext} session={disposable}></Form>;
+
+  return (
+    <Form
+      isPreview={true}
+      context={previewUiContext}
+      session={disposable}
+    ></Form>
+  );
 };
 
 const createPreviewComponents = (
@@ -96,56 +96,38 @@ const createPatternPreviewComponent = (
   }: {
     pattern: Pattern;
   }) => {
-    const { form, selectedElement, setSelectedElement } = usePreviewContext();
+    const selectedElement = useFormEditStore(state => state.selectedElement);
+    const handleEditClick = useFormEditStore(state => state.handleEditClick);
 
-    const handleEditClick = () => {
-      if (selectedElement.id === pattern._elementId) {
-        //setSelectedElement(null);
-      } else {
-        const element = getFormElement(form, pattern._elementId);
-        setSelectedElement(element);
-      }
-    };
-
-    const isSelected = selectedElement.id === pattern._elementId;
+    const isSelected = selectedElement?.id === pattern._elementId;
     const divClassNames = isSelected
       ? 'form-group-row field-selected'
       : 'form-group-row';
 
-    // console.log("Current Selected ID:", selectedId);
-    // console.log("Prompt ID:", prompt);
-
-    // console.log("setSelectedId : ", setSelectedId );
-    // console.log("Is Selected:", isSelected);
-    // console.log("Class Names:", divClassNames);
     return (
-      <div
-        onClick={handleEditClick}
-        className={divClassNames}
-        //onKeyDown={handleKeyDown}
-        role="button"
-        aria-pressed={isSelected}
-        aria-label="Select this pattern"
-        tabIndex={0}
-      >
+      <div className={divClassNames} data-id={pattern._elementId}>
         <Component pattern={pattern} />
         <span className="edit-button-icon">
-          <a
-            className="usa-link"
-            href="javascript:void(0);"
-            title="Click to edit"
+          <button
+            className="usa-button usa-button--secondary usa-button--unstyled"
+            onClick={() => handleEditClick(pattern)}
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                handleEditClick(pattern);
+              }
+            }}
+            tabIndex={0}
+            aria-label="Edit form group"
           >
             <svg
               className="usa-icon"
-              aria-label="Click here to edit form group"
+              aria-hidden="true"
               focusable="false"
               role="img"
             >
-              <title>Edit form group</title>
-              <desc>Click here to edit form group</desc>
               <use xlinkHref={`${uswdsRoot}img/sprite.svg#settings`}></use>
             </svg>
-          </a>
+          </button>
         </span>
       </div>
     );

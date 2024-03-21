@@ -8,7 +8,7 @@ import FormEdit from './FormEdit';
 import FormList from './FormList';
 import { FormPreviewById } from './FormPreview';
 import { FormDocumentImport } from './import-document';
-import { type FormEditUIContext } from '../config';
+import { type FormEditUIContext } from './FormEdit/types';
 
 export default function FormManager({
   context,

@@ -1,57 +1,78 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import {
-  getFormElementConfig,
-  updateElement,
-  type FormElementMap,
-} from '@atj/forms';
-import { FormEditUIContext } from '../../config';
-import { usePreviewContext } from './context';
+import { type FormElementMap } from '@atj/forms';
+import { useFormEditStore } from './store';
 
-export const FormElementEdit = ({
-  context,
-}: {
-  context: FormEditUIContext;
-}) => {
-  const { form, selectedElement, setCurrentForm } = usePreviewContext();
+export const FormElementEdit = () => {
+  const context = useFormEditStore(state => state.context);
+  const form = useFormEditStore(state => state.form);
+  const selectedElement = useFormEditStore(state => state.selectedElement);
+  const { setSelectedElement, updateSelectedFormElement } = useFormEditStore(
+    state => ({
+      setSelectedElement: state.setSelectedElement,
+      updateSelectedFormElement: state.updateSelectedFormElement,
+    })
+  );
+
+  const methods = useForm<FormElementMap>({
+    defaultValues: selectedElement
+      ? {
+          [selectedElement.id]: selectedElement,
+        }
+      : {},
+  });
+  const settingsContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (selectedElement === undefined) {
+      return;
+    }
+    methods.reset();
+    methods.setValue(selectedElement.id, selectedElement);
+  }, [selectedElement]);
+
+  // Updates the scroll position of the edit form when it's visible
+  useEffect(() => {
+    let frameId: number;
+    const updatePosition = () => {
+      if (window.innerWidth > 879) {
+        if (selectedElement) {
+          const element = document.querySelector(
+            `[data-id="${selectedElement.id}"]`
+          );
+          if (element && settingsContainerRef.current) {
+            const rect = element.getBoundingClientRect();
+            settingsContainerRef.current.style.top = `${rect.top}px`;
+          }
+        }
+      }
+      frameId = requestAnimationFrame(updatePosition);
+    };
+    frameId = requestAnimationFrame(updatePosition);
+    return () => {
+      cancelAnimationFrame(frameId);
+    };
+  }, [selectedElement]);
+
   if (!selectedElement) {
     return;
   }
 
-  const methods = useForm<FormElementMap>({
-    defaultValues: {
-      [selectedElement.id]: selectedElement,
-    },
-  });
-  useEffect(() => {
-    methods.setValue(selectedElement.id, selectedElement);
-  }, [selectedElement]);
-
   const SelectedEditComponent = context.editComponents[selectedElement.type];
   return (
     <FormProvider {...methods}>
-      <div className="settingsContainer">
-        <h2>Editing {selectedElement.id}...</h2>
+      <div
+        ref={settingsContainerRef}
+        className="settingsContainer position-sticky"
+      >
         <form
           className="editForm"
           onSubmit={methods.handleSubmit(formData => {
-            const elementConfig = getFormElementConfig(
-              context.config,
-              selectedElement.type
-            );
-            const data = formData[selectedElement.id].data;
-            const result = elementConfig.parseConfigData(data);
-            if (!result.success) {
-              return;
-            }
-            const updatedForm = updateElement(form, {
-              ...selectedElement,
-              data: result.data,
-            });
-            setCurrentForm(updatedForm);
+            updateSelectedFormElement(formData);
           })}
         >
+          <h3>Editing &quot;{selectedElement.data.label}&quot;...</h3>
           <SelectedEditComponent
             context={context}
             form={form}
@@ -59,6 +80,12 @@ export const FormElementEdit = ({
           />
           <p>
             <input className="usa-button" type="submit" value="Save" />
+            <input
+              onClick={() => setSelectedElement(undefined)}
+              className="usa-button close-button"
+              type="submit"
+              value="Cancel"
+            />
           </p>
         </form>
       </div>

@@ -1,0 +1,48 @@
+---
+import '../styles.css';
+
+import UsaBanner from '../components/UsaBanner.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { getAppContext } from '../context';
+import * as routes from '../routes';
+
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+const context = getAppContext();
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="description"
+      content=`Office of the Pardon Attorney - Department of Justice - ${title}`
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      async
+      type="text/javascript"
+      src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=GSA"
+      id="_fed_an_ua_tag"></script>
+    <link href={routes.getFaviconUrl()} rel="shortcut icon" />
+    <meta name="generator" content={Astro.generator} />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <script src="../lib/initialize.ts"></script>
+    <title>
+      Office of the Pardon Attorney - Department of Justice - {title}
+    </title>
+  </head>
+  <body id="top">
+    <div class="usa-app usa-app__theme-1">
+      <UsaBanner />
+      <Header />
+      <slot />
+    </div>
+  </body>
+</html>

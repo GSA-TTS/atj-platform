@@ -13,7 +13,7 @@ const InputElementEdit: FormElementEditComponent<InputElement> = ({
     <div className="grid-row grid-gap formRowEditFields">
       <div className="grid-col grid-col-4">
         <label className="usa-label" htmlFor={`${element.id}.data.label`}>
-          Field label or instructions
+          Field label
         </label>
         <input
           className="usa-input"
@@ -64,7 +64,6 @@ const InputElementEdit: FormElementEditComponent<InputElement> = ({
             type="checkbox"
             id={`${element.id}.data.required`}
             {...register(`${element.id}.data.required`)}
-            checked={element.required}
           />
           <label
             className="usa-checkbox__label"

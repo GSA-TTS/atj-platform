@@ -1,0 +1,51 @@
+---
+import closeSvg from '@atj/design/static/uswds/img/usa-icons/close.svg';
+import logoSvg from '@atj/design/images/logo.svg';
+
+import * as routes from '../routes';
+
+const getNavLinkClasses = (url: string) => {
+  if (url === Astro.url.pathname) {
+    return 'usa-nav-link usa-current';
+  } else {
+    return 'usa-nav-link';
+  }
+};
+---
+
+<div class="usa-overlay"></div>
+<header class="usa-header usa-header--extended">
+  <div class="usa-navbar">
+    <div class="usa-logo">
+      <em class="usa-logo__text">
+        <a href={routes.getHomeUrl()} title="10x Access to Justice">
+          <img src={logoSvg.src} role="img" alt="10x Logo" />
+          <span>Access to Justice Form Builder</span>
+        </a>
+      </em>
+    </div>
+    <button type="button" class="usa-menu-btn">Menu</button>
+  </div>
+  <nav aria-label="Primary navigation" class="usa-nav">
+    <div class="usa-nav__inner">
+      <button type="button" class="usa-nav__close">
+        <img src={closeSvg.src} role="img" alt="Close" />
+      </button>
+      <ul class="usa-nav__primary usa-accordion">
+        <li class="usa-nav__primary-item">
+          <a
+            href={routes.getHomeUrl()}
+            class={getNavLinkClasses(routes.getHomeUrl())}><span>Home</span></a
+          >
+        </li>
+        <li class="usa-nav__primary-item">
+          <a
+            href={routes.getManageUrl()}
+            class={getNavLinkClasses(routes.getManageUrl())}
+            ><span>Manage forms</span></a
+          >
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>

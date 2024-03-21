@@ -1,11 +1,11 @@
 import { createForm, createFormSession, defaultFormConfig } from '@atj/forms';
 
 import {
-  FormEditUIContext,
   defaultFormElementComponents,
   defaultFormElementEditComponents,
 } from './config';
 import { FormUIContext } from 'Form';
+import { type FormEditUIContext } from './FormManager/FormEdit/types';
 
 export const createTestForm = () => {
   return createForm(

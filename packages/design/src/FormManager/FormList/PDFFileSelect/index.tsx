@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { SAMPLE_DOCUMENTS } from '@atj/documents';
 import { FormService } from '@atj/form-service';
 
 import { onFileInputChangeGetFile } from './file-input';
@@ -15,18 +16,24 @@ export default function PDFFileSelect({
   const { actions } = useDocumentImporter(formService, baseUrl);
   return (
     <div className="usa-form-group">
-      <label className="usa-label" id="file-input-specific-hint" htmlFor="file-input-specific">
+      <label
+        className="usa-label"
+        id="file-input-specific-hint"
+        htmlFor="file-input-specific"
+      >
         Select a single PDF file
       </label>
       <div className="usa-file-input">
-        <div className="usa-sr-only" aria-live="polite">No files selected.</div>
+        <div className="usa-sr-only" aria-live="polite">
+          No files selected.
+        </div>
         <div className="usa-file-input__target">
           <div className="usa-file-input__box"></div>
           <div className="usa-file-input__instructions" aria-hidden="true">
             Drag file here or{' '}
             <span className="usa-file-input__choose">choose from folder</span>
           </div>
-          
+
           <input
             className="usa-file-input__input"
             id="file-input-specific"
@@ -40,28 +47,34 @@ export default function PDFFileSelect({
         </div>
       </div>
       <label className="usa-label">
-        Or use an example file, selected for testing purposes:
-        <button
-          className="usa-button--unstyled"
-          onClick={async () => {
-            actions.stepOneSelectPdfByUrl(
-              'sample-documents/ca-unlawful-detainer/ud105.pdf'
-            );
-          }}
-        >
-          sample-documents/ca-unlawful-detainer/ud105.pdf
-        </button>
-        <button
-          className="usa-button--unstyled"
-          onClick={async () => {
-            actions.stepOneSelectPdfByUrl(
-              'sample-documents/alabama-name-change/ps-12.pdf'
-            );
-          }}
-        >
-          sample-documents/alabama-name-change/ps-12.pdf
-        </button>
+        Or use an example file, selected for testing purposes
+        {SAMPLE_DOCUMENTS.map((document, index) => (
+          <SampleDocumentButton
+            key={index}
+            callback={actions.stepOneSelectPdfByUrl}
+            documentPath={document.path}
+          />
+        ))}
       </label>
     </div>
   );
 }
+
+const SampleDocumentButton = ({
+  callback,
+  documentPath,
+}: {
+  callback: (path: string) => Promise<void>;
+  documentPath: string;
+}) => {
+  return (
+    <button
+      className="usa-button--unstyled"
+      onClick={async () => {
+        await callback(documentPath);
+      }}
+    >
+      {documentPath}
+    </button>
+  );
+};

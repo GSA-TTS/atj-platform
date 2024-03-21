@@ -8,6 +8,7 @@ import {
   type FormElementValue,
   type FormElementValueMap,
   getFormElementMap,
+  getFormElementConfig,
 } from './element';
 
 export * from './config';
@@ -22,6 +23,28 @@ export type FormDefinition = {
   root: FormElementId;
   elements: FormElementMap;
   outputs: FormOutput[];
+};
+
+export const nullFormDefinition: FormDefinition = {
+  summary: {
+    title: '',
+    description: '',
+  },
+  root: 'root',
+  elements: {
+    root: {
+      type: 'sequence',
+      id: 'root',
+      data: {
+        elements: [],
+      },
+      default: {
+        elements: [],
+      },
+      required: true,
+    },
+  },
+  outputs: [],
 };
 
 export type FormSummary = {
@@ -40,7 +63,7 @@ export type FormSession = {
   form: FormDefinition;
 };
 
-type FormOutput = {
+export type FormOutput = {
   data: Uint8Array;
   path: string;
   fields: DocumentFieldMap;
@@ -233,4 +256,23 @@ export const updateFormSummary = (
     ...form,
     summary,
   };
+};
+
+export const updateFormElement = (
+  config: FormConfig,
+  form: FormDefinition,
+  formElement: FormElement,
+  formData: FormElementMap
+) => {
+  const elementConfig = getFormElementConfig(config, formElement.type);
+  const data = formData[formElement.id].data;
+  const result = elementConfig.parseConfigData(data);
+  if (!result.success) {
+    return;
+  }
+  const updatedForm = updateElement(form, {
+    ...formElement,
+    data: result.data,
+  });
+  return updatedForm;
 };

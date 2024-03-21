@@ -19,8 +19,10 @@ import { useFormContext } from 'react-hook-form';
 
 import { type FormDefinition, type FormElement } from '@atj/forms';
 import { type SequenceElement } from '@atj/forms/src/config/elements/sequence';
-
-import { type FormElementEditComponent, type FormEditUIContext } from '.';
+import {
+  type FormEditUIContext,
+  type FormElementEditComponent,
+} from '../../FormManager/FormEdit/types';
 
 interface ItemProps<T> {
   id: string;
