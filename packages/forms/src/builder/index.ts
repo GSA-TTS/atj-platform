@@ -4,6 +4,10 @@ import {
   addDocument,
   nullFormDefinition,
   updateFormSummary,
+  updateFormElement,
+  FormElementMap,
+  FormElement,
+  FormConfig,
 } from '..';
 
 export class FormBuilder {
@@ -24,5 +28,23 @@ export class FormBuilder {
   async addDocument(fileDetails: { name: string; data: Uint8Array }) {
     const { updatedForm } = await addDocument(this.form, fileDetails);
     this._form = updatedForm;
+  }
+
+  updateFormElement(
+    config: FormConfig,
+    formElement: FormElement,
+    formData: FormElementMap
+  ) {
+    const updatedElement = updateFormElement(
+      config,
+      this.form,
+      formElement,
+      formData
+    );
+    if (!updatedElement) {
+      return false;
+    }
+    this._form = updatedElement;
+    return true;
   }
 }

@@ -7,7 +7,7 @@ import {
   type FormElementMap,
   type Pattern,
   getFormElement,
-  updateFormElement,
+  FormBuilder,
   FormElement,
 } from '@atj/forms';
 import { type FormEditUIContext } from './types';
@@ -64,14 +64,14 @@ const createFormEditStore = ({
         console.warn('No selected element');
         return;
       }
-      const updatedForm = updateFormElement(
+      const builder = new FormBuilder(state.form);
+      const success = builder.updateFormElement(
         state.context.config,
-        state.form,
         state.selectedElement,
         formData
       );
-      if (updatedForm) {
-        set({ form: updatedForm, selectedElement: undefined });
+      if (success) {
+        set({ form: builder.form, selectedElement: undefined });
       }
     },
   }));
