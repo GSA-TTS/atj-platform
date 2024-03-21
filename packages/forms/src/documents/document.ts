@@ -35,7 +35,6 @@ export const addDocument = async (
       fields: cachedPdf.outputs,
       formFields: Object.fromEntries(
         Object.keys(cachedPdf.outputs).map(output => {
-          console.log(cachedPdf.outputs[output]);
           return [output, cachedPdf.outputs[output].name];
         })
       ),

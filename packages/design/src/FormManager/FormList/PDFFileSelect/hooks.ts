@@ -1,12 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import { type Result } from '@atj/common';
-import {
-  type FormElement,
-  type FormSummary,
-  addDocument,
-  createForm,
-} from '@atj/forms';
+import { FormBuilder } from '@atj/forms';
 import { type FormService } from '@atj/form-service';
 
 export const useDocumentImporter = (
@@ -18,10 +12,19 @@ export const useDocumentImporter = (
   return {
     actions: {
       stepOneSelectPdfByUrl: async (url: string) => {
-        const result = await stepOneSelectPdfByUrl(
-          { formService, baseUrl },
-          url
-        );
+        const data = await fetchUint8Array(`${baseUrl}${url}`);
+
+        const builder = new FormBuilder();
+        builder.setFormSummary({
+          title: url,
+          description: '',
+        });
+        await builder.addDocument({
+          name: url,
+          data,
+        });
+
+        const result = formService.addForm(builder.form);
         if (result.success) {
           navigate(`/${result.data}/edit`);
         }
@@ -30,10 +33,13 @@ export const useDocumentImporter = (
         name: string;
         data: Uint8Array;
       }) => {
-        const result = await stepOneSelectPdfByUpload(
-          { formService },
-          fileDetails
-        );
+        const builder = new FormBuilder();
+        builder.setFormSummary({
+          title: fileDetails.name,
+          description: '',
+        });
+        await builder.addDocument(fileDetails);
+        const result = await formService.addForm(builder.form);
         if (result.success) {
           navigate(`/${result.data}/edit`);
         }
@@ -42,52 +48,8 @@ export const useDocumentImporter = (
   };
 };
 
-export const stepOneSelectPdfByUrl = async (
-  ctx: { formService: FormService; baseUrl: string },
-  url: string
-): Promise<Result<string>> => {
-  const completeUrl = `${ctx.baseUrl}${url}`;
-  const response = await fetch(completeUrl);
+const fetchUint8Array = async (url: string) => {
+  const response = await fetch(url);
   const blob = await response.blob();
-  const data = new Uint8Array(await blob.arrayBuffer());
-
-  const emptyForm = createForm({
-    title: url,
-    description: '',
-  });
-  const { updatedForm } = await addDocument(emptyForm, {
-    name: url,
-    data,
-  });
-  return ctx.formService.addForm(updatedForm);
-};
-
-export const stepOneSelectPdfByUpload = async (
-  ctx: { formService: FormService },
-  fileDetails: {
-    name: string;
-    data: Uint8Array;
-  }
-): Promise<Result<string>> => {
-  const emptyForm = createForm(
-    {
-      title: fileDetails.name,
-      description: '',
-    },
-    {
-      root: 'root',
-      elements: [
-        {
-          type: 'form-summary',
-          id: 'form-summary',
-          data: {
-            title: fileDetails.name,
-            description: '',
-          },
-        } as FormElement<FormSummary>,
-      ],
-    }
-  );
-  const { updatedForm } = await addDocument(emptyForm, fileDetails);
-  return ctx.formService.addForm(updatedForm);
+  return new Uint8Array(await blob.arrayBuffer());
 };

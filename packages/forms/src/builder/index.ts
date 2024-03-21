@@ -1,13 +1,28 @@
-import { nullFormDefinition, type FormDefinition } from '..';
+import {
+  type FormDefinition,
+  type FormSummary,
+  addDocument,
+  nullFormDefinition,
+  updateFormSummary,
+} from '..';
 
 export class FormBuilder {
-  form: FormDefinition;
+  private _form: FormDefinition;
 
   constructor(initialForm: FormDefinition = nullFormDefinition) {
-    this.form = initialForm || nullFormDefinition;
+    this._form = initialForm || nullFormDefinition;
+  }
+
+  get form(): FormDefinition {
+    return this._form;
+  }
+
+  setFormSummary(summary: FormSummary) {
+    this._form = updateFormSummary(this.form, summary);
   }
 
   async addDocument(fileDetails: { name: string; data: Uint8Array }) {
-    //this.form = await addDocument(this.form, fileDetails);
+    const { updatedForm } = await addDocument(this.form, fileDetails);
+    this._form = updatedForm;
   }
 }
