@@ -148,8 +148,6 @@ export const addDocumentFieldsToForm = (
         },
         required: field.required,
       } satisfies InputElement);
-    } else if (field.type === 'Paragraph') {
-      // skip purely presentational fields
     } else if (field.type === 'not-supported') {
       console.error(`Skipping field: ${field.error}`);
     } else {
