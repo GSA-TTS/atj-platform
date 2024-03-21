@@ -3,10 +3,11 @@ import { describe, expect, it } from 'vitest';
 import { loadSamplePDF } from './sample-data';
 import { fillPDF, getDocumentFieldData } from '../pdf';
 import { Success } from '@atj/common';
-import { DocumentFieldMap } from '@atj/forms';
+import { DocumentFieldMap, FormBuilder } from '@atj/forms';
 
 describe('DOJ Pardon Office marijuana pardon application form', () => {
   it('produces valid PDF from imported PDF', async () => {
+    const builder = new FormBuilder();
     const pdfBytes = await loadSamplePDF(
       'doj-pardon-marijuana/application_for_certificate_of_pardon_for_simple_marijuana_possession.pdf'
     );

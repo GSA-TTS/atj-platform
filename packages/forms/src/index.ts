@@ -11,6 +11,7 @@ import {
   getFormElementConfig,
 } from './element';
 
+export * from './builder';
 export * from './config';
 export * from './documents';
 export * from './element';
