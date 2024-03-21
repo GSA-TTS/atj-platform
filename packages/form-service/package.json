@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@atj/common": "workspace:*",
-    "@atj/documents": "workspace:*",
     "@atj/forms": "workspace:*"
   }
 }

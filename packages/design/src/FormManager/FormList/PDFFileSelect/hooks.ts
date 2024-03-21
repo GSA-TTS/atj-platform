@@ -1,10 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 
 import { type Result } from '@atj/common';
-import { addDocument } from '@atj/documents';
-import { FormElement, createForm } from '@atj/forms';
+import {
+  type FormElement,
+  type FormSummary,
+  addDocument,
+  createForm,
+} from '@atj/forms';
 import { type FormService } from '@atj/form-service';
-import { FormSummary } from '@atj/forms/src/config/elements/form-summary';
 
 export const useDocumentImporter = (
   formService: FormService,

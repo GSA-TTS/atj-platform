@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
+import { Success } from '@atj/common';
+
 import { loadSamplePDF } from './sample-data';
 import { fillPDF, getDocumentFieldData } from '../pdf';
-import { Success } from '@atj/common';
-import { DocumentFieldMap, FormBuilder } from '@atj/forms';
+import { FormBuilder } from '../..';
+import { DocumentFieldMap } from '..';
 
 describe('DOJ Pardon Office marijuana pardon application form', () => {
   it('produces valid PDF from imported PDF', async () => {

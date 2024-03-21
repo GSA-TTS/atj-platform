@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@atj/common": "workspace:*",
+    "pdf-lib": "^1.17.1",
     "zod": "^3.22.4"
   }
 }

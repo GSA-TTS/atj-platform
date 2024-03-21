@@ -1,53 +1,19 @@
-export type DocumentFieldValue =
-  | {
-      type: 'TextField';
-      name: string;
-      label: string;
-      value: string;
-      maxLength?: number;
-      required: boolean;
-    }
-  | {
-      type: 'CheckBox';
-      name: string;
-      label: string;
-      value: boolean;
-      required: boolean;
-    }
-  | {
-      type: 'Dropdown';
-      name: string;
-      label: string;
-      value: string[];
-      required: boolean;
-    }
-  | {
-      type: 'OptionList';
-      name: string;
-      label: string;
-      value: string[];
-      required: boolean;
-    }
-  | {
-      type: 'RadioGroup';
-      name: string;
-      options: string[];
-      label: string;
-      value: string;
-      required: boolean;
-    }
-  | {
-      type: 'Paragraph';
-      name: string;
-      options: string[];
-      label: string;
-      value: string;
-      required: boolean;
-    }
-  | {
-      type: 'not-supported';
-      name: string;
-      error: string;
-    };
+export * from './document';
+export * from './pdf';
+export * from './suggestions';
+export * from './types';
 
-export type DocumentFieldMap = Record<string, DocumentFieldValue>;
+export const SAMPLE_DOCUMENTS = [
+  {
+    path: 'sample-documents/ca-unlawful-detainer/ud105.pdf',
+    title: 'California UD-105 (unlawful detainer)',
+  },
+  {
+    path: 'sample-documents/alabama-name-change/ps-12.pdf',
+    title: 'Alabama PS-12 (name change)',
+  },
+  {
+    path: 'sample-documents/doj-pardon-marijuana/application_for_certificate_of_pardon_for_simple_marijuana_possession.pdf',
+    title: 'DOJ Marijuana Pardon Application',
+  },
+];

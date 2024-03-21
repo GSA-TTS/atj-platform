@@ -1,6 +1,6 @@
 import { FormConfig } from './config';
 import { SequenceElement } from './config/elements/sequence';
-import { type DocumentFieldMap } from './documents';
+import { DocumentFieldMap } from './documents';
 import {
   type FormElement,
   type FormElementId,

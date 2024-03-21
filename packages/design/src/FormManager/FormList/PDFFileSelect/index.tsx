@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SAMPLE_DOCUMENTS } from '@atj/documents';
+import { SAMPLE_DOCUMENTS } from '@atj/forms';
 import { FormService } from '@atj/form-service';
 
 import { onFileInputChangeGetFile } from './file-input';

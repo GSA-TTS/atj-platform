@@ -1,17 +1,19 @@
 import * as z from 'zod';
 
 import {
-  type DocumentFieldMap,
   type FormElement,
   type FormElementId,
   type FormElementMap,
-} from '@atj/forms';
-import { type InputElement } from '@atj/forms/src/config/elements/input';
+} from '../..';
 
-import json from './al_name_change.json' assert { type: 'json' };
-import { FieldsetElement } from '@atj/forms/src/config/elements/fieldset';
-import { ParagraphElement } from '@atj/forms/src/config/elements/paragraph';
+import { ParagraphElement } from '../../config/elements/paragraph';
+import { InputElement } from '../../config/elements/input';
+import { FieldsetElement } from '../../config/elements/fieldset';
+
 import { stringToBase64 } from '../util';
+import { DocumentFieldMap } from '../types';
+
+import json from './al_name_change';
 
 const TxInput = z.object({
   input_type: z.literal('Tx'),

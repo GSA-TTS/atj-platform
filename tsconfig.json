@@ -13,13 +13,6 @@
     "target": "ESNext",
     "resolveJsonModule": true,
   },
-  "files": [
-    // temporary for mock-api
-    "./packages/documents/src/pdf/al_name_change.json"
-  ],
-  "include": [
-    "./packages/*/src/**/*.json",
-  ],
   "exclude": [
     "node_modules",
     "**/*/lib",
@@ -31,9 +24,6 @@
     },
     {
       "path": "./packages/design/tsconfig.json"
-    },
-    {
-      "path": "./packages/documents/tsconfig.json"
     },
     {
       "path": "./packages/form-service/tsconfig.json"
