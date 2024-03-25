@@ -1,7 +1,7 @@
 import path from 'path';
 import { promises as fs } from 'fs';
 
-const samplesDirectory = path.resolve(__dirname, '../../samples');
+const samplesDirectory = path.resolve(__dirname, '../../../sample-documents');
 
 export const loadSamplePDF = async (fileName: `${string}.pdf`) => {
   const samplePdfPath = path.join(samplesDirectory, fileName);

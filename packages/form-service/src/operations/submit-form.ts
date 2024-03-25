@@ -1,11 +1,12 @@
 import { type Result } from '@atj/common';
-import { createFormOutputFieldData, fillPDF } from '@atj/documents';
 import {
   type FormConfig,
-  sessionIsComplete,
-  FormDefinition,
-  FormSession,
+  type FormDefinition,
+  type FormSession,
   applyPromptResponse,
+  createFormOutputFieldData,
+  fillPDF,
+  sessionIsComplete,
 } from '@atj/forms';
 
 import { getFormFromStorage } from '../context/browser/form-repo';
@@ -34,17 +35,10 @@ export const submitForm = async (
   //const session = getSessionFromStorage(ctx.storage, sessionId) || createFormSession(form);
   // For now, the client-side is producing its own error messages.
   // In the future, we'll want this service to return errors to the client.
-  const newSessionResult = applyPromptResponse(
-    ctx.config,
-    session,
-    {
-      action: 'submit',
-      data: formData,
-    },
-    {
-      validate: true,
-    }
-  );
+  const newSessionResult = applyPromptResponse(ctx.config, session, {
+    action: 'submit',
+    data: formData,
+  });
   if (!newSessionResult.success) {
     return Promise.resolve({
       success: false,

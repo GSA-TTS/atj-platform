@@ -1,3 +1,0 @@
-# @atj/documents
-
-Document generation.

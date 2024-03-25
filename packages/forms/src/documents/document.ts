@@ -1,16 +1,15 @@
 import {
-  DocumentFieldMap,
   FormDefinition,
   FormElement,
   addFormOutput,
   addFormElements,
   addFormElementMap,
   updateFormSummary,
-} from '@atj/forms';
+} from '..';
+import { InputElement } from '../config/elements/input';
 import { PDFDocument, getDocumentFieldData } from './pdf';
 import { getSuggestedFormElementsFromCache } from './suggestions';
-import { InputElement } from '@atj/forms/src/config/elements/input';
-import { stringToBase64 } from './util';
+import { DocumentFieldMap } from './types';
 
 export type DocumentTemplate = PDFDocument;
 
@@ -36,7 +35,6 @@ export const addDocument = async (
       fields: cachedPdf.outputs,
       formFields: Object.fromEntries(
         Object.keys(cachedPdf.outputs).map(output => {
-          console.log(cachedPdf.outputs[output]);
           return [output, cachedPdf.outputs[output].name];
         })
       ),

@@ -2,16 +2,14 @@ import React, { PropsWithChildren, useReducer } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import {
+  type DocumentFieldMap,
+  type FormDefinition,
   SAMPLE_DOCUMENTS,
   addDocument,
   addDocumentFieldsToForm,
-} from '@atj/documents';
-import { type FormService } from '@atj/form-service';
-import {
-  type DocumentFieldMap,
-  type FormDefinition,
   createFormSession,
 } from '@atj/forms';
+import { type FormService } from '@atj/form-service';
 
 import Form, { FormUIContext } from '../../Form';
 import { onFileInputChangeGetFile } from '../FormList/PDFFileSelect/file-input';

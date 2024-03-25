@@ -62,7 +62,6 @@
   },
   "dependencies": {
     "@atj/common": "workspace:*",
-    "@atj/documents": "workspace:*",
     "@atj/form-service": "workspace:*",
     "@atj/forms": "workspace:*",
     "@dnd-kit/core": "^6.1.0",

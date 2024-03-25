@@ -18,8 +18,7 @@ export type PromptResponse = {
 export const applyPromptResponse = (
   config: FormConfig,
   session: FormSession,
-  response: PromptResponse,
-  options: { validate: true }
+  response: PromptResponse
 ): Result<FormSession> => {
   // Get the current prompt for this session.
   const prompt = createPrompt(config, session, { validate: false });
