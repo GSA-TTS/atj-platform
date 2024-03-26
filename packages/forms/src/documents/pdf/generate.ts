@@ -13,11 +13,10 @@ export const createFormOutputFieldData = (
     if (docField.type === 'not-supported') {
       return;
     }
-    const fieldId = output.formFields[elementId];
     const outputFieldId = output.formFields[elementId];
     results[outputFieldId] = {
       type: docField.type,
-      value: formData[fieldId],
+      value: formData[elementId],
     };
   });
   return results;
