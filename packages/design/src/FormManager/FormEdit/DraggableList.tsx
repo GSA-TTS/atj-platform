@@ -18,7 +18,7 @@ import { CSS } from '@dnd-kit/utilities';
 
 import {
   getPattern,
-  type FormDefinition,
+  type Blueprint,
   type Pattern,
   PatternId,
 } from '@atj/forms';
@@ -60,7 +60,7 @@ const SortableItem = ({
 
 type DraggableListProps = React.PropsWithChildren<{
   element: Pattern<SequenceElement>;
-  form: FormDefinition;
+  form: Blueprint;
   setSelectedElement: (element: Pattern) => void;
 }>;
 export const DraggableList: React.FC<DraggableListProps> = ({

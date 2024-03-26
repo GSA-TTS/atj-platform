@@ -1,5 +1,5 @@
 import {
-  FormDefinition,
+  Blueprint,
   Pattern,
   addFormOutput,
   addPatterns,
@@ -14,7 +14,7 @@ import { DocumentFieldMap } from './types';
 export type DocumentTemplate = PDFDocument;
 
 export const addDocument = async (
-  form: FormDefinition,
+  form: Blueprint,
   fileDetails: {
     name: string;
     data: Uint8Array;
@@ -66,7 +66,7 @@ export const addDocument = async (
 };
 
 export const addDocumentFieldsToForm = (
-  form: FormDefinition,
+  form: Blueprint,
   fields: DocumentFieldMap
 ) => {
   const elements: Pattern[] = [];

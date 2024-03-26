@@ -1,5 +1,5 @@
 import { type Result } from '@atj/common';
-import { type FormDefinition } from '..';
+import { type Blueprint } from '..';
 
 import { type CreatePrompt } from './pattern';
 
@@ -15,7 +15,7 @@ export type PatternId = string;
 export type PatternValue<T extends Pattern = Pattern> = T['default'];
 export type PatternValueMap = Record<PatternId, PatternValue>;
 export type PatternMap = Record<PatternId, Pattern>;
-export type GetPattern = (form: FormDefinition, id: PatternId) => Pattern;
+export type GetPattern = (form: Blueprint, id: PatternId) => Pattern;
 
 export type ParsePatternData<T extends Pattern = Pattern> = (
   elementData: T['data'],
@@ -57,7 +57,7 @@ export const getPatternMap = (elements: Pattern[]) => {
   );
 };
 
-export const getPatterns = (form: FormDefinition, elementIds: PatternId[]) => {
+export const getPatterns = (form: Blueprint, elementIds: PatternId[]) => {
   return elementIds.map(elementId => getPattern(form, elementId));
 };
 
@@ -100,7 +100,7 @@ export const validateElement = (
 
 export const getFirstPattern = (
   config: FormConfig,
-  form: FormDefinition,
+  form: Blueprint,
   element?: Pattern
 ): Pattern => {
   if (!element) {

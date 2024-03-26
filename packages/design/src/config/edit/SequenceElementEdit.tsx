@@ -17,7 +17,7 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import { useFormContext } from 'react-hook-form';
 
-import { type FormDefinition, type Pattern } from '@atj/forms';
+import { type Blueprint, type Pattern } from '@atj/forms';
 import { type SequenceElement } from '@atj/forms/src/elements/sequence';
 import {
   type FormEditUIContext,
@@ -26,7 +26,7 @@ import {
 
 interface ItemProps<T> {
   id: string;
-  form: FormDefinition;
+  form: Blueprint;
   element: Pattern<T>;
   context: FormEditUIContext;
 }

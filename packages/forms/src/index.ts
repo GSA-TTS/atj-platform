@@ -19,14 +19,14 @@ export * from './pattern';
 export * from './response';
 export * from './session';
 
-export type FormDefinition = {
+export type Blueprint = {
   summary: FormSummary;
   root: PatternId;
   elements: PatternMap;
   outputs: FormOutput[];
 };
 
-export const nullFormDefinition: FormDefinition = {
+export const nullBlueprint: Blueprint = {
   summary: {
     title: '',
     description: '',
@@ -61,7 +61,7 @@ export type FormSession = {
     errors: ErrorMap;
     values: PatternValueMap;
   };
-  form: FormDefinition;
+  form: Blueprint;
 };
 
 export type FormOutput = {
@@ -92,7 +92,7 @@ export const createForm = (
     ],
     root: 'root',
   }
-): FormDefinition => {
+): Blueprint => {
   return {
     summary,
     root: initial.root,
@@ -101,11 +101,11 @@ export const createForm = (
   };
 };
 
-export const getRootPattern = (form: FormDefinition) => {
+export const getRootPattern = (form: Blueprint) => {
   return form.elements[form.root];
 };
 
-export const createFormSession = (form: FormDefinition): FormSession => {
+export const createFormSession = (form: Blueprint): FormSession => {
   return {
     id: crypto.randomUUID(),
     data: {
@@ -166,7 +166,7 @@ const addError = (
 });
 
 export const addPatternMap = (
-  form: FormDefinition,
+  form: Blueprint,
   elements: PatternMap,
   root?: PatternId
 ) => {
@@ -178,7 +178,7 @@ export const addPatternMap = (
 };
 
 export const addPatterns = (
-  form: FormDefinition,
+  form: Blueprint,
   elements: Pattern[],
   root?: PatternId
 ) => {
@@ -187,9 +187,9 @@ export const addPatterns = (
 };
 
 export const replacePatterns = (
-  form: FormDefinition,
+  form: Blueprint,
   elements: Pattern[]
-): FormDefinition => {
+): Blueprint => {
   return {
     ...form,
     elements: elements.reduce(
@@ -204,9 +204,9 @@ export const replacePatterns = (
 
 export const updateElements = (
   config: FormConfig,
-  form: FormDefinition,
+  form: Blueprint,
   newElements: PatternMap
-): FormDefinition => {
+): Blueprint => {
   const root = newElements[form.root];
   const targetElements: PatternMap = {
     root,
@@ -222,9 +222,9 @@ export const updateElements = (
 };
 
 export const updateElement = (
-  form: FormDefinition,
+  form: Blueprint,
   formElement: Pattern
-): FormDefinition => {
+): Blueprint => {
   return {
     ...form,
     elements: {
@@ -234,21 +234,18 @@ export const updateElement = (
   };
 };
 
-export const addFormOutput = (form: FormDefinition, document: FormOutput) => {
+export const addFormOutput = (form: Blueprint, document: FormOutput) => {
   return {
     ...form,
     outputs: [...form.outputs, document],
   };
 };
 
-export const getPattern = (form: FormDefinition, id: PatternId) => {
+export const getPattern = (form: Blueprint, id: PatternId) => {
   return form.elements[id];
 };
 
-export const updateFormSummary = (
-  form: FormDefinition,
-  summary: FormSummary
-) => {
+export const updateFormSummary = (form: Blueprint, summary: FormSummary) => {
   return {
     ...form,
     summary,
@@ -257,7 +254,7 @@ export const updateFormSummary = (
 
 export const updatePattern = (
   config: FormConfig,
-  form: FormDefinition,
+  form: Blueprint,
   formElement: Pattern,
   formData: PatternMap
 ) => {

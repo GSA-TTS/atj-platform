@@ -1,7 +1,10 @@
 import React from 'react';
 
-import { PatternProps, type SubmissionConfirmationPattern } from '@atj/forms';
-import { PatternComponent } from '../../../Form';
+import {
+  type PatternProps,
+  type SubmissionConfirmationPattern,
+} from '@atj/forms';
+import { type PatternComponent } from '../../../Form';
 
 const SubmissionConfirmation: PatternComponent<
   PatternProps<SubmissionConfirmationPattern>

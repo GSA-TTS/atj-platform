@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import {
   type DocumentFieldMap,
-  type FormDefinition,
+  type Blueprint,
   SAMPLE_DOCUMENTS,
   addDocument,
   addDocumentFieldsToForm,
@@ -24,7 +24,7 @@ const DocumentImporter = ({
   baseUrl: string;
   formId: string;
   context: FormUIContext;
-  form: FormDefinition;
+  form: Blueprint;
   formService: FormService;
 }) => {
   const { state, actions } = useDocumentImporter(formService, form, baseUrl);
@@ -184,13 +184,13 @@ const DocumentImporter = ({
 
 type State = {
   page: number;
-  previewForm: FormDefinition;
+  previewForm: Blueprint;
   documentFields?: DocumentFieldMap;
 };
 
 const useDocumentImporter = (
   formService: FormService,
-  form: FormDefinition,
+  form: Blueprint,
   baseUrl: string
 ) => {
   const navigate = useNavigate();
@@ -203,7 +203,7 @@ const useDocumentImporter = (
             data: {
               path: string;
               fields: DocumentFieldMap;
-              previewForm: FormDefinition;
+              previewForm: Blueprint;
             };
           }
         | {

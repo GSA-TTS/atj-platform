@@ -1,6 +1,6 @@
 import {
   type FormConfig,
-  type FormDefinition,
+  type Blueprint,
   type Pattern,
   getPatternConfig,
   validateElement,
@@ -19,7 +19,7 @@ export type FormSession = {
     errors: ErrorMap;
     values: PatternValueMap;
   };
-  form: FormDefinition;
+  form: Blueprint;
 };
 
 export const nullSession: FormSession = {
@@ -50,7 +50,7 @@ export const nullSession: FormSession = {
   },
 };
 
-export const createFormSession = (form: FormDefinition): FormSession => {
+export const createFormSession = (form: Blueprint): FormSession => {
   return {
     data: {
       errors: {},

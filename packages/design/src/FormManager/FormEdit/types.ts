@@ -1,4 +1,4 @@
-import { type FormConfig, type FormDefinition, type Pattern } from '@atj/forms';
+import { type FormConfig, type Blueprint, type Pattern } from '@atj/forms';
 
 import { type ComponentForPattern } from '../../Form';
 
@@ -11,7 +11,7 @@ export type FormEditUIContext = {
 
 export type PatternEditComponent<T extends Pattern> = React.ComponentType<{
   context: FormEditUIContext;
-  form: FormDefinition;
+  form: Blueprint;
   element: T;
 }>;
 

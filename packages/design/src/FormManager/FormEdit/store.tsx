@@ -3,7 +3,7 @@ import { StoreApi, create } from 'zustand';
 import { createContext } from 'zustand-utils';
 
 import {
-  type FormDefinition,
+  type Blueprint,
   type PatternMap,
   type PatternProps,
   getPattern,
@@ -18,7 +18,7 @@ export const useFormEditStore = useStore;
 
 export const FormEditProvider = (props: {
   context: FormEditUIContext;
-  form: FormDefinition;
+  form: Blueprint;
   children: React.ReactNode;
 }) => {
   return (
@@ -30,7 +30,7 @@ export const FormEditProvider = (props: {
 
 type FormEditState = {
   context: FormEditUIContext;
-  form: FormDefinition;
+  form: Blueprint;
   selectedElement?: Pattern;
 
   handleEditClick: (pattern: PatternProps) => void;
@@ -43,7 +43,7 @@ const createFormEditStore = ({
   form,
 }: {
   context: FormEditUIContext;
-  form: FormDefinition;
+  form: Blueprint;
 }) =>
   create<FormEditState>((set, get) => ({
     context,

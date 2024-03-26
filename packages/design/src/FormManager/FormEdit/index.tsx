@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { FormDefinition } from '@atj/forms';
+import { Blueprint } from '@atj/forms';
 import { type FormService } from '@atj/form-service';
 
 import { PatternEdit } from './PatternEdit';
@@ -34,11 +34,7 @@ export default function FormEdit({
   );
 }
 
-const EditForm = ({
-  saveForm,
-}: {
-  saveForm: (form: FormDefinition) => void;
-}) => {
+const EditForm = ({ saveForm }: { saveForm: (form: Blueprint) => void }) => {
   const { form, selectedElement } = useFormEditStore();
   useEffect(() => {
     saveForm(form);

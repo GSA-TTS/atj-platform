@@ -13,6 +13,21 @@ Additional documentation:
 - [Architectural Decision Records (ADRs)](./documents/adr/)
 - [Non-project contributions](./documents/value-created-log.md)
 
+## Terminology
+
+The platform is made up of the following high-level terms.
+
+### Personas
+
+- Content authors: legal experts who craft guided interview experiences via a "no code" interface
+- Self-represented litigants (SREs): end-users who interact with the court via guided interviews created by content authors
+
+### Things
+
+- Blueprint: produced by a content author, the blueprint defines the structure of an interactive session between a court and an SRL
+- Conversation: one instance of a blueprint; the interactive session between a court and an SRL.
+- Pattern: the building blocks of a blueprint, patterns implement UX best-practices.
+
 ## Development
 
 This project uses [pnpm workspaces](https://pnpm.io/workspaces). To work with this project, [install pnpm](https://pnpm.io/installation) and then the project dependencies:
