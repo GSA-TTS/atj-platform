@@ -1,10 +1,11 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { type FormElementComponent } from '../../Form';
-import { type ParagraphElement } from '@atj/forms/src/config/elements/paragraph';
+import { type ParagraphElement } from '@atj/forms/src/elements/paragraph';
 
-const ParagraphElementEdit: FormElementComponent<ParagraphElement> = ({
+import { type FormElementEditComponent } from '../../FormManager/FormEdit/types';
+
+const ParagraphElementEdit: FormElementEditComponent<ParagraphElement> = ({
   element,
 }) => {
   const { register } = useFormContext();

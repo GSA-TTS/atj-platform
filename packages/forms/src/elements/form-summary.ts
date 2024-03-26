@@ -1,9 +1,9 @@
 import * as z from 'zod';
 
 import { type FormElementConfig } from '..';
-import { type FormElement } from '../../element';
-import { FormSummaryPattern, type Pattern } from '../../pattern';
-import { safeZodParse } from '../../util/zod';
+import { type FormElement } from '../element';
+import { FormSummaryPattern, type Pattern } from '../pattern';
+import { safeZodParse } from '../util/zod';
 
 const configSchema = z.object({
   title: z.string().max(128),

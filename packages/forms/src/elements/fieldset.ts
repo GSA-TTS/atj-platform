@@ -1,14 +1,13 @@
 import * as z from 'zod';
 
-import { type FormElementConfig } from '..';
-import { type FormElement, type FormElementId } from '../../element';
+import { type FormElementConfig, getFormElement } from '..';
+import { type FormElement, type FormElementId } from '../element';
 import {
   type FieldsetPattern,
   type Pattern,
   createPromptForElement,
-} from '../../pattern';
-import { safeZodParse } from '../../util/zod';
-import { getFormElement } from '../..';
+} from '../pattern';
+import { safeZodParse } from '../util/zod';
 
 export type FieldsetElement = FormElement<{
   legend?: string;

@@ -18,7 +18,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { useFormContext } from 'react-hook-form';
 
 import { type FormDefinition, type FormElement } from '@atj/forms';
-import { type SequenceElement } from '@atj/forms/src/config/elements/sequence';
+import { type SequenceElement } from '@atj/forms/src/elements/sequence';
 import {
   type FormEditUIContext,
   type FormElementEditComponent,
@@ -73,8 +73,8 @@ const SequenceElementEdit: FormElementEditComponent<SequenceElement> = ({
   element,
 }) => {
   const { register, setValue } = useFormContext();
-  const [elements, setElements] = useState(
-    element.data.elements.map(elementId => {
+  const [elements, setElements] = useState<FormElement[]>(
+    element.data.elements.map((elementId: string) => {
       return form.elements[elementId];
     })
   );
@@ -103,8 +103,7 @@ const SequenceElementEdit: FormElementEditComponent<SequenceElement> = ({
             const newOrder = arrayMove(elements, oldIndex, newIndex);
             setElements(newOrder);
             setValue(element.id, {
-              id: element.id,
-              type: element.type,
+              ...element,
               data: {
                 elements: newOrder.map(element => element.id),
               },

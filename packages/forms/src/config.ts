@@ -3,10 +3,10 @@ import {
   type FormElementId,
   type ParseFormElementData,
   type ParseFormElementConfigData,
-} from '../element';
-import { type CreatePrompt } from '../pattern';
+} from './element';
+import { type CreatePrompt } from './pattern';
 
-export { defaultFormConfig } from './config';
+export { defaultFormConfig } from './elements';
 
 export type FormElementConfig<ThisFormElement extends FormElement> = {
   acceptsInput: boolean;

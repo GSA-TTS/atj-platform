@@ -23,7 +23,7 @@ import {
   FormElementId,
 } from '@atj/forms';
 
-import { SequenceElement } from '@atj/forms/src/config/elements/sequence';
+import { SequenceElement } from '@atj/forms/src/elements/sequence';
 
 const SortableItem = ({
   id,
