@@ -4,11 +4,11 @@ import { createContext } from 'zustand-utils';
 
 import {
   type FormDefinition,
-  type FormElementMap,
+  type PatternMap,
   type PatternProps,
-  getFormElement,
+  getPattern,
   FormBuilder,
-  FormElement,
+  Pattern,
 } from '@atj/forms';
 import { type FormEditUIContext } from './types';
 
@@ -31,11 +31,11 @@ export const FormEditProvider = (props: {
 type FormEditState = {
   context: FormEditUIContext;
   form: FormDefinition;
-  selectedElement?: FormElement;
+  selectedElement?: Pattern;
 
   handleEditClick: (pattern: PatternProps) => void;
-  setSelectedElement: (element?: FormElement) => void;
-  updateSelectedFormElement: (formData: FormElementMap) => void;
+  setSelectedElement: (element?: Pattern) => void;
+  updateSelectedPattern: (formData: PatternMap) => void;
 };
 
 const createFormEditStore = ({
@@ -53,19 +53,19 @@ const createFormEditStore = ({
       if (state.selectedElement?.id === pattern._elementId) {
         set({ selectedElement: undefined });
       } else {
-        const elementToSet = getFormElement(state.form, pattern._elementId);
+        const elementToSet = getPattern(state.form, pattern._elementId);
         set({ selectedElement: elementToSet });
       }
     },
     setSelectedElement: selectedElement => set({ selectedElement }),
-    updateSelectedFormElement: (formData: FormElementMap) => {
+    updateSelectedPattern: (formData: PatternMap) => {
       const state = get();
       if (state.selectedElement === undefined) {
         console.warn('No selected element');
         return;
       }
       const builder = new FormBuilder(state.form);
-      const success = builder.updateFormElement(
+      const success = builder.updatePattern(
         state.context.config,
         state.selectedElement,
         formData

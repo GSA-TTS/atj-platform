@@ -4,7 +4,7 @@ import { type PatternProps, createFormSession } from '@atj/forms';
 
 import Form, {
   type ComponentForPattern,
-  type FormElementComponent,
+  type PatternComponent,
   type FormUIContext,
 } from '../../Form';
 import { useFormEditStore } from './store';
@@ -64,14 +64,14 @@ const createPreviewComponents = (
 
 /*
 const createSequencePatternPreviewComponent = (
-  Component: FormElementComponent,
+  Component: PatternComponent,
   previewComponents: ComponentForPattern
 ) => {
-  const PatternPreviewSequenceComponent: FormElementComponent = ({
+  const PatternPreviewSequenceComponent: PatternComponent = ({
     pattern,
   }) => {
     const { form, setSelectedElement } = usePreviewContext();
-    const element = getFormElement(form, pattern._elementId);
+    const element = getPattern(form, pattern._elementId);
     const Component = previewComponents[pattern.type];
     return (
       <DraggableList
@@ -88,10 +88,10 @@ const createSequencePatternPreviewComponent = (
 */
 
 const createPatternPreviewComponent = (
-  Component: FormElementComponent,
+  Component: PatternComponent,
   uswdsRoot: string
 ) => {
-  const PatternPreviewComponent: FormElementComponent = ({
+  const PatternPreviewComponent: PatternComponent = ({
     pattern,
   }: {
     pattern: Pattern;

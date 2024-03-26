@@ -1,21 +1,21 @@
 import React, { useEffect, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { type FormElementMap } from '@atj/forms';
+import { type PatternMap } from '@atj/forms';
 import { useFormEditStore } from './store';
 
-export const FormElementEdit = () => {
+export const PatternEdit = () => {
   const context = useFormEditStore(state => state.context);
   const form = useFormEditStore(state => state.form);
   const selectedElement = useFormEditStore(state => state.selectedElement);
-  const { setSelectedElement, updateSelectedFormElement } = useFormEditStore(
+  const { setSelectedElement, updateSelectedPattern } = useFormEditStore(
     state => ({
       setSelectedElement: state.setSelectedElement,
-      updateSelectedFormElement: state.updateSelectedFormElement,
+      updateSelectedPattern: state.updateSelectedPattern,
     })
   );
 
-  const methods = useForm<FormElementMap>({
+  const methods = useForm<PatternMap>({
     defaultValues: selectedElement
       ? {
           [selectedElement.id]: selectedElement,
@@ -69,7 +69,7 @@ export const FormElementEdit = () => {
         <form
           className="editForm"
           onSubmit={methods.handleSubmit(formData => {
-            updateSelectedFormElement(formData);
+            updateSelectedPattern(formData);
           })}
         >
           <h3>Editing &quot;{selectedElement.data.label}&quot;...</h3>

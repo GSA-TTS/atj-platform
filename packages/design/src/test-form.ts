@@ -1,7 +1,7 @@
 import { createForm, createFormSession, defaultFormConfig } from '@atj/forms';
 
 import {
-  defaultFormElementComponents,
+  defaultPatternComponents,
   defaultPatternEditComponents,
 } from './config';
 import { FormUIContext } from 'Form';
@@ -31,7 +31,7 @@ export const createTestForm = () => {
           type: 'input',
           id: 'element-1',
           data: {
-            text: 'FormElement 1',
+            text: 'Pattern 1',
             required: true,
             initial: '',
           },
@@ -42,7 +42,7 @@ export const createTestForm = () => {
           type: 'input',
           id: 'element-2',
           data: {
-            text: 'FormElement 2',
+            text: 'Pattern 2',
             required: false,
             initial: 'test',
           },
@@ -58,14 +58,14 @@ export const createTestFormConfig = () => {
   return defaultFormConfig;
 };
 
-export const createTestFormElementComponentMap = () => {
-  return defaultFormElementComponents;
+export const createTestPatternComponentMap = () => {
+  return defaultPatternComponents;
 };
 
 export const createTestFormContext = (): FormUIContext => {
   return {
     config: defaultFormConfig,
-    components: defaultFormElementComponents,
+    components: defaultPatternComponents,
     uswdsRoot: '/uswds/',
   };
 };
@@ -73,7 +73,7 @@ export const createTestFormContext = (): FormUIContext => {
 export const createTestFormEditContext = (): FormEditUIContext => {
   return {
     config: defaultFormConfig,
-    components: defaultFormElementComponents,
+    components: defaultPatternComponents,
     editComponents: defaultPatternEditComponents,
     uswdsRoot: `/static/uswds/`,
   };

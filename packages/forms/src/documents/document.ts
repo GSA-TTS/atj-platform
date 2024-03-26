@@ -1,14 +1,14 @@
 import {
   FormDefinition,
-  FormElement,
+  Pattern,
   addFormOutput,
-  addFormElements,
-  addFormElementMap,
+  addPatterns,
+  addPatternMap,
   updateFormSummary,
 } from '..';
 import { InputElement } from '../config/elements/input';
 import { PDFDocument, getDocumentFieldData } from './pdf';
-import { getSuggestedFormElementsFromCache } from './suggestions';
+import { getSuggestedPatternsFromCache } from './suggestions';
 import { DocumentFieldMap } from './types';
 
 export type DocumentTemplate = PDFDocument;
@@ -21,14 +21,14 @@ export const addDocument = async (
   }
 ) => {
   const fields = await getDocumentFieldData(fileDetails.data);
-  const cachedPdf = await getSuggestedFormElementsFromCache(fileDetails.data);
+  const cachedPdf = await getSuggestedPatternsFromCache(fileDetails.data);
 
   if (cachedPdf) {
     form = updateFormSummary(form, {
       title: cachedPdf.title,
       description: '',
     });
-    form = addFormElementMap(form, cachedPdf.elements, cachedPdf.root);
+    form = addPatternMap(form, cachedPdf.elements, cachedPdf.root);
     const updatedForm = addFormOutput(form, {
       data: fileDetails.data,
       path: fileDetails.name,
@@ -69,7 +69,7 @@ export const addDocumentFieldsToForm = (
   form: FormDefinition,
   fields: DocumentFieldMap
 ) => {
-  const elements: FormElement[] = [];
+  const elements: Pattern[] = [];
   Object.entries(fields).map(([elementId, field]) => {
     if (field.type === 'CheckBox') {
       elements.push({
@@ -163,5 +163,5 @@ export const addDocumentFieldsToForm = (
     default: [],
     required: true,
   });
-  return addFormElements(form, elements, 'root');
+  return addPatterns(form, elements, 'root');
 };

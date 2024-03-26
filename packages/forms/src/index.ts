@@ -2,13 +2,13 @@ import { FormConfig } from './config';
 import { SequenceElement } from './config/elements/sequence';
 import { DocumentFieldMap } from './documents';
 import {
-  type FormElement,
-  type FormElementId,
-  type FormElementMap,
-  type FormElementValue,
-  type FormElementValueMap,
-  getFormElementMap,
-  getFormElementConfig,
+  type Pattern,
+  type PatternId,
+  type PatternMap,
+  type PatternValue,
+  type PatternValueMap,
+  getPatternMap,
+  getPatternConfig,
 } from './element';
 
 export * from './builder';
@@ -21,8 +21,8 @@ export * from './session';
 
 export type FormDefinition = {
   summary: FormSummary;
-  root: FormElementId;
-  elements: FormElementMap;
+  root: PatternId;
+  elements: PatternMap;
   outputs: FormOutput[];
 };
 
@@ -54,12 +54,12 @@ export type FormSummary = {
 };
 
 export type FormSessionId = string;
-type ErrorMap = Record<FormElementId, string>;
+type ErrorMap = Record<PatternId, string>;
 export type FormSession = {
   id: FormSessionId;
   data: {
     errors: ErrorMap;
-    values: FormElementValueMap;
+    values: PatternValueMap;
   };
   form: FormDefinition;
 };
@@ -74,8 +74,8 @@ export type FormOutput = {
 export const createForm = (
   summary: FormSummary,
   initial: {
-    elements: FormElement[];
-    root: FormElementId;
+    elements: Pattern[];
+    root: PatternId;
   } = {
     elements: [
       {
@@ -96,12 +96,12 @@ export const createForm = (
   return {
     summary,
     root: initial.root,
-    elements: getFormElementMap(initial.elements),
+    elements: getPatternMap(initial.elements),
     outputs: [],
   };
 };
 
-export const getRootFormElement = (form: FormDefinition) => {
+export const getRootPattern = (form: FormDefinition) => {
   return form.elements[form.root];
 };
 
@@ -120,13 +120,9 @@ export const createFormSession = (form: FormDefinition): FormSession => {
   };
 };
 
-export const updateForm = (
-  context: FormSession,
-  id: FormElementId,
-  value: any
-) => {
+export const updateForm = (context: FormSession, id: PatternId, value: any) => {
   if (!(id in context.form.elements)) {
-    console.error(`FormElement "${id}" does not exist on form.`);
+    console.error(`Pattern "${id}" does not exist on form.`);
     return context;
   }
   const nextForm = addValue(context, id, value);
@@ -139,10 +135,10 @@ export const updateForm = (
   return nextForm;
 };
 
-const addValue = <T extends FormElement = FormElement>(
+const addValue = <T extends Pattern = Pattern>(
   form: FormSession,
-  id: FormElementId,
-  value: FormElementValue<T>
+  id: PatternId,
+  value: PatternValue<T>
 ): FormSession => ({
   ...form,
   data: {
@@ -156,7 +152,7 @@ const addValue = <T extends FormElement = FormElement>(
 
 const addError = (
   session: FormSession,
-  id: FormElementId,
+  id: PatternId,
   error: string
 ): FormSession => ({
   ...session,
@@ -169,10 +165,10 @@ const addError = (
   },
 });
 
-export const addFormElementMap = (
+export const addPatternMap = (
   form: FormDefinition,
-  elements: FormElementMap,
-  root?: FormElementId
+  elements: PatternMap,
+  root?: PatternId
 ) => {
   return {
     ...form,
@@ -181,18 +177,18 @@ export const addFormElementMap = (
   };
 };
 
-export const addFormElements = (
+export const addPatterns = (
   form: FormDefinition,
-  elements: FormElement[],
-  root?: FormElementId
+  elements: Pattern[],
+  root?: PatternId
 ) => {
-  const formElementMap = getFormElementMap(elements);
-  return addFormElementMap(form, formElementMap, root);
+  const formElementMap = getPatternMap(elements);
+  return addPatternMap(form, formElementMap, root);
 };
 
-export const replaceFormElements = (
+export const replacePatterns = (
   form: FormDefinition,
-  elements: FormElement[]
+  elements: Pattern[]
 ): FormDefinition => {
   return {
     ...form,
@@ -201,7 +197,7 @@ export const replaceFormElements = (
         acc[element.id] = element;
         return acc;
       },
-      {} as Record<FormElementId, FormElement>
+      {} as Record<PatternId, Pattern>
     ),
   };
 };
@@ -209,10 +205,10 @@ export const replaceFormElements = (
 export const updateElements = (
   config: FormConfig,
   form: FormDefinition,
-  newElements: FormElementMap
+  newElements: PatternMap
 ): FormDefinition => {
   const root = newElements[form.root];
-  const targetElements: FormElementMap = {
+  const targetElements: PatternMap = {
     root,
   };
   const resource = config.elements[root.type as keyof FormConfig];
@@ -227,7 +223,7 @@ export const updateElements = (
 
 export const updateElement = (
   form: FormDefinition,
-  formElement: FormElement
+  formElement: Pattern
 ): FormDefinition => {
   return {
     ...form,
@@ -245,7 +241,7 @@ export const addFormOutput = (form: FormDefinition, document: FormOutput) => {
   };
 };
 
-export const getFormElement = (form: FormDefinition, id: FormElementId) => {
+export const getPattern = (form: FormDefinition, id: PatternId) => {
   return form.elements[id];
 };
 
@@ -259,13 +255,13 @@ export const updateFormSummary = (
   };
 };
 
-export const updateFormElement = (
+export const updatePattern = (
   config: FormConfig,
   form: FormDefinition,
-  formElement: FormElement,
-  formData: FormElementMap
+  formElement: Pattern,
+  formData: PatternMap
 ) => {
-  const elementConfig = getFormElementConfig(config, formElement.type);
+  const elementConfig = getPatternConfig(config, formElement.type);
   const data = formData[formElement.id].data;
   const result = elementConfig.parseConfigData(data);
   if (!result.success) {

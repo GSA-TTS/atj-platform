@@ -2,7 +2,7 @@ import React from 'react';
 
 import {
   FormManager,
-  defaultFormElementComponents,
+  defaultPatternComponents,
   defaultPatternEditComponents,
 } from '@atj/design';
 
@@ -14,7 +14,7 @@ export default function () {
     <FormManager
       context={{
         config: ctx.formConfig,
-        components: defaultFormElementComponents,
+        components: defaultPatternComponents,
         editComponents: defaultPatternEditComponents,
         uswdsRoot: ctx.uswdsRoot,
       }}

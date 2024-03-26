@@ -2,9 +2,9 @@ import { type Result } from '@atj/common';
 
 import {
   type FormConfig,
-  type FormElementId,
-  getFormElement,
-  getFormElementConfig,
+  type PatternId,
+  getPattern,
+  getPatternConfig,
   validateElement,
 } from '.';
 import { type PromptAction, createPrompt, isPromptAction } from './pattern';
@@ -40,11 +40,11 @@ export const applyPromptResponse = (
 const parseElementValue = (
   config: FormConfig,
   session: FormSession,
-  elementId: FormElementId,
+  elementId: PatternId,
   promptValue: string
 ) => {
   const element = session.form.elements[elementId];
-  const formElementConfig = getFormElementConfig(config, element.type);
+  const formElementConfig = getPatternConfig(config, element.type);
   return formElementConfig.parseData(element, promptValue);
 };
 
@@ -56,8 +56,8 @@ const parsePromptResponse = (
   const values: Record<string, any> = {};
   const errors: Record<string, string> = {};
   for (const [elementId, promptValue] of Object.entries(response.data)) {
-    const element = getFormElement(session.form, elementId);
-    const elementConfig = getFormElementConfig(config, element.type);
+    const element = getPattern(session.form, elementId);
+    const elementConfig = getPatternConfig(config, element.type);
     const isValidResult = validateElement(elementConfig, element, promptValue);
     if (isValidResult.success) {
       values[elementId] = isValidResult.data;

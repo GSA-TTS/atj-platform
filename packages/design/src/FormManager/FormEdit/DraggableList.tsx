@@ -17,10 +17,10 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 
 import {
-  getFormElement,
+  getPattern,
   type FormDefinition,
-  type FormElement,
-  FormElementId,
+  type Pattern,
+  PatternId,
 } from '@atj/forms';
 
 import { SequenceElement } from '@atj/forms/src/elements/sequence';
@@ -59,9 +59,9 @@ const SortableItem = ({
 };
 
 type DraggableListProps = React.PropsWithChildren<{
-  element: FormElement<SequenceElement>;
+  element: Pattern<SequenceElement>;
   form: FormDefinition;
-  setSelectedElement: (element: FormElement) => void;
+  setSelectedElement: (element: Pattern) => void;
 }>;
 export const DraggableList: React.FC<DraggableListProps> = ({
   element,
@@ -69,9 +69,9 @@ export const DraggableList: React.FC<DraggableListProps> = ({
   setSelectedElement,
   children,
 }) => {
-  const [elements, setElements] = useState<FormElement[]>(
-    element.data.elements.map((elementId: FormElementId) => {
-      return getFormElement(form, elementId);
+  const [elements, setElements] = useState<Pattern[]>(
+    element.data.elements.map((elementId: PatternId) => {
+      return getPattern(form, elementId);
     })
   );
   const sensors = useSensors(

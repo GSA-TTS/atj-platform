@@ -22,14 +22,13 @@ export type FormUIContext = {
 
 export type ComponentForPattern<
   T extends PatternProps = PatternProps<unknown>,
-> = Record<string, FormElementComponent<T>>;
+> = Record<string, PatternComponent<T>>;
 
-export type FormElementComponent<
-  T extends PatternProps = PatternProps<unknown>,
-> = React.ComponentType<{
-  pattern: T;
-  children?: React.ReactNode;
-}>;
+export type PatternComponent<T extends PatternProps = PatternProps<unknown>> =
+  React.ComponentType<{
+    pattern: T;
+    children?: React.ReactNode;
+  }>;
 
 const usePrompt = (
   initialPrompt: Prompt,

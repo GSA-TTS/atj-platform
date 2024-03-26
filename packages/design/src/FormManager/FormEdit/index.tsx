@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { FormDefinition } from '@atj/forms';
 import { type FormService } from '@atj/form-service';
 
-import { FormElementEdit } from './FormElementEdit';
+import { PatternEdit } from './PatternEdit';
 import { PreviewForm } from './Preview';
 import { FormEditProvider, useFormEditStore } from './store';
 import { type FormEditUIContext } from './types';
@@ -51,7 +51,7 @@ const EditForm = ({
           <PreviewForm />
         </div>
         <div className={`grid-col-4 ${selectedElement ? 'show' : 'hide'}`}>
-          <FormElementEdit />
+          <PatternEdit />
         </div>
       </div>
     </div>

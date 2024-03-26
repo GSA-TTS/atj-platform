@@ -4,9 +4,9 @@ import {
   addDocument,
   nullFormDefinition,
   updateFormSummary,
-  updateFormElement,
-  FormElementMap,
-  FormElement,
+  updatePattern,
+  PatternMap,
+  Pattern,
   FormConfig,
 } from '..';
 
@@ -30,12 +30,12 @@ export class FormBuilder {
     this._form = updatedForm;
   }
 
-  updateFormElement(
+  updatePattern(
     config: FormConfig,
-    formElement: FormElement,
-    formData: FormElementMap
+    formElement: Pattern,
+    formData: PatternMap
   ) {
-    const updatedElement = updateFormElement(
+    const updatedElement = updatePattern(
       config,
       this.form,
       formElement,

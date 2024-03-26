@@ -9,7 +9,7 @@ export type SuggestedForm = {
   type?: 'text';
 }[];
 
-export const getSuggestedFormElementsFromCache = async (
+export const getSuggestedPatternsFromCache = async (
   rawData: Uint8Array
 ): Promise<ParsedPdf | null> => {
   const cache = getFakeCache();

@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest';
 
 import * as forms from '../src';
 
-const elements: forms.FormElement[] = [
+const elements: forms.Pattern[] = [
   {
     type: 'sequence',
     id: 'root',

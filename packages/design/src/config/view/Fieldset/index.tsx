@@ -2,9 +2,9 @@ import React from 'react';
 
 import { type FieldsetPattern, type PatternProps } from '@atj/forms';
 
-import { type FormElementComponent } from '../../../Form';
+import { type PatternComponent } from '../../../Form';
 
-const FormSummary: FormElementComponent<PatternProps<FieldsetPattern>> = ({
+const FormSummary: PatternComponent<PatternProps<FieldsetPattern>> = ({
   pattern,
   children,
 }) => {

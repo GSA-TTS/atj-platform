@@ -6,7 +6,7 @@ import SubmissionConfirmation from './SubmissionConfirmation';
 import TextInput from './TextInput';
 import { type ComponentForPattern } from '../../Form';
 
-export const defaultFormElementComponents: ComponentForPattern = {
+export const defaultPatternComponents: ComponentForPattern = {
   fieldset: Fieldset,
   'form-summary': FormSummary,
   input: TextInput,

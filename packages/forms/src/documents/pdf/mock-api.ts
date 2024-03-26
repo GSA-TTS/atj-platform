@@ -1,10 +1,6 @@
 import * as z from 'zod';
 
-import {
-  type FormElement,
-  type FormElementId,
-  type FormElementMap,
-} from '../..';
+import { type Pattern, type PatternId, type PatternMap } from '../..';
 
 import { ParagraphElement } from '../../config/elements/paragraph';
 import { InputElement } from '../../config/elements/input';
@@ -94,9 +90,9 @@ const ExtractedObject = z.object({
 type ExtractedObject = z.infer<typeof ExtractedObject>;
 
 export type ParsedPdf = {
-  elements: FormElementMap;
+  elements: PatternMap;
   outputs: DocumentFieldMap; // to populate FormOutput
-  root: FormElementId;
+  root: PatternId;
   title: string;
 };
 
@@ -108,9 +104,9 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
     root: 'root',
     title: extracted.title,
   };
-  const rootSequence: FormElementId[] = [];
+  const rootSequence: PatternId[] = [];
   for (const element of extracted.elements) {
-    const fieldsetElements: FormElementId[] = [];
+    const fieldsetElements: PatternId[] = [];
     if (element.inputs.length === 0) {
       parsedPdf.elements[element.id] = {
         type: 'paragraph',
@@ -186,7 +182,7 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
   return parsedPdf;
 };
 
-const getElementInputs = (element: ExtractedElement): FormElement[] => {
+const getElementInputs = (element: ExtractedElement): Pattern[] => {
   return element.inputs
     .map((input: ExtractedInput) => {
       if (input.input_type === 'Tx') {
@@ -200,9 +196,9 @@ const getElementInputs = (element: ExtractedElement): FormElement[] => {
           required: true,
         } satisfies InputElement;
       }
-      return null as unknown as FormElement;
+      return null as unknown as Pattern;
     })
-    .filter((item): item is NonNullable<FormElement> => item !== null);
+    .filter((item): item is NonNullable<Pattern> => item !== null);
 };
 
 const PdfFieldMap: Record<string, string> = {
@@ -277,7 +273,7 @@ function parseInputs(
 
 function parseElements(
   pdfElements: ExtractedJsonType['elements']
-): FormElement[] {
+): Pattern[] {
   const output = pdfElements.reduce((acc, element) => {
     const elementOutput = {
       type: 'Paragraph',

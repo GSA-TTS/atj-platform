@@ -1,10 +1,10 @@
 import {
   type FormConfig,
-  type FormElement,
-  type FormElementId,
-  getRootFormElement,
+  type Pattern,
+  type PatternId,
+  getRootPattern,
 } from '..';
-import { getFormElementConfig } from './element';
+import { getPatternConfig } from './element';
 import { type FormSession, nullSession, sessionIsComplete } from './session';
 
 export type TextInputPattern = {
@@ -46,7 +46,7 @@ export type FieldsetPattern = {
 };
 
 export type PatternProps<T = {}> = {
-  _elementId: FormElementId;
+  _elementId: PatternId;
   _children: PromptPart[];
   type: string;
 } & T;
@@ -82,7 +82,7 @@ export const createPrompt = (
             type: 'submission-confirmation',
             table: Object.entries(session.data.values)
               .filter(([elementId, value]) => {
-                const elemConfig = getFormElementConfig(
+                const elemConfig = getPatternConfig(
                   config,
                   session.form.elements[elementId].type
                 );
@@ -111,7 +111,7 @@ export const createPrompt = (
       children: [],
     },
   ];
-  const root = getRootFormElement(session.form);
+  const root = getRootPattern(session.form);
   parts.push(createPromptForElement(config, session, root, options));
   return {
     actions: [
@@ -131,13 +131,13 @@ export type CreatePrompt<T> = (
   options: { validate: boolean }
 ) => PromptPart;
 
-export const createPromptForElement: CreatePrompt<FormElement> = (
+export const createPromptForElement: CreatePrompt<Pattern> = (
   config,
   session,
   element,
   options
 ) => {
-  const formElementConfig = getFormElementConfig(config, element.type);
+  const formElementConfig = getPatternConfig(config, element.type);
   return formElementConfig.createPrompt(config, session, element, options);
 };
 
@@ -150,9 +150,9 @@ export const createNullPrompt = ({
   element,
 }: {
   config: FormConfig;
-  element: FormElement;
+  element: Pattern;
 }): Prompt => {
-  const formElementConfig = getFormElementConfig(config, element.type);
+  const formElementConfig = getPatternConfig(config, element.type);
   return {
     parts: [
       formElementConfig.createPrompt(config, nullSession, element, {

@@ -1,6 +1,6 @@
 import * as z from 'zod';
 
-import { type FormElement, type FormElementConfig } from '../element';
+import { type Pattern, type PatternConfig } from '../element';
 import { type FormSummaryPattern, type Pattern } from '../pattern';
 import { safeZodParse } from '../util/zod';
 
@@ -8,9 +8,9 @@ const configSchema = z.object({
   title: z.string().max(128),
   summary: z.string().max(2024),
 });
-export type FormSummary = FormElement<z.infer<typeof configSchema>>;
+export type FormSummary = Pattern<z.infer<typeof configSchema>>;
 
-export const formSummaryConfig: FormElementConfig<FormSummary> = {
+export const formSummaryConfig: PatternConfig<FormSummary> = {
   acceptsInput: false,
   initial: {
     text: '',

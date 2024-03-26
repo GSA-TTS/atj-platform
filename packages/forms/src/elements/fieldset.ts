@@ -1,10 +1,10 @@
 import * as z from 'zod';
 
 import {
-  type FormElement,
-  type FormElementConfig,
-  type FormElementId,
-  getFormElement,
+  type Pattern,
+  type PatternConfig,
+  type PatternId,
+  getPattern,
 } from '../element';
 import {
   type FieldsetPattern,
@@ -13,9 +13,9 @@ import {
 } from '../pattern';
 import { safeZodParse } from '../util/zod';
 
-export type FieldsetElement = FormElement<{
+export type FieldsetElement = Pattern<{
   legend?: string;
-  elements: FormElementId[];
+  elements: PatternId[];
 }>;
 
 const FieldsetSchema = z.array(z.string());
@@ -25,7 +25,7 @@ const configSchema = z.object({
   elements: z.array(z.string()),
 });
 
-export const fieldsetConfig: FormElementConfig<FieldsetElement> = {
+export const fieldsetConfig: PatternConfig<FieldsetElement> = {
   acceptsInput: false,
   initial: {
     elements: [],
@@ -41,7 +41,7 @@ export const fieldsetConfig: FormElementConfig<FieldsetElement> = {
   },
   createPrompt(config, session, element, options) {
     const children = element.data.elements.map((elementId: string) => {
-      const element = getFormElement(session.form, elementId);
+      const element = getPattern(session.form, elementId);
       return createPromptForElement(config, session, element, options);
     });
     return {

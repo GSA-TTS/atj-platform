@@ -1,16 +1,16 @@
 import * as z from 'zod';
 
 import {
-  type FormElement,
-  type FormElementConfig,
-  type FormElementId,
-  getFormElement,
+  type Pattern,
+  type PatternConfig,
+  type PatternId,
+  getPattern,
 } from '../element';
 import { createPromptForElement } from '../pattern';
 import { safeZodParse } from '../util/zod';
 
-export type SequenceElement = FormElement<{
-  elements: FormElementId[];
+export type SequenceElement = Pattern<{
+  elements: PatternId[];
 }>;
 
 const sequenceSchema = z.array(z.string());
@@ -19,7 +19,7 @@ const configSchema = z.object({
   elements: z.array(z.string()),
 });
 
-export const sequenceConfig: FormElementConfig<SequenceElement> = {
+export const sequenceConfig: PatternConfig<SequenceElement> = {
   acceptsInput: false,
   initial: {
     elements: [],
@@ -35,7 +35,7 @@ export const sequenceConfig: FormElementConfig<SequenceElement> = {
   },
   createPrompt(config, session, element, options) {
     const children = element.data.elements.map((elementId: string) => {
-      const childElement = getFormElement(session.form, elementId);
+      const childElement = getPattern(session.form, elementId);
       return createPromptForElement(config, session, childElement, options);
     });
     return {

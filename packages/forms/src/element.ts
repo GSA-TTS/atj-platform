@@ -3,57 +3,53 @@ import { type FormDefinition } from '..';
 
 import { type CreatePrompt } from './pattern';
 
-export type FormElement<T = any, C = any> = {
+export type Pattern<T = any, C = any> = {
   type: string;
-  id: FormElementId;
+  id: PatternId;
   data: C;
   default: T;
   required: boolean;
 };
 
-export type FormElementId = string;
-export type FormElementValue<T extends FormElement = FormElement> =
-  T['default'];
-export type FormElementValueMap = Record<FormElementId, FormElementValue>;
-export type FormElementMap = Record<FormElementId, FormElement>;
-export type GetFormElement = (
-  form: FormDefinition,
-  id: FormElementId
-) => FormElement;
+export type PatternId = string;
+export type PatternValue<T extends Pattern = Pattern> = T['default'];
+export type PatternValueMap = Record<PatternId, PatternValue>;
+export type PatternMap = Record<PatternId, Pattern>;
+export type GetPattern = (form: FormDefinition, id: PatternId) => Pattern;
 
-export type ParseFormElementData<T extends FormElement = FormElement> = (
+export type ParsePatternData<T extends Pattern = Pattern> = (
   elementData: T['data'],
   obj: string
 ) => Result<T['data']>;
 
-export type ParseFormElementConfigData<T extends FormElement = FormElement> = (
+export type ParsePatternConfigData<T extends Pattern = Pattern> = (
   elementData: T['data']
 ) => Result<T['data']>;
 
-export const getFormElement: GetFormElement = (form, elementId) => {
+export const getPattern: GetPattern = (form, elementId) => {
   return form.elements[elementId];
 };
 
-export type FormElementConfig<ThisFormElement extends FormElement> = {
+export type PatternConfig<ThisPattern extends Pattern> = {
   acceptsInput: boolean;
-  initial: ThisFormElement['data'];
-  parseData: ParseFormElementData<ThisFormElement>;
-  parseConfigData: ParseFormElementConfigData<ThisFormElement>;
+  initial: ThisPattern['data'];
+  parseData: ParsePatternData<ThisPattern>;
+  parseConfigData: ParsePatternConfigData<ThisPattern>;
   getChildren: (
-    element: ThisFormElement,
-    elements: Record<FormElementId, FormElement>
-  ) => FormElement[];
-  createPrompt: CreatePrompt<ThisFormElement>;
+    element: ThisPattern,
+    elements: Record<PatternId, Pattern>
+  ) => Pattern[];
+  createPrompt: CreatePrompt<ThisPattern>;
 };
-export type FormConfig<T extends FormElement = FormElement> = {
-  elements: Record<string, FormElementConfig<T>>;
+export type FormConfig<T extends Pattern = Pattern> = {
+  elements: Record<string, PatternConfig<T>>;
 };
 
 export type ConfigElements<Config extends FormConfig> = ReturnType<
   Config['elements'][keyof Config['elements']]['parseData']
 >;
 
-export const getFormElementMap = (elements: FormElement[]) => {
+export const getPatternMap = (elements: Pattern[]) => {
   return Object.fromEntries(
     elements.map(element => {
       return [element.id, element];
@@ -61,25 +57,22 @@ export const getFormElementMap = (elements: FormElement[]) => {
   );
 };
 
-export const getFormElements = (
-  form: FormDefinition,
-  elementIds: FormElementId[]
-) => {
-  return elementIds.map(elementId => getFormElement(form, elementId));
+export const getPatterns = (form: FormDefinition, elementIds: PatternId[]) => {
+  return elementIds.map(elementId => getPattern(form, elementId));
 };
 
-export const getFormElementConfig = (
+export const getPatternConfig = (
   config: FormConfig,
-  elementType: FormElement['type']
+  elementType: Pattern['type']
 ) => {
   return config.elements[elementType];
 };
 
 export const validateElement = (
-  elementConfig: FormElementConfig<FormElement>,
-  element: FormElement,
+  elementConfig: PatternConfig<Pattern>,
+  element: Pattern,
   value: any
-): Result<FormElement['data']> => {
+): Result<Pattern['data']> => {
   if (!elementConfig.acceptsInput) {
     return {
       success: true,
@@ -105,18 +98,18 @@ export const validateElement = (
   };
 };
 
-export const getFirstFormElement = (
+export const getFirstPattern = (
   config: FormConfig,
   form: FormDefinition,
-  element?: FormElement
-): FormElement => {
+  element?: Pattern
+): Pattern => {
   if (!element) {
     element = form.elements[form.root];
   }
-  const elemConfig = getFormElementConfig(config, element.type);
+  const elemConfig = getPatternConfig(config, element.type);
   const children = elemConfig.getChildren(element, form.elements);
   if (children?.length === 0) {
     return element;
   }
-  return getFirstFormElement(config, form, children[0]);
+  return getFirstPattern(config, form, children[0]);
 };
