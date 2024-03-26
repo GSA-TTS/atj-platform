@@ -1,10 +1,10 @@
 import { type Result, type VoidResult } from '@atj/common';
-import { type FormSession } from '@atj/forms';
+import { type Session } from '@atj/forms';
 
 export const getSessionFromStorage = (
   storage: Storage,
   id?: string
-): FormSession | null => {
+): Session | null => {
   if (!storage || !id) {
     return null;
   }
@@ -17,7 +17,7 @@ export const getSessionFromStorage = (
 
 export const addFormToStorage = (
   storage: Storage,
-  session: FormSession
+  session: Session
 ): Result<string> => {
   const uuid = crypto.randomUUID();
 
@@ -35,7 +35,7 @@ export const addFormToStorage = (
 export const saveSessionToStorage = (
   storage: Storage,
   sessionId: string,
-  session: FormSession
+  session: Session
 ): VoidResult => {
   try {
     storage.setItem(sessionId, stringifySession(session));
@@ -57,10 +57,10 @@ export const deleteSessionFromStorage = (
   storage.removeItem(sessionId);
 };
 
-const stringifySession = (session: FormSession) => {
+const stringifySession = (session: Session) => {
   return JSON.stringify(session);
 };
 
-const parseStringSession = (sessionString: string): FormSession => {
-  return JSON.parse(sessionString) as FormSession;
+const parseStringSession = (sessionString: string): Session => {
+  return JSON.parse(sessionString) as Session;
 };

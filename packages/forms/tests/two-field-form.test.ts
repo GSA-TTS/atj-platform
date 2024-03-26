@@ -54,12 +54,12 @@ describe('two element form session', () => {
 
   /*
   test('initializes', () => {
-    const session = forms.createFormSession(form);
+    const session = forms.createSession(form);
     expect(session).to.not.toBeNull();
   });
 
   test('empty field value on required field is stored with error', () => {
-    const session = forms.createFormSession(form);
+    const session = forms.createSession(form);
     const nextSession = forms.updateForm(session, elements[0].id, null);
     expect(nextSession).toEqual({
       ...session,
@@ -76,7 +76,7 @@ describe('two element form session', () => {
   });
 
   test('valid field value is stored on session', () => {
-    const formSession = forms.createFormSession(form);
+    const formSession = forms.createSession(form);
     const nextSession = forms.updateForm(
       formSession,
       elements[0].id,
@@ -95,7 +95,7 @@ describe('two element form session', () => {
   });
 
   test('empty field value on non-required field is set with no errors on the session', () => {
-    const session = forms.createFormSession(form);
+    const session = forms.createSession(form);
     const session2 = forms.updateForm(
       session,
       elements[1].id,
@@ -115,7 +115,7 @@ describe('two element form session', () => {
   });
 
   test('valid field value on non-required field is stored on the session', () => {
-    const session = forms.createFormSession(form);
+    const session = forms.createSession(form);
     const nextSession = forms.updateForm(
       session,
       elements[1].id,
@@ -138,7 +138,7 @@ describe('two element form session', () => {
 /*
 describe('two element prompt', () => {
   const config = forms.defaultFormConfig;
-  const session = forms.createFormSession(form);
+  const session = forms.createSession(form);
   test('includes a submit button', () => {
     const prompt = createPrompt(config, session, { validate: true });
     expect(prompt.actions).toEqual([]);

@@ -1,4 +1,4 @@
-import { createForm, createFormSession, defaultFormConfig } from '@atj/forms';
+import { createForm, createSession, defaultFormConfig } from '@atj/forms';
 
 import {
   defaultPatternComponents,
@@ -81,5 +81,5 @@ export const createTestFormEditContext = (): FormEditUIContext => {
 
 export const createTestSession = () => {
   const form = createTestForm();
-  return createFormSession(form);
+  return createSession(form);
 };

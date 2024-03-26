@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { type Blueprint, createFormSession } from '@atj/forms';
+import { type Blueprint, createSession } from '@atj/forms';
 import { FormService } from '@atj/form-service';
 
 import Form, { type FormUIContext } from '../../Form';
@@ -12,7 +12,7 @@ export default function FormPreview({
   context: FormUIContext;
   form: Blueprint;
 }) {
-  const session = createFormSession(form);
+  const session = createSession(form);
   return <Form context={context} session={session} />;
 }
 

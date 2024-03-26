@@ -14,7 +14,7 @@ import {
 
 type ErrorMap = Record<PatternId, string>;
 
-export type FormSession = {
+export type Session = {
   data: {
     errors: ErrorMap;
     values: PatternValueMap;
@@ -22,7 +22,7 @@ export type FormSession = {
   form: Blueprint;
 };
 
-export const nullSession: FormSession = {
+export const nullSession: Session = {
   data: {
     errors: {},
     values: {
@@ -50,7 +50,7 @@ export const nullSession: FormSession = {
   },
 };
 
-export const createFormSession = (form: Blueprint): FormSession => {
+export const createSession = (form: Blueprint): Session => {
   return {
     data: {
       errors: {},
@@ -64,18 +64,15 @@ export const createFormSession = (form: Blueprint): FormSession => {
   };
 };
 
-export const getFormSessionValue = (
-  session: FormSession,
-  elementId: PatternId
-) => {
+export const getSessionValue = (session: Session, elementId: PatternId) => {
   return session.data.values[elementId];
 };
 
 export const updateSessionValue = (
-  session: FormSession,
+  session: Session,
   id: PatternId,
   value: PatternValue
-): FormSession => {
+): Session => {
   if (!(id in session.form.elements)) {
     console.error(`Pattern "${id}" does not exist on form.`);
     return session;
@@ -91,10 +88,10 @@ export const updateSessionValue = (
 };
 
 export const updateSession = (
-  session: FormSession,
+  session: Session,
   values: PatternValueMap,
   errors: ErrorMap
-): FormSession => {
+): Session => {
   const keysValid =
     Object.keys(values).every(
       elementId => elementId in session.form.elements
@@ -118,20 +115,20 @@ export const updateSession = (
   };
 };
 
-export const sessionIsComplete = (config: FormConfig, session: FormSession) => {
+export const sessionIsComplete = (config: FormConfig, session: Session) => {
   return Object.values(session.form.elements).every(element => {
     const elementConfig = getPatternConfig(config, element.type);
-    const value = getFormSessionValue(session, element.id);
+    const value = getSessionValue(session, element.id);
     const isValidResult = validateElement(elementConfig, element, value);
     return isValidResult.success;
   });
 };
 
 const addValue = <T extends Pattern = Pattern>(
-  form: FormSession,
+  form: Session,
   id: PatternId,
   value: PatternValue<T>
-): FormSession => ({
+): Session => ({
   ...form,
   data: {
     ...form.data,
@@ -142,11 +139,7 @@ const addValue = <T extends Pattern = Pattern>(
   },
 });
 
-const addError = (
-  session: FormSession,
-  id: PatternId,
-  error: string
-): FormSession => ({
+const addError = (session: Session, id: PatternId, error: string): Session => ({
   ...session,
   data: {
     ...session.data,

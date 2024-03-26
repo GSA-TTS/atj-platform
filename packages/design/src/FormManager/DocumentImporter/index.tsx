@@ -7,7 +7,7 @@ import {
   SAMPLE_DOCUMENTS,
   addDocument,
   addDocumentFieldsToForm,
-  createFormSession,
+  createSession,
 } from '@atj/forms';
 import { type FormService } from '@atj/form-service';
 
@@ -147,7 +147,7 @@ const DocumentImporter = ({
       <>
         <Form
           context={context}
-          session={createFormSession(previewForm)}
+          session={createSession(previewForm)}
           onSubmit={data => {
             //handleFormSubmission(formId, data);
             console.log(formId, data);

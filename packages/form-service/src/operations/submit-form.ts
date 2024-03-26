@@ -2,7 +2,7 @@ import { type Result } from '@atj/common';
 import {
   type FormConfig,
   type Blueprint,
-  type FormSession,
+  type Session,
   applyPromptResponse,
   createFormOutputFieldData,
   fillPDF,
@@ -14,7 +14,7 @@ import { getFormFromStorage } from '../context/browser/form-repo';
 export const submitForm = async (
   ctx: { storage: Storage; config: FormConfig },
   //sessionId: string,
-  session: FormSession, // TODO: load session from storage by ID
+  session: Session, // TODO: load session from storage by ID
   formId: string,
   formData: Record<string, string>
 ): Promise<
@@ -32,7 +32,7 @@ export const submitForm = async (
       error: 'Form not found',
     });
   }
-  //const session = getSessionFromStorage(ctx.storage, sessionId) || createFormSession(form);
+  //const session = getSessionFromStorage(ctx.storage, sessionId) || createSession(form);
   // For now, the client-side is producing its own error messages.
   // In the future, we'll want this service to return errors to the client.
   const newSessionResult = applyPromptResponse(ctx.config, session, {

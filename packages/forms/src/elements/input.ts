@@ -2,7 +2,7 @@ import * as z from 'zod';
 
 import { type Pattern, type PatternConfig } from '../element';
 import { type PatternProps, type TextInputPattern } from '../pattern';
-import { getFormSessionValue } from '../session';
+import { getSessionValue } from '../session';
 import { safeZodParse } from '../util/zod';
 
 const configSchema = z.object({
@@ -31,7 +31,7 @@ export const inputConfig: PatternConfig<InputElement> = {
   },
   createPrompt(_, session, element, options) {
     const extraAttributes: Record<string, any> = {};
-    const sessionValue = getFormSessionValue(session, element.id);
+    const sessionValue = getSessionValue(session, element.id);
     if (options.validate) {
       const isValidResult = validateElement(inputConfig, element, sessionValue);
       if (!isValidResult.success) {

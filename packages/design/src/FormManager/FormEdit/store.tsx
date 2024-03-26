@@ -10,7 +10,10 @@ import {
   FormBuilder,
   Pattern,
 } from '@atj/forms';
+
+import { type ComponentForPattern } from '../../Form';
 import { type FormEditUIContext } from './types';
+import { createPreviewComponents } from './preview-components';
 
 const { Provider, useStore } = createContext<StoreApi<FormEditState>>();
 
@@ -30,6 +33,7 @@ export const FormEditProvider = (props: {
 
 type FormEditState = {
   context: FormEditUIContext;
+  components: ComponentForPattern;
   form: Blueprint;
   selectedElement?: Pattern;
 
@@ -47,6 +51,7 @@ const createFormEditStore = ({
 }) =>
   create<FormEditState>((set, get) => ({
     context,
+    components: createPreviewComponents(context.components, context.uswdsRoot),
     form,
     handleEditClick: (pattern: PatternProps) => {
       const state = get();

@@ -53,10 +53,10 @@ export type FormSummary = {
   description: string;
 };
 
-export type FormSessionId = string;
+export type SessionId = string;
 type ErrorMap = Record<PatternId, string>;
-export type FormSession = {
-  id: FormSessionId;
+export type Session = {
+  id: SessionId;
   data: {
     errors: ErrorMap;
     values: PatternValueMap;
@@ -105,7 +105,7 @@ export const getRootPattern = (form: Blueprint) => {
   return form.elements[form.root];
 };
 
-export const createFormSession = (form: Blueprint): FormSession => {
+export const createSession = (form: Blueprint): Session => {
   return {
     id: crypto.randomUUID(),
     data: {
@@ -120,7 +120,7 @@ export const createFormSession = (form: Blueprint): FormSession => {
   };
 };
 
-export const updateForm = (context: FormSession, id: PatternId, value: any) => {
+export const updateForm = (context: Session, id: PatternId, value: any) => {
   if (!(id in context.form.elements)) {
     console.error(`Pattern "${id}" does not exist on form.`);
     return context;
@@ -136,10 +136,10 @@ export const updateForm = (context: FormSession, id: PatternId, value: any) => {
 };
 
 const addValue = <T extends Pattern = Pattern>(
-  form: FormSession,
+  form: Session,
   id: PatternId,
   value: PatternValue<T>
-): FormSession => ({
+): Session => ({
   ...form,
   data: {
     ...form.data,
@@ -150,11 +150,7 @@ const addValue = <T extends Pattern = Pattern>(
   },
 });
 
-const addError = (
-  session: FormSession,
-  id: PatternId,
-  error: string
-): FormSession => ({
+const addError = (session: Session, id: PatternId, error: string): Session => ({
   ...session,
   data: {
     ...session.data,
