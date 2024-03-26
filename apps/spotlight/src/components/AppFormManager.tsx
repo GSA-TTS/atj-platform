@@ -3,7 +3,7 @@ import React from 'react';
 import {
   FormManager,
   defaultFormElementComponents,
-  defaultFormElementEditComponents,
+  defaultPatternEditComponents,
 } from '@atj/design';
 
 import { getAppContext } from '../context';
@@ -15,7 +15,7 @@ export default function () {
       context={{
         config: ctx.formConfig,
         components: defaultFormElementComponents,
-        editComponents: defaultFormElementEditComponents,
+        editComponents: defaultPatternEditComponents,
         uswdsRoot: ctx.uswdsRoot,
       }}
       formService={ctx.formService}

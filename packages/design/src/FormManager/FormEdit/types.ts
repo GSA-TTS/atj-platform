@@ -9,16 +9,15 @@ import { type ComponentForPattern } from '../../Form';
 export type FormEditUIContext = {
   config: FormConfig;
   components: ComponentForPattern;
-  editComponents: EditComponentForFormElement;
+  editComponents: EditComponentForPattern;
   uswdsRoot: `${string}/`;
 };
 
-export type FormElementEditComponent<T extends FormElement> =
-  React.ComponentType<{
-    context: FormEditUIContext;
-    form: FormDefinition;
-    element: T;
-  }>;
+export type PatternEditComponent<T extends FormElement> = React.ComponentType<{
+  context: FormEditUIContext;
+  form: FormDefinition;
+  element: T;
+}>;
 
-export type EditComponentForFormElement<T extends FormElement = FormElement> =
-  Record<string, FormElementEditComponent<T>>;
+export type EditComponentForPattern<T extends FormElement = FormElement> =
+  Record<string, PatternEditComponent<T>>;

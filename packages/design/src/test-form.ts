@@ -2,7 +2,7 @@ import { createForm, createFormSession, defaultFormConfig } from '@atj/forms';
 
 import {
   defaultFormElementComponents,
-  defaultFormElementEditComponents,
+  defaultPatternEditComponents,
 } from './config';
 import { FormUIContext } from 'Form';
 import { type FormEditUIContext } from './FormManager/FormEdit/types';
@@ -74,7 +74,7 @@ export const createTestFormEditContext = (): FormEditUIContext => {
   return {
     config: defaultFormConfig,
     components: defaultFormElementComponents,
-    editComponents: defaultFormElementEditComponents,
+    editComponents: defaultPatternEditComponents,
     uswdsRoot: `/static/uswds/`,
   };
 };

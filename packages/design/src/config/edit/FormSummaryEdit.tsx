@@ -2,11 +2,9 @@ import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { type FormSummary } from '@atj/forms/src/elements/form-summary';
-import { FormElementEditComponent } from '../../FormManager/FormEdit/types';
+import { PatternEditComponent } from '../../FormManager/FormEdit/types';
 
-const FormSummaryEdit: FormElementEditComponent<FormSummary> = ({
-  element,
-}) => {
+const FormSummaryEdit: PatternEditComponent<FormSummary> = ({ element }) => {
   const { register } = useFormContext();
   return (
     <div className="grid-row grid-gap">

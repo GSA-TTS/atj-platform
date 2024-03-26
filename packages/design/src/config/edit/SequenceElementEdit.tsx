@@ -21,7 +21,7 @@ import { type FormDefinition, type FormElement } from '@atj/forms';
 import { type SequenceElement } from '@atj/forms/src/elements/sequence';
 import {
   type FormEditUIContext,
-  type FormElementEditComponent,
+  type PatternEditComponent,
 } from '../../FormManager/FormEdit/types';
 
 interface ItemProps<T> {
@@ -67,7 +67,7 @@ const SortableItem = <T,>({ id, form, element, context }: ItemProps<T>) => {
   );
 };
 
-const SequenceElementEdit: FormElementEditComponent<SequenceElement> = ({
+const SequenceElementEdit: PatternEditComponent<SequenceElement> = ({
   context,
   form,
   element,
