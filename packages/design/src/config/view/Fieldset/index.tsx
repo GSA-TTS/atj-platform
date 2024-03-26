@@ -9,7 +9,7 @@ const FormSummary: FormElementComponent<Pattern<FieldsetPattern>> = ({
   children,
 }) => {
   const isEditable = () => {
-    // TODO: return true if we're inside formEditor else false
+    // TODO: return true if we're in edit mode, false if display mode
     return true
   }
   const handleBlur = () => {
