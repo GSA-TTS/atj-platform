@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { type Pattern, createFormSession } from '@atj/forms';
+import { type PatternProps, createFormSession } from '@atj/forms';
 
 import Form, {
   type ComponentForPattern,

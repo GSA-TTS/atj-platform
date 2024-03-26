@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { type ParagraphPattern, type Pattern } from '@atj/forms';
+import { type ParagraphPattern, type PatternProps } from '@atj/forms';
 
 import { type FormElementComponent } from '../../../Form';
 
-const FormSummary: FormElementComponent<Pattern<ParagraphPattern>> = ({
+const FormSummary: FormElementComponent<PatternProps<ParagraphPattern>> = ({
   pattern,
 }) => {
   if (pattern.style === 'heading') {

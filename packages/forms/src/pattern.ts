@@ -45,7 +45,7 @@ export type FieldsetPattern = {
   legend: string;
 };
 
-export type Pattern<T = {}> = {
+export type PatternProps<T = {}> = {
   _elementId: FormElementId;
   _children: PromptPart[];
   type: string;
@@ -58,7 +58,7 @@ export type SubmitAction = {
 export type PromptAction = SubmitAction;
 
 export type PromptPart = {
-  pattern: Pattern;
+  pattern: PatternProps;
   children: PromptPart[];
 };
 
@@ -94,7 +94,7 @@ export const createPrompt = (
                   value: value,
                 };
               }),
-          } as Pattern<SubmissionConfirmationPattern>,
+          } as PatternProps<SubmissionConfirmationPattern>,
           children: [],
         },
       ],
@@ -107,7 +107,7 @@ export const createPrompt = (
         type: 'form-summary',
         title: session.form.summary.title,
         description: session.form.summary.description,
-      } as Pattern<FormSummaryPattern>,
+      } as PatternProps<FormSummaryPattern>,
       children: [],
     },
   ];

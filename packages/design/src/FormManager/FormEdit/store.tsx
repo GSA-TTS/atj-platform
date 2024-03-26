@@ -5,7 +5,7 @@ import { createContext } from 'zustand-utils';
 import {
   type FormDefinition,
   type FormElementMap,
-  type Pattern,
+  type PatternProps,
   getFormElement,
   FormBuilder,
   FormElement,
@@ -33,7 +33,7 @@ type FormEditState = {
   form: FormDefinition;
   selectedElement?: FormElement;
 
-  handleEditClick: (pattern: Pattern) => void;
+  handleEditClick: (pattern: PatternProps) => void;
   setSelectedElement: (element?: FormElement) => void;
   updateSelectedFormElement: (formData: FormElementMap) => void;
 };
@@ -48,7 +48,7 @@ const createFormEditStore = ({
   create<FormEditState>((set, get) => ({
     context,
     form,
-    handleEditClick: (pattern: Pattern) => {
+    handleEditClick: (pattern: PatternProps) => {
       const state = get();
       if (state.selectedElement?.id === pattern._elementId) {
         set({ selectedElement: undefined });

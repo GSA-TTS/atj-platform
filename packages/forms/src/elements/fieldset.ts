@@ -8,7 +8,7 @@ import {
 } from '../element';
 import {
   type FieldsetPattern,
-  type Pattern,
+  type PatternProps,
   createPromptForElement,
 } from '../pattern';
 import { safeZodParse } from '../util/zod';
@@ -50,7 +50,7 @@ export const fieldsetConfig: FormElementConfig<FieldsetElement> = {
         _elementId: element.id,
         type: 'fieldset',
         legend: element.data.legend,
-      } satisfies Pattern<FieldsetPattern>,
+      } satisfies PatternProps<FieldsetPattern>,
       children,
     };
   },

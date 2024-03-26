@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Pattern, type FormSummaryPattern } from '@atj/forms';
+import { type PatternProps, type FormSummaryPattern } from '@atj/forms';
 import { type FormElementComponent } from '../../../Form';
 
-const FormSummary: FormElementComponent<Pattern<FormSummaryPattern>> = ({
+const FormSummary: FormElementComponent<PatternProps<FormSummaryPattern>> = ({
   pattern,
 }) => {
   return (

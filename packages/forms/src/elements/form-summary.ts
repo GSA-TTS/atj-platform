@@ -30,7 +30,7 @@ export const formSummaryConfig: FormElementConfig<FormSummary> = {
         type: 'form-summary',
         title: element.data.title,
         description: element.data.description,
-      } as Pattern<FormSummaryPattern>,
+      } as PatternProps<FormSummaryPattern>,
       children: [],
     };
   },

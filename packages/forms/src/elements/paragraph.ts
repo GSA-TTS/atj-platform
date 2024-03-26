@@ -1,7 +1,7 @@
 import * as z from 'zod';
 
 import { type FormElement, type FormElementConfig } from '../element';
-import { type Pattern, type ParagraphPattern } from '../pattern';
+import { type PatternProps, type ParagraphPattern } from '../pattern';
 import { safeZodParse } from '../util/zod';
 
 const configSchema = z.object({
@@ -31,7 +31,7 @@ export const paragraphConfig: FormElementConfig<ParagraphElement> = {
         type: 'paragraph' as const,
         text: element.data.text,
         style: element.data.style,
-      } as Pattern<ParagraphPattern>,
+      } as PatternProps<ParagraphPattern>,
       children: [],
     };
   },

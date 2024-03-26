@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { Pattern, type SubmissionConfirmationPattern } from '@atj/forms';
+import { PatternProps, type SubmissionConfirmationPattern } from '@atj/forms';
 import { FormElementComponent } from '../../../Form';
 
 const SubmissionConfirmation: FormElementComponent<
-  Pattern<SubmissionConfirmationPattern>
+  PatternProps<SubmissionConfirmationPattern>
 > = ({ pattern }) => {
   return (
     <>
