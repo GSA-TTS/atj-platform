@@ -1,7 +1,11 @@
 import * as z from 'zod';
 
-import { type FormElementConfig, getFormElement } from '..';
-import { type FormElement, type FormElementId } from '../element';
+import {
+  type FormElement,
+  type FormElementConfig,
+  type FormElementId,
+  getFormElement,
+} from '../element';
 import {
   type FieldsetPattern,
   type Pattern,

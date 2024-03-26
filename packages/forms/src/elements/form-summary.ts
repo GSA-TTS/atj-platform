@@ -1,8 +1,7 @@
 import * as z from 'zod';
 
-import { type FormElementConfig } from '..';
-import { type FormElement } from '../element';
-import { FormSummaryPattern, type Pattern } from '../pattern';
+import { type FormElement, type FormElementConfig } from '../element';
+import { type FormSummaryPattern, type Pattern } from '../pattern';
 import { safeZodParse } from '../util/zod';
 
 const configSchema = z.object({

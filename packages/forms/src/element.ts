@@ -1,9 +1,7 @@
 import { type Result } from '@atj/common';
-import {
-  type FormElementConfig,
-  type FormConfig,
-  type FormDefinition,
-} from '..';
+import { type FormDefinition } from '..';
+
+import { type CreatePrompt } from './pattern';
 
 export type FormElement<T = any, C = any> = {
   type: string;
@@ -35,6 +33,25 @@ export type ParseFormElementConfigData<T extends FormElement = FormElement> = (
 export const getFormElement: GetFormElement = (form, elementId) => {
   return form.elements[elementId];
 };
+
+export type FormElementConfig<ThisFormElement extends FormElement> = {
+  acceptsInput: boolean;
+  initial: ThisFormElement['data'];
+  parseData: ParseFormElementData<ThisFormElement>;
+  parseConfigData: ParseFormElementConfigData<ThisFormElement>;
+  getChildren: (
+    element: ThisFormElement,
+    elements: Record<FormElementId, FormElement>
+  ) => FormElement[];
+  createPrompt: CreatePrompt<ThisFormElement>;
+};
+export type FormConfig<T extends FormElement = FormElement> = {
+  elements: Record<string, FormElementConfig<T>>;
+};
+
+export type ConfigElements<Config extends FormConfig> = ReturnType<
+  Config['elements'][keyof Config['elements']]['parseData']
+>;
 
 export const getFormElementMap = (elements: FormElement[]) => {
   return Object.fromEntries(

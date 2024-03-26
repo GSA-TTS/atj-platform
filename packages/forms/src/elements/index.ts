@@ -1,4 +1,4 @@
-import { type FormConfig } from '../config';
+import { FormConfig } from '../element';
 import { fieldsetConfig } from './fieldset';
 import { inputConfig } from './input';
 import { paragraphConfig } from './paragraph';
