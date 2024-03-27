@@ -5,7 +5,7 @@ import {
   getRootPattern,
 } from '..';
 import { getPatternConfig } from './element';
-import { type Session, nullSession, sessionIsComplete } from './session';
+import { type FormSession, nullSession, sessionIsComplete } from './session';
 
 export type TextInputPattern = {
   type: 'input';
@@ -69,7 +69,7 @@ export type Prompt = {
 
 export const createPrompt = (
   config: FormConfig,
-  session: Session,
+  session: FormSession,
   options: { validate: boolean }
 ): Prompt => {
   if (options.validate && sessionIsComplete(config, session)) {
@@ -126,7 +126,7 @@ export const createPrompt = (
 
 export type CreatePrompt<T> = (
   config: FormConfig,
-  session: Session,
+  session: FormSession,
   element: T,
   options: { validate: boolean }
 ) => PromptPart;

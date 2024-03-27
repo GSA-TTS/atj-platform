@@ -51,10 +51,10 @@ export type FormSummary = {
   description: string;
 };
 
-export type SessionId = string;
+export type FormSessionId = string;
 type ErrorMap = Record<PatternId, string>;
-export type Session = {
-  id: SessionId;
+export type FormSession = {
+  id: FormSessionId;
   data: {
     errors: ErrorMap;
     values: PatternValueMap;
@@ -102,7 +102,7 @@ export const getRootPattern = (form: Blueprint) => {
   return form.elements[form.root];
 };
 
-export const createSession = (form: Blueprint): Session => {
+export const createFormSession = (form: Blueprint): FormSession => {
   return {
     id: crypto.randomUUID(),
     data: {
@@ -134,10 +134,10 @@ export const updateForm = (context: Session, id: PatternId, value: any) => {
 };
 
 const addValue = <T extends Pattern = Pattern>(
-  form: Session,
+  form: FormSession,
   id: PatternId,
   value: PatternValue<T>
-): Session => ({
+): FormSession => ({
   ...form,
   data: {
     ...form.data,
@@ -148,7 +148,11 @@ const addValue = <T extends Pattern = Pattern>(
   },
 });
 
-const addError = (session: Session, id: PatternId, error: string): Session => ({
+const addError = (
+  session: FormSession,
+  id: PatternId,
+  error: string
+): FormSession => ({
   ...session,
   data: {
     ...session.data,

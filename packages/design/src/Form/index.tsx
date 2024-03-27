@@ -6,7 +6,7 @@ import {
   applyPromptResponse,
   createPrompt,
   type FormConfig,
-  type Session,
+  type FormSession,
   type PatternProps,
   type Prompt,
   type PromptPart,
@@ -33,7 +33,7 @@ export type PatternComponent<T extends PatternProps = PatternProps<unknown>> =
 const usePrompt = (
   initialPrompt: Prompt,
   config: FormConfig,
-  session: Session
+  session: FormSession
 ) => {
   const [prompt, _setPrompt] = useState<Prompt>(initialPrompt);
   const setPrompt = (newPrompt: Prompt) => {
@@ -63,7 +63,7 @@ export default function Form({
   isPreview, // ideally this should be removed. just here now for the FFP demo
 }: {
   context: FormUIContext;
-  session: Session;
+  session: FormSession;
   onSubmit?: (data: Record<string, string>) => void;
   isPreview?: boolean;
 }) {

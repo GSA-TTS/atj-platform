@@ -8,7 +8,7 @@ import {
   validateElement,
 } from '.';
 import { type PromptAction, createPrompt, isPromptAction } from './pattern';
-import { type Session, updateSession } from './session';
+import { type FormSession, updateSession } from './session';
 
 export type PromptResponse = {
   action: PromptAction['type'];
@@ -17,9 +17,9 @@ export type PromptResponse = {
 
 export const applyPromptResponse = (
   config: FormConfig,
-  session: Session,
+  session: FormSession,
   response: PromptResponse
-): Result<Session> => {
+): Result<FormSession> => {
   // Get the current prompt for this session.
   const prompt = createPrompt(config, session, { validate: false });
   if (!isPromptAction(prompt, response.action)) {
@@ -39,7 +39,7 @@ export const applyPromptResponse = (
 
 const parseElementValue = (
   config: FormConfig,
-  session: Session,
+  session: FormSession,
   elementId: PatternId,
   promptValue: string
 ) => {
@@ -49,7 +49,7 @@ const parseElementValue = (
 };
 
 const parsePromptResponse = (
-  session: Session,
+  session: FormSession,
   config: FormConfig,
   response: PromptResponse
 ) => {
