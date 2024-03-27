@@ -22,7 +22,7 @@ export const createTestForm = () => {
           data: {
             elements: ['element-1', 'element-2'],
           },
-          default: {
+          initial: {
             elements: [],
           },
         },
@@ -34,7 +34,7 @@ export const createTestForm = () => {
             required: true,
             initial: '',
           },
-          default: '',
+          initial: '',
         },
         {
           type: 'input',
@@ -44,7 +44,7 @@ export const createTestForm = () => {
             required: false,
             initial: 'test',
           },
-          default: '',
+          initial: '',
         },
       ],
     }

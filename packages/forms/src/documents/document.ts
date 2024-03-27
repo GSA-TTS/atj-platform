@@ -78,7 +78,7 @@ export const addDocumentFieldsToForm = (
         data: {
           label: field.label,
         },
-        default: {
+        initial: {
           label: '',
           initial: '',
           required: false,
@@ -92,7 +92,7 @@ export const addDocumentFieldsToForm = (
         data: {
           label: field.label,
         },
-        default: {
+        initial: {
           label: '',
           initial: '',
           required: false,
@@ -106,7 +106,7 @@ export const addDocumentFieldsToForm = (
         data: {
           label: field.label,
         },
-        default: {
+        initial: {
           label: '',
           initial: '',
           required: false,
@@ -120,7 +120,7 @@ export const addDocumentFieldsToForm = (
         data: {
           label: field.label,
         },
-        default: {
+        initial: {
           label: '',
           initial: '',
           required: false,
@@ -134,7 +134,7 @@ export const addDocumentFieldsToForm = (
         data: {
           label: field.label,
         },
-        default: {
+        initial: {
           label: '',
           initial: '',
           required: false,
@@ -155,7 +155,7 @@ export const addDocumentFieldsToForm = (
     data: {
       elements: elements.map(element => element.id),
     },
-    default: [],
+    initial: [],
   });
   return addPatterns(form, elements, 'root');
 };

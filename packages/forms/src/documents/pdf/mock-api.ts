@@ -111,7 +111,7 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
       parsedPdf.elements[element.id] = {
         type: 'paragraph',
         id: element.id,
-        default: {
+        initial: {
           text: '',
           maxLength: 2048,
         },
@@ -119,7 +119,6 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
           text: element.element_params.text,
           style: element.element_params.text_style,
         },
-        required: false,
       } satisfies ParagraphElement;
       rootSequence.push(element.id);
       continue;
@@ -130,7 +129,7 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
         parsedPdf.elements[id] = {
           type: 'input',
           id,
-          default: {
+          initial: {
             required: false,
             label: '',
             initial: '',
@@ -139,7 +138,6 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
           data: {
             label: input.input_params.instructions,
           },
-          required: false,
         } satisfies InputElement;
         fieldsetElements.push(id);
         parsedPdf.outputs[id] = {
@@ -160,10 +158,9 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
           legend: element.element_params.text,
           elements: fieldsetElements,
         },
-        default: {
+        initial: {
           elements: [],
         },
-        required: true,
       } as FieldsetElement;
       rootSequence.push(element.id);
     }
@@ -174,10 +171,9 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
     data: {
       elements: rootSequence,
     },
-    default: {
+    initial: {
       elements: [],
     },
-    required: true,
   };
   return parsedPdf;
 };
@@ -189,11 +185,10 @@ const getElementInputs = (element: ExtractedElement): Pattern[] => {
         return {
           type: 'input',
           id: input.input_params.output_id,
-          default: {} as unknown as any,
+          initial: {} as unknown as any,
           data: {
             label: input.input_params.instructions,
           },
-          required: true,
         } satisfies InputElement;
       }
       return null as unknown as Pattern;

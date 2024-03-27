@@ -9,10 +9,9 @@ const elements: forms.Pattern[] = [
     data: {
       elements: ['element-1', 'element-2'],
     },
-    default: {
+    initial: {
       elements: [],
     },
-    required: true,
   },
   {
     type: 'input',
@@ -22,8 +21,7 @@ const elements: forms.Pattern[] = [
       initial: '',
       required: true,
     },
-    default: '',
-    required: true,
+    initial: '',
   },
   {
     type: 'input',
@@ -33,8 +31,7 @@ const elements: forms.Pattern[] = [
       initial: '',
       required: false,
     },
-    default: '',
-    required: true,
+    initial: '',
   },
 ];
 const form = forms.createForm(

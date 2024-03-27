@@ -38,7 +38,7 @@ export const nullBlueprint: Blueprint = {
       data: {
         elements: [],
       },
-      default: {
+      initial: {
         elements: [],
       },
     },
@@ -82,7 +82,7 @@ export const createForm = (
         data: {
           elements: [],
         },
-        default: {
+        initial: {
           elements: [],
         },
       } satisfies SequenceElement,

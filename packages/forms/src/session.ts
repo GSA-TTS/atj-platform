@@ -35,7 +35,7 @@ export const nullSession: FormSession = {
         id: 'root',
         type: 'sequence',
         required: false,
-        default: {
+        initial: {
           elements: [],
         },
         data: {},
@@ -56,7 +56,7 @@ export const createSession = (blueprint: Blueprint): FormSession => {
       errors: {},
       values: Object.fromEntries(
         Object.values(blueprint.elements).map(element => {
-          return [element.id, blueprint.elements[element.id].default];
+          return [element.id, blueprint.elements[element.id].initial];
         })
       ),
     },

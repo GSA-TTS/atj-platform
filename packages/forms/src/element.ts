@@ -7,11 +7,11 @@ export type Pattern<T = any, C = any> = {
   type: string;
   id: PatternId;
   data: C;
-  default: T;
+  initial: T;
 };
 
 export type PatternId = string;
-export type PatternValue<T extends Pattern = Pattern> = T['default'];
+export type PatternValue<T extends Pattern = Pattern> = T['initial'];
 export type PatternValueMap = Record<PatternId, PatternValue>;
 export type PatternMap = Record<PatternId, Pattern>;
 export type GetPattern = (form: Blueprint, id: PatternId) => Pattern;
