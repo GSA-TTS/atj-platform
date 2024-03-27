@@ -1,7 +1,7 @@
 import * as z from 'zod';
 
 import { type Pattern, type PatternConfig, validateElement } from '../element';
-import { type PatternProps, type TextInputProps } from '../components';
+import { type TextInputProps } from '../components';
 import { getFormSessionValue } from '../session';
 import { safeZodParse } from '../util/zod';
 
@@ -47,7 +47,7 @@ export const inputConfig: PatternConfig<InputElement> = {
         label: element.data.label,
         required: element.data.required,
         ...extraAttributes,
-      } as PatternProps<TextInputProps>,
+      } as TextInputProps,
       children: [],
     };
   },

@@ -1,11 +1,9 @@
 import React from 'react';
 
-import { type PatternProps, type FormSummaryProps } from '@atj/forms';
+import { type FormSummaryProps } from '@atj/forms';
 import { type PatternComponent } from '../../../Form';
 
-const FormSummary: PatternComponent<PatternProps<FormSummaryProps>> = ({
-  pattern,
-}) => {
+const FormSummary: PatternComponent<FormSummaryProps> = ({ pattern }) => {
   return (
     <>
       <div className="usa-legend-wrapper">

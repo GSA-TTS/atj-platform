@@ -2,12 +2,10 @@ import classNames from 'classnames';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { PatternProps, type TextInputProps } from '@atj/forms';
+import { type TextInputProps } from '@atj/forms';
 import { type PatternComponent } from '../../../Form';
 
-const TextInput: PatternComponent<PatternProps<TextInputProps>> = ({
-  pattern,
-}) => {
+const TextInput: PatternComponent<TextInputProps> = ({ pattern }) => {
   const { register } = useFormContext();
   return (
     <div className="usa-form-group-wrapper" key={pattern.inputId}>

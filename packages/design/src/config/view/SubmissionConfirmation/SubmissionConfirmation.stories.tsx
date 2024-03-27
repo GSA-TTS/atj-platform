@@ -1,10 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import SubmissionConfirmation from '.';
-import {
-  type PatternProps,
-  type SubmissionConfirmationProps,
-} from '@atj/forms';
+import { type SubmissionConfirmationProps } from '@atj/forms';
 
 export default {
   title: 'patterns/SubmissionConfirmation',
@@ -22,6 +19,6 @@ export const SubmissionConfirmationExample = {
         { label: 'Field 3', value: 'Value 3' },
         { label: 'Field 4', value: 'Value 4' },
       ],
-    } as PatternProps<SubmissionConfirmationProps>,
+    } as SubmissionConfirmationProps,
   },
 } satisfies StoryObj<typeof SubmissionConfirmation>;

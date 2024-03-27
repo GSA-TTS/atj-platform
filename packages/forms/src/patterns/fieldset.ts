@@ -50,7 +50,7 @@ export const fieldsetConfig: PatternConfig<FieldsetElement> = {
         _elementId: element.id,
         type: 'fieldset',
         legend: element.data.legend,
-      } satisfies PatternProps<FieldsetProps>,
+      } satisfies FieldsetProps,
       children,
     };
   },

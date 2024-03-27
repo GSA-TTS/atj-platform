@@ -2,7 +2,7 @@ import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { type PatternProps, type TextInputProps } from '@atj/forms';
+import { type TextInputProps } from '@atj/forms';
 import TextInput from '.';
 
 export default {
@@ -33,7 +33,7 @@ export const Required = {
       value: '',
       label: 'Please enter your first name.',
       required: true,
-    } as PatternProps<TextInputProps>,
+    } as TextInputProps,
   },
 } satisfies StoryObj<typeof TextInput>;
 
@@ -46,6 +46,6 @@ export const NotRequired = {
       value: '',
       label: 'Please enter your first name.',
       required: false,
-    } as PatternProps<TextInputProps>,
+    } as TextInputProps,
   },
 } satisfies StoryObj<typeof TextInput>;
