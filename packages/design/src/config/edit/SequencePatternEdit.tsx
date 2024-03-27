@@ -17,21 +17,21 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import { useFormContext } from 'react-hook-form';
 
-import { type FormDefinition, type FormElement } from '@atj/forms';
-import { type SequenceElement } from '@atj/forms/src/config/elements/sequence';
+import { type Blueprint, type Pattern } from '@atj/forms';
+import { type SequencePattern } from '@atj/forms/src/patterns/sequence';
 import {
   type FormEditUIContext,
-  type FormElementEditComponent,
+  type PatternEditComponent,
 } from '../../FormManager/FormEdit/types';
 
 interface ItemProps<T> {
   id: string;
-  form: FormDefinition;
-  element: FormElement<T>;
+  form: Blueprint;
+  pattern: Pattern<T>;
   context: FormEditUIContext;
 }
 
-const SortableItem = <T,>({ id, form, element, context }: ItemProps<T>) => {
+const SortableItem = <T,>({ id, form, pattern, context }: ItemProps<T>) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
 
@@ -40,7 +40,7 @@ const SortableItem = <T,>({ id, form, element, context }: ItemProps<T>) => {
     transition,
   };
 
-  const Component = context.editComponents[element.type];
+  const Component = context.editComponents[pattern.type];
 
   return (
     <li ref={setNodeRef} style={style}>
@@ -56,9 +56,9 @@ const SortableItem = <T,>({ id, form, element, context }: ItemProps<T>) => {
         </div>
         <div className="editFieldsWrapper grid-col-11 grid-col">
           <Component
-            key={element.id}
+            key={pattern.id}
             context={context}
-            element={element}
+            pattern={pattern}
             form={form}
           />
         </div>
@@ -67,15 +67,15 @@ const SortableItem = <T,>({ id, form, element, context }: ItemProps<T>) => {
   );
 };
 
-const SequenceElementEdit: FormElementEditComponent<SequenceElement> = ({
+const SequencePatternEdit: PatternEditComponent<SequencePattern> = ({
   context,
   form,
-  element,
+  pattern,
 }) => {
   const { register, setValue } = useFormContext();
-  const [elements, setElements] = useState(
-    element.data.elements.map(elementId => {
-      return form.elements[elementId];
+  const [patterns, setPatterns] = useState<Pattern[]>(
+    pattern.data.patterns.map((patternId: string) => {
+      return form.patterns[patternId];
     })
   );
   const sensors = useSensors(
@@ -94,38 +94,37 @@ const SequenceElementEdit: FormElementEditComponent<SequenceElement> = ({
             return;
           }
           if (active.id !== over.id) {
-            const oldIndex = elements.findIndex(element => {
-              return element.id === active.id;
+            const oldIndex = patterns.findIndex(pattern => {
+              return pattern.id === active.id;
             });
-            const newIndex = elements.findIndex(element => {
-              return element.id === over.id;
+            const newIndex = patterns.findIndex(pattern => {
+              return pattern.id === over.id;
             });
-            const newOrder = arrayMove(elements, oldIndex, newIndex);
-            setElements(newOrder);
-            setValue(element.id, {
-              id: element.id,
-              type: element.type,
+            const newOrder = arrayMove(patterns, oldIndex, newIndex);
+            setPatterns(newOrder);
+            setValue(pattern.id, {
+              ...pattern,
               data: {
-                elements: newOrder.map(element => element.id),
+                patterns: newOrder.map(pattern => pattern.id),
               },
-            } satisfies SequenceElement);
+            } satisfies SequencePattern);
           }
         }}
       >
         <SortableContext
-          items={elements}
+          items={patterns}
           strategy={verticalListSortingStrategy}
         >
           <ul className="editFormWrapper">
-            <input type="hidden" {...register(`${element.id}.id`)} />
-            <input type="hidden" {...register(`${element.id}.type`)} />
-            <input type="hidden" {...register(`${element.id}.elements`)} />
-            {elements.map(elements => (
+            <input type="hidden" {...register(`${pattern.id}.id`)} />
+            <input type="hidden" {...register(`${pattern.id}.type`)} />
+            <input type="hidden" {...register(`${pattern.id}.patterns`)} />
+            {patterns.map(patterns => (
               <SortableItem
-                key={elements.id}
-                id={elements.id}
+                key={patterns.id}
+                id={patterns.id}
                 context={context}
-                element={elements}
+                pattern={patterns}
                 form={form}
               />
             ))}
@@ -136,4 +135,4 @@ const SequenceElementEdit: FormElementEditComponent<SequenceElement> = ({
   );
 };
 
-export default SequenceElementEdit;
+export default SequencePatternEdit;

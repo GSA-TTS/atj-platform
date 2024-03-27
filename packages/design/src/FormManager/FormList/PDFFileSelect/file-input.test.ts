@@ -21,7 +21,7 @@ describe('onFileInputChangeGetFile', () => {
         target: {
           files: [new File([], 'file-name.xml')] as unknown as FileList,
         },
-      } as ChangeEvent<HTMLInputElement>);
+      } as ChangeEvent<HTMLInputPattern>);
     });
   });
 });

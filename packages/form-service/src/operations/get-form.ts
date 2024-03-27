@@ -1,12 +1,12 @@
 import { Result } from '@atj/common';
-import { type FormDefinition } from '@atj/forms';
+import { type Blueprint } from '@atj/forms';
 
 import { getFormFromStorage } from '../context/browser/form-repo';
 
 export const getForm = (
   ctx: { storage: Storage },
   formId: string
-): Result<FormDefinition> => {
+): Result<Blueprint> => {
   const result = getFormFromStorage(ctx.storage, formId);
   if (result === null) {
     return {

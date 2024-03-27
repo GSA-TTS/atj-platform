@@ -1,12 +1,11 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { type InputElement } from '@atj/forms/src/config/elements/input';
+import { type InputPattern } from '@atj/forms/src/patterns/input';
+import { type PatternEditComponent } from '../../FormManager/FormEdit/types';
 
-import { FormElementEditComponent } from '..';
-
-const InputElementEdit: FormElementEditComponent<InputElement> = ({
-  element,
+const SubmissionConfirmationEdit: PatternEditComponent<InputPattern> = ({
+  pattern,
 }) => {
   const { register } = useFormContext();
   return (
@@ -16,7 +15,7 @@ const InputElementEdit: FormElementEditComponent<InputElement> = ({
           Field label
           <input
             className="usa-input"
-            {...register(`${element.id}.data.text`)}
+            {...register(`${pattern.id}.data.text`)}
             type="text"
           ></input>
         </label>
@@ -27,7 +26,7 @@ const InputElementEdit: FormElementEditComponent<InputElement> = ({
           <input
             className="usa-input"
             type="text"
-            {...register(`${element.id}.data.initial`)}
+            {...register(`${pattern.id}.data.initial`)}
           ></input>
         </label>
       </div>
@@ -37,14 +36,14 @@ const InputElementEdit: FormElementEditComponent<InputElement> = ({
           <input
             className="usa-input"
             type="text"
-            {...register(`${element.id}.data.maxLength`)}
+            {...register(`${pattern.id}.data.maxLength`)}
           ></input>
         </label>
       </div>
       <div className="grid-col grid-col-2">
         <label className="usa-label">
           Field type
-          <select className="usa-select" {...register(`${element.id}.type`)}>
+          <select className="usa-select" {...register(`${pattern.id}.type`)}>
             <option value={'input'}>Input</option>
           </select>
         </label>
@@ -54,12 +53,12 @@ const InputElementEdit: FormElementEditComponent<InputElement> = ({
           <input
             className="usa-checkbox__input"
             type="checkbox"
-            id={`${element.id}.required`}
-            {...register(`${element.id}.data.required`)}
+            id={`${pattern.id}.required`}
+            {...register(`${pattern.id}.data.required`)}
           />
           <label
             className="usa-checkbox__label"
-            htmlFor={`${element.id}.data.required`}
+            htmlFor={`${pattern.id}.data.required`}
           >
             Required
           </label>
@@ -69,4 +68,4 @@ const InputElementEdit: FormElementEditComponent<InputElement> = ({
   );
 };
 
-export default InputElementEdit;
+export default SubmissionConfirmationEdit;

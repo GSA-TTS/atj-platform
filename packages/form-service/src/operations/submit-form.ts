@@ -1,7 +1,7 @@
 import { type Result } from '@atj/common';
 import {
   type FormConfig,
-  type FormDefinition,
+  type Blueprint,
   type FormSession,
   applyPromptResponse,
   createFormOutputFieldData,
@@ -55,7 +55,7 @@ export const submitForm = async (
 };
 
 const generateDocumentPackage = async (
-  form: FormDefinition,
+  form: Blueprint,
   formData: Record<string, string>
 ) => {
   const errors = new Array<string>();

@@ -1,164 +1,133 @@
-import {
-  type FormConfig,
-  type FormElement,
-  type FormElementId,
-  getRootFormElement,
-} from '..';
-import { getFormElementConfig } from './element';
-import { type FormSession, nullSession, sessionIsComplete } from './session';
+import { type Result } from '@atj/common';
+import { updatePattern, type Blueprint } from '..';
 
-export type TextInputPattern = {
-  type: 'input';
-  inputId: string;
-  value: string;
-  label: string;
-  required: boolean;
-  error?: string;
-};
+import { type CreatePrompt } from './components';
 
-export type TextPrompt = {
-  type: 'text';
-  id: string;
-  value: string;
-  error?: string;
-};
-
-export type FormSummaryPattern = {
-  type: 'form-summary';
-  title: string;
-  description: string;
-};
-
-export type SubmissionConfirmationPattern = {
-  type: 'submission-confirmation';
-  table: { label: string; value: string }[];
-};
-
-export type ParagraphPattern = {
-  type: 'paragraph';
-  text: string;
-  style: 'indent' | 'normal' | 'heading' | 'subheading';
-};
-
-export type FieldsetPattern = {
-  type: 'fieldset';
-  legend: string;
-};
-
-export type Pattern<T = {}> = {
-  _elementId: FormElementId;
-  _children: PromptPart[];
+export type Pattern<T = any, C = any> = {
   type: string;
-} & T;
-
-export type SubmitAction = {
-  type: 'submit';
-  text: 'Submit';
-};
-export type PromptAction = SubmitAction;
-
-export type PromptPart = {
-  pattern: Pattern;
-  children: PromptPart[];
+  id: PatternId;
+  data: C;
+  initial: T;
 };
 
-export type Prompt = {
-  actions: PromptAction[];
-  parts: PromptPart[];
+export type PatternId = string;
+export type PatternValue<T extends Pattern = Pattern> = T['initial'];
+export type PatternValueMap = Record<PatternId, PatternValue>;
+export type PatternMap = Record<PatternId, Pattern>;
+export type GetPattern = (form: Blueprint, id: PatternId) => Pattern;
+
+export type ParsePatternData<T extends Pattern = Pattern> = (
+  patternData: T['data'],
+  obj: string
+) => Result<T['data']>;
+
+export type ParsePatternConfigData<T extends Pattern = Pattern> = (
+  patternData: T['data']
+) => Result<T['data']>;
+
+export const getPattern: GetPattern = (form, patternId) => {
+  return form.patterns[patternId];
 };
 
-export const createPrompt = (
+export type PatternConfig<ThisPattern extends Pattern> = {
+  acceptsInput: boolean;
+  initial: ThisPattern['data'];
+  parseData: ParsePatternData<ThisPattern>;
+  parseConfigData: ParsePatternConfigData<ThisPattern>;
+  getChildren: (
+    pattern: ThisPattern,
+    patterns: Record<PatternId, Pattern>
+  ) => Pattern[];
+  createPrompt: CreatePrompt<ThisPattern>;
+};
+export type FormConfig<T extends Pattern = Pattern> = {
+  patterns: Record<string, PatternConfig<T>>;
+};
+
+export type ConfigPatterns<Config extends FormConfig> = ReturnType<
+  Config['patterns'][keyof Config['patterns']]['parseData']
+>;
+
+export const getPatternMap = (patterns: Pattern[]) => {
+  return Object.fromEntries(
+    patterns.map(pattern => {
+      return [pattern.id, pattern];
+    })
+  );
+};
+
+export const getPatterns = (form: Blueprint, patternIds: PatternId[]) => {
+  return patternIds.map(patternIds => getPattern(form, patternIds));
+};
+
+export const getPatternConfig = (
   config: FormConfig,
-  session: FormSession,
-  options: { validate: boolean }
-): Prompt => {
-  if (options.validate && sessionIsComplete(config, session)) {
+  elementType: Pattern['type']
+) => {
+  return config.patterns[elementType];
+};
+
+export const validatePattern = (
+  elementConfig: PatternConfig<Pattern>,
+  element: Pattern,
+  value: any
+): Result<Pattern['data']> => {
+  if (!elementConfig.acceptsInput) {
     return {
-      actions: [],
-      parts: [
-        {
-          pattern: {
-            _elementId: 'submission-confirmation',
-            type: 'submission-confirmation',
-            table: Object.entries(session.data.values)
-              .filter(([elementId, value]) => {
-                const elemConfig = getFormElementConfig(
-                  config,
-                  session.form.elements[elementId].type
-                );
-                return elemConfig.acceptsInput;
-              })
-              .map(([elementId, value]) => {
-                return {
-                  label: session.form.elements[elementId].data.label,
-                  value: value,
-                };
-              }),
-          } as Pattern<SubmissionConfirmationPattern>,
-          children: [],
-        },
-      ],
+      success: true,
+      data: value,
     };
   }
-  const parts: PromptPart[] = [
-    {
-      pattern: {
-        _elementId: 'form-summary',
-        type: 'form-summary',
-        title: session.form.summary.title,
-        description: session.form.summary.description,
-      } as Pattern<FormSummaryPattern>,
-      children: [],
-    },
-  ];
-  const root = getRootFormElement(session.form);
-  parts.push(createPromptForElement(config, session, root, options));
+  const parseResult = elementConfig.parseData(element, value);
+  if (!parseResult.success) {
+    return {
+      success: false,
+      error: parseResult.error,
+    };
+  }
+  if (element.data.required && !parseResult.data) {
+    return {
+      success: false,
+      error: 'Required value not provided.',
+    };
+  }
   return {
-    actions: [
-      {
-        type: 'submit',
-        text: 'Submit',
-      },
-    ],
-    parts,
+    success: true,
+    data: parseResult.data,
   };
 };
 
-export type CreatePrompt<T> = (
+export const getFirstPattern = (
   config: FormConfig,
-  session: FormSession,
-  element: T,
-  options: { validate: boolean }
-) => PromptPart;
+  form: Blueprint,
+  pattern?: Pattern
+): Pattern => {
+  if (!pattern) {
+    pattern = form.patterns[form.root];
+  }
+  const elemConfig = getPatternConfig(config, pattern.type);
+  const children = elemConfig.getChildren(pattern, form.patterns);
+  if (children?.length === 0) {
+    return pattern;
+  }
+  return getFirstPattern(config, form, children[0]);
+};
 
-export const createPromptForElement: CreatePrompt<FormElement> = (
-  config,
-  session,
-  element,
-  options
+export const updatePatternFromFormData = (
+  config: FormConfig,
+  form: Blueprint,
+  pattern: Pattern,
+  formData: PatternMap
 ) => {
-  const formElementConfig = getFormElementConfig(config, element.type);
-  return formElementConfig.createPrompt(config, session, element, options);
-};
-
-export const isPromptAction = (prompt: Prompt, action: string) => {
-  return prompt.actions.find(a => a.type === action);
-};
-
-export const createNullPrompt = ({
-  config,
-  element,
-}: {
-  config: FormConfig;
-  element: FormElement;
-}): Prompt => {
-  const formElementConfig = getFormElementConfig(config, element.type);
-  return {
-    parts: [
-      formElementConfig.createPrompt(config, nullSession, element, {
-        validate: false,
-      }),
-    ],
-    actions: [],
-  };
+  const elementConfig = getPatternConfig(config, pattern.type);
+  const data = formData[pattern.id].data;
+  const result = elementConfig.parseConfigData(data);
+  if (!result.success) {
+    return;
+  }
+  const updatedForm = updatePattern(form, {
+    ...pattern,
+    data: result.data,
+  });
+  return updatedForm;
 };

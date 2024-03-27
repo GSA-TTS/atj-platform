@@ -1,10 +1,10 @@
-import InputElementEdit from './InputElementEdit';
-import SequenceElementEdit from './SequenceElementEdit';
+import InputPatternEdit from './InputPatternEdit';
+import SequencePatternEdit from './SequencePatternEdit';
 import SubmissionConfirmationEdit from './SubmissionConfirmationEdit';
-import { type EditComponentForFormElement } from '../../FormManager/FormEdit/types';
+import { type EditComponentForPattern } from '../../FormManager/FormEdit/types';
 
-export const defaultFormElementEditComponents: EditComponentForFormElement = {
-  input: InputElementEdit,
-  sequence: SequenceElementEdit,
+export const defaultPatternEditComponents: EditComponentForPattern = {
+  input: InputPatternEdit,
+  sequence: SequencePatternEdit,
   'submission-confirmation': SubmissionConfirmationEdit,
 };

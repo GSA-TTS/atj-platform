@@ -1,14 +1,15 @@
-import { type FormConfig } from '.';
-import { fieldsetConfig } from './elements/fieldset';
-import { inputConfig } from './elements/input';
-import { paragraphConfig } from './elements/paragraph';
-import { sequenceConfig } from './elements/sequence';
+import { type FormConfig } from '../pattern';
+
+import { fieldsetConfig } from './fieldset';
+import { inputConfig } from './input';
+import { paragraphConfig } from './paragraph';
+import { sequenceConfig } from './sequence';
 
 // This configuration reflects what a user of this library would provide for
 // their usage scenarios. For now, keep here in the form service until we
 // understand the usage scenarios better.
 export const defaultFormConfig: FormConfig = {
-  elements: {
+  patterns: {
     fieldset: fieldsetConfig,
     input: inputConfig,
     paragraph: paragraphConfig,

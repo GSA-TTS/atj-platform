@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { FormRouter, defaultFormElementComponents } from '@atj/design';
+import { FormRouter, defaultPatternComponents } from '@atj/design';
 import { getAppContext } from '../context';
 
 export default function AppFormRouter() {
@@ -9,7 +9,7 @@ export default function AppFormRouter() {
     <FormRouter
       context={{
         config: ctx.formConfig,
-        components: defaultFormElementComponents,
+        components: defaultPatternComponents,
         uswdsRoot: ctx.uswdsRoot,
       }}
       formService={ctx.formService}

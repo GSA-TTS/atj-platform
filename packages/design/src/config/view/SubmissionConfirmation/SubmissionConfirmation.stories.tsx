@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import SubmissionConfirmation, { type SubmissionConfirmationProps } from '.';
+import SubmissionConfirmation from '.';
+import { type SubmissionConfirmationProps } from '@atj/forms';
 
 export default {
   title: 'patterns/SubmissionConfirmation',
@@ -10,7 +11,7 @@ export default {
 
 export const SubmissionConfirmationExample = {
   args: {
-    prompt: {
+    pattern: {
       type: 'submission-confirmation',
       table: [
         { label: 'Field 1', value: 'Value 1' },
@@ -18,6 +19,6 @@ export const SubmissionConfirmationExample = {
         { label: 'Field 3', value: 'Value 3' },
         { label: 'Field 4', value: 'Value 4' },
       ],
-    },
-  } satisfies SubmissionConfirmationProps,
+    } as SubmissionConfirmationProps,
+  },
 } satisfies StoryObj<typeof SubmissionConfirmation>;

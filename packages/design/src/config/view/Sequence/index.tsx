@@ -1,13 +1,8 @@
 import React from 'react';
 
-import { type Pattern } from '@atj/forms';
-import { SequenceElement } from '@atj/forms/src/config/elements/sequence';
+import { type PatternComponent } from '../../../Form';
 
-import { FormElementComponent } from '../../../Form';
-
-const Sequence: FormElementComponent<Pattern<SequenceElement>> = ({
-  children,
-}) => {
+const Sequence: PatternComponent = ({ children }) => {
   return <>{children}</>;
 };
 

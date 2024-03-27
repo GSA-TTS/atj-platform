@@ -17,13 +17,13 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 
 import {
-  getFormElement,
-  type FormDefinition,
-  type FormElement,
-  FormElementId,
+  getPattern,
+  type Blueprint,
+  type Pattern,
+  PatternId,
 } from '@atj/forms';
 
-import { SequenceElement } from '@atj/forms/src/config/elements/sequence';
+import { SequencePattern } from '@atj/forms/src/patterns/sequence';
 
 const SortableItem = ({
   id,
@@ -59,19 +59,19 @@ const SortableItem = ({
 };
 
 type DraggableListProps = React.PropsWithChildren<{
-  element: FormElement<SequenceElement>;
-  form: FormDefinition;
-  setSelectedElement: (element: FormElement) => void;
+  pattern: Pattern<SequencePattern>;
+  form: Blueprint;
+  setSelectedPattern: (pattern: Pattern) => void;
 }>;
 export const DraggableList: React.FC<DraggableListProps> = ({
-  element,
+  pattern,
   form,
-  setSelectedElement,
+  setSelectedPattern,
   children,
 }) => {
-  const [elements, setElements] = useState<FormElement[]>(
-    element.data.elements.map((elementId: FormElementId) => {
-      return getFormElement(form, elementId);
+  const [patterns, setPatterns] = useState<Pattern[]>(
+    pattern.data.patterns.map((patternId: PatternId) => {
+      return getPattern(form, patternId);
     })
   );
   const sensors = useSensors(
@@ -90,32 +90,31 @@ export const DraggableList: React.FC<DraggableListProps> = ({
           return;
         }
         if (active.id !== over.id) {
-          const oldIndex = elements.findIndex(element => {
-            return element.id === active.id;
+          const oldIndex = patterns.findIndex(pattern => {
+            return pattern.id === active.id;
           });
-          const newIndex = elements.findIndex(element => {
-            return element.id === over.id;
+          const newIndex = patterns.findIndex(pattern => {
+            return pattern.id === over.id;
           });
-          const newOrder = arrayMove(elements, oldIndex, newIndex);
-          setElements(newOrder);
-          setSelectedElement({
-            id: element.id,
-            type: element.type,
+          const newOrder = arrayMove(patterns, oldIndex, newIndex);
+          setPatterns(newOrder);
+          setSelectedPattern({
+            id: pattern.id,
+            type: pattern.type,
             data: {
-              elements: newOrder.map(element => element.id),
+              patterns: newOrder.map(pattern => pattern.id),
             },
-            default: {
-              elements: [],
+            initial: {
+              patterns: [],
             },
-            required: element.required,
-          } satisfies SequenceElement);
+          } satisfies SequencePattern);
         }
       }}
     >
-      <SortableContext items={elements} strategy={verticalListSortingStrategy}>
+      <SortableContext items={patterns} strategy={verticalListSortingStrategy}>
         <ul className="editFormWrapper">
           {arrayChildren.map((child, index) => (
-            <SortableItem key={index} id={elements[index].id}>
+            <SortableItem key={index} id={patterns[index].id}>
               {child}
             </SortableItem>
           ))}

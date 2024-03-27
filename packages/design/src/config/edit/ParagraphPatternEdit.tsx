@@ -1,11 +1,12 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { type FormElementComponent } from '../../Form';
-import { type ParagraphElement } from '@atj/forms/src/config/elements/paragraph';
+import { type ParagraphPattern } from '@atj/forms/src/patterns/paragraph';
 
-const ParagraphElementEdit: FormElementComponent<ParagraphElement> = ({
-  element,
+import { type PatternEditComponent } from '../../FormManager/FormEdit/types';
+
+const ParagraphPatternEdit: PatternEditComponent<ParagraphPattern> = ({
+  pattern,
 }) => {
   const { register } = useFormContext();
   return (
@@ -15,7 +16,7 @@ const ParagraphElementEdit: FormElementComponent<ParagraphElement> = ({
           Text Element
           <input
             className="usa-input"
-            {...register(`${element.id}.data.text`)}
+            {...register(`${pattern.id}.data.text`)}
             type="text"
           ></input>
         </label>
@@ -23,7 +24,7 @@ const ParagraphElementEdit: FormElementComponent<ParagraphElement> = ({
       <div className="grid-col grid-col-2 flex-align-self-end">
         <label className="usa-label">
           <p className="usa-hint font-ui-3xs">Style</p>
-          <select className="usa-select" {...register(`${element.id}.type`)}>
+          <select className="usa-select" {...register(`${pattern.id}.type`)}>
             <option value={'paragraph'}>Question</option> {/* this is a stub */}
             <option value={'paragraph'}>Title</option> {/* this is a stub */}
             <option value={'paragraph'}>Instructions</option>{' '}
@@ -35,4 +36,4 @@ const ParagraphElementEdit: FormElementComponent<ParagraphElement> = ({
   );
 };
 
-export default ParagraphElementEdit;
+export default ParagraphPatternEdit;

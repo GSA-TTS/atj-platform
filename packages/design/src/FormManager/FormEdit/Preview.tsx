@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { type Pattern, createFormSession } from '@atj/forms';
+import { type PatternProps, createFormSession } from '@atj/forms';
 
 import Form, {
   type ComponentForPattern,
-  type FormElementComponent,
+  type PatternComponent,
   type FormUIContext,
 } from '../../Form';
 import { useFormEditStore } from './store';
@@ -64,20 +64,20 @@ const createPreviewComponents = (
 
 /*
 const createSequencePatternPreviewComponent = (
-  Component: FormElementComponent,
+  Component: PatternComponent,
   previewComponents: ComponentForPattern
 ) => {
-  const PatternPreviewSequenceComponent: FormElementComponent = ({
+  const PatternPreviewSequenceComponent: PatternComponent = ({
     pattern,
   }) => {
-    const { form, setSelectedElement } = usePreviewContext();
-    const element = getFormElement(form, pattern._elementId);
+    const { form, setSelectedPattern } = usePreviewContext();
+    const element = getPattern(form, pattern._patternId);
     const Component = previewComponents[pattern.type];
     return (
       <DraggableList
         form={form}
         element={element}
-        setSelectedElement={setSelectedElement}
+        setSelectedPattern={setSelectedPattern}
       >
         <Component pattern={pattern} />
       </DraggableList>
@@ -88,24 +88,24 @@ const createSequencePatternPreviewComponent = (
 */
 
 const createPatternPreviewComponent = (
-  Component: FormElementComponent,
+  Component: PatternComponent,
   uswdsRoot: string
 ) => {
-  const PatternPreviewComponent: FormElementComponent = ({
+  const PatternPreviewComponent: PatternComponent = ({
     pattern,
   }: {
-    pattern: Pattern;
+    pattern: PatternProps;
   }) => {
-    const selectedElement = useFormEditStore(state => state.selectedElement);
+    const selectedPattern = useFormEditStore(state => state.selectedPattern);
     const handleEditClick = useFormEditStore(state => state.handleEditClick);
 
-    const isSelected = selectedElement?.id === pattern._elementId;
+    const isSelected = selectedPattern?.id === pattern._patternId;
     const divClassNames = isSelected
       ? 'form-group-row field-selected'
       : 'form-group-row';
 
     return (
-      <div className={divClassNames} data-id={pattern._elementId}>
+      <div className={divClassNames} data-id={pattern._patternId}>
         <Component pattern={pattern} />
         <span className="edit-button-icon">
           <button

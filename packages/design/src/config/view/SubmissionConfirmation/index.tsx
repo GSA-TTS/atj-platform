@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { Pattern, type SubmissionConfirmationPattern } from '@atj/forms';
-import { FormElementComponent } from '../../../Form';
+import { type SubmissionConfirmationProps } from '@atj/forms';
+import { type PatternComponent } from '../../../Form';
 
-const SubmissionConfirmation: FormElementComponent<
-  Pattern<SubmissionConfirmationPattern>
-> = ({ pattern }) => {
+const SubmissionConfirmation: PatternComponent<SubmissionConfirmationProps> = ({
+  pattern,
+}) => {
   return (
     <>
       <legend className="usa-legend usa-legend--large">

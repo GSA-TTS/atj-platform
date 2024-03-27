@@ -3,12 +3,12 @@ import { StoreApi, create } from 'zustand';
 import { createContext } from 'zustand-utils';
 
 import {
-  type FormDefinition,
-  type FormElementMap,
-  type Pattern,
-  getFormElement,
+  type Blueprint,
+  type PatternMap,
+  type PatternProps,
+  getPattern,
   FormBuilder,
-  FormElement,
+  Pattern,
 } from '@atj/forms';
 import { type FormEditUIContext } from './types';
 
@@ -18,7 +18,7 @@ export const useFormEditStore = useStore;
 
 export const FormEditProvider = (props: {
   context: FormEditUIContext;
-  form: FormDefinition;
+  form: Blueprint;
   children: React.ReactNode;
 }) => {
   return (
@@ -30,12 +30,12 @@ export const FormEditProvider = (props: {
 
 type FormEditState = {
   context: FormEditUIContext;
-  form: FormDefinition;
-  selectedElement?: FormElement;
+  form: Blueprint;
+  selectedPattern?: Pattern;
 
-  handleEditClick: (pattern: Pattern) => void;
-  setSelectedElement: (element?: FormElement) => void;
-  updateSelectedFormElement: (formData: FormElementMap) => void;
+  handleEditClick: (pattern: PatternProps) => void;
+  setSelectedPattern: (element?: Pattern) => void;
+  updateSelectedPattern: (formData: PatternMap) => void;
 };
 
 const createFormEditStore = ({
@@ -43,35 +43,35 @@ const createFormEditStore = ({
   form,
 }: {
   context: FormEditUIContext;
-  form: FormDefinition;
+  form: Blueprint;
 }) =>
   create<FormEditState>((set, get) => ({
     context,
     form,
-    handleEditClick: (pattern: Pattern) => {
+    handleEditClick: (pattern: PatternProps) => {
       const state = get();
-      if (state.selectedElement?.id === pattern._elementId) {
-        set({ selectedElement: undefined });
+      if (state.selectedPattern?.id === pattern._patternId) {
+        set({ selectedPattern: undefined });
       } else {
-        const elementToSet = getFormElement(state.form, pattern._elementId);
-        set({ selectedElement: elementToSet });
+        const elementToSet = getPattern(state.form, pattern._patternId);
+        set({ selectedPattern: elementToSet });
       }
     },
-    setSelectedElement: selectedElement => set({ selectedElement }),
-    updateSelectedFormElement: (formData: FormElementMap) => {
+    setSelectedPattern: selectedPattern => set({ selectedPattern }),
+    updateSelectedPattern: (formData: PatternMap) => {
       const state = get();
-      if (state.selectedElement === undefined) {
+      if (state.selectedPattern === undefined) {
         console.warn('No selected element');
         return;
       }
       const builder = new FormBuilder(state.form);
-      const success = builder.updateFormElement(
+      const success = builder.updatePattern(
         state.context.config,
-        state.selectedElement,
+        state.selectedPattern,
         formData
       );
       if (success) {
-        set({ form: builder.form, selectedElement: undefined });
+        set({ form: builder.form, selectedPattern: undefined });
       }
     },
   }));

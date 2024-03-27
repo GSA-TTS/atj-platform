@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 
-import { FormDefinition } from '@atj/forms';
+import { Blueprint } from '@atj/forms';
 import { type FormService } from '@atj/form-service';
 
-import { FormElementEdit } from './FormElementEdit';
+import { PatternEdit } from './PatternEdit';
 import { PreviewForm } from './Preview';
 import { FormEditProvider, useFormEditStore } from './store';
 import { type FormEditUIContext } from './types';
@@ -34,12 +34,8 @@ export default function FormEdit({
   );
 }
 
-const EditForm = ({
-  saveForm,
-}: {
-  saveForm: (form: FormDefinition) => void;
-}) => {
-  const { form, selectedElement } = useFormEditStore();
+const EditForm = ({ saveForm }: { saveForm: (form: Blueprint) => void }) => {
+  const { form, selectedPattern } = useFormEditStore();
   useEffect(() => {
     saveForm(form);
   }, [form]);
@@ -50,8 +46,8 @@ const EditForm = ({
         <div className="grid-col-8">
           <PreviewForm />
         </div>
-        <div className={`grid-col-4 ${selectedElement ? 'show' : 'hide'}`}>
-          <FormElementEdit />
+        <div className={`grid-col-4 ${selectedPattern ? 'show' : 'hide'}`}>
+          <PatternEdit />
         </div>
       </div>
     </div>
