@@ -5,7 +5,6 @@ import {
   type Pattern,
   type PatternId,
   type PatternMap,
-  type PatternValueMap,
   getPatternMap,
   getPatternConfig,
 } from './element';
@@ -51,17 +50,6 @@ export type FormSummary = {
   description: string;
 };
 
-export type FormSessionId = string;
-type ErrorMap = Record<PatternId, string>;
-export type FormSession = {
-  id: FormSessionId;
-  data: {
-    errors: ErrorMap;
-    values: PatternValueMap;
-  };
-  form: Blueprint;
-};
-
 export type FormOutput = {
   data: Uint8Array;
   path: string;
@@ -100,21 +88,6 @@ export const createForm = (
 
 export const getRootPattern = (form: Blueprint) => {
   return form.elements[form.root];
-};
-
-export const createFormSession = (form: Blueprint): FormSession => {
-  return {
-    id: crypto.randomUUID(),
-    data: {
-      errors: {},
-      values: Object.fromEntries(
-        Object.values(form.elements).map((element, index) => {
-          return [element.id, form.elements[element.id].data.initial];
-        })
-      ),
-    },
-    form,
-  };
 };
 
 /*
