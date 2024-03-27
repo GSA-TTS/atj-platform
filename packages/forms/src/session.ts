@@ -5,7 +5,7 @@ import {
   getPatternConfig,
   validateElement,
 } from '.';
-import { SequenceElement } from './elements/sequence';
+import { SequenceElement } from './patterns/sequence';
 import {
   type PatternId,
   type PatternValue,

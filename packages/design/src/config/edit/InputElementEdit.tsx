@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { type InputElement } from '@atj/forms/src/elements/input';
+import { type InputElement } from '@atj/forms/src/patterns/input';
 import { PatternEditComponent } from '../../FormManager/FormEdit/types';
 
 const InputElementEdit: PatternEditComponent<InputElement> = ({ element }) => {

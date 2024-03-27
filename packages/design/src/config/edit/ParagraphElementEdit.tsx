@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { type ParagraphElement } from '@atj/forms/src/elements/paragraph';
+import { type ParagraphElement } from '@atj/forms/src/patterns/paragraph';
 
 import { type PatternEditComponent } from '../../FormManager/FormEdit/types';
 

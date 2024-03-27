@@ -1,4 +1,4 @@
-import { type SequenceElement } from './elements/sequence';
+import { type SequenceElement } from './patterns/sequence';
 import { type DocumentFieldMap } from './documents';
 import {
   type FormConfig,

@@ -23,7 +23,7 @@ import {
   PatternId,
 } from '@atj/forms';
 
-import { SequenceElement } from '@atj/forms/src/elements/sequence';
+import { SequenceElement } from '@atj/forms/src/patterns/sequence';
 
 const SortableItem = ({
   id,

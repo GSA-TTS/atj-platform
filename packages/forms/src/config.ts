@@ -1,1 +1,1 @@
-export { defaultFormConfig } from './elements';
+export { defaultFormConfig } from './patterns';

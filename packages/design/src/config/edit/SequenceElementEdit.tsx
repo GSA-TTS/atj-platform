@@ -18,7 +18,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { useFormContext } from 'react-hook-form';
 
 import { type Blueprint, type Pattern } from '@atj/forms';
-import { type SequenceElement } from '@atj/forms/src/elements/sequence';
+import { type SequenceElement } from '@atj/forms/src/patterns/sequence';
 import {
   type FormEditUIContext,
   type PatternEditComponent,
