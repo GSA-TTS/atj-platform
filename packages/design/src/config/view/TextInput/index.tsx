@@ -2,10 +2,10 @@ import classNames from 'classnames';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { PatternProps, type TextInputPattern } from '@atj/forms';
+import { PatternProps, type TextInputProps } from '@atj/forms';
 import { type PatternComponent } from '../../../Form';
 
-const TextInput: PatternComponent<PatternProps<TextInputPattern>> = ({
+const TextInput: PatternComponent<PatternProps<TextInputProps>> = ({
   pattern,
 }) => {
   const { register } = useFormContext();

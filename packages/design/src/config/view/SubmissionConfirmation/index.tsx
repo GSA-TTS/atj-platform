@@ -2,12 +2,12 @@ import React from 'react';
 
 import {
   type PatternProps,
-  type SubmissionConfirmationPattern,
+  type SubmissionConfirmationProps,
 } from '@atj/forms';
 import { type PatternComponent } from '../../../Form';
 
 const SubmissionConfirmation: PatternComponent<
-  PatternProps<SubmissionConfirmationPattern>
+  PatternProps<SubmissionConfirmationProps>
 > = ({ pattern }) => {
   return (
     <>

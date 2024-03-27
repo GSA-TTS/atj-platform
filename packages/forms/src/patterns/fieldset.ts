@@ -7,7 +7,7 @@ import {
   getPattern,
 } from '../element';
 import {
-  type FieldsetPattern,
+  type FieldsetProps,
   type PatternProps,
   createPromptForElement,
 } from '../components';
@@ -50,7 +50,7 @@ export const fieldsetConfig: PatternConfig<FieldsetElement> = {
         _elementId: element.id,
         type: 'fieldset',
         legend: element.data.legend,
-      } satisfies PatternProps<FieldsetPattern>,
+      } satisfies PatternProps<FieldsetProps>,
       children,
     };
   },

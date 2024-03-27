@@ -1,7 +1,7 @@
 import * as z from 'zod';
 
 import { type Pattern, type PatternConfig } from '../element';
-import { type PatternProps, type FormSummaryPattern } from '../components';
+import { type PatternProps, type FormSummaryProps } from '../components';
 import { safeZodParse } from '../util/zod';
 
 const configSchema = z.object({
@@ -30,7 +30,7 @@ export const formSummaryConfig: PatternConfig<FormSummary> = {
         type: 'form-summary',
         title: element.data.title,
         description: element.data.description,
-      } as PatternProps<FormSummaryPattern>,
+      } as PatternProps<FormSummaryProps>,
       children: [],
     };
   },

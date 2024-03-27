@@ -7,7 +7,7 @@ import {
 import { getPatternConfig } from './element';
 import { type FormSession, nullSession, sessionIsComplete } from './session';
 
-export type TextInputPattern = {
+export type TextInputProps = {
   type: 'input';
   inputId: string;
   value: string;
@@ -16,31 +16,24 @@ export type TextInputPattern = {
   error?: string;
 };
 
-export type TextPrompt = {
-  type: 'text';
-  id: string;
-  value: string;
-  error?: string;
-};
-
-export type FormSummaryPattern = {
+export type FormSummaryProps = {
   type: 'form-summary';
   title: string;
   description: string;
 };
 
-export type SubmissionConfirmationPattern = {
+export type SubmissionConfirmationProps = {
   type: 'submission-confirmation';
   table: { label: string; value: string }[];
 };
 
-export type ParagraphPattern = {
+export type ParagraphProps = {
   type: 'paragraph';
   text: string;
   style: 'indent' | 'normal' | 'heading' | 'subheading';
 };
 
-export type FieldsetPattern = {
+export type FieldsetProps = {
   type: 'fieldset';
   legend: string;
 };
@@ -94,7 +87,7 @@ export const createPrompt = (
                   value: value,
                 };
               }),
-          } as PatternProps<SubmissionConfirmationPattern>,
+          } as PatternProps<SubmissionConfirmationProps>,
           children: [],
         },
       ],
@@ -107,7 +100,7 @@ export const createPrompt = (
         type: 'form-summary',
         title: session.form.summary.title,
         description: session.form.summary.description,
-      } as PatternProps<FormSummaryPattern>,
+      } as PatternProps<FormSummaryProps>,
       children: [],
     },
   ];
