@@ -50,17 +50,17 @@ export const nullSession: Session = {
   },
 };
 
-export const createSession = (form: Blueprint): Session => {
+export const createSession = (blueprint: Blueprint): Session => {
   return {
     data: {
       errors: {},
       values: Object.fromEntries(
-        Object.values(form.elements).map(element => {
-          return [element.id, form.elements[element.id].default];
+        Object.values(blueprint.elements).map(element => {
+          return [element.id, blueprint.elements[element.id].default];
         })
       ),
     },
-    form,
+    form: blueprint,
   };
 };
 

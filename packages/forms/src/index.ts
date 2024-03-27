@@ -1,11 +1,10 @@
-import { FormConfig } from './config';
-import { SequenceElement } from './config/elements/sequence';
-import { DocumentFieldMap } from './documents';
+import { type SequenceElement } from './elements/sequence';
+import { type DocumentFieldMap } from './documents';
 import {
+  type FormConfig,
   type Pattern,
   type PatternId,
   type PatternMap,
-  type PatternValue,
   type PatternValueMap,
   getPatternMap,
   getPatternConfig,
@@ -42,7 +41,6 @@ export const nullBlueprint: Blueprint = {
       default: {
         elements: [],
       },
-      required: true,
     },
   },
   outputs: [],
@@ -87,7 +85,6 @@ export const createForm = (
         default: {
           elements: [],
         },
-        required: true,
       } satisfies SequenceElement,
     ],
     root: 'root',
@@ -120,6 +117,7 @@ export const createSession = (form: Blueprint): Session => {
   };
 };
 
+/*
 export const updateForm = (context: Session, id: PatternId, value: any) => {
   if (!(id in context.form.elements)) {
     console.error(`Pattern "${id}" does not exist on form.`);
@@ -160,6 +158,7 @@ const addError = (session: Session, id: PatternId, error: string): Session => ({
     },
   },
 });
+*/
 
 export const addPatternMap = (
   form: Blueprint,

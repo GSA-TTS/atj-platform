@@ -84,7 +84,6 @@ export const addDocumentFieldsToForm = (
           required: false,
           maxLength: 128,
         },
-        required: field.required,
       } satisfies InputElement);
     } else if (field.type === 'OptionList') {
       elements.push({
@@ -99,7 +98,6 @@ export const addDocumentFieldsToForm = (
           required: false,
           maxLength: 128,
         },
-        required: field.required,
       } satisfies InputElement);
     } else if (field.type === 'Dropdown') {
       elements.push({
@@ -114,7 +112,6 @@ export const addDocumentFieldsToForm = (
           required: false,
           maxLength: 128,
         },
-        required: field.required,
       } satisfies InputElement);
     } else if (field.type === 'TextField') {
       elements.push({
@@ -129,7 +126,6 @@ export const addDocumentFieldsToForm = (
           required: false,
           maxLength: 128,
         },
-        required: field.required,
       } satisfies InputElement);
     } else if (field.type === 'RadioGroup') {
       elements.push({
@@ -144,7 +140,6 @@ export const addDocumentFieldsToForm = (
           required: false,
           maxLength: 128,
         },
-        required: field.required,
       } satisfies InputElement);
     } else if (field.type === 'Paragraph') {
       // skip purely presentational fields
@@ -161,7 +156,6 @@ export const addDocumentFieldsToForm = (
       elements: elements.map(element => element.id),
     },
     default: [],
-    required: true,
   });
   return addPatterns(form, elements, 'root');
 };

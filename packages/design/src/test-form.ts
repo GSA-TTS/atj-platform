@@ -25,7 +25,6 @@ export const createTestForm = () => {
           default: {
             elements: [],
           },
-          required: true,
         },
         {
           type: 'input',
@@ -36,7 +35,6 @@ export const createTestForm = () => {
             initial: '',
           },
           default: '',
-          required: true,
         },
         {
           type: 'input',
@@ -47,7 +45,6 @@ export const createTestForm = () => {
             initial: 'test',
           },
           default: '',
-          required: true,
         },
       ],
     }

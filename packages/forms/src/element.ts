@@ -8,7 +8,6 @@ export type Pattern<T = any, C = any> = {
   id: PatternId;
   data: C;
   default: T;
-  required: boolean;
 };
 
 export type PatternId = string;
