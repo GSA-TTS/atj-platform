@@ -13,20 +13,22 @@ Additional documentation:
 - [Architectural Decision Records (ADRs)](./documents/adr/)
 - [Non-project contributions](./documents/value-created-log.md)
 
-## Terminology
+## Overview
 
 The platform is made up of the following high-level terms.
 
-### Personas
+### Key personas
 
 - Content authors: legal experts who craft guided interview experiences via a "no code" interface
 - Self-represented litigants (SREs): end-users who interact with the court via guided interviews created by content authors
 
 ### Things
 
-- Blueprint: produced by a content author, the blueprint defines the structure of an interactive session between a court and an SRL
-- Conversation: one instance of a blueprint; the interactive session between a court and an SRL.
-- Pattern: the building blocks of a blueprint, patterns implement UX best-practices.
+- **Blueprint**: produced by a content author, the blueprint defines the structure of an interactive session between a court and an SRL
+- **Conversation**: one instance of a blueprint; the interactive session between a court and an SRL. Other terms for this concept include dialogue or session.
+- **Pattern**: the building blocks of a blueprint, patterns implement UX best-practices, defining the content and behavior of the user interface.
+- **Prompt**: produced by a pattern, the prompt defines what is presented to the end user at single point in a conversation.
+- **Component**: user interface component that acts as the building block of prompts.
 
 ## Development
 
