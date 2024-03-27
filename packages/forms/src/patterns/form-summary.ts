@@ -1,6 +1,6 @@
 import * as z from 'zod';
 
-import { type Pattern, type PatternConfig } from '../element';
+import { type Pattern, type PatternConfig } from '../pattern';
 import { type FormSummaryProps } from '../components';
 import { safeZodParse } from '../util/zod';
 

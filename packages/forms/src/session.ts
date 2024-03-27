@@ -10,7 +10,7 @@ import {
   type PatternId,
   type PatternValue,
   type PatternValueMap,
-} from './element';
+} from './pattern';
 
 type ErrorMap = Record<PatternId, string>;
 

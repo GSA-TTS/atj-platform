@@ -1,10 +1,10 @@
+import { getRootPattern } from '..';
 import {
   type FormConfig,
   type Pattern,
   type PatternId,
-  getRootPattern,
-} from '..';
-import { getPatternConfig } from './element';
+  getPatternConfig,
+} from './pattern';
 import { type FormSession, nullSession, sessionIsComplete } from './session';
 
 export type TextInputProps = PatternProps<{

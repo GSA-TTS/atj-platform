@@ -5,7 +5,7 @@ import {
   type PatternConfig,
   type PatternId,
   getPattern,
-} from '../element';
+} from '../pattern';
 import { createPromptForElement } from '../components';
 import { safeZodParse } from '../util/zod';
 

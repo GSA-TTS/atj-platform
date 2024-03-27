@@ -7,13 +7,13 @@ import {
   type PatternMap,
   getPatternMap,
   getPatternConfig,
-} from './element';
+} from './pattern';
 
 export * from './builder';
 export * from './components';
 export * from './config';
 export * from './documents';
-export * from './element';
+export * from './pattern';
 export * from './response';
 export * from './session';
 
