@@ -104,10 +104,9 @@ export const DraggableList: React.FC<DraggableListProps> = ({
             data: {
               elements: newOrder.map(element => element.id),
             },
-            default: {
+            initial: {
               elements: [],
             },
-            required: element.required,
           } satisfies SequenceElement);
         }
       }}

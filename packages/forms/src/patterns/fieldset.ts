@@ -10,7 +10,7 @@ import {
   type FieldsetPattern,
   type PatternProps,
   createPromptForElement,
-} from '../pattern';
+} from '../components';
 import { safeZodParse } from '../util/zod';
 
 export type FieldsetElement = Pattern<{

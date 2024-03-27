@@ -1,7 +1,7 @@
 import * as z from 'zod';
 
 import { type Pattern, type PatternConfig, validateElement } from '../element';
-import { type PatternProps, type TextInputPattern } from '../pattern';
+import { type PatternProps, type TextInputPattern } from '../components';
 import { getFormSessionValue } from '../session';
 import { safeZodParse } from '../util/zod';
 

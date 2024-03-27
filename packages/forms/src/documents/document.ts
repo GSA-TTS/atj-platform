@@ -6,7 +6,7 @@ import {
   addPatternMap,
   updateFormSummary,
 } from '..';
-import { InputElement } from '../config/patterns/input';
+import { InputElement } from '../patterns/input';
 import { PDFDocument, getDocumentFieldData } from './pdf';
 import { getSuggestedPatternsFromCache } from './suggestions';
 import { DocumentFieldMap } from './types';

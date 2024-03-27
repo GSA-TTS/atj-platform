@@ -6,7 +6,7 @@ import {
   type PatternId,
   getPattern,
 } from '../element';
-import { createPromptForElement } from '../pattern';
+import { createPromptForElement } from '../components';
 import { safeZodParse } from '../util/zod';
 
 export type SequenceElement = Pattern<{

@@ -2,9 +2,9 @@ import * as z from 'zod';
 
 import { type Pattern, type PatternId, type PatternMap } from '../..';
 
-import { ParagraphElement } from '../../config/patterns/paragraph';
-import { InputElement } from '../../config/patterns/input';
-import { FieldsetElement } from '../../config/patterns/fieldset';
+import { ParagraphElement } from '../../patterns/paragraph';
+import { InputElement } from '../../patterns/input';
+import { FieldsetElement } from '../../patterns/fieldset';
 
 import { stringToBase64 } from '../util';
 import { DocumentFieldMap } from '../types';

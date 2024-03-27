@@ -1,7 +1,7 @@
 import { type Result } from '@atj/common';
 import { type Blueprint } from '..';
 
-import { type CreatePrompt } from './pattern';
+import { type CreatePrompt } from './components';
 
 export type Pattern<T = any, C = any> = {
   type: string;

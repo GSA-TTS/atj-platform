@@ -7,7 +7,7 @@ import {
   getPatternConfig,
   validateElement,
 } from '.';
-import { type PromptAction, createPrompt, isPromptAction } from './pattern';
+import { type PromptAction, createPrompt, isPromptAction } from './components';
 import { type FormSession, updateSession } from './session';
 
 export type PromptResponse = {
