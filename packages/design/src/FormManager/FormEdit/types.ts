@@ -12,7 +12,7 @@ export type FormEditUIContext = {
 export type PatternEditComponent<T extends Pattern> = React.ComponentType<{
   context: FormEditUIContext;
   form: Blueprint;
-  element: T;
+  pattern: T;
 }>;
 
 export type EditComponentForPattern<T extends Pattern = Pattern> = Record<

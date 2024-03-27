@@ -12,7 +12,7 @@ export default {
 export const FormSummaryWithLongDescription = {
   args: {
     pattern: {
-      _elementId: 'test-id',
+      _patternId: 'test-id',
       type: 'form-summary',
       title: 'Form title',
       description:
@@ -24,7 +24,7 @@ export const FormSummaryWithLongDescription = {
 export const FormSummaryWithShortDescription = {
   args: {
     pattern: {
-      _elementId: 'test-id',
+      _patternId: 'test-id',
       type: 'form-summary',
       title: 'Title 2',
       description: 'Short description',

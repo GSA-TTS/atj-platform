@@ -31,10 +31,10 @@ export const FormEditProvider = (props: {
 type FormEditState = {
   context: FormEditUIContext;
   form: Blueprint;
-  selectedElement?: Pattern;
+  selectedPattern?: Pattern;
 
   handleEditClick: (pattern: PatternProps) => void;
-  setSelectedElement: (element?: Pattern) => void;
+  setSelectedPattern: (element?: Pattern) => void;
   updateSelectedPattern: (formData: PatternMap) => void;
 };
 
@@ -50,28 +50,28 @@ const createFormEditStore = ({
     form,
     handleEditClick: (pattern: PatternProps) => {
       const state = get();
-      if (state.selectedElement?.id === pattern._elementId) {
-        set({ selectedElement: undefined });
+      if (state.selectedPattern?.id === pattern._patternId) {
+        set({ selectedPattern: undefined });
       } else {
-        const elementToSet = getPattern(state.form, pattern._elementId);
-        set({ selectedElement: elementToSet });
+        const elementToSet = getPattern(state.form, pattern._patternId);
+        set({ selectedPattern: elementToSet });
       }
     },
-    setSelectedElement: selectedElement => set({ selectedElement }),
+    setSelectedPattern: selectedPattern => set({ selectedPattern }),
     updateSelectedPattern: (formData: PatternMap) => {
       const state = get();
-      if (state.selectedElement === undefined) {
+      if (state.selectedPattern === undefined) {
         console.warn('No selected element');
         return;
       }
       const builder = new FormBuilder(state.form);
       const success = builder.updatePattern(
         state.context.config,
-        state.selectedElement,
+        state.selectedPattern,
         formData
       );
       if (success) {
-        set({ form: builder.form, selectedElement: undefined });
+        set({ form: builder.form, selectedPattern: undefined });
       }
     },
   }));

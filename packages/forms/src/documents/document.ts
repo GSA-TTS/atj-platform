@@ -6,7 +6,7 @@ import {
   addPatternMap,
   updateFormSummary,
 } from '..';
-import { InputElement } from '../patterns/input';
+import { InputPattern } from '../patterns/input';
 import { PDFDocument, getDocumentFieldData } from './pdf';
 import { getSuggestedPatternsFromCache } from './suggestions';
 import { DocumentFieldMap } from './types';
@@ -28,7 +28,7 @@ export const addDocument = async (
       title: cachedPdf.title,
       description: '',
     });
-    form = addPatternMap(form, cachedPdf.elements, cachedPdf.root);
+    form = addPatternMap(form, cachedPdf.patterns, cachedPdf.root);
     const updatedForm = addFormOutput(form, {
       data: fileDetails.data,
       path: fileDetails.name,
@@ -69,12 +69,12 @@ export const addDocumentFieldsToForm = (
   form: Blueprint,
   fields: DocumentFieldMap
 ) => {
-  const elements: Pattern[] = [];
-  Object.entries(fields).map(([elementId, field]) => {
+  const patterns: Pattern[] = [];
+  Object.entries(fields).map(([patternId, field]) => {
     if (field.type === 'CheckBox') {
-      elements.push({
+      patterns.push({
         type: 'input',
-        id: elementId,
+        id: patternId,
         data: {
           label: field.label,
         },
@@ -84,11 +84,11 @@ export const addDocumentFieldsToForm = (
           required: false,
           maxLength: 128,
         },
-      } satisfies InputElement);
+      } satisfies InputPattern);
     } else if (field.type === 'OptionList') {
-      elements.push({
+      patterns.push({
         type: 'input',
-        id: elementId,
+        id: patternId,
         data: {
           label: field.label,
         },
@@ -98,11 +98,11 @@ export const addDocumentFieldsToForm = (
           required: false,
           maxLength: 128,
         },
-      } satisfies InputElement);
+      } satisfies InputPattern);
     } else if (field.type === 'Dropdown') {
-      elements.push({
+      patterns.push({
         type: 'input',
-        id: elementId,
+        id: patternId,
         data: {
           label: field.label,
         },
@@ -112,11 +112,11 @@ export const addDocumentFieldsToForm = (
           required: false,
           maxLength: 128,
         },
-      } satisfies InputElement);
+      } satisfies InputPattern);
     } else if (field.type === 'TextField') {
-      elements.push({
+      patterns.push({
         type: 'input',
-        id: elementId,
+        id: patternId,
         data: {
           label: field.label,
         },
@@ -126,11 +126,11 @@ export const addDocumentFieldsToForm = (
           required: false,
           maxLength: 128,
         },
-      } satisfies InputElement);
+      } satisfies InputPattern);
     } else if (field.type === 'RadioGroup') {
-      elements.push({
+      patterns.push({
         type: 'input',
-        id: elementId,
+        id: patternId,
         data: {
           label: field.label,
         },
@@ -140,7 +140,7 @@ export const addDocumentFieldsToForm = (
           required: false,
           maxLength: 128,
         },
-      } satisfies InputElement);
+      } satisfies InputPattern);
     } else if (field.type === 'Paragraph') {
       // skip purely presentational fields
     } else if (field.type === 'not-supported') {
@@ -149,13 +149,13 @@ export const addDocumentFieldsToForm = (
       const _exhaustiveCheck: never = field;
     }
   });
-  elements.push({
+  patterns.push({
     id: 'root',
     type: 'sequence',
     data: {
-      elements: elements.map(element => element.id),
+      patterns: patterns.map(pattern => pattern.id),
     },
     initial: [],
   });
-  return addPatterns(form, elements, 'root');
+  return addPatterns(form, patterns, 'root');
 };

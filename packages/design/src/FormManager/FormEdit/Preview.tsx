@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { createFormSession } from '@atj/forms';
+import { type PatternProps, createFormSession } from '@atj/forms';
 
 import Form, {
   type ComponentForPattern,
@@ -70,14 +70,14 @@ const createSequencePatternPreviewComponent = (
   const PatternPreviewSequenceComponent: PatternComponent = ({
     pattern,
   }) => {
-    const { form, setSelectedElement } = usePreviewContext();
-    const element = getPattern(form, pattern._elementId);
+    const { form, setSelectedPattern } = usePreviewContext();
+    const element = getPattern(form, pattern._patternId);
     const Component = previewComponents[pattern.type];
     return (
       <DraggableList
         form={form}
         element={element}
-        setSelectedElement={setSelectedElement}
+        setSelectedPattern={setSelectedPattern}
       >
         <Component pattern={pattern} />
       </DraggableList>
@@ -94,18 +94,18 @@ const createPatternPreviewComponent = (
   const PatternPreviewComponent: PatternComponent = ({
     pattern,
   }: {
-    pattern: Pattern;
+    pattern: PatternProps;
   }) => {
-    const selectedElement = useFormEditStore(state => state.selectedElement);
+    const selectedPattern = useFormEditStore(state => state.selectedPattern);
     const handleEditClick = useFormEditStore(state => state.handleEditClick);
 
-    const isSelected = selectedElement?.id === pattern._elementId;
+    const isSelected = selectedPattern?.id === pattern._patternId;
     const divClassNames = isSelected
       ? 'form-group-row field-selected'
       : 'form-group-row';
 
     return (
-      <div className={divClassNames} data-id={pattern._elementId}>
+      <div className={divClassNames} data-id={pattern._patternId}>
         <Component pattern={pattern} />
         <span className="edit-button-icon">
           <button

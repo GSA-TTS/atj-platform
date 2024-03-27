@@ -1,5 +1,5 @@
 import { type Result } from '@atj/common';
-import { type Blueprint } from '..';
+import { updatePattern, type Blueprint } from '..';
 
 import { type CreatePrompt } from './components';
 
@@ -17,16 +17,16 @@ export type PatternMap = Record<PatternId, Pattern>;
 export type GetPattern = (form: Blueprint, id: PatternId) => Pattern;
 
 export type ParsePatternData<T extends Pattern = Pattern> = (
-  elementData: T['data'],
+  patternData: T['data'],
   obj: string
 ) => Result<T['data']>;
 
 export type ParsePatternConfigData<T extends Pattern = Pattern> = (
-  elementData: T['data']
+  patternData: T['data']
 ) => Result<T['data']>;
 
-export const getPattern: GetPattern = (form, elementId) => {
-  return form.elements[elementId];
+export const getPattern: GetPattern = (form, patternId) => {
+  return form.patterns[patternId];
 };
 
 export type PatternConfig<ThisPattern extends Pattern> = {
@@ -35,39 +35,39 @@ export type PatternConfig<ThisPattern extends Pattern> = {
   parseData: ParsePatternData<ThisPattern>;
   parseConfigData: ParsePatternConfigData<ThisPattern>;
   getChildren: (
-    element: ThisPattern,
-    elements: Record<PatternId, Pattern>
+    pattern: ThisPattern,
+    patterns: Record<PatternId, Pattern>
   ) => Pattern[];
   createPrompt: CreatePrompt<ThisPattern>;
 };
 export type FormConfig<T extends Pattern = Pattern> = {
-  elements: Record<string, PatternConfig<T>>;
+  patterns: Record<string, PatternConfig<T>>;
 };
 
-export type ConfigElements<Config extends FormConfig> = ReturnType<
-  Config['elements'][keyof Config['elements']]['parseData']
+export type ConfigPatterns<Config extends FormConfig> = ReturnType<
+  Config['patterns'][keyof Config['patterns']]['parseData']
 >;
 
-export const getPatternMap = (elements: Pattern[]) => {
+export const getPatternMap = (patterns: Pattern[]) => {
   return Object.fromEntries(
-    elements.map(element => {
-      return [element.id, element];
+    patterns.map(pattern => {
+      return [pattern.id, pattern];
     })
   );
 };
 
-export const getPatterns = (form: Blueprint, elementIds: PatternId[]) => {
-  return elementIds.map(elementId => getPattern(form, elementId));
+export const getPatterns = (form: Blueprint, patternIds: PatternId[]) => {
+  return patternIds.map(patternIds => getPattern(form, patternIds));
 };
 
 export const getPatternConfig = (
   config: FormConfig,
   elementType: Pattern['type']
 ) => {
-  return config.elements[elementType];
+  return config.patterns[elementType];
 };
 
-export const validateElement = (
+export const validatePattern = (
   elementConfig: PatternConfig<Pattern>,
   element: Pattern,
   value: any
@@ -100,15 +100,34 @@ export const validateElement = (
 export const getFirstPattern = (
   config: FormConfig,
   form: Blueprint,
-  element?: Pattern
+  pattern?: Pattern
 ): Pattern => {
-  if (!element) {
-    element = form.elements[form.root];
+  if (!pattern) {
+    pattern = form.patterns[form.root];
   }
-  const elemConfig = getPatternConfig(config, element.type);
-  const children = elemConfig.getChildren(element, form.elements);
+  const elemConfig = getPatternConfig(config, pattern.type);
+  const children = elemConfig.getChildren(pattern, form.patterns);
   if (children?.length === 0) {
-    return element;
+    return pattern;
   }
   return getFirstPattern(config, form, children[0]);
+};
+
+export const updatePatternFromFormData = (
+  config: FormConfig,
+  form: Blueprint,
+  pattern: Pattern,
+  formData: PatternMap
+) => {
+  const elementConfig = getPatternConfig(config, pattern.type);
+  const data = formData[pattern.id].data;
+  const result = elementConfig.parseConfigData(data);
+  if (!result.success) {
+    return;
+  }
+  const updatedForm = updatePattern(form, {
+    ...pattern,
+    data: result.data,
+  });
+  return updatedForm;
 };

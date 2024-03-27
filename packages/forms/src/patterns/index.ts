@@ -9,7 +9,7 @@ import { sequenceConfig } from './sequence';
 // their usage scenarios. For now, keep here in the form service until we
 // understand the usage scenarios better.
 export const defaultFormConfig: FormConfig = {
-  elements: {
+  patterns: {
     fieldset: fieldsetConfig,
     input: inputConfig,
     paragraph: paragraphConfig,

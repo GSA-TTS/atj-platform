@@ -1,4 +1,4 @@
-import { type SequenceElement } from './patterns/sequence';
+import { type SequencePattern } from './patterns/sequence';
 import { type DocumentFieldMap } from './documents';
 import {
   type FormConfig,
@@ -20,7 +20,7 @@ export * from './session';
 export type Blueprint = {
   summary: FormSummary;
   root: PatternId;
-  elements: PatternMap;
+  patterns: PatternMap;
   outputs: FormOutput[];
 };
 
@@ -30,15 +30,15 @@ export const nullBlueprint: Blueprint = {
     description: '',
   },
   root: 'root',
-  elements: {
+  patterns: {
     root: {
       type: 'sequence',
       id: 'root',
       data: {
-        elements: [],
+        patterns: [],
       },
       initial: {
-        elements: [],
+        patterns: [],
       },
     },
   },
@@ -60,20 +60,20 @@ export type FormOutput = {
 export const createForm = (
   summary: FormSummary,
   initial: {
-    elements: Pattern[];
+    patterns: Pattern[];
     root: PatternId;
   } = {
-    elements: [
+    patterns: [
       {
         id: 'root',
         type: 'sequence',
         data: {
-          elements: [],
+          patterns: [],
         },
         initial: {
-          elements: [],
+          patterns: [],
         },
-      } satisfies SequenceElement,
+      } satisfies SequencePattern,
     ],
     root: 'root',
   }
@@ -81,25 +81,25 @@ export const createForm = (
   return {
     summary,
     root: initial.root,
-    elements: getPatternMap(initial.elements),
+    patterns: getPatternMap(initial.patterns),
     outputs: [],
   };
 };
 
 export const getRootPattern = (form: Blueprint) => {
-  return form.elements[form.root];
+  return form.patterns[form.root];
 };
 
 /*
 export const updateForm = (context: Session, id: PatternId, value: any) => {
-  if (!(id in context.form.elements)) {
+  if (!(id in context.form.patterns)) {
     console.error(`Pattern "${id}" does not exist on form.`);
     return context;
   }
   const nextForm = addValue(context, id, value);
-  const element = context.form.elements[id];
-  if (element.type === 'input') {
-    if (element.data.required && !value) {
+  const pattern = context.form.patterns[id];
+  if (pattern.type === 'input') {
+    if (pattern.data.required && !value) {
       return addError(nextForm, id, 'Required value not provided.');
     }
   }
@@ -139,34 +139,34 @@ const addError = (
 
 export const addPatternMap = (
   form: Blueprint,
-  elements: PatternMap,
+  patterns: PatternMap,
   root?: PatternId
 ) => {
   return {
     ...form,
-    elements: { ...form.elements, ...elements },
+    patterns: { ...form.patterns, ...patterns },
     root: root !== undefined ? root : form.root,
   };
 };
 
 export const addPatterns = (
   form: Blueprint,
-  elements: Pattern[],
+  patterns: Pattern[],
   root?: PatternId
 ) => {
-  const formElementMap = getPatternMap(elements);
-  return addPatternMap(form, formElementMap, root);
+  const formPatternMap = getPatternMap(patterns);
+  return addPatternMap(form, formPatternMap, root);
 };
 
 export const replacePatterns = (
   form: Blueprint,
-  elements: Pattern[]
+  patterns: Pattern[]
 ): Blueprint => {
   return {
     ...form,
-    elements: elements.reduce(
-      (acc, element) => {
-        acc[element.id] = element;
+    patterns: patterns.reduce(
+      (acc, pattern) => {
+        acc[pattern.id] = pattern;
         return acc;
       },
       {} as Record<PatternId, Pattern>
@@ -174,34 +174,31 @@ export const replacePatterns = (
   };
 };
 
-export const updateElements = (
+export const updatePatterns = (
   config: FormConfig,
   form: Blueprint,
-  newElements: PatternMap
+  newPatterns: PatternMap
 ): Blueprint => {
-  const root = newElements[form.root];
-  const targetElements: PatternMap = {
+  const root = newPatterns[form.root];
+  const targetPatterns: PatternMap = {
     root,
   };
-  const resource = config.elements[root.type as keyof FormConfig];
-  const children = resource.getChildren(root, newElements);
-  targetElements[root.id] = root;
-  children.forEach(child => (targetElements[child.id] = child));
+  const resource = config.patterns[root.type as keyof FormConfig];
+  const children = resource.getChildren(root, newPatterns);
+  targetPatterns[root.id] = root;
+  children.forEach(child => (targetPatterns[child.id] = child));
   return {
     ...form,
-    elements: targetElements,
+    patterns: targetPatterns,
   };
 };
 
-export const updateElement = (
-  form: Blueprint,
-  formElement: Pattern
-): Blueprint => {
+export const updatePattern = (form: Blueprint, pattern: Pattern): Blueprint => {
   return {
     ...form,
-    elements: {
-      ...form.elements,
-      [formElement.id]: formElement,
+    patterns: {
+      ...form.patterns,
+      [pattern.id]: pattern,
     },
   };
 };
@@ -214,7 +211,7 @@ export const addFormOutput = (form: Blueprint, document: FormOutput) => {
 };
 
 export const getPattern = (form: Blueprint, id: PatternId) => {
-  return form.elements[id];
+  return form.patterns[id];
 };
 
 export const updateFormSummary = (form: Blueprint, summary: FormSummary) => {
@@ -222,23 +219,4 @@ export const updateFormSummary = (form: Blueprint, summary: FormSummary) => {
     ...form,
     summary,
   };
-};
-
-export const updatePattern = (
-  config: FormConfig,
-  form: Blueprint,
-  formElement: Pattern,
-  formData: PatternMap
-) => {
-  const elementConfig = getPatternConfig(config, formElement.type);
-  const data = formData[formElement.id].data;
-  const result = elementConfig.parseConfigData(data);
-  if (!result.success) {
-    return;
-  }
-  const updatedForm = updateElement(form, {
-    ...formElement,
-    data: result.data,
-  });
-  return updatedForm;
 };

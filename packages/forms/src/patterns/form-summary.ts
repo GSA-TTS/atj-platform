@@ -23,13 +23,13 @@ export const formSummaryConfig: PatternConfig<FormSummary> = {
   getChildren() {
     return [];
   },
-  createPrompt(_, session, element, options) {
+  createPrompt(_, session, pattern, options) {
     return {
       pattern: {
-        _elementId: element.id,
+        _patternId: pattern.id,
         type: 'form-summary',
-        title: element.data.title,
-        description: element.data.description,
+        title: pattern.data.title,
+        description: pattern.data.description,
       } as FormSummaryProps,
       children: [],
     };

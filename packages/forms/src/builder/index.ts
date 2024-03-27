@@ -1,13 +1,13 @@
 import {
   type Blueprint,
+  type FormConfig,
   type FormSummary,
+  type Pattern,
+  type PatternMap,
   addDocument,
   nullBlueprint,
   updateFormSummary,
-  updatePattern,
-  PatternMap,
-  Pattern,
-  FormConfig,
+  updatePatternFromFormData,
 } from '..';
 
 export class FormBuilder {
@@ -30,15 +30,11 @@ export class FormBuilder {
     this._form = updatedForm;
   }
 
-  updatePattern(
-    config: FormConfig,
-    formElement: Pattern,
-    formData: PatternMap
-  ) {
-    const updatedElement = updatePattern(
+  updatePattern(config: FormConfig, pattern: Pattern, formData: PatternMap) {
+    const updatedElement = updatePatternFromFormData(
       config,
       this.form,
-      formElement,
+      pattern,
       formData
     );
     if (!updatedElement) {

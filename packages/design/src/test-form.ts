@@ -6,6 +6,8 @@ import {
 } from './config';
 import { FormUIContext } from 'Form';
 import { type FormEditUIContext } from './FormManager/FormEdit/types';
+import { SequencePattern } from '@atj/forms/src/patterns/sequence';
+import { InputPattern } from '@atj/forms/src/patterns/input';
 
 export const createTestForm = () => {
   return createForm(
@@ -15,37 +17,49 @@ export const createTestForm = () => {
     },
     {
       root: 'root',
-      elements: [
+      patterns: [
         {
           type: 'sequence',
           id: 'root',
           data: {
-            elements: ['element-1', 'element-2'],
+            patterns: ['element-1', 'element-2'],
           },
           initial: {
-            elements: [],
+            patterns: [],
           },
-        },
+        } as SequencePattern,
         {
           type: 'input',
           id: 'element-1',
           data: {
-            text: 'Pattern 1',
-            required: true,
+            label: 'Pattern 1',
             initial: '',
+            required: true,
+            maxLength: 128,
           },
-          initial: '',
-        },
+          initial: {
+            label: 'Pattern 1',
+            initial: '',
+            required: true,
+            maxLength: 128,
+          },
+        } as InputPattern,
         {
           type: 'input',
           id: 'element-2',
           data: {
-            text: 'Pattern 2',
-            required: false,
+            label: 'Pattern 2',
             initial: 'test',
+            required: true,
+            maxLength: 128,
           },
-          initial: '',
-        },
+          initial: {
+            label: 'Pattern 2',
+            initial: 'test',
+            required: true,
+            maxLength: 128,
+          },
+        } as InputPattern,
       ],
     }
   );

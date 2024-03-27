@@ -5,7 +5,7 @@ import {
   type PatternId,
   getPattern,
   getPatternConfig,
-  validateElement,
+  validatePattern,
 } from '.';
 import { type PromptAction, createPrompt, isPromptAction } from './components';
 import { type FormSession, updateSession } from './session';
@@ -37,15 +37,15 @@ export const applyPromptResponse = (
   };
 };
 
-const parseElementValue = (
+const parsePatternValue = (
   config: FormConfig,
   session: FormSession,
-  elementId: PatternId,
+  patternId: PatternId,
   promptValue: string
 ) => {
-  const element = session.form.elements[elementId];
-  const formElementConfig = getPatternConfig(config, element.type);
-  return formElementConfig.parseData(element, promptValue);
+  const pattern = session.form.patterns[patternId];
+  const patternConfig = getPatternConfig(config, pattern.type);
+  return patternConfig.parseData(pattern, promptValue);
 };
 
 const parsePromptResponse = (
@@ -55,14 +55,14 @@ const parsePromptResponse = (
 ) => {
   const values: Record<string, any> = {};
   const errors: Record<string, string> = {};
-  for (const [elementId, promptValue] of Object.entries(response.data)) {
-    const element = getPattern(session.form, elementId);
-    const elementConfig = getPatternConfig(config, element.type);
-    const isValidResult = validateElement(elementConfig, element, promptValue);
+  for (const [patternId, promptValue] of Object.entries(response.data)) {
+    const pattern = getPattern(session.form, patternId);
+    const patternConfig = getPatternConfig(config, pattern.type);
+    const isValidResult = validatePattern(patternConfig, pattern, promptValue);
     if (isValidResult.success) {
-      values[elementId] = isValidResult.data;
+      values[patternId] = isValidResult.data;
     } else {
-      errors[elementId] = isValidResult.error;
+      errors[patternId] = isValidResult.error;
     }
   }
   return { errors, values };

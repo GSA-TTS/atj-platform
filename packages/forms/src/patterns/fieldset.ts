@@ -6,46 +6,46 @@ import {
   type PatternId,
   getPattern,
 } from '../pattern';
-import { type FieldsetProps, createPromptForElement } from '../components';
+import { type FieldsetProps, createPromptForPattern } from '../components';
 import { safeZodParse } from '../util/zod';
 
-export type FieldsetElement = Pattern<{
+export type FieldsetPattern = Pattern<{
   legend?: string;
-  elements: PatternId[];
+  patterns: PatternId[];
 }>;
 
 const FieldsetSchema = z.array(z.string());
 
 const configSchema = z.object({
   legend: z.string().optional(),
-  elements: z.array(z.string()),
+  patterns: z.array(z.string()),
 });
 
-export const fieldsetConfig: PatternConfig<FieldsetElement> = {
+export const fieldsetConfig: PatternConfig<FieldsetPattern> = {
   acceptsInput: false,
   initial: {
-    elements: [],
+    patterns: [],
   },
   parseData: (_, obj) => {
     return safeZodParse(FieldsetSchema, obj);
   },
   parseConfigData: obj => safeZodParse(configSchema, obj),
-  getChildren(element, elements) {
-    return element.data.elements.map(
-      (elementId: string) => elements[elementId]
+  getChildren(pattern, patterns) {
+    return pattern.data.patterns.map(
+      (patternId: string) => patterns[patternId]
     );
   },
-  createPrompt(config, session, element, options) {
-    const children = element.data.elements.map((elementId: string) => {
-      const element = getPattern(session.form, elementId);
-      return createPromptForElement(config, session, element, options);
+  createPrompt(config, session, pattern, options) {
+    const children = pattern.data.patterns.map((patternId: string) => {
+      const pattern = getPattern(session.form, patternId);
+      return createPromptForPattern(config, session, pattern, options);
     });
     return {
       pattern: {
         _children: children,
-        _elementId: element.id,
+        _patternId: pattern.id,
         type: 'fieldset',
-        legend: element.data.legend,
+        legend: pattern.data.legend,
       } satisfies FieldsetProps,
       children,
     };

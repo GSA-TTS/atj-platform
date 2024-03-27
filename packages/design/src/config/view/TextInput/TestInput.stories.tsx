@@ -27,7 +27,7 @@ export default {
 export const Required = {
   args: {
     pattern: {
-      _elementId: '',
+      _patternId: '',
       type: 'input',
       inputId: 'test-prompt',
       value: '',
@@ -40,7 +40,7 @@ export const Required = {
 export const NotRequired = {
   args: {
     pattern: {
-      _elementId: '',
+      _patternId: '',
       type: 'input',
       inputId: 'test-prompt',
       value: '',

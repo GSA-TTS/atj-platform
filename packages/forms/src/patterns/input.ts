@@ -1,6 +1,6 @@
 import * as z from 'zod';
 
-import { type Pattern, type PatternConfig, validateElement } from '../pattern';
+import { type Pattern, type PatternConfig, validatePattern } from '../pattern';
 import { type TextInputProps } from '../components';
 import { getFormSessionValue } from '../session';
 import { safeZodParse } from '../util/zod';
@@ -11,12 +11,12 @@ const configSchema = z.object({
   required: z.boolean(),
   maxLength: z.coerce.number(),
 });
-export type InputElement = Pattern<z.infer<typeof configSchema>>;
+export type InputPattern = Pattern<z.infer<typeof configSchema>>;
 
-const createSchema = (data: InputElement['data']) =>
+const createSchema = (data: InputPattern['data']) =>
   z.string().max(data.maxLength);
 
-export const inputConfig: PatternConfig<InputElement> = {
+export const inputConfig: PatternConfig<InputPattern> = {
   acceptsInput: true,
   initial: {
     label: '',
@@ -24,28 +24,28 @@ export const inputConfig: PatternConfig<InputElement> = {
     required: true,
     maxLength: 128,
   },
-  parseData: (elementData, obj) => safeZodParse(createSchema(elementData), obj),
+  parseData: (patternData, obj) => safeZodParse(createSchema(patternData), obj),
   parseConfigData: obj => safeZodParse(configSchema, obj),
   getChildren() {
     return [];
   },
-  createPrompt(_, session, element, options) {
+  createPrompt(_, session, pattern, options) {
     const extraAttributes: Record<string, any> = {};
-    const sessionValue = getFormSessionValue(session, element.id);
+    const sessionValue = getFormSessionValue(session, pattern.id);
     if (options.validate) {
-      const isValidResult = validateElement(inputConfig, element, sessionValue);
+      const isValidResult = validatePattern(inputConfig, pattern, sessionValue);
       if (!isValidResult.success) {
         extraAttributes['error'] = isValidResult.error;
       }
     }
     return {
       pattern: {
-        _elementId: element.id,
+        _patternId: pattern.id,
         type: 'input',
-        inputId: element.id,
+        inputId: pattern.id,
         value: sessionValue,
-        label: element.data.label,
-        required: element.data.required,
+        label: pattern.data.label,
+        required: pattern.data.required,
         ...extraAttributes,
       } as TextInputProps,
       children: [],

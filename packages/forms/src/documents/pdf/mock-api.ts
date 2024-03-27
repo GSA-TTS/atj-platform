@@ -2,12 +2,12 @@ import * as z from 'zod';
 
 import { type Pattern, type PatternId, type PatternMap } from '../..';
 
-import { ParagraphElement } from '../../patterns/paragraph';
-import { InputElement } from '../../patterns/input';
-import { FieldsetElement } from '../../patterns/fieldset';
+import { type FieldsetPattern } from '../../patterns/fieldset';
+import { type InputPattern } from '../../patterns/input';
+import { type ParagraphPattern } from '../../patterns/paragraph';
 
 import { stringToBase64 } from '../util';
-import { DocumentFieldMap } from '../types';
+import { type DocumentFieldMap } from '../types';
 
 import json from './al_name_change';
 
@@ -90,7 +90,7 @@ const ExtractedObject = z.object({
 type ExtractedObject = z.infer<typeof ExtractedObject>;
 
 export type ParsedPdf = {
-  elements: PatternMap;
+  patterns: PatternMap;
   outputs: DocumentFieldMap; // to populate FormOutput
   root: PatternId;
   title: string;
@@ -99,16 +99,16 @@ export type ParsedPdf = {
 export const parseAlabamaNameChangeForm = (): ParsedPdf => {
   const extracted: ExtractedObject = ExtractedObject.parse(json);
   const parsedPdf: ParsedPdf = {
-    elements: {},
+    patterns: {},
     outputs: {},
     root: 'root',
     title: extracted.title,
   };
   const rootSequence: PatternId[] = [];
   for (const element of extracted.elements) {
-    const fieldsetElements: PatternId[] = [];
+    const fieldsetPatterns: PatternId[] = [];
     if (element.inputs.length === 0) {
-      parsedPdf.elements[element.id] = {
+      parsedPdf.patterns[element.id] = {
         type: 'paragraph',
         id: element.id,
         initial: {
@@ -119,14 +119,14 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
           text: element.element_params.text,
           style: element.element_params.text_style,
         },
-      } satisfies ParagraphElement;
+      } satisfies ParagraphPattern;
       rootSequence.push(element.id);
       continue;
     }
     for (const input of element.inputs) {
       if (input.input_type === 'Tx') {
         const id = stringToBase64(PdfFieldMap[input.input_params.output_id]);
-        parsedPdf.elements[id] = {
+        parsedPdf.patterns[id] = {
           type: 'input',
           id,
           initial: {
@@ -138,8 +138,8 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
           data: {
             label: input.input_params.instructions,
           },
-        } satisfies InputElement;
-        fieldsetElements.push(id);
+        } satisfies InputPattern;
+        fieldsetPatterns.push(id);
         parsedPdf.outputs[id] = {
           type: 'TextField',
           name: PdfFieldMap[input.input_params.output_id],
@@ -150,29 +150,29 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
         };
       }
     }
-    if (fieldsetElements.length > 0) {
-      parsedPdf.elements[element.id] = {
+    if (fieldsetPatterns.length > 0) {
+      parsedPdf.patterns[element.id] = {
         id: element.id,
         type: 'fieldset',
         data: {
           legend: element.element_params.text,
-          elements: fieldsetElements,
+          patterns: fieldsetPatterns,
         },
         initial: {
-          elements: [],
+          patterns: [],
         },
-      } as FieldsetElement;
+      } as FieldsetPattern;
       rootSequence.push(element.id);
     }
   }
-  parsedPdf.elements['root'] = {
+  parsedPdf.patterns['root'] = {
     id: 'root',
     type: 'sequence',
     data: {
-      elements: rootSequence,
+      patterns: rootSequence,
     },
     initial: {
-      elements: [],
+      patterns: [],
     },
   };
   return parsedPdf;
@@ -189,7 +189,7 @@ const getElementInputs = (element: ExtractedElement): Pattern[] => {
           data: {
             label: input.input_params.instructions,
           },
-        } satisfies InputElement;
+        } satisfies InputPattern;
       }
       return null as unknown as Pattern;
     })

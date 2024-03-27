@@ -7,39 +7,39 @@ import { useFormEditStore } from './store';
 export const PatternEdit = () => {
   const context = useFormEditStore(state => state.context);
   const form = useFormEditStore(state => state.form);
-  const selectedElement = useFormEditStore(state => state.selectedElement);
-  const { setSelectedElement, updateSelectedPattern } = useFormEditStore(
+  const selectedPattern = useFormEditStore(state => state.selectedPattern);
+  const { setSelectedPattern, updateSelectedPattern } = useFormEditStore(
     state => ({
-      setSelectedElement: state.setSelectedElement,
+      setSelectedPattern: state.setSelectedPattern,
       updateSelectedPattern: state.updateSelectedPattern,
     })
   );
 
   const methods = useForm<PatternMap>({
-    defaultValues: selectedElement
+    defaultValues: selectedPattern
       ? {
-          [selectedElement.id]: selectedElement,
+          [selectedPattern.id]: selectedPattern,
         }
       : {},
   });
   const settingsContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (selectedElement === undefined) {
+    if (selectedPattern === undefined) {
       return;
     }
     methods.reset();
-    methods.setValue(selectedElement.id, selectedElement);
-  }, [selectedElement]);
+    methods.setValue(selectedPattern.id, selectedPattern);
+  }, [selectedPattern]);
 
   // Updates the scroll position of the edit form when it's visible
   useEffect(() => {
     let frameId: number;
     const updatePosition = () => {
       if (window.innerWidth > 879) {
-        if (selectedElement) {
+        if (selectedPattern) {
           const element = document.querySelector(
-            `[data-id="${selectedElement.id}"]`
+            `[data-id="${selectedPattern.id}"]`
           );
           if (element && settingsContainerRef.current) {
             const rect = element.getBoundingClientRect();
@@ -53,13 +53,13 @@ export const PatternEdit = () => {
     return () => {
       cancelAnimationFrame(frameId);
     };
-  }, [selectedElement]);
+  }, [selectedPattern]);
 
-  if (!selectedElement) {
+  if (!selectedPattern) {
     return;
   }
 
-  const SelectedEditComponent = context.editComponents[selectedElement.type];
+  const SelectedEditComponent = context.editComponents[selectedPattern.type];
   return (
     <FormProvider {...methods}>
       <div
@@ -72,16 +72,16 @@ export const PatternEdit = () => {
             updateSelectedPattern(formData);
           })}
         >
-          <h3>Editing &quot;{selectedElement.data.label}&quot;...</h3>
+          <h3>Editing &quot;{selectedPattern.data.label}&quot;...</h3>
           <SelectedEditComponent
             context={context}
             form={form}
-            element={selectedElement}
+            pattern={selectedPattern}
           />
           <p>
             <input className="usa-button" type="submit" value="Save" />
             <input
-              onClick={() => setSelectedElement(undefined)}
+              onClick={() => setSelectedPattern(undefined)}
               className="usa-button close-button"
               type="submit"
               value="Cancel"

@@ -8,29 +8,29 @@ const configSchema = z.object({
   text: z.string(),
   maxLength: z.coerce.number(),
 });
-export type ParagraphElement = Pattern<z.infer<typeof configSchema>>;
+export type ParagraphPattern = Pattern<z.infer<typeof configSchema>>;
 
-const createSchema = (data: ParagraphElement['data']) =>
+const createSchema = (data: ParagraphPattern['data']) =>
   z.string().max(data.maxLength);
 
-export const paragraphConfig: PatternConfig<ParagraphElement> = {
+export const paragraphConfig: PatternConfig<ParagraphPattern> = {
   acceptsInput: false,
   initial: {
     text: 'normal',
     maxLength: 2048,
   },
-  parseData: (elementData, obj) => safeZodParse(createSchema(elementData), obj),
+  parseData: (patternData, obj) => safeZodParse(createSchema(patternData), obj),
   parseConfigData: obj => safeZodParse(configSchema, obj),
   getChildren() {
     return [];
   },
-  createPrompt(_, session, element, options) {
+  createPrompt(_, session, pattern, options) {
     return {
       pattern: {
-        _elementId: element.id,
+        _patternId: pattern.id,
         type: 'paragraph' as const,
-        text: element.data.text,
-        style: element.data.style,
+        text: pattern.data.text,
+        style: pattern.data.style,
       } as ParagraphProps,
       children: [],
     };

@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form';
 import { type FormSummary } from '@atj/forms/src/patterns/form-summary';
 import { PatternEditComponent } from '../../FormManager/FormEdit/types';
 
-const FormSummaryEdit: PatternEditComponent<FormSummary> = ({ element }) => {
+const FormSummaryEdit: PatternEditComponent<FormSummary> = ({ pattern }) => {
   const { register } = useFormContext();
   return (
     <div className="grid-row grid-gap">
@@ -13,7 +13,7 @@ const FormSummaryEdit: PatternEditComponent<FormSummary> = ({ element }) => {
           Title
           <input
             className="usa-input"
-            {...register(`${element.id}.data.title`)}
+            {...register(`${pattern.id}.data.title`)}
             type="text"
           ></input>
         </label>
@@ -23,7 +23,7 @@ const FormSummaryEdit: PatternEditComponent<FormSummary> = ({ element }) => {
           Description
           <textarea
             className="usa-textarea"
-            {...register(`${element.id}.data.description`)}
+            {...register(`${pattern.id}.data.description`)}
           ></textarea>
         </label>
       </div>
