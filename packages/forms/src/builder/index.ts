@@ -15,8 +15,8 @@ import {
 export class FormBuilder {
   private _form: Blueprint;
 
-  constructor(initialForm: Blueprint = nullBlueprint) {
-    this._form = initialForm || nullBlueprint;
+  constructor(initial: Blueprint = nullBlueprint) {
+    this._form = initial;
   }
 
   get form(): Blueprint {
@@ -34,7 +34,7 @@ export class FormBuilder {
 
   addPattern(config: FormConfig, patternType: string) {
     const pattern = createPattern(config, patternType);
-    this._form = addPatternToRoot(config, this.form, pattern);
+    this._form = addPatternToRoot(this.form, pattern);
     return pattern;
   }
 

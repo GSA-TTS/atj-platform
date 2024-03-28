@@ -158,20 +158,23 @@ export const addPatterns = (
 };
 
 export const addPatternToRoot = (
-  config: FormConfig,
   bp: Blueprint,
   pattern: Pattern
-) => {
+): Blueprint => {
   const rootSequence = bp.patterns[bp.root] as SequencePattern;
-  return updatePatterns(config, bp, {
-    [bp.root]: {
-      ...rootSequence,
-      data: {
-        patterns: [...rootSequence.data.patterns, pattern.id],
+  return {
+    ...bp,
+    patterns: {
+      ...bp.patterns,
+      [rootSequence.id]: {
+        ...rootSequence,
+        data: {
+          patterns: [...rootSequence.data.patterns, pattern.id],
+        },
       },
-    } satisfies SequencePattern,
-    [pattern.id]: pattern,
-  });
+      [pattern.id]: pattern,
+    },
+  };
 };
 
 export const replacePatterns = (
@@ -197,9 +200,9 @@ export const updatePatterns = (
 ): Blueprint => {
   const root = newPatterns[form.root];
   const targetPatterns: PatternMap = {
-    root,
+    [root.id]: root,
   };
-  const patternConfig = config.patterns[root.type as keyof FormConfig];
+  const patternConfig = config.patterns[root.type];
   const children = patternConfig.getChildren(root, newPatterns);
   targetPatterns[root.id] = root;
   children.forEach(child => (targetPatterns[child.id] = child));

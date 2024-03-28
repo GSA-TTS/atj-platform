@@ -30,6 +30,7 @@ export const getPattern: GetPattern = (form, patternId) => {
 };
 
 export type PatternConfig<ThisPattern extends Pattern> = {
+  displayName: string;
   acceptsInput: boolean;
   initial: ThisPattern['data'];
   parseData: ParsePatternData<ThisPattern>;

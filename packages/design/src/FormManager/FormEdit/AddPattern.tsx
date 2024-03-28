@@ -1,18 +1,27 @@
 import React from 'react';
 import { useFormEditStore } from './store';
 
-const AddPattern = () => {
-  const addPattern = useFormEditStore(state => state.addPattern);
+export const AddPattern = () => {
+  const store = useFormEditStore(state => ({
+    availablePatterns: state.availablePatterns,
+    addPattern: state.addPattern,
+  }));
 
   return (
-    <div>
-      <h1>Add a pattern</h1>
-      <select>
-        <option value="someOption">Some option</option>
-        <option value="otherOption">Other option</option>
-      </select>
-    </div>
+    <fieldset>
+      <label className="usa-label">
+        Add a pattern:
+        <select
+          className="usa-select"
+          onChange={event => store.addPattern(event.target.value)}
+        >
+          {store.availablePatterns.map((pattern, index) => (
+            <option key={index} value={pattern.patternType}>
+              {pattern.displayName}
+            </option>
+          ))}
+        </select>
+      </label>
+    </fieldset>
   );
 };
-
-export default AddPattern;
