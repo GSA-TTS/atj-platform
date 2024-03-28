@@ -43,6 +43,9 @@ const EditForm = ({ saveForm }: { saveForm: (form: Blueprint) => void }) => {
   return (
     <div className="editFormContentWrapper position-relative">
       <div className="grid-row">
+        <div className="grid-col-12">{/*<AddPattern />*/}</div>
+      </div>
+      <div className="grid-row">
         <div className="grid-col-8">
           <PreviewForm />
         </div>

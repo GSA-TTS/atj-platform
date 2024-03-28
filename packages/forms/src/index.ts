@@ -6,7 +6,6 @@ import {
   type PatternId,
   type PatternMap,
   getPatternMap,
-  getPatternConfig,
 } from './pattern';
 
 export * from './builder';
@@ -158,6 +157,23 @@ export const addPatterns = (
   return addPatternMap(form, formPatternMap, root);
 };
 
+export const addPatternToRoot = (
+  config: FormConfig,
+  bp: Blueprint,
+  pattern: Pattern
+) => {
+  const rootSequence = bp.patterns[bp.root] as SequencePattern;
+  return updatePatterns(config, bp, {
+    [bp.root]: {
+      ...rootSequence,
+      data: {
+        patterns: [...rootSequence.data.patterns, pattern.id],
+      },
+    } satisfies SequencePattern,
+    [pattern.id]: pattern,
+  });
+};
+
 export const replacePatterns = (
   form: Blueprint,
   patterns: Pattern[]
@@ -183,8 +199,8 @@ export const updatePatterns = (
   const targetPatterns: PatternMap = {
     root,
   };
-  const resource = config.patterns[root.type as keyof FormConfig];
-  const children = resource.getChildren(root, newPatterns);
+  const patternConfig = config.patterns[root.type as keyof FormConfig];
+  const children = patternConfig.getChildren(root, newPatterns);
   targetPatterns[root.id] = root;
   children.forEach(child => (targetPatterns[child.id] = child));
   return {

@@ -8,6 +8,8 @@ import {
   nullBlueprint,
   updateFormSummary,
   updatePatternFromFormData,
+  createPattern,
+  addPatternToRoot,
 } from '..';
 
 export class FormBuilder {
@@ -28,6 +30,12 @@ export class FormBuilder {
   async addDocument(fileDetails: { name: string; data: Uint8Array }) {
     const { updatedForm } = await addDocument(this.form, fileDetails);
     this._form = updatedForm;
+  }
+
+  addPattern(config: FormConfig, patternType: string) {
+    const pattern = createPattern(config, patternType);
+    this._form = addPatternToRoot(config, this.form, pattern);
+    return pattern;
   }
 
   updatePattern(config: FormConfig, pattern: Pattern, formData: PatternMap) {

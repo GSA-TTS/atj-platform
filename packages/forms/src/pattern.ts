@@ -56,10 +56,6 @@ export const getPatternMap = (patterns: Pattern[]) => {
   );
 };
 
-export const getPatterns = (form: Blueprint, patternIds: PatternId[]) => {
-  return patternIds.map(patternIds => getPattern(form, patternIds));
-};
-
 export const getPatternConfig = (
   config: FormConfig,
   elementType: Pattern['type']
@@ -130,4 +126,18 @@ export const updatePatternFromFormData = (
     data: result.data,
   });
   return updatedForm;
+};
+
+const generatePatternId = () => crypto.randomUUID();
+
+export const createPattern = (
+  config: FormConfig,
+  patternType: string
+): Pattern => {
+  return {
+    id: generatePatternId(),
+    type: patternType,
+    data: config.patterns[patternType].initial,
+    initial: {},
+  };
 };
