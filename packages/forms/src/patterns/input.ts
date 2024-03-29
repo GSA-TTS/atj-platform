@@ -16,16 +16,19 @@ export type InputPattern = Pattern<z.infer<typeof configSchema>>;
 const createSchema = (data: InputPattern['data']) =>
   z.string().max(data.maxLength);
 
-export const inputConfig: PatternConfig<InputPattern> = {
+type InputPatternOutput = z.infer<ReturnType<typeof createSchema>>;
+
+export const inputConfig: PatternConfig<InputPattern, InputPatternOutput> = {
   displayName: 'Text input',
-  acceptsInput: true,
   initial: {
     label: '',
     initial: '',
     required: true,
     maxLength: 128,
   },
-  parseData: (patternData, obj) => safeZodParse(createSchema(patternData), obj),
+  parseData: (patternData, obj) => {
+    return safeZodParse(createSchema(patternData), obj);
+  },
   parseConfigData: obj => safeZodParse(configSchema, obj),
   getChildren() {
     return [];

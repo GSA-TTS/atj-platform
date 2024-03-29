@@ -9,7 +9,7 @@ const FormSummary: PatternComponent<FormSummaryProps> = ({ pattern }) => {
       <div className="usa-legend-wrapper">
         {/* <legend className="usa-legend">{pattern.title}</legend> */}
         <h1>{pattern.title}</h1>
-        {pattern.description !== '' && <p>{pattern.description}</p>}
+        {pattern.summary !== '' && <p>{pattern.summary}</p>}
       </div>
     </>
   );

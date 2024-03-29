@@ -35,7 +35,7 @@ export type ParagraphProps = PatternProps<{
 
 export type FieldsetProps = PatternProps<{
   type: 'fieldset';
-  legend: string;
+  legend?: string;
 }>;
 
 export type PatternProps<T = {}> = {
@@ -79,7 +79,7 @@ export const createPrompt = (
                   config,
                   session.form.patterns[patternId].type
                 );
-                return elemConfig.acceptsInput;
+                return !!elemConfig.parseData;
               })
               .map(([patternId, value]) => {
                 return {
