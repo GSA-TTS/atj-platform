@@ -32,7 +32,12 @@ type FormEditState = {
   context: FormEditUIContext;
   form: Blueprint;
   selectedPattern?: Pattern;
+  availablePatterns: {
+    patternType: string;
+    displayName: string;
+  }[];
 
+  addPattern: (patternType: string) => void;
   handleEditClick: (pattern: PatternProps) => void;
   setSelectedPattern: (element?: Pattern) => void;
   updateSelectedPattern: (formData: PatternMap) => void;
@@ -48,6 +53,18 @@ const createFormEditStore = ({
   create<FormEditState>((set, get) => ({
     context,
     form,
+    availablePatterns: Object.entries(context.config.patterns).map(
+      ([patternType, patternConfig]) => ({
+        patternType,
+        displayName: patternConfig.displayName,
+      })
+    ),
+    addPattern: (patternType: string) => {
+      const state = get();
+      const builder = new FormBuilder(state.form);
+      const newPattern = builder.addPattern(state.context.config, patternType);
+      set({ form: builder.form, selectedPattern: newPattern });
+    },
     handleEditClick: (pattern: PatternProps) => {
       const state = get();
       if (state.selectedPattern?.id === pattern._patternId) {

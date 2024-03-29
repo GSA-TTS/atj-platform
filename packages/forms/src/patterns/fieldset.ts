@@ -22,6 +22,7 @@ const configSchema = z.object({
 });
 
 export const fieldsetConfig: PatternConfig<FieldsetPattern> = {
+  displayName: 'Fieldset',
   acceptsInput: false,
   initial: {
     patterns: [],
@@ -37,8 +38,8 @@ export const fieldsetConfig: PatternConfig<FieldsetPattern> = {
   },
   createPrompt(config, session, pattern, options) {
     const children = pattern.data.patterns.map((patternId: string) => {
-      const pattern = getPattern(session.form, patternId);
-      return createPromptForPattern(config, session, pattern, options);
+      const childPattern = getPattern(session.form, patternId);
+      return createPromptForPattern(config, session, childPattern, options);
     });
     return {
       pattern: {

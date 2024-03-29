@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { Blueprint } from '@atj/forms';
 import { type FormService } from '@atj/form-service';
 
+import { AddPattern } from './AddPattern';
 import { PatternEdit } from './PatternEdit';
 import { PreviewForm } from './Preview';
 import { FormEditProvider, useFormEditStore } from './store';
@@ -42,6 +43,11 @@ const EditForm = ({ saveForm }: { saveForm: (form: Blueprint) => void }) => {
 
   return (
     <div className="editFormContentWrapper position-relative">
+      <div className="grid-row">
+        <div className="grid-col-12">
+          <AddPattern />
+        </div>
+      </div>
       <div className="grid-row">
         <div className="grid-col-8">
           <PreviewForm />

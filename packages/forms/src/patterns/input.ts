@@ -17,6 +17,7 @@ const createSchema = (data: InputPattern['data']) =>
   z.string().max(data.maxLength);
 
 export const inputConfig: PatternConfig<InputPattern> = {
+  displayName: 'Text input',
   acceptsInput: true,
   initial: {
     label: '',

@@ -20,6 +20,7 @@ const configSchema = z.object({
 });
 
 export const sequenceConfig: PatternConfig<SequencePattern> = {
+  displayName: 'Sequence',
   acceptsInput: false,
   initial: {
     patterns: [],

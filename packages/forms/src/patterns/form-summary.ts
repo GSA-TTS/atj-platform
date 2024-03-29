@@ -11,6 +11,7 @@ const configSchema = z.object({
 export type FormSummary = Pattern<z.infer<typeof configSchema>>;
 
 export const formSummaryConfig: PatternConfig<FormSummary> = {
+  displayName: 'Form summary',
   acceptsInput: false,
   initial: {
     text: '',

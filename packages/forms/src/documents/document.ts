@@ -39,7 +39,6 @@ export const addDocument = async (
         })
       ),
     });
-    console.log(updatedForm);
     return {
       newFields: fields,
       updatedForm,

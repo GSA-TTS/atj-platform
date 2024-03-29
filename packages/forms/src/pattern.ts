@@ -30,6 +30,7 @@ export const getPattern: GetPattern = (form, patternId) => {
 };
 
 export type PatternConfig<ThisPattern extends Pattern> = {
+  displayName: string;
   acceptsInput: boolean;
   initial: ThisPattern['data'];
   parseData: ParsePatternData<ThisPattern>;
@@ -54,10 +55,6 @@ export const getPatternMap = (patterns: Pattern[]) => {
       return [pattern.id, pattern];
     })
   );
-};
-
-export const getPatterns = (form: Blueprint, patternIds: PatternId[]) => {
-  return patternIds.map(patternIds => getPattern(form, patternIds));
 };
 
 export const getPatternConfig = (
@@ -130,4 +127,18 @@ export const updatePatternFromFormData = (
     data: result.data,
   });
   return updatedForm;
+};
+
+const generatePatternId = () => crypto.randomUUID();
+
+export const createPattern = (
+  config: FormConfig,
+  patternType: string
+): Pattern => {
+  return {
+    id: generatePatternId(),
+    type: patternType,
+    data: config.patterns[patternType].initial,
+    initial: {},
+  };
 };

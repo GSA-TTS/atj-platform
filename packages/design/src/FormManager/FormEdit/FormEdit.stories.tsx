@@ -35,6 +35,25 @@ export const FormEditTest: StoryObj<typeof FormEdit> = {
   },
 };
 
+export const FormEditAddPattern: StoryObj<typeof FormEdit> = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Select the first pattern for editing
+    const button = (await canvas.findAllByRole('button'))[0];
+    await userEvent.click(button);
+
+    // Get the initial count of inputs
+    const initialCount = (await canvas.getAllByRole('textbox')).length;
+
+    const select = canvas.getByLabelText('Add a pattern:');
+    await userEvent.selectOptions(select, 'Text input');
+
+    const finalCount = (await canvas.getAllByRole('textbox')).length;
+    expect(finalCount).toEqual(initialCount + 1);
+  },
+};
+
 const editFieldLabel = async (
   element: HTMLElement,
   buttonIndex: number,

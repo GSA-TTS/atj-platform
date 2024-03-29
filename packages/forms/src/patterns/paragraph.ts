@@ -14,6 +14,7 @@ const createSchema = (data: ParagraphPattern['data']) =>
   z.string().max(data.maxLength);
 
 export const paragraphConfig: PatternConfig<ParagraphPattern> = {
+  displayName: 'Paragraph',
   acceptsInput: false,
   initial: {
     text: 'normal',

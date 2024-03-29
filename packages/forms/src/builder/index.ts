@@ -8,13 +8,15 @@ import {
   nullBlueprint,
   updateFormSummary,
   updatePatternFromFormData,
+  createPattern,
+  addPatternToRoot,
 } from '..';
 
 export class FormBuilder {
   private _form: Blueprint;
 
-  constructor(initialForm: Blueprint = nullBlueprint) {
-    this._form = initialForm || nullBlueprint;
+  constructor(initial: Blueprint = nullBlueprint) {
+    this._form = initial;
   }
 
   get form(): Blueprint {
@@ -28,6 +30,12 @@ export class FormBuilder {
   async addDocument(fileDetails: { name: string; data: Uint8Array }) {
     const { updatedForm } = await addDocument(this.form, fileDetails);
     this._form = updatedForm;
+  }
+
+  addPattern(config: FormConfig, patternType: string) {
+    const pattern = createPattern(config, patternType);
+    this._form = addPatternToRoot(this.form, pattern);
+    return pattern;
   }
 
   updatePattern(config: FormConfig, pattern: Pattern, formData: PatternMap) {
