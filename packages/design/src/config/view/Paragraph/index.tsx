@@ -4,10 +4,10 @@ import { type ParagraphProps } from '@atj/forms';
 
 import { type PatternComponent } from '../../../Form';
 
-const FormSummary: PatternComponent<ParagraphProps> = ({ pattern }) => {
+const FormSummary: PatternComponent<ParagraphProps> = props => {
   return (
     <>
-      <p>{pattern.text}</p>
+      <p>{props.text}</p>
     </>
   );
 };
