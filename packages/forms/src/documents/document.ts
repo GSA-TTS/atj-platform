@@ -77,9 +77,6 @@ export const addDocumentFieldsToForm = (
         id: patternId,
         data: {
           label: field.label,
-        },
-        initial: {
-          label: '',
           initial: '',
           required: false,
           maxLength: 128,
@@ -91,9 +88,6 @@ export const addDocumentFieldsToForm = (
         id: patternId,
         data: {
           label: field.label,
-        },
-        initial: {
-          label: '',
           initial: '',
           required: false,
           maxLength: 128,
@@ -105,9 +99,6 @@ export const addDocumentFieldsToForm = (
         id: patternId,
         data: {
           label: field.label,
-        },
-        initial: {
-          label: '',
           initial: '',
           required: false,
           maxLength: 128,
@@ -119,9 +110,6 @@ export const addDocumentFieldsToForm = (
         id: patternId,
         data: {
           label: field.label,
-        },
-        initial: {
-          label: '',
           initial: '',
           required: false,
           maxLength: 128,
@@ -133,9 +121,6 @@ export const addDocumentFieldsToForm = (
         id: patternId,
         data: {
           label: field.label,
-        },
-        initial: {
-          label: '',
           initial: '',
           required: false,
           maxLength: 128,
@@ -154,9 +139,6 @@ export const addDocumentFieldsToForm = (
     type: 'sequence',
     data: {
       patterns: patterns.map(pattern => pattern.id),
-    },
-    initial: {
-      patterns: [],
     },
   } satisfies SequencePattern);
   return addPatterns(form, patterns, 'root');

@@ -104,9 +104,6 @@ export const DraggableList: React.FC<DraggableListProps> = ({
             data: {
               patterns: newOrder.map(pattern => pattern.id),
             },
-            initial: {
-              patterns: [],
-            },
           } satisfies SequencePattern);
         }
       }}

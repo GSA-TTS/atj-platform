@@ -3,22 +3,21 @@ import { updatePattern, type Blueprint } from '..';
 
 import { type CreatePrompt } from './components';
 
-export type Pattern<T = any, C = any> = {
+export type Pattern<C = any> = {
   type: string;
   id: PatternId;
   data: C;
-  initial: T;
 };
 
 export type PatternId = string;
-export type PatternValue<T extends Pattern = Pattern> = T['initial'];
+export type PatternValue<T extends Pattern = Pattern> = any;
 export type PatternValueMap = Record<PatternId, PatternValue>;
 export type PatternMap = Record<PatternId, Pattern>;
 export type GetPattern = (form: Blueprint, id: PatternId) => Pattern;
 
 export type ParsePatternData<T extends Pattern = Pattern> = (
   patternData: T['data'],
-  obj: string
+  obj: any
 ) => Result<T['data']>;
 
 export type ParsePatternConfigData<T extends Pattern = Pattern> = (
@@ -139,6 +138,5 @@ export const createPattern = (
     id: generatePatternId(),
     type: patternType,
     data: config.patterns[patternType].initial,
-    initial: {},
   };
 };

@@ -11,20 +11,12 @@ const patterns: forms.Pattern[] = [
     data: {
       patterns: ['pattern-1', 'pattern-2'],
     },
-    initial: {
-      patterns: [],
-    },
   } satisfies SequencePattern,
   {
     type: 'input',
     id: 'pattern-1',
     data: {
-      text: 'What is your first name?',
-      initial: '',
-      required: true,
-    },
-    initial: {
-      label: '',
+      label: 'What is your first name?',
       initial: '',
       required: true,
       maxLength: 128,
@@ -34,12 +26,7 @@ const patterns: forms.Pattern[] = [
     type: 'input',
     id: 'pattern-2',
     data: {
-      text: 'What is your favorite word?',
-      initial: '',
-      required: false,
-    },
-    initial: {
-      label: '',
+      label: 'What is your favorite word?',
       initial: '',
       required: true,
       maxLength: 128,

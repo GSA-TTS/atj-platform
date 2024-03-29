@@ -14,10 +14,8 @@ export const formSummaryConfig: PatternConfig<FormSummary> = {
   displayName: 'Form summary',
   acceptsInput: false,
   initial: {
-    text: '',
-    initial: '',
-    required: true,
-    maxLength: 128,
+    title: 'Form title',
+    summary: 'Form extended description',
   },
   parseData: obj => safeZodParse(configSchema, obj), // make this optional?
   parseConfigData: obj => safeZodParse(configSchema, obj),
