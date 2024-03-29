@@ -39,7 +39,7 @@ export const nullBlueprint: Blueprint = {
       initial: {
         patterns: [],
       },
-    },
+    } satisfies SequencePattern,
   },
   outputs: [],
 };

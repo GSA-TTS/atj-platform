@@ -5,6 +5,7 @@ import { type Pattern, type PatternId, type PatternMap } from '../..';
 import { type FieldsetPattern } from '../../patterns/fieldset';
 import { type InputPattern } from '../../patterns/input';
 import { type ParagraphPattern } from '../../patterns/paragraph';
+import { SequencePattern } from '../../patterns/sequence';
 
 import { stringToBase64 } from '../util';
 import { type DocumentFieldMap } from '../types';
@@ -174,7 +175,7 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
     initial: {
       patterns: [],
     },
-  };
+  } satisfies SequencePattern;
   return parsedPdf;
 };
 

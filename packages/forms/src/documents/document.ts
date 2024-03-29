@@ -7,6 +7,7 @@ import {
   updateFormSummary,
 } from '..';
 import { InputPattern } from '../patterns/input';
+import { SequencePattern } from '../patterns/sequence';
 import { PDFDocument, getDocumentFieldData } from './pdf';
 import { getSuggestedPatternsFromCache } from './suggestions';
 import { DocumentFieldMap } from './types';
@@ -154,7 +155,9 @@ export const addDocumentFieldsToForm = (
     data: {
       patterns: patterns.map(pattern => pattern.id),
     },
-    initial: [],
-  });
+    initial: {
+      patterns: [],
+    },
+  } satisfies SequencePattern);
   return addPatterns(form, patterns, 'root');
 };

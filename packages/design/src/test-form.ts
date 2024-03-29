@@ -27,7 +27,7 @@ export const createTestForm = () => {
           initial: {
             patterns: [],
           },
-        } as SequencePattern,
+        } satisfies SequencePattern,
         {
           type: 'input',
           id: 'element-1',
@@ -43,7 +43,7 @@ export const createTestForm = () => {
             required: true,
             maxLength: 128,
           },
-        } as InputPattern,
+        } satisfies InputPattern,
         {
           type: 'input',
           id: 'element-2',
@@ -59,7 +59,7 @@ export const createTestForm = () => {
             required: true,
             maxLength: 128,
           },
-        } as InputPattern,
+        } satisfies InputPattern,
       ],
     }
   );
