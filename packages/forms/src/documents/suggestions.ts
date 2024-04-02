@@ -22,7 +22,7 @@ export const getSuggestedFormElementsFromCache = async (
   return api_result;
 };
 
-const getFakeCache = async (): Promise<Record<string, any>> => {
+const getFakeCache = () => {
   const cache: Record<string, any> = {
     'hardcoded-hash': UD105_TEST_DATA,
   };
