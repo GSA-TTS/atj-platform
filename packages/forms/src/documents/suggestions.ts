@@ -1,4 +1,4 @@
-import { type ParsedPdf, parseAlabamaNameChangeForm } from './pdf/mock-api';
+import { type ParsedPdf, callExternalParser } from './pdf/parsing-api';
 
 export type SuggestedForm = {
   id: string;
@@ -12,16 +12,19 @@ export type SuggestedForm = {
 export const getSuggestedFormElementsFromCache = async (
   rawData: Uint8Array
 ): Promise<ParsedPdf | null> => {
-  const cache = getFakeCache();
   const hash = await getObjectHash(rawData);
-  return cache.get(hash);
+  const cache = await getFakeCache();
+  const cachedResult = cache.get(hash);
+  if (cachedResult) {
+    return cachedResult;
+  }
+  const api_result = await callExternalParser(rawData);
+  return api_result;
 };
 
-const getFakeCache = () => {
+const getFakeCache = async (): Promise<Record<string, any>> => {
   const cache: Record<string, any> = {
     'hardcoded-hash': UD105_TEST_DATA,
-    '179be8c1c78b01ed7c45569912c2bb862ec3764617f908ebc29178e36fd6316d':
-      parseAlabamaNameChangeForm(),
   };
   return {
     get(hashKey: string) {

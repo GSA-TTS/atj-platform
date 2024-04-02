@@ -104,31 +104,35 @@ const createPatternPreviewComponent = (
       ? 'form-group-row field-selected'
       : 'form-group-row';
 
+    const editButton = pattern.type === 'input' ? (
+      <span className="edit-button-icon">
+        <button
+          className="usa-button usa-button--secondary usa-button--unstyled"
+          onClick={() => handleEditClick(pattern)}
+          onKeyDown={e => {
+            if (e.key === 'Enter') {
+              handleEditClick(pattern);
+            }
+          }}
+          tabIndex={0}
+          aria-label="Edit form group"
+        >
+          <svg
+            className="usa-icon"
+            aria-hidden="true"
+            focusable="false"
+            role="img"
+          >
+            <use xlinkHref={`${uswdsRoot}img/sprite.svg#settings`}></use>
+          </svg>
+        </button>
+      </span>
+    ) : null;
+
     return (
       <div className={divClassNames} data-id={pattern._elementId}>
         <Component pattern={pattern} />
-        <span className="edit-button-icon">
-          <button
-            className="usa-button usa-button--secondary usa-button--unstyled"
-            onClick={() => handleEditClick(pattern)}
-            onKeyDown={e => {
-              if (e.key === 'Enter') {
-                handleEditClick(pattern);
-              }
-            }}
-            tabIndex={0}
-            aria-label="Edit form group"
-          >
-            <svg
-              className="usa-icon"
-              aria-hidden="true"
-              focusable="false"
-              role="img"
-            >
-              <use xlinkHref={`${uswdsRoot}img/sprite.svg#settings`}></use>
-            </svg>
-          </button>
-        </span>
+        {editButton}
       </div>
     );
   };

@@ -1,7 +1,7 @@
 export { getDocumentFieldData } from './extract';
 export * from './generate';
 export { generateDummyPDF } from './generate-dummy';
-export { parseAlabamaNameChangeForm } from './mock-api';
+export { callExternalParser } from './parsing-api';
 
 export type PDFDocument = {
   type: 'pdf';
