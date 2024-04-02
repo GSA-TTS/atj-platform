@@ -11,7 +11,7 @@ import { sequenceConfig } from './sequence';
 // understand the usage scenarios better.
 export const defaultFormConfig: FormConfig = {
   patterns: {
-    //address: addressConfig,
+    address: addressConfig,
     fieldset: fieldsetConfig,
     input: inputConfig,
     paragraph: paragraphConfig,

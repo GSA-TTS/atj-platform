@@ -13,8 +13,12 @@ export const AddPattern = () => {
         Add a pattern:
         <select
           className="usa-select"
-          onChange={event => store.addPattern(event.target.value)}
+          onChange={event => {
+            store.addPattern(event.target.value);
+            event.target.selectedIndex = 0;
+          }}
         >
+          <option>Add a pattern</option>
           {store.availablePatterns.map((pattern, index) => (
             <option key={index} value={pattern.patternType}>
               {pattern.displayName}
