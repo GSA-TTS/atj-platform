@@ -9,9 +9,6 @@ const TextInput: FormElementComponent<Pattern<TextInputPattern>> = ({
   pattern,
 }) => {
   const { register } = useFormContext();
-  const handleLabelClick = (e: React.MouseEvent<HTMLLabelElement>) => {
-    e.preventDefault();
-  };
   return (
     <div className="usa-form-group-wrapper" key={pattern.inputId}>
       <div
@@ -25,9 +22,6 @@ const TextInput: FormElementComponent<Pattern<TextInputPattern>> = ({
           })}
           htmlFor={`input-${pattern.inputId}`}
           id={`input-message-${pattern.inputId}`}
-          contentEditable={false}
-          suppressContentEditableWarning={true}
-          onClick={handleLabelClick}
         >
           {pattern.label}
         </label>

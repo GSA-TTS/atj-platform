@@ -11,8 +11,6 @@ const FormSummary: FormElementComponent<Pattern<FieldsetPattern>> = ({
     <fieldset className="usa-fieldset margin-top-4">
       <legend 
         className="usa-legend" 
-        contentEditable={false}
-        suppressContentEditableWarning={true}
       >{pattern.legend}</legend>
       {children}
     </fieldset>

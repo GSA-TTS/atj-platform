@@ -10,29 +10,19 @@ const FormSummary: FormElementComponent<Pattern<ParagraphPattern>> = ({
   if (pattern.style === 'heading') {
     return (
       <>
-        <h2 
-          contentEditable={false} 
-          suppressContentEditableWarning={true}
-        >{pattern.text}</h2>
+        <h2>{pattern.text}</h2>
       </>
     );
   } else if (pattern.style === 'subheading') {
     return (
       <>
-        <h3 
-          contentEditable={false} 
-          suppressContentEditableWarning={true}
-        >{pattern.text}</h3>
+        <h3>{pattern.text}</h3>
       </>
     );
   } else if (pattern.style === 'indent') {
     return (
       <>
-        <ul 
-          className="usa-list" 
-          contentEditable={false} 
-          suppressContentEditableWarning={true}
-        >
+        <ul className="usa-list">
           <li>{pattern.text}</li>
         </ul>
       </>
@@ -40,10 +30,7 @@ const FormSummary: FormElementComponent<Pattern<ParagraphPattern>> = ({
   } else {
     return (
       <>
-        <p 
-          contentEditable={false} 
-          suppressContentEditableWarning={true}
-        >{pattern.text}</p>
+        <p>{pattern.text}</p>
       </>
     );
   }
