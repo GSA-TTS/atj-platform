@@ -1,0 +1,33 @@
+---
+import ContentLayout from '../../layouts/ContentLayout.astro';
+import DebugTools from '../components/DebugTools';
+import atjInfographics from '@atj/design/images/atj-infographics.png';
+---
+
+<ContentLayout title="10x Access to Justice Splash Page">
+  <h1>A people-centered platform for online document assembly</h1>
+
+  <div class="videoWrapper">
+    <iframe src="https://www.loom.com/embed/d958328ec69548ed99c6cd1a15af8a16?sid=e4df1738-9f51-4900-8b90-2e66c06fcc07" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+  </div>
+
+  <h2>What it is:</h2>
+  <p>Fillable pdfs are not 21C compliant. The 10x ATJ platform will enable government clients to build a web-based, drop-in replacement for fillable pdfs. These easy-to-build and deploy digital forms will deliver better outcomes for the public and public servants through the use of a "guided interview" design strategy. This strategy puts users first and reduces staff time spend on incorrect and missing data. By "drop-in", we mean easy to create, easy to host, and able to output both structured data and traditional pdfs for ingestion into existing processes. Digital forms that help people better advocate for themselves do not need to wait for major IT and process overhauls.</p>
+
+  <p>
+    <img src={atjInfographics.src} role="img" alt="10x ATJ Infographic" />
+  </p>
+
+
+  <h2>What it's not:</h2>
+  <p>Replacing user-facing pdfs with digital forms is not a substitute for deeper policy and process changes. These are often necessary to enable the biggest digital services wins. We are not building a case management system or a back-office automation system. Instead, we are delivering a loosely-coupled part that interfaces with those systems and focuses narrowly on helping the public gain access, understand, and advocate for themselves through government forms.</p>
+
+  <h2>High level plan:</h2>
+  <p>We are partnering with an NGO that has active pilots with state and local courts, as well as with the US Tax Court, which has several high-quality digital forms in production. We plan to expand into other gov domains as we prove value in production in the justice space.</p>
+
+  <h2>Roadmap:</h2>
+  <p>Our state and local partners are currently using an open source tool that has delivered some big wins for the public, but faces severe barriers to scale and adoption. In phase 3, 10x aims to break up the existing system into several loosely-couple parts and focus initially on areas where we can deliver value quickly and gain the trust of the existing user community. If we gain sufficient trust and momentum, the phase 4 project will tackle the remaining parts of the system so that it can overcome key barriers to adoption and spread to jurisdictions around the country. We expect the complete system to be able to act as a viable test case for a "Forms as a Service" product across government domains.</p>
+
+  <h2>TTS/GSA/Federal Alignment:</h2>
+  <p>In phase 3, we will break out and modernize the front-end and presentation layer of the system as a primary objective, with a stretch goal of delivering small, low-hanging wins on the back-end to help build additional trust. We plan to collaborate with USWDS and the VA Forms System to develop forms components and standards for the next version of USWDS. By the end of phase 4, we expect to be able to showcase a powerful tool to help agencies comply with 21C standards for digital forms.</p>
+</ContentLayout>

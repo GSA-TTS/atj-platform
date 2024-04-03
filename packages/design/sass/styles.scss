@@ -15,6 +15,15 @@ h1 {
   }
 }
 
+h2 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+p {
+  line-height: 1.5rem;
+}
+
 .usa-legend {
   font-size: 1.7rem;
   font-weight: 700;
@@ -23,7 +32,7 @@ h1 {
 a,
 .usa-link,
 .usa-button--unstyled {
-  color: #54278f;
+  color: color('violet-70v');
 }
 
 .hide {
@@ -79,6 +88,25 @@ main {
 
 .usa-nav {
   background: white;
+
+  .usa-sidenav__item {
+    .usa-current {
+      color: color('violet-70v');
+    }
+  }
+}
+
+.usa-sidenav{
+
+  .usa-sidenav__item {
+    .usa-current {
+      color: #54278f;
+
+      &:after {
+        background-color: rebeccapurple;
+      }
+    }
+  }
 }
 
 .usa-section {
@@ -137,6 +165,11 @@ main {
 
 .usa-form--large {
   max-width: 32rem;
+}
+
+.usa-legend-wrapper {
+  word-wrap: break-word;
+  hyphens: auto;
 }
 
 .usa-legend {
@@ -420,6 +453,16 @@ iframe:focus {
       background: #783cb9;
     }
   }
+}
+
+.videoWrapper {
+  position: relative; 
+  padding-bottom: 62.5%; 
+  height: 0;
+}
+
+.usa-footer__nav {
+  background: none;
 }
 
 @media (min-width: 64em) {
