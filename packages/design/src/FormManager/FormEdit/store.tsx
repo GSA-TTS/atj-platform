@@ -4,11 +4,11 @@ import { createContext } from 'zustand-utils';
 
 import {
   type Blueprint,
+  type Pattern,
+  type PatternId,
   type PatternMap,
-  type PatternProps,
   getPattern,
   FormBuilder,
-  Pattern,
 } from '@atj/forms';
 import { type FormEditUIContext } from './types';
 
@@ -38,7 +38,7 @@ type FormEditState = {
   }[];
 
   addPattern: (patternType: string) => void;
-  handleEditClick: (pattern: PatternProps) => void;
+  handleEditClick: (patternId: PatternId) => void;
   setSelectedPattern: (element?: Pattern) => void;
   updateSelectedPattern: (formData: PatternMap) => void;
 };
@@ -65,12 +65,12 @@ const createFormEditStore = ({
       const newPattern = builder.addPattern(state.context.config, patternType);
       set({ form: builder.form, selectedPattern: newPattern });
     },
-    handleEditClick: (pattern: PatternProps) => {
+    handleEditClick: (patternId: PatternId) => {
       const state = get();
-      if (state.selectedPattern?.id === pattern._patternId) {
+      if (state.selectedPattern?.id === patternId) {
         set({ selectedPattern: undefined });
       } else {
-        const elementToSet = getPattern(state.form, pattern._patternId);
+        const elementToSet = getPattern(state.form, patternId);
         set({ selectedPattern: elementToSet });
       }
     },

@@ -1,6 +1,8 @@
 import { describe, expect, test } from 'vitest';
 
 import * as forms from '../src';
+import { SequencePattern } from '../src/patterns/sequence';
+import { InputPattern } from '../src/patterns/input';
 
 const patterns: forms.Pattern[] = [
   {
@@ -9,30 +11,27 @@ const patterns: forms.Pattern[] = [
     data: {
       patterns: ['pattern-1', 'pattern-2'],
     },
-    initial: {
-      patterns: [],
-    },
-  },
+  } satisfies SequencePattern,
   {
     type: 'input',
     id: 'pattern-1',
     data: {
-      text: 'What is your first name?',
+      label: 'What is your first name?',
       initial: '',
       required: true,
+      maxLength: 128,
     },
-    initial: '',
-  },
+  } satisfies InputPattern,
   {
     type: 'input',
     id: 'pattern-2',
     data: {
-      text: 'What is your favorite word?',
+      label: 'What is your favorite word?',
       initial: '',
-      required: false,
+      required: true,
+      maxLength: 128,
     },
-    initial: '',
-  },
+  } satisfies InputPattern,
 ];
 const form = forms.createForm(
   {

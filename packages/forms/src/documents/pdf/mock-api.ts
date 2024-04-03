@@ -5,6 +5,7 @@ import { type Pattern, type PatternId, type PatternMap } from '../..';
 import { type FieldsetPattern } from '../../patterns/fieldset';
 import { type InputPattern } from '../../patterns/input';
 import { type ParagraphPattern } from '../../patterns/paragraph';
+import { SequencePattern } from '../../patterns/sequence';
 
 import { stringToBase64 } from '../util';
 import { type DocumentFieldMap } from '../types';
@@ -111,13 +112,9 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
       parsedPdf.patterns[element.id] = {
         type: 'paragraph',
         id: element.id,
-        initial: {
-          text: '',
-          maxLength: 2048,
-        },
         data: {
           text: element.element_params.text,
-          style: element.element_params.text_style,
+          maxLength: 2048,
         },
       } satisfies ParagraphPattern;
       rootSequence.push(element.id);
@@ -129,14 +126,11 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
         parsedPdf.patterns[id] = {
           type: 'input',
           id,
-          initial: {
-            required: false,
-            label: '',
-            initial: '',
-            maxLength: 128,
-          },
           data: {
             label: input.input_params.instructions,
+            required: false,
+            initial: '',
+            maxLength: 128,
           },
         } satisfies InputPattern;
         fieldsetPatterns.push(id);
@@ -158,10 +152,7 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
           legend: element.element_params.text,
           patterns: fieldsetPatterns,
         },
-        initial: {
-          patterns: [],
-        },
-      } as FieldsetPattern;
+      } satisfies FieldsetPattern;
       rootSequence.push(element.id);
     }
   }
@@ -171,10 +162,7 @@ export const parseAlabamaNameChangeForm = (): ParsedPdf => {
     data: {
       patterns: rootSequence,
     },
-    initial: {
-      patterns: [],
-    },
-  };
+  } satisfies SequencePattern;
   return parsedPdf;
 };
 
@@ -185,9 +173,11 @@ const getElementInputs = (element: ExtractedElement): Pattern[] => {
         return {
           type: 'input',
           id: input.input_params.output_id,
-          initial: {} as unknown as any,
           data: {
             label: input.input_params.instructions,
+            required: false,
+            maxLength: 256,
+            initial: '',
           },
         } satisfies InputPattern;
       }

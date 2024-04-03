@@ -13,20 +13,14 @@ export type SequencePattern = Pattern<{
   patterns: PatternId[];
 }>;
 
-const sequenceSchema = z.array(z.string());
-
 const configSchema = z.object({
   patterns: z.array(z.string()),
 });
 
 export const sequenceConfig: PatternConfig<SequencePattern> = {
   displayName: 'Sequence',
-  acceptsInput: false,
   initial: {
     patterns: [],
-  },
-  parseData: (_, obj) => {
-    return safeZodParse(sequenceSchema, obj);
   },
   parseConfigData: obj => safeZodParse(configSchema, obj),
   getChildren(pattern, patterns) {
@@ -41,7 +35,6 @@ export const sequenceConfig: PatternConfig<SequencePattern> = {
     });
     return {
       pattern: {
-        _children: children,
         _patternId: pattern.id,
         type: 'sequence',
       },

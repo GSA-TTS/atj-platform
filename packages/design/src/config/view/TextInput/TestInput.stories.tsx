@@ -26,26 +26,22 @@ export default {
 
 export const Required = {
   args: {
-    pattern: {
-      _patternId: '',
-      type: 'input',
-      inputId: 'test-prompt',
-      value: '',
-      label: 'Please enter your first name.',
-      required: true,
-    } as TextInputProps,
+    _patternId: '',
+    type: 'input',
+    inputId: 'test-prompt',
+    value: '',
+    label: 'Please enter your first name.',
+    required: true,
   },
 } satisfies StoryObj<typeof TextInput>;
 
 export const NotRequired = {
   args: {
-    pattern: {
-      _patternId: '',
-      type: 'input',
-      inputId: 'test-prompt',
-      value: '',
-      label: 'Please enter your first name.',
-      required: false,
-    } as TextInputProps,
+    _patternId: '',
+    type: 'input',
+    inputId: 'test-prompt',
+    value: '',
+    label: 'Please enter your first name.',
+    required: false,
   },
 } satisfies StoryObj<typeof TextInput>;

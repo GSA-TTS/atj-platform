@@ -44,6 +44,17 @@ export const useDocumentImporter = (
           navigate(`/${result.data}/edit`);
         }
       },
+      createNewForm: async () => {
+        const builder = new FormBuilder();
+        builder.setFormSummary({
+          title: `My form - ${new Date().toISOString()}`,
+          description: '',
+        });
+        const result = await formService.addForm(builder.form);
+        if (result.success) {
+          navigate(`/${result.data}/edit`);
+        }
+      },
     },
   };
 };

@@ -10,17 +10,12 @@ const configSchema = z.object({
 });
 export type ParagraphPattern = Pattern<z.infer<typeof configSchema>>;
 
-const createSchema = (data: ParagraphPattern['data']) =>
-  z.string().max(data.maxLength);
-
 export const paragraphConfig: PatternConfig<ParagraphPattern> = {
   displayName: 'Paragraph',
-  acceptsInput: false,
   initial: {
-    text: 'normal',
+    text: 'Paragraph text...',
     maxLength: 2048,
   },
-  parseData: (patternData, obj) => safeZodParse(createSchema(patternData), obj),
   parseConfigData: obj => safeZodParse(configSchema, obj),
   getChildren() {
     return [];
@@ -31,7 +26,6 @@ export const paragraphConfig: PatternConfig<ParagraphPattern> = {
         _patternId: pattern.id,
         type: 'paragraph' as const,
         text: pattern.data.text,
-        style: pattern.data.style,
       } as ParagraphProps,
       children: [],
     };

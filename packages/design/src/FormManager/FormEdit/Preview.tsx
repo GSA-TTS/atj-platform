@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { type PatternProps, createFormSession } from '@atj/forms';
+import { createFormSession } from '@atj/forms';
 
 import Form, {
   type ComponentForPattern,
@@ -71,15 +71,15 @@ const createSequencePatternPreviewComponent = (
     pattern,
   }) => {
     const { form, setSelectedPattern } = usePreviewContext();
-    const element = getPattern(form, pattern._patternId);
-    const Component = previewComponents[pattern.type];
+    const element = getPattern(form, props._patternId);
+    const Component = previewComponents[props.type];
     return (
       <DraggableList
         form={form}
         element={element}
         setSelectedPattern={setSelectedPattern}
       >
-        <Component pattern={pattern} />
+        <Component {...pattern} />
       </DraggableList>
     );
   };
@@ -91,29 +91,25 @@ const createPatternPreviewComponent = (
   Component: PatternComponent,
   uswdsRoot: string
 ) => {
-  const PatternPreviewComponent: PatternComponent = ({
-    pattern,
-  }: {
-    pattern: PatternProps;
-  }) => {
+  const PatternPreviewComponent: PatternComponent = props => {
     const selectedPattern = useFormEditStore(state => state.selectedPattern);
     const handleEditClick = useFormEditStore(state => state.handleEditClick);
 
-    const isSelected = selectedPattern?.id === pattern._patternId;
+    const isSelected = selectedPattern?.id === props._patternId;
     const divClassNames = isSelected
       ? 'form-group-row field-selected'
       : 'form-group-row';
 
     return (
-      <div className={divClassNames} data-id={pattern._patternId}>
-        <Component pattern={pattern} />
+      <div className={divClassNames} data-id={props._patternId}>
+        <Component {...props} />
         <span className="edit-button-icon">
           <button
             className="usa-button usa-button--secondary usa-button--unstyled"
-            onClick={() => handleEditClick(pattern)}
+            onClick={() => handleEditClick(props._patternId)}
             onKeyDown={e => {
               if (e.key === 'Enter') {
-                handleEditClick(pattern);
+                handleEditClick(props._patternId);
               }
             }}
             tabIndex={0}

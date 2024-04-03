@@ -66,28 +66,30 @@ export const PatternEdit = () => {
         ref={settingsContainerRef}
         className="settingsContainer position-sticky"
       >
-        <form
-          className="editForm"
-          onSubmit={methods.handleSubmit(formData => {
-            updateSelectedPattern(formData);
-          })}
-        >
-          <h3>Editing &quot;{selectedPattern.data.label}&quot;...</h3>
-          <SelectedEditComponent
-            context={context}
-            form={form}
-            pattern={selectedPattern}
-          />
-          <p>
-            <input className="usa-button" type="submit" value="Save" />
-            <input
-              onClick={() => setSelectedPattern(undefined)}
-              className="usa-button close-button"
-              type="submit"
-              value="Cancel"
+        {SelectedEditComponent ? (
+          <form
+            className="editForm"
+            onSubmit={methods.handleSubmit(formData => {
+              updateSelectedPattern(formData);
+            })}
+          >
+            <h3>Editing &quot;{selectedPattern.data.label}&quot;...</h3>
+            <SelectedEditComponent
+              context={context}
+              form={form}
+              pattern={selectedPattern}
             />
-          </p>
-        </form>
+            <p>
+              <input className="usa-button" type="submit" value="Save" />
+              <input
+                onClick={() => setSelectedPattern(undefined)}
+                className="usa-button close-button"
+                type="submit"
+                value="Cancel"
+              />
+            </p>
+          </form>
+        ) : null}
       </div>
     </FormProvider>
   );

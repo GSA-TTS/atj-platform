@@ -12,7 +12,7 @@ import {
 import { type FormService } from '@atj/form-service';
 
 import Form, { FormUIContext } from '../../Form';
-import { onFileInputChangeGetFile } from '../FormList/PDFFileSelect/file-input';
+import { onFileInputChangeGetFile } from '../FormList/CreateNew/file-input';
 
 const DocumentImporter = ({
   baseUrl,
@@ -69,7 +69,7 @@ const DocumentImporter = ({
     }
   };
 
-  const PDFFileSelect = () => {
+  const CreateNew = () => {
     return (
       <div className="usa-form-group">
         <label
@@ -175,7 +175,7 @@ const DocumentImporter = ({
           <Step title="Preview form" step={3} current={state.page} />
         </ol>
       </div>
-      {state.page === 1 && <PDFFileSelect />}
+      {state.page === 1 && <CreateNew />}
       {state.page === 2 && <BuildFormPage />}
       {state.page === 3 && <PreviewFormPage />}
     </div>

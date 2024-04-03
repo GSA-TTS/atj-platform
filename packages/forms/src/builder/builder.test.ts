@@ -40,10 +40,7 @@ export const createTestBlueprint = () => {
           data: {
             patterns: ['element-1', 'element-2'],
           },
-          initial: {
-            patterns: [],
-          },
-        } as SequencePattern,
+        } satisfies SequencePattern,
         {
           type: 'input',
           id: 'element-1',
@@ -53,13 +50,7 @@ export const createTestBlueprint = () => {
             required: true,
             maxLength: 128,
           },
-          initial: {
-            label: 'Pattern 1',
-            initial: '',
-            required: true,
-            maxLength: 128,
-          },
-        } as InputPattern,
+        } satisfies InputPattern,
         {
           type: 'input',
           id: 'element-2',
@@ -69,13 +60,7 @@ export const createTestBlueprint = () => {
             required: true,
             maxLength: 128,
           },
-          initial: {
-            label: 'Pattern 2',
-            initial: 'test',
-            required: true,
-            maxLength: 128,
-          },
-        } as InputPattern,
+        } satisfies InputPattern,
       ],
     }
   );

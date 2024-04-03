@@ -21,14 +21,14 @@ const InputPatternEdit: PatternEditComponent<InputPattern> = ({ pattern }) => {
         ></input>
       </div>
       <div className="grid-col grid-col-2">
-        <label className="usa-label" htmlFor={`${pattern.id}.data.initial`}>
+        <label className="usa-label" htmlFor={`${pattern.id}.data.default`}>
           Default field value
         </label>
         <input
           className="usa-input"
-          id={`${pattern.id}.data.initial`}
+          id={`${pattern.id}.data.default`}
           type="text"
-          {...register(`${pattern.id}.data.initial`)}
+          {...register(`${pattern.id}.data.default`)}
         ></input>
       </div>
       <div className="grid-col grid-col-2">
