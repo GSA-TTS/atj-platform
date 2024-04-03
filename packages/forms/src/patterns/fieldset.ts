@@ -37,7 +37,6 @@ export const fieldsetConfig: PatternConfig<FieldsetPattern> = {
     });
     return {
       pattern: {
-        _children: children,
         _patternId: pattern.id,
         type: 'fieldset',
         legend: pattern.data.legend,

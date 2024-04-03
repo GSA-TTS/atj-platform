@@ -35,7 +35,6 @@ export const sequenceConfig: PatternConfig<SequencePattern> = {
     });
     return {
       pattern: {
-        _children: children,
         _patternId: pattern.id,
         type: 'sequence',
       },

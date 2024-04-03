@@ -10,7 +10,7 @@ export const AddPattern = () => {
   return (
     <fieldset>
       <label className="usa-label">
-        Add a pattern:
+        Add a pattern
         <select
           className="usa-select"
           onChange={event => {
@@ -18,7 +18,7 @@ export const AddPattern = () => {
             event.target.selectedIndex = 0;
           }}
         >
-          <option>Add a pattern</option>
+          <option></option>
           {store.availablePatterns.map((pattern, index) => (
             <option key={index} value={pattern.patternType}>
               {pattern.displayName}

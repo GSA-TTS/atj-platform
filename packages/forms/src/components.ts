@@ -38,9 +38,14 @@ export type FieldsetProps = PatternProps<{
   legend?: string;
 }>;
 
+export type ZipcodeProps = PatternProps<{
+  type: 'zipcode';
+  inputId: string;
+  value: string;
+}>;
+
 export type PatternProps<T = {}> = {
   _patternId: PatternId;
-  _children: PromptPart[];
   type: string;
 } & T;
 

@@ -126,14 +126,13 @@ export const stateTerritoryOrMilitaryPostAbbreviations = z.union([
   z.literal('WY'),
   z.literal('AA'),
   z.literal('AE'),
-  z.literal('AE'),
-  z.literal('AE'),
-  z.literal('AE'),
   z.literal('AP'),
 ]);
 
+/*
 type JurisdictionAbbr =
   (typeof stateTerritoryOrMilitaryPostList)[number]['abbr'];
 
-export const getJurisdictionAbbreviations = (): JurisdictionAbbr[] =>
+const getJurisdictionAbbreviations = (): JurisdictionAbbr[] =>
   stateTerritoryOrMilitaryPostList.map(j => j.abbr);
+*/
