@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import {
   type DocumentFieldMap,
-  type FormDefinition,
+  type Blueprint,
   SAMPLE_DOCUMENTS,
   addDocument,
   addDocumentFieldsToForm,
@@ -12,7 +12,7 @@ import {
 import { type FormService } from '@atj/form-service';
 
 import Form, { FormUIContext } from '../../Form';
-import { onFileInputChangeGetFile } from '../FormList/PDFFileSelect/file-input';
+import { onFileInputChangeGetFile } from '../FormList/CreateNew/file-input';
 
 const DocumentImporter = ({
   baseUrl,
@@ -24,7 +24,7 @@ const DocumentImporter = ({
   baseUrl: string;
   formId: string;
   context: FormUIContext;
-  form: FormDefinition;
+  form: Blueprint;
   formService: FormService;
 }) => {
   const { state, actions } = useDocumentImporter(formService, form, baseUrl);
@@ -69,7 +69,7 @@ const DocumentImporter = ({
     }
   };
 
-  const PDFFileSelect = () => {
+  const CreateNew = () => {
     return (
       <div className="usa-form-group">
         <label
@@ -175,7 +175,7 @@ const DocumentImporter = ({
           <Step title="Preview form" step={3} current={state.page} />
         </ol>
       </div>
-      {state.page === 1 && <PDFFileSelect />}
+      {state.page === 1 && <CreateNew />}
       {state.page === 2 && <BuildFormPage />}
       {state.page === 3 && <PreviewFormPage />}
     </div>
@@ -184,13 +184,13 @@ const DocumentImporter = ({
 
 type State = {
   page: number;
-  previewForm: FormDefinition;
+  previewForm: Blueprint;
   documentFields?: DocumentFieldMap;
 };
 
 const useDocumentImporter = (
   formService: FormService,
-  form: FormDefinition,
+  form: Blueprint,
   baseUrl: string
 ) => {
   const navigate = useNavigate();
@@ -203,7 +203,7 @@ const useDocumentImporter = (
             data: {
               path: string;
               fields: DocumentFieldMap;
-              previewForm: FormDefinition;
+              previewForm: Blueprint;
             };
           }
         | {

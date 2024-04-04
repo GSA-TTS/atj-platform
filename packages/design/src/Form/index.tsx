@@ -7,7 +7,7 @@ import {
   createPrompt,
   type FormConfig,
   type FormSession,
-  type Pattern,
+  type PatternProps,
   type Prompt,
   type PromptPart,
 } from '@atj/forms';
@@ -20,16 +20,16 @@ export type FormUIContext = {
   uswdsRoot: `${string}/`;
 };
 
-export type ComponentForPattern<T extends Pattern = Pattern<unknown>> = Record<
-  string,
-  FormElementComponent<T>
->;
+export type ComponentForPattern<
+  T extends PatternProps = PatternProps<unknown>,
+> = Record<string, PatternComponent<T>>;
 
-export type FormElementComponent<T extends Pattern = Pattern<unknown>> =
-  React.ComponentType<{
-    pattern: T;
-    children?: React.ReactNode;
-  }>;
+export type PatternComponent<T extends PatternProps = PatternProps<unknown>> =
+  React.ComponentType<
+    T & {
+      children?: React.ReactNode;
+    }
+  >;
 
 const usePrompt = (
   initialPrompt: Prompt,
@@ -260,7 +260,7 @@ const PromptComponent = ({
 }) => {
   const Component = context.components[promptPart.pattern.type];
   return (
-    <Component pattern={promptPart.pattern}>
+    <Component {...promptPart.pattern}>
       {promptPart.children?.map((child, index) => {
         return (
           <PromptComponent key={index} context={context} promptPart={child} />

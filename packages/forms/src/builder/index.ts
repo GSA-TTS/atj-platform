@@ -1,23 +1,25 @@
 import {
-  type FormDefinition,
+  type Blueprint,
+  type FormConfig,
   type FormSummary,
+  type Pattern,
+  type PatternMap,
   addDocument,
-  nullFormDefinition,
+  nullBlueprint,
   updateFormSummary,
-  updateFormElement,
-  FormElementMap,
-  FormElement,
-  FormConfig,
+  updatePatternFromFormData,
+  createPattern,
+  addPatternToRoot,
 } from '..';
 
 export class FormBuilder {
-  private _form: FormDefinition;
+  private _form: Blueprint;
 
-  constructor(initialForm: FormDefinition = nullFormDefinition) {
-    this._form = initialForm || nullFormDefinition;
+  constructor(initial: Blueprint = nullBlueprint) {
+    this._form = initial;
   }
 
-  get form(): FormDefinition {
+  get form(): Blueprint {
     return this._form;
   }
 
@@ -30,15 +32,17 @@ export class FormBuilder {
     this._form = updatedForm;
   }
 
-  updateFormElement(
-    config: FormConfig,
-    formElement: FormElement,
-    formData: FormElementMap
-  ) {
-    const updatedElement = updateFormElement(
+  addPattern(config: FormConfig, patternType: string) {
+    const pattern = createPattern(config, patternType);
+    this._form = addPatternToRoot(this.form, pattern);
+    return pattern;
+  }
+
+  updatePattern(config: FormConfig, pattern: Pattern, formData: PatternMap) {
+    const updatedElement = updatePatternFromFormData(
       config,
       this.form,
-      formElement,
+      pattern,
       formData
     );
     if (!updatedElement) {

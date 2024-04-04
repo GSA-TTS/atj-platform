@@ -1,10 +1,10 @@
 import { Result } from '@atj/common';
-import { type FormDefinition } from '@atj/forms';
+import { type Blueprint } from '@atj/forms';
 
 export const getFormFromStorage = (
   storage: Storage,
   id?: string
-): FormDefinition | null => {
+): Blueprint | null => {
   if (!storage || !id) {
     return null;
   }
@@ -33,7 +33,7 @@ export const getFormSummaryListFromStorage = (storage: Storage) => {
     return null;
   }
   return forms.map(key => {
-    const form = getFormFromStorage(storage, key) as FormDefinition;
+    const form = getFormFromStorage(storage, key) as Blueprint;
     if (form === null) {
       throw new Error('key mismatch');
     }
@@ -47,7 +47,7 @@ export const getFormSummaryListFromStorage = (storage: Storage) => {
 
 export const addFormToStorage = (
   storage: Storage,
-  form: FormDefinition
+  form: Blueprint
 ): Result<string> => {
   const uuid = crypto.randomUUID();
 
@@ -65,7 +65,7 @@ export const addFormToStorage = (
 export const saveFormToStorage = (
   storage: Storage,
   formId: string,
-  form: FormDefinition
+  form: Blueprint
 ) => {
   try {
     storage.setItem(formId, stringifyForm(form));
@@ -84,7 +84,7 @@ export const deleteFormFromStorage = (storage: Storage, formId: string) => {
   storage.removeItem(formId);
 };
 
-const stringifyForm = (form: FormDefinition) => {
+const stringifyForm = (form: Blueprint) => {
   return JSON.stringify({
     ...form,
     outputs: form.outputs.map(output => ({
@@ -95,8 +95,8 @@ const stringifyForm = (form: FormDefinition) => {
   });
 };
 
-const parseStringForm = (formString: string): FormDefinition => {
-  const form = JSON.parse(formString) as FormDefinition;
+const parseStringForm = (formString: string): Blueprint => {
+  const form = JSON.parse(formString) as Blueprint;
   return {
     ...form,
     outputs: form.outputs.map(output => ({

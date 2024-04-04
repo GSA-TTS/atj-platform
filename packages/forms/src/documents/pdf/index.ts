@@ -1,7 +1,6 @@
 export { getDocumentFieldData } from './extract';
 export * from './generate';
 export { generateDummyPDF } from './generate-dummy';
-export { callExternalParser } from './parsing-api';
 
 export type PDFDocument = {
   type: 'pdf';

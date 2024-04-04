@@ -2,12 +2,12 @@ import { type Result } from '@atj/common';
 
 import {
   type FormConfig,
-  type FormElementId,
-  getFormElement,
-  getFormElementConfig,
-  validateElement,
+  type PatternId,
+  getPattern,
+  getPatternConfig,
+  validatePattern,
 } from '.';
-import { type PromptAction, createPrompt, isPromptAction } from './pattern';
+import { type PromptAction, createPrompt, isPromptAction } from './components';
 import { type FormSession, updateSession } from './session';
 
 export type PromptResponse = {
@@ -37,17 +37,6 @@ export const applyPromptResponse = (
   };
 };
 
-const parseElementValue = (
-  config: FormConfig,
-  session: FormSession,
-  elementId: FormElementId,
-  promptValue: string
-) => {
-  const element = session.form.elements[elementId];
-  const formElementConfig = getFormElementConfig(config, element.type);
-  return formElementConfig.parseData(element, promptValue);
-};
-
 const parsePromptResponse = (
   session: FormSession,
   config: FormConfig,
@@ -55,14 +44,14 @@ const parsePromptResponse = (
 ) => {
   const values: Record<string, any> = {};
   const errors: Record<string, string> = {};
-  for (const [elementId, promptValue] of Object.entries(response.data)) {
-    const element = getFormElement(session.form, elementId);
-    const elementConfig = getFormElementConfig(config, element.type);
-    const isValidResult = validateElement(elementConfig, element, promptValue);
+  for (const [patternId, promptValue] of Object.entries(response.data)) {
+    const pattern = getPattern(session.form, patternId);
+    const patternConfig = getPatternConfig(config, pattern.type);
+    const isValidResult = validatePattern(patternConfig, pattern, promptValue);
     if (isValidResult.success) {
-      values[elementId] = isValidResult.data;
+      values[patternId] = isValidResult.data;
     } else {
-      errors[elementId] = isValidResult.error;
+      errors[patternId] = isValidResult.error;
     }
   }
   return { errors, values };

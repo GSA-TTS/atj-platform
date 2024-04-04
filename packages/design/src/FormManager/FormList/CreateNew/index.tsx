@@ -6,7 +6,7 @@ import { FormService } from '@atj/form-service';
 import { onFileInputChangeGetFile } from './file-input';
 import { useDocumentImporter } from './hooks';
 
-export default function PDFFileSelect({
+export default function CreateNew({
   formService,
   baseUrl,
 }: {
@@ -16,6 +16,12 @@ export default function PDFFileSelect({
   const { actions } = useDocumentImporter(formService, baseUrl);
   return (
     <div className="usa-form-group">
+      <button
+        className="usa-button usa-button--secondary"
+        onClick={() => actions.createNewForm()}
+      >
+        Create empty form
+      </button>
       <label
         className="usa-label"
         id="file-input-specific-hint"

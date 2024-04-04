@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { type Pattern, createFormSession } from '@atj/forms';
+import { createFormSession } from '@atj/forms';
 
 import Form, {
   type ComponentForPattern,
-  type FormElementComponent,
+  type PatternComponent,
   type FormUIContext,
 } from '../../Form';
 import { useFormEditStore } from './store';
@@ -64,22 +64,22 @@ const createPreviewComponents = (
 
 /*
 const createSequencePatternPreviewComponent = (
-  Component: FormElementComponent,
+  Component: PatternComponent,
   previewComponents: ComponentForPattern
 ) => {
-  const PatternPreviewSequenceComponent: FormElementComponent = ({
+  const PatternPreviewSequenceComponent: PatternComponent = ({
     pattern,
   }) => {
-    const { form, setSelectedElement } = usePreviewContext();
-    const element = getFormElement(form, pattern._elementId);
-    const Component = previewComponents[pattern.type];
+    const { form, setSelectedPattern } = usePreviewContext();
+    const element = getPattern(form, props._patternId);
+    const Component = previewComponents[props.type];
     return (
       <DraggableList
         form={form}
         element={element}
-        setSelectedElement={setSelectedElement}
+        setSelectedPattern={setSelectedPattern}
       >
-        <Component pattern={pattern} />
+        <Component {...pattern} />
       </DraggableList>
     );
   };
@@ -88,51 +88,47 @@ const createSequencePatternPreviewComponent = (
 */
 
 const createPatternPreviewComponent = (
-  Component: FormElementComponent,
+  Component: PatternComponent,
   uswdsRoot: string
 ) => {
-  const PatternPreviewComponent: FormElementComponent = ({
-    pattern,
-  }: {
-    pattern: Pattern;
-  }) => {
-    const selectedElement = useFormEditStore(state => state.selectedElement);
+  const PatternPreviewComponent: PatternComponent = props => {
+    const context = useFormEditStore(state => state.context);
+    const selectedPattern = useFormEditStore(state => state.selectedPattern);
     const handleEditClick = useFormEditStore(state => state.handleEditClick);
 
-    const isSelected = selectedElement?.id === pattern._elementId;
+    const isSelected = selectedPattern?.id === props._patternId;
     const divClassNames = isSelected
       ? 'form-group-row field-selected'
       : 'form-group-row';
-
-    const editButton = pattern.type === 'input' ? (
-      <span className="edit-button-icon">
-        <button
-          className="usa-button usa-button--secondary usa-button--unstyled"
-          onClick={() => handleEditClick(pattern)}
-          onKeyDown={e => {
-            if (e.key === 'Enter') {
-              handleEditClick(pattern);
-            }
-          }}
-          tabIndex={0}
-          aria-label="Edit form group"
-        >
-          <svg
-            className="usa-icon"
-            aria-hidden="true"
-            focusable="false"
-            role="img"
-          >
-            <use xlinkHref={`${uswdsRoot}img/sprite.svg#settings`}></use>
-          </svg>
-        </button>
-      </span>
-    ) : null;
+    const EditComponent = context.editComponents[props.type];
 
     return (
-      <div className={divClassNames} data-id={pattern._elementId}>
-        <Component pattern={pattern} />
-        {editButton}
+      <div className={divClassNames} data-id={props._patternId}>
+        <Component {...props} />
+        <span className="edit-button-icon">
+          {EditComponent ? (
+            <button
+              className="usa-button usa-button--secondary usa-button--unstyled"
+              onClick={() => handleEditClick(props._patternId)}
+              onKeyDown={e => {
+                if (e.key === 'Enter') {
+                  handleEditClick(props._patternId);
+                }
+              }}
+              tabIndex={0}
+              aria-label="Edit form group"
+            >
+              <svg
+                className="usa-icon"
+                aria-hidden="true"
+                focusable="false"
+                role="img"
+              >
+                <use xlinkHref={`${uswdsRoot}img/sprite.svg#settings`}></use>
+              </svg>
+            </button>
+          ) : null}
+        </span>
       </div>
     );
   };

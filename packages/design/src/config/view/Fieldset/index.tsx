@@ -1,18 +1,14 @@
 import React from 'react';
 
-import { type FieldsetPattern, type Pattern } from '@atj/forms';
+import { type FieldsetProps } from '@atj/forms';
 
-import { type FormElementComponent } from '../../../Form';
+import { type PatternComponent } from '../../../Form';
 
-
-const FormSummary: FormElementComponent<Pattern<FieldsetPattern>> = ({
-  pattern,
-  children,
-}) => {
+const FormSummary: PatternComponent<FieldsetProps> = props => {
   return (
     <fieldset className="usa-fieldset margin-top-4">
-      <legend className="usa-legend">{pattern.legend}</legend>
-      {children}
+      <legend className="usa-legend">{props.legend}</legend>
+      {props.children}
     </fieldset>
   );
 };

@@ -3,12 +3,12 @@ import { StoreApi, create } from 'zustand';
 import { createContext } from 'zustand-utils';
 
 import {
-  type FormDefinition,
-  type FormElementMap,
+  type Blueprint,
   type Pattern,
-  getFormElement,
+  type PatternId,
+  type PatternMap,
+  getPattern,
   FormBuilder,
-  FormElement,
 } from '@atj/forms';
 import { type FormEditUIContext } from './types';
 
@@ -18,7 +18,7 @@ export const useFormEditStore = useStore;
 
 export const FormEditProvider = (props: {
   context: FormEditUIContext;
-  form: FormDefinition;
+  form: Blueprint;
   children: React.ReactNode;
 }) => {
   return (
@@ -30,12 +30,17 @@ export const FormEditProvider = (props: {
 
 type FormEditState = {
   context: FormEditUIContext;
-  form: FormDefinition;
-  selectedElement?: FormElement;
+  form: Blueprint;
+  selectedPattern?: Pattern;
+  availablePatterns: {
+    patternType: string;
+    displayName: string;
+  }[];
 
-  handleEditClick: (pattern: Pattern) => void;
-  setSelectedElement: (element?: FormElement) => void;
-  updateSelectedFormElement: (formData: FormElementMap) => void;
+  addPattern: (patternType: string) => void;
+  handleEditClick: (patternId: PatternId) => void;
+  setSelectedPattern: (element?: Pattern) => void;
+  updateSelectedPattern: (formData: PatternMap) => void;
 };
 
 const createFormEditStore = ({
@@ -43,35 +48,47 @@ const createFormEditStore = ({
   form,
 }: {
   context: FormEditUIContext;
-  form: FormDefinition;
+  form: Blueprint;
 }) =>
   create<FormEditState>((set, get) => ({
     context,
     form,
-    handleEditClick: (pattern: Pattern) => {
+    availablePatterns: Object.entries(context.config.patterns).map(
+      ([patternType, patternConfig]) => ({
+        patternType,
+        displayName: patternConfig.displayName,
+      })
+    ),
+    addPattern: (patternType: string) => {
       const state = get();
-      if (state.selectedElement?.id === pattern._elementId) {
-        set({ selectedElement: undefined });
+      const builder = new FormBuilder(state.form);
+      const newPattern = builder.addPattern(state.context.config, patternType);
+      set({ form: builder.form, selectedPattern: newPattern });
+    },
+    handleEditClick: (patternId: PatternId) => {
+      const state = get();
+      if (state.selectedPattern?.id === patternId) {
+        set({ selectedPattern: undefined });
       } else {
-        const elementToSet = getFormElement(state.form, pattern._elementId);
-        set({ selectedElement: elementToSet });
+        const elementToSet = getPattern(state.form, patternId);
+        set({ selectedPattern: elementToSet });
       }
     },
-    setSelectedElement: selectedElement => set({ selectedElement }),
-    updateSelectedFormElement: (formData: FormElementMap) => {
+    setSelectedPattern: selectedPattern => set({ selectedPattern }),
+    updateSelectedPattern: (formData: PatternMap) => {
       const state = get();
-      if (state.selectedElement === undefined) {
+      if (state.selectedPattern === undefined) {
         console.warn('No selected element');
         return;
       }
       const builder = new FormBuilder(state.form);
-      const success = builder.updateFormElement(
+      const success = builder.updatePattern(
         state.context.config,
-        state.selectedElement,
+        state.selectedPattern,
         formData
       );
       if (success) {
-        set({ form: builder.form, selectedElement: undefined });
+        set({ form: builder.form, selectedPattern: undefined });
       }
     },
   }));

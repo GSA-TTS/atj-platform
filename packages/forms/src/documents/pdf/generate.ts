@@ -9,14 +9,14 @@ export const createFormOutputFieldData = (
   formData: Record<string, string>
 ): Record<string, { value: any; type: PDFFieldType }> => {
   const results = {} as Record<string, { value: any; type: PDFFieldType }>;
-  Object.entries(output.fields).forEach(([elementId, docField]) => {
+  Object.entries(output.fields).forEach(([patternId, docField]) => {
     if (docField.type === 'not-supported') {
       return;
     }
-    const outputFieldId = output.formFields[elementId];
+    const outputFieldId = output.formFields[patternId];
     results[outputFieldId] = {
       type: docField.type,
-      value: formData[elementId],
+      value: formData[patternId],
     };
   });
   return results;

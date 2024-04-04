@@ -1,11 +1,13 @@
 import { createForm, createFormSession, defaultFormConfig } from '@atj/forms';
 
 import {
-  defaultFormElementComponents,
-  defaultFormElementEditComponents,
+  defaultPatternComponents,
+  defaultPatternEditComponents,
 } from './config';
 import { FormUIContext } from 'Form';
 import { type FormEditUIContext } from './FormManager/FormEdit/types';
+import { SequencePattern } from '@atj/forms/src/patterns/sequence';
+import { InputPattern } from '@atj/forms/src/patterns/input';
 
 export const createTestForm = () => {
   return createForm(
@@ -15,40 +17,34 @@ export const createTestForm = () => {
     },
     {
       root: 'root',
-      elements: [
+      patterns: [
         {
           type: 'sequence',
           id: 'root',
           data: {
-            elements: ['element-1', 'element-2'],
+            patterns: ['element-1', 'element-2'],
           },
-          default: {
-            elements: [],
-          },
-          required: true,
-        },
+        } satisfies SequencePattern,
         {
           type: 'input',
           id: 'element-1',
           data: {
-            text: 'FormElement 1',
-            required: true,
+            label: 'Pattern 1',
             initial: '',
+            required: true,
+            maxLength: 128,
           },
-          default: '',
-          required: true,
-        },
+        } satisfies InputPattern,
         {
           type: 'input',
           id: 'element-2',
           data: {
-            text: 'FormElement 2',
-            required: false,
+            label: 'Pattern 2',
             initial: 'test',
+            required: true,
+            maxLength: 128,
           },
-          default: '',
-          required: true,
-        },
+        } satisfies InputPattern,
       ],
     }
   );
@@ -58,14 +54,14 @@ export const createTestFormConfig = () => {
   return defaultFormConfig;
 };
 
-export const createTestFormElementComponentMap = () => {
-  return defaultFormElementComponents;
+export const createTestPatternComponentMap = () => {
+  return defaultPatternComponents;
 };
 
 export const createTestFormContext = (): FormUIContext => {
   return {
     config: defaultFormConfig,
-    components: defaultFormElementComponents,
+    components: defaultPatternComponents,
     uswdsRoot: '/uswds/',
   };
 };
@@ -73,8 +69,8 @@ export const createTestFormContext = (): FormUIContext => {
 export const createTestFormEditContext = (): FormEditUIContext => {
   return {
     config: defaultFormConfig,
-    components: defaultFormElementComponents,
-    editComponents: defaultFormElementEditComponents,
+    components: defaultPatternComponents,
+    editComponents: defaultPatternEditComponents,
     uswdsRoot: `/static/uswds/`,
   };
 };

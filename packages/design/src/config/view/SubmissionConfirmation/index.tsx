@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { Pattern, type SubmissionConfirmationPattern } from '@atj/forms';
-import { FormElementComponent } from '../../../Form';
+import { type SubmissionConfirmationProps } from '@atj/forms';
+import { type PatternComponent } from '../../../Form';
 
-const SubmissionConfirmation: FormElementComponent<
-  Pattern<SubmissionConfirmationPattern>
-> = ({ pattern }) => {
+const SubmissionConfirmation: PatternComponent<
+  SubmissionConfirmationProps
+> = props => {
   return (
     <>
       <legend className="usa-legend usa-legend--large">
@@ -52,7 +52,7 @@ const SubmissionConfirmation: FormElementComponent<
               </tr>
             </thead>
             <tbody>
-              {pattern.table.map((row, index) => {
+              {props.table.map((row, index) => {
                 return (
                   <tr key={index}>
                     <th scope="row">{row.label}</th>

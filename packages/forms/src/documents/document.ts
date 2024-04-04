@@ -1,34 +1,35 @@
 import {
-  FormDefinition,
-  FormElement,
+  Blueprint,
+  Pattern,
   addFormOutput,
-  addFormElements,
-  addFormElementMap,
+  addPatterns,
+  addPatternMap,
   updateFormSummary,
 } from '..';
-import { InputElement } from '../config/elements/input';
+import { InputPattern } from '../patterns/input';
+import { SequencePattern } from '../patterns/sequence';
 import { PDFDocument, getDocumentFieldData } from './pdf';
-import { getSuggestedFormElementsFromCache } from './suggestions';
+import { getSuggestedPatternsFromCache } from './suggestions';
 import { DocumentFieldMap } from './types';
 
 export type DocumentTemplate = PDFDocument;
 
 export const addDocument = async (
-  form: FormDefinition,
+  form: Blueprint,
   fileDetails: {
     name: string;
     data: Uint8Array;
   }
 ) => {
   const fields = await getDocumentFieldData(fileDetails.data);
-  const cachedPdf = await getSuggestedFormElementsFromCache(fileDetails.data);
+  const cachedPdf = await getSuggestedPatternsFromCache(fileDetails.data);
 
   if (cachedPdf) {
     form = updateFormSummary(form, {
       title: cachedPdf.title,
       description: '',
     });
-    form = addFormElementMap(form, cachedPdf.elements, cachedPdf.root);
+    form = addPatternMap(form, cachedPdf.patterns, cachedPdf.root);
     const updatedForm = addFormOutput(form, {
       data: fileDetails.data,
       path: fileDetails.name,
@@ -39,7 +40,6 @@ export const addDocument = async (
         })
       ),
     });
-    console.log(updatedForm);
     return {
       newFields: fields,
       updatedForm,
@@ -66,86 +66,66 @@ export const addDocument = async (
 };
 
 export const addDocumentFieldsToForm = (
-  form: FormDefinition,
+  form: Blueprint,
   fields: DocumentFieldMap
 ) => {
-  const elements: FormElement[] = [];
-  Object.entries(fields).map(([elementId, field]) => {
+  const patterns: Pattern[] = [];
+  Object.entries(fields).map(([patternId, field]) => {
     if (field.type === 'CheckBox') {
-      elements.push({
+      patterns.push({
         type: 'input',
-        id: elementId,
+        id: patternId,
         data: {
           label: field.label,
-        },
-        default: {
-          label: '',
           initial: '',
           required: false,
           maxLength: 128,
         },
-        required: field.required,
-      } satisfies InputElement);
+      } satisfies InputPattern);
     } else if (field.type === 'OptionList') {
-      elements.push({
+      patterns.push({
         type: 'input',
-        id: elementId,
+        id: patternId,
         data: {
           label: field.label,
-        },
-        default: {
-          label: '',
           initial: '',
           required: false,
           maxLength: 128,
         },
-        required: field.required,
-      } satisfies InputElement);
+      } satisfies InputPattern);
     } else if (field.type === 'Dropdown') {
-      elements.push({
+      patterns.push({
         type: 'input',
-        id: elementId,
+        id: patternId,
         data: {
           label: field.label,
-        },
-        default: {
-          label: '',
           initial: '',
           required: false,
           maxLength: 128,
         },
-        required: field.required,
-      } satisfies InputElement);
+      } satisfies InputPattern);
     } else if (field.type === 'TextField') {
-      elements.push({
+      patterns.push({
         type: 'input',
-        id: elementId,
+        id: patternId,
         data: {
           label: field.label,
-        },
-        default: {
-          label: '',
           initial: '',
           required: false,
           maxLength: 128,
         },
-        required: field.required,
-      } satisfies InputElement);
+      } satisfies InputPattern);
     } else if (field.type === 'RadioGroup') {
-      elements.push({
+      patterns.push({
         type: 'input',
-        id: elementId,
+        id: patternId,
         data: {
           label: field.label,
-        },
-        default: {
-          label: '',
           initial: '',
           required: false,
           maxLength: 128,
         },
-        required: field.required,
-      } satisfies InputElement);
+      } satisfies InputPattern);
     } else if (field.type === 'Paragraph') {
       // skip purely presentational fields
     } else if (field.type === 'not-supported') {
@@ -154,14 +134,12 @@ export const addDocumentFieldsToForm = (
       const _exhaustiveCheck: never = field;
     }
   });
-  elements.push({
+  patterns.push({
     id: 'root',
     type: 'sequence',
     data: {
-      elements: elements.map(element => element.id),
+      patterns: patterns.map(pattern => pattern.id),
     },
-    default: [],
-    required: true,
-  });
-  return addFormElements(form, elements, 'root');
+  } satisfies SequencePattern);
+  return addPatterns(form, patterns, 'root');
 };

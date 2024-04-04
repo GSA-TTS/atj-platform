@@ -1,0 +1,1 @@
+export { defaultFormConfig } from './patterns';

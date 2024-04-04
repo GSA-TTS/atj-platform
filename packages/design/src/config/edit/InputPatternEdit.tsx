@@ -1,58 +1,55 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { type InputElement } from '@atj/forms/src/config/elements/input';
+import { type InputPattern } from '@atj/forms/src/patterns/input';
+import { PatternEditComponent } from '../../FormManager/FormEdit/types';
 
-import { FormElementEditComponent } from '..';
-
-const InputElementEdit: FormElementEditComponent<InputElement> = ({
-  element,
-}) => {
+const InputPatternEdit: PatternEditComponent<InputPattern> = ({ pattern }) => {
   const { register } = useFormContext();
   return (
     <div className="grid-row grid-gap formRowEditFields">
       <div className="grid-col grid-col-4">
-        <label className="usa-label" htmlFor={`${element.id}.data.label`}>
+        <label className="usa-label" htmlFor={`${pattern.id}.data.label`}>
           Field label
         </label>
         <input
           className="usa-input"
-          id={`${element.id}.data.label`}
-          defaultValue={`${element.id}`}
-          {...register(`${element.id}.data.label`)}
+          id={`${pattern.id}.data.label`}
+          defaultValue={`${pattern.id}`}
+          {...register(`${pattern.id}.data.label`)}
           type="text"
         ></input>
       </div>
       <div className="grid-col grid-col-2">
-        <label className="usa-label" htmlFor={`${element.id}.data.initial`}>
+        <label className="usa-label" htmlFor={`${pattern.id}.data.default`}>
           Default field value
         </label>
         <input
           className="usa-input"
-          id={`${element.id}.data.initial`}
+          id={`${pattern.id}.data.default`}
           type="text"
-          {...register(`${element.id}.data.initial`)}
+          {...register(`${pattern.id}.data.default`)}
         ></input>
       </div>
       <div className="grid-col grid-col-2">
-        <label className="usa-label" htmlFor={`${element.id}.data.maxLength`}>
+        <label className="usa-label" htmlFor={`${pattern.id}.data.maxLength`}>
           Maximum length
         </label>
         <input
           className="usa-input"
-          id={`${element.id}.data.maxLength`}
+          id={`${pattern.id}.data.maxLength`}
           type="text"
-          {...register(`${element.id}.data.maxLength`)}
+          {...register(`${pattern.id}.data.maxLength`)}
         ></input>
       </div>
       <div className="grid-col grid-col-2">
-        <label className="usa-label" htmlFor={`${element.id}.type`}>
+        <label className="usa-label" htmlFor={`${pattern.id}.type`}>
           Field type
         </label>
         <select
           className="usa-select"
-          {...register(`${element.id}.type`)}
-          id={`${element.id}.type`}
+          {...register(`${pattern.id}.type`)}
+          id={`${pattern.id}.type`}
         >
           <option value={'input'}>Input</option>
         </select>
@@ -62,12 +59,12 @@ const InputElementEdit: FormElementEditComponent<InputElement> = ({
           <input
             className="usa-checkbox__input"
             type="checkbox"
-            id={`${element.id}.data.required`}
-            {...register(`${element.id}.data.required`)}
+            id={`${pattern.id}.data.required`}
+            {...register(`${pattern.id}.data.required`)}
           />
           <label
             className="usa-checkbox__label"
-            htmlFor={`${element.id}.data.required`}
+            htmlFor={`${pattern.id}.data.required`}
           >
             Required
           </label>
@@ -77,4 +74,4 @@ const InputElementEdit: FormElementEditComponent<InputElement> = ({
   );
 };
 
-export default InputElementEdit;
+export default InputPatternEdit;

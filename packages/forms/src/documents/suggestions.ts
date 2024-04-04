@@ -1,4 +1,4 @@
-import { type ParsedPdf, callExternalParser } from './pdf/parsing-api';
+import { callExternalParser, type ParsedPdf } from './pdf/parsing-api';
 
 export type SuggestedForm = {
   id: string;
@@ -9,7 +9,7 @@ export type SuggestedForm = {
   type?: 'text';
 }[];
 
-export const getSuggestedFormElementsFromCache = async (
+export const getSuggestedPatternsFromCache = async (
   rawData: Uint8Array
 ): Promise<ParsedPdf | null> => {
   const hash = await getObjectHash(rawData);
