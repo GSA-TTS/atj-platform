@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import SubmissionConfirmation from '.';
-import { type SubmissionConfirmationProps } from '@atj/forms';
 
 export default {
   title: 'patterns/SubmissionConfirmation',
