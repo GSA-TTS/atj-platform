@@ -96,14 +96,12 @@ export type ParsedPdf = {
 };
 
 export const callExternalParser = async (
-  rawData: Uint8Array
+  rawData: Uint8Array,
+  endpointUrl: string = 'https://10x-atj-doc-automation-staging.app.cloud.gov/api/parse'
 ): Promise<ParsedPdf> => {
   const base64 = await uint8ArrayToBase64(rawData);
 
-  // TODO: set this with deploy vars...
-  const endpoint =
-    'https://10x-atj-doc-automation-staging.app.cloud.gov/api/parse';
-  const response = await fetch(endpoint, {
+  const response = await fetch(endpointUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
