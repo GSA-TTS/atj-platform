@@ -92,6 +92,7 @@ const createPatternPreviewComponent = (
   uswdsRoot: string
 ) => {
   const PatternPreviewComponent: PatternComponent = props => {
+    const context = useFormEditStore(state => state.context);
     const selectedPattern = useFormEditStore(state => state.selectedPattern);
     const handleEditClick = useFormEditStore(state => state.handleEditClick);
 
@@ -99,31 +100,34 @@ const createPatternPreviewComponent = (
     const divClassNames = isSelected
       ? 'form-group-row field-selected'
       : 'form-group-row';
+    const EditComponent = context.editComponents[props.type];
 
     return (
       <div className={divClassNames} data-id={props._patternId}>
         <Component {...props} />
         <span className="edit-button-icon">
-          <button
-            className="usa-button usa-button--secondary usa-button--unstyled"
-            onClick={() => handleEditClick(props._patternId)}
-            onKeyDown={e => {
-              if (e.key === 'Enter') {
-                handleEditClick(props._patternId);
-              }
-            }}
-            tabIndex={0}
-            aria-label="Edit form group"
-          >
-            <svg
-              className="usa-icon"
-              aria-hidden="true"
-              focusable="false"
-              role="img"
+          {EditComponent ? (
+            <button
+              className="usa-button usa-button--secondary usa-button--unstyled"
+              onClick={() => handleEditClick(props._patternId)}
+              onKeyDown={e => {
+                if (e.key === 'Enter') {
+                  handleEditClick(props._patternId);
+                }
+              }}
+              tabIndex={0}
+              aria-label="Edit form group"
             >
-              <use xlinkHref={`${uswdsRoot}img/sprite.svg#settings`}></use>
-            </svg>
-          </button>
+              <svg
+                className="usa-icon"
+                aria-hidden="true"
+                focusable="false"
+                role="img"
+              >
+                <use xlinkHref={`${uswdsRoot}img/sprite.svg#settings`}></use>
+              </svg>
+            </button>
+          ) : null}
         </span>
       </div>
     );

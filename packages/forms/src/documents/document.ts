@@ -9,7 +9,7 @@ import {
 import { InputPattern } from '../patterns/input';
 import { SequencePattern } from '../patterns/sequence';
 import { PDFDocument, getDocumentFieldData } from './pdf';
-import { getSuggestedPatternsFromCache } from './suggestions';
+import { getSuggestedPatterns } from './suggestions';
 import { DocumentFieldMap } from './types';
 
 export type DocumentTemplate = PDFDocument;
@@ -22,7 +22,7 @@ export const addDocument = async (
   }
 ) => {
   const fields = await getDocumentFieldData(fileDetails.data);
-  const cachedPdf = await getSuggestedPatternsFromCache(fileDetails.data);
+  const cachedPdf = await getSuggestedPatterns(fileDetails.data);
 
   if (cachedPdf) {
     form = updateFormSummary(form, {
