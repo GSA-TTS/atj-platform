@@ -59,7 +59,7 @@ const SortableItem = ({
 };
 
 type DraggableListProps = React.PropsWithChildren<{
-  pattern: Pattern<SequencePattern>;
+  pattern: SequencePattern;
   form: Blueprint;
   setSelectedPattern: (pattern: Pattern) => void;
 }>;
