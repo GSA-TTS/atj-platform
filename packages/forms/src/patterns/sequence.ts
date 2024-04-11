@@ -34,7 +34,7 @@ export const sequenceConfig: PatternConfig<SequencePattern> = {
       return createPromptForPattern(config, session, childPattern, options);
     });
     return {
-      pattern: {
+      props: {
         _patternId: pattern.id,
         type: 'sequence',
       },

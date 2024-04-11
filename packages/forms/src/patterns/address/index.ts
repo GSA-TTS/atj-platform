@@ -98,7 +98,7 @@ export const addressConfig: PatternConfig<
       ? AddressSchema.safeParse(sessionValue)
       : null;
     return {
-      pattern: {
+      props: {
         _patternId: pattern.id,
         type: 'address',
         childProps: {

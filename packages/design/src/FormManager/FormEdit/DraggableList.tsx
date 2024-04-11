@@ -80,6 +80,7 @@ export const DraggableList: React.FC<DraggableListProps> = ({
   );
 
   const arrayChildren = Children.toArray(children);
+
   return (
     <DndContext
       sensors={sensors}
@@ -109,13 +110,13 @@ export const DraggableList: React.FC<DraggableListProps> = ({
       }}
     >
       <SortableContext items={patterns} strategy={verticalListSortingStrategy}>
-        <ul className="editFormWrapper">
-          {arrayChildren.map((child, index) => (
+        {arrayChildren.map((child, index) => {
+          return (
             <SortableItem key={index} id={patterns[index].id}>
               {child}
             </SortableItem>
-          ))}
-        </ul>
+          );
+        })}
       </SortableContext>
     </DndContext>
   );

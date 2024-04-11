@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import { FormBuilder } from '@atj/forms';
+import { BlueprintBuilder } from '@atj/forms';
 import { type FormService } from '@atj/form-service';
 
 export const useDocumentImporter = (
@@ -14,7 +14,7 @@ export const useDocumentImporter = (
       stepOneSelectPdfByUrl: async (url: string) => {
         const data = await fetchUint8Array(`${baseUrl}${url}`);
 
-        const builder = new FormBuilder();
+        const builder = new BlueprintBuilder();
         builder.setFormSummary({
           title: url,
           description: '',
@@ -33,7 +33,7 @@ export const useDocumentImporter = (
         name: string;
         data: Uint8Array;
       }) => {
-        const builder = new FormBuilder();
+        const builder = new BlueprintBuilder();
         builder.setFormSummary({
           title: fileDetails.name,
           description: '',
@@ -45,7 +45,7 @@ export const useDocumentImporter = (
         }
       },
       createNewForm: async () => {
-        const builder = new FormBuilder();
+        const builder = new BlueprintBuilder();
         builder.setFormSummary({
           title: `My form - ${new Date().toISOString()}`,
           description: '',

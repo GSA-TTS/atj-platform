@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { createFormSession } from '@atj/forms';
+import { createFormSession, getPattern } from '@atj/forms';
 
 import Form, {
   type ComponentForPattern,
@@ -8,6 +8,7 @@ import Form, {
   type FormUIContext,
 } from '../../Form';
 import { useFormEditStore } from './store';
+import DraggableList from './DraggableList';
 
 export const PreviewForm = () => {
   const uiContext = useFormEditStore(state => state.context);
@@ -34,58 +35,28 @@ export const PreviewForm = () => {
   );
 };
 
-const createPreviewComponents = (
-  components: ComponentForPattern,
-  uswdsRoot: string
-): ComponentForPattern => {
-  const previewComponents: ComponentForPattern = {};
-  // TODO: Create a configurable way to to define preview components.
-  for (const [patternType, Component] of Object.entries(components)) {
-    if (patternType === 'sequence' || patternType === 'fieldset') {
-      previewComponents[patternType] = Component;
-      /*
-      previewComponents[patternType] = createSequencePatternPreviewComponent(
-        Component,
-        previewComponents
-      );
-      */
-    } else if (patternType === 'form-summary') {
-      previewComponents[patternType] = Component;
-    } else {
-      //previewComponents[patternType] = Component;
-      previewComponents[patternType] = createPatternPreviewComponent(
-        Component,
-        uswdsRoot
-      );
-    }
-  }
-  return previewComponents;
-};
-
-/*
 const createSequencePatternPreviewComponent = (
   Component: PatternComponent,
   previewComponents: ComponentForPattern
 ) => {
-  const PatternPreviewSequenceComponent: PatternComponent = ({
-    pattern,
-  }) => {
-    const { form, setSelectedPattern } = usePreviewContext();
-    const element = getPattern(form, props._patternId);
-    const Component = previewComponents[props.type];
+  const PatternPreviewSequenceComponent: PatternComponent = props => {
+    const form = useFormEditStore(state => state.form);
+    const setSelectedPattern = useFormEditStore(
+      state => state.setSelectedPattern
+    );
+    const pattern = getPattern(form, props._patternId);
     return (
       <DraggableList
         form={form}
-        element={element}
+        pattern={pattern}
         setSelectedPattern={setSelectedPattern}
       >
-        <Component {...pattern} />
+        <Component _patternId={pattern.id} {...pattern}></Component>
       </DraggableList>
     );
   };
   return PatternPreviewSequenceComponent;
 };
-*/
 
 const createPatternPreviewComponent = (
   Component: PatternComponent,
@@ -133,4 +104,33 @@ const createPatternPreviewComponent = (
     );
   };
   return PatternPreviewComponent;
+};
+
+const createPreviewComponents = (
+  components: ComponentForPattern,
+  uswdsRoot: string
+): ComponentForPattern => {
+  const previewComponents: ComponentForPattern = {};
+  // TODO: Create a configurable way to to define preview components.
+  for (const [patternType, Component] of Object.entries(components)) {
+    previewComponents[patternType] = Component;
+    if (patternType === 'sequence') {
+      previewComponents[patternType] = createSequencePatternPreviewComponent(
+        Component,
+        previewComponents
+      );
+    }
+    /*
+    } else if (patternType === 'form-summary') {
+      previewComponents[patternType] = Component;
+    } else {
+      //previewComponents[patternType] = Component;
+      previewComponents[patternType] = createPatternPreviewComponent(
+        Component,
+        uswdsRoot
+      );
+    }
+    */
+  }
+  return previewComponents;
 };

@@ -22,7 +22,7 @@ export const paragraphConfig: PatternConfig<ParagraphPattern> = {
   },
   createPrompt(_, session, pattern, options) {
     return {
-      pattern: {
+      props: {
         _patternId: pattern.id,
         type: 'paragraph' as const,
         text: pattern.data.text,

@@ -116,7 +116,6 @@ export const callExternalParser = async (
   }
 
   const json = await response.json();
-
   const extracted: ExtractedObject = ExtractedObject.parse(json.parsed_pdf);
 
   const parsedPdf: ParsedPdf = {

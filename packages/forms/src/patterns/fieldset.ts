@@ -36,7 +36,7 @@ export const fieldsetConfig: PatternConfig<FieldsetPattern> = {
       return createPromptForPattern(config, session, childPattern, options);
     });
     return {
-      pattern: {
+      props: {
         _patternId: pattern.id,
         type: 'fieldset',
         legend: pattern.data.legend,

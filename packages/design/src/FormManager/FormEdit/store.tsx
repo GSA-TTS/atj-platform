@@ -8,7 +8,7 @@ import {
   type PatternId,
   type PatternMap,
   getPattern,
-  FormBuilder,
+  BlueprintBuilder,
 } from '@atj/forms';
 import { type FormEditUIContext } from './types';
 
@@ -61,7 +61,7 @@ const createFormEditStore = ({
     ),
     addPattern: (patternType: string) => {
       const state = get();
-      const builder = new FormBuilder(state.form);
+      const builder = new BlueprintBuilder(state.form);
       const newPattern = builder.addPattern(state.context.config, patternType);
       set({ form: builder.form, selectedPattern: newPattern });
     },
@@ -81,7 +81,7 @@ const createFormEditStore = ({
         console.warn('No selected element');
         return;
       }
-      const builder = new FormBuilder(state.form);
+      const builder = new BlueprintBuilder(state.form);
       const success = builder.updatePattern(
         state.context.config,
         state.selectedPattern,
