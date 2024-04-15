@@ -6,7 +6,7 @@ import { createTestFormService } from '@atj/form-service';
 
 import FormEdit from '.';
 import { createTestForm, createTestFormEditContext } from '../../test-form';
-import { expect, fireEvent, userEvent, waitFor, within } from '@storybook/test';
+import { expect, userEvent, waitFor, within } from '@storybook/test';
 
 export default {
   title: 'FormManager/FormEdit',
