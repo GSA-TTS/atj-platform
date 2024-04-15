@@ -259,16 +259,14 @@ const PromptComponent = ({
   component: PromptComponent;
 }) => {
   const Component = context.components[component.props.type];
-  console.log('rendering', component);
   return (
     <Component {...component.props}>
-      {component.children?.map((child, index) => {
-        console.log('rendering', index, child.props.type);
+      {component.children?.map((childPromptComponent, index) => {
         return (
           <PromptComponent
             key={index}
             context={context}
-            component={component}
+            component={childPromptComponent}
           />
         );
       })}

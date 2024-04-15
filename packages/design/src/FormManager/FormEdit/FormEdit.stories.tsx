@@ -30,8 +30,8 @@ export default {
 
 export const FormEditTest: StoryObj<typeof FormEdit> = {
   play: async ({ canvasElement }) => {
-    await editFieldLabel(canvasElement, 0, 'First field label');
-    await editFieldLabel(canvasElement, 1, 'Second field label');
+    await editFieldLabel(canvasElement, 1, 'First field label');
+    await editFieldLabel(canvasElement, 2, 'Second field label');
   },
 };
 
@@ -40,16 +40,18 @@ export const FormEditAddPattern: StoryObj<typeof FormEdit> = {
     const canvas = within(canvasElement);
 
     // Select the first pattern for editing
-    const button = (await canvas.findAllByRole('button'))[0];
+    const button = (await canvas.findAllByLabelText('Edit form group'))[0];
     await userEvent.click(button);
 
     // Get the initial count of inputs
-    const initialCount = (await canvas.getAllByRole('textbox')).length;
+    const initialCount = (await canvas.findAllByLabelText('Edit form group'))
+      .length;
 
     const select = canvas.getByLabelText('Add a pattern');
     await userEvent.selectOptions(select, 'Text input');
 
-    const finalCount = (await canvas.getAllByRole('textbox')).length;
+    const finalCount = (await canvas.findAllByLabelText('Edit form group'))
+      .length;
     expect(finalCount).toEqual(initialCount + 1);
   },
 };
@@ -62,7 +64,9 @@ const editFieldLabel = async (
   const canvas = within(element);
 
   // Click "edit form" button for first field
-  await userEvent.click(canvas.getAllByRole('button')[buttonIndex]);
+  await userEvent.click(
+    (await canvas.findAllByLabelText('Edit form group'))[buttonIndex]
+  );
 
   // Enter new text for first field
   const input = canvas.getByLabelText('Field label');

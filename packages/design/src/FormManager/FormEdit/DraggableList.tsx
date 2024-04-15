@@ -20,10 +20,10 @@ import {
   getPattern,
   type Blueprint,
   type Pattern,
-  PatternId,
+  type PatternId,
 } from '@atj/forms';
 
-import { SequencePattern } from '@atj/forms/src/patterns/sequence';
+import { type SequencePattern } from '@atj/forms/src/patterns/sequence';
 
 const SortableItem = ({
   id,
@@ -111,8 +111,9 @@ export const DraggableList: React.FC<DraggableListProps> = ({
     >
       <SortableContext items={patterns} strategy={verticalListSortingStrategy}>
         {arrayChildren.map((child, index) => {
+          const patternId = child.props._patternId;
           return (
-            <SortableItem key={index} id={patterns[index].id}>
+            <SortableItem key={index} id={patternId}>
               {child}
             </SortableItem>
           );
