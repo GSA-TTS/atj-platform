@@ -22,7 +22,7 @@ export const formSummaryConfig: PatternConfig<FormSummary> = {
   },
   createPrompt(_, session, pattern, options) {
     return {
-      pattern: {
+      props: {
         _patternId: pattern.id,
         type: 'form-summary',
         title: pattern.data.title,

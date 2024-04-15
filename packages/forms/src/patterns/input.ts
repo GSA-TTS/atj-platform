@@ -43,7 +43,7 @@ export const inputConfig: PatternConfig<InputPattern, InputPatternOutput> = {
       }
     }
     return {
-      pattern: {
+      props: {
         _patternId: pattern.id,
         type: 'input',
         inputId: pattern.id,

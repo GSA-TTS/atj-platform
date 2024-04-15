@@ -8,7 +8,7 @@ import {
   type PatternId,
   type PatternMap,
   getPattern,
-  FormBuilder,
+  BlueprintBuilder,
 } from '@atj/forms';
 import { type FormEditUIContext } from './types';
 
@@ -40,6 +40,7 @@ type FormEditState = {
   addPattern: (patternType: string) => void;
   handleEditClick: (patternId: PatternId) => void;
   setSelectedPattern: (element?: Pattern) => void;
+  updatePattern: (data: Pattern) => void;
   updateSelectedPattern: (formData: PatternMap) => void;
 };
 
@@ -61,7 +62,7 @@ const createFormEditStore = ({
     ),
     addPattern: (patternType: string) => {
       const state = get();
-      const builder = new FormBuilder(state.form);
+      const builder = new BlueprintBuilder(state.form);
       const newPattern = builder.addPattern(state.context.config, patternType);
       set({ form: builder.form, selectedPattern: newPattern });
     },
@@ -75,13 +76,27 @@ const createFormEditStore = ({
       }
     },
     setSelectedPattern: selectedPattern => set({ selectedPattern }),
+    updatePattern: (pattern: Pattern) => {
+      const state = get();
+      const builder = new BlueprintBuilder(state.form);
+      const success = builder.updatePattern(
+        state.context.config,
+        state.form.patterns[pattern.id],
+        {
+          [pattern.id]: pattern,
+        }
+      );
+      if (success) {
+        set({ form: builder.form, selectedPattern: undefined });
+      }
+    },
     updateSelectedPattern: (formData: PatternMap) => {
       const state = get();
       if (state.selectedPattern === undefined) {
         console.warn('No selected element');
         return;
       }
-      const builder = new FormBuilder(state.form);
+      const builder = new BlueprintBuilder(state.form);
       const success = builder.updatePattern(
         state.context.config,
         state.selectedPattern,

@@ -55,14 +55,14 @@ export type SubmitAction = {
 };
 export type PromptAction = SubmitAction;
 
-export type PromptPart = {
-  pattern: PatternProps;
-  children: PromptPart[];
+export type PromptComponent = {
+  props: PatternProps;
+  children: PromptComponent[];
 };
 
 export type Prompt = {
   actions: PromptAction[];
-  parts: PromptPart[];
+  components: PromptComponent[];
 };
 
 export const createPrompt = (
@@ -73,9 +73,9 @@ export const createPrompt = (
   if (options.validate && sessionIsComplete(config, session)) {
     return {
       actions: [],
-      parts: [
+      components: [
         {
-          pattern: {
+          props: {
             _patternId: 'submission-confirmation',
             type: 'submission-confirmation',
             table: Object.entries(session.data.values)
@@ -98,9 +98,9 @@ export const createPrompt = (
       ],
     };
   }
-  const parts: PromptPart[] = [
+  const components: PromptComponent[] = [
     {
-      pattern: {
+      props: {
         _patternId: 'form-summary',
         type: 'form-summary',
         title: session.form.summary.title,
@@ -110,7 +110,7 @@ export const createPrompt = (
     },
   ];
   const root = getRootPattern(session.form);
-  parts.push(createPromptForPattern(config, session, root, options));
+  components.push(createPromptForPattern(config, session, root, options));
   return {
     actions: [
       {
@@ -118,7 +118,7 @@ export const createPrompt = (
         text: 'Submit',
       },
     ],
-    parts,
+    components,
   };
 };
 
@@ -127,7 +127,7 @@ export type CreatePrompt<T> = (
   session: FormSession,
   pattern: T,
   options: { validate: boolean }
-) => PromptPart;
+) => PromptComponent;
 
 export const createPromptForPattern: CreatePrompt<Pattern> = (
   config,
@@ -152,7 +152,7 @@ export const createNullPrompt = ({
 }): Prompt => {
   const formPatternConfig = getPatternConfig(config, pattern.type);
   return {
-    parts: [
+    components: [
       formPatternConfig.createPrompt(config, nullSession, pattern, {
         validate: false,
       }),

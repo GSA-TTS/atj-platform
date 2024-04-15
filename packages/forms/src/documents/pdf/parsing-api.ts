@@ -70,7 +70,7 @@ const RawBtnField = z.object({
   var_name: z.string(),
   field_dict: z.object({
     font_info: z.string(),
-    flags: z.number(),
+    flags: z.unknown().optional(),
     field_type: z.string(),
     field_label: z.string(),
     child_fields: z.array(z.object({ coordinates: z.number().array() })),
@@ -116,9 +116,6 @@ export const callExternalParser = async (
   }
 
   const json = await response.json();
-
-  console.log('json.parsed_pdf.elements is:\n', json.parsed_pdf.elements);
-
   const extracted: ExtractedObject = ExtractedObject.parse(json.parsed_pdf);
 
   const parsedPdf: ParsedPdf = {
