@@ -6,7 +6,7 @@ import { createTestFormService } from '@atj/form-service';
 
 import FormEdit from '.';
 import { createTestForm, createTestFormEditContext } from '../../test-form';
-import { expect, userEvent, waitFor, within } from '@storybook/test';
+import { expect, fireEvent, userEvent, waitFor, within } from '@storybook/test';
 
 export default {
   title: 'FormManager/FormEdit',
@@ -55,6 +55,37 @@ export const FormEditAddPattern: StoryObj<typeof FormEdit> = {
     expect(finalCount).toEqual(initialCount + 1);
   },
 };
+
+// This test only works in a real browser, not via JSDOM as we use it.
+/*
+export const FormEditReorderPattern: StoryObj<typeof FormEdit> = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const grabber = await canvas.getAllByText(':::')[0];
+    await grabber.focus();
+
+    // Enter reordering mode with the spacebar
+    await userEvent.type(grabber, ' ');
+    await new Promise(r => setTimeout(r, 100));
+
+    // Press the arrow down, to move the first pattern to the second position
+    await userEvent.type(grabber, '[ArrowDown]');
+    await new Promise(r => setTimeout(r, 100));
+
+    // Press the spacebar to exit reordering mode
+    await userEvent.type(grabber, ' ');
+    await new Promise(r => setTimeout(r, 100));
+
+    // Pattern 1 should be after pattern 2 in the document
+    const pattern1 = canvas.getByText('Pattern 1');
+    const pattern2 = canvas.getByText('Pattern 2');
+    expect(pattern2.compareDocumentPosition(pattern1)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING
+    );
+  },
+};
+*/
 
 const editFieldLabel = async (
   element: HTMLElement,

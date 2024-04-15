@@ -13,10 +13,7 @@ export const PatternPreviewSequence: PatternComponent<
   PatternProps<SequencePattern>
 > = function PatternPreviewSequence(props) {
   const form = useFormEditStore(state => state.form);
-  const setSelectedPattern = useFormEditStore(
-    state => state.setSelectedPattern
-  );
-
+  const updatePattern = useFormEditStore(state => state.updatePattern);
   const pattern = getPattern(form, props._patternId);
 
   /**
@@ -33,9 +30,16 @@ export const PatternPreviewSequence: PatternComponent<
    */
   return (
     <DraggableList
-      form={form}
-      pattern={pattern}
-      setSelectedPattern={setSelectedPattern}
+      order={pattern.data.patterns}
+      updateOrder={order => {
+        updatePattern({
+          id: pattern.id,
+          type: pattern.type,
+          data: {
+            patterns: order,
+          },
+        });
+      }}
     >
       {props.children}
     </DraggableList>
