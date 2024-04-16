@@ -36,15 +36,6 @@ const SortableItem = ({
       }}
     >
       <div className="editFieldsRowWrapper grid-row grid-gap">
-        <div
-          className="editPageGrabButtonWrapper grid-col-1 grid-col"
-          {...listeners}
-          {...attributes}
-          style={{ cursor: 'grab' }}
-        >
-          <span className="grabber1">:::</span>
-          <span className="grabber2">:::</span>
-        </div>
         <div className="editFieldsWrapper grid-col-11 grid-col">{children}</div>
       </div>
     </div>
