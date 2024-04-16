@@ -276,27 +276,12 @@ iframe:focus {
     cursor: pointer;
     display: flex;
 
-    &:first-child {
-      .edit-button-icon {
-        padding: 0 10px;
-        flex: none;
-      }
-    }
-
     &.field-selected {
       background: #e7e3fa;
     }
 
     .usa-form-group-wrapper {
       flex: 12;
-    }
-
-    .edit-button-icon {
-      flex: 1;
-      text-align: center;
-      padding: 30px 0 0;
-      align-self: flex-end;
-      margin: 0 0 14px 7px;
     }
 
     label {

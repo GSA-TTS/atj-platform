@@ -31,14 +31,14 @@ export const FormEditProvider = (props: {
 type FormEditState = {
   context: FormEditUIContext;
   form: Blueprint;
-  selectedPattern?: Pattern;
+  focusedPattern?: Pattern;
   availablePatterns: {
     patternType: string;
     displayName: string;
   }[];
 
   addPattern: (patternType: string) => void;
-  handleEditClick: (patternId: PatternId) => void;
+  setFocus: (patternId: PatternId) => void;
   setSelectedPattern: (element?: Pattern) => void;
   updatePattern: (data: Pattern) => void;
   updateSelectedPattern: (formData: PatternMap) => void;
@@ -64,18 +64,18 @@ const createFormEditStore = ({
       const state = get();
       const builder = new BlueprintBuilder(state.form);
       const newPattern = builder.addPattern(state.context.config, patternType);
-      set({ form: builder.form, selectedPattern: newPattern });
+      set({ form: builder.form, focusedPattern: newPattern });
     },
-    handleEditClick: (patternId: PatternId) => {
+    setFocus: (patternId: PatternId) => {
       const state = get();
-      if (state.selectedPattern?.id === patternId) {
-        set({ selectedPattern: undefined });
+      if (state.focusedPattern?.id === patternId) {
+        set({ focusedPattern: undefined });
       } else {
         const elementToSet = getPattern(state.form, patternId);
-        set({ selectedPattern: elementToSet });
+        set({ focusedPattern: elementToSet });
       }
     },
-    setSelectedPattern: selectedPattern => set({ selectedPattern }),
+    setSelectedPattern: focusedPattern => set({ focusedPattern }),
     updatePattern: (pattern: Pattern) => {
       const state = get();
       const builder = new BlueprintBuilder(state.form);
@@ -87,23 +87,23 @@ const createFormEditStore = ({
         }
       );
       if (success) {
-        set({ form: builder.form, selectedPattern: undefined });
+        set({ form: builder.form, focusedPattern: undefined });
       }
     },
     updateSelectedPattern: (formData: PatternMap) => {
       const state = get();
-      if (state.selectedPattern === undefined) {
+      if (state.focusedPattern === undefined) {
         console.warn('No selected element');
         return;
       }
       const builder = new BlueprintBuilder(state.form);
       const success = builder.updatePattern(
         state.context.config,
-        state.selectedPattern,
+        state.focusedPattern,
         formData
       );
       if (success) {
-        set({ form: builder.form, selectedPattern: undefined });
+        set({ form: builder.form, focusedPattern: undefined });
       }
     },
   }));

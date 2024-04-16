@@ -36,7 +36,7 @@ export default function FormEdit({
 }
 
 const EditForm = ({ saveForm }: { saveForm: (form: Blueprint) => void }) => {
-  const { form, selectedPattern } = useFormEditStore();
+  const { form, focusedPattern } = useFormEditStore();
   useEffect(() => {
     saveForm(form);
   }, [form]);
@@ -52,7 +52,7 @@ const EditForm = ({ saveForm }: { saveForm: (form: Blueprint) => void }) => {
         <div className="grid-col-8">
           <PreviewForm />
         </div>
-        <div className={`grid-col-4 ${selectedPattern ? 'show' : 'hide'}`}>
+        <div className={`grid-col-4 ${focusedPattern ? 'show' : 'hide'}`}>
           <PatternEdit />
         </div>
       </div>
