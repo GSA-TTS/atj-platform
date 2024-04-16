@@ -114,7 +114,7 @@ const SequencePatternEdit: PatternEditComponent<SequencePattern> = ({
           items={patterns}
           strategy={verticalListSortingStrategy}
         >
-          <ul className="editFormWrapper">
+          <ul>
             <input type="hidden" {...register(`${pattern.id}.id`)} />
             <input type="hidden" {...register(`${pattern.id}.type`)} />
             <input type="hidden" {...register(`${pattern.id}.patterns`)} />

@@ -305,72 +305,6 @@ iframe:focus {
   legend {
     margin-top: 0;
   }
-
-  .editFormContentWrapper {
-    .preview {
-      .grid-col-9 {
-        width: 100%;
-      }
-
-      .usa-form--large {
-        max-width: 46rem;
-      }
-    }
-  }
-}
-
-.editFormWrapper {
-  list-style: none;
-  padding: 0;
-  border-top: 1px solid #c9c9c9;
-  display: none;
-
-  li {
-    padding: 15px 0 20px;
-    border-bottom: 1px solid #c9c9c9;
-  }
-
-  .usa-label {
-    margin-top: 0;
-  }
-}
-
-.settingsContainer {
-  background: #e7e3fa;
-  padding: 30px;
-  top: 10px;
-
-  h3 {
-    margin-top: 0;
-    font-size: 1.2em;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    hyphens: auto;
-  }
-
-  .formRowEditFields {
-    .grid-col {
-      width: 100%;
-    }
-  }
-
-  .usa-button {
-    width: 100%;
-    padding: 1rem 1.25rem;
-    margin: 20px 0 0;
-
-    &.close-button {
-      background-color: #76766a;
-
-      &:hover {
-        background-color: #929285;
-      }
-    }
-  }
-
-  .usa-checkbox {
-    margin-top: 1.5rem;
-  }
 }
 
 .usa-step-indicator__segment {
@@ -434,36 +368,6 @@ iframe:focus {
     .usa-intro {
       margin-bottom: 20px;
     }
-
-    .editFormContentWrapper {
-      .grid-col,
-      .grid-col-8 {
-        width: 100%;
-      }
-
-      .usa-button{
-        margin-left: 0;
-      }
-
-      .grid-col-4 {
-        position: static;
-      }
-
-      .form-group-row {
-        padding: 0 0 1rem;
-      }
-
-      .settingsContainer {
-        position: fixed;
-        top: 10%;
-        left: 50%;
-        transform: translate(-50%, 0);
-        width: 90%;
-        margin: 0 auto;
-        height: auto;
-        box-shadow: 1px 4px 12px #76766a;
-      }
-    }
   }
 
 }
@@ -486,18 +390,4 @@ iframe:focus {
       }
     }
   }
-
-  .editFieldsWrapper {
-    width: 85%;
-
-    .grid-col {
-      width: 100%;
-      flex: 0 1 auto;
-    }
-
-    .usa-label {
-      margin-bottom: 16px;
-    }
-  }
-
 }
