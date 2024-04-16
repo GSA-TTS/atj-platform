@@ -5,44 +5,44 @@ import { useFormContext } from 'react-hook-form';
 import { type TextInputProps } from '@atj/forms';
 import { type PatternComponent } from '../../../Form';
 
-const TextInput: PatternComponent<TextInputProps> = ({ pattern }) => {
+const TextInput: PatternComponent<TextInputProps> = props => {
   const { register } = useFormContext();
   return (
-    <div className="usa-form-group-wrapper" key={pattern.inputId}>
+    <div className="usa-form-group-wrapper" key={props.inputId}>
       <div
         className={classNames('usa-form-group', {
-          'usa-form-group--error': pattern.error,
+          'usa-form-group--error': props.error,
         })}
       >
         <label
           className={classNames('usa-label', {
-            'usa-label--error': pattern.error,
+            'usa-label--error': props.error,
           })}
-          htmlFor={`input-${pattern.inputId}`}
-          id={`input-message-${pattern.inputId}`}
+          htmlFor={`input-${props.inputId}`}
+          id={`input-message-${props.inputId}`}
         >
-          {pattern.label}
+          {props.label}
         </label>
-        {pattern.error && (
+        {props.error && (
           <span
             className="usa-error-message"
-            id={`input-error-message-${pattern.inputId}`}
+            id={`input-error-message-${props.inputId}`}
             role="alert"
           >
-            {pattern.error}
+            {props.error}
           </span>
         )}
         <input
           className={classNames('usa-input', {
-            'usa-input--error': pattern.error,
+            'usa-input--error': props.error,
           })}
-          id={`input-${pattern.inputId}`}
-          defaultValue={pattern.value}
-          {...register(pattern.inputId, {
-            //required: pattern.required,
+          id={`input-${props.inputId}`}
+          defaultValue={props.value}
+          {...register(props.inputId, {
+            //required: props.required,
           })}
           type="text"
-          aria-describedby={`input-message-${pattern.inputId}`}
+          aria-describedby={`input-message-${props.inputId}`}
         />
       </div>
     </div>

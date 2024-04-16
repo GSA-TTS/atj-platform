@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { FormBuilder } from '.';
+import { BlueprintBuilder } from '.';
 import { createForm } from '..';
 import { defaultFormConfig } from '../patterns';
 import { type InputPattern } from '../patterns/input';
@@ -8,7 +8,7 @@ import { type SequencePattern } from '../patterns/sequence';
 
 describe('form builder', () => {
   it('addPattern adds initial pattern of given type', () => {
-    const builder = new FormBuilder();
+    const builder = new BlueprintBuilder();
     expect(Object.keys(builder.form.patterns).length).toEqual(1);
     builder.addPattern(defaultFormConfig, 'input');
     expect(Object.keys(builder.form.patterns).length).toEqual(2);
@@ -16,7 +16,7 @@ describe('form builder', () => {
 
   it('addPattern preserves existing structure', () => {
     const initial = createTestBlueprint();
-    const newBuilder = new FormBuilder(initial);
+    const newBuilder = new BlueprintBuilder(initial);
     const newPattern = newBuilder.addPattern(defaultFormConfig, 'input');
     expect(newBuilder.form.patterns[newPattern.id]).toEqual(newPattern);
     expect(
@@ -40,10 +40,7 @@ export const createTestBlueprint = () => {
           data: {
             patterns: ['element-1', 'element-2'],
           },
-          initial: {
-            patterns: [],
-          },
-        } as SequencePattern,
+        } satisfies SequencePattern,
         {
           type: 'input',
           id: 'element-1',
@@ -53,13 +50,7 @@ export const createTestBlueprint = () => {
             required: true,
             maxLength: 128,
           },
-          initial: {
-            label: 'Pattern 1',
-            initial: '',
-            required: true,
-            maxLength: 128,
-          },
-        } as InputPattern,
+        } satisfies InputPattern,
         {
           type: 'input',
           id: 'element-2',
@@ -69,13 +60,7 @@ export const createTestBlueprint = () => {
             required: true,
             maxLength: 128,
           },
-          initial: {
-            label: 'Pattern 2',
-            initial: 'test',
-            required: true,
-            maxLength: 128,
-          },
-        } as InputPattern,
+        } satisfies InputPattern,
       ],
     }
   );

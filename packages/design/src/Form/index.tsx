@@ -9,7 +9,7 @@ import {
   type FormSession,
   type PatternProps,
   type Prompt,
-  type PromptPart,
+  type PromptComponent,
 } from '@atj/forms';
 
 import ActionBar from './ActionBar';
@@ -25,10 +25,11 @@ export type ComponentForPattern<
 > = Record<string, PatternComponent<T>>;
 
 export type PatternComponent<T extends PatternProps = PatternProps<unknown>> =
-  React.ComponentType<{
-    pattern: T;
-    children?: React.ReactNode;
-  }>;
+  React.ComponentType<
+    T & {
+      children?: React.ReactNode;
+    }
+  >;
 
 const usePrompt = (
   initialPrompt: Prompt,
@@ -231,12 +232,12 @@ export default function Form({
               )}
 
               <fieldset className="usa-fieldset">
-                {prompt.parts.map((part, index) => {
+                {prompt.components.map((component, index) => {
                   return (
                     <PromptComponent
                       key={index}
                       context={context}
-                      promptPart={part}
+                      component={component}
                     />
                   );
                 })}
@@ -252,17 +253,21 @@ export default function Form({
 
 const PromptComponent = ({
   context,
-  promptPart,
+  component,
 }: {
   context: FormUIContext;
-  promptPart: PromptPart;
+  component: PromptComponent;
 }) => {
-  const Component = context.components[promptPart.pattern.type];
+  const Component = context.components[component.props.type];
   return (
-    <Component pattern={promptPart.pattern}>
-      {promptPart.children?.map((child, index) => {
+    <Component {...component.props}>
+      {component.children?.map((childPromptComponent, index) => {
         return (
-          <PromptComponent key={index} context={context} promptPart={child} />
+          <PromptComponent
+            key={index}
+            context={context}
+            component={childPromptComponent}
+          />
         );
       })}
     </Component>

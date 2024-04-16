@@ -14,8 +14,6 @@ export type FieldsetPattern = Pattern<{
   patterns: PatternId[];
 }>;
 
-const FieldsetSchema = z.array(z.string());
-
 const configSchema = z.object({
   legend: z.string().optional(),
   patterns: z.array(z.string()),
@@ -23,12 +21,8 @@ const configSchema = z.object({
 
 export const fieldsetConfig: PatternConfig<FieldsetPattern> = {
   displayName: 'Fieldset',
-  acceptsInput: false,
   initial: {
     patterns: [],
-  },
-  parseData: (_, obj) => {
-    return safeZodParse(FieldsetSchema, obj);
   },
   parseConfigData: obj => safeZodParse(configSchema, obj),
   getChildren(pattern, patterns) {
@@ -42,8 +36,7 @@ export const fieldsetConfig: PatternConfig<FieldsetPattern> = {
       return createPromptForPattern(config, session, childPattern, options);
     });
     return {
-      pattern: {
-        _children: children,
+      props: {
         _patternId: pattern.id,
         type: 'fieldset',
         legend: pattern.data.legend,

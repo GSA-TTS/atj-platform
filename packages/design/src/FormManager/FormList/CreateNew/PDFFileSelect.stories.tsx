@@ -2,11 +2,11 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import PDFFileSelect from '.';
+import CreateNew from '.';
 
 export default {
-  title: 'FormManager/FormList/PDFFileSelect',
-  component: PDFFileSelect,
+  title: 'FormManager/FormList/CreateNew',
+  component: CreateNew,
   decorators: [
     (Story, args) => (
       <MemoryRouter initialEntries={['/']}>
@@ -18,6 +18,6 @@ export default {
     baseUrl: '/',
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof PDFFileSelect>;
+} satisfies Meta<typeof CreateNew>;
 
-export const PDFFileSelectTest = {} satisfies StoryObj<typeof PDFFileSelect>;
+export const CreateNewTest = {} satisfies StoryObj<typeof CreateNew>;

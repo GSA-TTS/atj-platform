@@ -36,10 +36,7 @@ export const nullBlueprint: Blueprint = {
       data: {
         patterns: [],
       },
-      initial: {
-        patterns: [],
-      },
-    },
+    } satisfies SequencePattern,
   },
   outputs: [],
 };
@@ -67,9 +64,6 @@ export const createForm = (
         id: 'root',
         type: 'sequence',
         data: {
-          patterns: [],
-        },
-        initial: {
           patterns: [],
         },
       } satisfies SequencePattern,

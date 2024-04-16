@@ -25,7 +25,9 @@ export default function FormDelete({
       <h1>Delete form</h1>
       <h2>Are you sure you want to delete the form with id: `{formId}`?</h2>
       <p className="padding-bottom-3">
-        <button className="usa-button" onClick={deleteForm}>Delete form</button>
+        <button className="usa-button" onClick={deleteForm}>
+          Delete form
+        </button>
       </p>
       <code>{JSON.stringify(form, null, 4)}</code>
     </div>

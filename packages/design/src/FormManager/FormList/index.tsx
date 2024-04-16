@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { FormService } from '@atj/form-service';
-import PDFFileSelect from './PDFFileSelect';
+import CreateNew from './CreateNew';
 
 export default function FormList({
   baseUrl,
@@ -22,27 +22,38 @@ export default function FormList({
       <table className="usa-table usa-table--stacked">
         <thead>
           <tr>
-          <th className="column1" scope="col">Form title</th>
-          <th className="column2" scope="col">Description</th>
-          <th className="column3" scope="col">Actions</th>
+            <th className="column1" scope="col">
+              Form title
+            </th>
+            <th className="column2" scope="col">
+              Description
+            </th>
+            <th className="column3" scope="col">
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody>
           {result.data.map((form, index) => (
             <tr key={index}>
-              <th data-label="Form title" scope="row">{form.title}</th>
+              <th data-label="Form title" scope="row">
+                {form.title}
+              </th>
               <td data-label="Description">{form.description}</td>
               <td data-label="Actions" className="actionColumn">
                 {/* <span><Link to={`/${form.id}`}>Preview</Link></span> */}
-                <span><Link to={`/${form.id}/edit`}>Edit</Link></span>
-                <span><Link to={`/${form.id}/delete`}>Delete</Link></span>
+                <span>
+                  <Link to={`/${form.id}/edit`}>Edit</Link>
+                </span>
+                <span>
+                  <Link to={`/${form.id}/delete`}>Delete</Link>
+                </span>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-
-      <PDFFileSelect baseUrl={baseUrl} formService={formService} />
+      <CreateNew baseUrl={baseUrl} formService={formService} />
     </>
   );
 }

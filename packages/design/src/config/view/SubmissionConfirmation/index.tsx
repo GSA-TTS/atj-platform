@@ -3,9 +3,9 @@ import React from 'react';
 import { type SubmissionConfirmationProps } from '@atj/forms';
 import { type PatternComponent } from '../../../Form';
 
-const SubmissionConfirmation: PatternComponent<SubmissionConfirmationProps> = ({
-  pattern,
-}) => {
+const SubmissionConfirmation: PatternComponent<
+  SubmissionConfirmationProps
+> = props => {
   return (
     <>
       <legend className="usa-legend usa-legend--large">
@@ -52,7 +52,7 @@ const SubmissionConfirmation: PatternComponent<SubmissionConfirmationProps> = ({
               </tr>
             </thead>
             <tbody>
-              {pattern.table.map((row, index) => {
+              {props.table.map((row, index) => {
                 return (
                   <tr key={index}>
                     <th scope="row">{row.label}</th>

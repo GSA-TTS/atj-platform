@@ -82,7 +82,6 @@ const SequencePatternEdit: PatternEditComponent<SequencePattern> = ({
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   );
-
   return (
     <fieldset>
       <DndContext
