@@ -186,42 +186,6 @@ nav {
     padding-top: 2.6rem;
   }
 }
-.previewForm {
-  padding-left: 1rem;
-
-  >fieldset {
-    margin-bottom: 10em;
-
-    >legend {
-      border-bottom: 1px #DCDEE0 solid;
-      font-size: 2rem;
-    }
-
-    >.usa-form-group {
-      margin-left: 3rem;
-    }
-
-    .usa-form-group {
-      >fieldset {
-        border-bottom: 1px #DCDEE0 solid;
-        padding-bottom: 2rem;
-
-        legend {
-          font-size: 1.5rem;
-          border-bottom: none;
-        }
-
-        p {
-          font-weight: bold;
-        }
-      }
-    }
-  }
-
-  .usa-button {
-    margin: 1rem 0 0 1rem;
-  }
-}
 
 .innerPageTopNavWrapper {
   margin-bottom: 50px;
@@ -389,7 +353,6 @@ iframe:focus {
 .settingsContainer {
   background: #e7e3fa;
   padding: 30px;
-  position: -webkit-sticky; /* Safari */
   top: 10px;
 
   h3 {

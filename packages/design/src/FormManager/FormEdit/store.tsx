@@ -69,11 +69,10 @@ const createFormEditStore = ({
     setFocus: (patternId: PatternId) => {
       const state = get();
       if (state.focusedPattern?.id === patternId) {
-        set({ focusedPattern: undefined });
-      } else {
-        const elementToSet = getPattern(state.form, patternId);
-        set({ focusedPattern: elementToSet });
+        return;
       }
+      const elementToSet = getPattern(state.form, patternId);
+      set({ focusedPattern: elementToSet });
     },
     setSelectedPattern: focusedPattern => set({ focusedPattern }),
     updatePattern: (pattern: Pattern) => {

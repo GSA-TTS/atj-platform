@@ -2,6 +2,7 @@ import React from 'react';
 
 import { PatternComponent } from '../../Form';
 import { useFormEditStore } from './store';
+import { PatternEdit } from './PatternEdit';
 
 export const PreviewPattern: PatternComponent = function PreviewPattern(props) {
   const context = useFormEditStore(state => state.context);
@@ -15,19 +16,18 @@ export const PreviewPattern: PatternComponent = function PreviewPattern(props) {
   const Component = context.components[props.type];
   const EditComponent = context.editComponents[props.type];
 
-  const selected = focusedPattern?.id === props._patternId
+  const selected = focusedPattern?.id === props._patternId;
   return (
     <div
       className={divClassNames}
       data-id={props._patternId}
-      onFocus={event => {
-        console.log('acquiring focus, time to toggle edit mode');
+      onFocus={() => {
         if (EditComponent) {
           setFocus(props._patternId);
         }
       }}
     >
-      {selected ? <EditComponent {...props} /> : <Component {...props} />
+      {selected ? <PatternEdit /> : <Component {...props} />}
     </div>
   );
 };

@@ -22,7 +22,6 @@ export const PatternEdit = () => {
         }
       : {},
   });
-  const settingsContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (focusedPattern === undefined) {
@@ -32,29 +31,6 @@ export const PatternEdit = () => {
     methods.setValue(focusedPattern.id, focusedPattern);
   }, [focusedPattern]);
 
-  // Updates the scroll position of the edit form when it's visible
-  useEffect(() => {
-    let frameId: number;
-    const updatePosition = () => {
-      if (window.innerWidth > 879) {
-        if (focusedPattern) {
-          const element = document.querySelector(
-            `[data-id="${focusedPattern.id}"]`
-          );
-          if (element && settingsContainerRef.current) {
-            const rect = element.getBoundingClientRect();
-            settingsContainerRef.current.style.top = `${rect.top}px`;
-          }
-        }
-      }
-      frameId = requestAnimationFrame(updatePosition);
-    };
-    frameId = requestAnimationFrame(updatePosition);
-    return () => {
-      cancelAnimationFrame(frameId);
-    };
-  }, [focusedPattern]);
-
   if (!focusedPattern) {
     return;
   }
@@ -62,10 +38,7 @@ export const PatternEdit = () => {
   const SelectedEditComponent = context.editComponents[focusedPattern.type];
   return (
     <FormProvider {...methods}>
-      <div
-        ref={settingsContainerRef}
-        className="settingsContainer position-sticky"
-      >
+      <div className="settingsContainer">
         {SelectedEditComponent ? (
           <form
             className="editForm"
@@ -73,7 +46,6 @@ export const PatternEdit = () => {
               updateSelectedPattern(formData);
             })}
           >
-            <h3>Editing &quot;{focusedPattern.data.label}&quot;...</h3>
             <SelectedEditComponent
               context={context}
               form={form}
