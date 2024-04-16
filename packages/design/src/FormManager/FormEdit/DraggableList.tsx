@@ -16,6 +16,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { useFormEditStore } from './store';
 
 const SortableItem = ({
   id,
@@ -26,6 +27,7 @@ const SortableItem = ({
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
+  const context = useFormEditStore(state => state.context);
 
   return (
     <div
@@ -35,8 +37,25 @@ const SortableItem = ({
         transition,
       }}
     >
-      <div className="editFieldsRowWrapper grid-row grid-gap">
-        <div className="editFieldsWrapper grid-col-11 grid-col">{children}</div>
+      <div className="grid-row grid-gap">
+        <div
+          className="grid-col-1 grid-col width-full"
+          {...listeners}
+          {...attributes}
+          style={{ cursor: 'grab' }}
+        >
+          <svg
+            className="usa-icon margin-x-auto display-block"
+            aria-hidden="true"
+            focusable="false"
+            role="img"
+          >
+            <use
+              xlinkHref={`${context.uswdsRoot}img/sprite.svg#drag_handle`}
+            ></use>
+          </svg>
+        </div>
+        <div className="grid-col-11 grid-col">{children}</div>
       </div>
     </div>
   );
