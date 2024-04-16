@@ -4,7 +4,7 @@
   "description": "backend service for handling submitted forms",
   "main": "src/index.ts",
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=dist/index.js",
+    "build": "echo 'skipping build...' # esbuild src/index.ts --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=dist/index.js",
     "build:client": "tsup src/* --env.NODE_ENV production --dts-resolve",
     "clean": "rm -rf dist tsconfig.tsbuildinfo",
     "dev": "tsup src/* --watch"
@@ -13,7 +13,6 @@
     "@atj/form-service": "workspace:*"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.109",
-    "esbuild": "^0.20.2"
+    "@types/aws-lambda": "^8.10.109"
   }
 }
