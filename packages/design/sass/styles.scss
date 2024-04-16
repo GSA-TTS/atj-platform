@@ -187,124 +187,11 @@ nav {
   }
 }
 
-.innerPageTopNavWrapper {
-  margin-bottom: 50px;
-
-  .innerPageTopNav {
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0 auto;
-
-      li {
-        margin: 0 1px;
-
-        &.currentPage {
-          a,
-          a:hover {
-            background: #454540;
-            color: white;
-          }
-        }
-
-        a {
-          display: block;
-          background: #ede3ff;
-          color: #39215e;
-          border: 1px solid #ede3ff;
-        }
-
-        a,
-        .usa-button {
-          text-decoration: none;
-          padding: 15px;
-          font-size: 20px;
-          text-align: center;
-
-          &:hover {
-            background: #f5f2ff;
-            border: 1px solid #e4deff;
-          }
-        }
-
-        .usa-button {
-          margin-top: 0;
-        }
-      }
-    }
-
-    .usa-button {
-      margin: 0;
-      height: 100%;
-      width: 100%;
-    }
-  }
-}
-
 [contentEditable=true]:focus,
 [href]:focus,
 [tabindex]:focus,
 iframe:focus {
   outline: 0.25rem solid #783cb9;
-}
-
-.editFormPage {
-
-  .usa-intro {
-    padding-bottom: 2rem;
-    border-bottom: 1px solid #bbb;
-    width: 100%;
-    max-width: 100%;
-    margin-bottom: 50px;
-  }
-
-  fieldset {
-    border: none;
-    padding: 0;
-    margin-bottom: 2em;
-  }
-
-  h1 {
-    margin-top: 0;
-  }
-
-  .form-group-row {
-    padding: 1rem;
-    cursor: pointer;
-    display: flex;
-
-    &.field-selected {
-      background: #e7e3fa;
-    }
-
-    .usa-form-group-wrapper {
-      flex: 12;
-    }
-
-    label {
-      cursor: pointer;
-    }
-
-    .usa-button {
-      background: none;
-      margin: 0;
-      padding: 2px;
-    }
-
-    .usa-icon {
-      height: 1.75em;
-      width: 1.75em;
-      fill: #777;
-    }
-  }
-
-  .usa-form-group {
-    margin: 0 0 0.5rem;
-  }
-
-  legend {
-    margin-top: 0;
-  }
 }
 
 .usa-step-indicator__segment {
@@ -358,36 +245,5 @@ iframe:focus {
   .usa-file-input__choose,
   .usa-nav__primary>.usa-nav__primary-item>a:hover {
     color: #39215e;
-  }
-}
-
-@media screen and (max-width: 879px) {
-
-  .editFormPage {
-
-    .usa-intro {
-      margin-bottom: 20px;
-    }
-  }
-
-}
-
-
-@media screen and (max-width: 480px) {
-  .usa-legend,
-  .usa-label {
-    word-break: break-all;
-  }
-
-  .innerPageTopNavWrapper {
-    .innerPageTopNav {
-      ul {
-        li {
-          flex: 0 1 auto;
-          width: 100%;
-          margin: 0 0 4px;
-        }
-      }
-    }
   }
 }

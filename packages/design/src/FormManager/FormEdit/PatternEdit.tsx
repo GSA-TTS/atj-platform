@@ -41,7 +41,6 @@ export const PatternEdit = () => {
       <div className="settingsContainer">
         {SelectedEditComponent ? (
           <form
-            className="editForm"
             onSubmit={methods.handleSubmit(formData => {
               updateSelectedPattern(formData);
             })}
@@ -51,6 +50,26 @@ export const PatternEdit = () => {
               form={form}
               pattern={focusedPattern}
             />
+            <svg
+              className="usa-icon"
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+            >
+              <use
+                xlinkHref={`${context.uswdsRoot}img/sprite.svg#delete`}
+              ></use>
+            </svg>
+            <svg
+              className="usa-icon"
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+            >
+              <use
+                xlinkHref={`${context.uswdsRoot}img/sprite.svg#content_copy`}
+              ></use>
+            </svg>
             <p>
               <input className="usa-button" type="submit" value="Save" />
               <input
