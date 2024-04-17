@@ -30,6 +30,21 @@ export const fieldsetConfig: PatternConfig<FieldsetPattern> = {
       (patternId: string) => patterns[patternId]
     );
   },
+  removeChildPattern(pattern, patternId) {
+    const newPatterns = pattern.data.patterns.filter(
+      (id: string) => patternId !== id
+    );
+    if (newPatterns.length === pattern.data.patterns.length) {
+      return pattern;
+    }
+    return {
+      ...pattern,
+      data: {
+        ...pattern.data,
+        patterns: newPatterns,
+      },
+    };
+  },
   createPrompt(config, session, pattern, options) {
     const children = pattern.data.patterns.map((patternId: string) => {
       const childPattern = getPattern(session.form, patternId);

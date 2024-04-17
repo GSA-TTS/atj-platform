@@ -1,19 +1,19 @@
 import React from 'react';
 
-import { FormConfig } from '@atj/forms';
 import { type FormService } from '@atj/form-service';
 
+import { type FormUIContext } from '../Form';
 import DocumentImporter from './DocumentImporter';
-import InnerPageTopNav from './internalPageTopNav';
+import ManagerNav from './ManagerNav';
 
 export const FormDocumentImport = ({
   baseUrl,
-  config,
+  context,
   formId,
   formService,
 }: {
   baseUrl: string;
-  config: FormConfig;
+  context: FormUIContext;
   formId: string;
   formService: FormService;
 }) => {
@@ -24,9 +24,9 @@ export const FormDocumentImport = ({
   }
   return (
     <>
-      <InnerPageTopNav formId={formId} formService={formService} />
+      <ManagerNav />
       <DocumentImporter
-        config={config}
+        context={context}
         formService={formService}
         baseUrl={baseUrl}
         formId={formId}

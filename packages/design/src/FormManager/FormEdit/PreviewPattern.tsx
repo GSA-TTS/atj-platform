@@ -2,48 +2,32 @@ import React from 'react';
 
 import { PatternComponent } from '../../Form';
 import { useFormEditStore } from './store';
+import { PatternEdit } from './PatternEdit';
 
 export const PreviewPattern: PatternComponent = function PreviewPattern(props) {
   const context = useFormEditStore(state => state.context);
-  const selectedPattern = useFormEditStore(state => state.selectedPattern);
-  const handleEditClick = useFormEditStore(state => state.handleEditClick);
+  const focusedPattern = useFormEditStore(state => state.focusedPattern);
+  const setFocus = useFormEditStore(state => state.setFocus);
 
-  const isSelected = selectedPattern?.id === props._patternId;
+  const isSelected = focusedPattern?.id === props._patternId;
   const divClassNames = isSelected
     ? 'form-group-row field-selected'
     : 'form-group-row';
   const Component = context.components[props.type];
   const EditComponent = context.editComponents[props.type];
 
+  const selected = focusedPattern?.id === props._patternId;
   return (
-    <div className={divClassNames} data-id={props._patternId}>
-      <Component {...props} />
-      <span className="edit-button-icon">
-        {EditComponent ? (
-          <button
-            className="usa-button usa-button--secondary usa-button--unstyled"
-            onClick={() => handleEditClick(props._patternId)}
-            onKeyDown={e => {
-              if (e.key === 'Enter') {
-                handleEditClick(props._patternId);
-              }
-            }}
-            tabIndex={0}
-            aria-label="Edit form group"
-          >
-            <svg
-              className="usa-icon"
-              aria-hidden="true"
-              focusable="false"
-              role="img"
-            >
-              <use
-                xlinkHref={`${context.uswdsRoot}img/sprite.svg#settings`}
-              ></use>
-            </svg>
-          </button>
-        ) : null}
-      </span>
+    <div
+      className={divClassNames}
+      data-id={props._patternId}
+      onFocus={() => {
+        if (EditComponent) {
+          setFocus(props._patternId);
+        }
+      }}
+    >
+      {selected ? <PatternEdit /> : <Component {...props} />}
     </div>
   );
 };
