@@ -13,7 +13,7 @@ export default function FormPreview({
   form: Blueprint;
 }) {
   const session = createFormSession(form);
-  return <Form context={context} session={session} />;
+  return <Form isPreview={true} context={context} session={session} />;
 }
 
 export const FormPreviewById = ({

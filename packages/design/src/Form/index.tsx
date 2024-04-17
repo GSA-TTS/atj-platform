@@ -138,118 +138,136 @@ export default function Form({
             </nav>
           )}
           <div className="grid-col-9 usa-prose">
-            <form
-              className="previewForm usa-form usa-form--large margin-bottom-3"
-              onSubmit={formMethods.handleSubmit(async data => {
-                updatePrompt(data);
-                if (onSubmit) {
-                  console.log('Submitting form...');
-                  onSubmit(data);
-                } else {
-                  console.warn('Skipping form submission...');
-                }
-              })}
-            >
-              {false && (
-                <fieldset className="usa-fieldset">
-                  <legend className="usa-legend usa-legend--large">
-                    Request to Change Name
-                  </legend>
-                  <div className="usa-form-group">
-                    <div className="usa-form-group">
-                      <fieldset className="usa-fieldset">
-                        <legend className="usa-legend usa-legend--large">
-                          County where you live
-                        </legend>
-                        <label className="usa-label">
-                          Name of your county *
-                        </label>
-                        <input
-                          className="usa-input"
-                          id="input-users1_address_line_one"
-                          name="users1_address_line_one"
-                          type="text"
-                          aria-describedby="input-message-users1_address_line_one"
-                          value=""
-                        />
-                      </fieldset>
-                    </div>
-                  </div>
-
-                  <div className="usa-form-group">
-                    <div className="usa-form-group">
-                      <fieldset className="usa-fieldset">
-                        <legend className="usa-legend usa-legend--large">
-                          Your current name
-                        </legend>
-                        <label className="usa-label">First name *</label>
-                        <input
-                          className="usa-input"
-                          id="input-users1_first_name"
-                          name="users1_first_name"
-                          type="text"
-                          aria-describedby="input-message-users1_first_name"
-                          value=""
-                        />
-                        <label className="usa-label">Middle name *</label>
-                        <input
-                          className="usa-input"
-                          id="input-users1_middle_name"
-                          name="users1_middle_name"
-                          type="text"
-                          aria-describedby="input-message-users1_middle_name"
-                          value=""
-                        />
-                        <label className="usa-label">Last name *</label>
-                        <input
-                          className="usa-input"
-                          id="input-users1_last_name"
-                          name="users1_last_name"
-                          type="text"
-                          aria-describedby="input-message-users1_last_name"
-                          value=""
-                        />
-                      </fieldset>
-                      <fieldset className="usa-fieldset">
-                        <p>
-                          To ask the court to change your name, you must fill
-                          out this form, and:
-                        </p>
-                        <ul>
-                          <li>
-                            Attach a certified copy of your birth certificate
-                            and a copy of your photo ID, and
-                          </li>
-                          <li>
-                            File your form and attachements in the same county
-                            where you live.
-                          </li>
-                        </ul>
-                      </fieldset>
-                    </div>
-                  </div>
-                </fieldset>
-              )}
-
-              <fieldset className="usa-fieldset">
-                {prompt.components.map((component, index) => {
-                  return (
-                    <PromptComponent
-                      key={index}
-                      context={context}
-                      component={component}
-                    />
-                  );
+            {!isPreview ? (
+              <form
+                className="usa-form usa-form--large margin-bottom-3"
+                onSubmit={formMethods.handleSubmit(async data => {
+                  updatePrompt(data);
+                  if (onSubmit) {
+                    console.log('Submitting form...');
+                    onSubmit(data);
+                  } else {
+                    console.warn('Skipping form submission...');
+                  }
                 })}
-              </fieldset>
-              <ActionBar actions={prompt.actions} />
-            </form>
+              >
+                <FormContents context={context} prompt={prompt} />
+              </form>
+            ) : (
+              <div>
+                <FormContents context={context} prompt={prompt} />
+              </div>
+            )}
           </div>
         </div>
       </div>
     </FormProvider>
   );
 }
+
+const FormContents = ({
+  context,
+  prompt,
+}: {
+  context: FormUIContext;
+  prompt: Prompt;
+}) => {
+  return (
+    <>
+      {false && (
+        <fieldset className="usa-fieldset">
+          <legend className="usa-legend usa-legend--large">
+            Request to Change Name
+          </legend>
+          <div className="usa-form-group">
+            <div className="usa-form-group">
+              <fieldset className="usa-fieldset">
+                <legend className="usa-legend usa-legend--large">
+                  County where you live
+                </legend>
+                <label className="usa-label">Name of your county *</label>
+                <input
+                  className="usa-input"
+                  id="input-users1_address_line_one"
+                  name="users1_address_line_one"
+                  type="text"
+                  aria-describedby="input-message-users1_address_line_one"
+                  value=""
+                />
+              </fieldset>
+            </div>
+          </div>
+
+          <div className="usa-form-group">
+            <div className="usa-form-group">
+              <fieldset className="usa-fieldset">
+                <legend className="usa-legend usa-legend--large">
+                  Your current name
+                </legend>
+                <label className="usa-label">First name *</label>
+                <input
+                  className="usa-input"
+                  id="input-users1_first_name"
+                  name="users1_first_name"
+                  type="text"
+                  aria-describedby="input-message-users1_first_name"
+                  value=""
+                />
+                <label className="usa-label">Middle name *</label>
+                <input
+                  className="usa-input"
+                  id="input-users1_middle_name"
+                  name="users1_middle_name"
+                  type="text"
+                  aria-describedby="input-message-users1_middle_name"
+                  value=""
+                />
+                <label className="usa-label">Last name *</label>
+                <input
+                  className="usa-input"
+                  id="input-users1_last_name"
+                  name="users1_last_name"
+                  type="text"
+                  aria-describedby="input-message-users1_last_name"
+                  value=""
+                />
+              </fieldset>
+              <fieldset className="usa-fieldset">
+                <p>
+                  To ask the court to change your name, you must fill out this
+                  form, and:
+                </p>
+                <ul>
+                  <li>
+                    Attach a certified copy of your birth certificate and a copy
+                    of your photo ID, and
+                  </li>
+                  <li>
+                    File your form and attachements in the same county where you
+                    live.
+                  </li>
+                </ul>
+              </fieldset>
+            </div>
+          </div>
+        </fieldset>
+      )}
+
+      <fieldset className="usa-fieldset">
+        {prompt.components.map((component, index) => {
+          return (
+            <PromptComponent
+              key={index}
+              context={context}
+              component={component}
+            />
+          );
+        })}
+      </fieldset>
+      <ActionBar actions={prompt.actions} />
+    </>
+  );
+};
 
 const PromptComponent = ({
   context,

@@ -30,8 +30,8 @@ export default {
 
 export const FormEditTest: StoryObj<typeof FormEdit> = {
   play: async ({ canvasElement }) => {
-    await editFieldLabel(canvasElement, 1, 'First field label');
-    await editFieldLabel(canvasElement, 2, 'Second field label');
+    await editFieldLabel(canvasElement, 'Pattern 1', 'First field label');
+    await editFieldLabel(canvasElement, 'Pattern 2', 'Second field label');
   },
 };
 
@@ -39,20 +39,14 @@ export const FormEditAddPattern: StoryObj<typeof FormEdit> = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    // Select the first pattern for editing
-    const button = (await canvas.findAllByLabelText('Edit form group'))[0];
-    await userEvent.click(button);
-
     // Get the initial count of inputs
-    const initialCount = (await canvas.findAllByLabelText('Edit form group'))
-      .length;
+    const initialCount = (await canvas.findAllByRole('textbox')).length;
 
     const select = canvas.getByLabelText('Add a pattern');
     await userEvent.selectOptions(select, 'Text input');
 
-    const finalCount = (await canvas.findAllByLabelText('Edit form group'))
-      .length;
-    expect(finalCount).toEqual(initialCount + 1);
+    const finalCount = (await canvas.findAllByRole('textbox')).length;
+    expect(finalCount).toBeGreaterThan(initialCount);
   },
 };
 
@@ -89,27 +83,29 @@ export const FormEditReorderPattern: StoryObj<typeof FormEdit> = {
 
 const editFieldLabel = async (
   element: HTMLElement,
-  buttonIndex: number,
-  fieldLabel: string
+  currentLabel: string,
+  updatedLabel: string
 ) => {
   const canvas = within(element);
 
-  // Click "edit form" button for first field
-  await userEvent.click(
-    (await canvas.findAllByLabelText('Edit form group'))[buttonIndex]
-  );
+  // Give focus to the field matching `currentLabel`
+  await userEvent.click(await canvas.findByLabelText(currentLabel));
 
   // Enter new text for first field
   const input = canvas.getByLabelText('Field label');
   await userEvent.clear(input);
-  await userEvent.type(input, fieldLabel);
+  await userEvent.type(input, updatedLabel);
 
   // Save the field to the form
-  await userEvent.click(canvas.getByRole('button', { name: 'Save' }));
+  await userEvent.click(
+    canvas.getByRole('button', {
+      name: 'Exit editing mode for this pattern',
+    })
+  );
 
   waitFor(
     async () => {
-      const newLabel = await canvas.getByLabelText(fieldLabel);
+      const newLabel = await canvas.getByLabelText(updatedLabel);
       await expect(newLabel).toBeInTheDocument();
     },
     { interval: 5 }

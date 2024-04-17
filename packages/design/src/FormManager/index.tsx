@@ -79,7 +79,7 @@ export default function FormManager({
             }
             return (
               <FormDocumentImport
-                config={context.config}
+                context={context}
                 baseUrl={baseUrl}
                 formId={formId}
                 formService={formService}

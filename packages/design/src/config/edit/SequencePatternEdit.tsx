@@ -44,9 +44,9 @@ const SortableItem = <T,>({ id, form, pattern, context }: ItemProps<T>) => {
 
   return (
     <li ref={setNodeRef} style={style}>
-      <div className="editFieldsRowWrapper grid-row grid-gap">
+      <div className="grid-row grid-gap">
         <div
-          className="editPageGrabButtonWrapper grid-col-1 grid-col"
+          className="grid-col-1 grid-col"
           {...listeners}
           {...attributes}
           style={{ cursor: 'grab' }}
@@ -114,7 +114,7 @@ const SequencePatternEdit: PatternEditComponent<SequencePattern> = ({
           items={patterns}
           strategy={verticalListSortingStrategy}
         >
-          <ul className="editFormWrapper">
+          <ul>
             <input type="hidden" {...register(`${pattern.id}.id`)} />
             <input type="hidden" {...register(`${pattern.id}.type`)} />
             <input type="hidden" {...register(`${pattern.id}.patterns`)} />

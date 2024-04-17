@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { type PatternMap } from '@atj/forms';
@@ -7,87 +7,48 @@ import { useFormEditStore } from './store';
 export const PatternEdit = () => {
   const context = useFormEditStore(state => state.context);
   const form = useFormEditStore(state => state.form);
-  const selectedPattern = useFormEditStore(state => state.selectedPattern);
-  const { setSelectedPattern, updateSelectedPattern } = useFormEditStore(
-    state => ({
-      setSelectedPattern: state.setSelectedPattern,
-      updateSelectedPattern: state.updateSelectedPattern,
-    })
-  );
+  const focusedPattern = useFormEditStore(state => state.focusedPattern);
+  const { updateSelectedPattern } = useFormEditStore(state => ({
+    updateSelectedPattern: state.updateSelectedPattern,
+  }));
 
   const methods = useForm<PatternMap>({
-    defaultValues: selectedPattern
+    defaultValues: focusedPattern
       ? {
-          [selectedPattern.id]: selectedPattern,
+          [focusedPattern.id]: focusedPattern,
         }
       : {},
   });
-  const settingsContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (selectedPattern === undefined) {
+    if (focusedPattern === undefined) {
       return;
     }
     methods.reset();
-    methods.setValue(selectedPattern.id, selectedPattern);
-  }, [selectedPattern]);
+    methods.setValue(focusedPattern.id, focusedPattern);
+  }, [focusedPattern]);
 
-  // Updates the scroll position of the edit form when it's visible
-  useEffect(() => {
-    let frameId: number;
-    const updatePosition = () => {
-      if (window.innerWidth > 879) {
-        if (selectedPattern) {
-          const element = document.querySelector(
-            `[data-id="${selectedPattern.id}"]`
-          );
-          if (element && settingsContainerRef.current) {
-            const rect = element.getBoundingClientRect();
-            settingsContainerRef.current.style.top = `${rect.top}px`;
-          }
-        }
-      }
-      frameId = requestAnimationFrame(updatePosition);
-    };
-    frameId = requestAnimationFrame(updatePosition);
-    return () => {
-      cancelAnimationFrame(frameId);
-    };
-  }, [selectedPattern]);
-
-  if (!selectedPattern) {
+  if (!focusedPattern) {
     return;
   }
 
-  const SelectedEditComponent = context.editComponents[selectedPattern.type];
+  const SelectedEditComponent = context.editComponents[focusedPattern.type];
   return (
     <FormProvider {...methods}>
-      <div
-        ref={settingsContainerRef}
-        className="settingsContainer position-sticky"
-      >
+      <div>
         {SelectedEditComponent ? (
           <form
-            className="editForm"
             onSubmit={methods.handleSubmit(formData => {
               updateSelectedPattern(formData);
             })}
           >
-            <h3>Editing &quot;{selectedPattern.data.label}&quot;...</h3>
-            <SelectedEditComponent
-              context={context}
-              form={form}
-              pattern={selectedPattern}
-            />
-            <p>
-              <input className="usa-button" type="submit" value="Save" />
-              <input
-                onClick={() => setSelectedPattern(undefined)}
-                className="usa-button close-button"
-                type="submit"
-                value="Cancel"
+            <div className="border-1 radius-md border-primary-light padding-1">
+              <SelectedEditComponent
+                context={context}
+                form={form}
+                pattern={focusedPattern}
               />
-            </p>
+            </div>
           </form>
         ) : null}
       </div>

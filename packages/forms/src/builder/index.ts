@@ -3,13 +3,15 @@ import {
   type FormConfig,
   type FormSummary,
   type Pattern,
+  type PatternId,
   type PatternMap,
   addDocument,
+  addPatternToRoot,
+  createPattern,
   nullBlueprint,
+  removePatternFromBlueprint,
   updateFormSummary,
   updatePatternFromFormData,
-  createPattern,
-  addPatternToRoot,
 } from '..';
 
 export class BlueprintBuilder {
@@ -36,6 +38,10 @@ export class BlueprintBuilder {
     const pattern = createPattern(config, patternType);
     this._bp = addPatternToRoot(this.form, pattern);
     return pattern;
+  }
+
+  removePattern(config: FormConfig, id: PatternId) {
+    this._bp = removePatternFromBlueprint(config, this._bp, id);
   }
 
   updatePattern(config: FormConfig, pattern: Pattern, formData: PatternMap) {

@@ -24,6 +24,11 @@ type ParsePatternConfigData<PatternConfigData> = (
   patternData: unknown
 ) => Result<PatternConfigData>;
 
+type RemoveChildPattern<P extends Pattern> = (
+  pattern: P,
+  patternId: PatternId
+) => P;
+
 export const getPattern: GetPattern = (form, patternId) => {
   return form.patterns[patternId];
 };
@@ -40,6 +45,7 @@ export type PatternConfig<
     pattern: ThisPattern,
     patterns: Record<PatternId, Pattern>
   ) => Pattern[];
+  removeChildPattern?: RemoveChildPattern<ThisPattern>;
   createPrompt: CreatePrompt<ThisPattern>;
 };
 
@@ -138,4 +144,16 @@ export const createPattern = (
     type: patternType,
     data: config.patterns[patternType].initial,
   };
+};
+
+export const removeChildPattern = (
+  config: FormConfig,
+  pattern: Pattern,
+  id: PatternId
+) => {
+  const remove = config.patterns[pattern.type].removeChildPattern;
+  if (!remove) {
+    return pattern;
+  }
+  return remove(pattern, id);
 };

@@ -6,6 +6,7 @@ import {
   type PatternId,
   type PatternMap,
   getPatternMap,
+  removeChildPattern,
 } from './pattern';
 
 export * from './builder';
@@ -216,20 +217,48 @@ export const updatePattern = (form: Blueprint, pattern: Pattern): Blueprint => {
   };
 };
 
-export const addFormOutput = (form: Blueprint, document: FormOutput) => {
+export const addFormOutput = (
+  form: Blueprint,
+  document: FormOutput
+): Blueprint => {
   return {
     ...form,
     outputs: [...form.outputs, document],
   };
 };
 
-export const getPattern = (form: Blueprint, id: PatternId) => {
+export const getPattern = (form: Blueprint, id: PatternId): Pattern => {
   return form.patterns[id];
 };
 
-export const updateFormSummary = (form: Blueprint, summary: FormSummary) => {
+export const updateFormSummary = (
+  form: Blueprint,
+  summary: FormSummary
+): Blueprint => {
   return {
     ...form,
     summary,
+  };
+};
+
+export const removePatternFromBlueprint = (
+  config: FormConfig,
+  blueprint: Blueprint,
+  id: PatternId
+) => {
+  // Iterate over each pattern in the blueprint, and remove the target pattern
+  // if it is a child.
+  const patterns = Object.values(blueprint.patterns).reduce(
+    (patterns, pattern) => {
+      patterns[pattern.id] = removeChildPattern(config, pattern, id);
+      return patterns;
+    },
+    {} as PatternMap
+  );
+  // Remove the pattern itself
+  delete patterns[id];
+  return {
+    ...blueprint,
+    patterns,
   };
 };

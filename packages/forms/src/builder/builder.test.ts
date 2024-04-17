@@ -23,6 +23,31 @@ describe('form builder', () => {
       newBuilder.form.patterns[newBuilder.form.root].data.patterns
     ).toEqual([...initial.patterns[initial.root].data.patterns, newPattern.id]);
   });
+
+  it('removePattern removes pattern and sequence reference', () => {
+    const initial = createTestBlueprint();
+    const builder = new BlueprintBuilder(initial);
+    builder.removePattern(defaultFormConfig, 'element-2');
+    expect(builder.form.patterns).toEqual({
+      root: {
+        type: 'sequence',
+        id: 'root',
+        data: {
+          patterns: ['element-1'],
+        },
+      } satisfies SequencePattern,
+      'element-1': {
+        type: 'input',
+        id: 'element-1',
+        data: {
+          label: 'Pattern 1',
+          initial: '',
+          required: true,
+          maxLength: 128,
+        },
+      } satisfies InputPattern,
+    });
+  });
 });
 
 export const createTestBlueprint = () => {
