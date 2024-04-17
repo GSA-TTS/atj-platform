@@ -26,14 +26,14 @@ export default function FormEdit({
   const form = result.data;
 
   return (
-    <div className="editFormPage">
+    <>
       <ManagerNav />
       <h1>Edit form</h1>
       <p className="usa-intro">Your form has been imported for web delivery.</p>
       <FormEditProvider context={context} form={form}>
         <EditForm saveForm={form => formService.saveForm(formId, form)} />
       </FormEditProvider>
-    </div>
+    </>
   );
 }
 

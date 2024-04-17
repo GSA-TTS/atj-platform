@@ -39,7 +39,7 @@ const SortableItem = ({
     >
       <div className="grid-row grid-gap">
         <div
-          className="grid-col-1 grid-col width-full"
+          className="grid-col-12 grid-col width-full"
           {...listeners}
           {...attributes}
           style={{ cursor: 'grab' }}
@@ -55,7 +55,7 @@ const SortableItem = ({
             ></use>
           </svg>
         </div>
-        <div className="grid-col-11 grid-col">{children}</div>
+        <div className="grid-col-12 grid-col">{children}</div>
       </div>
     </div>
   );

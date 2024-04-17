@@ -38,6 +38,7 @@ type FormEditState = {
   }[];
 
   addPattern: (patternType: string) => void;
+  deleteSelectedPattern: () => void;
   setFocus: (patternId: PatternId) => void;
   setSelectedPattern: (element?: Pattern) => void;
   updatePattern: (data: Pattern) => void;
@@ -65,6 +66,17 @@ const createFormEditStore = ({
       const builder = new BlueprintBuilder(state.form);
       const newPattern = builder.addPattern(state.context.config, patternType);
       set({ form: builder.form, focusedPattern: newPattern });
+    },
+    deleteSelectedPattern: () => {
+      const state = get();
+      if (state.focusedPattern === undefined) {
+        return;
+      }
+      const builder = new BlueprintBuilder(state.form);
+      console.log('delete', state.focusedPattern.id);
+      builder.removePattern(state.context.config, state.focusedPattern.id);
+      set({ focusedPattern: undefined, form: builder.form });
+      console.log(builder.form);
     },
     setFocus: (patternId: PatternId) => {
       const state = get();
