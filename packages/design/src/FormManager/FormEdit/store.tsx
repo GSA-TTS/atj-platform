@@ -16,6 +16,9 @@ const { Provider, useStore } = createContext<StoreApi<FormEditState>>();
 
 export const useFormEditStore = useStore;
 
+export const usePattern = (id: PatternId) =>
+  useFormEditStore(state => getPattern(state.form, id));
+
 export const FormEditProvider = (props: {
   context: FormEditUIContext;
   form: Blueprint;

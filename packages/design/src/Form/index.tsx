@@ -20,11 +20,12 @@ export type FormUIContext = {
   uswdsRoot: `${string}/`;
 };
 
-export type ComponentForPattern<
-  T extends PatternProps = PatternProps<unknown>,
-> = Record<string, PatternComponent<T>>;
+export type ComponentForPattern<T extends PatternProps = PatternProps> = Record<
+  string,
+  PatternComponent<T>
+>;
 
-export type PatternComponent<T extends PatternProps = PatternProps<unknown>> =
+export type PatternComponent<T extends PatternProps = PatternProps> =
   React.ComponentType<
     T & {
       children?: React.ReactNode;

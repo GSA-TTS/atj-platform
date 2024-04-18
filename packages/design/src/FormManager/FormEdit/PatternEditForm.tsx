@@ -4,9 +4,11 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { type PatternMap } from '@atj/forms';
 import { useFormEditStore } from './store';
 
-export const PatternEdit = () => {
-  const context = useFormEditStore(state => state.context);
-  const form = useFormEditStore(state => state.form);
+export const PatternEditForm = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const focusedPattern = useFormEditStore(state => state.focusedPattern);
   const { updateSelectedPattern } = useFormEditStore(state => ({
     updateSelectedPattern: state.updateSelectedPattern,
@@ -32,25 +34,18 @@ export const PatternEdit = () => {
     return;
   }
 
-  const SelectedEditComponent = context.editComponents[focusedPattern.type];
   return (
     <FormProvider {...methods}>
       <div>
-        {SelectedEditComponent ? (
-          <form
-            onSubmit={methods.handleSubmit(formData => {
-              updateSelectedPattern(formData);
-            })}
-          >
-            <div className="border-1 radius-md border-primary-light padding-1">
-              <SelectedEditComponent
-                context={context}
-                form={form}
-                pattern={focusedPattern}
-              />
-            </div>
-          </form>
-        ) : null}
+        <form
+          onSubmit={methods.handleSubmit(formData => {
+            updateSelectedPattern(formData);
+          })}
+        >
+          <div className="border-1 radius-md border-primary-light padding-1">
+            {children}
+          </div>
+        </form>
       </div>
     </FormProvider>
   );

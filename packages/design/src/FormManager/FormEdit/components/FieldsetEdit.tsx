@@ -1,16 +1,26 @@
 import React from 'react';
 
-import { FieldsetPattern } from '@atj/forms/src/patterns/fieldset';
+import { FieldsetProps } from '@atj/forms';
 
-import { PatternEditComponent } from '../types';
+import { PatternComponent } from '../../../Form';
 import Fieldset from '../../../Form/components/Fieldset';
 import { PatternEditActions } from '../PatternEditActions';
+import { PatternEditForm } from '../PatternEditForm';
+import { useFormEditStore } from '../store';
 
-const FieldsetEdit: PatternEditComponent<FieldsetPattern> = ({ pattern }) => {
+const FieldsetEdit: PatternComponent<FieldsetProps> = props => {
+  const focusedPattern = useFormEditStore(state => state.focusedPattern);
+  const showEditUI = focusedPattern?.id === props._patternId;
   return (
     <div>
-      Fieldset settings go here. {JSON.stringify(pattern)}
-      <Fieldset {...pattern} type="fieldset" _patternId={pattern.id} />
+      {showEditUI ? (
+        <PatternEditForm>
+          Fieldset settings go here. {JSON.stringify(props)}
+          {props.children}
+        </PatternEditForm>
+      ) : (
+        <Fieldset {...props}>{props.children}</Fieldset>
+      )}
       <PatternEditActions />
     </div>
   );
