@@ -42,6 +42,7 @@ type FormEditState = {
   setFocus: (patternId: PatternId) => void;
   setSelectedPattern: (element?: Pattern) => void;
   updatePattern: (data: Pattern) => void;
+  updatePatternById: (id: PatternId, formData: PatternMap) => void;
   updateSelectedPattern: (formData: PatternMap) => void;
 };
 
@@ -61,7 +62,7 @@ const createFormEditStore = ({
         displayName: patternConfig.displayName,
       })
     ),
-    addPattern: (patternType: string) => {
+    addPattern: patternType => {
       const state = get();
       const builder = new BlueprintBuilder(state.form);
       const newPattern = builder.addPattern(state.context.config, patternType);
@@ -76,7 +77,7 @@ const createFormEditStore = ({
       builder.removePattern(state.context.config, state.focusedPattern.id);
       set({ focusedPattern: undefined, form: builder.form });
     },
-    setFocus: (patternId: PatternId) => {
+    setFocus: patternId => {
       const state = get();
       if (state.focusedPattern?.id === patternId) {
         return;
@@ -85,7 +86,7 @@ const createFormEditStore = ({
       set({ focusedPattern: elementToSet });
     },
     setSelectedPattern: focusedPattern => set({ focusedPattern }),
-    updatePattern: (pattern: Pattern) => {
+    updatePattern: pattern => {
       const state = get();
       const builder = new BlueprintBuilder(state.form);
       const success = builder.updatePattern(
@@ -99,7 +100,19 @@ const createFormEditStore = ({
         set({ form: builder.form, focusedPattern: undefined });
       }
     },
-    updateSelectedPattern: (formData: PatternMap) => {
+    updatePatternById: (id, formData) => {
+      const state = get();
+      const builder = new BlueprintBuilder(state.form);
+      const success = builder.updatePatternById(
+        state.context.config,
+        id,
+        formData
+      );
+      if (success) {
+        set({ form: builder.form });
+      }
+    },
+    updateSelectedPattern: formData => {
       const state = get();
       if (state.focusedPattern === undefined) {
         console.warn('No selected element');

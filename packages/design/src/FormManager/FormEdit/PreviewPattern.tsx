@@ -34,7 +34,11 @@ export const PreviewPattern: PatternComponent = function PreviewPattern(props) {
         }
       }}
     >
-      {selected ? <PatternEdit /> : <Component {...props} />}
+      {selected ? (
+        <PatternEdit pattern={focusedPattern} />
+      ) : (
+        <Component {...props} />
+      )}
     </div>
   );
 };

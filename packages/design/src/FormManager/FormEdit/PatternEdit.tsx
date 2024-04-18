@@ -1,56 +1,44 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { type PatternMap } from '@atj/forms';
+import { type Pattern, type PatternMap } from '@atj/forms';
 import { useFormEditStore } from './store';
 
-export const PatternEdit = () => {
+export const PatternEdit = ({ pattern }: { pattern: Pattern }) => {
   const context = useFormEditStore(state => state.context);
   const form = useFormEditStore(state => state.form);
-  const focusedPattern = useFormEditStore(state => state.focusedPattern);
-  const { updateSelectedPattern } = useFormEditStore(state => ({
-    updateSelectedPattern: state.updateSelectedPattern,
+  const { updatePatternById } = useFormEditStore(state => ({
+    updatePatternById: state.updatePatternById,
   }));
 
   const methods = useForm<PatternMap>({
-    defaultValues: focusedPattern
-      ? {
-          [focusedPattern.id]: focusedPattern,
-        }
-      : {},
+    defaultValues: {
+      [pattern.id]: pattern,
+    },
   });
 
-  useEffect(() => {
-    if (focusedPattern === undefined) {
-      return;
-    }
-    methods.reset();
-    methods.setValue(focusedPattern.id, focusedPattern);
-  }, [focusedPattern]);
-
-  if (!focusedPattern) {
-    return;
-  }
-
-  const SelectedEditComponent = context.editComponents[focusedPattern.type];
+  const SelectedEditComponent = context.editComponents[pattern.type];
   return (
     <FormProvider {...methods}>
       <div>
         {SelectedEditComponent ? (
           <form
             onSubmit={methods.handleSubmit(formData => {
-              updateSelectedPattern(formData);
+              console.log('submitting');
+              updatePatternById(pattern.id, formData);
             })}
           >
             <div className="border-1 radius-md border-primary-light padding-1">
               <SelectedEditComponent
                 context={context}
                 form={form}
-                pattern={focusedPattern}
+                pattern={pattern}
               />
             </div>
           </form>
-        ) : null}
+        ) : (
+          <div>Hello</div>
+        )}
       </div>
     </FormProvider>
   );
