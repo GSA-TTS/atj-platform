@@ -7,61 +7,47 @@ import {
 } from './pattern';
 import { type FormSession, nullSession, sessionIsComplete } from './session';
 
-export type TextInputProps = PatternProps<
-  'input',
-  {
-    inputId: string;
-    value: string;
-    label: string;
-    required: boolean;
-    error?: string;
-  }
->;
+export type TextInputProps = PatternProps<{
+  type: 'input';
+  inputId: string;
+  value: string;
+  label: string;
+  required: boolean;
+  error?: string;
+}>;
 
-export type FormSummaryProps = PatternProps<
-  'form-summary',
-  {
-    title: string;
-    description: string;
-  }
->;
+export type FormSummaryProps = PatternProps<{
+  type: 'form-summary';
+  title: string;
+  description: string;
+}>;
 
-export type SubmissionConfirmationProps = PatternProps<
-  'submission-confirmation',
-  {
-    table: { label: string; value: string }[];
-  }
->;
+export type SubmissionConfirmationProps = PatternProps<{
+  type: 'submission-confirmation';
+  table: { label: string; value: string }[];
+}>;
 
-export type ParagraphProps = PatternProps<
-  'paragraph',
-  {
-    text: string;
-    style: 'indent' | 'normal' | 'heading' | 'subheading';
-  }
->;
+export type ParagraphProps = PatternProps<{
+  type: 'paragraph';
+  text: string;
+  style: 'indent' | 'normal' | 'heading' | 'subheading';
+}>;
 
-export type FieldsetProps = PatternProps<
-  'fieldset',
-  {
-    legend?: string;
-  }
->;
+export type FieldsetProps = PatternProps<{
+  type: 'fieldset';
+  legend?: string;
+}>;
 
-export type ZipcodeProps = PatternProps<
-  'zipcode',
-  {
-    inputId: string;
-    value: string;
-  }
->;
+export type ZipcodeProps = PatternProps<{
+  type: 'zipcode';
+  inputId: string;
+  value: string;
+}>;
 
-export type SequenceProps = PatternProps<'sequence'>;
-
-export type PatternProps<T extends string = string, D = {}> = {
-  type: T;
+export type PatternProps<T = {}> = {
   _patternId: PatternId;
-} & D;
+  type: string;
+} & T;
 
 export type SubmitAction = {
   type: 'submit';

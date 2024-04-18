@@ -17,21 +17,18 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import { useFormContext } from 'react-hook-form';
 
-import { SequenceProps, type Pattern } from '@atj/forms';
+import { type Blueprint, type Pattern } from '@atj/forms';
 import { type SequencePattern } from '@atj/forms/src/patterns/sequence';
+import { type FormEditUIContext, type PatternEditComponent } from '../types';
 
-import { PatternComponent } from '../../../Form';
-
-import { useFormEditStore, usePattern } from '../store';
-import { PatternEditForm } from '../PatternEditForm';
-
-const SortableItem = ({
-  id,
-  children,
-}: {
+interface ItemProps<T> {
   id: string;
-  children: React.ReactNode;
-}) => {
+  form: Blueprint;
+  pattern: Pattern<T>;
+  context: FormEditUIContext;
+}
+
+const SortableItem = <T,>({ id, form, pattern, context }: ItemProps<T>) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
 
@@ -39,6 +36,8 @@ const SortableItem = ({
     transform: CSS.Transform.toString(transform),
     transition,
   };
+
+  const Component = context.editComponents[pattern.type];
 
   return (
     <li ref={setNodeRef} style={style}>
@@ -52,19 +51,25 @@ const SortableItem = ({
           <span className="grabber1">:::</span>
           <span className="grabber2">:::</span>
         </div>
-        <div className="grid-col-11 grid-col">{children}</div>
+        <div className="editFieldsWrapper grid-col-11 grid-col">
+          <Component
+            key={pattern.id}
+            context={context}
+            pattern={pattern}
+            form={form}
+          />
+        </div>
       </div>
     </li>
   );
 };
 
-const SequencePatternEdit: PatternComponent<SequenceProps> = props => {
+const SequencePatternEdit: PatternEditComponent<SequencePattern> = ({
+  context,
+  form,
+  pattern,
+}) => {
   const { register, setValue } = useFormContext();
-  const { context, form } = useFormEditStore(state => ({
-    context: state.context,
-    form: state.form,
-  }));
-  const pattern = usePattern(props._patternId);
   const [patterns, setPatterns] = useState<Pattern[]>(
     pattern.data.patterns.map((patternId: string) => {
       return form.patterns[patternId];
@@ -75,55 +80,54 @@ const SequencePatternEdit: PatternComponent<SequenceProps> = props => {
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   );
   return (
-    <PatternEditForm>
-      <fieldset>
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={event => {
-            const { active, over } = event;
-            if (over === null) {
-              return;
-            }
-            if (active.id !== over.id) {
-              const oldIndex = patterns.findIndex(pattern => {
-                return pattern.id === active.id;
-              });
-              const newIndex = patterns.findIndex(pattern => {
-                return pattern.id === over.id;
-              });
-              const newOrder = arrayMove(patterns, oldIndex, newIndex);
-              setPatterns(newOrder);
-              setValue(pattern.id, {
-                ...pattern,
-                data: {
-                  patterns: newOrder.map(pattern => pattern.id),
-                },
-              } satisfies SequencePattern);
-            }
-          }}
+    <fieldset>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={event => {
+          const { active, over } = event;
+          if (over === null) {
+            return;
+          }
+          if (active.id !== over.id) {
+            const oldIndex = patterns.findIndex(pattern => {
+              return pattern.id === active.id;
+            });
+            const newIndex = patterns.findIndex(pattern => {
+              return pattern.id === over.id;
+            });
+            const newOrder = arrayMove(patterns, oldIndex, newIndex);
+            setPatterns(newOrder);
+            setValue(pattern.id, {
+              ...pattern,
+              data: {
+                patterns: newOrder.map(pattern => pattern.id),
+              },
+            } satisfies SequencePattern);
+          }
+        }}
+      >
+        <SortableContext
+          items={patterns}
+          strategy={verticalListSortingStrategy}
         >
-          <SortableContext
-            items={patterns}
-            strategy={verticalListSortingStrategy}
-          >
-            <ul>
-              <input type="hidden" {...register(`${pattern.id}.id`)} />
-              <input type="hidden" {...register(`${pattern.id}.type`)} />
-              <input type="hidden" {...register(`${pattern.id}.patterns`)} />
-              {patterns.map(pattern => {
-                const EditComponent = context.editComponents[pattern.type];
-                return (
-                  <SortableItem key={pattern.id} id={pattern.id}>
-                    <EditComponent {...props} />;
-                  </SortableItem>
-                );
-              })}
-            </ul>
-          </SortableContext>
-        </DndContext>
-      </fieldset>
-    </PatternEditForm>
+          <ul>
+            <input type="hidden" {...register(`${pattern.id}.id`)} />
+            <input type="hidden" {...register(`${pattern.id}.type`)} />
+            <input type="hidden" {...register(`${pattern.id}.patterns`)} />
+            {patterns.map(patterns => (
+              <SortableItem
+                key={patterns.id}
+                id={patterns.id}
+                context={context}
+                pattern={patterns}
+                form={form}
+              />
+            ))}
+          </ul>
+        </SortableContext>
+      </DndContext>
+    </fieldset>
   );
 };
 

@@ -22,7 +22,6 @@ export const PreviewForm = () => {
         // TODO: We might want to hoist this definition up to a higher level,
         // so we don't have to regenerate it every time we render the form.
         components: createPreviewComponents(uiContext.components),
-        //components: uiContext.editComponents,
         uswdsRoot: uiContext.uswdsRoot,
       }}
       session={disposable}
@@ -37,7 +36,7 @@ const createPreviewComponents = (
   // TODO: Create a configurable way to to define preview components.
   for (const [patternType, Component] of Object.entries(components)) {
     previewComponents[patternType] = Component;
-    if (patternType === 'sequence' || patternType === 'fieldset') {
+    if (patternType === 'sequence') {
       previewComponents[patternType] =
         PatternPreviewSequence as PatternComponent;
     } else {
