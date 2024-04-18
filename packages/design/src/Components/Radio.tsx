@@ -1,22 +1,23 @@
-import classNames from 'classnames';
 import React from 'react';
 
-export default function Radio({ props: { 
+export default function Radio({ radio: { 
     id,
     label,
-    secondary,
-    uswds
+    disabled
 } }) {
     
     return (
           <div className="usa-radio">
             <input
               key={id}
+              id={id}
               className="usa-radio__input"
               type="radio"
+              disabled={disabled}
             />
             <label 
-              className="usa-radio__label" 
+              htmlFor={id}
+              className="usa-radio__label"
             >
               {label}
             </label>

@@ -1,3 +1,4 @@
+import React from 'react';
 import Checkbox from './Checkbox';
 
 export default {
@@ -10,7 +11,7 @@ export default {
     args: {
       props: {
         id: '1',
-        label: 'Primary'
+        label: 'Label Text'
       },
     },
   };
@@ -19,7 +20,7 @@ export default {
     args: {
       props: {
         id: '2',
-        label: 'Secondary'
+        label: 'Label Text'
       },
     },
   };

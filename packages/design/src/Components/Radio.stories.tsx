@@ -5,11 +5,21 @@ export default {
     title: 'Components/Radio',
     tags: ['autodocs'],
   };
-  
+
+  export const Default = {
+    args: {
+      
+      radio: {
+        id: '0',
+        label: 'Default Button'
+      },
+    },
+  };
+
   export const Primary = {
     args: {
-      props: {
-        id: '1',
+      radio: {
+        ...Default.args.radio,
         label: 'Primary'
       },
     },
@@ -17,9 +27,10 @@ export default {
   
   export const Secondary = {
     args: {
-      props: {
+      radio: {
         id: '2',
-        label: 'Secondary'
+        label: 'Secondary',
+        disabled: true,
       },
     },
   };

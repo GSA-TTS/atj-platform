@@ -4,10 +4,8 @@ import React from 'react';
 export default function Button({ props: { 
     id,
     label,
-    disabled,
     secondary,
     textOnly,
-    uswds
 } }) {
     
     return (
