@@ -2,8 +2,8 @@ import { createForm, createFormSession, defaultFormConfig } from '@atj/forms';
 import { SequencePattern } from '@atj/forms/src/patterns/sequence';
 import { InputPattern } from '@atj/forms/src/patterns/input';
 
-import { defaultPatternComponents } from './config';
-import { FormUIContext } from './Form';
+import { type FormUIContext } from './Form';
+import { defaultPatternComponents } from './Form/components';
 import { type FormEditUIContext } from './FormManager/FormEdit/types';
 import { defaultPatternEditComponents } from './FormManager/FormEdit/components';
 
