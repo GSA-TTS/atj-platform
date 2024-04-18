@@ -2,7 +2,7 @@ import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { type InputPattern } from '@atj/forms/src/patterns/input';
-import { type PatternEditComponent } from '../../FormManager/FormEdit/types';
+import { PatternEditComponent } from '../types';
 
 const SubmissionConfirmationEdit: PatternEditComponent<InputPattern> = ({
   pattern,

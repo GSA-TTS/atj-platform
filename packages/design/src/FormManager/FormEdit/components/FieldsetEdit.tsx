@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { PatternEditComponent } from '../../FormManager/FormEdit/types';
+import { PatternEditComponent } from '../types';
 import { FieldsetPattern } from '@atj/forms/src/patterns/fieldset';
 
 const FieldsetEdit: PatternEditComponent<FieldsetPattern> = ({ pattern }) => {

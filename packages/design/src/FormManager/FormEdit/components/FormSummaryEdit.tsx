@@ -2,7 +2,7 @@ import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { type FormSummary } from '@atj/forms/src/patterns/form-summary';
-import { PatternEditComponent } from '../../FormManager/FormEdit/types';
+import { PatternEditComponent } from '../types';
 
 const FormSummaryEdit: PatternEditComponent<FormSummary> = ({ pattern }) => {
   const { register } = useFormContext();

@@ -3,7 +3,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { type ParagraphPattern } from '@atj/forms/src/patterns/paragraph';
 
-import { type PatternEditComponent } from '../../FormManager/FormEdit/types';
+import { PatternEditComponent } from '../types';
 
 const ParagraphPatternEdit: PatternEditComponent<ParagraphPattern> = ({
   pattern,

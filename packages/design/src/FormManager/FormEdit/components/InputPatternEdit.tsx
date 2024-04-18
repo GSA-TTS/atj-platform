@@ -2,8 +2,8 @@ import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { type InputPattern } from '@atj/forms/src/patterns/input';
-import { PatternEditComponent } from '../../FormManager/FormEdit/types';
-import { PatternEditActions } from '../../FormManager/FormEdit/PatternEditActions';
+import { PatternEditComponent } from '../types';
+import { PatternEditActions } from '../PatternEditActions';
 
 const InputPatternEdit: PatternEditComponent<InputPattern> = ({ pattern }) => {
   const { register } = useFormContext();
