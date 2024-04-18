@@ -34,20 +34,27 @@ const FormList = ({
   urlForForm: UrlForForm;
 }) => {
   return (
-
     <table className="usa-table usa-table--stacked">
       <caption>Available forms</caption>
       <thead>
         <tr>
-          <th className="column1" scope="col">Form title</th>
-          <th className="column2" scope="col">Description</th>
-          <th className="column3" scope="col">Actions</th>
+          <th className="column1" scope="col">
+            Form title
+          </th>
+          <th className="column2" scope="col">
+            Description
+          </th>
+          <th className="column3" scope="col">
+            Actions
+          </th>
         </tr>
       </thead>
       <tbody>
         {forms.map((form, index) => (
           <tr key={index}>
-            <th data-label="Form title" scope="row">{form.title}</th>
+            <th data-label="Form title" scope="row">
+              {form.title}
+            </th>
             <td data-label="Description">{form.description}</td>
             <td data-label="Actions">
               <a href={urlForForm(form.id)} title={form.title}>
@@ -58,6 +65,5 @@ const FormList = ({
         ))}
       </tbody>
     </table>
-
   );
 };

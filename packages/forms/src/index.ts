@@ -6,7 +6,7 @@ import {
   type PatternId,
   type PatternMap,
   getPatternMap,
-  getPatternConfig,
+  removeChildPattern,
 } from './pattern';
 
 export * from './builder';
@@ -37,10 +37,7 @@ export const nullBlueprint: Blueprint = {
       data: {
         patterns: [],
       },
-      initial: {
-        patterns: [],
-      },
-    },
+    } satisfies SequencePattern,
   },
   outputs: [],
 };
@@ -68,9 +65,6 @@ export const createForm = (
         id: 'root',
         type: 'sequence',
         data: {
-          patterns: [],
-        },
-        initial: {
           patterns: [],
         },
       } satisfies SequencePattern,
@@ -158,6 +152,26 @@ export const addPatterns = (
   return addPatternMap(form, formPatternMap, root);
 };
 
+export const addPatternToRoot = (
+  bp: Blueprint,
+  pattern: Pattern
+): Blueprint => {
+  const rootSequence = bp.patterns[bp.root] as SequencePattern;
+  return {
+    ...bp,
+    patterns: {
+      ...bp.patterns,
+      [rootSequence.id]: {
+        ...rootSequence,
+        data: {
+          patterns: [...rootSequence.data.patterns, pattern.id],
+        },
+      },
+      [pattern.id]: pattern,
+    },
+  };
+};
+
 export const replacePatterns = (
   form: Blueprint,
   patterns: Pattern[]
@@ -181,10 +195,10 @@ export const updatePatterns = (
 ): Blueprint => {
   const root = newPatterns[form.root];
   const targetPatterns: PatternMap = {
-    root,
+    [root.id]: root,
   };
-  const resource = config.patterns[root.type as keyof FormConfig];
-  const children = resource.getChildren(root, newPatterns);
+  const patternConfig = config.patterns[root.type];
+  const children = patternConfig.getChildren(root, newPatterns);
   targetPatterns[root.id] = root;
   children.forEach(child => (targetPatterns[child.id] = child));
   return {
@@ -203,20 +217,48 @@ export const updatePattern = (form: Blueprint, pattern: Pattern): Blueprint => {
   };
 };
 
-export const addFormOutput = (form: Blueprint, document: FormOutput) => {
+export const addFormOutput = (
+  form: Blueprint,
+  document: FormOutput
+): Blueprint => {
   return {
     ...form,
     outputs: [...form.outputs, document],
   };
 };
 
-export const getPattern = (form: Blueprint, id: PatternId) => {
+export const getPattern = (form: Blueprint, id: PatternId): Pattern => {
   return form.patterns[id];
 };
 
-export const updateFormSummary = (form: Blueprint, summary: FormSummary) => {
+export const updateFormSummary = (
+  form: Blueprint,
+  summary: FormSummary
+): Blueprint => {
   return {
     ...form,
     summary,
+  };
+};
+
+export const removePatternFromBlueprint = (
+  config: FormConfig,
+  blueprint: Blueprint,
+  id: PatternId
+) => {
+  // Iterate over each pattern in the blueprint, and remove the target pattern
+  // if it is a child.
+  const patterns = Object.values(blueprint.patterns).reduce(
+    (patterns, pattern) => {
+      patterns[pattern.id] = removeChildPattern(config, pattern, id);
+      return patterns;
+    },
+    {} as PatternMap
+  );
+  // Remove the pattern itself
+  delete patterns[id];
+  return {
+    ...blueprint,
+    patterns,
   };
 };

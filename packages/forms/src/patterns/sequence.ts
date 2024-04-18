@@ -13,19 +13,14 @@ export type SequencePattern = Pattern<{
   patterns: PatternId[];
 }>;
 
-const sequenceSchema = z.array(z.string());
-
 const configSchema = z.object({
   patterns: z.array(z.string()),
 });
 
 export const sequenceConfig: PatternConfig<SequencePattern> = {
-  acceptsInput: false,
+  displayName: 'Sequence',
   initial: {
     patterns: [],
-  },
-  parseData: (_, obj) => {
-    return safeZodParse(sequenceSchema, obj);
   },
   parseConfigData: obj => safeZodParse(configSchema, obj),
   getChildren(pattern, patterns) {
@@ -33,14 +28,28 @@ export const sequenceConfig: PatternConfig<SequencePattern> = {
       (patternId: string) => patterns[patternId]
     );
   },
+  removeChildPattern(pattern, patternId) {
+    const newPatterns = pattern.data.patterns.filter(
+      (id: string) => patternId !== id
+    );
+    if (newPatterns.length === pattern.data.patterns.length) {
+      return pattern;
+    }
+    return {
+      ...pattern,
+      data: {
+        ...pattern.data,
+        patterns: newPatterns,
+      },
+    };
+  },
   createPrompt(config, session, pattern, options) {
     const children = pattern.data.patterns.map((patternId: string) => {
       const childPattern = getPattern(session.form, patternId);
       return createPromptForPattern(config, session, childPattern, options);
     });
     return {
-      pattern: {
-        _children: children,
+      props: {
         _patternId: pattern.id,
         type: 'sequence',
       },

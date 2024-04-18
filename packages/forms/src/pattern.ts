@@ -3,50 +3,55 @@ import { updatePattern, type Blueprint } from '..';
 
 import { type CreatePrompt } from './components';
 
-export type Pattern<T = any, C = any> = {
+export type Pattern<C = any> = {
   type: string;
   id: PatternId;
   data: C;
-  initial: T;
 };
 
 export type PatternId = string;
-export type PatternValue<T extends Pattern = Pattern> = T['initial'];
+export type PatternValue<T extends Pattern = Pattern> = any;
 export type PatternValueMap = Record<PatternId, PatternValue>;
 export type PatternMap = Record<PatternId, Pattern>;
 export type GetPattern = (form: Blueprint, id: PatternId) => Pattern;
 
-export type ParsePatternData<T extends Pattern = Pattern> = (
-  patternData: T['data'],
-  obj: string
-) => Result<T['data']>;
+type ParsePatternData<PatternConfigData, PatternOutput> = (
+  patternData: PatternConfigData,
+  obj: unknown
+) => Result<PatternOutput>;
 
-export type ParsePatternConfigData<T extends Pattern = Pattern> = (
-  patternData: T['data']
-) => Result<T['data']>;
+type ParsePatternConfigData<PatternConfigData> = (
+  patternData: unknown
+) => Result<PatternConfigData>;
+
+type RemoveChildPattern<P extends Pattern> = (
+  pattern: P,
+  patternId: PatternId
+) => P;
 
 export const getPattern: GetPattern = (form, patternId) => {
   return form.patterns[patternId];
 };
 
-export type PatternConfig<ThisPattern extends Pattern> = {
-  acceptsInput: boolean;
+export type PatternConfig<
+  ThisPattern extends Pattern = Pattern,
+  PatternOutput = unknown,
+> = {
+  displayName: string;
   initial: ThisPattern['data'];
-  parseData: ParsePatternData<ThisPattern>;
-  parseConfigData: ParsePatternConfigData<ThisPattern>;
+  parseData?: ParsePatternData<ThisPattern['data'], PatternOutput>;
+  parseConfigData: ParsePatternConfigData<ThisPattern['data']>;
   getChildren: (
     pattern: ThisPattern,
     patterns: Record<PatternId, Pattern>
   ) => Pattern[];
+  removeChildPattern?: RemoveChildPattern<ThisPattern>;
   createPrompt: CreatePrompt<ThisPattern>;
 };
-export type FormConfig<T extends Pattern = Pattern> = {
-  patterns: Record<string, PatternConfig<T>>;
-};
 
-export type ConfigPatterns<Config extends FormConfig> = ReturnType<
-  Config['patterns'][keyof Config['patterns']]['parseData']
->;
+export type FormConfig<T extends Pattern = Pattern, PatternOutput = unknown> = {
+  patterns: Record<string, PatternConfig<T, PatternOutput>>;
+};
 
 export const getPatternMap = (patterns: Pattern[]) => {
   return Object.fromEntries(
@@ -54,10 +59,6 @@ export const getPatternMap = (patterns: Pattern[]) => {
       return [pattern.id, pattern];
     })
   );
-};
-
-export const getPatterns = (form: Blueprint, patternIds: PatternId[]) => {
-  return patternIds.map(patternIds => getPattern(form, patternIds));
 };
 
 export const getPatternConfig = (
@@ -68,24 +69,24 @@ export const getPatternConfig = (
 };
 
 export const validatePattern = (
-  elementConfig: PatternConfig<Pattern>,
-  element: Pattern,
+  patternConfig: PatternConfig,
+  pattern: Pattern,
   value: any
 ): Result<Pattern['data']> => {
-  if (!elementConfig.acceptsInput) {
+  if (!patternConfig.parseData) {
     return {
       success: true,
       data: value,
     };
   }
-  const parseResult = elementConfig.parseData(element, value);
+  const parseResult = patternConfig.parseData(pattern, value);
   if (!parseResult.success) {
     return {
       success: false,
       error: parseResult.error,
     };
   }
-  if (element.data.required && !parseResult.data) {
+  if (pattern.data.required && !parseResult.data) {
     return {
       success: false,
       error: 'Required value not provided.',
@@ -130,4 +131,29 @@ export const updatePatternFromFormData = (
     data: result.data,
   });
   return updatedForm;
+};
+
+const generatePatternId = () => crypto.randomUUID();
+
+export const createPattern = (
+  config: FormConfig,
+  patternType: string
+): Pattern => {
+  return {
+    id: generatePatternId(),
+    type: patternType,
+    data: config.patterns[patternType].initial,
+  };
+};
+
+export const removeChildPattern = (
+  config: FormConfig,
+  pattern: Pattern,
+  id: PatternId
+) => {
+  const remove = config.patterns[pattern.type].removeChildPattern;
+  if (!remove) {
+    return pattern;
+  }
+  return remove(pattern, id);
 };

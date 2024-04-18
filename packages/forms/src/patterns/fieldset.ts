@@ -14,20 +14,15 @@ export type FieldsetPattern = Pattern<{
   patterns: PatternId[];
 }>;
 
-const FieldsetSchema = z.array(z.string());
-
 const configSchema = z.object({
   legend: z.string().optional(),
   patterns: z.array(z.string()),
 });
 
 export const fieldsetConfig: PatternConfig<FieldsetPattern> = {
-  acceptsInput: false,
+  displayName: 'Fieldset',
   initial: {
     patterns: [],
-  },
-  parseData: (_, obj) => {
-    return safeZodParse(FieldsetSchema, obj);
   },
   parseConfigData: obj => safeZodParse(configSchema, obj),
   getChildren(pattern, patterns) {
@@ -35,14 +30,28 @@ export const fieldsetConfig: PatternConfig<FieldsetPattern> = {
       (patternId: string) => patterns[patternId]
     );
   },
+  removeChildPattern(pattern, patternId) {
+    const newPatterns = pattern.data.patterns.filter(
+      (id: string) => patternId !== id
+    );
+    if (newPatterns.length === pattern.data.patterns.length) {
+      return pattern;
+    }
+    return {
+      ...pattern,
+      data: {
+        ...pattern.data,
+        patterns: newPatterns,
+      },
+    };
+  },
   createPrompt(config, session, pattern, options) {
     const children = pattern.data.patterns.map((patternId: string) => {
-      const pattern = getPattern(session.form, patternId);
-      return createPromptForPattern(config, session, pattern, options);
+      const childPattern = getPattern(session.form, patternId);
+      return createPromptForPattern(config, session, childPattern, options);
     });
     return {
-      pattern: {
-        _children: children,
+      props: {
         _patternId: pattern.id,
         type: 'fieldset',
         legend: pattern.data.legend,

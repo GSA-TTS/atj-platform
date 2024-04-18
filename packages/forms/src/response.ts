@@ -37,17 +37,6 @@ export const applyPromptResponse = (
   };
 };
 
-const parsePatternValue = (
-  config: FormConfig,
-  session: FormSession,
-  patternId: PatternId,
-  promptValue: string
-) => {
-  const pattern = session.form.patterns[patternId];
-  const patternConfig = getPatternConfig(config, pattern.type);
-  return patternConfig.parseData(pattern, promptValue);
-};
-
 const parsePromptResponse = (
   session: FormSession,
   config: FormConfig,

@@ -3,44 +3,58 @@ import {
   type FormConfig,
   type FormSummary,
   type Pattern,
+  type PatternId,
   type PatternMap,
   addDocument,
+  addPatternToRoot,
+  createPattern,
   nullBlueprint,
+  removePatternFromBlueprint,
   updateFormSummary,
   updatePatternFromFormData,
 } from '..';
 
-export class FormBuilder {
-  private _form: Blueprint;
+export class BlueprintBuilder {
+  private _bp: Blueprint;
 
-  constructor(initialForm: Blueprint = nullBlueprint) {
-    this._form = initialForm || nullBlueprint;
+  constructor(initial: Blueprint = nullBlueprint) {
+    this._bp = initial;
   }
 
   get form(): Blueprint {
-    return this._form;
+    return this._bp;
   }
 
   setFormSummary(summary: FormSummary) {
-    this._form = updateFormSummary(this.form, summary);
+    this._bp = updateFormSummary(this.form, summary);
   }
 
   async addDocument(fileDetails: { name: string; data: Uint8Array }) {
     const { updatedForm } = await addDocument(this.form, fileDetails);
-    this._form = updatedForm;
+    this._bp = updatedForm;
+  }
+
+  addPattern(config: FormConfig, patternType: string) {
+    const pattern = createPattern(config, patternType);
+    this._bp = addPatternToRoot(this.form, pattern);
+    return pattern;
+  }
+
+  removePattern(config: FormConfig, id: PatternId) {
+    this._bp = removePatternFromBlueprint(config, this._bp, id);
   }
 
   updatePattern(config: FormConfig, pattern: Pattern, formData: PatternMap) {
-    const updatedElement = updatePatternFromFormData(
+    const updatedBlueprint = updatePatternFromFormData(
       config,
       this.form,
       pattern,
       formData
     );
-    if (!updatedElement) {
+    if (!updatedBlueprint) {
       return false;
     }
-    this._form = updatedElement;
+    this._bp = updatedBlueprint;
     return true;
   }
 }

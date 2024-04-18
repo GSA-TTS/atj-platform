@@ -15,6 +15,15 @@ h1 {
   }
 }
 
+h2 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+p {
+  line-height: 1.5rem;
+}
+
 .usa-legend {
   font-size: 1.7rem;
   font-weight: 700;
@@ -23,7 +32,7 @@ h1 {
 a,
 .usa-link,
 .usa-button--unstyled {
-  color: #54278f;
+  color: color('violet-70v');
 }
 
 .hide {
@@ -79,6 +88,25 @@ main {
 
 .usa-nav {
   background: white;
+
+  .usa-sidenav__item {
+    .usa-current {
+      color: color('violet-70v');
+    }
+  }
+}
+
+.usa-sidenav{
+
+  .usa-sidenav__item {
+    .usa-current {
+      color: #54278f;
+
+      &:after {
+        background-color: rebeccapurple;
+      }
+    }
+  }
 }
 
 .usa-section {
@@ -139,6 +167,11 @@ main {
   max-width: 32rem;
 }
 
+.usa-legend-wrapper {
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
 .usa-legend {
   max-width: 100%;
   font-weight: 600;
@@ -153,258 +186,12 @@ nav {
     padding-top: 2.6rem;
   }
 }
-.previewForm {
-  padding-left: 1rem;
-
-  >fieldset {
-    margin-bottom: 10em;
-
-    >legend {
-      border-bottom: 1px #DCDEE0 solid;
-      font-size: 2rem;
-    }
-
-    >.usa-form-group {
-      margin-left: 3rem;
-    }
-
-    .usa-form-group {
-      >fieldset {
-        border-bottom: 1px #DCDEE0 solid;
-        padding-bottom: 2rem;
-
-        legend {
-          font-size: 1.5rem;
-          border-bottom: none;
-        }
-
-        p {
-          font-weight: bold;
-        }
-      }
-    }
-  }
-
-  .usa-button {
-    margin: 1rem 0 0 1rem;
-  }
-}
-
-.innerPageTopNavWrapper {
-  margin-bottom: 50px;
-
-  .innerPageTopNav {
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0 auto;
-
-      li {
-        margin: 0 1px;
-
-        &.currentPage {
-          a,
-          a:hover {
-            background: #454540;
-            color: white;
-          }
-        }
-
-        a {
-          display: block;
-          background: #ede3ff;
-          color: #39215e;
-          border: 1px solid #ede3ff;
-        }
-
-        a,
-        .usa-button {
-          text-decoration: none;
-          padding: 15px;
-          font-size: 20px;
-          text-align: center;
-
-          &:hover {
-            background: #f5f2ff;
-            border: 1px solid #e4deff;
-          }
-        }
-
-        .usa-button {
-          margin-top: 0;
-        }
-      }
-    }
-
-    .usa-button {
-      margin: 0;
-      height: 100%;
-      width: 100%;
-    }
-  }
-}
 
 [contentEditable=true]:focus,
 [href]:focus,
 [tabindex]:focus,
 iframe:focus {
   outline: 0.25rem solid #783cb9;
-}
-
-.editFormPage {
-
-  .usa-intro {
-    padding-bottom: 2rem;
-    border-bottom: 1px solid #bbb;
-    width: 100%;
-    max-width: 100%;
-    margin-bottom: 50px;
-  }
-
-  fieldset {
-    border: none;
-    padding: 0;
-    margin-bottom: 2em;
-  }
-
-  h1 {
-    margin-top: 0;
-  }
-
-  .form-group-row {
-    padding: 1rem;
-    cursor: pointer;
-    display: flex;
-
-    &:first-child {
-      .edit-button-icon {
-        padding: 0 10px;
-        flex: none;
-      }
-    }
-
-    &.field-selected {
-      background: #e7e3fa;
-    }
-
-    .usa-form-group-wrapper {
-      flex: 12;
-    }
-
-    .edit-button-icon {
-      flex: 1;
-      text-align: center;
-      padding: 30px 0 0;
-      align-self: flex-end;
-      margin: 0 0 14px 7px;
-    }
-
-    label {
-      cursor: pointer;
-    }
-
-    .usa-button {
-      background: none;
-      margin: 0;
-      padding: 2px;
-    }
-
-    .usa-icon {
-      height: 1.75em;
-      width: 1.75em;
-      fill: #777;
-    }
-  }
-
-  .usa-form-group {
-    margin: 0 0 0.5rem;
-  }
-
-  legend {
-    margin-top: 0;
-  }
-
-  .editFormContentWrapper {
-    .preview {
-      .grid-col-9 {
-        width: 100%;
-      }
-
-      .usa-form--large {
-        max-width: 46rem;
-      }
-    }
-  }
-}
-
-.editFormWrapper {
-  list-style: none;
-  padding: 0;
-  border-top: 1px solid #c9c9c9;
-  display: none;
-
-  li {
-    padding: 15px 0 20px;
-    border-bottom: 1px solid #c9c9c9;
-  }
-
-  .usa-label {
-    margin-top: 0;
-  }
-}
-
-.editPageGrabButtonWrapper {
-  font-size: 20px;
-  text-align: center;
-  width: 45px;
-
-  span {
-    display: inline-block;
-    vertical-align: top;
-  }
-
-  .grabber2 {
-    margin-top: -6px;
-  }
-}
-
-.settingsContainer {
-  background: #e7e3fa;
-  padding: 30px;
-  position: -webkit-sticky; /* Safari */
-  top: 10px;
-
-  h3 {
-    margin-top: 0;
-    font-size: 1.2em;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    hyphens: auto;
-  }
-
-  .formRowEditFields {
-    .grid-col {
-      width: 100%;
-    }
-  }
-
-  .usa-button {
-    width: 100%;
-    padding: 1rem 1.25rem;
-    margin: 20px 0 0;
-
-    &.close-button {
-      background-color: #76766a;
-
-      &:hover {
-        background-color: #929285;
-      }
-    }
-  }
-
-  .usa-checkbox {
-    margin-top: 1.5rem;
-  }
 }
 
 .usa-step-indicator__segment {
@@ -420,6 +207,16 @@ iframe:focus {
       background: #783cb9;
     }
   }
+}
+
+.videoWrapper {
+  position: relative;
+  padding-bottom: 62.5%;
+  height: 0;
+}
+
+.usa-footer__nav {
+  background: none;
 }
 
 @media (min-width: 64em) {
@@ -449,79 +246,4 @@ iframe:focus {
   .usa-nav__primary>.usa-nav__primary-item>a:hover {
     color: #39215e;
   }
-}
-
-@media screen and (max-width: 879px) {
-
-  .editFormPage {
-
-    .usa-intro {
-      margin-bottom: 20px;
-    }
-
-    .editFormContentWrapper {
-      .grid-col,
-      .grid-col-8 {
-        width: 100%;
-      }
-  
-      .usa-button{
-        margin-left: 0;
-      }
-  
-      .grid-col-4 {
-        position: static;
-      }
-
-      .form-group-row {
-        padding: 0 0 1rem;
-      }
-  
-      .settingsContainer {
-        position: fixed;
-        top: 10%;
-        left: 50%;
-        transform: translate(-50%, 0);
-        width: 90%;
-        margin: 0 auto;
-        height: auto;
-        box-shadow: 1px 4px 12px #76766a;
-      }
-    }
-  }
-
-}
-
-
-@media screen and (max-width: 480px) {
-  .usa-legend,
-  .usa-label {
-    word-break: break-all;
-  }
-
-  .innerPageTopNavWrapper {
-    .innerPageTopNav {
-      ul {
-        li {
-          flex: 0 1 auto;
-          width: 100%;
-          margin: 0 0 4px;
-        }
-      }
-    }
-  }
-
-  .editFieldsWrapper {
-    width: 85%;
-
-    .grid-col {
-      width: 100%;
-      flex: 0 1 auto;
-    }
-
-    .usa-label {
-      margin-bottom: 16px;
-    }
-  }
-
 }

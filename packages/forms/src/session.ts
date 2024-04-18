@@ -34,12 +34,10 @@ export const nullSession: FormSession = {
       root: {
         id: 'root',
         type: 'sequence',
-        required: false,
-        initial: {
+        data: {
           patterns: [],
         },
-        data: {},
-      } as SequencePattern,
+      } satisfies SequencePattern,
     },
     root: 'root',
     summary: {
@@ -54,11 +52,15 @@ export const createFormSession = (form: Blueprint): FormSession => {
   return {
     data: {
       errors: {},
+      values: {},
+      /*
       values: Object.fromEntries(
-        Object.values(form.patterns).map((pattern, index) => {
+        Object.values(form.patterns).map(pattern => {
+          //return [pattern.id, config.patterns[pattern.id].initial];
           return [pattern.id, form.patterns[pattern.id].data.initial];
         })
       ),
+      */
     },
     form,
   };

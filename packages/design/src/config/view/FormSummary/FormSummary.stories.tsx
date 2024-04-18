@@ -23,11 +23,9 @@ export const FormSummaryWithLongDescription = {
 
 export const FormSummaryWithShortDescription = {
   args: {
-    pattern: {
-      _patternId: 'test-id',
-      type: 'form-summary',
-      title: 'Title 2',
-      description: 'Short description',
-    } as FormSummaryProps,
+    _patternId: 'test-id',
+    type: 'form-summary',
+    title: 'Title 2',
+    description: 'Short description',
   },
 } satisfies StoryObj<typeof FormSummary>;

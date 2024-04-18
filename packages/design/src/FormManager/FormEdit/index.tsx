@@ -3,7 +3,9 @@ import React, { useEffect } from 'react';
 import { Blueprint } from '@atj/forms';
 import { type FormService } from '@atj/form-service';
 
-import { PatternEdit } from './PatternEdit';
+import ManagerNav from '../ManagerNav';
+
+import { AddPattern } from './AddPattern';
 import { PreviewForm } from './Preview';
 import { FormEditProvider, useFormEditStore } from './store';
 import { type FormEditUIContext } from './types';
@@ -24,30 +26,33 @@ export default function FormEdit({
   const form = result.data;
 
   return (
-    <div className="editFormPage">
+    <>
+      <ManagerNav />
       <h1>Edit form</h1>
       <p className="usa-intro">Your form has been imported for web delivery.</p>
       <FormEditProvider context={context} form={form}>
         <EditForm saveForm={form => formService.saveForm(formId, form)} />
       </FormEditProvider>
-    </div>
+    </>
   );
 }
 
 const EditForm = ({ saveForm }: { saveForm: (form: Blueprint) => void }) => {
-  const { form, selectedPattern } = useFormEditStore();
+  const { form } = useFormEditStore();
   useEffect(() => {
     saveForm(form);
   }, [form]);
 
   return (
-    <div className="editFormContentWrapper position-relative">
+    <div className="position-relative">
       <div className="grid-row">
-        <div className="grid-col-8">
-          <PreviewForm />
+        <div className="grid-col-12">
+          <AddPattern />
         </div>
-        <div className={`grid-col-4 ${selectedPattern ? 'show' : 'hide'}`}>
-          <PatternEdit />
+      </div>
+      <div className="grid-row">
+        <div className="grid-col-12">
+          <PreviewForm />
         </div>
       </div>
     </div>

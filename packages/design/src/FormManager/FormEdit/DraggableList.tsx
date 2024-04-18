@@ -1,4 +1,4 @@
-import React, { Children, useState } from 'react';
+import React, { Children } from 'react';
 import {
   DndContext,
   closestCenter,
@@ -6,6 +6,7 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
+  UniqueIdentifier,
 } from '@dnd-kit/core';
 import {
   arrayMove,
@@ -15,71 +16,67 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-
-import {
-  getPattern,
-  type Blueprint,
-  type Pattern,
-  PatternId,
-} from '@atj/forms';
-
-import { SequencePattern } from '@atj/forms/src/patterns/sequence';
+import { useFormEditStore } from './store';
 
 const SortableItem = ({
   id,
   children,
 }: {
-  id: string;
+  id: UniqueIdentifier;
   children: React.ReactNode;
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
+  const context = useFormEditStore(state => state.context);
 
   return (
-    <li ref={setNodeRef} style={style}>
-      <div className="editFieldsRowWrapper grid-row grid-gap">
+    <div
+      ref={setNodeRef}
+      style={{
+        transform: CSS.Transform.toString(transform),
+        transition,
+      }}
+    >
+      <div className="grid-row grid-gap">
         <div
-          className="editPageGrabButtonWrapper grid-col-1 grid-col"
+          className="grid-col-12 grid-col width-full"
           {...listeners}
           {...attributes}
           style={{ cursor: 'grab' }}
         >
-          <span className="grabber1">:::</span>
-          <span className="grabber2">:::</span>
+          <svg
+            className="usa-icon margin-x-auto display-block"
+            aria-hidden="true"
+            focusable="false"
+            role="img"
+          >
+            <use
+              xlinkHref={`${context.uswdsRoot}img/sprite.svg#drag_handle`}
+            ></use>
+          </svg>
         </div>
-        <div className="editFieldsWrapper grid-col-11 grid-col">{children}</div>
+        <div className="grid-col-12 grid-col">{children}</div>
       </div>
-    </li>
+    </div>
   );
 };
 
 type DraggableListProps = React.PropsWithChildren<{
-  pattern: Pattern<SequencePattern>;
-  form: Blueprint;
-  setSelectedPattern: (pattern: Pattern) => void;
+  order: UniqueIdentifier[];
+  updateOrder: (order: UniqueIdentifier[]) => void;
 }>;
 export const DraggableList: React.FC<DraggableListProps> = ({
-  pattern,
-  form,
-  setSelectedPattern,
   children,
+  order,
+  updateOrder,
 }) => {
-  const [patterns, setPatterns] = useState<Pattern[]>(
-    pattern.data.patterns.map((patternId: PatternId) => {
-      return getPattern(form, patternId);
-    })
-  );
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   );
 
   const arrayChildren = Children.toArray(children);
+
   return (
     <DndContext
       sensors={sensors}
@@ -90,35 +87,22 @@ export const DraggableList: React.FC<DraggableListProps> = ({
           return;
         }
         if (active.id !== over.id) {
-          const oldIndex = patterns.findIndex(pattern => {
-            return pattern.id === active.id;
-          });
-          const newIndex = patterns.findIndex(pattern => {
-            return pattern.id === over.id;
-          });
-          const newOrder = arrayMove(patterns, oldIndex, newIndex);
-          setPatterns(newOrder);
-          setSelectedPattern({
-            id: pattern.id,
-            type: pattern.type,
-            data: {
-              patterns: newOrder.map(pattern => pattern.id),
-            },
-            initial: {
-              patterns: [],
-            },
-          } satisfies SequencePattern);
+          const oldIndex = order.indexOf(active.id);
+          const newIndex = order.indexOf(over.id);
+          const newOrder = arrayMove(order, oldIndex, newIndex);
+          updateOrder(newOrder);
         }
       }}
     >
-      <SortableContext items={patterns} strategy={verticalListSortingStrategy}>
-        <ul className="editFormWrapper">
-          {arrayChildren.map((child, index) => (
-            <SortableItem key={index} id={patterns[index].id}>
+      <SortableContext items={order} strategy={verticalListSortingStrategy}>
+        {arrayChildren.map((child, index) => {
+          const patternId = order[index];
+          return (
+            <SortableItem key={patternId} id={patternId}>
               {child}
             </SortableItem>
-          ))}
-        </ul>
+          );
+        })}
       </SortableContext>
     </DndContext>
   );

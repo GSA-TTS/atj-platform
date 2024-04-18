@@ -6,8 +6,8 @@ import { type Pattern } from '..';
 
 export const safeZodParse = <T extends Pattern>(
   schema: z.Schema,
-  obj: string
-): Result<T> => {
+  obj: unknown
+): Result<T['data']> => {
   const result = schema.safeParse(obj);
   if (result.success) {
     return {

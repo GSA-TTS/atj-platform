@@ -4,15 +4,12 @@ import { type FieldsetProps } from '@atj/forms';
 
 import { type PatternComponent } from '../../../Form';
 
-const FormSummary: PatternComponent<FieldsetProps> = ({
-  pattern,
-  children,
-}) => {
+const Fieldset: PatternComponent<FieldsetProps> = props => {
   return (
     <fieldset className="usa-fieldset margin-top-4">
-      <legend className="usa-legend">{pattern.legend}</legend>
-      {children}
+      <legend className="usa-legend">{props.legend}</legend>
+      {props.children}
     </fieldset>
   );
 };
-export default FormSummary;
+export default Fieldset;

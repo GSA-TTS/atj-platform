@@ -1,10 +1,14 @@
+import FormSummaryEdit from './FormSummaryEdit';
 import InputPatternEdit from './InputPatternEdit';
-import SequencePatternEdit from './SequencePatternEdit';
+import ParagraphPatternEdit from './ParagraphPatternEdit';
 import SubmissionConfirmationEdit from './SubmissionConfirmationEdit';
 import { type EditComponentForPattern } from '../../FormManager/FormEdit/types';
 
 export const defaultPatternEditComponents: EditComponentForPattern = {
+  paragraph: ParagraphPatternEdit,
   input: InputPatternEdit,
-  sequence: SequencePatternEdit,
+  'form-summary': FormSummaryEdit,
+  //fieldset: SequencePatternEdit,
+  //sequence: SequencePatternEdit,
   'submission-confirmation': SubmissionConfirmationEdit,
 };

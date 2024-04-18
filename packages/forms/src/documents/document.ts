@@ -7,8 +7,9 @@ import {
   updateFormSummary,
 } from '..';
 import { InputPattern } from '../patterns/input';
+import { SequencePattern } from '../patterns/sequence';
 import { PDFDocument, getDocumentFieldData } from './pdf';
-import { getSuggestedPatternsFromCache } from './suggestions';
+import { getSuggestedPatterns } from './suggestions';
 import { DocumentFieldMap } from './types';
 
 export type DocumentTemplate = PDFDocument;
@@ -21,25 +22,24 @@ export const addDocument = async (
   }
 ) => {
   const fields = await getDocumentFieldData(fileDetails.data);
-  const cachedPdf = await getSuggestedPatternsFromCache(fileDetails.data);
+  const parsedPdf = await getSuggestedPatterns(fileDetails.data);
 
-  if (cachedPdf) {
+  if (parsedPdf) {
     form = updateFormSummary(form, {
-      title: cachedPdf.title,
+      title: parsedPdf.title,
       description: '',
     });
-    form = addPatternMap(form, cachedPdf.patterns, cachedPdf.root);
+    form = addPatternMap(form, parsedPdf.patterns, parsedPdf.root);
     const updatedForm = addFormOutput(form, {
       data: fileDetails.data,
       path: fileDetails.name,
-      fields: cachedPdf.outputs,
+      fields: parsedPdf.outputs,
       formFields: Object.fromEntries(
-        Object.keys(cachedPdf.outputs).map(output => {
-          return [output, cachedPdf.outputs[output].name];
+        Object.keys(parsedPdf.outputs).map(output => {
+          return [output, parsedPdf.outputs[output].name];
         })
       ),
     });
-    console.log(updatedForm);
     return {
       newFields: fields,
       updatedForm,
@@ -77,9 +77,6 @@ export const addDocumentFieldsToForm = (
         id: patternId,
         data: {
           label: field.label,
-        },
-        initial: {
-          label: '',
           initial: '',
           required: false,
           maxLength: 128,
@@ -91,9 +88,6 @@ export const addDocumentFieldsToForm = (
         id: patternId,
         data: {
           label: field.label,
-        },
-        initial: {
-          label: '',
           initial: '',
           required: false,
           maxLength: 128,
@@ -105,9 +99,6 @@ export const addDocumentFieldsToForm = (
         id: patternId,
         data: {
           label: field.label,
-        },
-        initial: {
-          label: '',
           initial: '',
           required: false,
           maxLength: 128,
@@ -119,9 +110,6 @@ export const addDocumentFieldsToForm = (
         id: patternId,
         data: {
           label: field.label,
-        },
-        initial: {
-          label: '',
           initial: '',
           required: false,
           maxLength: 128,
@@ -133,9 +121,6 @@ export const addDocumentFieldsToForm = (
         id: patternId,
         data: {
           label: field.label,
-        },
-        initial: {
-          label: '',
           initial: '',
           required: false,
           maxLength: 128,
@@ -155,7 +140,6 @@ export const addDocumentFieldsToForm = (
     data: {
       patterns: patterns.map(pattern => pattern.id),
     },
-    initial: [],
-  });
+  } satisfies SequencePattern);
   return addPatterns(form, patterns, 'root');
 };
