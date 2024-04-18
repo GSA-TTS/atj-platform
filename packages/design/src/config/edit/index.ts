@@ -1,3 +1,4 @@
+import FieldsetEdit from './FieldsetEdit';
 import FormSummaryEdit from './FormSummaryEdit';
 import InputPatternEdit from './InputPatternEdit';
 import ParagraphPatternEdit from './ParagraphPatternEdit';
@@ -8,7 +9,7 @@ export const defaultPatternEditComponents: EditComponentForPattern = {
   paragraph: ParagraphPatternEdit,
   input: InputPatternEdit,
   'form-summary': FormSummaryEdit,
-  //fieldset: SequencePatternEdit,
+  fieldset: FieldsetEdit,
   //sequence: SequencePatternEdit,
   'submission-confirmation': SubmissionConfirmationEdit,
 };

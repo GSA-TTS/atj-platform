@@ -21,8 +21,9 @@ export const PreviewPattern: PatternComponent = function PreviewPattern(props) {
     <div
       className={divClassNames}
       data-id={props._patternId}
-      onFocus={() => {
+      onFocus={event => {
         if (EditComponent) {
+          event.stopPropagation();
           setFocus(props._patternId);
         }
       }}

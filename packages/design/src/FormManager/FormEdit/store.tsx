@@ -73,10 +73,8 @@ const createFormEditStore = ({
         return;
       }
       const builder = new BlueprintBuilder(state.form);
-      console.log('delete', state.focusedPattern.id);
       builder.removePattern(state.context.config, state.focusedPattern.id);
       set({ focusedPattern: undefined, form: builder.form });
-      console.log(builder.form);
     },
     setFocus: (patternId: PatternId) => {
       const state = get();
