@@ -1,5 +1,4 @@
 import RadioGroup from './RadioGroup';
-import * as RadioStories from './Radio.stories';
 
 export default {
     component: RadioGroup,

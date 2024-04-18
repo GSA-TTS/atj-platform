@@ -5,10 +5,7 @@ import { useFormContext } from 'react-hook-form';
 export default function Checkbox({ props: { 
     id,
     label,
-    secondary,
-    uswds
 } }) {
-    const { register } = useFormContext();
     return (
 
           <div className="usa-checkbox">
@@ -21,7 +18,7 @@ export default function Checkbox({ props: {
             />
             <label
               className="usa-checkbox__label"
-              for={id}
+              htmlFor={id}
             >
               {label}
             </label>
