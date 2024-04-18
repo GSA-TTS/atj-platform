@@ -3,6 +3,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { type ParagraphPattern } from '@atj/forms/src/patterns/paragraph';
 
+import { PatternEditActions } from '../PatternEditActions';
 import { PatternEditComponent } from '../types';
 
 const ParagraphPatternEdit: PatternEditComponent<ParagraphPattern> = ({
@@ -32,6 +33,7 @@ const ParagraphPatternEdit: PatternEditComponent<ParagraphPattern> = ({
           </select>
         </label>
       </div>
+      <PatternEditActions />
     </div>
   );
 };
