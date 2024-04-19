@@ -16,8 +16,8 @@ const { Provider, useStore } = createContext<StoreApi<FormEditState>>();
 
 export const useFormEditStore = useStore;
 
-export const usePattern = (id: PatternId) =>
-  useFormEditStore(state => state.form.patterns[id]);
+export const usePattern = <T extends Pattern = Pattern>(id: PatternId) =>
+  useFormEditStore(state => state.form.patterns[id] as T);
 
 export const useIsPatternSelected = (id: PatternId) =>
   useFormEditStore(state => state.focusedPattern?.id === id);

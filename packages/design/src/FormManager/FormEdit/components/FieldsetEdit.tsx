@@ -22,8 +22,18 @@ const FieldsetEdit: PatternEditComponent<FieldsetPattern> = props => {
           }
         ></PatternEditForm>
       ) : (
-        <Fieldset {...(props.previewProps as FieldsetProps)} />
+        <FieldsetPreview {...props} />
       )}
+    </>
+  );
+};
+
+const FieldsetPreview: PatternEditComponent<FieldsetPattern> = props => {
+  const pattern = usePattern<FieldsetPattern>(props.previewProps._patternId);
+  return (
+    <>
+      {pattern.data.patterns.length === 0 && <em>[Empty fieldset]</em>}
+      <Fieldset {...(props.previewProps as FieldsetProps)} />
     </>
   );
 };
