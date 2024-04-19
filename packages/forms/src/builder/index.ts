@@ -12,6 +12,7 @@ import {
   removePatternFromBlueprint,
   updateFormSummary,
   updatePatternFromFormData,
+  getPattern,
 } from '..';
 
 export class BlueprintBuilder {
@@ -45,6 +46,21 @@ export class BlueprintBuilder {
   }
 
   updatePattern(config: FormConfig, pattern: Pattern, formData: PatternMap) {
+    const updatedBlueprint = updatePatternFromFormData(
+      config,
+      this.form,
+      pattern,
+      formData
+    );
+    if (!updatedBlueprint) {
+      return false;
+    }
+    this._bp = updatedBlueprint;
+    return true;
+  }
+
+  updatePatternById(config: FormConfig, id: PatternId, formData: PatternMap) {
+    const pattern = getPattern(this.form, id);
     const updatedBlueprint = updatePatternFromFormData(
       config,
       this.form,

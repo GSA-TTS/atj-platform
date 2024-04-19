@@ -1,4 +1,4 @@
-import { type FormConfig, type Blueprint, type Pattern } from '@atj/forms';
+import { type FormConfig, type PatternProps } from '@atj/forms';
 
 import { type ComponentForPattern } from '../../Form';
 
@@ -9,13 +9,11 @@ export type FormEditUIContext = {
   uswdsRoot: `${string}/`;
 };
 
-export type PatternEditComponent<T extends Pattern> = React.ComponentType<{
-  context: FormEditUIContext;
-  form: Blueprint;
-  pattern: T;
-}>;
+export type PatternEditComponent<T extends PatternProps = PatternProps> =
+  React.ComponentType<{
+    context: FormEditUIContext;
+    previewProps: T;
+  }>;
 
-export type EditComponentForPattern<T extends Pattern = Pattern> = Record<
-  string,
-  PatternEditComponent<T>
->;
+export type EditComponentForPattern<T extends PatternProps = PatternProps> =
+  Record<string, PatternEditComponent<T>>;
