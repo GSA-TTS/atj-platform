@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -29,10 +28,6 @@ export const PreviewPattern: PatternComponent = function PreviewPattern(props) {
 
   return (
     <div
-      className={classNames('form-group-row', {
-        'field-selected': isSelected,
-      })}
-      data-id={props._patternId}
       onClick={event => {
         if (EditComponent) {
           event.stopPropagation();
