@@ -23,7 +23,7 @@ export const PatternEdit = ({ pattern }: { pattern: Pattern }) => {
       <div>
         {SelectedEditComponent ? (
           <form
-            onSubmit={methods.handleSubmit(formData => {
+            onInput={methods.handleSubmit(formData => {
               console.log('submitting');
               updatePatternById(pattern.id, formData);
             })}
