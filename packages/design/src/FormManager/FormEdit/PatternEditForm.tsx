@@ -1,21 +1,19 @@
 import React from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 
 import { type PatternId, type PatternMap } from '@atj/forms';
 
 import { useFormEditStore, usePattern } from './store';
 
-type PatternEditLayoutProps = {
+type PatternEditFormProps = {
   patternId: PatternId;
-  viewComponent: React.ReactNode;
   editComponent: React.ReactNode;
 };
 
-export const PatternEditLayout = ({
+export const PatternEditForm = ({
   patternId,
   editComponent,
-  viewComponent,
-}: PatternEditLayoutProps) => {
+}: PatternEditFormProps) => {
   const { updatePatternById } = useFormEditStore(state => ({
     updatePatternById: state.updatePatternById,
   }));
@@ -25,12 +23,7 @@ export const PatternEditLayout = ({
       [patternId]: pattern,
     },
   });
-  const focusedPattern = useFormEditStore(state => state.focusedPattern);
-  const isSelected = focusedPattern?.id === patternId;
-
-  return !isSelected ? (
-    viewComponent
-  ) : (
+  return (
     <FormProvider {...methods}>
       <form
         onBlur={methods.handleSubmit(formData => {
@@ -43,4 +36,8 @@ export const PatternEditLayout = ({
       </form>
     </FormProvider>
   );
+};
+
+export const usePatternEditFormContext = () => {
+  return useFormContext<PatternMap>();
 };

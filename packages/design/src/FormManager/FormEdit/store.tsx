@@ -19,6 +19,9 @@ export const useFormEditStore = useStore;
 export const usePattern = (id: PatternId) =>
   useFormEditStore(state => state.form.patterns[id]);
 
+export const useIsPatternSelected = (id: PatternId) =>
+  useFormEditStore(state => state.focusedPattern?.id === id);
+
 export const FormEditProvider = (props: {
   context: FormEditUIContext;
   form: Blueprint;

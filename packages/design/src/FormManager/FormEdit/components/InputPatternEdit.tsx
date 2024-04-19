@@ -1,31 +1,36 @@
 import React from 'react';
-import { useFormContext } from 'react-hook-form';
 
-import { PatternId, PatternMap, TextInputProps } from '@atj/forms';
+import { PatternId, TextInputProps } from '@atj/forms';
 import { type InputPattern } from '@atj/forms/src/patterns/input';
 
 import TextInput from '../../../Form/components/TextInput';
 import { PatternEditActions } from '../PatternEditActions';
-import { PatternEditLayout } from '../PatternEditLayout';
+import { PatternEditForm, usePatternEditFormContext } from '../PatternEditForm';
+import { useIsPatternSelected, usePattern } from '../store';
 import { PatternEditComponent } from '../types';
-import { usePattern } from '../store';
 
 const InputPatternEdit: PatternEditComponent<InputPattern> = props => {
+  const isSelected = useIsPatternSelected(props.previewProps._patternId);
   return (
-    <PatternEditLayout
-      patternId={props.previewProps._patternId}
-      editComponent={
-        <EditComponent patternId={props.previewProps._patternId} />
-      }
-      viewComponent={<TextInput {...(props.previewProps as TextInputProps)} />}
-    ></PatternEditLayout>
+    <>
+      {isSelected ? (
+        <PatternEditForm
+          patternId={props.previewProps._patternId}
+          editComponent={
+            <EditComponent patternId={props.previewProps._patternId} />
+          }
+        ></PatternEditForm>
+      ) : (
+        <TextInput {...(props.previewProps as TextInputProps)} />
+      )}
+    </>
   );
 };
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const pattern = usePattern(patternId);
 
-  const methods = useFormContext<PatternMap>();
+  const methods = usePatternEditFormContext();
   return (
     <div className="grid-row grid-gap">
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">

@@ -1,28 +1,34 @@
 import React from 'react';
-import { useFormContext } from 'react-hook-form';
 
 import { PatternId, type ParagraphProps } from '@atj/forms';
 import { type ParagraphPattern } from '@atj/forms/src/patterns/paragraph';
 
 import Paragraph from '../../../Form/components/Paragraph';
 import { PatternEditActions } from '../PatternEditActions';
-import { PatternEditLayout } from '../PatternEditLayout';
+import { PatternEditForm, usePatternEditFormContext } from '../PatternEditForm';
+import { useIsPatternSelected } from '../store';
 import { PatternEditComponent } from '../types';
 
 const ParagraphPatternEdit: PatternEditComponent<ParagraphPattern> = props => {
+  const isSelected = useIsPatternSelected(props.previewProps._patternId);
   return (
-    <PatternEditLayout
-      patternId={props.previewProps._patternId}
-      editComponent={
-        <EditComponent patternId={props.previewProps._patternId} />
-      }
-      viewComponent={<Paragraph {...(props.previewProps as ParagraphProps)} />}
-    ></PatternEditLayout>
+    <>
+      {isSelected ? (
+        <PatternEditForm
+          patternId={props.previewProps._patternId}
+          editComponent={
+            <EditComponent patternId={props.previewProps._patternId} />
+          }
+        ></PatternEditForm>
+      ) : (
+        <Paragraph {...(props.previewProps as ParagraphProps)} />
+      )}
+    </>
   );
 };
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
-  const { register } = useFormContext();
+  const { register } = usePatternEditFormContext();
   return (
     <div className="grid-row grid-gap">
       <div className="grid-col grid-col-10 flex-align-self-end">

@@ -1,33 +1,37 @@
 import React from 'react';
-import { useFormContext } from 'react-hook-form';
 
 import { type SubmissionConfirmationProps, type PatternId } from '@atj/forms';
 import { type InputPattern } from '@atj/forms/src/patterns/input';
 
 import SubmissionConfirmation from '../../../Form/components/SubmissionConfirmation';
-import { PatternEditLayout } from '../PatternEditLayout';
+import { PatternEditForm, usePatternEditFormContext } from '../PatternEditForm';
+import { useIsPatternSelected } from '../store';
 import { PatternEditComponent } from '../types';
 
 const SubmissionConfirmationEdit: PatternEditComponent<
   InputPattern
 > = props => {
+  const isSelected = useIsPatternSelected(props.previewProps._patternId);
   return (
-    <PatternEditLayout
-      patternId={props.previewProps._patternId}
-      editComponent={
-        <EditComponent patternId={props.previewProps._patternId} />
-      }
-      viewComponent={
+    <>
+      {isSelected ? (
+        <PatternEditForm
+          patternId={props.previewProps._patternId}
+          editComponent={
+            <EditComponent patternId={props.previewProps._patternId} />
+          }
+        ></PatternEditForm>
+      ) : (
         <SubmissionConfirmation
           {...(props.previewProps as SubmissionConfirmationProps)}
         />
-      }
-    ></PatternEditLayout>
+      )}
+    </>
   );
 };
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
-  const { register } = useFormContext();
+  const { register } = usePatternEditFormContext();
   return (
     <div className="grid-row grid-gap">
       <div className="grid-col grid-col-4">
