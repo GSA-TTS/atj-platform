@@ -26,6 +26,10 @@ export const PreviewPattern: PatternComponent = function PreviewPattern(props) {
   const Component = context.components[props.type];
   const EditComponent = context.editComponents[props.type];
 
+  const handleSubmit = methods.handleSubmit(formData => {
+    updatePatternById(props._patternId, formData);
+  });
+
   return (
     <div
       onClick={event => {
@@ -43,11 +47,7 @@ export const PreviewPattern: PatternComponent = function PreviewPattern(props) {
     >
       {isSelected ? (
         <FormProvider {...methods}>
-          <form
-            onInput={methods.handleSubmit(formData => {
-              updatePatternById(props._patternId, formData);
-            })}
-          >
+          <form onBlur={handleSubmit}>
             <div className="border-1 radius-md border-primary-light padding-1">
               <EditComponent context={context} form={form} pattern={pattern} />
             </div>
