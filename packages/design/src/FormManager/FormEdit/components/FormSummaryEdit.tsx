@@ -1,14 +1,13 @@
 import React from 'react';
 
-import { FormSummaryProps, PatternId } from '@atj/forms';
-import { type FormSummary as FormSummaryPattern } from '@atj/forms/src/patterns/form-summary';
+import { type FormSummaryProps, type PatternId } from '@atj/forms';
 
 import FormSummary from '../../../Form/components/FormSummary';
 import { PatternEditForm, usePatternEditFormContext } from '../PatternEditForm';
 import { useIsPatternSelected } from '../store';
 import { PatternEditComponent } from '../types';
 
-const FormSummaryEdit: PatternEditComponent<FormSummaryPattern> = props => {
+const FormSummaryEdit: PatternEditComponent<FormSummaryProps> = props => {
   const isSelected = useIsPatternSelected(props.previewProps._patternId);
   return (
     <>
@@ -20,7 +19,7 @@ const FormSummaryEdit: PatternEditComponent<FormSummaryPattern> = props => {
           }
         ></PatternEditForm>
       ) : (
-        <FormSummary {...(props.previewProps as FormSummaryProps)} />
+        <FormSummary {...props.previewProps} />
       )}
     </>
   );

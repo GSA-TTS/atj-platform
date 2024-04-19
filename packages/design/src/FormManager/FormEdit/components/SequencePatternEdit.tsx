@@ -64,7 +64,7 @@ const SortableItem = <T,>({ id, pattern, context }: ItemProps<T>) => {
   );
 };
 
-const SequencePatternEdit: PatternEditComponent<SequencePattern> = ({
+const SequencePatternEdit: PatternEditComponent = ({
   context,
   previewProps,
 }) => {

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { PatternId, TextInputProps } from '@atj/forms';
-import { type InputPattern } from '@atj/forms/src/patterns/input';
 
 import TextInput from '../../../Form/components/TextInput';
 import { PatternEditActions } from '../PatternEditActions';
@@ -9,7 +8,7 @@ import { PatternEditForm, usePatternEditFormContext } from '../PatternEditForm';
 import { useIsPatternSelected, usePattern } from '../store';
 import { PatternEditComponent } from '../types';
 
-const InputPatternEdit: PatternEditComponent<InputPattern> = props => {
+const InputPatternEdit: PatternEditComponent<TextInputProps> = props => {
   const isSelected = useIsPatternSelected(props.previewProps._patternId);
   return (
     <>
@@ -21,7 +20,7 @@ const InputPatternEdit: PatternEditComponent<InputPattern> = props => {
           }
         ></PatternEditForm>
       ) : (
-        <TextInput {...(props.previewProps as TextInputProps)} />
+        <TextInput {...props.previewProps} />
       )}
     </>
   );

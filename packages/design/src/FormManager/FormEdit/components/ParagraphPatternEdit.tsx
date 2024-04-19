@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { PatternId, type ParagraphProps } from '@atj/forms';
-import { type ParagraphPattern } from '@atj/forms/src/patterns/paragraph';
 
 import Paragraph from '../../../Form/components/Paragraph';
 import { PatternEditActions } from '../PatternEditActions';
@@ -9,7 +8,7 @@ import { PatternEditForm, usePatternEditFormContext } from '../PatternEditForm';
 import { useIsPatternSelected } from '../store';
 import { PatternEditComponent } from '../types';
 
-const ParagraphPatternEdit: PatternEditComponent<ParagraphPattern> = props => {
+const ParagraphPatternEdit: PatternEditComponent<ParagraphProps> = props => {
   const isSelected = useIsPatternSelected(props.previewProps._patternId);
   return (
     <>
@@ -21,7 +20,7 @@ const ParagraphPatternEdit: PatternEditComponent<ParagraphPattern> = props => {
           }
         ></PatternEditForm>
       ) : (
-        <Paragraph {...(props.previewProps as ParagraphProps)} />
+        <Paragraph {...props.previewProps} />
       )}
     </>
   );

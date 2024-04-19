@@ -10,7 +10,7 @@ import { PatternEditForm } from '../PatternEditForm';
 import { useIsPatternSelected, usePattern } from '../store';
 import { PatternEditComponent } from '../types';
 
-const FieldsetEdit: PatternEditComponent<FieldsetPattern> = props => {
+const FieldsetEdit: PatternEditComponent<FieldsetProps> = props => {
   const isSelected = useIsPatternSelected(props.previewProps._patternId);
   return (
     <>
@@ -22,18 +22,18 @@ const FieldsetEdit: PatternEditComponent<FieldsetPattern> = props => {
           }
         ></PatternEditForm>
       ) : (
-        <FieldsetPreview {...props} />
+        <FieldsetPreview {...props.previewProps} />
       )}
     </>
   );
 };
 
-const FieldsetPreview: PatternEditComponent<FieldsetPattern> = props => {
-  const pattern = usePattern<FieldsetPattern>(props.previewProps._patternId);
+const FieldsetPreview = (props: FieldsetProps) => {
+  const pattern = usePattern<FieldsetPattern>(props._patternId);
   return (
     <>
       {pattern.data.patterns.length === 0 && <em>[Empty fieldset]</em>}
-      <Fieldset {...(props.previewProps as FieldsetProps)} />
+      <Fieldset {...(props as FieldsetProps)} />
     </>
   );
 };
