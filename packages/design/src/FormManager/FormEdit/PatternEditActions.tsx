@@ -24,6 +24,7 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
           })}
         >
           <button
+            type="button"
             aria-label="Delete this pattern"
             title="Delete this pattern"
             className="usa-button--outline usa-button--unstyled"
@@ -45,6 +46,7 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
             </svg>
           </button>
           <button
+            type="button"
             aria-label="Create a copy of this pattern"
             title="Create a copy of this pattern"
             className="usa-button--outline usa-button--unstyled"

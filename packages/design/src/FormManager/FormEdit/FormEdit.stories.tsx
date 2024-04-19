@@ -96,13 +96,6 @@ const editFieldLabel = async (
   await userEvent.clear(input);
   await userEvent.type(input, updatedLabel);
 
-  // Save the field to the form
-  await userEvent.click(
-    canvas.getByRole('button', {
-      name: 'Exit editing mode for this pattern',
-    })
-  );
-
   waitFor(
     async () => {
       const newLabel = await canvas.getByLabelText(updatedLabel);
