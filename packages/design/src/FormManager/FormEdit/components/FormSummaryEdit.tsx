@@ -1,10 +1,28 @@
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { type FormSummary } from '@atj/forms/src/patterns/form-summary';
+import { FormSummaryProps, PatternId } from '@atj/forms';
+import { type FormSummary as FormSummaryPattern } from '@atj/forms/src/patterns/form-summary';
+
+import FormSummary from '../../../Form/components/FormSummary';
+import { PatternEditLayout } from '../PatternEditLayout';
 import { PatternEditComponent } from '../types';
 
-const FormSummaryEdit: PatternEditComponent<FormSummary> = ({ pattern }) => {
+const FormSummaryEdit: PatternEditComponent<FormSummaryPattern> = props => {
+  return (
+    <PatternEditLayout
+      patternId={props.previewProps._patternId}
+      editComponent={
+        <EditComponent patternId={props.previewProps._patternId} />
+      }
+      viewComponent={
+        <FormSummary {...(props.previewProps as FormSummaryProps)} />
+      }
+    ></PatternEditLayout>
+  );
+};
+
+const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const { register } = useFormContext();
   return (
     <div className="grid-row grid-gap">
@@ -13,7 +31,7 @@ const FormSummaryEdit: PatternEditComponent<FormSummary> = ({ pattern }) => {
           Title
           <input
             className="usa-input"
-            {...register(`${pattern.id}.data.title`)}
+            {...register(`${patternId}.data.title`)}
             type="text"
           ></input>
         </label>
@@ -23,7 +41,7 @@ const FormSummaryEdit: PatternEditComponent<FormSummary> = ({ pattern }) => {
           Description
           <textarea
             className="usa-textarea"
-            {...register(`${pattern.id}.data.description`)}
+            {...register(`${patternId}.data.description`)}
           ></textarea>
         </label>
       </div>

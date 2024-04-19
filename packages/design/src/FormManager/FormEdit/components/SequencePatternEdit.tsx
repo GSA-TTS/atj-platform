@@ -17,18 +17,18 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import { useFormContext } from 'react-hook-form';
 
-import { type Blueprint, type Pattern } from '@atj/forms';
+import { type Pattern } from '@atj/forms';
 import { type SequencePattern } from '@atj/forms/src/patterns/sequence';
 import { type FormEditUIContext, type PatternEditComponent } from '../types';
+import { useFormEditStore, usePattern } from '../store';
 
 interface ItemProps<T> {
   id: string;
-  form: Blueprint;
   pattern: Pattern<T>;
   context: FormEditUIContext;
 }
 
-const SortableItem = <T,>({ id, form, pattern, context }: ItemProps<T>) => {
+const SortableItem = <T,>({ id, pattern, context }: ItemProps<T>) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
 
@@ -51,12 +51,12 @@ const SortableItem = <T,>({ id, form, pattern, context }: ItemProps<T>) => {
           <span className="grabber1">:::</span>
           <span className="grabber2">:::</span>
         </div>
-        <div className="editFieldsWrapper grid-col-11 grid-col">
+        <div className="grid-col-11 grid-col">
           <Component
             key={pattern.id}
             context={context}
-            pattern={pattern}
-            form={form}
+            // this is wrong!
+            previewProps={{ _patternId: pattern.id, type: pattern.type }}
           />
         </div>
       </div>
@@ -66,10 +66,11 @@ const SortableItem = <T,>({ id, form, pattern, context }: ItemProps<T>) => {
 
 const SequencePatternEdit: PatternEditComponent<SequencePattern> = ({
   context,
-  form,
-  pattern,
+  previewProps,
 }) => {
   const { register, setValue } = useFormContext();
+  const pattern = usePattern(previewProps._patternId);
+  const form = useFormEditStore(state => state.form);
   const [patterns, setPatterns] = useState<Pattern[]>(
     pattern.data.patterns.map((patternId: string) => {
       return form.patterns[patternId];
@@ -121,7 +122,6 @@ const SequencePatternEdit: PatternEditComponent<SequencePattern> = ({
                 id={patterns.id}
                 context={context}
                 pattern={patterns}
-                form={form}
               />
             ))}
           </ul>
