@@ -98,17 +98,7 @@ export const createPrompt = (
       ],
     };
   }
-  const components: PromptComponent[] = [
-    {
-      props: {
-        _patternId: 'form-summary',
-        type: 'form-summary',
-        title: session.form.summary.title,
-        description: session.form.summary.description,
-      } as FormSummaryProps,
-      children: [],
-    },
-  ];
+  const components: PromptComponent[] = [];
   const root = getRootPattern(session.form);
   components.push(createPromptForPattern(config, session, root, options));
   return {

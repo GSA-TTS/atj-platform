@@ -1,12 +1,12 @@
 import classNames from 'classnames';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { PatternMap } from '@atj/forms';
 
 import { PatternComponent } from '../../Form';
 
-import { useFormEditStore } from './store';
+import { useFormEditStore, usePattern } from './store';
 
 export const PreviewPattern: PatternComponent = function PreviewPattern(props) {
   const { context, setFocus, updatePatternById } = useFormEditStore(state => ({
@@ -16,30 +16,16 @@ export const PreviewPattern: PatternComponent = function PreviewPattern(props) {
   }));
   const form = useFormEditStore(state => state.form);
   const focusedPattern = useFormEditStore(state => state.focusedPattern);
-
+  const pattern = usePattern(props._patternId);
   const methods = useForm<PatternMap>({
-    defaultValues: focusedPattern
-      ? {
-          [focusedPattern.id]: focusedPattern,
-        }
-      : {},
+    defaultValues: {
+      [pattern.id]: pattern,
+    },
   });
-
-  useEffect(() => {
-    if (focusedPattern === undefined) {
-      return;
-    }
-    methods.reset();
-    methods.setValue(focusedPattern.id, focusedPattern);
-  }, [focusedPattern]);
 
   const isSelected = focusedPattern?.id === props._patternId;
   const Component = context.components[props.type];
   const EditComponent = context.editComponents[props.type];
-
-  const SelectedEditComponent = focusedPattern
-    ? context.editComponents[focusedPattern.type]
-    : undefined;
 
   return (
     <div
@@ -62,23 +48,15 @@ export const PreviewPattern: PatternComponent = function PreviewPattern(props) {
     >
       {isSelected ? (
         <FormProvider {...methods}>
-          <div>
-            {SelectedEditComponent ? (
-              <form
-                onInput={methods.handleSubmit(formData => {
-                  updatePatternById(props._patternId, formData);
-                })}
-              >
-                <div className="border-1 radius-md border-primary-light padding-1">
-                  <SelectedEditComponent
-                    context={context}
-                    form={form}
-                    pattern={focusedPattern}
-                  />
-                </div>
-              </form>
-            ) : null}
-          </div>
+          <form
+            onInput={methods.handleSubmit(formData => {
+              updatePatternById(props._patternId, formData);
+            })}
+          >
+            <div className="border-1 radius-md border-primary-light padding-1">
+              <EditComponent context={context} form={form} pattern={pattern} />
+            </div>
+          </form>
         </FormProvider>
       ) : (
         <Component {...props} />
