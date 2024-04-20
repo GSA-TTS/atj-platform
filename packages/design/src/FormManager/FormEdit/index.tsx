@@ -3,8 +3,6 @@ import React, { useEffect } from 'react';
 import { Blueprint } from '@atj/forms';
 import { type FormService } from '@atj/form-service';
 
-import ManagerNav from '../ManagerNav';
-
 import { AddPattern } from './AddPattern';
 import { PreviewForm } from './Preview';
 import { FormEditProvider, useFormEditStore } from './store';
@@ -27,7 +25,6 @@ export default function FormEdit({
 
   return (
     <>
-      <ManagerNav />
       <h1>Edit form</h1>
       <p className="usa-intro">Your form has been imported for web delivery.</p>
       <FormEditProvider context={context} form={form}>

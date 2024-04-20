@@ -56,7 +56,9 @@ const context = getAppContext();
     <div class="usa-app usa-app__theme-1">
       <UsaBanner />
       <Header />
-      <slot />
+      <main class="bg-base-lightest" id="main-content">
+        <slot />
+      </main>
       <Footer github={context.github} />
     </div>
   </body>

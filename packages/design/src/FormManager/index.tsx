@@ -9,6 +9,7 @@ import FormList from './FormList';
 import { FormPreviewById } from './FormPreview';
 import { FormDocumentImport } from './import-document';
 import { type FormEditUIContext } from './FormEdit/types';
+import { FormManagerLayout } from './FormManagerLayout';
 
 export default function FormManager({
   context,
@@ -21,73 +22,75 @@ export default function FormManager({
 }) {
   return (
     <HashRouter>
-      <Routes>
-        <Route
-          path="/"
-          Component={() => (
-            <FormList baseUrl={baseUrl} formService={formService} />
-          )}
-        />
-        <Route
-          path="/:formId"
-          Component={() => {
-            const { formId } = useParams();
-            if (formId === undefined) {
-              return <div>formId is undefined</div>;
-            }
-            return (
-              <FormPreviewById
-                context={context}
-                formId={formId}
-                formService={formService}
-              />
-            );
-          }}
-        />
-        <Route
-          path="/:formId/edit"
-          Component={() => {
-            const { formId } = useParams();
-            if (formId === undefined) {
-              return <div>formId is undefined</div>;
-            }
-            return (
-              <FormEdit
-                context={context}
-                formId={formId}
-                formService={formService}
-              />
-            );
-          }}
-        />
-        <Route
-          path="/:formId/delete"
-          Component={() => {
-            const { formId } = useParams();
-            if (formId === undefined) {
-              return <div>formId is undefined</div>;
-            }
-            return <FormDelete formId={formId} formService={formService} />;
-          }}
-        />
-        <Route
-          path="/:formId/import-document"
-          Component={() => {
-            const { formId } = useParams();
-            if (formId === undefined) {
-              return <div>formId is undefined</div>;
-            }
-            return (
-              <FormDocumentImport
-                context={context}
-                baseUrl={baseUrl}
-                formId={formId}
-                formService={formService}
-              />
-            );
-          }}
-        />
-      </Routes>
+      <FormManagerLayout uswdsRoot={context.uswdsRoot}>
+        <Routes>
+          <Route
+            path="/"
+            Component={() => (
+              <FormList baseUrl={baseUrl} formService={formService} />
+            )}
+          />
+          <Route
+            path="/:formId"
+            Component={() => {
+              const { formId } = useParams();
+              if (formId === undefined) {
+                return <div>formId is undefined</div>;
+              }
+              return (
+                <FormPreviewById
+                  context={context}
+                  formId={formId}
+                  formService={formService}
+                />
+              );
+            }}
+          />
+          <Route
+            path="/:formId/edit"
+            Component={() => {
+              const { formId } = useParams();
+              if (formId === undefined) {
+                return <div>formId is undefined</div>;
+              }
+              return (
+                <FormEdit
+                  context={context}
+                  formId={formId}
+                  formService={formService}
+                />
+              );
+            }}
+          />
+          <Route
+            path="/:formId/delete"
+            Component={() => {
+              const { formId } = useParams();
+              if (formId === undefined) {
+                return <div>formId is undefined</div>;
+              }
+              return <FormDelete formId={formId} formService={formService} />;
+            }}
+          />
+          <Route
+            path="/:formId/import-document"
+            Component={() => {
+              const { formId } = useParams();
+              if (formId === undefined) {
+                return <div>formId is undefined</div>;
+              }
+              return (
+                <FormDocumentImport
+                  context={context}
+                  baseUrl={baseUrl}
+                  formId={formId}
+                  formService={formService}
+                />
+              );
+            }}
+          />
+        </Routes>
+      </FormManagerLayout>
     </HashRouter>
   );
 }
