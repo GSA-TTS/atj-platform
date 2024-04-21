@@ -7,7 +7,7 @@ import Form, { ComponentForPattern, PatternComponent } from '../../Form';
 
 import { AddPatternDropdown } from './AddPatternDropdown';
 import { PreviewPattern } from './PreviewPattern';
-import { PatternPreviewSequence } from './PreviewSequencePattern';
+import { PatternPreviewSequence } from './components/PreviewSequencePattern';
 import { FormEditProvider, useFormEditStore } from './store';
 import { type FormEditUIContext } from './types';
 
@@ -71,6 +71,8 @@ const EditForm = ({ saveForm }: { saveForm: (form: Blueprint) => void }) => {
   );
 };
 
+// TODO: We want to get rid of this and rely entirely on the injected
+// editComponent configuration.
 const createPreviewComponents = (
   components: ComponentForPattern
 ): ComponentForPattern => {
