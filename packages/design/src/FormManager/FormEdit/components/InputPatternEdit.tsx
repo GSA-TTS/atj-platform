@@ -3,10 +3,14 @@ import React from 'react';
 import { PatternId, TextInputProps } from '@atj/forms';
 
 import TextInput from '../../../Form/components/TextInput';
-import { PatternEditActions } from '../PatternEditActions';
-import { PatternEditForm, usePatternEditFormContext } from '../PatternEditForm';
 import { useIsPatternSelected, usePattern } from '../store';
 import { PatternEditComponent } from '../types';
+
+import { PatternEditActions } from './common/PatternEditActions';
+import {
+  PatternEditForm,
+  usePatternEditFormContext,
+} from './common/PatternEditForm';
 
 const InputPatternEdit: PatternEditComponent<TextInputProps> = props => {
   const isSelected = useIsPatternSelected(props.previewProps._patternId);

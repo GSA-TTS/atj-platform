@@ -1,5 +1,7 @@
 import React from 'react';
-import ManagerNav from './ManagerNav';
+
+import { TopNavigation } from './TopNavigation';
+import { BottomNavigation } from './BottomNavigation';
 
 export const FormManagerLayout = ({
   uswdsRoot,
@@ -10,7 +12,7 @@ export const FormManagerLayout = ({
 }) => {
   return (
     <>
-      <ManagerNav uswdsRoot={uswdsRoot} />
+      <TopNavigation uswdsRoot={uswdsRoot} />
       <section className="grid-container usa-section">
         <div className="grid-row flex-justify-center">
           <div className="grid-col-12 tablet:grid-col-12 desktop:grid-col-12">
@@ -20,6 +22,7 @@ export const FormManagerLayout = ({
           </div>
         </div>
       </section>
+      <BottomNavigation />
     </>
   );
 };

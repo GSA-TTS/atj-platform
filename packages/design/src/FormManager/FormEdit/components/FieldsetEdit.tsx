@@ -4,11 +4,11 @@ import { PatternId, type FieldsetProps } from '@atj/forms';
 import { FieldsetPattern } from '@atj/forms/src/patterns/fieldset';
 
 import Fieldset from '../../../Form/components/Fieldset';
-
-import { PatternEditActions } from '../PatternEditActions';
-import { PatternEditForm } from '../PatternEditForm';
 import { useIsPatternSelected, usePattern } from '../store';
 import { PatternEditComponent } from '../types';
+
+import { PatternEditActions } from './common/PatternEditActions';
+import { PatternEditForm } from './common/PatternEditForm';
 
 const FieldsetEdit: PatternEditComponent<FieldsetProps> = props => {
   const isSelected = useIsPatternSelected(props.previewProps._patternId);

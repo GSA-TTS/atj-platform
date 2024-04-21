@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function ManagerNav({ uswdsRoot }: { uswdsRoot: `${string}/` }) {
+export const TopNavigation = ({ uswdsRoot }: { uswdsRoot: `${string}/` }) => {
   return (
     <div className="position-sticky top-0 z-top bg-white padding-1">
       <div className="grid-container margin-bottom-05 display-block tablet:display-none">
@@ -68,7 +68,7 @@ export default function ManagerNav({ uswdsRoot }: { uswdsRoot: `${string}/` }) {
       </div>
     </div>
   );
-}
+};
 
 const MyFormsLink = ({ uswdsRoot }: { uswdsRoot: `${string}/` }) => (
   <a href="#" className="usa-link margin-right-4">
