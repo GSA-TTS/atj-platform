@@ -48,7 +48,7 @@ export const TopNavigation = ({ curPage }: { curPage: NavPage }) => {
           aria-label="progress"
         >
           <ol className="usa-step-indicator__segments">
-            <li>
+            <li className="margin-top-1">
               <MyFormsLink uswdsRoot={uswdsRoot} />
             </li>
             <li
@@ -122,7 +122,7 @@ export const TopNavigation = ({ curPage }: { curPage: NavPage }) => {
 const MyFormsLink = ({ uswdsRoot }: { uswdsRoot: `${string}/` }) => (
   <a href="#" className="usa-link margin-right-4">
     <svg
-      className="usa-icon usa-icon--size-3 padding-0 margin-0 margin-right-1"
+      className="usa-icon usa-icon--size-3 text-middle"
       aria-hidden="true"
       focusable="false"
       role="img"

@@ -35,8 +35,7 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
             }}
           >
             <svg
-              className="usa-icon usa-icon--size-3 margin-1"
-              style={{ verticalAlign: 'middle' }}
+              className="usa-icon usa-icon--size-3 margin-1 text-middle"
               aria-hidden="true"
               focusable="false"
               role="img"
@@ -57,8 +56,7 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
             }}
           >
             <svg
-              className="usa-icon usa-icon--size-3 margin-1"
-              style={{ verticalAlign: 'middle' }}
+              className="usa-icon usa-icon--size-3 margin-1 text-middle"
               aria-hidden="true"
               focusable="false"
               role="img"
