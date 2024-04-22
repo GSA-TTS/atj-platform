@@ -4,6 +4,7 @@ import { type ComponentForPattern } from '../../Form';
 import { FormService } from '@atj/form-service';
 
 export type FormEditUIContext = {
+  baseUrl: `${string}/`;
   components: ComponentForPattern;
   config: FormConfig;
   editComponents: EditComponentForPattern;

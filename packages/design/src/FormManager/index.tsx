@@ -10,13 +10,11 @@ import { type FormEditUIContext } from './FormEdit/types';
 import { FormManagerLayout, NavPage } from './FormManagerLayout';
 import { FormEditProvider } from './store';
 
-export default function FormManager({
-  context,
-  baseUrl,
-}: {
+type FormManagerProps = {
   context: FormEditUIContext;
-  baseUrl: string;
-}) {
+};
+
+export default function FormManager({ context }: FormManagerProps) {
   return (
     <HashRouter>
       <Routes>
@@ -24,7 +22,10 @@ export default function FormManager({
           path="/"
           Component={() => (
             <FormManagerLayout>
-              <FormList baseUrl={baseUrl} formService={context.formService} />
+              <FormList
+                baseUrl={context.baseUrl}
+                formService={context.formService}
+              />
             </FormManagerLayout>
           )}
         />
@@ -141,7 +142,7 @@ export default function FormManager({
             return (
               <FormDocumentImport
                 context={context}
-                baseUrl={baseUrl}
+                baseUrl={context.baseUrl}
                 formId={formId}
                 formService={context.formService}
               />
