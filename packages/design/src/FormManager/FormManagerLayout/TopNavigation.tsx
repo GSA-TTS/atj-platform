@@ -1,8 +1,42 @@
+import classNames from 'classnames';
 import React from 'react';
 
-export const TopNavigation = ({ uswdsRoot }: { uswdsRoot: `${string}/` }) => {
+export enum NavPage {
+  upload = 1,
+  create = 2,
+  configure = 3,
+  publish = 4,
+}
+
+const stepClass = (page: NavPage, curPage: NavPage) => {
+  if (page < curPage) {
+    return 'usa-step-indicator__segment--complete';
+  } else if (page === curPage) {
+    return 'usa-step-indicator__segment--current';
+  } else {
+    return '';
+  }
+};
+
+const srHint = (page: NavPage, curPage: NavPage) => {
+  if (page < curPage) {
+    return <span className="usa-sr-only">completed</span>;
+  } else if (page === curPage) {
+    return;
+  } else {
+    return <span className="usa-sr-only">not completed</span>;
+  }
+};
+
+export const TopNavigation = ({
+  curPage,
+  uswdsRoot,
+}: {
+  curPage: NavPage;
+  uswdsRoot: `${string}/`;
+}) => {
   return (
-    <div className="position-sticky top-0 z-top bg-white padding-1">
+    <div className="position-sticky top-0 z-100 bg-white padding-1">
       <div className="grid-container margin-bottom-05 display-block tablet:display-none">
         <MyFormsLink uswdsRoot={uswdsRoot} />
         <span className="text-base font-ui-3xs padding-left-4 padding-right-3">
@@ -20,34 +54,52 @@ export const TopNavigation = ({ uswdsRoot }: { uswdsRoot: `${string}/` }) => {
             <li>
               <MyFormsLink uswdsRoot={uswdsRoot} />
             </li>
-            <li className="usa-step-indicator__segment usa-step-indicator__segment--complete">
+            <li
+              className={classNames(
+                'usa-step-indicator__segment',
+                stepClass(NavPage.upload, curPage)
+              )}
+            >
               <span className="usa-step-indicator__segment-label">
-                Upload <span className="usa-sr-only">completed</span>
-              </span>
-            </li>
-            <li className="usa-step-indicator__segment usa-step-indicator__segment--complete">
-              <span className="usa-step-indicator__segment-label">
-                Create <span className="usa-sr-only">completed</span>
+                Upload {srHint(NavPage.upload, curPage)}
               </span>
             </li>
             <li
-              className="usa-step-indicator__segment usa-step-indicator__segment--current"
+              className={classNames(
+                'usa-step-indicator__segment',
+                stepClass(NavPage.create, curPage)
+              )}
+            >
+              <span className="usa-step-indicator__segment-label">
+                Create {srHint(NavPage.create, curPage)}
+              </span>
+            </li>
+            <li
+              className={classNames(
+                'usa-step-indicator__segment',
+                stepClass(NavPage.configure, curPage)
+              )}
               aria-current="true"
             >
               <span className="usa-step-indicator__segment-label">
-                Configure
+                Configure {srHint(NavPage.configure, curPage)}
               </span>
             </li>
-            <li className="usa-step-indicator__segment">
+            <li
+              className={classNames(
+                'usa-step-indicator__segment',
+                stepClass(NavPage.publish, curPage)
+              )}
+            >
               <span className="usa-step-indicator__segment-label">
-                Publish <span className="usa-sr-only">not completed</span>
+                Publish {srHint(NavPage.publish, curPage)}
               </span>
             </li>
             <li>
               <span className="text-base font-ui-3xs padding-left-4 padding-right-3">
                 Saved at 11:00:03 am on Thur Mar 28
               </span>
-              <a href="#" className="usa-button bg-white">
+              <a href="#" className="usa-button usa-button--outline">
                 Preview
               </a>
             </li>
