@@ -292,7 +292,7 @@ const useDocumentImporter = (
       },
       stepThreeSaveForm(formId: string) {
         formService.saveForm(formId, state.previewForm);
-        navigate(`/${formId}/edit`);
+        navigate(`/${formId}/create`);
       },
       gotoPage(step: number) {
         dispatch({ type: 'GOTO_PAGE', page: step });

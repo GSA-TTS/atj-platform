@@ -107,7 +107,7 @@ export const TopNavigation = ({
           {/*<ul className="grid-row">
         {(isPreviewPage || isEditPage || isImportDocuments) && (
           <li className={`grid-col ${isEditPage ? 'currentPage' : ''}`}>
-            <Link to={`/${formId}/edit`}>
+            <Link to={`/${formId}/create`}>
               {isImportDocuments ? 'Back to Edit Page' : 'Edit'}
             </Link>
           </li>

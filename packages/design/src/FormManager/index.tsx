@@ -48,7 +48,30 @@ export default function FormManager({
           }}
         />
         <Route
-          path="/:formId/edit"
+          path="/:formId/create"
+          Component={() => {
+            const { formId } = useParams();
+            if (formId === undefined) {
+              return <div>formId is undefined</div>;
+            }
+            return (
+              <FormManagerLayout
+                uswdsRoot={context.uswdsRoot}
+                step={NavPage.create}
+                back={`#/`}
+                next={`#/${formId}/configure`}
+              >
+                <FormEdit
+                  context={context}
+                  formId={formId}
+                  formService={formService}
+                />
+              </FormManagerLayout>
+            );
+          }}
+        />
+        <Route
+          path="/:formId/configure"
           Component={() => {
             const { formId } = useParams();
             if (formId === undefined) {
@@ -58,14 +81,10 @@ export default function FormManager({
               <FormManagerLayout
                 uswdsRoot={context.uswdsRoot}
                 step={NavPage.configure}
-                back={`#/`}
+                back={`#/${formId}/create`}
                 next={`#/${formId}/publish`}
               >
-                <FormEdit
-                  context={context}
-                  formId={formId}
-                  formService={formService}
-                />
+                Publish
               </FormManagerLayout>
             );
           }}
@@ -81,7 +100,7 @@ export default function FormManager({
               <FormManagerLayout
                 uswdsRoot={context.uswdsRoot}
                 step={NavPage.publish}
-                back={`#/${formId}/edit`}
+                back={`#/${formId}/configure`}
                 close={`#/`}
               >
                 Publish

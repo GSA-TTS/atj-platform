@@ -26,7 +26,7 @@ export const useDocumentImporter = (
 
         const result = formService.addForm(builder.form);
         if (result.success) {
-          navigate(`/${result.data}/edit`);
+          navigate(`/${result.data}/create`);
         }
       },
       stepOneSelectPdfByUpload: async (fileDetails: {
@@ -41,7 +41,7 @@ export const useDocumentImporter = (
         await builder.addDocument(fileDetails);
         const result = await formService.addForm(builder.form);
         if (result.success) {
-          navigate(`/${result.data}/edit`);
+          navigate(`/${result.data}/create`);
         }
       },
       createNewForm: async () => {
@@ -52,7 +52,7 @@ export const useDocumentImporter = (
         });
         const result = await formService.addForm(builder.form);
         if (result.success) {
-          navigate(`/${result.data}/edit`);
+          navigate(`/${result.data}/create`);
         }
       },
     },

@@ -43,7 +43,7 @@ export default function FormList({
               <td data-label="Actions" className="actionColumn">
                 {/* <span><Link to={`/${form.id}`}>Preview</Link></span> */}
                 <span>
-                  <Link to={`/${form.id}/edit`}>Edit</Link>
+                  <Link to={`/${form.id}/create`}>Edit</Link>
                 </span>
                 <span>
                   <Link to={`/${form.id}/delete`}>Delete</Link>
