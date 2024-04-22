@@ -3,7 +3,7 @@ import React from 'react';
 import { PatternId, type ParagraphProps } from '@atj/forms';
 
 import Paragraph from '../../../Form/components/Paragraph';
-import { useIsPatternSelected } from '../../store';
+import { useFormEditStore } from '../../store';
 import { PatternEditComponent } from '../types';
 
 import { PatternEditActions } from './common/PatternEditActions';
@@ -13,7 +13,9 @@ import {
 } from './common/PatternEditForm';
 
 const ParagraphPatternEdit: PatternEditComponent<ParagraphProps> = props => {
-  const isSelected = useIsPatternSelected(props.previewProps._patternId);
+  const isSelected = useFormEditStore(
+    state => state.focusedPattern?.id === props.previewProps._patternId
+  );
   return (
     <>
       {isSelected ? (

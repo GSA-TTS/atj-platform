@@ -2,7 +2,7 @@ import React from 'react';
 import { StoreApi, create } from 'zustand';
 import { createContext } from 'zustand-utils';
 
-import { type Blueprint, type Pattern, type PatternId } from '@atj/forms';
+import { type Blueprint } from '@atj/forms';
 
 import {
   type FormEditUIContext,
@@ -13,12 +13,6 @@ import {
 const { Provider, useStore } = createContext<StoreApi<FormEditSlice>>();
 
 export const useFormEditStore = useStore;
-
-export const usePattern = <T extends Pattern = Pattern>(id: PatternId) =>
-  useFormEditStore(state => state.form.patterns[id] as T);
-
-export const useIsPatternSelected = (id: PatternId) =>
-  useFormEditStore(state => state.focusedPattern?.id === id);
 
 export const FormEditProvider = (props: {
   context: FormEditUIContext;

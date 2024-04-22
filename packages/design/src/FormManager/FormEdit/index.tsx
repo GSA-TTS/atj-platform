@@ -1,27 +1,24 @@
 import React, { useEffect } from 'react';
 
 import { Blueprint, createFormSession } from '@atj/forms';
-import { type FormService } from '@atj/form-service';
 
-import Form, { ComponentForPattern, PatternComponent } from '../../Form';
+import Form, {
+  type ComponentForPattern,
+  type PatternComponent,
+} from '../../Form';
 
 import { AddPatternDropdown } from './AddPatternDropdown';
 import { PreviewPattern } from './PreviewPattern';
 import { PatternPreviewSequence } from './components/PreviewSequencePattern';
 import { useFormEditStore } from '../store';
 
-export default function FormEdit({
-  formId,
-  formService,
-}: {
-  formId: string;
-  formService: FormService;
-}) {
+export default function FormEdit({ formId }: { formId: string }) {
+  const saveForm = useFormEditStore(state => state.saveForm);
   return (
     <>
       <h1>Edit form</h1>
       <p className="usa-intro">Your form has been imported for web delivery.</p>
-      <EditForm saveForm={form => formService.saveForm(formId, form)} />
+      <EditForm saveForm={form => saveForm(formId, form)} />
     </>
   );
 }

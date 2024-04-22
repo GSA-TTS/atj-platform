@@ -1,6 +1,7 @@
 import { createForm, createFormSession, defaultFormConfig } from '@atj/forms';
-import { SequencePattern } from '@atj/forms/src/patterns/sequence';
-import { InputPattern } from '@atj/forms/src/patterns/input';
+import { type SequencePattern } from '@atj/forms/src/patterns/sequence';
+import { type InputPattern } from '@atj/forms/src/patterns/input';
+import { createTestFormService } from '@atj/form-service';
 
 import { type FormUIContext } from './Form';
 import { defaultPatternComponents } from './Form/components';
@@ -66,9 +67,10 @@ export const createTestFormContext = (): FormUIContext => {
 
 export const createTestFormEditContext = (): FormEditUIContext => {
   return {
-    config: defaultFormConfig,
     components: defaultPatternComponents,
+    config: defaultFormConfig,
     editComponents: defaultPatternEditComponents,
+    formService: createTestFormService(),
     uswdsRoot: `/static/uswds/`,
   };
 };

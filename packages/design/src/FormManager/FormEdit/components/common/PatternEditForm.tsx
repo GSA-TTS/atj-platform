@@ -3,7 +3,7 @@ import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 
 import { type PatternId, type PatternMap } from '@atj/forms';
 
-import { useFormEditStore, usePattern } from '../../../store';
+import { useFormEditStore } from '../../../store';
 
 type PatternEditFormProps = {
   patternId: PatternId;
@@ -17,7 +17,7 @@ export const PatternEditForm = ({
   const { updatePatternById } = useFormEditStore(state => ({
     updatePatternById: state.updatePatternById,
   }));
-  const pattern = usePattern(patternId);
+  const pattern = useFormEditStore(state => state.form.patterns[patternId]);
   const methods = useForm<PatternMap>({
     defaultValues: {
       [patternId]: pattern,

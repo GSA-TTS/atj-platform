@@ -1,12 +1,9 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
-
-import { createTestFormService } from '@atj/form-service';
+import { expect, userEvent, waitFor, within } from '@storybook/test';
 
 import FormEdit from '.';
-import { createTestForm, createTestFormEditContext } from '../../test-form';
-import { expect, userEvent, waitFor, within } from '@storybook/test';
 
 export default {
   title: 'FormManager/FormEdit',
@@ -19,11 +16,7 @@ export default {
     ),
   ],
   args: {
-    context: createTestFormEditContext(),
     formId: 'test-form',
-    formService: createTestFormService({
-      'test-form': createTestForm(),
-    }),
   },
   tags: ['autodocs'],
 } satisfies Meta<typeof FormEdit>;

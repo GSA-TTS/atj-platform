@@ -1,5 +1,4 @@
-import { StateCreator, StoreApi } from 'zustand';
-import { createContext } from 'zustand-utils';
+import { StateCreator } from 'zustand';
 
 import {
   type Blueprint,
@@ -13,16 +12,6 @@ import { type FormEditUIContext } from './types';
 
 export { type FormEditUIContext } from './types';
 
-const { useStore } = createContext<StoreApi<FormEditSlice>>();
-
-export const useFormEditStore = useStore;
-
-export const usePattern = <T extends Pattern = Pattern>(id: PatternId) =>
-  useFormEditStore(state => state.form.patterns[id] as T);
-
-export const useIsPatternSelected = (id: PatternId) =>
-  useFormEditStore(state => state.focusedPattern?.id === id);
-
 export type FormEditSlice = {
   context: FormEditUIContext;
   form: Blueprint;
@@ -34,6 +23,7 @@ export type FormEditSlice = {
 
   addPattern: (patternType: string) => void;
   deleteSelectedPattern: () => void;
+  saveForm: (formId: string, blueprint: Blueprint) => void;
   setFocus: (patternId: PatternId) => void;
   setSelectedPattern: (element?: Pattern) => void;
   updatePattern: (data: Pattern) => void;
@@ -73,6 +63,10 @@ export const createFormEditSlice =
       const builder = new BlueprintBuilder(state.form);
       builder.removePattern(state.context.config, state.focusedPattern.id);
       set({ focusedPattern: undefined, form: builder.form });
+    },
+    saveForm: (formId, blueprint) => {
+      const { context } = get();
+      context.formService.saveForm(formId, blueprint);
     },
     setFocus: patternId => {
       const state = get();

@@ -57,7 +57,7 @@ export default function FormManager({
             }
             const result = formService.getForm(formId);
             if (!result.success) {
-              return 'Form not found';
+              return <div>Form not found</div>;
             }
             const form = result.data;
             return (
@@ -67,7 +67,7 @@ export default function FormManager({
                   back={`#/`}
                   next={`#/${formId}/configure`}
                 >
-                  <FormEdit formId={formId} formService={formService} />
+                  <FormEdit formId={formId} />
                 </FormManagerLayout>
               </FormEditProvider>
             );

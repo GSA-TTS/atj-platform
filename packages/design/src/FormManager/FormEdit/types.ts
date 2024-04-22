@@ -1,11 +1,13 @@
 import { type FormConfig, type PatternProps } from '@atj/forms';
 
 import { type ComponentForPattern } from '../../Form';
+import { FormService } from '@atj/form-service';
 
 export type FormEditUIContext = {
-  config: FormConfig;
   components: ComponentForPattern;
+  config: FormConfig;
   editComponents: EditComponentForPattern;
+  formService: FormService;
   uswdsRoot: `${string}/`;
 };
 
