@@ -8,12 +8,10 @@ import {
   getPattern,
   BlueprintBuilder,
 } from '@atj/forms';
-import { type FormEditUIContext } from './types';
-
-export { type FormEditUIContext } from './types';
+import { type FormManagerContext } from '..';
 
 export type FormEditSlice = {
-  context: FormEditUIContext;
+  context: FormManagerContext;
   form: Blueprint;
   focusedPattern?: Pattern;
   availablePatterns: {
@@ -32,7 +30,7 @@ export type FormEditSlice = {
 };
 
 type FormEditStoreContext = {
-  context: FormEditUIContext;
+  context: FormManagerContext;
   form: Blueprint;
 };
 

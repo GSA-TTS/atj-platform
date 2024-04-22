@@ -1,20 +1,9 @@
-import { type FormConfig, type PatternProps } from '@atj/forms';
-
-import { type ComponentForPattern } from '../../Form';
-import { FormService } from '@atj/form-service';
-
-export type FormEditUIContext = {
-  baseUrl: `${string}/`;
-  components: ComponentForPattern;
-  config: FormConfig;
-  editComponents: EditComponentForPattern;
-  formService: FormService;
-  uswdsRoot: `${string}/`;
-};
+import { type PatternProps } from '@atj/forms';
+import { FormManagerContext } from '..';
 
 export type PatternEditComponent<T extends PatternProps = PatternProps> =
   React.ComponentType<{
-    context: FormEditUIContext;
+    context: FormManagerContext;
     previewProps: T;
   }>;
 

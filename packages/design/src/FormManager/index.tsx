@@ -1,17 +1,32 @@
 import React from 'react';
 import { useParams, HashRouter, Route, Routes } from 'react-router-dom';
 
+import { type FormConfig } from '@atj/forms';
+
+import { type ComponentForPattern } from '../Form';
+
 import FormDelete from './FormDelete';
 import FormEdit from './FormEdit';
 import FormList from './FormList';
 import { FormPreviewById } from './FormPreview';
 import { FormDocumentImport } from './import-document';
-import { type FormEditUIContext } from './FormEdit/types';
 import { FormManagerLayout, NavPage } from './FormManagerLayout';
 import { FormEditProvider } from './store';
 
+import { FormService } from '@atj/form-service';
+import { type EditComponentForPattern } from './FormEdit/types';
+
+export type FormManagerContext = {
+  baseUrl: `${string}/`;
+  components: ComponentForPattern;
+  config: FormConfig;
+  editComponents: EditComponentForPattern;
+  formService: FormService;
+  uswdsRoot: `${string}/`;
+};
+
 type FormManagerProps = {
-  context: FormEditUIContext;
+  context: FormManagerContext;
 };
 
 export default function FormManager({ context }: FormManagerProps) {

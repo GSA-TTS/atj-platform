@@ -4,18 +4,15 @@ import { createContext } from 'zustand-utils';
 
 import { type Blueprint } from '@atj/forms';
 
-import {
-  type FormEditUIContext,
-  type FormEditSlice,
-  createFormEditSlice,
-} from './FormEdit/store';
+import { type FormEditSlice, createFormEditSlice } from './FormEdit/store';
+import { type FormManagerContext } from '.';
 
 const { Provider, useStore } = createContext<StoreApi<FormEditSlice>>();
 
 export const useFormEditStore = useStore;
 
 export const FormEditProvider = (props: {
-  context: FormEditUIContext;
+  context: FormManagerContext;
   form: Blueprint;
   children: React.ReactNode;
 }) => {
@@ -25,7 +22,7 @@ export const FormEditProvider = (props: {
 };
 
 type StoreContext = {
-  context: FormEditUIContext;
+  context: FormManagerContext;
   form: Blueprint;
 };
 
