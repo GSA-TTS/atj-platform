@@ -3,7 +3,7 @@ import { FormProvider, useForm, useFormContext } from 'react-hook-form';
 
 import { type PatternId, type PatternMap } from '@atj/forms';
 
-import { useFormEditStore, usePattern } from '../../store';
+import { useFormEditStore, usePattern } from '../../../store';
 
 type PatternEditFormProps = {
   patternId: PatternId;

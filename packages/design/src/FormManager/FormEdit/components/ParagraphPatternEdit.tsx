@@ -3,7 +3,7 @@ import React from 'react';
 import { PatternId, type ParagraphProps } from '@atj/forms';
 
 import Paragraph from '../../../Form/components/Paragraph';
-import { useIsPatternSelected } from '../store';
+import { useIsPatternSelected } from '../../store';
 import { PatternEditComponent } from '../types';
 
 import { PatternEditActions } from './common/PatternEditActions';

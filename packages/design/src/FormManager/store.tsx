@@ -10,7 +10,7 @@ import {
   getPattern,
   BlueprintBuilder,
 } from '@atj/forms';
-import { type FormEditUIContext } from './types';
+import { type FormEditUIContext } from './FormEdit/types';
 
 const { Provider, useStore } = createContext<StoreApi<FormEditState>>();
 

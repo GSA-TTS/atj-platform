@@ -10,6 +10,7 @@ import { FormPreviewById } from './FormPreview';
 import { FormDocumentImport } from './import-document';
 import { type FormEditUIContext } from './FormEdit/types';
 import { FormManagerLayout, NavPage } from './FormManagerLayout';
+import { FormEditProvider } from './store';
 
 export default function FormManager({
   context,
@@ -54,18 +55,21 @@ export default function FormManager({
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
+            const result = formService.getForm(formId);
+            if (!result.success) {
+              return 'Form not found';
+            }
+            const form = result.data;
             return (
-              <FormManagerLayout
-                step={NavPage.create}
-                back={`#/`}
-                next={`#/${formId}/configure`}
-              >
-                <FormEdit
-                  context={context}
-                  formId={formId}
-                  formService={formService}
-                />
-              </FormManagerLayout>
+              <FormEditProvider context={context} form={form}>
+                <FormManagerLayout
+                  step={NavPage.create}
+                  back={`#/`}
+                  next={`#/${formId}/configure`}
+                >
+                  <FormEdit formId={formId} formService={formService} />
+                </FormManagerLayout>
+              </FormEditProvider>
             );
           }}
         />
@@ -76,14 +80,21 @@ export default function FormManager({
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
+            const result = formService.getForm(formId);
+            if (!result.success) {
+              return 'Form not found';
+            }
+            const form = result.data;
             return (
-              <FormManagerLayout
-                step={NavPage.configure}
-                back={`#/${formId}/create`}
-                next={`#/${formId}/publish`}
-              >
-                Publish
-              </FormManagerLayout>
+              <FormEditProvider context={context} form={form}>
+                <FormManagerLayout
+                  step={NavPage.configure}
+                  back={`#/${formId}/create`}
+                  next={`#/${formId}/publish`}
+                >
+                  Publish
+                </FormManagerLayout>
+              </FormEditProvider>
             );
           }}
         />
@@ -94,14 +105,21 @@ export default function FormManager({
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
+            const result = formService.getForm(formId);
+            if (!result.success) {
+              return 'Form not found';
+            }
+            const form = result.data;
             return (
-              <FormManagerLayout
-                step={NavPage.publish}
-                back={`#/${formId}/configure`}
-                close={`#/`}
-              >
-                Publish
-              </FormManagerLayout>
+              <FormEditProvider context={context} form={form}>
+                <FormManagerLayout
+                  step={NavPage.publish}
+                  back={`#/${formId}/configure`}
+                  close={`#/`}
+                >
+                  Publish
+                </FormManagerLayout>
+              </FormEditProvider>
             );
           }}
         />

@@ -8,31 +8,20 @@ import Form, { ComponentForPattern, PatternComponent } from '../../Form';
 import { AddPatternDropdown } from './AddPatternDropdown';
 import { PreviewPattern } from './PreviewPattern';
 import { PatternPreviewSequence } from './components/PreviewSequencePattern';
-import { FormEditProvider, useFormEditStore } from './store';
-import { type FormEditUIContext } from './types';
+import { useFormEditStore } from '../store';
 
 export default function FormEdit({
-  context,
   formId,
   formService,
 }: {
-  context: FormEditUIContext;
   formId: string;
   formService: FormService;
 }) {
-  const result = formService.getForm(formId);
-  if (!result.success) {
-    return 'Form not found';
-  }
-  const form = result.data;
-
   return (
     <>
       <h1>Edit form</h1>
       <p className="usa-intro">Your form has been imported for web delivery.</p>
-      <FormEditProvider context={context} form={form}>
-        <EditForm saveForm={form => formService.saveForm(formId, form)} />
-      </FormEditProvider>
+      <EditForm saveForm={form => formService.saveForm(formId, form)} />
     </>
   );
 }

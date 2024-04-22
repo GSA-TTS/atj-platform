@@ -4,7 +4,7 @@ import { PatternId, type FieldsetProps } from '@atj/forms';
 import { FieldsetPattern } from '@atj/forms/src/patterns/fieldset';
 
 import Fieldset from '../../../Form/components/Fieldset';
-import { useIsPatternSelected, usePattern } from '../store';
+import { useIsPatternSelected, usePattern } from '../../store';
 import { PatternEditComponent } from '../types';
 
 import { PatternEditActions } from './common/PatternEditActions';

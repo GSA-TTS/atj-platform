@@ -3,7 +3,7 @@ import React from 'react';
 import { type FormSummaryProps, type PatternId } from '@atj/forms';
 
 import FormSummary from '../../../Form/components/FormSummary';
-import { useIsPatternSelected } from '../store';
+import { useIsPatternSelected } from '../../store';
 import { PatternEditComponent } from '../types';
 
 import {

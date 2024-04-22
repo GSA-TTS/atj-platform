@@ -3,7 +3,7 @@ import React from 'react';
 import { type PatternId, SubmissionConfirmationProps } from '@atj/forms';
 
 import SubmissionConfirmation from '../../../Form/components/SubmissionConfirmation';
-import { useIsPatternSelected } from '../store';
+import { useIsPatternSelected } from '../../store';
 import { PatternEditComponent } from '../types';
 
 import {

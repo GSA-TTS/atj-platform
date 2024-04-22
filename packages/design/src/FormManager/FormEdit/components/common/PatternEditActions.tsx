@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, ReactElement } from 'react';
 import classNames from 'classnames';
 
-import { useFormEditStore } from '../../store';
+import { useFormEditStore } from '../../../store';
 
 type PatternEditActionsProps = PropsWithChildren<{
   children?: ReactElement;

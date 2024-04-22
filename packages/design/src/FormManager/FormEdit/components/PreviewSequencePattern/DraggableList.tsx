@@ -16,7 +16,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { useFormEditStore } from '../../store';
+import { useFormEditStore } from '../../../store';
 
 type DraggableListProps = React.PropsWithChildren<{
   order: UniqueIdentifier[];

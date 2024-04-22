@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { PatternComponent } from '../../Form';
-import { useFormEditStore } from './store';
+import { useFormEditStore } from '../store';
 
 export const PreviewPattern: PatternComponent = function PreviewPattern(props) {
   const { context, setFocus } = useFormEditStore(state => ({

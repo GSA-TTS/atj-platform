@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { useFormEditStore } from '../../FormManager/FormEdit/store';
+import { useFormEditStore } from '../store';
 
 export enum NavPage {
   upload = 1,

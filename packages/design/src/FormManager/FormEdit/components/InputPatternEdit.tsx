@@ -3,7 +3,7 @@ import React from 'react';
 import { PatternId, TextInputProps } from '@atj/forms';
 
 import TextInput from '../../../Form/components/TextInput';
-import { useIsPatternSelected, usePattern } from '../store';
+import { useIsPatternSelected, usePattern } from '../../store';
 import { PatternEditComponent } from '../types';
 
 import { PatternEditActions } from './common/PatternEditActions';

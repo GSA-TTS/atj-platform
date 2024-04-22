@@ -1,5 +1,5 @@
 import React from 'react';
-import { useFormEditStore } from './store';
+import { useFormEditStore } from '../store';
 
 export const AddPatternDropdown = () => {
   const store = useFormEditStore(state => ({

@@ -6,7 +6,7 @@ import { SequencePattern } from '@atj/forms/src/patterns/sequence';
 import { PatternComponent } from '../../../../Form';
 
 import { DraggableList } from './DraggableList';
-import { useFormEditStore } from '../../store';
+import { useFormEditStore } from '../../../store';
 
 // TODO: consider merging this component with DraggableList, to clean up
 // sematics around how its children are handled.
