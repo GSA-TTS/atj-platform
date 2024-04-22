@@ -4,7 +4,6 @@ import { type FormService } from '@atj/form-service';
 
 import { type FormUIContext } from '../Form';
 import DocumentImporter from './DocumentImporter';
-import ManagerNav from './ManagerNav';
 
 export const FormDocumentImport = ({
   baseUrl,
@@ -24,7 +23,6 @@ export const FormDocumentImport = ({
   }
   return (
     <>
-      <ManagerNav />
       <DocumentImporter
         context={context}
         formService={formService}

@@ -11,5 +11,6 @@ export const defaultPatternEditComponents: EditComponentForPattern = {
   'form-summary': FormSummaryEdit,
   fieldset: FieldsetEdit,
   //sequence: SequencePatternEdit,
+  //sequence: PreviewSequencePattern,
   'submission-confirmation': SubmissionConfirmationEdit,
 };

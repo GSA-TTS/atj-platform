@@ -16,10 +16,7 @@ export default function CreateNew({
   const { actions } = useDocumentImporter(formService, baseUrl);
   return (
     <div className="usa-form-group">
-      <button
-        className="usa-button usa-button--secondary"
-        onClick={() => actions.createNewForm()}
-      >
+      <button className="usa-button" onClick={() => actions.createNewForm()}>
         Create empty form
       </button>
       <label

@@ -3,10 +3,14 @@ import React from 'react';
 import { PatternId, type ParagraphProps } from '@atj/forms';
 
 import Paragraph from '../../../Form/components/Paragraph';
-import { PatternEditActions } from '../PatternEditActions';
-import { PatternEditForm, usePatternEditFormContext } from '../PatternEditForm';
 import { useIsPatternSelected } from '../store';
 import { PatternEditComponent } from '../types';
+
+import { PatternEditActions } from './common/PatternEditActions';
+import {
+  PatternEditForm,
+  usePatternEditFormContext,
+} from './common/PatternEditForm';
 
 const ParagraphPatternEdit: PatternEditComponent<ParagraphProps> = props => {
   const isSelected = useIsPatternSelected(props.previewProps._patternId);

@@ -3,9 +3,13 @@ import React from 'react';
 import { type PatternId, SubmissionConfirmationProps } from '@atj/forms';
 
 import SubmissionConfirmation from '../../../Form/components/SubmissionConfirmation';
-import { PatternEditForm, usePatternEditFormContext } from '../PatternEditForm';
 import { useIsPatternSelected } from '../store';
 import { PatternEditComponent } from '../types';
+
+import {
+  PatternEditForm,
+  usePatternEditFormContext,
+} from './common/PatternEditForm';
 
 const SubmissionConfirmationEdit: PatternEditComponent<
   SubmissionConfirmationProps
