@@ -19,7 +19,6 @@ export default function () {
         formService: ctx.formService,
         uswdsRoot: ctx.uswdsRoot,
       }}
-      formService={ctx.formService}
       baseUrl={ctx.baseUrl}
     />
   );

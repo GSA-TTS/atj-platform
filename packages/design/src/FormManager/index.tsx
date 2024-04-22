@@ -1,8 +1,6 @@
 import React from 'react';
 import { useParams, HashRouter, Route, Routes } from 'react-router-dom';
 
-import { type FormService } from '@atj/form-service';
-
 import FormDelete from './FormDelete';
 import FormEdit from './FormEdit';
 import FormList from './FormList';
@@ -15,11 +13,9 @@ import { FormEditProvider } from './store';
 export default function FormManager({
   context,
   baseUrl,
-  formService,
 }: {
   context: FormEditUIContext;
   baseUrl: string;
-  formService: FormService;
 }) {
   return (
     <HashRouter>
@@ -28,7 +24,7 @@ export default function FormManager({
           path="/"
           Component={() => (
             <FormManagerLayout>
-              <FormList baseUrl={baseUrl} formService={formService} />
+              <FormList baseUrl={baseUrl} formService={context.formService} />
             </FormManagerLayout>
           )}
         />
@@ -43,7 +39,7 @@ export default function FormManager({
               <FormPreviewById
                 context={context}
                 formId={formId}
-                formService={formService}
+                formService={context.formService}
               />
             );
           }}
@@ -55,7 +51,7 @@ export default function FormManager({
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
-            const result = formService.getForm(formId);
+            const result = context.formService.getForm(formId);
             if (!result.success) {
               return <div>Form not found</div>;
             }
@@ -80,7 +76,7 @@ export default function FormManager({
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
-            const result = formService.getForm(formId);
+            const result = context.formService.getForm(formId);
             if (!result.success) {
               return 'Form not found';
             }
@@ -105,7 +101,7 @@ export default function FormManager({
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
-            const result = formService.getForm(formId);
+            const result = context.formService.getForm(formId);
             if (!result.success) {
               return 'Form not found';
             }
@@ -130,7 +126,9 @@ export default function FormManager({
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
-            return <FormDelete formId={formId} formService={formService} />;
+            return (
+              <FormDelete formId={formId} formService={context.formService} />
+            );
           }}
         />
         <Route
@@ -145,7 +143,7 @@ export default function FormManager({
                 context={context}
                 baseUrl={baseUrl}
                 formId={formId}
-                formService={formService}
+                formService={context.formService}
               />
             );
           }}
