@@ -1,13 +1,11 @@
 import { createForm, createFormSession, defaultFormConfig } from '@atj/forms';
-
-import {
-  defaultPatternComponents,
-  defaultPatternEditComponents,
-} from './config';
-import { FormUIContext } from 'Form';
-import { type FormEditUIContext } from './FormManager/FormEdit/types';
 import { SequencePattern } from '@atj/forms/src/patterns/sequence';
 import { InputPattern } from '@atj/forms/src/patterns/input';
+
+import { type FormUIContext } from './Form';
+import { defaultPatternComponents } from './Form/components';
+import { type FormEditUIContext } from './FormManager/FormEdit/types';
+import { defaultPatternEditComponents } from './FormManager/FormEdit/components';
 
 export const createTestForm = () => {
   return createForm(

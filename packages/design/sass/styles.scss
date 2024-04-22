@@ -29,11 +29,6 @@ p {
   font-weight: 700;
 }
 
-a,
-.usa-link,
-.usa-button--unstyled {
-  color: color('violet-70v');
-}
 
 .hide {
   display: none;
@@ -62,16 +57,6 @@ main {
 */
 }
 
-.usa-banner__inner,
-.usa-header--extended .usa-navbar,
-.usa-header--extended .usa-nav__inner,
-.grid-container,
-.usa-footer>.grid-container,
-.usa-footer__primary-container,
-.usa-footer__primary-section>.grid-container {
-  max-width: 75rem;
-}
-
 .usa-combo-box__input,
 .usa-input,
 .usa-input-group,
@@ -80,20 +65,6 @@ main {
 .usa-textarea {
   max-width: 40rem;
   height: 3rem;
-}
-
-.usa-header {
-  background: #18161d;
-}
-
-.usa-nav {
-  background: white;
-
-  .usa-sidenav__item {
-    .usa-current {
-      color: color('violet-70v');
-    }
-  }
 }
 
 .usa-sidenav{
@@ -116,25 +87,6 @@ main {
 
 .usa-checkbox {
   background: none;
-}
-
-.usa-button-wrapper {
-  .usa-button {
-    margin: 0;
-  }
-}
-.usa-button,
-.usa-menu-btn {
-  background-color: #54278f;
-
-  &:hover {
-    background-color: #783cb9;
-  }
-}
-
-.usa-header,
-.usa-header a {
-  color: white;
 }
 
 .usa-table {
@@ -213,37 +165,4 @@ iframe:focus {
   position: relative;
   padding-bottom: 62.5%;
   height: 0;
-}
-
-.usa-footer__nav {
-  background: none;
-}
-
-@media (min-width: 64em) {
-  .usa-nav__primary {
-
-    &>.usa-nav__primary-item {
-      font-size: 1.3rem;
-    }
-  }
-  .usa-header--extended {
-    .usa-nav__primary-item {
-
-      &>.usa-current::after,
-      &>.usa-nav__link:hover::after {
-        background-color: #783cb9;
-      }
-    }
-
-    .usa-logo {
-      max-width: 100%;
-    }
-  }
-
-  .usa-link:active,
-  .usa-link:visited,
-  .usa-file-input__choose,
-  .usa-nav__primary>.usa-nav__primary-item>a:hover {
-    color: #39215e;
-  }
 }

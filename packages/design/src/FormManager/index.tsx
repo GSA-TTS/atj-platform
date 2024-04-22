@@ -9,6 +9,7 @@ import FormList from './FormList';
 import { FormPreviewById } from './FormPreview';
 import { FormDocumentImport } from './import-document';
 import { type FormEditUIContext } from './FormEdit/types';
+import { FormManagerLayout, NavPage } from './FormManagerLayout';
 
 export default function FormManager({
   context,
@@ -25,7 +26,9 @@ export default function FormManager({
         <Route
           path="/"
           Component={() => (
-            <FormList baseUrl={baseUrl} formService={formService} />
+            <FormManagerLayout uswdsRoot={context.uswdsRoot}>
+              <FormList baseUrl={baseUrl} formService={formService} />
+            </FormManagerLayout>
           )}
         />
         <Route
@@ -52,11 +55,37 @@ export default function FormManager({
               return <div>formId is undefined</div>;
             }
             return (
-              <FormEdit
-                context={context}
-                formId={formId}
-                formService={formService}
-              />
+              <FormManagerLayout
+                uswdsRoot={context.uswdsRoot}
+                step={NavPage.configure}
+                back={`#/`}
+                next={`#/${formId}/publish`}
+              >
+                <FormEdit
+                  context={context}
+                  formId={formId}
+                  formService={formService}
+                />
+              </FormManagerLayout>
+            );
+          }}
+        />
+        <Route
+          path="/:formId/publish"
+          Component={() => {
+            const { formId } = useParams();
+            if (formId === undefined) {
+              return <div>formId is undefined</div>;
+            }
+            return (
+              <FormManagerLayout
+                uswdsRoot={context.uswdsRoot}
+                step={NavPage.publish}
+                back={`#/${formId}/edit`}
+                close={`#/`}
+              >
+                Publish
+              </FormManagerLayout>
             );
           }}
         />

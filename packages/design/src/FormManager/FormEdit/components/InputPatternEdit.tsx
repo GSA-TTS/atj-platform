@@ -1,12 +1,39 @@
 import React from 'react';
-import { useFormContext } from 'react-hook-form';
 
-import { type InputPattern } from '@atj/forms/src/patterns/input';
-import { PatternEditComponent } from '../../FormManager/FormEdit/types';
-import { PatternEditActions } from '../../FormManager/FormEdit/PatternEditActions';
+import { PatternId, TextInputProps } from '@atj/forms';
 
-const InputPatternEdit: PatternEditComponent<InputPattern> = ({ pattern }) => {
-  const { register } = useFormContext();
+import TextInput from '../../../Form/components/TextInput';
+import { useIsPatternSelected, usePattern } from '../store';
+import { PatternEditComponent } from '../types';
+
+import { PatternEditActions } from './common/PatternEditActions';
+import {
+  PatternEditForm,
+  usePatternEditFormContext,
+} from './common/PatternEditForm';
+
+const InputPatternEdit: PatternEditComponent<TextInputProps> = props => {
+  const isSelected = useIsPatternSelected(props.previewProps._patternId);
+  return (
+    <>
+      {isSelected ? (
+        <PatternEditForm
+          patternId={props.previewProps._patternId}
+          editComponent={
+            <EditComponent patternId={props.previewProps._patternId} />
+          }
+        ></PatternEditForm>
+      ) : (
+        <TextInput {...props.previewProps} />
+      )}
+    </>
+  );
+};
+
+const EditComponent = ({ patternId }: { patternId: PatternId }) => {
+  const pattern = usePattern(patternId);
+
+  const methods = usePatternEditFormContext();
   return (
     <div className="grid-row grid-gap">
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
@@ -17,7 +44,7 @@ const InputPatternEdit: PatternEditComponent<InputPattern> = ({ pattern }) => {
           className="usa-input"
           id={`${pattern.id}.data.label`}
           defaultValue={`${pattern.id}`}
-          {...register(`${pattern.id}.data.label`)}
+          {...methods.register(`${pattern.id}.data.label`)}
           type="text"
         ></input>
       </div>
@@ -29,7 +56,7 @@ const InputPatternEdit: PatternEditComponent<InputPattern> = ({ pattern }) => {
           className="usa-input"
           id={`${pattern.id}.data.default`}
           type="text"
-          {...register(`${pattern.id}.data.default`)}
+          {...methods.register(`${pattern.id}.data.default`)}
         ></input>
       </div>
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
@@ -40,7 +67,7 @@ const InputPatternEdit: PatternEditComponent<InputPattern> = ({ pattern }) => {
           className="usa-input"
           id={`${pattern.id}.data.maxLength`}
           type="text"
-          {...register(`${pattern.id}.data.maxLength`)}
+          {...methods.register(`${pattern.id}.data.maxLength`)}
         ></input>
       </div>
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
@@ -49,7 +76,7 @@ const InputPatternEdit: PatternEditComponent<InputPattern> = ({ pattern }) => {
         </label>
         <select
           className="usa-select"
-          {...register(`${pattern.id}.type`)}
+          {...methods.register(`${pattern.id}.type`)}
           id={`${pattern.id}.type`}
         >
           <option value={'input'}>Input</option>
@@ -63,7 +90,7 @@ const InputPatternEdit: PatternEditComponent<InputPattern> = ({ pattern }) => {
               className="usa-checkbox__input"
               type="checkbox"
               id={`${pattern.id}.data.required`}
-              {...register(`${pattern.id}.data.required`)}
+              {...methods.register(`${pattern.id}.data.required`)}
             />
             <label
               style={{ display: 'inline-block' }}
