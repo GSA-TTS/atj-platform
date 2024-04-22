@@ -6,7 +6,6 @@ import { BottomNavigation } from './BottomNavigation';
 export { NavPage } from './TopNavigation';
 
 type FormManagerLayoutProps = {
-  uswdsRoot: `${string}/`;
   children: React.ReactNode;
   step?: NavPage;
   next?: string;
@@ -15,7 +14,6 @@ type FormManagerLayoutProps = {
 };
 
 export const FormManagerLayout = ({
-  uswdsRoot,
   children,
   step,
   next,
@@ -24,7 +22,7 @@ export const FormManagerLayout = ({
 }: FormManagerLayoutProps) => {
   return (
     <>
-      {step && <TopNavigation uswdsRoot={uswdsRoot} curPage={step} />}
+      {step && <TopNavigation curPage={step} />}
       <section className="grid-container usa-section">
         <div className="grid-row flex-justify-center">
           <div className="grid-col-12 tablet:grid-col-12 desktop:grid-col-12">

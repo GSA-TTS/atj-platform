@@ -1,5 +1,7 @@
-import classNames from 'classnames';
 import React from 'react';
+import classNames from 'classnames';
+
+import { useFormEditStore } from '../../FormManager/FormEdit/store';
 
 export enum NavPage {
   upload = 1,
@@ -28,13 +30,8 @@ const srHint = (page: NavPage, curPage: NavPage) => {
   }
 };
 
-export const TopNavigation = ({
-  curPage,
-  uswdsRoot,
-}: {
-  curPage: NavPage;
-  uswdsRoot: `${string}/`;
-}) => {
+export const TopNavigation = ({ curPage }: { curPage: NavPage }) => {
+  const uswdsRoot = useFormEditStore(state => state.context.uswdsRoot);
   return (
     <div className="position-sticky top-0 z-100 bg-white padding-1">
       <div className="grid-container margin-bottom-05 display-block tablet:display-none">

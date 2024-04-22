@@ -26,7 +26,7 @@ export default function FormManager({
         <Route
           path="/"
           Component={() => (
-            <FormManagerLayout uswdsRoot={context.uswdsRoot}>
+            <FormManagerLayout>
               <FormList baseUrl={baseUrl} formService={formService} />
             </FormManagerLayout>
           )}
@@ -56,7 +56,6 @@ export default function FormManager({
             }
             return (
               <FormManagerLayout
-                uswdsRoot={context.uswdsRoot}
                 step={NavPage.create}
                 back={`#/`}
                 next={`#/${formId}/configure`}
@@ -79,7 +78,6 @@ export default function FormManager({
             }
             return (
               <FormManagerLayout
-                uswdsRoot={context.uswdsRoot}
                 step={NavPage.configure}
                 back={`#/${formId}/create`}
                 next={`#/${formId}/publish`}
@@ -98,7 +96,6 @@ export default function FormManager({
             }
             return (
               <FormManagerLayout
-                uswdsRoot={context.uswdsRoot}
                 step={NavPage.publish}
                 back={`#/${formId}/configure`}
                 close={`#/`}
