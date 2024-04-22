@@ -11,7 +11,7 @@ const { Provider, useStore } = createContext<StoreApi<FormEditSlice>>();
 
 export const useFormEditStore = useStore;
 
-export const FormEditProvider = (props: {
+export const FormManagerProvider = (props: {
   context: FormManagerContext;
   form: Blueprint;
   children: React.ReactNode;

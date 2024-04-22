@@ -65,7 +65,7 @@ export const createTestFormContext = (): FormUIContext => {
   };
 };
 
-export const createTestFormEditContext = (): FormManagerContext => {
+export const createTestFormManagerContext = (): FormManagerContext => {
   return {
     components: defaultPatternComponents,
     config: defaultFormConfig,

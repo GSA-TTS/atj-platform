@@ -11,7 +11,7 @@ import FormList from './FormList';
 import { FormPreviewById } from './FormPreview';
 import { FormDocumentImport } from './import-document';
 import { FormManagerLayout, NavPage } from './FormManagerLayout';
-import { FormEditProvider } from './store';
+import { FormManagerProvider } from './store';
 
 import { FormService } from '@atj/form-service';
 import { type EditComponentForPattern } from './FormEdit/types';
@@ -73,7 +73,7 @@ export default function FormManager({ context }: FormManagerProps) {
             }
             const form = result.data;
             return (
-              <FormEditProvider context={context} form={form}>
+              <FormManagerProvider context={context} form={form}>
                 <FormManagerLayout
                   step={NavPage.create}
                   back={`#/`}
@@ -81,7 +81,7 @@ export default function FormManager({ context }: FormManagerProps) {
                 >
                   <FormEdit formId={formId} />
                 </FormManagerLayout>
-              </FormEditProvider>
+              </FormManagerProvider>
             );
           }}
         />
@@ -98,7 +98,7 @@ export default function FormManager({ context }: FormManagerProps) {
             }
             const form = result.data;
             return (
-              <FormEditProvider context={context} form={form}>
+              <FormManagerProvider context={context} form={form}>
                 <FormManagerLayout
                   step={NavPage.configure}
                   back={`#/${formId}/create`}
@@ -106,7 +106,7 @@ export default function FormManager({ context }: FormManagerProps) {
                 >
                   Publish
                 </FormManagerLayout>
-              </FormEditProvider>
+              </FormManagerProvider>
             );
           }}
         />
@@ -123,7 +123,7 @@ export default function FormManager({ context }: FormManagerProps) {
             }
             const form = result.data;
             return (
-              <FormEditProvider context={context} form={form}>
+              <FormManagerProvider context={context} form={form}>
                 <FormManagerLayout
                   step={NavPage.publish}
                   back={`#/${formId}/configure`}
@@ -131,7 +131,7 @@ export default function FormManager({ context }: FormManagerProps) {
                 >
                   Publish
                 </FormManagerLayout>
-              </FormEditProvider>
+              </FormManagerProvider>
             );
           }}
         />
