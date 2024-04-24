@@ -3,7 +3,7 @@ import React from 'react';
 import { type PatternId, SubmissionConfirmationProps } from '@atj/forms';
 
 import SubmissionConfirmation from '../../../Form/components/SubmissionConfirmation';
-import { useFormEditStore } from '../../store';
+import { useFormManagerStore } from '../../store';
 import { PatternEditComponent } from '../types';
 
 import {
@@ -14,7 +14,7 @@ import {
 const SubmissionConfirmationEdit: PatternEditComponent<
   SubmissionConfirmationProps
 > = props => {
-  const isSelected = useFormEditStore(
+  const isSelected = useFormManagerStore(
     state => state.focusedPattern?.id === props.previewProps._patternId
   );
   return (

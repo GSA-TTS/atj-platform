@@ -1,23 +1,31 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { SAMPLE_DOCUMENTS } from '@atj/forms';
-import { FormService } from '@atj/form-service';
 
+import { useFormManagerStore } from '../../store';
 import { onFileInputChangeGetFile } from './file-input';
-import { useDocumentImporter } from './hooks';
 
-export default function CreateNew({
-  formService,
-  baseUrl,
-}: {
-  formService: FormService;
-  baseUrl: string;
-}) {
-  const { actions } = useDocumentImporter(formService, baseUrl);
+export default function CreateNew() {
+  const navigate = useNavigate();
+  const actions = useFormManagerStore(state => ({
+    context: state.context,
+    createNewForm: state.createNewForm,
+    createNewFormByPDFUpload: state.createNewFormByPDFUpload,
+    createNewFormByPDFUrl: state.createNewFormByPDFUrl,
+  }));
   return (
     <div className="usa-form-group">
-      <button className="usa-button" onClick={() => actions.createNewForm()}>
-        Create empty form
+      <button
+        className="usa-button"
+        onClick={async () => {
+          const result = await actions.createNewForm();
+          if (result.success) {
+            navigate(`/${result.data}/upload`);
+          }
+        }}
+      >
+        Create form
       </button>
       <label
         className="usa-label"
@@ -44,7 +52,11 @@ export default function CreateNew({
             type="file"
             accept=".pdf"
             onChange={onFileInputChangeGetFile(async fileDetails => {
-              actions.stepOneSelectPdfByUpload(fileDetails);
+              const result =
+                await actions.createNewFormByPDFUpload(fileDetails);
+              if (result.success) {
+                navigate(`/${result.data}/create`);
+              }
             })}
           />
         </div>
@@ -54,7 +66,12 @@ export default function CreateNew({
         {SAMPLE_DOCUMENTS.map((document, index) => (
           <SampleDocumentButton
             key={index}
-            callback={actions.stepOneSelectPdfByUrl}
+            callback={async url => {
+              const result = await actions.createNewFormByPDFUrl(url);
+              if (result.success) {
+                navigate(`/${result.data}/create`);
+              }
+            }}
             documentPath={document.path}
           />
         ))}

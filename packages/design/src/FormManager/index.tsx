@@ -1,19 +1,19 @@
 import React from 'react';
 import { useParams, HashRouter, Route, Routes } from 'react-router-dom';
 
-import { type FormConfig } from '@atj/forms';
+import { type FormConfig, nullBlueprint } from '@atj/forms';
+import { FormService } from '@atj/form-service';
 
 import { type ComponentForPattern } from '../Form';
 
 import FormDelete from './FormDelete';
 import FormEdit from './FormEdit';
 import FormList from './FormList';
-import { FormPreviewById } from './FormPreview';
-import { FormDocumentImport } from './import-document';
 import { FormManagerLayout, NavPage } from './FormManagerLayout';
+import { FormPreviewById } from './FormPreview';
+import { FormDocumentImport } from './FormDocumentImport';
 import { FormManagerProvider } from './store';
 
-import { FormService } from '@atj/form-service';
 import { type EditComponentForPattern } from './FormEdit/types';
 
 export type FormManagerContext = {
@@ -36,12 +36,11 @@ export default function FormManager({ context }: FormManagerProps) {
         <Route
           path="/"
           Component={() => (
-            <FormManagerLayout>
-              <FormList
-                baseUrl={context.baseUrl}
-                formService={context.formService}
-              />
-            </FormManagerLayout>
+            <FormManagerProvider context={context} form={nullBlueprint}>
+              <FormManagerLayout>
+                <FormList formService={context.formService} />
+              </FormManagerLayout>
+            </FormManagerProvider>
           )}
         />
         <Route
@@ -61,6 +60,36 @@ export default function FormManager({ context }: FormManagerProps) {
           }}
         />
         <Route
+          path="/:formId/upload"
+          Component={() => {
+            const { formId } = useParams();
+            if (formId === undefined) {
+              return <div>formId is undefined</div>;
+            }
+            const result = context.formService.getForm(formId);
+            if (!result.success) {
+              return <div>Form not found</div>;
+            }
+            const form = result.data;
+            return (
+              <FormManagerProvider context={context} form={form}>
+                <FormManagerLayout
+                  step={NavPage.upload}
+                  back={`#/`}
+                  next={`#/${formId}/create`}
+                >
+                  <FormDocumentImport
+                    context={context}
+                    baseUrl={context.baseUrl}
+                    formId={formId}
+                    formService={context.formService}
+                  />
+                </FormManagerLayout>
+              </FormManagerProvider>
+            );
+          }}
+        />
+        <Route
           path="/:formId/create"
           Component={() => {
             const { formId } = useParams();
@@ -76,7 +105,7 @@ export default function FormManager({ context }: FormManagerProps) {
               <FormManagerProvider context={context} form={form}>
                 <FormManagerLayout
                   step={NavPage.create}
-                  back={`#/`}
+                  back={`#/upload`}
                   next={`#/${formId}/configure`}
                 >
                   <FormEdit formId={formId} />
@@ -144,23 +173,6 @@ export default function FormManager({ context }: FormManagerProps) {
             }
             return (
               <FormDelete formId={formId} formService={context.formService} />
-            );
-          }}
-        />
-        <Route
-          path="/:formId/import-document"
-          Component={() => {
-            const { formId } = useParams();
-            if (formId === undefined) {
-              return <div>formId is undefined</div>;
-            }
-            return (
-              <FormDocumentImport
-                context={context}
-                baseUrl={context.baseUrl}
-                formId={formId}
-                formService={context.formService}
-              />
             );
           }}
         />

@@ -3,7 +3,7 @@ import React from 'react';
 import { type FormSummaryProps, type PatternId } from '@atj/forms';
 
 import FormSummary from '../../../Form/components/FormSummary';
-import { useFormEditStore } from '../../store';
+import { useFormManagerStore } from '../../store';
 import { PatternEditComponent } from '../types';
 
 import {
@@ -12,7 +12,7 @@ import {
 } from './common/PatternEditForm';
 
 const FormSummaryEdit: PatternEditComponent<FormSummaryProps> = props => {
-  const isSelected = useFormEditStore(
+  const isSelected = useFormManagerStore(
     state => state.focusedPattern?.id === props.previewProps._patternId
   );
   return (

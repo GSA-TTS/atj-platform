@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { PatternComponent } from '../../Form';
-import { useFormEditStore } from '../store';
+import { useFormManagerStore } from '../store';
 
 export const PreviewPattern: PatternComponent = function PreviewPattern(props) {
-  const { context, setFocus } = useFormEditStore(state => ({
+  const { context, setFocus } = useFormManagerStore(state => ({
     context: state.context,
     setFocus: state.setFocus,
     updatePatternById: state.updatePatternById,

@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import DocumentImporter from '.';
-import { createTestForm } from '../../test-form';
+import { createTestForm } from '../../../test-form';
 
 export default {
   title: 'FormManager/DocumentImporter',

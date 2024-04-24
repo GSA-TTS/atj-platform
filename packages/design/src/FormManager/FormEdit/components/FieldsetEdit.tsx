@@ -3,14 +3,14 @@ import React from 'react';
 import { type PatternId, type FieldsetProps } from '@atj/forms';
 
 import Fieldset from '../../../Form/components/Fieldset';
-import { useFormEditStore } from '../../store';
+import { useFormManagerStore } from '../../store';
 import { PatternEditComponent } from '../types';
 
 import { PatternEditActions } from './common/PatternEditActions';
 import { PatternEditForm } from './common/PatternEditForm';
 
 const FieldsetEdit: PatternEditComponent<FieldsetProps> = props => {
-  const isSelected = useFormEditStore(
+  const isSelected = useFormManagerStore(
     state => state.focusedPattern?.id === props.previewProps._patternId
   );
   return (
@@ -30,7 +30,7 @@ const FieldsetEdit: PatternEditComponent<FieldsetProps> = props => {
 };
 
 const FieldsetPreview = (props: FieldsetProps) => {
-  const pattern = useFormEditStore(
+  const pattern = useFormManagerStore(
     state => state.form.patterns[props._patternId]
   );
   return (
@@ -42,7 +42,7 @@ const FieldsetPreview = (props: FieldsetProps) => {
 };
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
-  const pattern = useFormEditStore(state => state.form.patterns[patternId]);
+  const pattern = useFormManagerStore(state => state.form.patterns[patternId]);
   //const { register } = usePatternEditFormContext();
   return (
     <div>

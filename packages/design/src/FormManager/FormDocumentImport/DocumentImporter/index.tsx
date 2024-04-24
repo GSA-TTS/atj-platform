@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import {
@@ -11,8 +11,8 @@ import {
 } from '@atj/forms';
 import { type FormService } from '@atj/form-service';
 
-import Form, { FormUIContext } from '../../Form';
-import { onFileInputChangeGetFile } from '../FormList/CreateNew/file-input';
+import Form, { FormUIContext } from '../../../Form';
+import { onFileInputChangeGetFile } from '../../FormList/CreateNew/file-input';
 
 const DocumentImporter = ({
   baseUrl,
@@ -28,46 +28,6 @@ const DocumentImporter = ({
   formService: FormService;
 }) => {
   const { state, actions } = useDocumentImporter(formService, form, baseUrl);
-
-  const Step: React.FC<
-    PropsWithChildren<{ title: string; step: number; current: number }>
-  > = ({ children, title, step, current }) => {
-    if (current === step) {
-      return (
-        <li className="usa-step-indicator__segment usa-step-indicator__segment--current">
-          <span className="usa-step-indicator__segment-label">
-            {title}
-            {children}
-          </span>
-        </li>
-      );
-    } else if (current < step) {
-      return (
-        <li className="usa-step-indicator__segment">
-          <span className="usa-step-indicator__segment-label">
-            {title}
-            {children}
-            <span className="usa-sr-only">not completed</span>
-          </span>
-        </li>
-      );
-    } else {
-      return (
-        <li className="usa-step-indicator__segment usa-step-indicator__segment--complete">
-          <button
-            className="usa-button--unstyled"
-            onClick={() => actions.gotoPage(step)}
-          >
-            <span className="usa-step-indicator__segment-label">
-              {title}
-              {children}
-              <span className="usa-sr-only">completed</span>
-            </span>
-          </button>
-        </li>
-      );
-    }
-  };
 
   const CreateNew = () => {
     return (

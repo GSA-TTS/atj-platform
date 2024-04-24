@@ -1,15 +1,29 @@
 import React from 'react';
-import { StoreApi, create } from 'zustand';
+import { type StoreApi, type StateCreator, create } from 'zustand';
 import { createContext } from 'zustand-utils';
 
-import { type Blueprint } from '@atj/forms';
+import { BlueprintBuilder, type Blueprint } from '@atj/forms';
 
 import { type FormEditSlice, createFormEditSlice } from './FormEdit/store';
+import { type FormListSlice, createFormListSlice } from './FormList/store';
 import { type FormManagerContext } from '.';
+import { Result } from '@atj/common';
 
-const { Provider, useStore } = createContext<StoreApi<FormEditSlice>>();
+type StoreContext = {
+  context: FormManagerContext;
+  form: Blueprint;
+};
 
-export const useFormEditStore = useStore;
+type FormManagerStore = FormEditSlice & FormListSlice & FormManagerSlice;
+const { Provider, useStore } = createContext<StoreApi<FormManagerStore>>();
+export const useFormManagerStore = useStore;
+
+const createStore = ({ context, form }: StoreContext) =>
+  create<FormManagerStore>((...args) => ({
+    ...createFormEditSlice({ context, form })(...args),
+    ...createFormListSlice({ context })(...args),
+    ...createFormManagerSlice({ context, form })(...args),
+  }));
 
 export const FormManagerProvider = (props: {
   context: FormManagerContext;
@@ -21,12 +35,29 @@ export const FormManagerProvider = (props: {
   );
 };
 
-type StoreContext = {
+type FormManagerSlice = {
   context: FormManagerContext;
   form: Blueprint;
+  createNewForm: () => Promise<Result<string>>;
 };
 
-const createStore = ({ context, form }: StoreContext) =>
-  create<FormEditSlice>((...args) => ({
-    ...createFormEditSlice({ context, form })(...args),
-  }));
+type FormManagerSliceCreator = StateCreator<
+  FormManagerSlice,
+  [],
+  [],
+  FormManagerSlice
+>;
+const createFormManagerSlice =
+  ({ context, form }: StoreContext): FormManagerSliceCreator =>
+  () => ({
+    context,
+    form,
+    createNewForm: async () => {
+      const builder = new BlueprintBuilder();
+      builder.setFormSummary({
+        title: `My form - ${new Date().toISOString()}`,
+        description: '',
+      });
+      return await context.formService.addForm(builder.form);
+    },
+  });

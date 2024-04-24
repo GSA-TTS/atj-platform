@@ -10,10 +10,10 @@ import Form, {
 import { AddPatternDropdown } from './AddPatternDropdown';
 import { PreviewPattern } from './PreviewPattern';
 import { PatternPreviewSequence } from './components/PreviewSequencePattern';
-import { useFormEditStore } from '../store';
+import { useFormManagerStore } from '../store';
 
 export default function FormEdit({ formId }: { formId: string }) {
-  const saveForm = useFormEditStore(state => state.saveForm);
+  const saveForm = useFormManagerStore(state => state.saveForm);
   return (
     <>
       <h1>Edit form</h1>
@@ -24,8 +24,8 @@ export default function FormEdit({ formId }: { formId: string }) {
 }
 
 const EditForm = ({ saveForm }: { saveForm: (form: Blueprint) => void }) => {
-  const { form } = useFormEditStore();
-  const uiContext = useFormEditStore(state => state.context);
+  const { form } = useFormManagerStore();
+  const uiContext = useFormManagerStore(state => state.context);
   const disposable = createFormSession(form); // nullSession instead?
   useEffect(() => {
     saveForm(form);

@@ -1,8 +1,8 @@
 import React from 'react';
-import { useFormEditStore } from '../store';
+import { useFormManagerStore } from '../store';
 
 export const AddPatternDropdown = () => {
-  const store = useFormEditStore(state => ({
+  const store = useFormManagerStore(state => ({
     availablePatterns: state.availablePatterns,
     addPattern: state.addPattern,
   }));
