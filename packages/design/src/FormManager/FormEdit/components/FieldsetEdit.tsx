@@ -59,7 +59,6 @@ const FieldsetPreview = (props: FieldsetProps) => {
 };
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
-  const pattern = usePattern(patternId);
   const { register } = usePatternEditFormContext();
   return (
 
@@ -84,7 +83,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           ></input>
         </label>
       </div>
-      {/* <Fieldset type="fieldset" _patternId={patternId} /> */}
+      <Fieldset type="fieldset" _patternId={patternId} />
       <PatternEditActions />
     </div>
   );
