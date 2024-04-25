@@ -105,7 +105,7 @@ export default function FormManager({ context }: FormManagerProps) {
               <FormManagerProvider context={context} form={form}>
                 <FormManagerLayout
                   step={NavPage.create}
-                  back={`#/upload`}
+                  back={`#/${formId}/upload`}
                   next={`#/${formId}/configure`}
                 >
                   <FormEdit formId={formId} />

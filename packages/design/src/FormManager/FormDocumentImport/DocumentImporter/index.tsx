@@ -128,13 +128,6 @@ const DocumentImporter = ({
   return (
     <div>
       <h1>Import a PDF</h1>
-      <div className="usa-step-indicator" aria-label="progress">
-        <ol className="usa-step-indicator__segments">
-          <Step title="Select a PDF" step={1} current={state.page} />
-          <Step title="Review document fields" step={2} current={state.page} />
-          <Step title="Preview form" step={3} current={state.page} />
-        </ol>
-      </div>
       {state.page === 1 && <CreateNew />}
       {state.page === 2 && <BuildFormPage />}
       {state.page === 3 && <PreviewFormPage />}
