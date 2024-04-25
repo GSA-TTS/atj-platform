@@ -34,8 +34,8 @@ const SubmissionConfirmationEdit: PatternEditComponent<
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const { register } = usePatternEditFormContext();
   return (
-    <div className="grid-row grid-gap">
-      <div className="grid-col grid-col-4">
+    <div className="grid-row grid-gap-1 edit-component-panel">
+      <div className="desktop:grid-col-4 mobile:grid-col-12">
         <label className="usa-label">
           Field label
           <input
@@ -45,7 +45,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           ></input>
         </label>
       </div>
-      <div className="grid-col grid-col-2">
+      <div className="desktop:grid-col-2 mobile:grid-col-12">
         <label className="usa-label">
           Default field value
           <input
@@ -55,7 +55,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           ></input>
         </label>
       </div>
-      <div className="grid-col grid-col-2">
+      <div className="desktop:grid-col-2 mobile:grid-col-12">
         <label className="usa-label">
           Maximum length
           <input
@@ -65,7 +65,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           ></input>
         </label>
       </div>
-      <div className="grid-col grid-col-2">
+      <div className="desktop:grid-col-2 mobile:grid-col-12">
         <label className="usa-label">
           Field type
           <select className="usa-select" {...register(`${patternId}.type`)}>
@@ -73,7 +73,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           </select>
         </label>
       </div>
-      <div className="grid-col grid-col-2">
+      <div className="desktop:grid-col-2 mobile:grid-col-12">
         <div className="usa-checkbox">
           <input
             className="usa-checkbox__input"

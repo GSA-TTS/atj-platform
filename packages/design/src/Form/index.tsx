@@ -137,7 +137,7 @@ export default function Form({
               </ul>
             </nav>
           )}
-          <div className="grid-col-9 usa-prose">
+          <div className="desktop:grid-col-9 mobile:grid-col-12 usa-prose">
             {!isPreview ? (
               <form
                 className="usa-form usa-form--large margin-bottom-3"

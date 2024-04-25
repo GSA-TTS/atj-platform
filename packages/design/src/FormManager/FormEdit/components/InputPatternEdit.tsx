@@ -35,7 +35,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
 
   const methods = usePatternEditFormContext();
   return (
-    <div className="grid-row grid-gap">
+    <div className="grid-row grid-gap-1 edit-component-panel">
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
         <label className="usa-label" htmlFor={`${pattern.id}.data.label`}>
           Field label

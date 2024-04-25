@@ -8,8 +8,8 @@ export const AddPatternDropdown = () => {
   }));
 
   return (
-    <fieldset>
-      <label className="usa-label">
+    <fieldset className="padding-205 desktop:grid-col-9 mobile:grid-col-12">
+      <label className="usa-label margin-top-0">
         Add a pattern
         <select
           className="usa-select"
@@ -18,7 +18,7 @@ export const AddPatternDropdown = () => {
             event.target.selectedIndex = 0;
           }}
         >
-          <option></option>
+          <option>-- Select a pattern --</option>
           {store.availablePatterns.map((pattern, index) => (
             <option key={index} value={pattern.patternType}>
               {pattern.displayName}

@@ -11,17 +11,21 @@ import { safeZodParse } from '../util/zod';
 
 export type FieldsetPattern = Pattern<{
   legend?: string;
+  subheader?: string;
   patterns: PatternId[];
 }>;
 
 const configSchema = z.object({
   legend: z.string().optional(),
+  subheader: z.string().optional(),
   patterns: z.array(z.string()),
 });
 
 export const fieldsetConfig: PatternConfig<FieldsetPattern> = {
   displayName: 'Fieldset',
   initial: {
+    legend: "Default Heading",
+    subheader: "Default Subhead",
     patterns: [],
   },
   parseConfigData: obj => safeZodParse(configSchema, obj),
@@ -55,6 +59,7 @@ export const fieldsetConfig: PatternConfig<FieldsetPattern> = {
         _patternId: pattern.id,
         type: 'fieldset',
         legend: pattern.data.legend,
+        subheader: pattern.data.subheader,
       } satisfies FieldsetProps,
       children,
     };

@@ -28,11 +28,13 @@ export default function FormEdit({
 
   return (
     <>
-      <h1>Edit form</h1>
-      <p className="usa-intro">Your form has been imported for web delivery.</p>
-      <FormEditProvider context={context} form={form}>
-        <EditForm saveForm={form => formService.saveForm(formId, form)} />
-      </FormEditProvider>
+      <div className="edit-form-page">
+        <h1>Edit form</h1>
+        <p className="usa-intro">Your form has been imported for web delivery.</p>
+        <FormEditProvider context={context} form={form}>
+          <EditForm saveForm={form => formService.saveForm(formId, form)} />
+        </FormEditProvider>
+      </div>
     </>
   );
 }
@@ -46,7 +48,7 @@ const EditForm = ({ saveForm }: { saveForm: (form: Blueprint) => void }) => {
   }, [form]);
 
   return (
-    <div className="position-relative">
+    <div className="position-relative edit-form-content-wrapper">
       <div className="grid-row">
         <div className="grid-col-12">
           <AddPatternDropdown />

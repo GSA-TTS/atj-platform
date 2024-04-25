@@ -36,7 +36,7 @@ export const TopNavigation = ({
   uswdsRoot: `${string}/`;
 }) => {
   return (
-    <div className="position-sticky top-0 z-100 bg-white padding-1">
+    <div className="position-sticky top-0 z-100 bg-white padding-1 edit-page-top-nav">
       <div className="grid-container margin-bottom-05 display-block tablet:display-none">
         <MyFormsLink uswdsRoot={uswdsRoot} />
         <span className="text-base font-ui-3xs padding-left-4 padding-right-3">

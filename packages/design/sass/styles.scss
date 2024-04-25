@@ -166,3 +166,56 @@ iframe:focus {
   padding-bottom: 62.5%;
   height: 0;
 }
+
+.usa-fieldset {
+  width: 100%;
+
+  .usa-legend,
+  .usa-alert__text {
+    font-size: 1rem;
+  }
+
+  .usa-legend {    
+    font-weight: normal;
+    line-height: 1.5rem;
+    text-transform: uppercase;
+  }
+
+  h3.section-heading-h3 {
+    font-size: 1.375rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .usa-alert__text {
+    span {
+      display: inline-block;
+      vertical-align: top;
+      margin-right: 1rem;
+    }
+  }
+}
+
+.edit-component-panel {
+  input,
+  select {
+    background: #f4f1f9;
+    font-weight: 700;
+  }
+}
+
+.draggable-list-item-wrapper {
+  .draggable-list-item {
+    cursor: pointer;
+  }
+  .draggable-list-button {
+    cursor: 'grab';
+  }
+}
+
+.pattern-edit-panel {
+  .usa-button--unstyled {
+    color: #565C65;
+
+  }
+}
