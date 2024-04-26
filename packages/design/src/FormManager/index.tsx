@@ -13,6 +13,7 @@ import { type EditComponentForPattern } from './FormEdit/types';
 import FormList from './FormList';
 import { FormManagerLayout, NavPage } from './FormManagerLayout';
 import { FormPreview } from './FormPreview';
+import * as AppRoutes from './routes';
 import { FormManagerProvider } from './store';
 
 export type FormManagerContext = {
@@ -33,7 +34,7 @@ export default function FormManager({ context }: FormManagerProps) {
     <HashRouter>
       <Routes>
         <Route
-          path="/"
+          path={AppRoutes.MyForms.path}
           Component={() => (
             <FormManagerProvider context={context} form={nullBlueprint}>
               <FormManagerLayout>
@@ -43,7 +44,7 @@ export default function FormManager({ context }: FormManagerProps) {
           )}
         />
         <Route
-          path="/:formId/preview"
+          path={AppRoutes.Preview.path}
           Component={() => {
             const { formId } = useParams();
             if (formId === undefined) {
@@ -63,7 +64,7 @@ export default function FormManager({ context }: FormManagerProps) {
           }}
         />
         <Route
-          path="/:formId/upload"
+          path={AppRoutes.Upload.path}
           Component={() => {
             const { formId } = useParams();
             if (formId === undefined) {
@@ -78,9 +79,9 @@ export default function FormManager({ context }: FormManagerProps) {
               <FormManagerProvider context={context} form={form}>
                 <FormManagerLayout
                   step={NavPage.upload}
-                  back={`#/`}
-                  next={`#/${formId}/create`}
-                  preview={`#/${formId}/preview`}
+                  back={AppRoutes.MyForms.getUrl()}
+                  next={AppRoutes.Create.getUrl(formId)}
+                  preview={AppRoutes.Preview.getUrl(formId)}
                 >
                   <FormDocumentImport
                     context={context}
@@ -94,7 +95,7 @@ export default function FormManager({ context }: FormManagerProps) {
           }}
         />
         <Route
-          path="/:formId/create"
+          path={AppRoutes.Create.path}
           Component={() => {
             const { formId } = useParams();
             if (formId === undefined) {
@@ -109,9 +110,9 @@ export default function FormManager({ context }: FormManagerProps) {
               <FormManagerProvider context={context} form={form}>
                 <FormManagerLayout
                   step={NavPage.create}
-                  back={`#/${formId}/upload`}
-                  next={`#/${formId}/configure`}
-                  preview={`#/${formId}/preview`}
+                  back={AppRoutes.Upload.getUrl(formId)}
+                  next={AppRoutes.Configure.getUrl(formId)}
+                  preview={AppRoutes.Preview.getUrl(formId)}
                 >
                   <FormEdit formId={formId} />
                 </FormManagerLayout>
@@ -120,7 +121,7 @@ export default function FormManager({ context }: FormManagerProps) {
           }}
         />
         <Route
-          path="/:formId/configure"
+          path={AppRoutes.Configure.path}
           Component={() => {
             const { formId } = useParams();
             if (formId === undefined) {
@@ -135,9 +136,9 @@ export default function FormManager({ context }: FormManagerProps) {
               <FormManagerProvider context={context} form={form}>
                 <FormManagerLayout
                   step={NavPage.configure}
-                  back={`#/${formId}/create`}
-                  next={`#/${formId}/publish`}
-                  preview={`#/${formId}/preview`}
+                  back={AppRoutes.Create.getUrl(formId)}
+                  next={AppRoutes.Publish.getUrl(formId)}
+                  preview={AppRoutes.Preview.getUrl(formId)}
                 >
                   Publish
                 </FormManagerLayout>
@@ -146,7 +147,7 @@ export default function FormManager({ context }: FormManagerProps) {
           }}
         />
         <Route
-          path="/:formId/publish"
+          path={AppRoutes.Publish.path}
           Component={() => {
             const { formId } = useParams();
             if (formId === undefined) {
@@ -161,9 +162,9 @@ export default function FormManager({ context }: FormManagerProps) {
               <FormManagerProvider context={context} form={form}>
                 <FormManagerLayout
                   step={NavPage.publish}
-                  back={`#/${formId}/configure`}
-                  close={`#/`}
-                  preview={`#/${formId}/preview`}
+                  back={AppRoutes.Configure.getUrl(formId)}
+                  close={AppRoutes.MyForms.getUrl()}
+                  preview={AppRoutes.Preview.getUrl(formId)}
                 >
                   Publish
                 </FormManagerLayout>
@@ -172,7 +173,7 @@ export default function FormManager({ context }: FormManagerProps) {
           }}
         />
         <Route
-          path="/:formId/delete"
+          path={AppRoutes.Delete.path}
           Component={() => {
             const { formId } = useParams();
             if (formId === undefined) {

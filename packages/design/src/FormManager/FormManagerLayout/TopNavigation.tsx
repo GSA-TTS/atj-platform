@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import { MyForms } from '../routes';
 import { useFormManagerStore } from '../store';
 
 export enum NavPage {
@@ -128,7 +129,7 @@ export const TopNavigation = ({
 };
 
 const MyFormsLink = ({ uswdsRoot }: { uswdsRoot: `${string}/` }) => (
-  <a href="#" className="usa-link margin-right-4">
+  <a href={MyForms.getUrl()} className="usa-link margin-right-4">
     <svg
       className="usa-icon usa-icon--size-3 text-middle"
       aria-hidden="true"
