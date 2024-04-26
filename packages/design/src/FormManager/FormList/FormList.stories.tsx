@@ -18,7 +18,6 @@ export default {
     ),
   ],
   args: {
-    baseUrl: '/',
     formService: createTestFormService({
       'test-form': createTestForm(),
     }),

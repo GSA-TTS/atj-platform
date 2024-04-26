@@ -2,7 +2,7 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import FormPreview from '.';
+import { FormPreview } from '.';
 import { createTestForm, createTestFormContext } from '../../test-form';
 
 export default {

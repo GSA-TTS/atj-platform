@@ -20,6 +20,6 @@ export default {
     form: createTestForm(),
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof DocumentImporter>;
+} as Meta<typeof DocumentImporter>;
 
 export const TestForm = {} satisfies StoryObj<typeof DocumentImporter>;
