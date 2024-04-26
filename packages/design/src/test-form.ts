@@ -5,8 +5,8 @@ import { createTestFormService } from '@atj/form-service';
 
 import { type FormUIContext } from './Form';
 import { defaultPatternComponents } from './Form/components';
-import { type FormManagerContext } from './FormManager/FormEdit/types';
 import { defaultPatternEditComponents } from './FormManager/FormEdit/components';
+import { type FormManagerContext } from './FormManager';
 
 export const createTestForm = () => {
   return createForm(
@@ -67,6 +67,7 @@ export const createTestFormContext = (): FormUIContext => {
 
 export const createTestFormManagerContext = (): FormManagerContext => {
   return {
+    baseUrl: '/',
     components: defaultPatternComponents,
     config: defaultFormConfig,
     editComponents: defaultPatternEditComponents,

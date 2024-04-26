@@ -2,6 +2,11 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 
+import {
+  createTestForm,
+  createTestFormManagerContext,
+} from '../../../test-form';
+import { FormManagerProvider } from '../../store';
 import CreateNew from '.';
 
 export default {
@@ -10,7 +15,12 @@ export default {
   decorators: [
     (Story, args) => (
       <MemoryRouter initialEntries={['/']}>
-        <Story {...args} />
+        <FormManagerProvider
+          context={createTestFormManagerContext()}
+          form={createTestForm()}
+        >
+          <Story {...args} />
+        </FormManagerProvider>
       </MemoryRouter>
     ),
   ],
