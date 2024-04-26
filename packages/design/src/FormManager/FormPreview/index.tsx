@@ -9,6 +9,5 @@ export const FormPreview = () => {
   const context = useFormManagerStore(state => state.context);
   const form = useFormManagerStore(state => state.form);
   const session = createFormSession(form);
-  console.log('form');
   return <Form isPreview={true} context={context} session={session} />;
 };
