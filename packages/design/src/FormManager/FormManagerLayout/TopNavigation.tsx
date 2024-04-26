@@ -30,7 +30,13 @@ const srHint = (page: NavPage, curPage: NavPage) => {
   }
 };
 
-export const TopNavigation = ({ curPage }: { curPage: NavPage }) => {
+export const TopNavigation = ({
+  curPage,
+  preview,
+}: {
+  curPage: NavPage;
+  preview?: string;
+}) => {
   const uswdsRoot = useFormManagerStore(state => state.context.uswdsRoot);
   return (
     <div className="position-sticky top-0 z-100 bg-white padding-1">
@@ -39,7 +45,7 @@ export const TopNavigation = ({ curPage }: { curPage: NavPage }) => {
         <span className="text-base font-ui-3xs padding-left-4 padding-right-3">
           Saved
         </span>
-        <PreviewIconLink uswdsRoot={uswdsRoot} />
+        {preview && <PreviewIconLink url={preview} uswdsRoot={uswdsRoot} />}
         <MobileStepIndicator />
       </div>
       <div className="grid-container margin-top-2 display-none tablet:display-block">
@@ -96,9 +102,11 @@ export const TopNavigation = ({ curPage }: { curPage: NavPage }) => {
               <span className="text-base font-ui-3xs padding-left-4 padding-right-3">
                 Saved at 11:00:03 am on Thur Mar 28
               </span>
-              <a href="#" className="usa-button usa-button--outline">
-                Preview
-              </a>
+              {preview && (
+                <a href={preview} className="usa-button usa-button--outline">
+                  Preview
+                </a>
+              )}
             </li>
           </ol>
           {/*<ul className="grid-row">
@@ -133,17 +141,25 @@ const MyFormsLink = ({ uswdsRoot }: { uswdsRoot: `${string}/` }) => (
   </a>
 );
 
-const PreviewIconLink = ({ uswdsRoot }: { uswdsRoot: `${string}/` }) => (
-  <a
-    href="#"
-    className="usa-link margin-right-4"
-    aria-label="Preview this blueprint"
-  >
-    <svg className="usa-icon" aria-hidden="true" focusable="false" role="img">
-      <use xlinkHref={`${uswdsRoot}img/sprite.svg#visibility`}></use>
-    </svg>
-  </a>
-);
+const PreviewIconLink = ({
+  url,
+  uswdsRoot,
+}: {
+  url: string;
+  uswdsRoot: `${string}/`;
+}) => {
+  return (
+    <a
+      href={url}
+      className="usa-link margin-right-4"
+      aria-label="Preview this blueprint"
+    >
+      <svg className="usa-icon" aria-hidden="true" focusable="false" role="img">
+        <use xlinkHref={`${uswdsRoot}img/sprite.svg#visibility`}></use>
+      </svg>
+    </a>
+  );
+};
 
 const MobileStepIndicator = () => (
   <div className="grid-row grid-gap flex-align-center">

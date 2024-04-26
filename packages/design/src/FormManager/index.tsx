@@ -7,14 +7,13 @@ import { FormService } from '@atj/form-service';
 import { type ComponentForPattern } from '../Form';
 
 import FormDelete from './FormDelete';
+import { FormDocumentImport } from './FormDocumentImport';
 import FormEdit from './FormEdit';
+import { type EditComponentForPattern } from './FormEdit/types';
 import FormList from './FormList';
 import { FormManagerLayout, NavPage } from './FormManagerLayout';
-import { FormPreviewById } from './FormPreview';
-import { FormDocumentImport } from './FormDocumentImport';
+import { FormPreview } from './FormPreview';
 import { FormManagerProvider } from './store';
-
-import { type EditComponentForPattern } from './FormEdit/types';
 
 export type FormManagerContext = {
   baseUrl: `${string}/`;
@@ -44,18 +43,22 @@ export default function FormManager({ context }: FormManagerProps) {
           )}
         />
         <Route
-          path="/:formId"
+          path="/:formId/preview"
           Component={() => {
             const { formId } = useParams();
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
+            const form = context.formService.getForm(formId);
+            if (!form.success) {
+              return <div>Error loading form preview</div>;
+            }
             return (
-              <FormPreviewById
-                context={context}
-                formId={formId}
-                formService={context.formService}
-              />
+              <FormManagerProvider context={context} form={form.data}>
+                <FormManagerLayout>
+                  <FormPreview />
+                </FormManagerLayout>
+              </FormManagerProvider>
             );
           }}
         />
@@ -77,6 +80,7 @@ export default function FormManager({ context }: FormManagerProps) {
                   step={NavPage.upload}
                   back={`#/`}
                   next={`#/${formId}/create`}
+                  preview={`#/${formId}/preview`}
                 >
                   <FormDocumentImport
                     context={context}
@@ -107,6 +111,7 @@ export default function FormManager({ context }: FormManagerProps) {
                   step={NavPage.create}
                   back={`#/${formId}/upload`}
                   next={`#/${formId}/configure`}
+                  preview={`#/${formId}/preview`}
                 >
                   <FormEdit formId={formId} />
                 </FormManagerLayout>
@@ -132,6 +137,7 @@ export default function FormManager({ context }: FormManagerProps) {
                   step={NavPage.configure}
                   back={`#/${formId}/create`}
                   next={`#/${formId}/publish`}
+                  preview={`#/${formId}/preview`}
                 >
                   Publish
                 </FormManagerLayout>
@@ -157,6 +163,7 @@ export default function FormManager({ context }: FormManagerProps) {
                   step={NavPage.publish}
                   back={`#/${formId}/configure`}
                   close={`#/`}
+                  preview={`#/${formId}/preview`}
                 >
                   Publish
                 </FormManagerLayout>

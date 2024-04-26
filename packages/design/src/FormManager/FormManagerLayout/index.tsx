@@ -8,21 +8,23 @@ export { NavPage } from './TopNavigation';
 type FormManagerLayoutProps = {
   children: React.ReactNode;
   step?: NavPage;
-  next?: string;
   back?: string;
   close?: string;
+  next?: string;
+  preview?: string;
 };
 
 export const FormManagerLayout = ({
   children,
   step,
-  next,
   back,
   close,
+  next,
+  preview,
 }: FormManagerLayoutProps) => {
   return (
     <>
-      {step && <TopNavigation curPage={step} />}
+      {step && <TopNavigation curPage={step} preview={preview} />}
       <section className="grid-container usa-section">
         <div className="grid-row flex-justify-center">
           <div className="grid-col-12 tablet:grid-col-12 desktop:grid-col-12">
