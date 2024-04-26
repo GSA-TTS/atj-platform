@@ -38,7 +38,9 @@ export const FormManagerProvider = (props: {
 type FormManagerSlice = {
   context: FormManagerContext;
   form: Blueprint;
+  lastSaved?: Date;
   createNewForm: () => Promise<Result<string>>;
+  saveForm: (formId: string, blueprint: Blueprint) => void;
 };
 
 type FormManagerSliceCreator = StateCreator<
@@ -49,7 +51,7 @@ type FormManagerSliceCreator = StateCreator<
 >;
 const createFormManagerSlice =
   ({ context, form }: StoreContext): FormManagerSliceCreator =>
-  () => ({
+  (set, get) => ({
     context,
     form,
     createNewForm: async () => {
@@ -59,5 +61,12 @@ const createFormManagerSlice =
         description: '',
       });
       return await context.formService.addForm(builder.form);
+    },
+    saveForm: async (formId, blueprint) => {
+      const { context } = get();
+      const result = await context.formService.saveForm(formId, blueprint);
+      if (result.success) {
+        set({ lastSaved: result.data.timestamp });
+      }
     },
   });

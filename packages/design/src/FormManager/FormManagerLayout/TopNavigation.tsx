@@ -39,6 +39,7 @@ export const TopNavigation = ({
   preview?: string;
 }) => {
   const uswdsRoot = useFormManagerStore(state => state.context.uswdsRoot);
+  const lastSaved = useFormManagerStore(state => state.lastSaved);
   return (
     <div className="position-sticky top-0 z-100 bg-white padding-1">
       <div className="grid-container margin-bottom-05 display-block tablet:display-none">
@@ -101,7 +102,16 @@ export const TopNavigation = ({
             </li>
             <li>
               <span className="text-base font-ui-3xs padding-left-4 padding-right-3">
-                Saved at 11:00:03 am on Thur Mar 28
+                {lastSaved
+                  ? 'Saved at ' +
+                    lastSaved.toLocaleDateString('en-us', {
+                      month: 'short',
+                      day: 'numeric',
+                      hour: 'numeric',
+                      minute: 'numeric',
+                      second: 'numeric',
+                    })
+                  : 'Blueprint loaded'}
               </span>
               {preview && (
                 <a href={preview} className="usa-button usa-button--outline">
