@@ -42,7 +42,7 @@ export const TopNavigation = ({
   const lastSaved = useFormManagerStore(state => state.lastSaved);
   return (
     <div className="position-sticky top-0 z-100 bg-white padding-1">
-      <div className="grid-container grid-row margin-bottom-05 display-block tablet:display-none">
+      <div className="grid-container grid-row margin-bottom-105 display-block tablet:display-none">
         <div className="grid-row">
           <div className="grid-col-6">
             <MyFormsLink uswdsRoot={uswdsRoot} />
@@ -54,7 +54,7 @@ export const TopNavigation = ({
         </div>
         <MobileStepIndicator />
       </div>
-      <div className="display-none tablet:display-block">
+      <div className="display-none tablet:display-block margin-top-1 margin-bottom-1">
         <div className="grid-container grid-row">
           <div
             className="grid-col-12 margin-bottom-0 usa-step-indicator"
@@ -136,7 +136,7 @@ export const TopNavigation = ({
 };
 
 const MyFormsLink = ({ uswdsRoot }: { uswdsRoot: `${string}/` }) => (
-  <a href={MyForms.getUrl()} className="usa-link margin-top-3">
+  <a href={MyForms.getUrl()} className="usa-link margin-top-3 margin-right-1">
     <svg
       className="usa-icon usa-icon--size-3 text-middle"
       aria-hidden="true"
