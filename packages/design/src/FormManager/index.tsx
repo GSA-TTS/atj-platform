@@ -1,118 +1,186 @@
 import React from 'react';
 import { useParams, HashRouter, Route, Routes } from 'react-router-dom';
 
-import { type FormService } from '@atj/form-service';
+import { type FormConfig, nullBlueprint } from '@atj/forms';
+import { FormService } from '@atj/form-service';
+
+import { type ComponentForPattern } from '../Form';
 
 import FormDelete from './FormDelete';
+import { FormDocumentImport } from './FormDocumentImport';
 import FormEdit from './FormEdit';
+import { type EditComponentForPattern } from './FormEdit/types';
 import FormList from './FormList';
-import { FormPreviewById } from './FormPreview';
-import { FormDocumentImport } from './import-document';
-import { type FormEditUIContext } from './FormEdit/types';
 import { FormManagerLayout, NavPage } from './FormManagerLayout';
+import { FormPreview } from './FormPreview';
+import * as AppRoutes from './routes';
+import { FormManagerProvider } from './store';
 
-export default function FormManager({
-  context,
-  baseUrl,
-  formService,
-}: {
-  context: FormEditUIContext;
-  baseUrl: string;
+export type FormManagerContext = {
+  baseUrl: `${string}/`;
+  components: ComponentForPattern;
+  config: FormConfig;
+  editComponents: EditComponentForPattern;
   formService: FormService;
-}) {
+  uswdsRoot: `${string}/`;
+};
+
+type FormManagerProps = {
+  context: FormManagerContext;
+};
+
+export default function FormManager({ context }: FormManagerProps) {
   return (
     <HashRouter>
       <Routes>
         <Route
-          path="/"
+          path={AppRoutes.MyForms.path}
           Component={() => (
-            <FormManagerLayout uswdsRoot={context.uswdsRoot}>
-              <FormList baseUrl={baseUrl} formService={formService} />
-            </FormManagerLayout>
+            <FormManagerProvider context={context} form={nullBlueprint}>
+              <FormManagerLayout>
+                <FormList formService={context.formService} />
+              </FormManagerLayout>
+            </FormManagerProvider>
           )}
         />
         <Route
-          path="/:formId"
+          path={AppRoutes.Preview.path}
           Component={() => {
             const { formId } = useParams();
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
+            const form = context.formService.getForm(formId);
+            if (!form.success) {
+              return <div>Error loading form preview</div>;
+            }
             return (
-              <FormPreviewById
-                context={context}
-                formId={formId}
-                formService={formService}
-              />
+              <FormManagerProvider context={context} form={form.data}>
+                <FormManagerLayout>
+                  <FormPreview />
+                </FormManagerLayout>
+              </FormManagerProvider>
             );
           }}
         />
         <Route
-          path="/:formId/edit"
+          path={AppRoutes.Upload.path}
           Component={() => {
             const { formId } = useParams();
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
+            const result = context.formService.getForm(formId);
+            if (!result.success) {
+              return <div>Form not found</div>;
+            }
+            const form = result.data;
             return (
-              <FormManagerLayout
-                uswdsRoot={context.uswdsRoot}
-                step={NavPage.configure}
-                back={`#/`}
-                next={`#/${formId}/publish`}
-              >
-                <FormEdit
-                  context={context}
-                  formId={formId}
-                  formService={formService}
-                />
-              </FormManagerLayout>
+              <FormManagerProvider context={context} form={form}>
+                <FormManagerLayout
+                  step={NavPage.upload}
+                  back={AppRoutes.MyForms.getUrl()}
+                  next={AppRoutes.Create.getUrl(formId)}
+                  preview={AppRoutes.Preview.getUrl(formId)}
+                >
+                  <FormDocumentImport
+                    context={context}
+                    baseUrl={context.baseUrl}
+                    formId={formId}
+                    formService={context.formService}
+                  />
+                </FormManagerLayout>
+              </FormManagerProvider>
             );
           }}
         />
         <Route
-          path="/:formId/publish"
+          path={AppRoutes.Create.path}
           Component={() => {
             const { formId } = useParams();
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
+            const result = context.formService.getForm(formId);
+            if (!result.success) {
+              return <div>Form not found</div>;
+            }
+            const form = result.data;
             return (
-              <FormManagerLayout
-                uswdsRoot={context.uswdsRoot}
-                step={NavPage.publish}
-                back={`#/${formId}/edit`}
-                close={`#/`}
-              >
-                Publish
-              </FormManagerLayout>
+              <FormManagerProvider context={context} form={form}>
+                <FormManagerLayout
+                  step={NavPage.create}
+                  back={AppRoutes.Upload.getUrl(formId)}
+                  next={AppRoutes.Configure.getUrl(formId)}
+                  preview={AppRoutes.Preview.getUrl(formId)}
+                >
+                  <FormEdit formId={formId} />
+                </FormManagerLayout>
+              </FormManagerProvider>
             );
           }}
         />
         <Route
-          path="/:formId/delete"
+          path={AppRoutes.Configure.path}
           Component={() => {
             const { formId } = useParams();
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
-            return <FormDelete formId={formId} formService={formService} />;
+            const result = context.formService.getForm(formId);
+            if (!result.success) {
+              return 'Form not found';
+            }
+            const form = result.data;
+            return (
+              <FormManagerProvider context={context} form={form}>
+                <FormManagerLayout
+                  step={NavPage.configure}
+                  back={AppRoutes.Create.getUrl(formId)}
+                  next={AppRoutes.Publish.getUrl(formId)}
+                  preview={AppRoutes.Preview.getUrl(formId)}
+                >
+                  Publish
+                </FormManagerLayout>
+              </FormManagerProvider>
+            );
           }}
         />
         <Route
-          path="/:formId/import-document"
+          path={AppRoutes.Publish.path}
+          Component={() => {
+            const { formId } = useParams();
+            if (formId === undefined) {
+              return <div>formId is undefined</div>;
+            }
+            const result = context.formService.getForm(formId);
+            if (!result.success) {
+              return 'Form not found';
+            }
+            const form = result.data;
+            return (
+              <FormManagerProvider context={context} form={form}>
+                <FormManagerLayout
+                  step={NavPage.publish}
+                  back={AppRoutes.Configure.getUrl(formId)}
+                  close={AppRoutes.MyForms.getUrl()}
+                  preview={AppRoutes.Preview.getUrl(formId)}
+                >
+                  Publish
+                </FormManagerLayout>
+              </FormManagerProvider>
+            );
+          }}
+        />
+        <Route
+          path={AppRoutes.Delete.path}
           Component={() => {
             const { formId } = useParams();
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
             return (
-              <FormDocumentImport
-                context={context}
-                baseUrl={baseUrl}
-                formId={formId}
-                formService={formService}
-              />
+              <FormDelete formId={formId} formService={context.formService} />
             );
           }}
         />

@@ -1,6 +1,4 @@
-import React from 'react';
-import { StoreApi, create } from 'zustand';
-import { createContext } from 'zustand-utils';
+import { StateCreator } from 'zustand';
 
 import {
   type Blueprint,
@@ -10,32 +8,10 @@ import {
   getPattern,
   BlueprintBuilder,
 } from '@atj/forms';
-import { type FormEditUIContext } from './types';
+import { type FormManagerContext } from '..';
 
-const { Provider, useStore } = createContext<StoreApi<FormEditState>>();
-
-export const useFormEditStore = useStore;
-
-export const usePattern = <T extends Pattern = Pattern>(id: PatternId) =>
-  useFormEditStore(state => state.form.patterns[id] as T);
-
-export const useIsPatternSelected = (id: PatternId) =>
-  useFormEditStore(state => state.focusedPattern?.id === id);
-
-export const FormEditProvider = (props: {
-  context: FormEditUIContext;
-  form: Blueprint;
-  children: React.ReactNode;
-}) => {
-  return (
-    <Provider createStore={() => createFormEditStore(props)}>
-      {props.children}
-    </Provider>
-  );
-};
-
-type FormEditState = {
-  context: FormEditUIContext;
+export type FormEditSlice = {
+  context: FormManagerContext;
   form: Blueprint;
   focusedPattern?: Pattern;
   availablePatterns: {
@@ -52,14 +28,16 @@ type FormEditState = {
   updateSelectedPattern: (formData: PatternMap) => void;
 };
 
-const createFormEditStore = ({
-  context,
-  form,
-}: {
-  context: FormEditUIContext;
+type FormEditStoreContext = {
+  context: FormManagerContext;
   form: Blueprint;
-}) =>
-  create<FormEditState>((set, get) => ({
+};
+
+type FormEditStoreCreator = StateCreator<FormEditSlice, [], [], FormEditSlice>;
+
+export const createFormEditSlice =
+  ({ context, form }: FormEditStoreContext): FormEditStoreCreator =>
+  (set, get) => ({
     context,
     form,
     availablePatterns: Object.entries(context.config.patterns).map(
@@ -134,4 +112,4 @@ const createFormEditStore = ({
         set({ form: builder.form, focusedPattern: undefined });
       }
     },
-  }));
+  });
