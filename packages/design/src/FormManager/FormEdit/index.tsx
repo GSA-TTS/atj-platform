@@ -1,45 +1,31 @@
 import React, { useEffect } from 'react';
 
 import { Blueprint, createFormSession } from '@atj/forms';
-import { type FormService } from '@atj/form-service';
 
-import Form, { ComponentForPattern, PatternComponent } from '../../Form';
+import Form, {
+  type ComponentForPattern,
+  type PatternComponent,
+} from '../../Form';
 
 import { AddPatternDropdown } from './AddPatternDropdown';
 import { PreviewPattern } from './PreviewPattern';
 import { PatternPreviewSequence } from './components/PreviewSequencePattern';
-import { FormEditProvider, useFormEditStore } from './store';
-import { type FormEditUIContext } from './types';
+import { useFormManagerStore } from '../store';
 
-export default function FormEdit({
-  context,
-  formId,
-  formService,
-}: {
-  context: FormEditUIContext;
-  formId: string;
-  formService: FormService;
-}) {
-  const result = formService.getForm(formId);
-  if (!result.success) {
-    return 'Form not found';
-  }
-  const form = result.data;
-
+export default function FormEdit({ formId }: { formId: string }) {
+  const saveForm = useFormManagerStore(state => state.saveForm);
   return (
     <>
       <h1>Edit form</h1>
       <p className="usa-intro">Your form has been imported for web delivery.</p>
-      <FormEditProvider context={context} form={form}>
-        <EditForm saveForm={form => formService.saveForm(formId, form)} />
-      </FormEditProvider>
+      <EditForm saveForm={form => saveForm(formId, form)} />
     </>
   );
 }
 
 const EditForm = ({ saveForm }: { saveForm: (form: Blueprint) => void }) => {
-  const { form } = useFormEditStore();
-  const uiContext = useFormEditStore(state => state.context);
+  const { form } = useFormManagerStore();
+  const uiContext = useFormManagerStore(state => state.context);
   const disposable = createFormSession(form); // nullSession instead?
   useEffect(() => {
     saveForm(form);

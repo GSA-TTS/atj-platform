@@ -6,15 +6,15 @@ import { SequencePattern } from '@atj/forms/src/patterns/sequence';
 import { PatternComponent } from '../../../../Form';
 
 import { DraggableList } from './DraggableList';
-import { useFormEditStore } from '../../store';
+import { useFormManagerStore } from '../../../store';
 
 // TODO: consider merging this component with DraggableList, to clean up
 // sematics around how its children are handled.
 export const PatternPreviewSequence: PatternComponent<
   PatternProps<SequencePattern>
 > = function PatternPreviewSequence(props) {
-  const form = useFormEditStore(state => state.form);
-  const updatePattern = useFormEditStore(state => state.updatePattern);
+  const form = useFormManagerStore(state => state.form);
+  const updatePattern = useFormManagerStore(state => state.updatePattern);
   const pattern = getPattern(form, props._patternId);
 
   /**

@@ -3,7 +3,7 @@ import React from 'react';
 import { PatternId, TextInputProps } from '@atj/forms';
 
 import TextInput from '../../../Form/components/TextInput';
-import { useIsPatternSelected, usePattern } from '../store';
+import { useFormManagerStore } from '../../store';
 import { PatternEditComponent } from '../types';
 
 import { PatternEditActions } from './common/PatternEditActions';
@@ -13,7 +13,9 @@ import {
 } from './common/PatternEditForm';
 
 const InputPatternEdit: PatternEditComponent<TextInputProps> = props => {
-  const isSelected = useIsPatternSelected(props.previewProps._patternId);
+  const isSelected = useFormManagerStore(
+    state => state.focusedPattern?.id === props.previewProps._patternId
+  );
   return (
     <>
       {isSelected ? (
@@ -31,7 +33,7 @@ const InputPatternEdit: PatternEditComponent<TextInputProps> = props => {
 };
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
-  const pattern = usePattern(patternId);
+  const pattern = useFormManagerStore(state => state.form.patterns[patternId]);
 
   const methods = usePatternEditFormContext();
   return (

@@ -2,8 +2,13 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import FormPreview from '.';
-import { createTestForm, createTestFormContext } from '../../test-form';
+import { FormPreview } from '.';
+import {
+  createTestForm,
+  createTestFormContext,
+  createTestFormManagerContext,
+} from '../../test-form';
+import { FormManagerProvider } from '../store';
 
 export default {
   title: 'FormManager/FormPreview',
@@ -11,7 +16,12 @@ export default {
   decorators: [
     (Story, args) => (
       <MemoryRouter initialEntries={['/']}>
-        <Story {...args} />
+        <FormManagerProvider
+          context={createTestFormManagerContext()}
+          form={createTestForm()}
+        >
+          <Story {...args} />
+        </FormManagerProvider>
       </MemoryRouter>
     ),
   ],

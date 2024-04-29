@@ -13,13 +13,13 @@ export default function () {
   return (
     <FormManager
       context={{
-        config: ctx.formConfig,
+        baseUrl: ctx.baseUrl,
         components: defaultPatternComponents,
+        config: ctx.formConfig,
         editComponents: defaultPatternEditComponents,
+        formService: ctx.formService,
         uswdsRoot: ctx.uswdsRoot,
       }}
-      formService={ctx.formService}
-      baseUrl={ctx.baseUrl}
     />
   );
 }

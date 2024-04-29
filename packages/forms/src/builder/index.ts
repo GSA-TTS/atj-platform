@@ -8,11 +8,11 @@ import {
   addDocument,
   addPatternToRoot,
   createPattern,
+  getPattern,
   nullBlueprint,
   removePatternFromBlueprint,
   updateFormSummary,
   updatePatternFromFormData,
-  getPattern,
 } from '..';
 
 export class BlueprintBuilder {

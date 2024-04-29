@@ -8,7 +8,7 @@ export type FormService = {
   deleteForm: (formId: string) => VoidResult;
   getForm: (formId: string) => Result<Blueprint>;
   getFormList: () => Result<FormListItem[]>;
-  saveForm: (formId: string, form: Blueprint) => VoidResult;
+  saveForm: (formId: string, form: Blueprint) => Result<{ timestamp: Date }>;
   submitForm: (
     //sessionId: string,
     session: FormSession, // TODO: load session from storage by ID

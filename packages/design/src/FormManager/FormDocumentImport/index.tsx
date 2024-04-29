@@ -2,7 +2,7 @@ import React from 'react';
 
 import { type FormService } from '@atj/form-service';
 
-import { type FormUIContext } from '../Form';
+import { type FormUIContext } from '../../Form';
 import DocumentImporter from './DocumentImporter';
 
 export const FormDocumentImport = ({
