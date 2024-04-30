@@ -1,17 +1,22 @@
-import classNames from 'classnames';
 import React from 'react';
 
-export default function Checkbox({ props: { id, label } }) {
+type CheckboxProps = {
+  id: string;
+  name: string;
+  label: string;
+};
+
+export default function Checkbox(props: CheckboxProps) {
   return (
     <div className="usa-checkbox">
       <input
-        key={id}
-        id={id}
+        id={props.id}
+        name={props.name}
         type="checkbox"
-        className={classNames('usa-checkbox__input')}
+        className="usa-checkbox__input"
       />
-      <label className="usa-checkbox__label" htmlFor={id}>
-        {label}
+      <label className="usa-checkbox__label" htmlFor={props.id}>
+        {props.label}
       </label>
     </div>
   );

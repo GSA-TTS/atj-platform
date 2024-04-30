@@ -8,18 +8,7 @@ export default {
 
 export const Primary = {
   args: {
-    props: {
-      id: '1',
-      label: 'Label Text',
-    },
-  },
-};
-
-export const Secondary = {
-  args: {
-    props: {
-      id: '2',
-      label: 'Label Text',
-    },
+    id: '1',
+    label: 'Primary label Text',
   },
 };
