@@ -45,6 +45,13 @@ export type ZipcodeProps = PatternProps<{
   value: string;
 }>;
 
+export type CheckboxProps = PatternProps<{
+  type: 'checkbox';
+  id: string;
+  name: string;
+  label: string;
+}>;
+
 export type RadioGroupProps = PatternProps<{
   type: 'radio-group';
   legend: string;
