@@ -11,6 +11,7 @@ import {
   PatternEditForm,
   usePatternEditFormContext,
 } from './common/PatternEditForm';
+import { type RadioGroupPattern } from '@atj/forms/src/patterns/radio-group';
 
 const RadioGroupPatternEdit: PatternEditComponent<RadioGroupProps> = props => {
   const isSelected = useFormManagerStore(
@@ -33,7 +34,9 @@ const RadioGroupPatternEdit: PatternEditComponent<RadioGroupProps> = props => {
 };
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
-  const pattern = useFormManagerStore(state => state.form.patterns[patternId]);
+  const pattern = useFormManagerStore(
+    state => state.form.patterns[patternId]
+  ) as RadioGroupPattern;
   const methods = usePatternEditFormContext();
   return (
     <div className="grid-row grid-gap">
