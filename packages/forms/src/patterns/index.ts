@@ -1,6 +1,7 @@
 import { type FormConfig } from '../pattern';
 
 import { addressConfig } from './address';
+import { checkboxConfig } from './checkbox';
 import { fieldsetConfig } from './fieldset';
 import { inputConfig } from './input';
 import { paragraphConfig } from './paragraph';
@@ -12,6 +13,7 @@ import { sequenceConfig } from './sequence';
 export const defaultFormConfig: FormConfig = {
   patterns: {
     address: addressConfig,
+    checkbox: checkboxConfig,
     fieldset: fieldsetConfig,
     input: inputConfig,
     paragraph: paragraphConfig,

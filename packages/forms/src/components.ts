@@ -50,6 +50,7 @@ export type CheckboxProps = PatternProps<{
   id: string;
   name: string;
   label: string;
+  defaultChecked: boolean;
 }>;
 
 export type RadioGroupProps = PatternProps<{

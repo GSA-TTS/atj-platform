@@ -1,3 +1,4 @@
+import CheckboxPatternEdit from './CheckboxPatternEdit';
 import FieldsetEdit from './FieldsetEdit';
 import FormSummaryEdit from './FormSummaryEdit';
 import InputPatternEdit from './InputPatternEdit';
@@ -6,6 +7,7 @@ import SubmissionConfirmationEdit from './SubmissionConfirmationEdit';
 import { type EditComponentForPattern } from '../types';
 
 export const defaultPatternEditComponents: EditComponentForPattern = {
+  checkbox: CheckboxPatternEdit,
   paragraph: ParagraphPatternEdit,
   input: InputPatternEdit,
   'form-summary': FormSummaryEdit,

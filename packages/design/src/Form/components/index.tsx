@@ -1,6 +1,7 @@
 import { type ComponentForPattern } from '..';
 
 import Address from './Address';
+import CheckboxPattern from './Checkbox';
 import Fieldset from './Fieldset';
 import FormSummary from './FormSummary';
 import Paragraph from './Paragraph';
@@ -10,6 +11,7 @@ import TextInput from './TextInput';
 
 export const defaultPatternComponents: ComponentForPattern = {
   address: Address,
+  checkbox: CheckboxPattern,
   fieldset: Fieldset,
   'form-summary': FormSummary,
   input: TextInput,
