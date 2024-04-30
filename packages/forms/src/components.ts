@@ -45,6 +45,17 @@ export type ZipcodeProps = PatternProps<{
   value: string;
 }>;
 
+export type RadioGroupProps = PatternProps<{
+  type: 'radio-group';
+  legend: string;
+  options: {
+    id: string;
+    name: string;
+    label: string;
+    value: string;
+  }[];
+}>;
+
 export type PatternProps<T = {}> = {
   _patternId: PatternId;
   type: string;
