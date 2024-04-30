@@ -19,7 +19,7 @@ export type RadioProps = {
   name: string;
   label: string;
   disabled?: boolean;
-  defaultValue: string | number;
+  defaultChecked: boolean;
 };
 
 export const RadioInput = (props: RadioProps) => {
@@ -31,7 +31,7 @@ export const RadioInput = (props: RadioProps) => {
         className="usa-radio__input"
         type="radio"
         disabled={props.disabled}
-        defaultValue={props.defaultValue}
+        defaultChecked={props.defaultChecked}
       />
       <label htmlFor={props.id} className="usa-radio__label">
         {props.label}

@@ -60,7 +60,7 @@ export type RadioGroupProps = PatternProps<{
     id: string;
     name: string;
     label: string;
-    value: string;
+    defaultChecked: boolean;
   }[];
 }>;
 

@@ -14,7 +14,7 @@ const RadioGroupPattern: PatternComponent<RadioGroupProps> = props => {
           id={option.id}
           name={option.name}
           label={option.label}
-          defaultValue={option.value}
+          defaultChecked={option.defaultChecked}
         ></RadioInput>
       ))}
     </RadioGroup>

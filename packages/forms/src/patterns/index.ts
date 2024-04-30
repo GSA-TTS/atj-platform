@@ -5,6 +5,7 @@ import { checkboxConfig } from './checkbox';
 import { fieldsetConfig } from './fieldset';
 import { inputConfig } from './input';
 import { paragraphConfig } from './paragraph';
+import { radioGroupConfig } from './radio-group';
 import { sequenceConfig } from './sequence';
 
 // This configuration reflects what a user of this library would provide for
@@ -17,6 +18,7 @@ export const defaultFormConfig: FormConfig = {
     fieldset: fieldsetConfig,
     input: inputConfig,
     paragraph: paragraphConfig,
+    radioGroup: radioGroupConfig,
     sequence: sequenceConfig,
   },
 };
