@@ -85,7 +85,7 @@ export const addressConfig: PatternConfig<
   initial: {
     patterns: [],
   },
-  parseData: (_, obj) => {
+  parseUserInput: (_, obj) => {
     return safeZodParse(AddressSchema, obj);
   },
   parseConfigData: obj => safeZodParse(configSchema, obj),

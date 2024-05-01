@@ -104,7 +104,7 @@ export const createPrompt = (
                   config,
                   session.form.patterns[patternId].type
                 );
-                return !!elemConfig.parseData;
+                return !!elemConfig.parseUserInput;
               })
               .map(([patternId, value]) => {
                 return {

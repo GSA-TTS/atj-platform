@@ -1,7 +1,9 @@
 import * as z from 'zod';
 
-import { type Pattern, type PatternConfig, validatePattern } from '../pattern';
+import { Result } from '@atj/common';
+
 import { type RadioGroupProps } from '../components';
+import { type Pattern, type PatternConfig, validatePattern } from '../pattern';
 import { getFormSessionValue } from '../session';
 import { safeZodParse } from '../util/zod';
 
@@ -9,47 +11,31 @@ const configSchema = z.object({
   label: z.string(),
   options: z
     .object({
-      id: z.string(),
+      id: z.string().regex(/^[^\s]+$/),
       label: z.string(),
     })
     .array(),
 });
 export type RadioGroupPattern = Pattern<z.infer<typeof configSchema>>;
 
-const PatternOutput = z.boolean();
+const PatternOutput = z.string();
 type PatternOutput = z.infer<typeof PatternOutput>;
-
-const parseJSONString = (obj: any) => {
-  if (typeof obj === 'string') {
-    try {
-      return JSON.parse(obj);
-    } catch (error) {
-      return null;
-    }
-  }
-};
 
 export const radioGroupConfig: PatternConfig<RadioGroupPattern, PatternOutput> =
   {
     displayName: 'Radio group',
     initial: {
       label: 'Radio group label',
-      // TODO: for now, have some default options, so we can visualize what
-      // radio groups look like.
-      // replace this with an empty array once we get a proper UI.
       options: [
-        { id: '1', label: 'Option 1' },
-        { id: '2', label: 'Option 2' },
+        { id: 'option-1', label: 'Option 1' },
+        { id: 'option-1', label: 'Option 2' },
       ],
     },
-    parseData: (_, obj) => {
-      return safeZodParse(PatternOutput, obj);
+    parseUserInput: (pattern, input) => {
+      return extractOptionId(pattern.id, input);
     },
     parseConfigData: obj => {
-      const result = safeZodParse(configSchema, {
-        ...(obj as any),
-        options: parseJSONString((obj as any).options),
-      });
+      const result = safeZodParse(configSchema, obj);
       if (!result.success) {
         console.error(result.error);
       }
@@ -76,15 +62,43 @@ export const radioGroupConfig: PatternConfig<RadioGroupPattern, PatternOutput> =
           _patternId: pattern.id,
           type: 'radio-group',
           legend: pattern.data.label,
-          options: pattern.data.options.map(option => ({
-            id: option.id,
-            name: option.id,
-            label: option.label,
-            defaultChecked: sessionValue === option.id,
-          })),
+          options: pattern.data.options.map(option => {
+            const optionId = createId(pattern.id, option.id);
+            return {
+              id: optionId,
+              name: pattern.id,
+              label: option.label,
+              defaultChecked: sessionValue === optionId,
+            };
+          }),
           ...extraAttributes,
         } as RadioGroupProps,
         children: [],
       };
     },
   };
+
+const createId = (groupId: string, optionId: string) =>
+  `${groupId}-${optionId}`;
+
+export const extractOptionId = (
+  groupId: string,
+  inputId: unknown
+): Result<string> => {
+  if (typeof inputId !== 'string') {
+    return {
+      success: false,
+      error: 'invalid data',
+    };
+  }
+  if (!inputId.startsWith(groupId)) {
+    return {
+      success: false,
+      error: `invalid id: ${inputId}`,
+    };
+  }
+  return {
+    success: true,
+    data: inputId.slice(groupId.length + 1),
+  };
+};

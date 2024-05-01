@@ -20,7 +20,7 @@ export const checkboxConfig: PatternConfig<InputPattern, PatternOutput> = {
     label: 'Checkbox label',
     defaultChecked: false,
   },
-  parseData: (_, obj) => {
+  parseUserInput: (_, obj) => {
     return safeZodParse(PatternOutput, obj);
   },
   parseConfigData: obj => safeZodParse(configSchema, obj),

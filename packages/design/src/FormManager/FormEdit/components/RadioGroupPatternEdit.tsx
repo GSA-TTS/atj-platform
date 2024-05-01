@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { type RadioGroupProps, type PatternId } from '@atj/forms';
 
@@ -38,6 +38,8 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
     state => state.form.patterns[patternId]
   ) as RadioGroupPattern;
   const methods = usePatternEditFormContext();
+  const [options, setOptions] = useState(pattern.data.options);
+
   return (
     <div className="grid-row grid-gap">
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
@@ -53,18 +55,30 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
         ></input>
       </div>
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
-        {pattern.data.options.map((option, index) => (
-          <>
-            <label className="usa-label" htmlFor={`${pattern.id}.data.label`}>
-              Option {index}
-            </label>
+        {options.map((option, index) => (
+          <div key={index} className="display-flex">
             <input
               className="usa-input"
-              id={`${pattern.id}.data.options.${index}`}
-              {...methods.register(`${pattern.id}.data.options.${index}`)}
+              id={`${pattern.id}.data.options.${index}.id`}
+              {...methods.register(`${pattern.id}.data.options.${index}.id`)}
             />
-          </>
+            <input
+              className="usa-input"
+              id={`${pattern.id}.data.options.${index}.label`}
+              {...methods.register(`${pattern.id}.data.options.${index}.label`)}
+            />
+          </div>
         ))}
+        <button
+          className="usa-button usa-button--outline"
+          onClick={event => {
+            event.preventDefault();
+            const optionId = `${options.length + 1}`;
+            setOptions(options.concat({ id: optionId, label: optionId }));
+          }}
+        >
+          Add new
+        </button>
       </div>
       <div className="grid-col-12">
         <PatternEditActions>

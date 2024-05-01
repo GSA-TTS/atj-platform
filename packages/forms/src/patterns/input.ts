@@ -26,8 +26,8 @@ export const inputConfig: PatternConfig<InputPattern, InputPatternOutput> = {
     required: true,
     maxLength: 128,
   },
-  parseData: (patternData, obj) => {
-    return safeZodParse(createSchema(patternData), obj);
+  parseUserInput: (pattern, obj) => {
+    return safeZodParse(createSchema(pattern['data']), obj);
   },
   parseConfigData: obj => safeZodParse(configSchema, obj),
   getChildren() {
