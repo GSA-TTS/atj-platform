@@ -22,10 +22,8 @@ export type FormEditSlice = {
   addPattern: (patternType: string) => void;
   deleteSelectedPattern: () => void;
   setFocus: (patternId: PatternId) => void;
-  setSelectedPattern: (element?: Pattern) => void;
   updatePattern: (data: Pattern) => void;
   updatePatternById: (id: PatternId, formData: PatternMap) => void;
-  updateSelectedPattern: (formData: PatternMap) => void;
 };
 
 type FormEditStoreContext = {
@@ -69,7 +67,6 @@ export const createFormEditSlice =
       const elementToSet = getPattern(state.form, patternId);
       set({ focusedPattern: elementToSet });
     },
-    setSelectedPattern: focusedPattern => set({ focusedPattern }),
     updatePattern: pattern => {
       const state = get();
       const builder = new BlueprintBuilder(state.form);
@@ -94,22 +91,6 @@ export const createFormEditSlice =
       );
       if (success) {
         set({ form: builder.form });
-      }
-    },
-    updateSelectedPattern: formData => {
-      const state = get();
-      if (state.focusedPattern === undefined) {
-        console.warn('No selected element');
-        return;
-      }
-      const builder = new BlueprintBuilder(state.form);
-      const success = builder.updatePattern(
-        state.context.config,
-        state.focusedPattern,
-        formData
-      );
-      if (success) {
-        set({ form: builder.form, focusedPattern: undefined });
       }
     },
   });

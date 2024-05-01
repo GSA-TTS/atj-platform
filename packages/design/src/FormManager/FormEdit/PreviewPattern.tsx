@@ -7,7 +7,6 @@ export const PreviewPattern: PatternComponent = function PreviewPattern(props) {
   const { context, setFocus } = useFormManagerStore(state => ({
     context: state.context,
     setFocus: state.setFocus,
-    updatePatternById: state.updatePatternById,
   }));
   const EditComponent = context.editComponents[props.type];
 

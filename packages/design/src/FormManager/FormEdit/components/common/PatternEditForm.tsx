@@ -14,9 +14,9 @@ export const PatternEditForm = ({
   patternId,
   editComponent,
 }: PatternEditFormProps) => {
-  const { updatePatternById } = useFormManagerStore(state => ({
-    updatePatternById: state.updatePatternById,
-  }));
+  const updatePatternById = useFormManagerStore(
+    state => state.updatePatternById
+  );
   const pattern = useFormManagerStore(state => state.form.patterns[patternId]);
   const methods = useForm<PatternMap>({
     defaultValues: {
