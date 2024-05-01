@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { Blueprint, createFormSession } from '@atj/forms';
+import { createFormSession } from '@atj/forms';
 
 import Form, {
   type ComponentForPattern,
@@ -12,24 +12,20 @@ import { PreviewPattern } from './PreviewPattern';
 import { PatternPreviewSequence } from './components/PreviewSequencePattern';
 import { useFormManagerStore } from '../store';
 
-export default function FormEdit({ formId }: { formId: string }) {
-  const saveForm = useFormManagerStore(state => state.saveForm);
+export default function FormEdit() {
   return (
     <>
       <h1>Edit form</h1>
       <p className="usa-intro">Your form has been imported for web delivery.</p>
-      <EditForm saveForm={form => saveForm(formId, form)} />
+      <EditForm />
     </>
   );
 }
 
-const EditForm = ({ saveForm }: { saveForm: (form: Blueprint) => void }) => {
+const EditForm = () => {
   const { form } = useFormManagerStore();
   const uiContext = useFormManagerStore(state => state.context);
   const disposable = createFormSession(form); // nullSession instead?
-  useEffect(() => {
-    saveForm(form);
-  }, [form]);
 
   return (
     <div className="position-relative">

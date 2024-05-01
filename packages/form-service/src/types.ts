@@ -4,7 +4,7 @@ import { Blueprint, FormSession } from '@atj/forms';
 import { FormListItem } from './operations/get-form-list';
 
 export type FormService = {
-  addForm: (form: Blueprint) => Result<string>;
+  addForm: (form: Blueprint) => Result<{ timestamp: Date; id: string }>;
   deleteForm: (formId: string) => VoidResult;
   getForm: (formId: string) => Result<Blueprint>;
   getFormList: () => Result<FormListItem[]>;

@@ -36,7 +36,11 @@ export default function FormManager({ context }: FormManagerProps) {
         <Route
           path={AppRoutes.MyForms.path}
           Component={() => (
-            <FormManagerProvider context={context} form={nullBlueprint}>
+            <FormManagerProvider
+              context={context}
+              formId={formId}
+              form={nullBlueprint}
+            >
               <FormManagerLayout>
                 <FormList formService={context.formService} />
               </FormManagerLayout>
@@ -55,7 +59,11 @@ export default function FormManager({ context }: FormManagerProps) {
               return <div>Error loading form preview</div>;
             }
             return (
-              <FormManagerProvider context={context} form={form.data}>
+              <FormManagerProvider
+                context={context}
+                formId={formId}
+                form={form.data}
+              >
                 <FormManagerLayout>
                   <FormPreview />
                 </FormManagerLayout>
@@ -76,7 +84,11 @@ export default function FormManager({ context }: FormManagerProps) {
             }
             const form = result.data;
             return (
-              <FormManagerProvider context={context} form={form}>
+              <FormManagerProvider
+                context={context}
+                formId={formId}
+                form={form}
+              >
                 <FormManagerLayout
                   step={NavPage.upload}
                   back={AppRoutes.MyForms.getUrl()}
@@ -107,14 +119,18 @@ export default function FormManager({ context }: FormManagerProps) {
             }
             const form = result.data;
             return (
-              <FormManagerProvider context={context} form={form}>
+              <FormManagerProvider
+                context={context}
+                formId={formId}
+                form={form}
+              >
                 <FormManagerLayout
                   step={NavPage.create}
                   back={AppRoutes.Upload.getUrl(formId)}
                   next={AppRoutes.Configure.getUrl(formId)}
                   preview={AppRoutes.Preview.getUrl(formId)}
                 >
-                  <FormEdit formId={formId} />
+                  <FormEdit />
                 </FormManagerLayout>
               </FormManagerProvider>
             );
@@ -133,7 +149,11 @@ export default function FormManager({ context }: FormManagerProps) {
             }
             const form = result.data;
             return (
-              <FormManagerProvider context={context} form={form}>
+              <FormManagerProvider
+                context={context}
+                formId={formId}
+                form={form}
+              >
                 <FormManagerLayout
                   step={NavPage.configure}
                   back={AppRoutes.Create.getUrl(formId)}
@@ -159,7 +179,11 @@ export default function FormManager({ context }: FormManagerProps) {
             }
             const form = result.data;
             return (
-              <FormManagerProvider context={context} form={form}>
+              <FormManagerProvider
+                context={context}
+                formId={formId}
+                form={form}
+              >
                 <FormManagerLayout
                   step={NavPage.publish}
                   back={AppRoutes.Configure.getUrl(formId)}

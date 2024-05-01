@@ -1,5 +1,10 @@
 import React from 'react';
-import { type StoreApi, type StateCreator, create } from 'zustand';
+import {
+  type StoreApi,
+  type StateCreator,
+  create,
+  UseBoundStore,
+} from 'zustand';
 import { createContext } from 'zustand-utils';
 
 import { BlueprintBuilder, type Blueprint } from '@atj/forms';
@@ -11,6 +16,7 @@ import { Result } from '@atj/common';
 
 type StoreContext = {
   context: FormManagerContext;
+  formId?: string;
   form: Blueprint;
 };
 
@@ -18,15 +24,19 @@ type FormManagerStore = FormEditSlice & FormListSlice & FormManagerSlice;
 const { Provider, useStore } = createContext<StoreApi<FormManagerStore>>();
 export const useFormManagerStore = useStore;
 
-const createStore = ({ context, form }: StoreContext) =>
-  create<FormManagerStore>((...args) => ({
+const createStore = ({ context, formId, form }: StoreContext) => {
+  const store = create<FormManagerStore>((...args) => ({
     ...createFormEditSlice({ context, form })(...args),
     ...createFormListSlice({ context })(...args),
-    ...createFormManagerSlice({ context, form })(...args),
+    ...createFormManagerSlice({ context, formId, form })(...args),
   }));
+  savePeriodically(store);
+  return store;
+};
 
 export const FormManagerProvider = (props: {
   context: FormManagerContext;
+  formId: string;
   form: Blueprint;
   children: React.ReactNode;
 }) => {
@@ -38,9 +48,10 @@ export const FormManagerProvider = (props: {
 type FormManagerSlice = {
   context: FormManagerContext;
   form: Blueprint;
+  formId?: string;
   lastSaved?: Date;
   createNewForm: () => Promise<Result<string>>;
-  saveForm: (formId: string, blueprint: Blueprint) => void;
+  saveForm: (blueprint: Blueprint) => void;
 };
 
 type FormManagerSliceCreator = StateCreator<
@@ -50,23 +61,49 @@ type FormManagerSliceCreator = StateCreator<
   FormManagerSlice
 >;
 const createFormManagerSlice =
-  ({ context, form }: StoreContext): FormManagerSliceCreator =>
+  ({ context, formId, form }: StoreContext): FormManagerSliceCreator =>
   (set, get) => ({
     context,
     form,
+    formId,
     createNewForm: async () => {
       const builder = new BlueprintBuilder();
       builder.setFormSummary({
         title: `My form - ${new Date().toISOString()}`,
         description: '',
       });
-      return await context.formService.addForm(builder.form);
+      const result = await context.formService.addForm(builder.form);
+      if (!result.success) {
+        return result;
+      }
+      return {
+        success: true,
+        data: result.data.id,
+      };
     },
-    saveForm: async (formId, blueprint) => {
-      const { context } = get();
-      const result = await context.formService.saveForm(formId, blueprint);
-      if (result.success) {
-        set({ lastSaved: result.data.timestamp });
+    saveForm: async blueprint => {
+      const { context, formId } = get();
+      if (formId === undefined) {
+        const result = await context.formService.addForm(blueprint);
+        if (result.success) {
+          set({ formId: result.data.id, lastSaved: result.data.timestamp });
+        }
+      } else {
+        const result = await context.formService.saveForm(formId, blueprint);
+        if (result.success) {
+          set({ lastSaved: result.data.timestamp });
+        }
       }
     },
   });
+
+const savePeriodically = (store: UseBoundStore<StoreApi<FormManagerStore>>) => {
+  let lastForm: Blueprint;
+  setInterval(async () => {
+    const { form, saveForm } = store.getState();
+    if (lastForm !== form) {
+      await saveForm(form);
+      lastForm = form;
+    }
+  }, 5000);
+};
