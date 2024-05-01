@@ -45,6 +45,25 @@ export type ZipcodeProps = PatternProps<{
   value: string;
 }>;
 
+export type CheckboxProps = PatternProps<{
+  type: 'checkbox';
+  id: string;
+  name: string;
+  label: string;
+  defaultChecked: boolean;
+}>;
+
+export type RadioGroupProps = PatternProps<{
+  type: 'radio-group';
+  legend: string;
+  options: {
+    id: string;
+    name: string;
+    label: string;
+    defaultChecked: boolean;
+  }[];
+}>;
+
 export type PatternProps<T = {}> = {
   _patternId: PatternId;
   type: string;
@@ -85,7 +104,7 @@ export const createPrompt = (
                   config,
                   session.form.patterns[patternId].type
                 );
-                return !!elemConfig.parseData;
+                return !!elemConfig.parseUserInput;
               })
               .map(([patternId, value]) => {
                 return {

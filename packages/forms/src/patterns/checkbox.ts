@@ -1,33 +1,27 @@
 import * as z from 'zod';
 
 import { type Pattern, type PatternConfig, validatePattern } from '../pattern';
-import { type TextInputProps } from '../components';
+import { type CheckboxProps } from '../components';
 import { getFormSessionValue } from '../session';
 import { safeZodParse } from '../util/zod';
 
 const configSchema = z.object({
   label: z.string(),
-  initial: z.string(),
-  required: z.boolean(),
-  maxLength: z.coerce.number(),
+  defaultChecked: z.boolean(),
 });
 export type InputPattern = Pattern<z.infer<typeof configSchema>>;
 
-const createSchema = (data: InputPattern['data']) =>
-  z.string().max(data.maxLength);
+const PatternOutput = z.boolean();
+type PatternOutput = z.infer<typeof PatternOutput>;
 
-type InputPatternOutput = z.infer<ReturnType<typeof createSchema>>;
-
-export const inputConfig: PatternConfig<InputPattern, InputPatternOutput> = {
-  displayName: 'Text input',
+export const checkboxConfig: PatternConfig<InputPattern, PatternOutput> = {
+  displayName: 'Checkbox',
   initial: {
-    label: '',
-    initial: '',
-    required: true,
-    maxLength: 128,
+    label: 'Checkbox label',
+    defaultChecked: false,
   },
-  parseUserInput: (pattern, obj) => {
-    return safeZodParse(createSchema(pattern['data']), obj);
+  parseUserInput: (_, obj) => {
+    return safeZodParse(PatternOutput, obj);
   },
   parseConfigData: obj => safeZodParse(configSchema, obj),
   getChildren() {
@@ -37,7 +31,11 @@ export const inputConfig: PatternConfig<InputPattern, InputPatternOutput> = {
     const extraAttributes: Record<string, any> = {};
     const sessionValue = getFormSessionValue(session, pattern.id);
     if (options.validate) {
-      const isValidResult = validatePattern(inputConfig, pattern, sessionValue);
+      const isValidResult = validatePattern(
+        checkboxConfig,
+        pattern,
+        sessionValue
+      );
       if (!isValidResult.success) {
         extraAttributes['error'] = isValidResult.error;
       }
@@ -45,13 +43,14 @@ export const inputConfig: PatternConfig<InputPattern, InputPatternOutput> = {
     return {
       props: {
         _patternId: pattern.id,
-        type: 'input',
-        inputId: pattern.id,
+        type: 'checkbox',
+        id: pattern.id,
+        name: pattern.id,
         value: sessionValue,
         label: pattern.data.label,
-        required: pattern.data.required,
+        defaultChecked: pattern.data.defaultChecked,
         ...extraAttributes,
-      } as TextInputProps,
+      } as CheckboxProps,
       children: [],
     };
   },
