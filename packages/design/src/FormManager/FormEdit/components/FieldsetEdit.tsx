@@ -61,7 +61,6 @@ const FieldsetPreview = (props: FieldsetProps) => {
 };
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
-  const pattern = useFormManagerStore(state => state.form.patterns[patternId]);
   const { register } = usePatternEditFormContext();
   return (
 
