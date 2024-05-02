@@ -85,9 +85,9 @@ const SortableItem = ({
         transition,
       }}
     >
-      <div className="grid-row grid-gap draggable-list-item">
+      <div className="grid-row grid-gap draggable-list-item cursor-pointer">
         <div
-          className="grid-col-12 width-full draggable-list-button margin-top-2 margin-bottom-2"
+          className="grid-col-12 width-full draggable-list-button cursor-grab margin-top-2 margin-bottom-2"
           {...listeners}
           {...attributes}
         >

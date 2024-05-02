@@ -16,7 +16,7 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
 
   return (
     <>
-      <div className="border-top-1px border-base-lighter margin-top-2 margin-bottom-2 padding-top-1 width-full text-right pattern-edit-panel">
+      <div className="border-top-1px border-base-lighter margin-top-2 margin-bottom-2 padding-top-1 width-full text-right pattern-edit-panel base-dark">
         <span
           className={classNames('display-inline-block', {
             'border-base-lighter': children,

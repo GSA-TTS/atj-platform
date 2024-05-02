@@ -37,7 +37,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
         <label className="usa-label">
           Title
           <input
-            className="usa-input"
+            className="usa-input bg-primary-lighter text-bold"
             {...register(`${patternId}.data.title`)}
             type="text"
           ></input>
@@ -47,7 +47,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
         <label className="usa-label">
           Description
           <textarea
-            className="usa-textarea"
+            className="usa-textarea bg-primary-lighter text-bold"
             {...register(`${patternId}.data.description`)}
           ></textarea>
         </label>

@@ -41,11 +41,11 @@ const FieldsetPreview = (props: FieldsetProps) => {
           <div className="usa-alert usa-alert--warning usa-alert--no-icon margin-bottom-3">
             <div className="usa-alert__body">
               <p className="usa-alert__text">
-                <span className="alert-text">Empty sections will not display.</span>
-                <span className="action-text add-question">
+                <span className="alert-text display-inline-block text-top margin-right-2">Empty sections will not display.</span>
+                <span className="action-text add-question display-inline-block margin-right-2">
                   <a className="usa-link" href="#">Add question</a>
                 </span>
-                <span className="action-text remove-section">
+                <span className="action-text remove-section display-inline-block text-top margin-right-2">
                   <a className="usa-link" href="#">Remove section</a>
                 </span>
               </p>
@@ -67,18 +67,8 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
         <label className="usa-label width-full maxw-full">
           Legend Text Element
           <input
-            className="usa-input"
+            className="usa-input bg-primary-lighter text-bold"
             {...register(`${patternId}.data.legend`)}
-            type="text"
-          ></input>
-        </label>
-      </div>
-      <div className="grid-col-12 margin-bottom-3 flex-align-self-end">
-        <label className="usa-label width-full maxw-full">
-          Subheader Text Element
-          <input
-            className="usa-input"
-            {...register(`${patternId}.data.subheader`)}
             type="text"
           ></input>
         </label>

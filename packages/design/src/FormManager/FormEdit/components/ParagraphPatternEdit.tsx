@@ -38,7 +38,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
         <label className="usa-label">
           Text Element
           <input
-            className="usa-input"
+            className="usa-input bg-primary-lighter text-bold"
             {...register(`${patternId}.data.text`)}
             type="text"
           ></input>
@@ -47,7 +47,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
       <div className="desktop:grid-col-3 mobile:grid-col-12 flex-align-self-end">
         <label className="usa-label">
           <p className="usa-hint">Style</p>
-          <select className="usa-select" {...register(`${patternId}.type`)}>
+          <select className="usa-select bg-primary-lighter text-bold" {...register(`${patternId}.type`)}>
             <option value={'paragraph'}>Question</option> {/* this is a stub */}
             <option value={'paragraph'}>Title</option> {/* this is a stub */}
             <option value={'paragraph'}>Instructions</option>{' '}

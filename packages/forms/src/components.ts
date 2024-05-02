@@ -36,7 +36,6 @@ export type ParagraphProps = PatternProps<{
 export type FieldsetProps = PatternProps<{
   type: 'fieldset';
   legend?: string;
-  subheader?: string;
 }>;
 
 export type ZipcodeProps = PatternProps<{
