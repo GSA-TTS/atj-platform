@@ -15,7 +15,7 @@ import { type RadioGroupPattern } from '@atj/forms/src/patterns/radio-group';
 
 const RadioGroupPatternEdit: PatternEditComponent<RadioGroupProps> = props => {
   const isSelected = useFormManagerStore(
-    state => state.focusedPattern?.id === props.previewProps._patternId
+    state => state.focus?.pattern.id === props.previewProps._patternId
   );
   return (
     <>

@@ -18,6 +18,7 @@ export const PatternEditForm = ({
     state => state.updatePatternById
   );
   const pattern = useFormManagerStore(state => state.form.patterns[patternId]);
+  const editContext = useFormManagerStore(state => state.editContext);
   const methods = useForm<PatternMap>({
     defaultValues: {
       [patternId]: pattern,
@@ -28,6 +29,8 @@ export const PatternEditForm = ({
       <form
         onBlur={methods.handleSubmit(formData => {
           updatePatternById(pattern.id, formData);
+          methods.clearErrors();
+          methods.setError;
         })}
       >
         <div className="border-1 radius-md border-primary-light padding-1">

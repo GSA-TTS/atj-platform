@@ -11,7 +11,7 @@ import { PatternEditForm } from './common/PatternEditForm';
 
 const FieldsetEdit: PatternEditComponent<FieldsetProps> = props => {
   const isSelected = useFormManagerStore(
-    state => state.focusedPattern?.id === props.previewProps._patternId
+    state => state.focus?.pattern.id === props.previewProps._patternId
   );
   return (
     <>

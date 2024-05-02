@@ -13,7 +13,7 @@ import {
 
 const FormSummaryEdit: PatternEditComponent<FormSummaryProps> = props => {
   const isSelected = useFormManagerStore(
-    state => state.focusedPattern?.id === props.previewProps._patternId
+    state => state.focus?.pattern.id === props.previewProps._patternId
   );
   return (
     <>
