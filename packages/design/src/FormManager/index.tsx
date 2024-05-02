@@ -35,17 +35,15 @@ export default function FormManager({ context }: FormManagerProps) {
       <Routes>
         <Route
           path={AppRoutes.MyForms.path}
-          Component={() => (
-            <FormManagerProvider
-              context={context}
-              formId={formId}
-              form={nullBlueprint}
-            >
-              <FormManagerLayout>
-                <FormList formService={context.formService} />
-              </FormManagerLayout>
-            </FormManagerProvider>
-          )}
+          Component={() => {
+            return (
+              <FormManagerProvider context={context} form={nullBlueprint}>
+                <FormManagerLayout>
+                  <FormList formService={context.formService} />
+                </FormManagerLayout>
+              </FormManagerProvider>
+            );
+          }}
         />
         <Route
           path={AppRoutes.Preview.path}

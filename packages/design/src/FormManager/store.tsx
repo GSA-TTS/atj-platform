@@ -36,7 +36,7 @@ const createStore = ({ context, formId, form }: StoreContext) => {
 
 export const FormManagerProvider = (props: {
   context: FormManagerContext;
-  formId: string;
+  formId?: string;
   form: Blueprint;
   children: React.ReactNode;
 }) => {

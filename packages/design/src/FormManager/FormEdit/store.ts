@@ -84,12 +84,12 @@ export const createFormEditSlice =
     updatePatternById: (id, formData) => {
       const state = get();
       const builder = new BlueprintBuilder(state.form);
-      const success = builder.updatePatternById(
+      const result = builder.updatePatternById(
         state.context.config,
         id,
         formData
       );
-      if (success) {
+      if (result.success) {
         set({ form: builder.form });
       }
     },

@@ -119,18 +119,21 @@ export const updatePatternFromFormData = (
   form: Blueprint,
   pattern: Pattern,
   formData: PatternMap
-) => {
+): Result<Blueprint, string> => {
   const elementConfig = getPatternConfig(config, pattern.type);
   const data = formData[pattern.id].data;
   const result = elementConfig.parseConfigData(data);
   if (!result.success) {
-    return;
+    return result;
   }
   const updatedForm = updatePattern(form, {
     ...pattern,
     data: result.data,
   });
-  return updatedForm;
+  return {
+    success: true,
+    data: updatedForm,
+  };
 };
 
 const generatePatternId = () => crypto.randomUUID();
