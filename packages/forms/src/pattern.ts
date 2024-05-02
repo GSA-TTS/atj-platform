@@ -15,8 +15,8 @@ export type PatternValueMap = Record<PatternId, PatternValue>;
 export type PatternMap = Record<PatternId, Pattern>;
 export type GetPattern = (form: Blueprint, id: PatternId) => Pattern;
 
-type ParsePatternData<PatternConfigData, PatternOutput> = (
-  patternData: PatternConfigData,
+type ParsePatternData<Pattern, PatternOutput> = (
+  pattern: Pattern,
   obj: unknown
 ) => Result<PatternOutput>;
 
@@ -39,7 +39,7 @@ export type PatternConfig<
 > = {
   displayName: string;
   initial: ThisPattern['data'];
-  parseData?: ParsePatternData<ThisPattern['data'], PatternOutput>;
+  parseUserInput?: ParsePatternData<ThisPattern, PatternOutput>;
   parseConfigData: ParsePatternConfigData<ThisPattern['data']>;
   getChildren: (
     pattern: ThisPattern,
@@ -73,13 +73,13 @@ export const validatePattern = (
   pattern: Pattern,
   value: any
 ): Result<Pattern['data']> => {
-  if (!patternConfig.parseData) {
+  if (!patternConfig.parseUserInput) {
     return {
       success: true,
       data: value,
     };
   }
-  const parseResult = patternConfig.parseData(pattern, value);
+  const parseResult = patternConfig.parseUserInput(pattern, value);
   if (!parseResult.success) {
     return {
       success: false,

@@ -36,12 +36,32 @@ export type ParagraphProps = PatternProps<{
 export type FieldsetProps = PatternProps<{
   type: 'fieldset';
   legend?: string;
+  subHeading?: string;
 }>;
 
 export type ZipcodeProps = PatternProps<{
   type: 'zipcode';
   inputId: string;
   value: string;
+}>;
+
+export type CheckboxProps = PatternProps<{
+  type: 'checkbox';
+  id: string;
+  name: string;
+  label: string;
+  defaultChecked: boolean;
+}>;
+
+export type RadioGroupProps = PatternProps<{
+  type: 'radio-group';
+  legend: string;
+  options: {
+    id: string;
+    name: string;
+    label: string;
+    defaultChecked: boolean;
+  }[];
 }>;
 
 export type PatternProps<T = {}> = {
@@ -84,7 +104,7 @@ export const createPrompt = (
                   config,
                   session.form.patterns[patternId].type
                 );
-                return !!elemConfig.parseData;
+                return !!elemConfig.parseUserInput;
               })
               .map(([patternId, value]) => {
                 return {

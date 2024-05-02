@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, ReactElement } from 'react';
 import classNames from 'classnames';
 
-import { useFormEditStore } from '../../store';
+import { useFormManagerStore } from '../../../store';
 
 type PatternEditActionsProps = PropsWithChildren<{
   children?: ReactElement;
@@ -9,8 +9,8 @@ type PatternEditActionsProps = PropsWithChildren<{
 
 export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
   children;
-  const context = useFormEditStore(state => state.context);
-  const { deleteSelectedPattern } = useFormEditStore(state => ({
+  const context = useFormManagerStore(state => state.context);
+  const { deleteSelectedPattern } = useFormManagerStore(state => ({
     deleteSelectedPattern: state.deleteSelectedPattern,
   }));
 

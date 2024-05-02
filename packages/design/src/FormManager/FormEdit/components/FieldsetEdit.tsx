@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { PatternId, type FieldsetProps } from '@atj/forms';
-import { FieldsetPattern } from '@atj/forms/src/patterns/fieldset';
+import { type PatternId, type FieldsetProps } from '@atj/forms';
 
 import Fieldset from '../../../Form/components/Fieldset';
-import { useIsPatternSelected, usePattern } from '../store';
+import { useFormManagerStore } from '../../store';
 import { PatternEditComponent } from '../types';
 
 import { PatternEditActions } from './common/PatternEditActions';
@@ -14,7 +13,9 @@ import {
 } from './common/PatternEditForm';
 
 const FieldsetEdit: PatternEditComponent<FieldsetProps> = props => {
-  const isSelected = useIsPatternSelected(props.previewProps._patternId);
+  const isSelected = useFormManagerStore(
+    state => state.focusedPattern?.id === props.previewProps._patternId
+  );
   return (
     <>
       {isSelected ? (
@@ -32,8 +33,9 @@ const FieldsetEdit: PatternEditComponent<FieldsetProps> = props => {
 };
 
 const FieldsetPreview = (props: FieldsetProps) => {
-  const pattern = usePattern<FieldsetPattern>(props._patternId);
-
+  const pattern = useFormManagerStore(
+    state => state.form.patterns[props._patternId]
+  );
   return (
     <>
       <Fieldset {...(props as FieldsetProps)}>
@@ -59,7 +61,8 @@ const FieldsetPreview = (props: FieldsetProps) => {
 };
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
-  const { register } = usePatternEditFormContext();
+  const pattern = useFormManagerStore(state => state.form.patterns[patternId]);
+  //const { register } = usePatternEditFormContext();
   return (
 
     <div className="grid-row edit-component-panel">

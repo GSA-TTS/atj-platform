@@ -1,33 +1,13 @@
 import React from 'react';
 
-import { type Blueprint, createFormSession } from '@atj/forms';
-import { FormService } from '@atj/form-service';
+import { createFormSession } from '@atj/forms';
 
-import Form, { type FormUIContext } from '../../Form';
+import Form from '../../Form';
+import { useFormManagerStore } from '../store';
 
-export default function FormPreview({
-  context,
-  form,
-}: {
-  context: FormUIContext;
-  form: Blueprint;
-}) {
+export const FormPreview = () => {
+  const context = useFormManagerStore(state => state.context);
+  const form = useFormManagerStore(state => state.form);
   const session = createFormSession(form);
   return <Form isPreview={true} context={context} session={session} />;
-}
-
-export const FormPreviewById = ({
-  context,
-  formService,
-  formId,
-}: {
-  context: FormUIContext;
-  formService: FormService;
-  formId: string;
-}) => {
-  const form = formService.getForm(formId);
-  if (!form.success) {
-    return <div>Error loading form preview</div>;
-  }
-  return <FormPreview context={context} form={form.data} />;
 };

@@ -16,7 +16,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { useFormEditStore } from '../../store';
+import { useFormManagerStore } from '../../../store';
 
 type DraggableListProps = React.PropsWithChildren<{
   order: UniqueIdentifier[];
@@ -74,7 +74,7 @@ const SortableItem = ({
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
-  const context = useFormEditStore(state => state.context);
+  const context = useFormManagerStore(state => state.context);
 
   return (
     <div
