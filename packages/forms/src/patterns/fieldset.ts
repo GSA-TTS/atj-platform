@@ -22,6 +22,7 @@ const configSchema = z.object({
 export const fieldsetConfig: PatternConfig<FieldsetPattern> = {
   displayName: 'Fieldset',
   initial: {
+    legend: "Default Heading",
     patterns: [],
   },
   parseConfigData: obj => safeZodParse(configSchema, obj),

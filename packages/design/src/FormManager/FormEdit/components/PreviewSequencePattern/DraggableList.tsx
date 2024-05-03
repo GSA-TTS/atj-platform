@@ -78,18 +78,18 @@ const SortableItem = ({
 
   return (
     <div
+      className="draggable-list-item-wrapper"
       ref={setNodeRef}
       style={{
         transform: CSS.Transform.toString(transform),
         transition,
       }}
     >
-      <div className="grid-row grid-gap">
+      <div className="grid-row grid-gap draggable-list-item cursor-pointer">
         <div
-          className="grid-col-12 grid-col width-full"
+          className="grid-col-12 width-full draggable-list-button cursor-grab margin-top-2 margin-bottom-2"
           {...listeners}
           {...attributes}
-          style={{ cursor: 'grab' }}
         >
           <svg
             className="usa-icon margin-x-auto display-block"

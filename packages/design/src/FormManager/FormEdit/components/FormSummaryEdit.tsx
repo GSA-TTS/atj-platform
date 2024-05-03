@@ -34,22 +34,22 @@ const FormSummaryEdit: PatternEditComponent<FormSummaryProps> = props => {
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const { register } = usePatternEditFormContext();
   return (
-    <div className="grid-row grid-gap">
-      <div className="grid-col grid-col-4">
+    <div className="grid-row grid-gap-1 edit-component-panel">
+      <div className="desktop:grid-col-4 mobile:grid-col-12">
         <label className="usa-label">
           Title
           <input
-            className="usa-input"
+            className="usa-input bg-primary-lighter text-bold"
             {...register(`${patternId}.data.title`)}
             type="text"
           ></input>
         </label>
       </div>
-      <div className="grid-col grid-col-2">
+      <div className="desktop:grid-col-2 mobile:grid-col-12">
         <label className="usa-label">
           Description
           <textarea
-            className="usa-textarea"
+            className="usa-textarea bg-primary-lighter text-bold"
             {...register(`${patternId}.data.description`)}
           ></textarea>
         </label>

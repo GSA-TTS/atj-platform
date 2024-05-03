@@ -35,21 +35,21 @@ const ParagraphPatternEdit: PatternEditComponent<ParagraphProps> = props => {
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const { register } = usePatternEditFormContext();
   return (
-    <div className="grid-row grid-gap">
-      <div className="grid-col grid-col-10 flex-align-self-end">
+    <div className="grid-row grid-gap-1 edit-component-panel">
+      <div className="desktop:grid-col-9 mobile:grid-col-12 flex-align-self-end">
         <label className="usa-label">
           Text Element
           <input
-            className="usa-input"
+            className="usa-input bg-primary-lighter text-bold"
             {...register(`${patternId}.data.text`)}
             type="text"
           ></input>
         </label>
       </div>
-      <div className="grid-col grid-col-2 flex-align-self-end">
+      <div className="desktop:grid-col-3 mobile:grid-col-12 flex-align-self-end">
         <label className="usa-label">
-          <p className="usa-hint font-ui-3xs">Style</p>
-          <select className="usa-select" {...register(`${patternId}.type`)}>
+          <p className="usa-hint">Style</p>
+          <select className="usa-select bg-primary-lighter text-bold" {...register(`${patternId}.type`)}>
             <option value={'paragraph'}>Question</option> {/* this is a stub */}
             <option value={'paragraph'}>Title</option> {/* this is a stub */}
             <option value={'paragraph'}>Instructions</option>{' '}
