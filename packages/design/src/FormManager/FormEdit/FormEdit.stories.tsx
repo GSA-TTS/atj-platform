@@ -7,7 +7,6 @@ import { FormManagerProvider } from '../store';
 
 import FormEdit from '.';
 import { createTestForm, createTestFormManagerContext } from '../../test-form';
-import { fireEvent } from '@testing-library/react';
 
 export default {
   title: 'FormManager/FormEdit',

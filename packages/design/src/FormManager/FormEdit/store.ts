@@ -100,7 +100,7 @@ export const createFormEditSlice =
         set({
           focus: {
             pattern: state.focus.pattern,
-            errors: { root: result.error },
+            errors: result.error,
           },
         });
       }

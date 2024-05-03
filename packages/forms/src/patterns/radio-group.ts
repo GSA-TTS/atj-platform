@@ -11,7 +11,7 @@ const configSchema = z.object({
   label: z.string(),
   options: z
     .object({
-      id: z.string().regex(/^[^\s]+$/),
+      id: z.string().regex(/^[^\s]+$/, 'Invalid option ID'),
       label: z.string(),
     })
     .array(),
@@ -32,7 +32,22 @@ export const radioGroupConfig: PatternConfig<RadioGroupPattern, PatternOutput> =
       ],
     },
     parseUserInput: (pattern, input) => {
-      return extractOptionId(pattern.id, input);
+      const result = extractOptionId(pattern.id, input);
+      if (!result.success) {
+        return {
+          success: false,
+          error: {
+            [pattern.id]: {
+              type: 'custom',
+              message: result.error,
+            },
+          },
+        };
+      }
+      return {
+        success: true,
+        data: result.data,
+      };
     },
     parseConfigData: obj => {
       const result = safeZodParse(configSchema, obj);

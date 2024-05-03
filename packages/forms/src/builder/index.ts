@@ -2,6 +2,7 @@ import { type VoidResult } from '@atj/common';
 import {
   type Blueprint,
   type FormConfig,
+  type FormErrors,
   type FormSummary,
   type Pattern,
   type PatternId,
@@ -64,7 +65,7 @@ export class BlueprintBuilder {
     config: FormConfig,
     id: PatternId,
     formData: PatternMap
-  ): VoidResult {
+  ): VoidResult<FormErrors> {
     const pattern = getPattern(this.form, id);
     const result = updatePatternFromFormData(
       config,
