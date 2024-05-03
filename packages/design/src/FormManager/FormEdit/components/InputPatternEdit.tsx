@@ -32,8 +32,7 @@ const InputPatternEdit: PatternEditComponent<TextInputProps> = ({
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const pattern = useFormManagerStore(state => state.form.patterns[patternId]);
-
-  const methods = usePatternEditFormContext();
+  const { register } = usePatternEditFormContext();
   return (
     <div className="grid-row grid-gap-1 edit-component-panel">
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
@@ -44,7 +43,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           className="usa-input bg-primary-lighter text-bold"
           id={`${pattern.id}.data.label`}
           defaultValue={`${pattern.id}`}
-          {...methods.register(`${pattern.id}.data.label`)}
+          {...register(`${pattern.id}.data.label`)}
           type="text"
         ></input>
       </div>
@@ -56,7 +55,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           className="usa-input bg-primary-lighter text-bold"
           id={`${pattern.id}.data.default`}
           type="text"
-          {...methods.register(`${pattern.id}.data.default`)}
+          {...register(`${pattern.id}.data.default`)}
         ></input>
       </div>
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
@@ -67,7 +66,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           className="usa-input bg-primary-lighter text-bold"
           id={`${pattern.id}.data.maxLength`}
           type="text"
-          {...methods.register(`${pattern.id}.data.maxLength`)}
+          {...register(`${pattern.id}.data.maxLength`)}
         ></input>
       </div>
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
@@ -76,7 +75,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
         </label>
         <select
           className="usa-select bg-primary-lighter text-bold"
-          {...methods.register(`${pattern.id}.type`)}
+          {...register(`${pattern.id}.type`)}
           id={`${pattern.id}.type`}
         >
           <option value={'input'}>Input</option>
@@ -90,7 +89,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
               className="usa-checkbox__input bg-primary-lighter"
               type="checkbox"
               id={`${pattern.id}.data.required`}
-              {...methods.register(`${pattern.id}.data.required`)}
+              {...register(`${pattern.id}.data.required`)}
             />
             <label
               style={{ display: 'inline-block' }}

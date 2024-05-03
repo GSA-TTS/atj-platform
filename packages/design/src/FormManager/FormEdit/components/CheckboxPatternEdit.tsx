@@ -32,7 +32,7 @@ const CheckboxPatternEdit: PatternEditComponent<CheckboxProps> = ({
 
 const CheckboxEditComponent = ({ patternId }: { patternId: PatternId }) => {
   const pattern = useFormManagerStore(state => state.form.patterns[patternId]);
-  const methods = usePatternEditFormContext();
+  const { register } = usePatternEditFormContext();
 
   return (
     <div className="grid-row grid-gap">
@@ -44,7 +44,7 @@ const CheckboxEditComponent = ({ patternId }: { patternId: PatternId }) => {
           className="usa-input"
           id={`${pattern.id}.data.label`}
           defaultValue={`${pattern.id}`}
-          {...methods.register(`${pattern.id}.data.label`)}
+          {...register(`${pattern.id}.data.label`)}
           type="text"
         ></input>
       </div>
@@ -53,7 +53,7 @@ const CheckboxEditComponent = ({ patternId }: { patternId: PatternId }) => {
           <input
             id={`${pattern.id}.data.defaultChecked`}
             type="checkbox"
-            {...methods.register(`${pattern.id}.data.defaultChecked`)}
+            {...register(`${pattern.id}.data.defaultChecked`)}
             className="usa-checkbox__input"
           />
           <label
@@ -72,7 +72,7 @@ const CheckboxEditComponent = ({ patternId }: { patternId: PatternId }) => {
               className="usa-checkbox__input"
               type="checkbox"
               id={`${pattern.id}.data.required`}
-              {...methods.register(`${pattern.id}.data.required`)}
+              {...register(`${pattern.id}.data.required`)}
             />
             <label
               style={{ display: 'inline-block' }}

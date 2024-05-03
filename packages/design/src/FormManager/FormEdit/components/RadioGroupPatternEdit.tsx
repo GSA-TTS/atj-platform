@@ -31,8 +31,12 @@ const RadioGroupPatternEdit: PatternEditComponent<RadioGroupProps> = ({
 };
 
 const EditComponent = ({ pattern }: { pattern: RadioGroupPattern }) => {
-  const methods = usePatternEditFormContext();
+  const {
+    register,
+    formState: { errors },
+  } = usePatternEditFormContext();
   const [options, setOptions] = useState(pattern.data.options);
+  console.log(errors);
   return (
     <div className="grid-row grid-gap">
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
@@ -43,7 +47,7 @@ const EditComponent = ({ pattern }: { pattern: RadioGroupPattern }) => {
           className="usa-input"
           id={`${pattern.id}.data.label`}
           defaultValue={`${pattern.id}`}
-          {...methods.register(`${pattern.id}.data.label`)}
+          {...register(`${pattern.id}.data.label`)}
           type="text"
         ></input>
       </div>
@@ -53,12 +57,12 @@ const EditComponent = ({ pattern }: { pattern: RadioGroupPattern }) => {
             <input
               className="usa-input"
               id={`${pattern.id}.data.options.${index}.id`}
-              {...methods.register(`${pattern.id}.data.options.${index}.id`)}
+              {...register(`${pattern.id}.data.options.${index}.id`)}
             />
             <input
               className="usa-input"
               id={`${pattern.id}.data.options.${index}.label`}
-              {...methods.register(`${pattern.id}.data.options.${index}.label`)}
+              {...register(`${pattern.id}.data.options.${index}.label`)}
             />
           </div>
         ))}
@@ -81,7 +85,7 @@ const EditComponent = ({ pattern }: { pattern: RadioGroupPattern }) => {
               className="usa-checkbox__input"
               type="checkbox"
               id={`${pattern.id}.data.required`}
-              {...methods.register(`${pattern.id}.data.required`)}
+              {...register(`${pattern.id}.data.required`)}
             />
             <label
               style={{ display: 'inline-block' }}
