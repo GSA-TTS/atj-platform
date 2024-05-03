@@ -32,7 +32,7 @@ const EditForm = ({ saveForm }: { saveForm: (form: Blueprint) => void }) => {
   }, [form]);
 
   return (
-    <div className="position-relative">
+    <div className="position-relative edit-form-content-wrapper">
       <div className="grid-row">
         <div className="grid-col-12">
           <AddPatternDropdown />

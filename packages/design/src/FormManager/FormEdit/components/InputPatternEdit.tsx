@@ -37,13 +37,13 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
 
   const methods = usePatternEditFormContext();
   return (
-    <div className="grid-row grid-gap">
+    <div className="grid-row grid-gap-1 edit-component-panel">
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
         <label className="usa-label" htmlFor={`${pattern.id}.data.label`}>
           Field label
         </label>
         <input
-          className="usa-input"
+          className="usa-input bg-primary-lighter text-bold"
           id={`${pattern.id}.data.label`}
           defaultValue={`${pattern.id}`}
           {...methods.register(`${pattern.id}.data.label`)}
@@ -55,7 +55,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           Default field value
         </label>
         <input
-          className="usa-input"
+          className="usa-input bg-primary-lighter text-bold"
           id={`${pattern.id}.data.default`}
           type="text"
           {...methods.register(`${pattern.id}.data.default`)}
@@ -66,7 +66,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           Maximum length
         </label>
         <input
-          className="usa-input"
+          className="usa-input bg-primary-lighter text-bold"
           id={`${pattern.id}.data.maxLength`}
           type="text"
           {...methods.register(`${pattern.id}.data.maxLength`)}
@@ -77,7 +77,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           Field type
         </label>
         <select
-          className="usa-select"
+          className="usa-select bg-primary-lighter text-bold"
           {...methods.register(`${pattern.id}.type`)}
           id={`${pattern.id}.type`}
         >
@@ -89,7 +89,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           <span className="usa-checkbox">
             <input
               style={{ display: 'inline-block' }}
-              className="usa-checkbox__input"
+              className="usa-checkbox__input bg-primary-lighter"
               type="checkbox"
               id={`${pattern.id}.data.required`}
               {...methods.register(`${pattern.id}.data.required`)}

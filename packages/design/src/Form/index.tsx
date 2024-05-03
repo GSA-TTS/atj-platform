@@ -138,7 +138,7 @@ export default function Form({
               </ul>
             </nav>
           )}
-          <div className="grid-col-9 usa-prose">
+          <div className="desktop:grid-col-9 mobile:grid-col-12 usa-prose">
             {!isPreview ? (
               <form
                 className="usa-form usa-form--large margin-bottom-3"
@@ -176,14 +176,14 @@ const FormContents = ({
   return (
     <>
       {false && (
-        <fieldset className="usa-fieldset">
+        <fieldset className="usa-fieldset width-full">
           <legend className="usa-legend usa-legend--large">
             Request to Change Name
           </legend>
           <div className="usa-form-group">
             <div className="usa-form-group">
-              <fieldset className="usa-fieldset">
-                <legend className="usa-legend usa-legend--large">
+              <fieldset className="usa-fieldset width-full">
+                <legend className="usa-legend font-body-5 text-uppercase line-height-body-4">
                   County where you live
                 </legend>
                 <label className="usa-label">Name of your county *</label>
@@ -201,8 +201,8 @@ const FormContents = ({
 
           <div className="usa-form-group">
             <div className="usa-form-group">
-              <fieldset className="usa-fieldset">
-                <legend className="usa-legend usa-legend--large">
+              <fieldset className="usa-fieldset width-full">
+                <legend className="usa-legend font-body-5 text-uppercase line-height-body-4">
                   Your current name
                 </legend>
                 <label className="usa-label">First name *</label>
@@ -233,7 +233,7 @@ const FormContents = ({
                   value=""
                 />
               </fieldset>
-              <fieldset className="usa-fieldset">
+              <fieldset className="usa-fieldset width-full">
                 <p>
                   To ask the court to change your name, you must fill out this
                   form, and:
@@ -254,7 +254,7 @@ const FormContents = ({
         </fieldset>
       )}
 
-      <fieldset className="usa-fieldset">
+      <fieldset className="usa-fieldset width-full">
         {prompt.components.map((component, index) => {
           return (
             <PromptComponent

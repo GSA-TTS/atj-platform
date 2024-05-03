@@ -8,17 +8,9 @@ export default {
   tags: ['autodocs'],
 } satisfies Meta<typeof Fieldset>;
 
-export const FieldsetSection1 = {
+export const FieldsetSection = {
   args: {
-    legend: 'Section 1',
-    type: 'fieldset',
-    _patternId: 'test-id',
-  },
-} satisfies StoryObj<typeof Fieldset>;
-
-export const FieldsetSection2 = {
-  args: {
-    legend: 'Section 2',
+    legend: 'Default Heading',
     type: 'fieldset',
     _patternId: 'test-id',
   },
