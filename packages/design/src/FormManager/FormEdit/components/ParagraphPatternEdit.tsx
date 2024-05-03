@@ -3,7 +3,6 @@ import React from 'react';
 import { PatternId, type ParagraphProps } from '@atj/forms';
 
 import Paragraph from '../../../Form/components/Paragraph';
-import { useFormManagerStore } from '../../store';
 import { PatternEditComponent } from '../types';
 
 import { PatternEditActions } from './common/PatternEditActions';
@@ -12,21 +11,19 @@ import {
   usePatternEditFormContext,
 } from './common/PatternEditForm';
 
-const ParagraphPatternEdit: PatternEditComponent<ParagraphProps> = props => {
-  const isSelected = useFormManagerStore(
-    state => state.focus?.pattern.id === props.previewProps._patternId
-  );
+const ParagraphPatternEdit: PatternEditComponent<ParagraphProps> = ({
+  focus,
+  previewProps,
+}) => {
   return (
     <>
-      {isSelected ? (
+      {focus ? (
         <PatternEditForm
-          patternId={props.previewProps._patternId}
-          editComponent={
-            <EditComponent patternId={props.previewProps._patternId} />
-          }
+          pattern={focus.pattern}
+          editComponent={<EditComponent patternId={focus.pattern.id} />}
         ></PatternEditForm>
       ) : (
-        <Paragraph {...props.previewProps} />
+        <Paragraph {...previewProps} />
       )}
     </>
   );
@@ -49,7 +46,10 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
       <div className="desktop:grid-col-3 mobile:grid-col-12 flex-align-self-end">
         <label className="usa-label">
           <p className="usa-hint">Style</p>
-          <select className="usa-select bg-primary-lighter text-bold" {...register(`${patternId}.type`)}>
+          <select
+            className="usa-select bg-primary-lighter text-bold"
+            {...register(`${patternId}.type`)}
+          >
             <option value={'paragraph'}>Question</option> {/* this is a stub */}
             <option value={'paragraph'}>Title</option> {/* this is a stub */}
             <option value={'paragraph'}>Instructions</option>{' '}

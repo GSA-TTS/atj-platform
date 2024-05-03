@@ -9,13 +9,12 @@ import {
   BlueprintBuilder,
 } from '@atj/forms';
 import { type FormManagerContext } from '..';
+import { type PatternFocus } from './types';
 
 export type FormEditSlice = {
   context: FormManagerContext;
   form: Blueprint;
-  focus?: {
-    pattern: Pattern;
-  };
+  focus?: PatternFocus;
   availablePatterns: {
     patternType: string;
     displayName: string;
@@ -25,7 +24,7 @@ export type FormEditSlice = {
   deleteSelectedPattern: () => void;
   setFocus: (patternId: PatternId) => void;
   updatePattern: (data: Pattern) => void;
-  updatePatternById: (id: PatternId, formData: PatternMap) => void;
+  updateActivePattern: (formData: PatternMap) => void;
 };
 
 type FormEditStoreContext = {
@@ -83,16 +82,27 @@ export const createFormEditSlice =
         set({ form: builder.form, focus: undefined });
       }
     },
-    updatePatternById: (id, formData) => {
+    updateActivePattern: formData => {
       const state = get();
+      if (state.focus === undefined) {
+        console.log('Cannot update pattern without focus');
+        return;
+      }
       const builder = new BlueprintBuilder(state.form);
       const result = builder.updatePatternById(
         state.context.config,
-        id,
+        state.focus.pattern.id,
         formData
       );
       if (result.success) {
         set({ form: builder.form });
+      } else {
+        set({
+          focus: {
+            pattern: state.focus.pattern,
+            errors: { root: result.error },
+          },
+        });
       }
     },
   });

@@ -3,7 +3,6 @@ import React from 'react';
 import { type PatternId, SubmissionConfirmationProps } from '@atj/forms';
 
 import SubmissionConfirmation from '../../../Form/components/SubmissionConfirmation';
-import { useFormManagerStore } from '../../store';
 import { PatternEditComponent } from '../types';
 
 import {
@@ -13,21 +12,16 @@ import {
 
 const SubmissionConfirmationEdit: PatternEditComponent<
   SubmissionConfirmationProps
-> = props => {
-  const isSelected = useFormManagerStore(
-    state => state.focus?.pattern.id === props.previewProps._patternId
-  );
+> = ({ focus, previewProps }) => {
   return (
     <>
-      {isSelected ? (
+      {focus ? (
         <PatternEditForm
-          patternId={props.previewProps._patternId}
-          editComponent={
-            <EditComponent patternId={props.previewProps._patternId} />
-          }
+          pattern={focus.pattern}
+          editComponent={<EditComponent patternId={focus.pattern.id} />}
         ></PatternEditForm>
       ) : (
-        <SubmissionConfirmation {...props.previewProps} />
+        <SubmissionConfirmation {...previewProps} />
       )}
     </>
   );
@@ -70,7 +64,10 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
       <div className="desktop:grid-col-2 mobile:grid-col-12">
         <label className="usa-label">
           Field type
-          <select className="usa-select bg-primary-lighter text-bold" {...register(`${patternId}.type`)}>
+          <select
+            className="usa-select bg-primary-lighter text-bold"
+            {...register(`${patternId}.type`)}
+          >
             <option value={'input'}>Input</option>
           </select>
         </label>

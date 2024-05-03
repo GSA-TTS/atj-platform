@@ -12,21 +12,19 @@ import {
   usePatternEditFormContext,
 } from './common/PatternEditForm';
 
-const CheckboxPatternEdit: PatternEditComponent<CheckboxProps> = props => {
-  const isSelected = useFormManagerStore(
-    state => state.focus?.pattern.id === props.previewProps._patternId
-  );
+const CheckboxPatternEdit: PatternEditComponent<CheckboxProps> = ({
+  focus,
+  previewProps,
+}) => {
   return (
     <>
-      {isSelected ? (
+      {focus ? (
         <PatternEditForm
-          patternId={props.previewProps._patternId}
-          editComponent={
-            <CheckboxEditComponent patternId={props.previewProps._patternId} />
-          }
+          pattern={focus.pattern}
+          editComponent={<CheckboxEditComponent patternId={focus.pattern.id} />}
         ></PatternEditForm>
       ) : (
-        <Checkbox {...props.previewProps} />
+        <Checkbox {...previewProps} />
       )}
     </>
   );

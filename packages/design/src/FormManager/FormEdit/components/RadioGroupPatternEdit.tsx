@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 
-import { type RadioGroupProps, type PatternId } from '@atj/forms';
+import { type RadioGroupProps } from '@atj/forms';
 
 import RadioGroup from '../../../Form/components/RadioGroup';
-import { useFormManagerStore } from '../../store';
 import { PatternEditComponent } from '../types';
 
 import { PatternEditActions } from './common/PatternEditActions';
@@ -13,33 +12,27 @@ import {
 } from './common/PatternEditForm';
 import { type RadioGroupPattern } from '@atj/forms/src/patterns/radio-group';
 
-const RadioGroupPatternEdit: PatternEditComponent<RadioGroupProps> = props => {
-  const isSelected = useFormManagerStore(
-    state => state.focus?.pattern.id === props.previewProps._patternId
-  );
+const RadioGroupPatternEdit: PatternEditComponent<RadioGroupProps> = ({
+  focus,
+  previewProps,
+}) => {
   return (
     <>
-      {isSelected ? (
+      {focus ? (
         <PatternEditForm
-          patternId={props.previewProps._patternId}
-          editComponent={
-            <EditComponent patternId={props.previewProps._patternId} />
-          }
+          pattern={focus.pattern}
+          editComponent={<EditComponent pattern={focus.pattern} />}
         ></PatternEditForm>
       ) : (
-        <RadioGroup {...props.previewProps} />
+        <RadioGroup {...previewProps} />
       )}
     </>
   );
 };
 
-const EditComponent = ({ patternId }: { patternId: PatternId }) => {
-  const pattern = useFormManagerStore(
-    state => state.form.patterns[patternId]
-  ) as RadioGroupPattern;
+const EditComponent = ({ pattern }: { pattern: RadioGroupPattern }) => {
   const methods = usePatternEditFormContext();
   const [options, setOptions] = useState(pattern.data.options);
-
   return (
     <div className="grid-row grid-gap">
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">

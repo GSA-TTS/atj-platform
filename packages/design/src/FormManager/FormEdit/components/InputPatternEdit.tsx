@@ -12,21 +12,19 @@ import {
   usePatternEditFormContext,
 } from './common/PatternEditForm';
 
-const InputPatternEdit: PatternEditComponent<TextInputProps> = props => {
-  const isSelected = useFormManagerStore(
-    state => state.focus?.pattern.id === props.previewProps._patternId
-  );
+const InputPatternEdit: PatternEditComponent<TextInputProps> = ({
+  focus,
+  previewProps,
+}) => {
   return (
     <>
-      {isSelected ? (
+      {focus ? (
         <PatternEditForm
-          patternId={props.previewProps._patternId}
-          editComponent={
-            <EditComponent patternId={props.previewProps._patternId} />
-          }
+          pattern={focus.pattern}
+          editComponent={<EditComponent patternId={focus.pattern.id} />}
         ></PatternEditForm>
       ) : (
-        <TextInput {...props.previewProps} />
+        <TextInput {...previewProps} />
       )}
     </>
   );
