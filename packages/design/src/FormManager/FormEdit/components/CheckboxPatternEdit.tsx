@@ -1,3 +1,4 @@
+import classnames from 'classnames';
 import React from 'react';
 
 import { type CheckboxProps, type PatternId } from '@atj/forms';
@@ -31,15 +32,27 @@ const CheckboxPatternEdit: PatternEditComponent<CheckboxProps> = ({
 
 const CheckboxEditComponent = ({ patternId }: { patternId: PatternId }) => {
   const pattern = useFormManagerStore(state => state.form.patterns[patternId]);
-  const { fieldId, register } =
+  const { fieldId, getFieldState, register } =
     usePatternEditFormContext<CheckboxPattern>(patternId);
+
+  const label = getFieldState('data.label');
 
   return (
     <div className="grid-row grid-gap">
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
-        <label className="usa-label" htmlFor={fieldId('data.label')}>
+        <label
+          className={classnames('usa-label', {
+            'usa-label--error': label.error,
+          })}
+          htmlFor={fieldId('data.label')}
+        >
           Field label
         </label>
+        {label.error ? (
+          <span className="usa-error-message" role="alert">
+            {label.error.message}
+          </span>
+        ) : null}
         <input
           className="usa-input"
           id={fieldId('data.label')}

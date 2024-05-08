@@ -6,7 +6,7 @@ import { getFormSessionValue } from '../session';
 import { safeZodParse } from '../util/zod';
 
 const configSchema = z.object({
-  label: z.string(),
+  label: z.string().min(1),
   defaultChecked: z.boolean(),
 });
 export type CheckboxPattern = Pattern<z.infer<typeof configSchema>>;
@@ -23,7 +23,9 @@ export const checkboxConfig: PatternConfig<CheckboxPattern, PatternOutput> = {
   parseUserInput: (_, obj) => {
     return safeZodParse(PatternOutput, obj);
   },
-  parseConfigData: obj => safeZodParse(configSchema, obj),
+  parseConfigData: obj => {
+    return safeZodParse(configSchema, obj);
+  },
   getChildren() {
     return [];
   },

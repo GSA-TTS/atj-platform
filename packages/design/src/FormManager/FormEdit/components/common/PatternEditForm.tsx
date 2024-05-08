@@ -26,10 +26,11 @@ export const PatternEditForm = ({
 
   useEffect(() => {
     methods.clearErrors();
+    console.log(focus?.errors);
     Object.entries(focus?.errors || {}).forEach(([field, error]) => {
       console.log(field, formErrorToReactHookFormError(error));
       methods.setError(
-        '41b482bd-9fe3-4838-a64f-3d40b27ca54f.data.label',
+        `${focus?.pattern.id}.data.label`,
         formErrorToReactHookFormError(error)
       );
     });
