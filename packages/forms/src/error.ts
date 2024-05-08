@@ -1,6 +1,6 @@
 type FormErrorType = 'required' | 'custom';
 
-type FormError = {
+export type FormError = {
   type: FormErrorType;
   message?: string;
 };

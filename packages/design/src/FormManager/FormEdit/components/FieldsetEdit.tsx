@@ -7,10 +7,8 @@ import { useFormManagerStore } from '../../store';
 import { PatternEditComponent } from '../types';
 
 import { PatternEditActions } from './common/PatternEditActions';
-import {
-  PatternEditForm,
-  usePatternEditFormContext,
-} from './common/PatternEditForm';
+import { PatternEditForm } from './common/PatternEditForm';
+import { usePatternEditFormContext } from './common/hooks';
 
 const FieldsetEdit: PatternEditComponent<FieldsetProps> = ({
   focus,
@@ -64,7 +62,7 @@ const FieldsetPreview = (props: FieldsetProps) => {
 };
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
-  const { register } = usePatternEditFormContext();
+  const { register } = usePatternEditFormContext(patternId);
   return (
     <div className="grid-row edit-component-panel">
       <div className="grid-col-12 margin-bottom-3 flex-align-self-end">
@@ -72,7 +70,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           Legend Text Element
           <input
             className="usa-input bg-primary-lighter text-bold"
-            {...register(`${patternId}.data.legend`)}
+            {...register('data.legend')}
             type="text"
           ></input>
         </label>

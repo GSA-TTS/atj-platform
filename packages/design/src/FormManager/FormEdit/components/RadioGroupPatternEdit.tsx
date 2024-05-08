@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 
 import { type RadioGroupProps } from '@atj/forms';
+import { type RadioGroupPattern } from '@atj/forms/src/patterns/radio-group';
 
 import RadioGroup from '../../../Form/components/RadioGroup';
 import { PatternEditComponent } from '../types';
 
 import { PatternEditActions } from './common/PatternEditActions';
-import {
-  PatternEditForm,
-  usePatternEditFormContext,
-} from './common/PatternEditForm';
-import { type RadioGroupPattern } from '@atj/forms/src/patterns/radio-group';
+import { PatternEditForm } from './common/PatternEditForm';
+import { usePatternEditFormContext } from './common/hooks';
 
 const RadioGroupPatternEdit: PatternEditComponent<RadioGroupProps> = ({
   focus,
@@ -31,12 +29,11 @@ const RadioGroupPatternEdit: PatternEditComponent<RadioGroupProps> = ({
 };
 
 const EditComponent = ({ pattern }: { pattern: RadioGroupPattern }) => {
-  const {
-    register,
-    formState: { errors },
-  } = usePatternEditFormContext();
+  const { fieldId, register } = usePatternEditFormContext<RadioGroupPattern>(
+    pattern.id
+  );
   const [options, setOptions] = useState(pattern.data.options);
-  console.log(errors);
+
   return (
     <div className="grid-row grid-gap">
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
@@ -45,9 +42,9 @@ const EditComponent = ({ pattern }: { pattern: RadioGroupPattern }) => {
         </label>
         <input
           className="usa-input"
-          id={`${pattern.id}.data.label`}
-          defaultValue={`${pattern.id}`}
-          {...register(`${pattern.id}.data.label`)}
+          id={fieldId('data.label')}
+          defaultValue={pattern.data.label}
+          {...register('data.label')}
           type="text"
         ></input>
       </div>
@@ -56,13 +53,13 @@ const EditComponent = ({ pattern }: { pattern: RadioGroupPattern }) => {
           <div key={index} className="display-flex">
             <input
               className="usa-input"
-              id={`${pattern.id}.data.options.${index}.id`}
-              {...register(`${pattern.id}.data.options.${index}.id`)}
+              id={fieldId('data.options.${index}.id')}
+              {...register(`data.options.${index}.id`)}
             />
             <input
               className="usa-input"
-              id={`${pattern.id}.data.options.${index}.label`}
-              {...register(`${pattern.id}.data.options.${index}.label`)}
+              id={fieldId('data.options.${index}.label')}
+              {...register(`data.options.${index}.label`)}
             />
           </div>
         ))}
@@ -84,13 +81,13 @@ const EditComponent = ({ pattern }: { pattern: RadioGroupPattern }) => {
               style={{ display: 'inline-block' }}
               className="usa-checkbox__input"
               type="checkbox"
-              id={`${pattern.id}.data.required`}
-              {...register(`${pattern.id}.data.required`)}
+              id={fieldId('data.required')}
+              {...register('data.required')}
             />
             <label
               style={{ display: 'inline-block' }}
               className="usa-checkbox__label"
-              htmlFor={`${pattern.id}.data.required`}
+              htmlFor={fieldId('data.required')}
             >
               Required
             </label>

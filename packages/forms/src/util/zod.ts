@@ -25,14 +25,17 @@ export const safeZodParse = <T extends Pattern>(
 function convertZodErrorToFormErrors(zodError: z.ZodError): FormErrors {
   const formErrors: FormErrors = {};
   zodError.errors.forEach(error => {
-    const fieldName = error.path[0] || 'unknown';
-    switch (error.code) {
-      default:
-        formErrors[fieldName] = {
-          type: 'custom',
-          message: error.message,
-        };
-        break;
+    const fieldName = error.path[0] || 'root';
+    if (error.code === 'too_small' && error.minimum === 1) {
+      formErrors[fieldName] = {
+        type: 'required',
+        message: error.message,
+      };
+    } else {
+      formErrors[fieldName] = {
+        type: 'custom',
+        message: error.message,
+      };
     }
   });
   return formErrors;

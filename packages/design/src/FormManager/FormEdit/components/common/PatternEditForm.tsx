@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { FormProvider, useForm, useFormContext } from 'react-hook-form';
+import { type ErrorOption, FormProvider, useForm } from 'react-hook-form';
 
-import { type Pattern, type PatternMap } from '@atj/forms';
+import { type FormError, type Pattern, type PatternMap } from '@atj/forms';
 
 import { useFormManagerStore } from '../../../store';
 
@@ -27,7 +27,11 @@ export const PatternEditForm = ({
   useEffect(() => {
     methods.clearErrors();
     Object.entries(focus?.errors || {}).forEach(([field, error]) => {
-      methods.setError(field, { message: error });
+      console.log(field, formErrorToReactHookFormError(error));
+      methods.setError(
+        '41b482bd-9fe3-4838-a64f-3d40b27ca54f.data.label',
+        formErrorToReactHookFormError(error)
+      );
     });
   }, [focus]);
 
@@ -46,6 +50,16 @@ export const PatternEditForm = ({
   );
 };
 
-export const usePatternEditFormContext = () => {
-  return useFormContext<PatternMap>();
+const formErrorToReactHookFormError = (error: FormError): ErrorOption => {
+  if (error.type === 'required') {
+    return {
+      type: 'required',
+      message: error.message,
+    };
+  } else {
+    return {
+      type: 'custom',
+      message: error.message,
+    };
+  }
 };

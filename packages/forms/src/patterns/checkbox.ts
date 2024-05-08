@@ -9,12 +9,12 @@ const configSchema = z.object({
   label: z.string(),
   defaultChecked: z.boolean(),
 });
-export type InputPattern = Pattern<z.infer<typeof configSchema>>;
+export type CheckboxPattern = Pattern<z.infer<typeof configSchema>>;
 
 const PatternOutput = z.boolean();
 type PatternOutput = z.infer<typeof PatternOutput>;
 
-export const checkboxConfig: PatternConfig<InputPattern, PatternOutput> = {
+export const checkboxConfig: PatternConfig<CheckboxPattern, PatternOutput> = {
   displayName: 'Checkbox',
   initial: {
     label: 'Checkbox label',

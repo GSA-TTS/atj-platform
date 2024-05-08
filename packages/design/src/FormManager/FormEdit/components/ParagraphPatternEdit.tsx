@@ -6,10 +6,8 @@ import Paragraph from '../../../Form/components/Paragraph';
 import { PatternEditComponent } from '../types';
 
 import { PatternEditActions } from './common/PatternEditActions';
-import {
-  PatternEditForm,
-  usePatternEditFormContext,
-} from './common/PatternEditForm';
+import { PatternEditForm } from './common/PatternEditForm';
+import { usePatternEditFormContext } from './common/hooks';
 
 const ParagraphPatternEdit: PatternEditComponent<ParagraphProps> = ({
   focus,
@@ -30,7 +28,7 @@ const ParagraphPatternEdit: PatternEditComponent<ParagraphProps> = ({
 };
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
-  const { register } = usePatternEditFormContext();
+  const { register } = usePatternEditFormContext(patternId);
   return (
     <div className="grid-row grid-gap-1 edit-component-panel">
       <div className="desktop:grid-col-9 mobile:grid-col-12 flex-align-self-end">
@@ -38,7 +36,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           Text Element
           <input
             className="usa-input bg-primary-lighter text-bold"
-            {...register(`${patternId}.data.text`)}
+            {...register('data.text')}
             type="text"
           ></input>
         </label>
@@ -48,7 +46,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           <p className="usa-hint">Style</p>
           <select
             className="usa-select bg-primary-lighter text-bold"
-            {...register(`${patternId}.type`)}
+            {...register('type')}
           >
             <option value={'paragraph'}>Question</option> {/* this is a stub */}
             <option value={'paragraph'}>Title</option> {/* this is a stub */}
