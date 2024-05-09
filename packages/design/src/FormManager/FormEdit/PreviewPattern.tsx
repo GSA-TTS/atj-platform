@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 
 import { PatternComponent } from '../../Form';
 import { useFormManagerStore } from '../store';
