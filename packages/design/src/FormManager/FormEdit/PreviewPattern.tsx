@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import { PatternComponent } from '../../Form';
 import { useFormManagerStore } from '../store';
@@ -13,6 +13,7 @@ export const PreviewPattern: PatternComponent = function PreviewPattern(props) {
       return state.focus;
     }
   });
+
   const EditComponent = context.editComponents[props.type];
 
   return (

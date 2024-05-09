@@ -22,7 +22,7 @@ export type FormEditSlice = {
 
   addPattern: (patternType: string) => void;
   deleteSelectedPattern: () => void;
-  setFocus: (patternId: PatternId) => void;
+  setFocus: (patternId: PatternId) => boolean;
   updatePattern: (data: Pattern) => void;
   updateActivePattern: (formData: PatternMap) => void;
 };
@@ -63,10 +63,14 @@ export const createFormEditSlice =
     setFocus: patternId => {
       const state = get();
       if (state.focus?.pattern.id === patternId) {
-        return;
+        return true;
+      }
+      if (state.focus?.errors) {
+        return false;
       }
       const elementToSet = getPattern(state.form, patternId);
-      set({ focus: { pattern: elementToSet } });
+      set({ focus: { errors: undefined, pattern: elementToSet } });
+      return true;
     },
     updatePattern: pattern => {
       const state = get();
@@ -85,7 +89,6 @@ export const createFormEditSlice =
     updateActivePattern: formData => {
       const state = get();
       if (state.focus === undefined) {
-        console.log('Cannot update pattern without focus');
         return;
       }
       const builder = new BlueprintBuilder(state.form);
@@ -95,7 +98,13 @@ export const createFormEditSlice =
         formData
       );
       if (result.success) {
-        set({ form: builder.form });
+        set({
+          form: builder.form,
+          focus: {
+            pattern: state.focus.pattern,
+            errors: undefined,
+          },
+        });
       } else {
         set({
           focus: {
