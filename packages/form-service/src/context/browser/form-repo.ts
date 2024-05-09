@@ -48,7 +48,7 @@ export const getFormSummaryListFromStorage = (storage: Storage) => {
 export const addFormToStorage = (
   storage: Storage,
   form: Blueprint
-): Result<string> => {
+): Result<{ timestamp: Date; id: string }> => {
   const uuid = crypto.randomUUID();
 
   const result = saveFormToStorage(storage, uuid, form);
@@ -58,7 +58,10 @@ export const addFormToStorage = (
 
   return {
     success: true,
-    data: uuid,
+    data: {
+      timestamp: new Date(),
+      id: uuid,
+    },
   };
 };
 

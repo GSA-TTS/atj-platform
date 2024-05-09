@@ -3,38 +3,30 @@ import React from 'react';
 import { type PatternId, SubmissionConfirmationProps } from '@atj/forms';
 
 import SubmissionConfirmation from '../../../Form/components/SubmissionConfirmation';
-import { useFormManagerStore } from '../../store';
 import { PatternEditComponent } from '../types';
 
-import {
-  PatternEditForm,
-  usePatternEditFormContext,
-} from './common/PatternEditForm';
+import { PatternEditForm } from './common/PatternEditForm';
+import { usePatternEditFormContext } from './common/hooks';
 
 const SubmissionConfirmationEdit: PatternEditComponent<
   SubmissionConfirmationProps
-> = props => {
-  const isSelected = useFormManagerStore(
-    state => state.focusedPattern?.id === props.previewProps._patternId
-  );
+> = ({ focus, previewProps }) => {
   return (
     <>
-      {isSelected ? (
+      {focus ? (
         <PatternEditForm
-          patternId={props.previewProps._patternId}
-          editComponent={
-            <EditComponent patternId={props.previewProps._patternId} />
-          }
+          pattern={focus.pattern}
+          editComponent={<EditComponent patternId={focus.pattern.id} />}
         ></PatternEditForm>
       ) : (
-        <SubmissionConfirmation {...props.previewProps} />
+        <SubmissionConfirmation {...previewProps} />
       )}
     </>
   );
 };
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
-  const { register } = usePatternEditFormContext();
+  const { fieldId, register } = usePatternEditFormContext(patternId);
   return (
     <div className="grid-row grid-gap-1 edit-component-panel">
       <div className="desktop:grid-col-4 mobile:grid-col-12">
@@ -42,7 +34,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           Field label
           <input
             className="usa-input bg-primary-lighter text-bold"
-            {...register(`${patternId}.data.text`)}
+            {...register('text')}
             type="text"
           ></input>
         </label>
@@ -53,7 +45,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           <input
             className="usa-input bg-primary-lighter text-bold"
             type="text"
-            {...register(`${patternId}.data.initial`)}
+            {...register('initial')}
           ></input>
         </label>
       </div>
@@ -63,14 +55,17 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           <input
             className="usa-input bg-primary-lighter text-bold"
             type="text"
-            {...register(`${patternId}.data.maxLength`)}
+            {...register('maxLength')}
           ></input>
         </label>
       </div>
       <div className="desktop:grid-col-2 mobile:grid-col-12">
         <label className="usa-label">
           Field type
-          <select className="usa-select bg-primary-lighter text-bold" {...register(`${patternId}.type`)}>
+          <select
+            className="usa-select bg-primary-lighter text-bold"
+            {...register('type')}
+          >
             <option value={'input'}>Input</option>
           </select>
         </label>
@@ -80,13 +75,10 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           <input
             className="usa-checkbox__input bg-primary-lighter"
             type="checkbox"
-            id={`${patternId}.required`}
-            {...register(`${patternId}.data.required`)}
+            id={fieldId('required')}
+            {...register('required')}
           />
-          <label
-            className="usa-checkbox__label"
-            htmlFor={`${patternId}.data.required`}
-          >
+          <label className="usa-checkbox__label" htmlFor={fieldId('required')}>
             Required
           </label>
         </div>

@@ -1,61 +1,67 @@
+import classnames from 'classnames';
 import React from 'react';
 
 import { PatternId, type ParagraphProps } from '@atj/forms';
+import { type ParagraphPattern } from '@atj/forms/src/patterns/paragraph';
 
 import Paragraph from '../../../Form/components/Paragraph';
-import { useFormManagerStore } from '../../store';
 import { PatternEditComponent } from '../types';
 
 import { PatternEditActions } from './common/PatternEditActions';
-import {
-  PatternEditForm,
-  usePatternEditFormContext,
-} from './common/PatternEditForm';
+import { PatternEditForm } from './common/PatternEditForm';
+import { usePatternEditFormContext } from './common/hooks';
+import { useFormManagerStore } from '../../store';
 
-const ParagraphPatternEdit: PatternEditComponent<ParagraphProps> = props => {
-  const isSelected = useFormManagerStore(
-    state => state.focusedPattern?.id === props.previewProps._patternId
-  );
+const ParagraphPatternEdit: PatternEditComponent<ParagraphProps> = ({
+  focus,
+  previewProps,
+}) => {
   return (
     <>
-      {isSelected ? (
+      {focus ? (
         <PatternEditForm
-          patternId={props.previewProps._patternId}
-          editComponent={
-            <EditComponent patternId={props.previewProps._patternId} />
-          }
+          pattern={focus.pattern}
+          editComponent={<EditComponent patternId={focus.pattern.id} />}
         ></PatternEditForm>
       ) : (
-        <Paragraph {...props.previewProps} />
+        <Paragraph {...previewProps} />
       )}
     </>
   );
 };
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
-  const { register } = usePatternEditFormContext();
+  const pattern = useFormManagerStore<ParagraphPattern>(
+    state => state.form.patterns[patternId]
+  );
+  const { fieldId, getFieldState, register } =
+    usePatternEditFormContext<ParagraphPattern>(patternId);
+  const text = getFieldState('text');
+
   return (
     <div className="grid-row grid-gap-1 edit-component-panel">
-      <div className="desktop:grid-col-9 mobile:grid-col-12 flex-align-self-end">
-        <label className="usa-label">
-          Text Element
-          <input
-            className="usa-input bg-primary-lighter text-bold"
-            {...register(`${patternId}.data.text`)}
-            type="text"
-          ></input>
+      <div className="tablet:grid-col-12">
+        <label
+          className={classnames('usa-label', {
+            'usa-label--error': text.error,
+          })}
+          htmlFor={fieldId('text')}
+        >
+          Paragraph text
         </label>
-      </div>
-      <div className="desktop:grid-col-3 mobile:grid-col-12 flex-align-self-end">
-        <label className="usa-label">
-          <p className="usa-hint">Style</p>
-          <select className="usa-select bg-primary-lighter text-bold" {...register(`${patternId}.type`)}>
-            <option value={'paragraph'}>Question</option> {/* this is a stub */}
-            <option value={'paragraph'}>Title</option> {/* this is a stub */}
-            <option value={'paragraph'}>Instructions</option>{' '}
-            {/* this is a stub */}
-          </select>
-        </label>
+        {text.error ? (
+          <span className="usa-error-message" role="alert">
+            {text.error.message}
+          </span>
+        ) : null}
+        <textarea
+          id={fieldId('text')}
+          className="usa-textarea bg-primary-lighter text-bold"
+          style={{ height: 'unset' }}
+          rows={4}
+          {...register('text')}
+          defaultValue={pattern.data.text}
+        ></textarea>
       </div>
       <PatternEditActions />
     </div>

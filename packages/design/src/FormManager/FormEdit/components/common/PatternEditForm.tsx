@@ -1,33 +1,44 @@
-import React from 'react';
-import { FormProvider, useForm, useFormContext } from 'react-hook-form';
+import React, { useEffect } from 'react';
+import { type ErrorOption, FormProvider, useForm } from 'react-hook-form';
 
-import { type PatternId, type PatternMap } from '@atj/forms';
+import { type FormError, type Pattern, type PatternMap } from '@atj/forms';
 
 import { useFormManagerStore } from '../../../store';
 
 type PatternEditFormProps = {
-  patternId: PatternId;
+  pattern: Pattern;
   editComponent: React.ReactNode;
 };
 
 export const PatternEditForm = ({
-  patternId,
+  pattern,
   editComponent,
 }: PatternEditFormProps) => {
-  const { updatePatternById } = useFormManagerStore(state => ({
-    updatePatternById: state.updatePatternById,
-  }));
-  const pattern = useFormManagerStore(state => state.form.patterns[patternId]);
+  const updateActivePattern = useFormManagerStore(
+    state => state.updateActivePattern
+  );
+  const focus = useFormManagerStore(state => state.focus);
   const methods = useForm<PatternMap>({
     defaultValues: {
-      [patternId]: pattern,
+      [pattern.id]: pattern,
     },
   });
+
+  useEffect(() => {
+    methods.clearErrors();
+    Object.entries(focus?.errors || {}).forEach(([field, error]) => {
+      methods.setError(
+        `${focus?.pattern.id}.${field}`,
+        formErrorToReactHookFormError(error)
+      );
+    });
+  }, [focus]);
+
   return (
     <FormProvider {...methods}>
       <form
         onBlur={methods.handleSubmit(formData => {
-          updatePatternById(pattern.id, formData);
+          updateActivePattern(formData);
         })}
       >
         <div className="border-1 radius-md border-primary-light padding-1">
@@ -38,6 +49,16 @@ export const PatternEditForm = ({
   );
 };
 
-export const usePatternEditFormContext = () => {
-  return useFormContext<PatternMap>();
+const formErrorToReactHookFormError = (error: FormError): ErrorOption => {
+  if (error.type === 'required') {
+    return {
+      type: 'required',
+      message: error.message,
+    };
+  } else {
+    return {
+      type: 'custom',
+      message: error.message,
+    };
+  }
 };

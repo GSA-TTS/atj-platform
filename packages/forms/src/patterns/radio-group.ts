@@ -8,11 +8,11 @@ import { getFormSessionValue } from '../session';
 import { safeZodParse } from '../util/zod';
 
 const configSchema = z.object({
-  label: z.string(),
+  label: z.string().min(1),
   options: z
     .object({
-      id: z.string().regex(/^[^\s]+$/),
-      label: z.string(),
+      id: z.string().regex(/^[^\s]+$/, 'Invalid option ID'),
+      label: z.string().min(1),
     })
     .array(),
 });
@@ -28,11 +28,26 @@ export const radioGroupConfig: PatternConfig<RadioGroupPattern, PatternOutput> =
       label: 'Radio group label',
       options: [
         { id: 'option-1', label: 'Option 1' },
-        { id: 'option-1', label: 'Option 2' },
+        { id: 'option-2', label: 'Option 2' },
       ],
     },
     parseUserInput: (pattern, input) => {
-      return extractOptionId(pattern.id, input);
+      const result = extractOptionId(pattern.id, input);
+      if (!result.success) {
+        return {
+          success: false,
+          error: {
+            [pattern.id]: {
+              type: 'custom',
+              message: result.error,
+            },
+          },
+        };
+      }
+      return {
+        success: true,
+        data: result.data,
+      };
     },
     parseConfigData: obj => {
       const result = safeZodParse(configSchema, obj);

@@ -31,8 +31,8 @@ export default {
 
 export const FormEditTest: StoryObj<typeof FormEdit> = {
   play: async ({ canvasElement }) => {
-    await editFieldLabel(canvasElement, 'Pattern 1', 'First field label');
-    await editFieldLabel(canvasElement, 'Pattern 2', 'Second field label');
+    await editFieldLabel(canvasElement, 'Pattern 1', 'Pattern 1 (updated)');
+    await editFieldLabel(canvasElement, 'Pattern 2', 'Pattern 2 (updated)');
   },
 };
 
@@ -49,6 +49,31 @@ export const FormEditAddPattern: StoryObj<typeof FormEdit> = {
     const finalCount = (await canvas.findAllByRole('textbox')).length;
     expect(finalCount).toBeGreaterThan(initialCount);
   },
+};
+
+const editFieldLabel = async (
+  element: HTMLElement,
+  currentLabel: string,
+  updatedLabel: string
+) => {
+  const canvas = within(element);
+
+  // Give focus to the field matching `currentLabel`
+  await userEvent.click(await canvas.findByLabelText(currentLabel));
+
+  // Enter new text for first field
+  const input = canvas.getByLabelText('Field label');
+  await userEvent.clear(input);
+  await userEvent.type(input, updatedLabel);
+  await userEvent.click(canvas.getByLabelText('Add a pattern'));
+
+  waitFor(
+    async () => {
+      const newLabel = await canvas.getByLabelText(updatedLabel);
+      await expect(newLabel).toBeInTheDocument();
+    },
+    { interval: 5 }
+  );
 };
 
 // This test only works in a real browser, not via JSDOM as we use it.
@@ -81,27 +106,3 @@ export const FormEditReorderPattern: StoryObj<typeof FormEdit> = {
   },
 };
 */
-
-const editFieldLabel = async (
-  element: HTMLElement,
-  currentLabel: string,
-  updatedLabel: string
-) => {
-  const canvas = within(element);
-
-  // Give focus to the field matching `currentLabel`
-  await userEvent.click(await canvas.findByLabelText(currentLabel));
-
-  // Enter new text for first field
-  const input = canvas.getByLabelText('Field label');
-  await userEvent.clear(input);
-  await userEvent.type(input, updatedLabel);
-
-  waitFor(
-    async () => {
-      const newLabel = await canvas.getByLabelText(updatedLabel);
-      await expect(newLabel).toBeInTheDocument();
-    },
-    { interval: 5 }
-  );
-};

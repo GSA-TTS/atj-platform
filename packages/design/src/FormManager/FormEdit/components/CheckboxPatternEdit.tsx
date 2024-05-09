@@ -1,32 +1,30 @@
+import classnames from 'classnames';
 import React from 'react';
 
 import { type CheckboxProps, type PatternId } from '@atj/forms';
+import { type CheckboxPattern } from '@atj/forms/src/patterns/checkbox';
 
 import Checkbox from '../../../Form/components/Checkbox';
 import { useFormManagerStore } from '../../store';
 import { PatternEditComponent } from '../types';
 
 import { PatternEditActions } from './common/PatternEditActions';
-import {
-  PatternEditForm,
-  usePatternEditFormContext,
-} from './common/PatternEditForm';
+import { PatternEditForm } from './common/PatternEditForm';
+import { usePatternEditFormContext } from './common/hooks';
 
-const CheckboxPatternEdit: PatternEditComponent<CheckboxProps> = props => {
-  const isSelected = useFormManagerStore(
-    state => state.focusedPattern?.id === props.previewProps._patternId
-  );
+const CheckboxPatternEdit: PatternEditComponent<CheckboxProps> = ({
+  focus,
+  previewProps,
+}) => {
   return (
     <>
-      {isSelected ? (
+      {focus ? (
         <PatternEditForm
-          patternId={props.previewProps._patternId}
-          editComponent={
-            <CheckboxEditComponent patternId={props.previewProps._patternId} />
-          }
+          pattern={focus.pattern}
+          editComponent={<CheckboxEditComponent patternId={focus.pattern.id} />}
         ></PatternEditForm>
       ) : (
-        <Checkbox {...props.previewProps} />
+        <Checkbox {...previewProps} />
       )}
     </>
   );
@@ -34,57 +32,53 @@ const CheckboxPatternEdit: PatternEditComponent<CheckboxProps> = props => {
 
 const CheckboxEditComponent = ({ patternId }: { patternId: PatternId }) => {
   const pattern = useFormManagerStore(state => state.form.patterns[patternId]);
-  const methods = usePatternEditFormContext();
+  const { fieldId, getFieldState, register } =
+    usePatternEditFormContext<CheckboxPattern>(patternId);
+
+  const label = getFieldState('label');
 
   return (
     <div className="grid-row grid-gap">
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
-        <label className="usa-label" htmlFor={`${pattern.id}.data.label`}>
+        <label
+          className={classnames('usa-label', {
+            'usa-label--error': label.error,
+          })}
+          htmlFor={fieldId('label')}
+        >
           Field label
         </label>
+        {label.error ? (
+          <span className="usa-error-message" role="alert">
+            {label.error.message}
+          </span>
+        ) : null}
         <input
           className="usa-input"
-          id={`${pattern.id}.data.label`}
-          defaultValue={`${pattern.id}`}
-          {...methods.register(`${pattern.id}.data.label`)}
+          id={fieldId('label')}
+          defaultValue={pattern.data.label}
+          {...register('label')}
           type="text"
         ></input>
       </div>
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
         <div className="usa-checkbox">
           <input
-            id={`${pattern.id}.data.defaultChecked`}
+            id={fieldId('defaultChecked')}
             type="checkbox"
-            {...methods.register(`${pattern.id}.data.defaultChecked`)}
+            {...register('defaultChecked')}
             className="usa-checkbox__input"
           />
           <label
             className="usa-checkbox__label"
-            htmlFor={`${pattern.id}.data.defaultChecked`}
+            htmlFor={fieldId('defaultChecked')}
           >
             Default field value
           </label>
         </div>
       </div>
       <div className="grid-col-12">
-        <PatternEditActions>
-          <span className="usa-checkbox">
-            <input
-              style={{ display: 'inline-block' }}
-              className="usa-checkbox__input"
-              type="checkbox"
-              id={`${pattern.id}.data.required`}
-              {...methods.register(`${pattern.id}.data.required`)}
-            />
-            <label
-              style={{ display: 'inline-block' }}
-              className="usa-checkbox__label"
-              htmlFor={`${pattern.id}.data.required`}
-            >
-              Required
-            </label>
-          </span>
-        </PatternEditActions>
+        <PatternEditActions />
       </div>
     </div>
   );

@@ -3,36 +3,31 @@ import React from 'react';
 import { type FormSummaryProps, type PatternId } from '@atj/forms';
 
 import FormSummary from '../../../Form/components/FormSummary';
-import { useFormManagerStore } from '../../store';
 import { PatternEditComponent } from '../types';
 
-import {
-  PatternEditForm,
-  usePatternEditFormContext,
-} from './common/PatternEditForm';
+import { PatternEditForm } from './common/PatternEditForm';
+import { usePatternEditFormContext } from './common/hooks';
 
-const FormSummaryEdit: PatternEditComponent<FormSummaryProps> = props => {
-  const isSelected = useFormManagerStore(
-    state => state.focusedPattern?.id === props.previewProps._patternId
-  );
+const FormSummaryEdit: PatternEditComponent<FormSummaryProps> = ({
+  focus,
+  previewProps,
+}) => {
   return (
     <>
-      {isSelected ? (
+      {focus ? (
         <PatternEditForm
-          patternId={props.previewProps._patternId}
-          editComponent={
-            <EditComponent patternId={props.previewProps._patternId} />
-          }
+          pattern={focus.pattern}
+          editComponent={<EditComponent patternId={focus.pattern.id} />}
         ></PatternEditForm>
       ) : (
-        <FormSummary {...props.previewProps} />
+        <FormSummary {...previewProps} />
       )}
     </>
   );
 };
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
-  const { register } = usePatternEditFormContext();
+  const { register } = usePatternEditFormContext(patternId);
   return (
     <div className="grid-row grid-gap-1 edit-component-panel">
       <div className="desktop:grid-col-4 mobile:grid-col-12">
@@ -40,7 +35,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           Title
           <input
             className="usa-input bg-primary-lighter text-bold"
-            {...register(`${patternId}.data.title`)}
+            {...register('title')}
             type="text"
           ></input>
         </label>
@@ -50,7 +45,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           Description
           <textarea
             className="usa-textarea bg-primary-lighter text-bold"
-            {...register(`${patternId}.data.description`)}
+            {...register('description')}
           ></textarea>
         </label>
       </div>

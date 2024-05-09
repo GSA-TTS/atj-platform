@@ -1,74 +1,99 @@
+import classnames from 'classnames';
 import React, { useState } from 'react';
 
-import { type RadioGroupProps, type PatternId } from '@atj/forms';
+import { type RadioGroupProps } from '@atj/forms';
+import { type RadioGroupPattern } from '@atj/forms/src/patterns/radio-group';
 
 import RadioGroup from '../../../Form/components/RadioGroup';
-import { useFormManagerStore } from '../../store';
 import { PatternEditComponent } from '../types';
 
 import { PatternEditActions } from './common/PatternEditActions';
-import {
-  PatternEditForm,
-  usePatternEditFormContext,
-} from './common/PatternEditForm';
-import { type RadioGroupPattern } from '@atj/forms/src/patterns/radio-group';
+import { PatternEditForm } from './common/PatternEditForm';
+import { usePatternEditFormContext } from './common/hooks';
 
-const RadioGroupPatternEdit: PatternEditComponent<RadioGroupProps> = props => {
-  const isSelected = useFormManagerStore(
-    state => state.focusedPattern?.id === props.previewProps._patternId
-  );
+const RadioGroupPatternEdit: PatternEditComponent<RadioGroupProps> = ({
+  focus,
+  previewProps,
+}) => {
   return (
     <>
-      {isSelected ? (
+      {focus ? (
         <PatternEditForm
-          patternId={props.previewProps._patternId}
-          editComponent={
-            <EditComponent patternId={props.previewProps._patternId} />
-          }
+          pattern={focus.pattern}
+          editComponent={<EditComponent pattern={focus.pattern} />}
         ></PatternEditForm>
       ) : (
-        <RadioGroup {...props.previewProps} />
+        <RadioGroup {...previewProps} />
       )}
     </>
   );
 };
 
-const EditComponent = ({ patternId }: { patternId: PatternId }) => {
-  const pattern = useFormManagerStore(
-    state => state.form.patterns[patternId]
-  ) as RadioGroupPattern;
-  const methods = usePatternEditFormContext();
+const EditComponent = ({ pattern }: { pattern: RadioGroupPattern }) => {
+  const { fieldId, getFieldState, register } =
+    usePatternEditFormContext<RadioGroupPattern>(pattern.id);
   const [options, setOptions] = useState(pattern.data.options);
+  const label = getFieldState('label');
 
   return (
     <div className="grid-row grid-gap">
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
-        <label className="usa-label" htmlFor={`${pattern.id}.data.label`}>
+        <label
+          className={classnames('usa-label', {
+            'usa-label--error': label.error,
+          })}
+          htmlFor={fieldId('label')}
+        >
           Radio group label
         </label>
+        {label.error ? (
+          <span className="usa-error-message" role="alert">
+            {label.error.message}
+          </span>
+        ) : null}
         <input
           className="usa-input"
-          id={`${pattern.id}.data.label`}
-          defaultValue={`${pattern.id}`}
-          {...methods.register(`${pattern.id}.data.label`)}
+          id={fieldId('label')}
+          defaultValue={pattern.data.label}
+          {...register('label')}
           type="text"
         ></input>
       </div>
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
-        {options.map((option, index) => (
-          <div key={index} className="display-flex">
-            <input
-              className="usa-input"
-              id={`${pattern.id}.data.options.${index}.id`}
-              {...methods.register(`${pattern.id}.data.options.${index}.id`)}
-            />
-            <input
-              className="usa-input"
-              id={`${pattern.id}.data.options.${index}.label`}
-              {...methods.register(`${pattern.id}.data.options.${index}.label`)}
-            />
-          </div>
-        ))}
+        {options.map((option, index) => {
+          const optionId = getFieldState(`options.${index}.id`);
+          const optionLabel = getFieldState(`options.${index}.label`);
+          return (
+            <div key={index}>
+              {optionId.error ? (
+                <span className="usa-error-message" role="alert">
+                  {optionId.error.message}
+                </span>
+              ) : null}
+              {optionLabel.error ? (
+                <span className="usa-error-message" role="alert">
+                  {optionLabel.error.message}
+                </span>
+              ) : null}
+              <div className="display-flex">
+                <input
+                  className={classnames('usa-input', {
+                    'usa-label--error': label.error,
+                  })}
+                  id={fieldId(`options.${index}.id`)}
+                  {...register(`options.${index}.id`)}
+                  defaultValue={option.id}
+                />
+                <input
+                  className="usa-input"
+                  id={fieldId(`options.${index}.label`)}
+                  {...register(`options.${index}.label`)}
+                  defaultValue={option.label}
+                />
+              </div>
+            </div>
+          );
+        })}
         <button
           className="usa-button usa-button--outline"
           onClick={event => {
@@ -87,13 +112,13 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
               style={{ display: 'inline-block' }}
               className="usa-checkbox__input"
               type="checkbox"
-              id={`${pattern.id}.data.required`}
-              {...methods.register(`${pattern.id}.data.required`)}
+              id={fieldId('required')}
+              {...register('required')}
             />
             <label
               style={{ display: 'inline-block' }}
               className="usa-checkbox__label"
-              htmlFor={`${pattern.id}.data.required`}
+              htmlFor={fieldId('required')}
             >
               Required
             </label>

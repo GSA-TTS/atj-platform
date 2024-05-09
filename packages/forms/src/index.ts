@@ -13,6 +13,7 @@ export * from './builder';
 export * from './components';
 export * from './config';
 export * from './documents';
+export * from './error';
 export * from './pattern';
 export * from './response';
 export * from './session';

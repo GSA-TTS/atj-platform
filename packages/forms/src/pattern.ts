@@ -1,5 +1,5 @@
 import { type Result } from '@atj/common';
-import { updatePattern, type Blueprint } from '..';
+import { type FormErrors, type Blueprint, updatePattern } from '..';
 
 import { type CreatePrompt } from './components';
 
@@ -15,14 +15,14 @@ export type PatternValueMap = Record<PatternId, PatternValue>;
 export type PatternMap = Record<PatternId, Pattern>;
 export type GetPattern = (form: Blueprint, id: PatternId) => Pattern;
 
-type ParsePatternData<Pattern, PatternOutput> = (
+type ParseUserInput<Pattern, PatternOutput> = (
   pattern: Pattern,
   obj: unknown
-) => Result<PatternOutput>;
+) => Result<PatternOutput, FormErrors>;
 
 type ParsePatternConfigData<PatternConfigData> = (
   patternData: unknown
-) => Result<PatternConfigData>;
+) => Result<PatternConfigData, FormErrors>;
 
 type RemoveChildPattern<P extends Pattern> = (
   pattern: P,
@@ -39,7 +39,7 @@ export type PatternConfig<
 > = {
   displayName: string;
   initial: ThisPattern['data'];
-  parseUserInput?: ParsePatternData<ThisPattern, PatternOutput>;
+  parseUserInput?: ParseUserInput<ThisPattern, PatternOutput>;
   parseConfigData: ParsePatternConfigData<ThisPattern['data']>;
   getChildren: (
     pattern: ThisPattern,
@@ -72,7 +72,7 @@ export const validatePattern = (
   patternConfig: PatternConfig,
   pattern: Pattern,
   value: any
-): Result<Pattern['data']> => {
+): Result<Pattern['data'], FormErrors> => {
   if (!patternConfig.parseUserInput) {
     return {
       success: true,
@@ -84,12 +84,6 @@ export const validatePattern = (
     return {
       success: false,
       error: parseResult.error,
-    };
-  }
-  if (pattern.data.required && !parseResult.data) {
-    return {
-      success: false,
-      error: 'Required value not provided.',
     };
   }
   return {
@@ -119,18 +113,20 @@ export const updatePatternFromFormData = (
   form: Blueprint,
   pattern: Pattern,
   formData: PatternMap
-) => {
+): Result<Blueprint, FormErrors> => {
   const elementConfig = getPatternConfig(config, pattern.type);
-  const data = formData[pattern.id].data;
-  const result = elementConfig.parseConfigData(data);
+  const result = elementConfig.parseConfigData(formData[pattern.id]);
   if (!result.success) {
-    return;
+    return result;
   }
   const updatedForm = updatePattern(form, {
     ...pattern,
     data: result.data,
   });
-  return updatedForm;
+  return {
+    success: true,
+    data: updatedForm,
+  };
 };
 
 const generatePatternId = () => crypto.randomUUID();

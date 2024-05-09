@@ -6,22 +6,27 @@ import { getFormSessionValue } from '../session';
 import { safeZodParse } from '../util/zod';
 
 const configSchema = z.object({
-  label: z.string(),
-  initial: z.string(),
+  label: z.string().min(1, 'A field label is required'),
+  initial: z.string().optional(),
   required: z.boolean(),
   maxLength: z.coerce.number(),
 });
 export type InputPattern = Pattern<z.infer<typeof configSchema>>;
 
-const createSchema = (data: InputPattern['data']) =>
-  z.string().max(data.maxLength);
+const createSchema = (data: InputPattern['data']) => {
+  const schema = z.string().max(data.maxLength);
+  if (!data.required) {
+    return schema;
+  }
+  return schema.min(1, { message: 'This field is required' });
+};
 
 type InputPatternOutput = z.infer<ReturnType<typeof createSchema>>;
 
 export const inputConfig: PatternConfig<InputPattern, InputPatternOutput> = {
   displayName: 'Text input',
   initial: {
-    label: '',
+    label: 'Field label',
     initial: '',
     required: true,
     maxLength: 128,

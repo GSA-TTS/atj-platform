@@ -6,15 +6,15 @@ import { getFormSessionValue } from '../session';
 import { safeZodParse } from '../util/zod';
 
 const configSchema = z.object({
-  label: z.string(),
+  label: z.string().min(1),
   defaultChecked: z.boolean(),
 });
-export type InputPattern = Pattern<z.infer<typeof configSchema>>;
+export type CheckboxPattern = Pattern<z.infer<typeof configSchema>>;
 
 const PatternOutput = z.boolean();
 type PatternOutput = z.infer<typeof PatternOutput>;
 
-export const checkboxConfig: PatternConfig<InputPattern, PatternOutput> = {
+export const checkboxConfig: PatternConfig<CheckboxPattern, PatternOutput> = {
   displayName: 'Checkbox',
   initial: {
     label: 'Checkbox label',
@@ -23,7 +23,9 @@ export const checkboxConfig: PatternConfig<InputPattern, PatternOutput> = {
   parseUserInput: (_, obj) => {
     return safeZodParse(PatternOutput, obj);
   },
-  parseConfigData: obj => safeZodParse(configSchema, obj),
+  parseConfigData: obj => {
+    return safeZodParse(configSchema, obj);
+  },
   getChildren() {
     return [];
   },

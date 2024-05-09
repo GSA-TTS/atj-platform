@@ -1,88 +1,103 @@
+import classnames from 'classnames';
 import React from 'react';
 
 import { PatternId, TextInputProps } from '@atj/forms';
+import { InputPattern } from '@atj/forms/src/patterns/input';
 
 import TextInput from '../../../Form/components/TextInput';
 import { useFormManagerStore } from '../../store';
 import { PatternEditComponent } from '../types';
 
 import { PatternEditActions } from './common/PatternEditActions';
-import {
-  PatternEditForm,
-  usePatternEditFormContext,
-} from './common/PatternEditForm';
+import { PatternEditForm } from './common/PatternEditForm';
+import { usePatternEditFormContext } from './common/hooks';
 
-const InputPatternEdit: PatternEditComponent<TextInputProps> = props => {
-  const isSelected = useFormManagerStore(
-    state => state.focusedPattern?.id === props.previewProps._patternId
-  );
+const InputPatternEdit: PatternEditComponent<TextInputProps> = ({
+  focus,
+  previewProps,
+}) => {
   return (
     <>
-      {isSelected ? (
+      {focus ? (
         <PatternEditForm
-          patternId={props.previewProps._patternId}
-          editComponent={
-            <EditComponent patternId={props.previewProps._patternId} />
-          }
+          pattern={focus.pattern}
+          editComponent={<EditComponent patternId={focus.pattern.id} />}
         ></PatternEditForm>
       ) : (
-        <TextInput {...props.previewProps} />
+        <TextInput {...previewProps} />
       )}
     </>
   );
 };
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
-  const pattern = useFormManagerStore(state => state.form.patterns[patternId]);
+  const pattern = useFormManagerStore<InputPattern>(
+    state => state.form.patterns[patternId]
+  );
+  const { fieldId, register, getFieldState } =
+    usePatternEditFormContext<InputPattern>(patternId);
 
-  const methods = usePatternEditFormContext();
+  const initial = getFieldState('initial');
+  const label = getFieldState('label');
+  const maxLength = getFieldState('maxLength');
+
   return (
     <div className="grid-row grid-gap-1 edit-component-panel">
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
-        <label className="usa-label" htmlFor={`${pattern.id}.data.label`}>
+        <label
+          className={classnames('usa-label', {
+            'usa-label--error': label.error,
+          })}
+          htmlFor={fieldId('label')}
+        >
           Field label
         </label>
+        {label.error ? (
+          <span className="usa-error-message" role="alert">
+            {label.error.message}
+          </span>
+        ) : null}
         <input
-          className="usa-input bg-primary-lighter text-bold"
-          id={`${pattern.id}.data.label`}
-          defaultValue={`${pattern.id}`}
-          {...methods.register(`${pattern.id}.data.label`)}
+          className={classnames('usa-input bg-primary-lighter text-bold', {
+            'usa-input--error': label.error,
+          })}
+          id={fieldId('label')}
+          defaultValue={pattern.data.label}
+          {...register('label')}
           type="text"
         ></input>
       </div>
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
-        <label className="usa-label" htmlFor={`${pattern.id}.data.default`}>
+        <label
+          className={classnames('usa-label', {
+            'usa-label--error': initial.error,
+          })}
+          htmlFor={fieldId('initial')}
+        >
           Default field value
         </label>
         <input
           className="usa-input bg-primary-lighter text-bold"
-          id={`${pattern.id}.data.default`}
+          id={fieldId('initial')}
           type="text"
-          {...methods.register(`${pattern.id}.data.default`)}
+          {...register('initial')}
         ></input>
       </div>
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
-        <label className="usa-label" htmlFor={`${pattern.id}.data.maxLength`}>
+        <label
+          className={classnames('usa-label', {
+            'usa-label--error': maxLength.error,
+          })}
+          htmlFor={fieldId('maxLength')}
+        >
           Maximum length
         </label>
         <input
           className="usa-input bg-primary-lighter text-bold"
-          id={`${pattern.id}.data.maxLength`}
+          id={fieldId('maxLength')}
           type="text"
-          {...methods.register(`${pattern.id}.data.maxLength`)}
+          {...register('maxLength')}
         ></input>
-      </div>
-      <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
-        <label className="usa-label" htmlFor={`${pattern.id}.type`}>
-          Field type
-        </label>
-        <select
-          className="usa-select bg-primary-lighter text-bold"
-          {...methods.register(`${pattern.id}.type`)}
-          id={`${pattern.id}.type`}
-        >
-          <option value={'input'}>Input</option>
-        </select>
       </div>
       <div className="grid-col-12">
         <PatternEditActions>
@@ -91,13 +106,13 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
               style={{ display: 'inline-block' }}
               className="usa-checkbox__input bg-primary-lighter"
               type="checkbox"
-              id={`${pattern.id}.data.required`}
-              {...methods.register(`${pattern.id}.data.required`)}
+              id={fieldId('required')}
+              {...register('required')}
             />
             <label
               style={{ display: 'inline-block' }}
               className="usa-checkbox__label"
-              htmlFor={`${pattern.id}.data.required`}
+              htmlFor={fieldId('required')}
             >
               Required
             </label>

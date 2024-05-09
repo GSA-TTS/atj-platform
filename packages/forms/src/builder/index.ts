@@ -1,6 +1,8 @@
+import { type VoidResult } from '@atj/common';
 import {
   type Blueprint,
   type FormConfig,
+  type FormErrors,
   type FormSummary,
   type Pattern,
   type PatternId,
@@ -46,31 +48,37 @@ export class BlueprintBuilder {
   }
 
   updatePattern(config: FormConfig, pattern: Pattern, formData: PatternMap) {
-    const updatedBlueprint = updatePatternFromFormData(
+    const result = updatePatternFromFormData(
       config,
       this.form,
       pattern,
       formData
     );
-    if (!updatedBlueprint) {
+    if (!result.success) {
       return false;
     }
-    this._bp = updatedBlueprint;
+    this._bp = result.data;
     return true;
   }
 
-  updatePatternById(config: FormConfig, id: PatternId, formData: PatternMap) {
+  updatePatternById(
+    config: FormConfig,
+    id: PatternId,
+    formData: PatternMap
+  ): VoidResult<FormErrors> {
     const pattern = getPattern(this.form, id);
-    const updatedBlueprint = updatePatternFromFormData(
+    const result = updatePatternFromFormData(
       config,
       this.form,
       pattern,
       formData
     );
-    if (!updatedBlueprint) {
-      return false;
+    if (!result.success) {
+      return result;
     }
-    this._bp = updatedBlueprint;
-    return true;
+    this._bp = result.data;
+    return {
+      success: true,
+    };
   }
 }

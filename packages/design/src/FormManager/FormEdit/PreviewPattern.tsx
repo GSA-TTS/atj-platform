@@ -7,8 +7,13 @@ export const PreviewPattern: PatternComponent = function PreviewPattern(props) {
   const { context, setFocus } = useFormManagerStore(state => ({
     context: state.context,
     setFocus: state.setFocus,
-    updatePatternById: state.updatePatternById,
   }));
+  const focus = useFormManagerStore(state => {
+    if (state.focus?.pattern.id === props._patternId) {
+      return state.focus;
+    }
+  });
+
   const EditComponent = context.editComponents[props.type];
 
   return (
@@ -26,7 +31,7 @@ export const PreviewPattern: PatternComponent = function PreviewPattern(props) {
         }
       }}
     >
-      <EditComponent context={context} previewProps={props} />
+      <EditComponent context={context} previewProps={props} focus={focus} />
     </div>
   );
 };
