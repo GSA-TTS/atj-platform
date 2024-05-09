@@ -34,7 +34,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           Field label
           <input
             className="usa-input bg-primary-lighter text-bold"
-            {...register('data.text')}
+            {...register('text')}
             type="text"
           ></input>
         </label>
@@ -45,7 +45,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           <input
             className="usa-input bg-primary-lighter text-bold"
             type="text"
-            {...register('data.initial')}
+            {...register('initial')}
           ></input>
         </label>
       </div>
@@ -55,7 +55,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           <input
             className="usa-input bg-primary-lighter text-bold"
             type="text"
-            {...register('data.maxLength')}
+            {...register('maxLength')}
           ></input>
         </label>
       </div>
@@ -75,13 +75,10 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           <input
             className="usa-checkbox__input bg-primary-lighter"
             type="checkbox"
-            id={fieldId('data.required')}
-            {...register('data.required')}
+            id={fieldId('required')}
+            {...register('required')}
           />
-          <label
-            className="usa-checkbox__label"
-            htmlFor={fieldId('data.required')}
-          >
+          <label className="usa-checkbox__label" htmlFor={fieldId('required')}>
             Required
           </label>
         </div>

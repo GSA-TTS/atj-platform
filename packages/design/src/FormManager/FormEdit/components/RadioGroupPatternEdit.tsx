@@ -1,3 +1,4 @@
+import classnames from 'classnames';
 import React, { useState } from 'react';
 
 import { type RadioGroupProps } from '@atj/forms';
@@ -29,40 +30,70 @@ const RadioGroupPatternEdit: PatternEditComponent<RadioGroupProps> = ({
 };
 
 const EditComponent = ({ pattern }: { pattern: RadioGroupPattern }) => {
-  const { fieldId, register } = usePatternEditFormContext<RadioGroupPattern>(
-    pattern.id
-  );
+  const { fieldId, getFieldState, register } =
+    usePatternEditFormContext<RadioGroupPattern>(pattern.id);
   const [options, setOptions] = useState(pattern.data.options);
+  const label = getFieldState('label');
 
   return (
     <div className="grid-row grid-gap">
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
-        <label className="usa-label" htmlFor={`${pattern.id}.data.label`}>
+        <label
+          className={classnames('usa-label', {
+            'usa-label--error': label.error,
+          })}
+          htmlFor={fieldId('label')}
+        >
           Radio group label
         </label>
+        {label.error ? (
+          <span className="usa-error-message" role="alert">
+            {label.error.message}
+          </span>
+        ) : null}
         <input
           className="usa-input"
-          id={fieldId('data.label')}
+          id={fieldId('label')}
           defaultValue={pattern.data.label}
-          {...register('data.label')}
+          {...register('label')}
           type="text"
         ></input>
       </div>
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
-        {options.map((option, index) => (
-          <div key={index} className="display-flex">
-            <input
-              className="usa-input"
-              id={fieldId('data.options.${index}.id')}
-              {...register(`data.options.${index}.id`)}
-            />
-            <input
-              className="usa-input"
-              id={fieldId('data.options.${index}.label')}
-              {...register(`data.options.${index}.label`)}
-            />
-          </div>
-        ))}
+        {options.map((option, index) => {
+          const optionId = getFieldState(`options.${index}.id`);
+          const optionLabel = getFieldState(`options.${index}.label`);
+          return (
+            <div key={index}>
+              {optionId.error ? (
+                <span className="usa-error-message" role="alert">
+                  {optionId.error.message}
+                </span>
+              ) : null}
+              {optionLabel.error ? (
+                <span className="usa-error-message" role="alert">
+                  {optionLabel.error.message}
+                </span>
+              ) : null}
+              <div className="display-flex">
+                <input
+                  className={classnames('usa-input', {
+                    'usa-label--error': label.error,
+                  })}
+                  id={fieldId(`options.${index}.id`)}
+                  {...register(`options.${index}.id`)}
+                  defaultValue={option.id}
+                />
+                <input
+                  className="usa-input"
+                  id={fieldId(`options.${index}.label`)}
+                  {...register(`options.${index}.label`)}
+                  defaultValue={option.label}
+                />
+              </div>
+            </div>
+          );
+        })}
         <button
           className="usa-button usa-button--outline"
           onClick={event => {
@@ -81,13 +112,13 @@ const EditComponent = ({ pattern }: { pattern: RadioGroupPattern }) => {
               style={{ display: 'inline-block' }}
               className="usa-checkbox__input"
               type="checkbox"
-              id={fieldId('data.required')}
-              {...register('data.required')}
+              id={fieldId('required')}
+              {...register('required')}
             />
             <label
               style={{ display: 'inline-block' }}
               className="usa-checkbox__label"
-              htmlFor={fieldId('data.required')}
+              htmlFor={fieldId('required')}
             >
               Required
             </label>

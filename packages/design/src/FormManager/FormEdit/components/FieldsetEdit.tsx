@@ -9,6 +9,7 @@ import { PatternEditComponent } from '../types';
 import { PatternEditActions } from './common/PatternEditActions';
 import { PatternEditForm } from './common/PatternEditForm';
 import { usePatternEditFormContext } from './common/hooks';
+import { FieldsetPattern } from '@atj/forms/src/patterns/fieldset';
 
 const FieldsetEdit: PatternEditComponent<FieldsetProps> = ({
   focus,
@@ -62,7 +63,7 @@ const FieldsetPreview = (props: FieldsetProps) => {
 };
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
-  const { register } = usePatternEditFormContext(patternId);
+  const { register } = usePatternEditFormContext<FieldsetPattern>(patternId);
   return (
     <div className="grid-row edit-component-panel">
       <div className="grid-col-12 margin-bottom-3 flex-align-self-end">
@@ -70,7 +71,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           Legend Text Element
           <input
             className="usa-input bg-primary-lighter text-bold"
-            {...register('data.legend')}
+            {...register('legend')}
             type="text"
           ></input>
         </label>

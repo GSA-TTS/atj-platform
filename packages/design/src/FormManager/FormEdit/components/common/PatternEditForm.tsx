@@ -27,9 +27,8 @@ export const PatternEditForm = ({
   useEffect(() => {
     methods.clearErrors();
     Object.entries(focus?.errors || {}).forEach(([field, error]) => {
-      console.log(focus?.errors, field, formErrorToReactHookFormError(error));
       methods.setError(
-        `${focus?.pattern.id}.data.label`,
+        `${focus?.pattern.id}.${field}`,
         formErrorToReactHookFormError(error)
       );
     });

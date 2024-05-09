@@ -115,8 +115,7 @@ export const updatePatternFromFormData = (
   formData: PatternMap
 ): Result<Blueprint, FormErrors> => {
   const elementConfig = getPatternConfig(config, pattern.type);
-  const data = formData[pattern.id].data;
-  const result = elementConfig.parseConfigData(data);
+  const result = elementConfig.parseConfigData(formData[pattern.id]);
   if (!result.success) {
     return result;
   }

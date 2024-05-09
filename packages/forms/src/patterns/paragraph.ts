@@ -5,8 +5,7 @@ import { type ParagraphProps } from '../components';
 import { safeZodParse } from '../util/zod';
 
 const configSchema = z.object({
-  text: z.string(),
-  maxLength: z.coerce.number(),
+  text: z.string().min(1),
 });
 export type ParagraphPattern = Pattern<z.infer<typeof configSchema>>;
 
@@ -14,7 +13,6 @@ export const paragraphConfig: PatternConfig<ParagraphPattern> = {
   displayName: 'Paragraph',
   initial: {
     text: 'Paragraph text...',
-    maxLength: 2048,
   },
   parseConfigData: obj => safeZodParse(configSchema, obj),
   getChildren() {

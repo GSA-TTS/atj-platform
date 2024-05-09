@@ -1,6 +1,8 @@
+import classnames from 'classnames';
 import React from 'react';
 
 import { PatternId, type ParagraphProps } from '@atj/forms';
+import { type ParagraphPattern } from '@atj/forms/src/patterns/paragraph';
 
 import Paragraph from '../../../Form/components/Paragraph';
 import { PatternEditComponent } from '../types';
@@ -8,6 +10,7 @@ import { PatternEditComponent } from '../types';
 import { PatternEditActions } from './common/PatternEditActions';
 import { PatternEditForm } from './common/PatternEditForm';
 import { usePatternEditFormContext } from './common/hooks';
+import { useFormManagerStore } from '../../store';
 
 const ParagraphPatternEdit: PatternEditComponent<ParagraphProps> = ({
   focus,
@@ -28,32 +31,37 @@ const ParagraphPatternEdit: PatternEditComponent<ParagraphProps> = ({
 };
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
-  const { register } = usePatternEditFormContext(patternId);
+  const pattern = useFormManagerStore<ParagraphPattern>(
+    state => state.form.patterns[patternId]
+  );
+  const { fieldId, getFieldState, register } =
+    usePatternEditFormContext<ParagraphPattern>(patternId);
+  const text = getFieldState('text');
+
   return (
     <div className="grid-row grid-gap-1 edit-component-panel">
-      <div className="desktop:grid-col-9 mobile:grid-col-12 flex-align-self-end">
-        <label className="usa-label">
-          Text Element
-          <input
-            className="usa-input bg-primary-lighter text-bold"
-            {...register('data.text')}
-            type="text"
-          ></input>
+      <div className="tablet:grid-col-12">
+        <label
+          className={classnames('usa-label', {
+            'usa-label--error': text.error,
+          })}
+          htmlFor={fieldId('text')}
+        >
+          Paragraph text
         </label>
-      </div>
-      <div className="desktop:grid-col-3 mobile:grid-col-12 flex-align-self-end">
-        <label className="usa-label">
-          <p className="usa-hint">Style</p>
-          <select
-            className="usa-select bg-primary-lighter text-bold"
-            {...register('type')}
-          >
-            <option value={'paragraph'}>Question</option> {/* this is a stub */}
-            <option value={'paragraph'}>Title</option> {/* this is a stub */}
-            <option value={'paragraph'}>Instructions</option>{' '}
-            {/* this is a stub */}
-          </select>
-        </label>
+        {text.error ? (
+          <span className="usa-error-message" role="alert">
+            {text.error.message}
+          </span>
+        ) : null}
+        <textarea
+          id={fieldId('text')}
+          className="usa-textarea bg-primary-lighter text-bold"
+          style={{ height: 'unset' }}
+          rows={4}
+          {...register('text')}
+          defaultValue={pattern.data.text}
+        ></textarea>
       </div>
       <PatternEditActions />
     </div>

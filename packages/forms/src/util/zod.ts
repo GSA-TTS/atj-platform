@@ -22,21 +22,21 @@ export const safeZodParse = <T extends Pattern>(
   }
 };
 
-function convertZodErrorToFormErrors(zodError: z.ZodError): FormErrors {
+const convertZodErrorToFormErrors = (zodError: z.ZodError): FormErrors => {
   const formErrors: FormErrors = {};
   zodError.errors.forEach(error => {
-    const fieldName = error.path[0] || 'root';
+    const path = error.path.join('.') || 'root';
     if (error.code === 'too_small' && error.minimum === 1) {
-      formErrors[fieldName] = {
+      formErrors[path] = {
         type: 'required',
         message: error.message,
       };
     } else {
-      formErrors[fieldName] = {
+      formErrors[path] = {
         type: 'custom',
         message: error.message,
       };
     }
   });
   return formErrors;
-}
+};

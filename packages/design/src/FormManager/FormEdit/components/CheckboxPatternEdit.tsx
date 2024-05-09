@@ -35,7 +35,7 @@ const CheckboxEditComponent = ({ patternId }: { patternId: PatternId }) => {
   const { fieldId, getFieldState, register } =
     usePatternEditFormContext<CheckboxPattern>(patternId);
 
-  const label = getFieldState('data.label');
+  const label = getFieldState('label');
 
   return (
     <div className="grid-row grid-gap">
@@ -44,7 +44,7 @@ const CheckboxEditComponent = ({ patternId }: { patternId: PatternId }) => {
           className={classnames('usa-label', {
             'usa-label--error': label.error,
           })}
-          htmlFor={fieldId('data.label')}
+          htmlFor={fieldId('label')}
         >
           Field label
         </label>
@@ -55,23 +55,23 @@ const CheckboxEditComponent = ({ patternId }: { patternId: PatternId }) => {
         ) : null}
         <input
           className="usa-input"
-          id={fieldId('data.label')}
-          defaultValue={pattern.data.initial}
-          {...register('data.label')}
+          id={fieldId('label')}
+          defaultValue={pattern.data.label}
+          {...register('label')}
           type="text"
         ></input>
       </div>
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
         <div className="usa-checkbox">
           <input
-            id={fieldId('data.defaultChecked')}
+            id={fieldId('defaultChecked')}
             type="checkbox"
-            {...register('data.defaultChecked')}
+            {...register('defaultChecked')}
             className="usa-checkbox__input"
           />
           <label
             className="usa-checkbox__label"
-            htmlFor={fieldId('data.defaultChecked')}
+            htmlFor={fieldId('defaultChecked')}
           >
             Default field value
           </label>
