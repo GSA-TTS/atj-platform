@@ -101,7 +101,7 @@ const savePeriodically = (store: UseBoundStore<StoreApi<FormManagerStore>>) => {
   let lastForm: Blueprint;
   setInterval(async () => {
     const { form, saveForm } = store.getState();
-    if (lastForm !== form) {
+    if (lastForm && lastForm !== form) {
       await saveForm(form);
       lastForm = form;
     }
