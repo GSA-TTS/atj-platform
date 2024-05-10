@@ -34,7 +34,18 @@ export const createFormListSlice =
         name: url,
         data,
       });
-      return context.formService.addForm(builder.form);
+      const result = await context.formService.addForm(builder.form);
+      if (result.success) {
+        return {
+          success: true,
+          data: result.data.id,
+        };
+      } else {
+        return {
+          success: false,
+          error: result.error,
+        };
+      }
     },
     createNewFormByPDFUpload: async fileDetails => {
       const builder = new BlueprintBuilder();
@@ -43,7 +54,18 @@ export const createFormListSlice =
         description: '',
       });
       await builder.addDocument(fileDetails);
-      return await context.formService.addForm(builder.form);
+      const result = await context.formService.addForm(builder.form);
+      if (result.success) {
+        return {
+          success: true,
+          data: result.data.id,
+        };
+      } else {
+        return {
+          success: false,
+          error: result.error,
+        };
+      }
     },
   });
 
