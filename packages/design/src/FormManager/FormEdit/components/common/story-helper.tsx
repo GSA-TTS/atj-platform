@@ -1,37 +1,35 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { Meta } from '@storybook/react';
+import { type Meta } from '@storybook/react';
 
-import { Pattern } from '@atj/forms';
+import { type Pattern } from '@atj/forms';
 
 import {
-  createTestFormManagerContext,
   createSimpleTestBlueprint,
+  createTestFormManagerContext,
 } from '../../../../test-form';
 
-import { FormManagerProvider } from '../../../store';
 import FormEdit from '../../../FormEdit';
+import { FormManagerProvider } from '../../../store';
 
-type PatternEditStory = {
+type PatternEditStoryMetaOptions = {
   pattern: Pattern;
 };
 
-export const createPatternEditStory = ({
+export const createPatternEditStoryMeta = ({
   pattern,
-}: PatternEditStory): Meta<typeof FormEdit> => {
+}: PatternEditStoryMetaOptions): Meta<typeof FormEdit> => {
   const test = {
     title: 'Untitled pattern edit story',
     component: FormEdit,
     decorators: [
       (Story, args) => (
-        <MemoryRouter initialEntries={['/']}>
-          <FormManagerProvider
-            context={createTestFormManagerContext()}
-            form={createSimpleTestBlueprint(pattern)}
-          >
-            <Story {...args} />
-          </FormManagerProvider>
-        </MemoryRouter>
+        <FormManagerProvider
+          context={createTestFormManagerContext()}
+          form={createSimpleTestBlueprint(pattern)}
+        >
+          <Story {...args} />
+        </FormManagerProvider>
       ),
     ],
     args: {},

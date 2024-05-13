@@ -5,7 +5,7 @@ import { within } from '@testing-library/react';
 import { type CheckboxPattern } from '@atj/forms/src/patterns/checkbox';
 
 import CheckboxPatternEdit from './CheckboxPatternEdit';
-import { createPatternEditStory } from './common/story-helper';
+import { createPatternEditStoryMeta } from './common/story-helper';
 import FormEdit from '..';
 
 const pattern: CheckboxPattern = {
@@ -16,16 +16,15 @@ const pattern: CheckboxPattern = {
     defaultChecked: false,
   },
 };
-//const patternConfig = defaultFormConfig['patterns'][pattern.type];
 
 export default {
   title: 'Edit components/CheckboxPatternEdit',
-  ...createPatternEditStory({
+  ...createPatternEditStoryMeta({
     pattern,
   }),
 } as Meta<typeof FormEdit>;
 
-export const FormEditTest: StoryObj<typeof CheckboxPatternEdit> = {
+export const Basic: StoryObj<typeof CheckboxPatternEdit> = {
   play: async ({ canvasElement }) => {
     userEvent.setup();
 
