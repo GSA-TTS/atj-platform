@@ -5,7 +5,10 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { createTestFormService } from '@atj/form-service';
 
 import FormList from '.';
-import { createTestForm, createTestFormManagerContext } from '../../test-form';
+import {
+  createTwoPatternTestForm,
+  createTestFormManagerContext,
+} from '../../test-form';
 import { FormManagerProvider } from '../store';
 
 export default {
@@ -16,7 +19,7 @@ export default {
       <MemoryRouter initialEntries={['/']}>
         <FormManagerProvider
           context={createTestFormManagerContext()}
-          form={createTestForm()}
+          form={createTwoPatternTestForm()}
         >
           <Story {...args} />
         </FormManagerProvider>
@@ -25,7 +28,7 @@ export default {
   ],
   args: {
     formService: createTestFormService({
-      'test-form': createTestForm(),
+      'test-form': createTwoPatternTestForm(),
     }),
   },
   tags: ['autodocs'],

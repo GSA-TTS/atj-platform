@@ -1,11 +1,10 @@
 import classnames from 'classnames';
 import React from 'react';
 
-import { type CheckboxProps, type PatternId } from '@atj/forms';
+import { type CheckboxProps } from '@atj/forms';
 import { type CheckboxPattern } from '@atj/forms/src/patterns/checkbox';
 
 import Checkbox from '../../../Form/components/Checkbox';
-import { useFormManagerStore } from '../../store';
 import { PatternEditComponent } from '../types';
 
 import { PatternEditActions } from './common/PatternEditActions';
@@ -21,7 +20,7 @@ const CheckboxPatternEdit: PatternEditComponent<CheckboxProps> = ({
       {focus ? (
         <PatternEditForm
           pattern={focus.pattern}
-          editComponent={<CheckboxEditComponent patternId={focus.pattern.id} />}
+          editComponent={<CheckboxEditComponent pattern={focus.pattern} />}
         ></PatternEditForm>
       ) : (
         <Checkbox {...previewProps} />
@@ -30,10 +29,9 @@ const CheckboxPatternEdit: PatternEditComponent<CheckboxProps> = ({
   );
 };
 
-const CheckboxEditComponent = ({ patternId }: { patternId: PatternId }) => {
-  const pattern = useFormManagerStore(state => state.form.patterns[patternId]);
+const CheckboxEditComponent = ({ pattern }: { pattern: CheckboxPattern }) => {
   const { fieldId, getFieldState, register } =
-    usePatternEditFormContext<CheckboxPattern>(patternId);
+    usePatternEditFormContext<CheckboxPattern>(pattern.id);
 
   const label = getFieldState('label');
 

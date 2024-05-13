@@ -4,7 +4,8 @@ import { PatternComponent } from '../../Form';
 import { useFormManagerStore } from '../store';
 
 export const PreviewPattern: PatternComponent = function PreviewPattern(props) {
-  const { context, setFocus } = useFormManagerStore(state => ({
+  const { clearFocus, context, setFocus } = useFormManagerStore(state => ({
+    clearFocus: state.clearFocus,
     context: state.context,
     setFocus: state.setFocus,
   }));

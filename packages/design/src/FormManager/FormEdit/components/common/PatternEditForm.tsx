@@ -14,9 +14,10 @@ export const PatternEditForm = ({
   pattern,
   editComponent,
 }: PatternEditFormProps) => {
-  const updateActivePattern = useFormManagerStore(
-    state => state.updateActivePattern
-  );
+  const { clearFocus, updateActivePattern } = useFormManagerStore(state => ({
+    clearFocus: state.clearFocus,
+    updateActivePattern: state.updateActivePattern,
+  }));
   const focus = useFormManagerStore(state => state.focus);
   const methods = useForm<PatternMap>({
     defaultValues: {
@@ -39,6 +40,10 @@ export const PatternEditForm = ({
       <form
         onBlur={methods.handleSubmit(formData => {
           updateActivePattern(formData);
+        })}
+        onSubmit={methods.handleSubmit(formData => {
+          updateActivePattern(formData);
+          clearFocus();
         })}
       >
         <div className="border-1 radius-md border-primary-light padding-1">

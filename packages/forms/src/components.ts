@@ -48,7 +48,6 @@ export type ZipcodeProps = PatternProps<{
 export type CheckboxProps = PatternProps<{
   type: 'checkbox';
   id: string;
-  name: string;
   label: string;
   defaultChecked: boolean;
 }>;

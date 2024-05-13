@@ -6,7 +6,10 @@ import { expect, userEvent, waitFor, within } from '@storybook/test';
 import { FormManagerProvider } from '../store';
 
 import FormEdit from '.';
-import { createTestForm, createTestFormManagerContext } from '../../test-form';
+import {
+  createTwoPatternTestForm,
+  createTestFormManagerContext,
+} from '../../test-form';
 
 export default {
   title: 'FormManager/FormEdit',
@@ -16,7 +19,7 @@ export default {
       <MemoryRouter initialEntries={['/']}>
         <FormManagerProvider
           context={createTestFormManagerContext()}
-          form={createTestForm()}
+          form={createTwoPatternTestForm()}
         >
           <Story {...args} />
         </FormManagerProvider>
