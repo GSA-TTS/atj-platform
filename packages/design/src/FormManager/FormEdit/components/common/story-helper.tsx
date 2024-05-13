@@ -1,5 +1,4 @@
 import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
 import { type Meta } from '@storybook/react';
 
 import { type Pattern } from '@atj/forms';
