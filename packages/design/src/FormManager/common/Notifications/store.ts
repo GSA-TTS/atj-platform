@@ -22,7 +22,7 @@ type NotificationStoreCreator = StateCreator<
 >;
 
 export const createNotificationsSlice =
-  (timeout: number = 3000): NotificationStoreCreator =>
+  (timeout: number = 5000): NotificationStoreCreator =>
   set => ({
     notifications: [],
     addNotification: (type, message) => {

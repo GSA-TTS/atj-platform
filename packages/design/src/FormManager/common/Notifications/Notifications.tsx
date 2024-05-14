@@ -1,6 +1,6 @@
 import React from 'react';
 import { useFormManagerStore } from '../../store';
-import classNames from 'classnames';
+import { NotificationAlert } from './NotificationAlert';
 
 export const Notifications = () => {
   const { notifications } = useFormManagerStore();
@@ -14,21 +14,8 @@ export const Notifications = () => {
         maxWidth: '90%',
       }}
     >
-      {notifications.map(({ id, type, message }) => (
-        <div
-          key={id}
-          className={classNames(
-            'usa-alert usa-alert--slim bg-light-blue padding-2',
-            `usa-alert--${type}`
-          )}
-          role="alert"
-          aria-live="assertive"
-          aria-atomic="true"
-        >
-          <div className="usa-alert__body">
-            <p className="usa-alert__text">{message}</p>
-          </div>
-        </div>
+      {notifications.map((notification, index) => (
+        <NotificationAlert key={index} {...notification} />
       ))}
     </div>
   );
