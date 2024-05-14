@@ -30,12 +30,17 @@ export const createNotificationsSlice =
       set(state => ({
         notifications: [...state.notifications, { id, type, message }],
       }));
+
+      // Add an extra second timeout for each 120 words in the message.
+      const naiveWordCount = message.split(' ').length;
+      const extraTimeout = Math.floor(naiveWordCount / 120) * 1000;
+
       setTimeout(() => {
         set(state => ({
           notifications: state.notifications.filter(
             notification => notification.id !== id
           ),
         }));
-      }, timeout);
+      }, timeout + extraTimeout);
     },
   });
