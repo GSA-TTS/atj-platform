@@ -179,12 +179,10 @@ const MobileStepIndicator = () => (
       </span>
     </div>
     <div className="grid-col grid-col-8">
-      <select className="usa-select" name="options" id="options">
+      <select className="usa-select" name="options" id="options" defaultValue="value2">
         <option value="value1">Upload</option>
         <option value="value1">Create</option>
-        <option selected value="value2">
-          Configure
-        </option>
+        <option value="value2">Configure</option>
         <option value="value3">Public</option>
       </select>
     </div>
