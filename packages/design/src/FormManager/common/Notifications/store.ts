@@ -22,7 +22,8 @@ type NotificationStoreCreator = StateCreator<
 >;
 
 export const createNotificationsSlice =
-  (): NotificationStoreCreator => set => ({
+  (timeout: number = 3000): NotificationStoreCreator =>
+  set => ({
     notifications: [],
     addNotification: (type, message) => {
       const id = nanoid();
@@ -35,6 +36,6 @@ export const createNotificationsSlice =
             notification => notification.id !== id
           ),
         }));
-      }, 3000);
+      }, timeout);
     },
   });
