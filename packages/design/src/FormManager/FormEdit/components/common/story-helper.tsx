@@ -18,7 +18,7 @@ type PatternEditStoryMetaOptions = {
 export const createPatternEditStoryMeta = ({
   pattern,
 }: PatternEditStoryMetaOptions): Meta<typeof FormEdit> => {
-  const test = {
+  return {
     title: 'Untitled pattern edit story',
     component: FormEdit,
     decorators: [
@@ -34,5 +34,4 @@ export const createPatternEditStoryMeta = ({
     args: {},
     tags: ['autodocs'],
   } satisfies Meta<typeof FormEdit>;
-  return test;
 };
