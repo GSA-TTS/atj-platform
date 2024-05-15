@@ -1,9 +1,8 @@
 import React from 'react';
 
+import { Notifications } from '../common/Notifications';
 import { type NavPage, TopNavigation } from './TopNavigation';
 import { BottomNavigation } from './BottomNavigation';
-
-export { NavPage } from './TopNavigation';
 
 type FormManagerLayoutProps = {
   children: React.ReactNode;
@@ -24,6 +23,7 @@ export const FormManagerLayout = ({
 }: FormManagerLayoutProps) => {
   return (
     <>
+      <Notifications />
       {step && <TopNavigation curPage={step} preview={preview} />}
       <section className="grid-container usa-section">
         <div className="grid-row flex-justify-center">

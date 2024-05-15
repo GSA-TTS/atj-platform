@@ -2,12 +2,13 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { FormManagerLayout, NavPage } from '.';
+import { FormManagerLayout } from '.';
 import {
   createTwoPatternTestForm,
   createTestFormManagerContext,
 } from '../../test-form';
 import { FormManagerProvider } from '../store';
+import { NavPage } from './TopNavigation';
 
 export default {
   title: 'FormManagerLayout',

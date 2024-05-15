@@ -7,12 +7,12 @@ import {
 } from 'zustand';
 import { createContext } from 'zustand-utils';
 
+import { Result } from '@atj/common';
 import { BlueprintBuilder, type Blueprint } from '@atj/forms';
 
 import { type FormEditSlice, createFormEditSlice } from './FormEdit/store';
 import { type FormListSlice, createFormListSlice } from './FormList/store';
 import { type FormManagerContext } from '.';
-import { Result } from '@atj/common';
 
 type StoreContext = {
   context: FormManagerContext;
@@ -66,7 +66,7 @@ const createFormManagerSlice =
     context,
     form,
     formId,
-    createNewForm: async () => {
+    createNewForm: async function () {
       const builder = new BlueprintBuilder();
       builder.setFormSummary({
         title: `My form - ${new Date().toISOString()}`,
@@ -101,7 +101,7 @@ const savePeriodically = (store: UseBoundStore<StoreApi<FormManagerStore>>) => {
   let lastForm: Blueprint;
   setInterval(async () => {
     const { form, saveForm } = store.getState();
-    if (lastForm && lastForm !== form) {
+    if (form && form !== lastForm) {
       await saveForm(form);
       lastForm = form;
     }
