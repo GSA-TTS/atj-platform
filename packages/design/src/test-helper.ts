@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 import { describe, test } from 'vitest';
 import { type ReactRenderer, composeStories, Meta } from '@storybook/react';
-import { type Store_CSFExports } from '@storybook/types';
+import { ComponentAnnotations, type Store_CSFExports } from '@storybook/types';
 import { render } from '@testing-library/react';
 
 type Story = {
@@ -15,12 +15,9 @@ type Story = {
  * @param componentName
  * @param csfExports
  */
-export const describeStories = <
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  TModule extends Store_CSFExports<ReactRenderer, any>,
->(
-  meta: Meta,
-  csfExports: TModule
+export const describeStories = (
+  meta: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+  csfExports: any // eslint-disable-line @typescript-eslint/no-explicit-any
 ) => {
   const composedStories = composeStories(csfExports);
   describe(`Storybook stories: ${meta.title || meta.id}`, () => {
