@@ -1,4 +1,3 @@
-import { nanoid } from 'nanoid';
 import { StateCreator } from 'zustand';
 
 type NotificationType = 'info' | 'warning' | 'success' | 'error' | 'emergency';
@@ -26,7 +25,7 @@ export const createNotificationsSlice =
   set => ({
     notifications: [],
     addNotification: (type, message) => {
-      const id = nanoid();
+      const id = crypto.randomUUID();
       set(state => ({
         notifications: [...state.notifications, { id, type, message }],
       }));
