@@ -7,6 +7,7 @@ import {
   getPattern,
 } from '../pattern';
 import { createPromptForPattern } from '../components';
+import { safeZodParseFormErrors } from '../util/zod';
 
 export type SequencePattern = Pattern<{
   patterns: PatternId[];

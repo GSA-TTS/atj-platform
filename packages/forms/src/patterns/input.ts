@@ -3,7 +3,7 @@ import * as z from 'zod';
 import { type Pattern, type PatternConfig, validatePattern } from '../pattern';
 import { type TextInputProps } from '../components';
 import { getFormSessionValue } from '../session';
-import { safeZodParseFormErrors } from '../util/zod';
+import { safeZodParseFormErrors, safeZodParseToFormError } from '../util/zod';
 
 const configSchema = z.object({
   label: z.string().min(1, 'A field label is required'),
@@ -32,18 +32,7 @@ export const inputConfig: PatternConfig<InputPattern, InputPatternOutput> = {
     maxLength: 128,
   },
   parseUserInput: (pattern, obj) => {
-    const result = safeZodParseFormErrors(createSchema(pattern['data']), obj);
-    if (result.success) {
-      return {
-        success: true,
-        data: result.data,
-      };
-    } else {
-      return {
-        success: false,
-        error: result.error,
-      };
-    }
+    return safeZodParseToFormError(createSchema(pattern['data']), obj);
   },
   parseConfigData: obj => safeZodParseFormErrors(configSchema, obj),
   getChildren() {

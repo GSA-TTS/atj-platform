@@ -2,7 +2,7 @@ import * as z from 'zod';
 
 import * as r from '@atj/common';
 
-import { type FormErrors, type Pattern } from '..';
+import { FormError, FormErrorMap, type FormErrors, type Pattern } from '..';
 
 export const safeZodParse = <T extends Pattern>(
   schema: z.Schema,
@@ -13,6 +13,19 @@ export const safeZodParse = <T extends Pattern>(
     return r.success(result.data);
   } else {
     return r.failure(result.error);
+  }
+};
+
+export const safeZodParseToFormError = <T extends Pattern>(
+  schema: z.Schema,
+  obj: unknown
+): r.Result<T['data'], FormError> => {
+  const result = schema.safeParse(obj);
+  if (result.success) {
+    return r.success(result.data);
+  } else {
+    const error = convertZodErrorToFormError(result.error);
+    return r.failure(error);
   }
 };
 
@@ -46,4 +59,11 @@ const convertZodErrorToFormErrors = (zodError: z.ZodError): FormErrors => {
     }
   });
   return formErrors;
+};
+
+const convertZodErrorToFormError = (zodError: z.ZodError): FormError => {
+  return {
+    type: 'custom',
+    message: zodError.errors.map(error => error.message).join(', '),
+  };
 };

@@ -1,5 +1,5 @@
 import { type Result } from '@atj/common';
-import { type FormErrors, type Blueprint, updatePattern } from '..';
+import { type FormErrors, type Blueprint, updatePattern, FormError } from '..';
 
 import { type CreatePrompt } from './components';
 
@@ -18,7 +18,7 @@ export type GetPattern = (form: Blueprint, id: PatternId) => Pattern;
 type ParseUserInput<Pattern, PatternOutput> = (
   pattern: Pattern,
   obj: unknown
-) => Result<PatternOutput, FormErrors>;
+) => Result<PatternOutput, FormError>;
 
 type ParsePatternConfigData<PatternConfigData> = (
   patternData: unknown
@@ -72,7 +72,7 @@ export const validatePattern = (
   patternConfig: PatternConfig,
   pattern: Pattern,
   value: any
-): Result<Pattern['data'], FormErrors> => {
+): Result<Pattern['data'], FormError> => {
   if (!patternConfig.parseUserInput) {
     return {
       success: true,

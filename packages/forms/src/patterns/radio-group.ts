@@ -3,6 +3,7 @@ import * as z from 'zod';
 import { Result } from '@atj/common';
 
 import { type RadioGroupProps } from '../components';
+import { type FormError } from '../error';
 import { type Pattern, type PatternConfig, validatePattern } from '../pattern';
 import { getFormSessionValue } from '../session';
 import { safeZodParseFormErrors } from '../util/zod';
@@ -32,22 +33,7 @@ export const radioGroupConfig: PatternConfig<RadioGroupPattern, PatternOutput> =
       ],
     },
     parseUserInput: (pattern, input) => {
-      const result = extractOptionId(pattern.id, input);
-      if (!result.success) {
-        return {
-          success: false,
-          error: {
-            [pattern.id]: {
-              type: 'custom',
-              message: result.error,
-            },
-          },
-        };
-      }
-      return {
-        success: true,
-        data: result.data,
-      };
+      return extractOptionId(pattern.id, input);
     },
     parseConfigData: obj => {
       const result = safeZodParseFormErrors(configSchema, obj);
@@ -99,17 +85,23 @@ const createId = (groupId: string, optionId: string) =>
 export const extractOptionId = (
   groupId: string,
   inputId: unknown
-): Result<string> => {
+): Result<string, FormError> => {
   if (typeof inputId !== 'string') {
     return {
       success: false,
-      error: 'invalid data',
+      error: {
+        type: 'custom',
+        message: 'invalid data',
+      },
     };
   }
   if (!inputId.startsWith(groupId)) {
     return {
       success: false,
-      error: `invalid id: ${inputId}`,
+      error: {
+        type: 'custom',
+        message: `invalid id: ${inputId}`,
+      },
     };
   }
   return {
