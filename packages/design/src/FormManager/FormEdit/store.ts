@@ -10,6 +10,10 @@ import {
 } from '@atj/forms';
 import { type FormManagerContext } from '..';
 import { type PatternFocus } from './types';
+import {
+  NotificationSlice,
+  createNotificationsSlice,
+} from '../common/Notifications';
 
 export type FormEditSlice = {
   context: FormManagerContext;
@@ -25,7 +29,7 @@ export type FormEditSlice = {
   setFocus: (patternId: PatternId) => boolean;
   updatePattern: (data: Pattern) => void;
   updateActivePattern: (formData: PatternMap) => void;
-};
+} & NotificationSlice;
 
 type FormEditStoreContext = {
   context: FormManagerContext;
@@ -36,7 +40,8 @@ type FormEditStoreCreator = StateCreator<FormEditSlice, [], [], FormEditSlice>;
 
 export const createFormEditSlice =
   ({ context, form }: FormEditStoreContext): FormEditStoreCreator =>
-  (set, get) => ({
+  (set, get, store) => ({
+    ...createNotificationsSlice()(set, get, store),
     context,
     form,
     availablePatterns: Object.entries(context.config.patterns).map(
@@ -50,6 +55,7 @@ export const createFormEditSlice =
       const builder = new BlueprintBuilder(state.form);
       const newPattern = builder.addPattern(state.context.config, patternType);
       set({ form: builder.form, focus: { pattern: newPattern } });
+      state.addNotification('info', 'Pattern added.');
     },
     deleteSelectedPattern: () => {
       const state = get();
@@ -59,8 +65,9 @@ export const createFormEditSlice =
       const builder = new BlueprintBuilder(state.form);
       builder.removePattern(state.context.config, state.focus.pattern.id);
       set({ focus: undefined, form: builder.form });
+      state.addNotification('warning', 'Pattern deleted.');
     },
-    setFocus: patternId => {
+    setFocus: function (patternId) {
       const state = get();
       if (state.focus?.pattern.id === patternId) {
         return true;
@@ -69,7 +76,11 @@ export const createFormEditSlice =
         return false;
       }
       const elementToSet = getPattern(state.form, patternId);
-      set({ focus: { errors: undefined, pattern: elementToSet } });
+      if (elementToSet) {
+        set({ focus: { errors: undefined, pattern: elementToSet } });
+      } else {
+        set({ focus: undefined });
+      }
       return true;
     },
     updatePattern: pattern => {

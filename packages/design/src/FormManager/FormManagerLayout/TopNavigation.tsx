@@ -52,7 +52,7 @@ export const TopNavigation = ({
             {preview && <PreviewIconLink url={preview} uswdsRoot={uswdsRoot} />}
           </div>
         </div>
-        <MobileStepIndicator />
+        <MobileStepIndicator curPage={curPage} />
       </div>
       <div className="display-none tablet:display-block margin-top-1 margin-bottom-1">
         <div className="grid-container grid-row">
@@ -169,7 +169,7 @@ const PreviewIconLink = ({
   );
 };
 
-const MobileStepIndicator = () => (
+const MobileStepIndicator = ({ curPage }: { curPage: NavPage }) => (
   <div className="grid-row grid-gap flex-align-center">
     <div className="grid-col grid-col-4">
       <span className="usa-step-indicator__heading-counter">
@@ -179,13 +179,16 @@ const MobileStepIndicator = () => (
       </span>
     </div>
     <div className="grid-col grid-col-8">
-      <select className="usa-select" name="options" id="options">
-        <option value="value1">Upload</option>
-        <option value="value1">Create</option>
-        <option selected value="value2">
-          Configure
-        </option>
-        <option value="value3">Public</option>
+      <select
+        className="usa-select"
+        name="options"
+        id="options"
+        defaultValue={curPage}
+      >
+        <option value={NavPage.upload}>Upload</option>
+        <option value={NavPage.create}>Create</option>
+        <option value={NavPage.configure}>Configure</option>
+        <option value={NavPage.publish}>Publish</option>
       </select>
     </div>
   </div>
