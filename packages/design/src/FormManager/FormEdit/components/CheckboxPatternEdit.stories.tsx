@@ -24,19 +24,52 @@ export default {
   }),
 } as Meta<typeof FormEdit>;
 
+const enterEvent = new KeyboardEvent('keydown', {
+  key: 'Enter',
+});
+
+const addFormSubmitListener = (form: HTMLFormElement) => {
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+  });
+};
+
+const addInputEnterListener = (
+  input: HTMLElement,
+  form: HTMLFormElement | null
+) => {
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && form) {
+      e.preventDefault();
+      form.requestSubmit();
+    }
+  });
+};
+
 export const Basic: StoryObj<typeof CheckboxPatternEdit> = {
   play: async ({ canvasElement }) => {
     userEvent.setup();
 
     const canvas = within(canvasElement);
+    const updatedLabel = 'Updated checkbox pattern';
 
     // Give focus to the field matching `currentLabel`
     await userEvent.click(await canvas.findByLabelText('Checkbox pattern'));
+    const input = canvas.getByLabelText('Field label');
 
     // Enter new text for first field
-    const input = canvas.getByLabelText('Field label');
     await userEvent.clear(input);
-    await userEvent.type(input, 'Updated checkbox pattern{enter}');
+    await userEvent.type(input, updatedLabel);
+    if (input) {
+      const form = input.closest('form');
+      if (form) {
+        addFormSubmitListener(form);
+      }
+      addInputEnterListener(input, form);
+      input.dispatchEvent(enterEvent);
+    }
+
+    await expect(await canvas.findByText(updatedLabel)).toBeInTheDocument();
   },
 };
 
