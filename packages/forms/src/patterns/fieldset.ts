@@ -7,7 +7,7 @@ import {
   getPattern,
 } from '../pattern';
 import { type FieldsetProps, createPromptForPattern } from '../components';
-import { safeZodParse } from '../util/zod';
+import { safeZodParseFormErrors } from '../util/zod';
 
 export type FieldsetPattern = Pattern<{
   legend?: string;
@@ -22,10 +22,10 @@ const configSchema = z.object({
 export const fieldsetConfig: PatternConfig<FieldsetPattern> = {
   displayName: 'Fieldset',
   initial: {
-    legend: "Default Heading",
+    legend: 'Default Heading',
     patterns: [],
   },
-  parseConfigData: obj => safeZodParse(configSchema, obj),
+  parseConfigData: obj => safeZodParseFormErrors(configSchema, obj),
   getChildren(pattern, patterns) {
     return pattern.data.patterns.map(
       (patternId: string) => patterns[patternId]

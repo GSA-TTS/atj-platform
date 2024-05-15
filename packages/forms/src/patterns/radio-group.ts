@@ -5,7 +5,7 @@ import { Result } from '@atj/common';
 import { type RadioGroupProps } from '../components';
 import { type Pattern, type PatternConfig, validatePattern } from '../pattern';
 import { getFormSessionValue } from '../session';
-import { safeZodParse } from '../util/zod';
+import { safeZodParseFormErrors } from '../util/zod';
 
 const configSchema = z.object({
   label: z.string().min(1),
@@ -50,7 +50,7 @@ export const radioGroupConfig: PatternConfig<RadioGroupPattern, PatternOutput> =
       };
     },
     parseConfigData: obj => {
-      const result = safeZodParse(configSchema, obj);
+      const result = safeZodParseFormErrors(configSchema, obj);
       if (!result.success) {
         console.error(result.error);
       }

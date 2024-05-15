@@ -6,6 +6,7 @@ import {
   getPattern,
   getPatternConfig,
   validatePattern,
+  FormErrors,
 } from '.';
 import { type PromptAction, createPrompt, isPromptAction } from './components';
 import { type FormSession, updateSession } from './session';
@@ -29,6 +30,7 @@ export const applyPromptResponse = (
     };
   }
   const { errors, values } = parsePromptResponse(session, config, response);
+  console.log('errors', errors);
   const newSession = updateSession(session, values, errors);
 
   return {
@@ -43,7 +45,7 @@ const parsePromptResponse = (
   response: PromptResponse
 ) => {
   const values: Record<string, any> = {};
-  const errors: Record<string, string> = {};
+  const errors: Record<PatternId, FormErrors> = {};
   for (const [patternId, promptValue] of Object.entries(response.data)) {
     const pattern = getPattern(session.form, patternId);
     const patternConfig = getPatternConfig(config, pattern.type);

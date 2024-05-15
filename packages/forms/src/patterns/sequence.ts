@@ -7,7 +7,6 @@ import {
   getPattern,
 } from '../pattern';
 import { createPromptForPattern } from '../components';
-import { safeZodParse } from '../util/zod';
 
 export type SequencePattern = Pattern<{
   patterns: PatternId[];
@@ -22,7 +21,7 @@ export const sequenceConfig: PatternConfig<SequencePattern> = {
   initial: {
     patterns: [],
   },
-  parseConfigData: obj => safeZodParse(configSchema, obj),
+  parseConfigData: obj => safeZodParseFormErrors(configSchema, obj),
   getChildren(pattern, patterns) {
     return pattern.data.patterns.map(
       (patternId: string) => patterns[patternId]
