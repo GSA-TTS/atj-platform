@@ -134,7 +134,6 @@ export const callExternalParser = async (
         id: element.id,
         data: {
           text: element.element_params.text,
-          maxLength: 2048,
         },
       } satisfies ParagraphPattern;
       rootSequence.push(element.id);

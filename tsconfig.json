@@ -9,6 +9,7 @@
     "moduleResolution": "node",
     "noErrorTruncation": true,
     "noImplicitAny": true,
+    "skipLibCheck": true,
     "strict": true,
     "target": "ESNext",
     "resolveJsonModule": true,
@@ -20,7 +21,22 @@
   ],
   "references": [
     {
+      "path": "./apps/cli/tsconfig.json"
+    },
+    {
+      "path": "./apps/doj-demo/tsconfig.json"
+    },
+    {
+      "path": "./apps/rest-api/tsconfig.json"
+    },
+    {
+      "path": "./apps/spotlight/tsconfig.json"
+    },
+    {
       "path": "./packages/common/tsconfig.json"
+    },
+    {
+      "path": "./packages/dependency-graph/tsconfig.json"
     },
     {
       "path": "./packages/design/tsconfig.json"

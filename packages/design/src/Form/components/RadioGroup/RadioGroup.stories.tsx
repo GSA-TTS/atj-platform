@@ -14,19 +14,19 @@ const Template: Story = () => (
     <RadioInput
       id="option-1"
       name="select-item"
-      defaultValue="option1"
+      defaultChecked={false}
       label="Option 1"
     />
     <RadioInput
       id="option-2"
       name="select-item"
-      defaultValue="option2"
+      defaultChecked={false}
       label="Option 2"
     />
     <RadioInput
       id="option-3"
       name="select-item"
-      defaultValue="option3"
+      defaultChecked={true}
       label="Option 3"
     />
   </RadioGroup>
