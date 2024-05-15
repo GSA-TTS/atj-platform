@@ -14,8 +14,12 @@ export const Notifications = () => {
         maxWidth: '90%',
       }}
     >
-      {notifications.map((notification, index) => (
-        <NotificationAlert key={index} {...notification} />
+      {notifications.map(notification => (
+        <NotificationAlert
+          key={notification.id}
+          type={notification.type}
+          message={notification.message}
+        />
       ))}
     </div>
   );

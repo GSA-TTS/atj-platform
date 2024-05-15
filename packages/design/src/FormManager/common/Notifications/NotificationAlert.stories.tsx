@@ -9,35 +9,30 @@ export default {
 
 export const Info: StoryObj<typeof NotificationAlert> = {
   args: {
-    id: '1',
     type: 'info',
     message: 'Informational message',
   },
 };
 export const Warning: StoryObj<typeof NotificationAlert> = {
   args: {
-    id: '1',
     type: 'warning',
     message: 'Informational message',
   },
 };
 export const Success: StoryObj<typeof NotificationAlert> = {
   args: {
-    id: '1',
     type: 'success',
     message: 'Success message',
   },
 };
 export const Error: StoryObj<typeof NotificationAlert> = {
   args: {
-    id: '1',
     type: 'error',
     message: 'Error message',
   },
 };
 export const Emergency: StoryObj<typeof NotificationAlert> = {
   args: {
-    id: '1',
     type: 'emergency',
     message: 'Emergency message',
   },
