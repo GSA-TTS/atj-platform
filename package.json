@@ -14,7 +14,7 @@
     "pages": "rm -rf node_modules && npm i -g pnpm turbo && pnpm i && pnpm build && ln -sf ./apps/spotlight/dist _site",
     "test": "vitest run --coverage.enabled --coverage.reporter=text --coverage.reporter=json-summary --coverage.reporter=json --coverage.reportOnFailure --reporter vitest-github-actions-reporter",
     "test:infra": "turbo run --filter=infra test",
-    "typecheck": "tsc --build"
+    "typecheck": "tsc --noEmit"
   },
   "hooks": {
     "pre-commit": "pnpm format"
