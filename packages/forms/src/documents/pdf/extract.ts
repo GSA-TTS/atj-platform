@@ -20,7 +20,7 @@ import type { DocumentFieldValue, DocumentFieldMap } from '../types';
 export const getDocumentFieldData = async (
   pdfBytes: Uint8Array
 ): Promise<DocumentFieldMap> => {
-  var pdfDoc = await PDFDocument.load(pdfBytes);
+  const pdfDoc = await PDFDocument.load(pdfBytes);
 
   // TODO: These are *all* possible PDF annotation types, should store somewhere
   // const annotationSubtypes = [
@@ -80,9 +80,6 @@ export const getDocumentFieldData = async (
       Fields: newFields,
     })
   );
-
-  const modifiedPdfBytes = await pdfDoc.save({ useObjectStreams: false });
-  pdfDoc = await PDFDocument.load(modifiedPdfBytes);
 
   const form = pdfDoc.getForm();
   const fields = form.getFields();
