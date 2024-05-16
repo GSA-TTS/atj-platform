@@ -96,6 +96,7 @@ const EditComponent = ({ pattern }: { pattern: RadioGroupPattern }) => {
         })}
         <button
           className="usa-button usa-button--outline"
+          type="button"
           onClick={event => {
             event.preventDefault();
             const optionId = `${options.length + 1}`;
