@@ -17,44 +17,35 @@ import {
 import { stringToBase64 } from '../util';
 import type { DocumentFieldValue, DocumentFieldMap } from '../types';
 
+// TODO: copied from pdf-lib acrofield object, check if it's already exposed outside of acroform somewhere
+export const getWidgets = async (pdfDoc: PDFDocument): Promise<PDFDict[]> => {
+  return pdfDoc.context
+    .enumerateIndirectObjects()
+    .map(([, obj]) => obj)
+    .filter(
+      obj =>
+        obj instanceof PDFDict &&
+        obj.get(PDFName.of('Type')) === PDFName.of('Annot') &&
+        obj.get(PDFName.of('Subtype')) === PDFName.of('Widget')
+    )
+    .map(obj => obj as PDFDict);
+};
+
 export const getDocumentFieldData = async (
   pdfBytes: Uint8Array
 ): Promise<DocumentFieldMap> => {
   const pdfDoc = await PDFDocument.load(pdfBytes);
-
-  // TODO: this is ripped from pdf-lib internals, check if it's exposed
-  const getWidgets = (pdfDoc: PDFDocument) =>
-    pdfDoc.context
-      .enumerateIndirectObjects()
-      .map(([, obj]) => obj)
-      .filter(
-        obj =>
-          obj instanceof PDFDict &&
-          obj.get(PDFName.of('Type')) === PDFName.of('Annot') &&
-          obj.get(PDFName.of('Subtype')) === PDFName.of('Widget')
-      )
-      .map(obj => obj as PDFDict);
-
-  const newFields = [];
-  for (const widget of getWidgets(pdfDoc)) {
-    // TODO: verify this includes all Kids
-    const widgetDictRef = pdfDoc.context.getObjectRef(widget);
-    newFields.push(widgetDictRef);
-  }
+  const widgets = await getWidgets(pdfDoc);
 
   pdfDoc.catalog.set(
     PDFName.of('AcroForm'),
     pdfDoc.context.obj({
-      Fields: newFields,
+      Fields: widgets.map(widget => pdfDoc.context.getObjectRef(widget)),
     })
   );
 
   const form = pdfDoc.getForm();
   const fields = form.getFields();
-
-  for (const field of fields) {
-    console.log(`Name: ${field.getName()}:`, field);
-  }
 
   return Object.fromEntries(
     fields.map(field => {
