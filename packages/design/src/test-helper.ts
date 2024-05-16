@@ -1,7 +1,6 @@
 import { ReactElement } from 'react';
 import { describe, test } from 'vitest';
-import { type ReactRenderer, composeStories, Meta } from '@storybook/react';
-import { ComponentAnnotations, type Store_CSFExports } from '@storybook/types';
+import { composeStories } from '@storybook/react';
 import { render } from '@testing-library/react';
 
 type Story = {
