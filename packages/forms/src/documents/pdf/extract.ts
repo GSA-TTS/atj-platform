@@ -22,35 +22,35 @@ export const getDocumentFieldData = async (
 ): Promise<DocumentFieldMap> => {
   var pdfDoc = await PDFDocument.load(pdfBytes);
 
-  // These are *all* possible PDF annotation types
-  const annotationSubtypes = [
-    // PDFName.of('Text'),
-    // PDFName.of('Link'),
-    // PDFName.of('FreeText'),
-    // PDFName.of('Line'),
-    // PDFName.of('Square'),
-    // PDFName.of('Circle'),
-    // PDFName.of('Polygon'),
-    // PDFName.of('PolyLine'),
-    // PDFName.of('Highlight'),
-    // PDFName.of('Underline'),
-    // PDFName.of('Squiggly'),
-    // PDFName.of('StrikeOut'),
-    // PDFName.of('Stamp'),
-    // PDFName.of('Caret'),
-    // PDFName.of('Ink'),
-    // PDFName.of('Popup'),
-    // PDFName.of('FileAttachment'),
-    // PDFName.of('Sound'),
-    // PDFName.of('Movie'),
-    PDFName.of('Widget'),
-    // PDFName.of('Screen'),
-    // PDFName.of('PrinterMark'),
-    // PDFName.of('TrapNet'),
-    // PDFName.of('Watermark'),
-    // PDFName.of('3D'),
-    // PDFName.of('Redact'),
-  ];
+  // TODO: These are *all* possible PDF annotation types, should store somewhere
+  // const annotationSubtypes = [
+  //   PDFName.of('Text'),
+  //   PDFName.of('Link'),
+  //   PDFName.of('FreeText'),
+  //   PDFName.of('Line'),
+  //   PDFName.of('Square'),
+  //   PDFName.of('Circle'),
+  //   PDFName.of('Polygon'),
+  //   PDFName.of('PolyLine'),
+  //   PDFName.of('Highlight'),
+  //   PDFName.of('Underline'),
+  //   PDFName.of('Squiggly'),
+  //   PDFName.of('StrikeOut'),
+  //   PDFName.of('Stamp'),
+  //   PDFName.of('Caret'),
+  //   PDFName.of('Ink'),
+  //   PDFName.of('Popup'),
+  //   PDFName.of('FileAttachment'),
+  //   PDFName.of('Sound'),
+  //   PDFName.of('Movie'),
+  //   PDFName.of('Widget'),
+  //   PDFName.of('Screen'),
+  //   PDFName.of('PrinterMark'),
+  //   PDFName.of('TrapNet'),
+  //   PDFName.of('Watermark'),
+  //   PDFName.of('3D'),
+  //   PDFName.of('Redact'),
+  // ];
 
   const getWidgets = (pdfDoc: PDFDocument) =>
     pdfDoc.context
@@ -66,18 +66,17 @@ export const getDocumentFieldData = async (
 
   const newFields = [];
   for (const widget of getWidgets(pdfDoc)) {
-    const field = widget.get(PDFName.of('T'));
-    const value = widget.get(PDFName.of('V'));
+    // const field = widget.get(PDFName.of('T'));
+    // const value = widget.get(PDFName.of('V'));
     const widgetDictRef = pdfDoc.context.getObjectRef(widget);
-    console.log('FIELD:', field, 'VALUE:', value, 'REF:', widgetDictRef);
-    console.log(widget);
+    // console.log('FIELD:', field, 'VALUE:', value, 'REF:', widgetDictRef);
+    // console.log(widget);
     newFields.push(widgetDictRef);
   }
 
   pdfDoc.catalog.set(
     PDFName.of('AcroForm'),
     pdfDoc.context.obj({
-      // SigFlags: 3,
       Fields: newFields,
     })
   );
@@ -85,42 +84,11 @@ export const getDocumentFieldData = async (
   const modifiedPdfBytes = await pdfDoc.save({ useObjectStreams: false });
   pdfDoc = await PDFDocument.load(modifiedPdfBytes);
 
-  const pages = pdfDoc.getPages();
   const form = pdfDoc.getForm();
   const fields = form.getFields();
 
-  // const page1AnnotsRaw = pages[0].node.lookupMaybe(
-  //   PDFName.of('Annots'),
-  //   PDFArray
-  // );
-  // const page1Annots = page1AnnotsRaw ? page1AnnotsRaw.asArray() : [];
-
-  // const page2AnnotsRaw = pages[1].node.lookupMaybe(
-  //   PDFName.of('Annots'),
-  //   PDFArray
-  // );
-  // const page2Annots = page2AnnotsRaw ? page2AnnotsRaw.asArray() : [];
-
-  // console.log('PAGE_1_ANNOTS:', page1Annots.map(String));
-  // console.log('PAGE_2_ANNOTS:', page2Annots.map(String));
-
-  // fields.forEach(field => {
-  //   if (page1Annots.includes(field.ref)) {
-  //     console.log(`${field.getName()} belongs to page 1`);
-  //   }
-  //   if (page2Annots.includes(field.ref)) {
-  //     console.log(`${field.getName()} belongs to page 2`);
-  //   }
-  // });
-
   for (const field of fields) {
     console.log(`Name: ${field.getName()}:`, field);
-    // const kids = pdfLib
-    //   .createPDFAcroFields(field.acroField.Kids())
-    //   .map(_ => _[0]);
-    // kids.forEach(kid => {
-    //   console.log(`kid:`, kid);
-    // });
   }
 
   return Object.fromEntries(
