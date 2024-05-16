@@ -22,36 +22,7 @@ export const getDocumentFieldData = async (
 ): Promise<DocumentFieldMap> => {
   const pdfDoc = await PDFDocument.load(pdfBytes);
 
-  // TODO: These are *all* possible PDF annotation types, should store somewhere
-  // const annotationSubtypes = [
-  //   PDFName.of('Text'),
-  //   PDFName.of('Link'),
-  //   PDFName.of('FreeText'),
-  //   PDFName.of('Line'),
-  //   PDFName.of('Square'),
-  //   PDFName.of('Circle'),
-  //   PDFName.of('Polygon'),
-  //   PDFName.of('PolyLine'),
-  //   PDFName.of('Highlight'),
-  //   PDFName.of('Underline'),
-  //   PDFName.of('Squiggly'),
-  //   PDFName.of('StrikeOut'),
-  //   PDFName.of('Stamp'),
-  //   PDFName.of('Caret'),
-  //   PDFName.of('Ink'),
-  //   PDFName.of('Popup'),
-  //   PDFName.of('FileAttachment'),
-  //   PDFName.of('Sound'),
-  //   PDFName.of('Movie'),
-  //   PDFName.of('Widget'),
-  //   PDFName.of('Screen'),
-  //   PDFName.of('PrinterMark'),
-  //   PDFName.of('TrapNet'),
-  //   PDFName.of('Watermark'),
-  //   PDFName.of('3D'),
-  //   PDFName.of('Redact'),
-  // ];
-
+  // TODO: this is ripped from pdf-lib internals, check if it's exposed
   const getWidgets = (pdfDoc: PDFDocument) =>
     pdfDoc.context
       .enumerateIndirectObjects()
@@ -66,11 +37,8 @@ export const getDocumentFieldData = async (
 
   const newFields = [];
   for (const widget of getWidgets(pdfDoc)) {
-    // const field = widget.get(PDFName.of('T'));
-    // const value = widget.get(PDFName.of('V'));
+    // TODO: verify this includes all Kids
     const widgetDictRef = pdfDoc.context.getObjectRef(widget);
-    // console.log('FIELD:', field, 'VALUE:', value, 'REF:', widgetDictRef);
-    // console.log(widget);
     newFields.push(widgetDictRef);
   }
 
