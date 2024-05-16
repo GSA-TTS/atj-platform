@@ -49,6 +49,9 @@ export const PatternEditForm = ({
         <div className="border-1 radius-md border-primary-light padding-1">
           {editComponent}
         </div>
+        <button type="submit" className="display-none">
+          Save
+        </button>
       </form>
     </FormProvider>
   );
