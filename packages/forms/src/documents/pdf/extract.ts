@@ -13,7 +13,7 @@ import {
 import { stringToBase64 } from '../util';
 import type { DocumentFieldValue, DocumentFieldMap } from '../types';
 
-// TODO: copied from pdf-lib acrofield object, check if it's already exposed outside of acroform somewhere
+// TODO: copied from pdf-lib acrofield internals, check if it's already exposed outside of acroform somewhere
 export const getWidgets = async (pdfDoc: PDFDocument): Promise<PDFDict[]> => {
   return pdfDoc.context
     .enumerateIndirectObjects()
@@ -36,7 +36,7 @@ export const getDocumentFieldData = async (
   pdfDoc.catalog.set(
     PDFName.of('AcroForm'),
     pdfDoc.context.obj({
-      Fields: widgets.map(widget => pdfDoc.context.getObjectRef(widget)),
+      Fields: widgets.map(widget => pdfDoc.context.getObjectRef(widget)), // array of widget refs
     })
   );
 
