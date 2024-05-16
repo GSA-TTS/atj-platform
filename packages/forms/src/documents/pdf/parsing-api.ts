@@ -6,6 +6,8 @@ import { type FieldsetPattern } from '../../patterns/fieldset';
 import { type InputPattern } from '../../patterns/input';
 import { type ParagraphPattern } from '../../patterns/paragraph';
 import { type SequencePattern } from '../../patterns/sequence';
+import { type CheckboxPattern } from '../../patterns/checkbox';
+import { type RadioGroupPattern } from '../../patterns/radio-group';
 
 import { stringToBase64, uint8ArrayToBase64 } from '../util';
 import { type DocumentFieldMap } from '../types';
@@ -92,6 +94,7 @@ const RadioGroupOption = z.object({
 });
 
 const RadioGroup = z.object({
+  id: z.string(),
   component_type: z.literal('radio_group'),
   legend: z.string(),
   options: RadioGroupOption.array(),
@@ -174,16 +177,45 @@ export const callExternalParser = async (
       continue;
     }
 
-    // Add fieldset elements to parsedPdf.patterns directly and to fieldsetPatterns
-    // TODO: Aren't we adding to parsedPdf.patterns twice?
+    if (element.component_type === 'checkbox') {
+      parsedPdf.patterns[element.id] = {
+        type: 'checkbox',
+        id: element.id,
+        data: {
+          label: element.label,
+          defaultChecked: element.default_checked,
+        },
+      } satisfies CheckboxPattern;
+      rootSequence.push(element.id);
+      continue;
+    }
+
+    if (element.component_type === 'radio_group') {
+      parsedPdf.patterns[element.id] = {
+        type: 'radio-group',
+        id: element.id,
+        data: {
+          label: element.legend,
+          options: element.options.map(option => ({
+            id: option.id,
+            label: option.label,
+            name: option.name,
+            defaultChecked: option.default_checked,
+          })),
+        },
+      } satisfies RadioGroupPattern;
+      rootSequence.push(element.id);
+      continue;
+    }
+
     if (element.component_type === 'fieldset') {
       for (const input of element.fields) {
         if (input.component_type === 'text_input') {
-          const id = stringToBase64(input.id);
+          // const id = stringToBase64(input.id);
 
-          parsedPdf.patterns[id] = {
+          parsedPdf.patterns[input.id] = {
             type: 'input',
-            id,
+            id: input.id,
             data: {
               label: input.label,
               required: false,
@@ -192,9 +224,9 @@ export const callExternalParser = async (
             },
           } satisfies InputPattern;
 
-          fieldsetPatterns.push(id);
+          fieldsetPatterns.push(input.id);
 
-          parsedPdf.outputs[id] = {
+          parsedPdf.outputs[input.id] = {
             type: 'TextField',
             name: input.id,
             label: input.label,
