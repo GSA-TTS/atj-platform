@@ -44,7 +44,7 @@ export const Error: StoryObj<typeof FormEdit> = {
     input.blur();
 
     await expect(
-      await canvas.findByText(message.patterns.input.fieldRequired)
+      await canvas.findByText(message.patterns.input.fieldLabelRequired)
     ).toBeInTheDocument();
   },
 };
