@@ -7,12 +7,13 @@ import { type CheckboxPattern } from '@atj/forms/src/patterns/checkbox';
 import CheckboxPatternEdit from './CheckboxPatternEdit';
 import { createPatternEditStoryMeta } from './common/story-helper';
 import FormEdit from '..';
+import { en as message } from '@atj/common/src/locales/en/app';
 
 const pattern: CheckboxPattern = {
   id: '1',
   type: 'checkbox',
   data: {
-    label: 'Checkbox pattern',
+    label: message.patterns.checkbox.displayName,
     defaultChecked: false,
   },
 };
@@ -24,28 +25,6 @@ export default {
   }),
 } as Meta<typeof FormEdit>;
 
-const enterEvent = new KeyboardEvent('keydown', {
-  key: 'Enter',
-});
-
-const addFormSubmitListener = (form: HTMLFormElement) => {
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-  });
-};
-
-const addInputEnterListener = (
-  input: HTMLElement,
-  form: HTMLFormElement | null
-) => {
-  input.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && form) {
-      e.preventDefault();
-      form.requestSubmit();
-    }
-  });
-};
-
 export const Basic: StoryObj<typeof CheckboxPatternEdit> = {
   play: async ({ canvasElement }) => {
     userEvent.setup();
@@ -54,27 +33,27 @@ export const Basic: StoryObj<typeof CheckboxPatternEdit> = {
     const updatedLabel = 'Updated checkbox pattern';
 
     // Give focus to the field matching `currentLabel`
-    await userEvent.click(await canvas.findByLabelText('Checkbox pattern'));
-    const input = canvas.getByLabelText('Field label');
+    await userEvent.click(
+      await canvas.findByLabelText(message.patterns.checkbox.displayName)
+    );
+    const input = canvas.getByLabelText(message.patterns.checkbox.fieldLabel);
 
     // Enter new text for first field
     await userEvent.clear(input);
     await userEvent.type(input, updatedLabel);
-    if (input) {
-      const form = input.closest('form');
-      if (form) {
-        addFormSubmitListener(form);
-      }
-      addInputEnterListener(input, form);
-      input.dispatchEvent(enterEvent);
-    }
+
+    const form = input?.closest('form');
+    /**
+     * The <enter> key behavior outside of Storybook submits the form, which commits the pending edit.
+     * Here, we want to simulate the <enter> keypress in the story since Storybook manipulates
+     * the default behavior and eats the enter key if it's in the `userEvent.type` function arg.
+     */
+    form?.requestSubmit();
 
     await expect(await canvas.findByText(updatedLabel)).toBeInTheDocument();
   },
 };
 
-const mustContainCharacterErrorText =
-  'String must contain at least 1 character(s)';
 export const Error: StoryObj<typeof CheckboxPatternEdit> = {
   play: async ({ canvasElement }) => {
     userEvent.setup();
@@ -82,15 +61,19 @@ export const Error: StoryObj<typeof CheckboxPatternEdit> = {
     const canvas = within(canvasElement);
 
     // Give focus to the field matching `currentLabel`
-    await userEvent.click(await canvas.findByLabelText('Checkbox pattern'));
+    await userEvent.click(
+      await canvas.findByLabelText(message.patterns.checkbox.displayName)
+    );
 
     // Enter new text for first field
-    const input = canvas.getByLabelText('Field label');
+    const input = canvas.getByLabelText(message.patterns.checkbox.fieldLabel);
     await userEvent.clear(input);
     input.blur();
 
     await expect(
-      await canvas.findByText(mustContainCharacterErrorText)
+      await canvas.findByText(
+        message.patterns.checkbox.errorTextMustContainChar
+      )
     ).toBeInTheDocument();
   },
 };

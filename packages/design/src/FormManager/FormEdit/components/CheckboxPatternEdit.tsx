@@ -10,6 +10,7 @@ import { PatternEditComponent } from '../types';
 import { PatternEditActions } from './common/PatternEditActions';
 import { PatternEditForm } from './common/PatternEditForm';
 import { usePatternEditFormContext } from './common/hooks';
+import { en as message } from '@atj/common/src/locales/en/app';
 
 const CheckboxPatternEdit: PatternEditComponent<CheckboxProps> = ({
   focus,
@@ -44,7 +45,7 @@ const CheckboxEditComponent = ({ pattern }: { pattern: CheckboxPattern }) => {
           })}
           htmlFor={fieldId('label')}
         >
-          Field label
+          {message.patterns.checkbox.fieldLabel}
         </label>
         {label.error ? (
           <span className="usa-error-message" role="alert">
@@ -71,7 +72,7 @@ const CheckboxEditComponent = ({ pattern }: { pattern: CheckboxPattern }) => {
             className="usa-checkbox__label"
             htmlFor={fieldId('defaultChecked')}
           >
-            Default field value
+            {message.patterns.checkbox.defaultFieldValue}
           </label>
         </div>
       </div>
