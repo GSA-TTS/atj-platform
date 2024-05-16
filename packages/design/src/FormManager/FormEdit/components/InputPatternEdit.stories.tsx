@@ -25,7 +25,31 @@ export default {
   }),
 } as Meta<typeof FormEdit>;
 
-export const Basic: StoryObj<typeof FormEdit> = {};
+export const Basic: StoryObj<typeof FormEdit> = {
+  play: async ({ canvasElement }) => {
+    userEvent.setup();
+
+    const canvas = within(canvasElement);
+    const updatedLabel = 'Updated input pattern';
+
+    await userEvent.click(
+      await canvas.findByLabelText(message.patterns.input.displayName)
+    );
+    const input = canvas.getByLabelText(message.patterns.input.fieldLabel);
+
+    // Enter new text for first field
+    await userEvent.clear(input);
+    await userEvent.type(input, updatedLabel);
+
+    const form = input?.closest('form');
+    /**
+     * The <enter> key behavior outside of Storybook submits the form, which commits the pending edit.
+     * Here, we want to simulate the <enter> keypress in the story since Storybook manipulates
+     * the default behavior and eats the enter key if it's in the `userEvent.type` function arg.
+     */
+    form?.requestSubmit();
+  },
+};
 
 export const Error: StoryObj<typeof FormEdit> = {
   play: async ({ canvasElement }) => {
