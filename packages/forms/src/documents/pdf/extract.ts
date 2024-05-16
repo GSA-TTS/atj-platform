@@ -1,17 +1,13 @@
 import {
   PDFDocument,
   PDFName,
-  PDFWidgetAnnotation,
-  PDFArray,
   PDFDict,
-  PDFString,
   PDFTextField,
   PDFField,
   PDFCheckBox,
   PDFDropdown,
   PDFOptionList,
   PDFRadioGroup,
-  PDFObject,
 } from 'pdf-lib';
 
 import { stringToBase64 } from '../util';
