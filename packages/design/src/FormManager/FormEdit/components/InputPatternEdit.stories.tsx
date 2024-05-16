@@ -48,6 +48,8 @@ export const Basic: StoryObj<typeof FormEdit> = {
      * the default behavior and eats the enter key if it's in the `userEvent.type` function arg.
      */
     form?.requestSubmit();
+
+    await expect(await canvas.findByText(updatedLabel)).toBeInTheDocument();
   },
 };
 
