@@ -127,7 +127,7 @@ export type ParsedPdf = {
 
 export const callExternalParser = async (
   rawData: Uint8Array,
-  endpointUrl: string = 'http://localhost:5000/api/v1/parse' // 'https://10x-atj-doc-automation-staging.app.cloud.gov/api/v1/parse'
+  endpointUrl: string = 'https://10x-atj-doc-automation-staging.app.cloud.gov/api/v1/parse'
 ): Promise<ParsedPdf> => {
   const base64 = await uint8ArrayToBase64(rawData);
 
