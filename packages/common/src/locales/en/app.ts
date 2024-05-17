@@ -11,7 +11,6 @@ export const en = {
       ...defaults,
       displayName: 'Text input',
       maxLength: 'Maximum length',
-      requiredLabel: 'Required',
     },
     checkbox: {
       ...defaults,
@@ -21,6 +20,12 @@ export const en = {
     paragraph: {
       fieldLabel: 'Paragraph text',
       displayName: 'Lorem ipsum...',
+      errorTextMustContainChar: 'String must contain at least 1 character(s)',
+    },
+    radioGroup: {
+      ...defaults,
+      displayName: 'Radio group label',
+      fieldLabel: 'Radio group label',
       errorTextMustContainChar: 'String must contain at least 1 character(s)',
     },
   },
