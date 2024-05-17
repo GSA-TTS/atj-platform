@@ -10,10 +10,7 @@ import {
 } from '@atj/forms';
 import { type FormManagerContext } from '..';
 import { type PatternFocus } from './types';
-import {
-  NotificationSlice,
-  createNotificationsSlice,
-} from '../common/Notifications';
+import { NotificationSlice, createNotificationsSlice } from '../Notifications';
 
 export type FormEditSlice = {
   context: FormManagerContext;
@@ -55,7 +52,7 @@ export const createFormEditSlice =
       const builder = new BlueprintBuilder(state.form);
       const newPattern = builder.addPattern(state.context.config, patternType);
       set({ form: builder.form, focus: { pattern: newPattern } });
-      state.addNotification('info', 'Pattern added.');
+      state.addNotification('success', 'Element added successfully.');
     },
     deleteSelectedPattern: () => {
       const state = get();
@@ -65,7 +62,7 @@ export const createFormEditSlice =
       const builder = new BlueprintBuilder(state.form);
       builder.removePattern(state.context.config, state.focus.pattern.id);
       set({ focus: undefined, form: builder.form });
-      state.addNotification('warning', 'Pattern deleted.');
+      state.addNotification('success', 'Element removed successfully.');
     },
     setFocus: function (patternId) {
       const state = get();
