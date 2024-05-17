@@ -3,7 +3,7 @@ import * as z from 'zod';
 import { type Pattern, type PatternConfig, validatePattern } from '../pattern';
 import { type CheckboxProps } from '../components';
 import { getFormSessionValue } from '../session';
-import { safeZodParse } from '../util/zod';
+import { safeZodParseFormErrors, safeZodParseToFormError } from '../util/zod';
 
 const configSchema = z.object({
   label: z.string().min(1),
@@ -21,10 +21,10 @@ export const checkboxConfig: PatternConfig<CheckboxPattern, PatternOutput> = {
     defaultChecked: false,
   },
   parseUserInput: (_, obj) => {
-    return safeZodParse(PatternOutput, obj);
+    return safeZodParseToFormError(PatternOutput, obj);
   },
   parseConfigData: obj => {
-    return safeZodParse(configSchema, obj);
+    return safeZodParseFormErrors(configSchema, obj);
   },
   getChildren() {
     return [];

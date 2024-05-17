@@ -2,7 +2,7 @@ import * as z from 'zod';
 
 import { type Pattern, type PatternConfig } from '../pattern';
 import { type FormSummaryProps } from '../components';
-import { safeZodParse } from '../util/zod';
+import { safeZodParseFormErrors } from '../util/zod';
 
 const configSchema = z.object({
   title: z.string().max(128),
@@ -16,7 +16,7 @@ export const formSummaryConfig: PatternConfig<FormSummary> = {
     title: 'Form title',
     description: 'Form extended description',
   },
-  parseConfigData: obj => safeZodParse(configSchema, obj),
+  parseConfigData: obj => safeZodParseFormErrors(configSchema, obj),
   getChildren() {
     return [];
   },

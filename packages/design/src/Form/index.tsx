@@ -77,6 +77,7 @@ export default function Form({
     context.config,
     session
   );
+  console.log('prompt', prompt);
 
   // So the preview view can update the session, regen the prompt.
   // This feels smelly.

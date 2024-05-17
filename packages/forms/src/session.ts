@@ -4,6 +4,7 @@ import {
   type Pattern,
   getPatternConfig,
   validatePattern,
+  FormError,
 } from '.';
 import { SequencePattern } from './patterns/sequence';
 import {
@@ -12,11 +13,11 @@ import {
   type PatternValueMap,
 } from './pattern';
 
-type ErrorMap = Record<PatternId, string>;
+export type FormErrorMap = Record<PatternId, FormError>;
 
 export type FormSession = {
   data: {
-    errors: ErrorMap;
+    errors: FormErrorMap;
     values: PatternValueMap;
   };
   form: Blueprint;
@@ -86,7 +87,10 @@ export const updateSessionValue = (
   const pattern = session.form.patterns[id];
   if (pattern.type === 'input') {
     if (pattern && !value) {
-      return addError(nextSession, id, 'Required value not provided.');
+      return addError(nextSession, id, {
+        type: 'required',
+        message: 'Required value not provided.',
+      });
     }
   }
   return nextSession;
@@ -95,7 +99,7 @@ export const updateSessionValue = (
 export const updateSession = (
   session: FormSession,
   values: PatternValueMap,
-  errors: ErrorMap
+  errors: FormErrorMap
 ): FormSession => {
   const keysValid =
     Object.keys(values).every(
@@ -147,7 +151,7 @@ const addValue = <T extends Pattern = Pattern>(
 const addError = (
   session: FormSession,
   id: PatternId,
-  error: string
+  error: FormError
 ): FormSession => ({
   ...session,
   data: {

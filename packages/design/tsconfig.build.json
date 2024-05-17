@@ -8,5 +8,6 @@
     "module": "esnext"
   },
   "include": ["./src"],
+  "exclude": ["./src/**/*.stories.*", "**/*.test.*"],
   "references": []
 }

@@ -22,7 +22,7 @@ const generatePDF = async () => {
   downloadPdfBytes(pdfBytes);
 };
 
-const previewPDF = async setPreviewPdfUrl => {
+const previewPDF = async (setPreviewPdfUrl: (url: string) => void) => {
   const timestamp = new Date().toISOString();
   const pdfBytes = await generateDummyPDF({ timestamp });
   const pdfBlob = new Blob([pdfBytes], { type: 'application/pdf' });
@@ -30,7 +30,7 @@ const previewPDF = async setPreviewPdfUrl => {
 };
 
 export const DocumentAssembler = () => {
-  const [previewPdfUrl, setPreviewPdfUrl] = useState<URL>();
+  const [previewPdfUrl, setPreviewPdfUrl] = useState<string>();
   return (
     <div>
       <button className="usa-button" onClick={generatePDF}>
@@ -44,7 +44,7 @@ export const DocumentAssembler = () => {
       </button>
       <div>
         {previewPdfUrl ? (
-          <embed src={previewPdfUrl.toString()} width={500} height={600} />
+          <embed src={previewPdfUrl} width={500} height={600} />
         ) : null}
       </div>
     </div>

@@ -110,24 +110,7 @@ const EditComponent = ({ pattern }: { pattern: RadioGroupPattern }) => {
         </button>
       </div>
       <div className="grid-col-12">
-        <PatternEditActions>
-          <span className="usa-checkbox">
-            <input
-              style={{ display: 'inline-block' }}
-              className="usa-checkbox__input"
-              type="checkbox"
-              id={fieldId('required')}
-              {...register('required')}
-            />
-            <label
-              style={{ display: 'inline-block' }}
-              className="usa-checkbox__label"
-              htmlFor={fieldId('required')}
-            >
-              Required
-            </label>
-          </span>
-        </PatternEditActions>
+        <PatternEditActions />
       </div>
     </div>
   );

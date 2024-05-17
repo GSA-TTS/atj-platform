@@ -10,7 +10,7 @@ import {
 } from '../../test-form';
 import { FormManagerProvider } from '../store';
 
-export default {
+const meta: Meta<typeof FormPreview> = {
   title: 'FormManager/FormPreview',
   component: FormPreview,
   decorators: [
@@ -30,6 +30,8 @@ export default {
     form: createTwoPatternTestForm(),
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof FormPreview>;
+};
+
+export default meta;
 
 export const FormViewTest = {} satisfies StoryObj<typeof FormPreview>;

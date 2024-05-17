@@ -1,31 +1,51 @@
 import * as z from 'zod';
 
-import { type Result } from '@atj/common';
+import * as r from '@atj/common';
 
-import { type FormErrors, type Pattern } from '..';
+import { FormError, FormErrorMap, type FormErrors, type Pattern } from '..';
 
 export const safeZodParse = <T extends Pattern>(
   schema: z.Schema,
   obj: unknown
-): Result<T['data'], FormErrors> => {
+): r.Result<T['data'], z.ZodError> => {
   const result = schema.safeParse(obj);
   if (result.success) {
-    return {
-      success: true,
-      data: result.data,
-    };
+    return r.success(result.data);
   } else {
-    return {
-      success: false,
-      error: convertZodErrorToFormErrors(result.error),
-    };
+    return r.failure(result.error);
+  }
+};
+
+export const safeZodParseToFormError = <T extends Pattern>(
+  schema: z.Schema,
+  obj: unknown
+): r.Result<T['data'], FormError> => {
+  const result = schema.safeParse(obj);
+  if (result.success) {
+    return r.success(result.data);
+  } else {
+    const error = convertZodErrorToFormError(result.error);
+    return r.failure(error);
+  }
+};
+
+export const safeZodParseFormErrors = <T extends Pattern>(
+  schema: z.Schema,
+  obj: unknown
+): r.Result<T['data'], FormErrors> => {
+  const result = safeZodParse(schema, obj);
+  if (result.success) {
+    return r.success(result.data);
+  } else {
+    const formErrors = convertZodErrorToFormErrors(result.error);
+    return r.failure(formErrors);
   }
 };
 
 const convertZodErrorToFormErrors = (zodError: z.ZodError): FormErrors => {
   const formErrors: FormErrors = {};
   zodError.errors.forEach(error => {
-    const path = error.path.join('.') || 'root';
+    const path = error.path.join('.');
     if (error.code === 'too_small' && error.minimum === 1) {
       formErrors[path] = {
         type: 'required',
@@ -39,4 +59,11 @@ const convertZodErrorToFormErrors = (zodError: z.ZodError): FormErrors => {
     }
   });
   return formErrors;
+};
+
+const convertZodErrorToFormError = (zodError: z.ZodError): FormError => {
+  return {
+    type: 'custom',
+    message: zodError.errors.map(error => error.message).join(', '),
+  };
 };
