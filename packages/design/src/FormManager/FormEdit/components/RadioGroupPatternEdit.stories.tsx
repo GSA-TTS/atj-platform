@@ -10,7 +10,7 @@ import { expect, userEvent } from '@storybook/test';
 import { within } from '@testing-library/react';
 
 const pattern: RadioGroupPattern = {
-  id: '1',
+  id: 'radio-group-1',
   type: 'radioGroup',
   data: {
     label: message.patterns.radioGroup.displayName,
@@ -30,7 +30,42 @@ export default {
 } as Meta<typeof FormEdit>;
 
 export const Basic: StoryObj<typeof FormEdit> = {
-  play: async ({ canvasElement }) => {},
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const updatedLabel = 'Radio group update';
+
+    await userEvent.click(
+      canvas.getByText(message.patterns.radioGroup.displayName)
+    );
+    const input = canvas.getByLabelText(message.patterns.radioGroup.fieldLabel);
+    const optionId = canvas.getByLabelText('Option 1 id');
+    const optionLabel = canvas.getByLabelText('Option 1 label');
+
+    // Enter new text for the field
+    await userEvent.clear(input);
+    await userEvent.type(input, updatedLabel);
+    await userEvent.clear(optionId);
+    await userEvent.type(optionId, 'yes');
+    await userEvent.clear(optionLabel);
+    await userEvent.type(optionLabel, 'Yes');
+
+    const form = input?.closest('form');
+    /**
+     * The <enter> key behavior outside of Storybook submits the form, which commits the pending edit.
+     * Here, we want to simulate the <enter> keypress in the story since Storybook manipulates
+     * the default behavior and does not register the enter key if it's in the `userEvent.type` function arg.
+     */
+    form?.requestSubmit();
+
+    // const radioInput = optionLabel.closest('input');
+    // console.log((radioInput as HTMLElement).id);
+
+    await expect(await canvas.findByText(updatedLabel)).toBeInTheDocument();
+    await expect(await canvas.findByText('Yes')).toBeInTheDocument();
+    // await expect(
+    //   (radioInput as HTMLElement).id.indexOf('radio-group-1')
+    // ).toEqual(0);
+  },
 };
 
 export const Error: StoryObj<typeof CheckboxPatternEdit> = {
@@ -44,8 +79,8 @@ export const Error: StoryObj<typeof CheckboxPatternEdit> = {
     );
 
     const input = canvas.getByLabelText(message.patterns.radioGroup.fieldLabel);
-    const optionVal = canvas.getByLabelText('Option 1 id');
-    const optionText = canvas.getByLabelText('Option 1 label');
+    const optionId = canvas.getByLabelText('Option 1 id');
+    const optionLabel = canvas.getByLabelText('Option 1 label');
 
     // Clear input, remove focus, and wait for error
     await userEvent.clear(input);
@@ -63,15 +98,15 @@ export const Error: StoryObj<typeof CheckboxPatternEdit> = {
     */
     await userEvent.type(input, message.patterns.radioGroup.fieldLabel);
 
-    await userEvent.clear(optionVal);
-    optionVal.blur();
+    await userEvent.clear(optionId);
+    optionId.blur();
 
     await expect(
       await canvas.findByText('Invalid option ID')
     ).toBeInTheDocument();
 
-    await userEvent.clear(optionText);
-    optionText.blur();
+    await userEvent.clear(optionLabel);
+    optionLabel.blur();
 
     await expect(
       await canvas.findByText(
