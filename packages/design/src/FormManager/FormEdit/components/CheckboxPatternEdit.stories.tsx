@@ -1,6 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { expect, userEvent } from '@storybook/test';
-import { within } from '@testing-library/react';
 
 import { type CheckboxPattern } from '@atj/forms/src/patterns/checkbox';
 
