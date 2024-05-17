@@ -8,7 +8,7 @@ import FormList from '.';
 import { createTestForm, createTestFormManagerContext } from '../../test-form';
 import { FormManagerProvider } from '../store';
 
-export default {
+const meta: Meta<typeof FormList> = {
   title: 'FormManager/FormList',
   component: FormList,
   decorators: [
@@ -29,6 +29,7 @@ export default {
     }),
   },
   tags: ['autodocs'],
-} as Meta<typeof FormList>;
+};
 
+export default meta;
 export const FormListFilled = {} satisfies StoryObj<typeof FormList>;

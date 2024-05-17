@@ -7,7 +7,7 @@ import { createTestFormService } from '@atj/form-service';
 import FormDelete from '.';
 import { createTestForm } from '../../test-form';
 
-export default {
+const meta: Meta<typeof FormDelete> = {
   title: 'FormManager/FormDelete',
   component: FormDelete,
   decorators: [
@@ -24,6 +24,7 @@ export default {
     }),
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof FormDelete>;
+};
 
+export default meta;
 export const FormDeleteTest = {} satisfies StoryObj<typeof FormDelete>;

@@ -5,7 +5,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import DocumentImporter from '.';
 import { createTestForm } from '../../../test-form';
 
-export default {
+const meta: Meta<typeof DocumentImporter> = {
   title: 'FormManager/DocumentImporter',
   component: DocumentImporter,
   decorators: [
@@ -20,6 +20,7 @@ export default {
     form: createTestForm(),
   },
   tags: ['autodocs'],
-} as Meta<typeof DocumentImporter>;
+};
 
+export default meta;
 export const TestForm = {} satisfies StoryObj<typeof DocumentImporter>;

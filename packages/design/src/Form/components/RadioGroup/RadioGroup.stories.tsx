@@ -1,15 +1,16 @@
-import { Meta, Story } from '@storybook/react';
+import { Meta, StoryFn } from '@storybook/react';
 
 import RadioGroup, { RadioInput } from './RadioGroup';
 import React from 'react';
 
-export default {
+const meta: Meta = {
   title: 'Components/RadioGroup',
   component: RadioGroup,
   tags: ['autodocs'],
-} as Meta;
+};
+export default meta;
 
-const Template: Story = () => (
+export const Default: StoryFn = () => (
   <RadioGroup legend="Select an item">
     <RadioInput
       id="option-1"
@@ -31,6 +32,3 @@ const Template: Story = () => (
     />
   </RadioGroup>
 );
-
-export const Default = Template.bind({});
-Default.args = {};

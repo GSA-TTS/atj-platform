@@ -7,7 +7,7 @@
     { "path": "./infra" },
     { "path": "./packages/common" },
     { "path": "./packages/dependency-graph" },
-    { "path": "./packages/design" },
+    { "path": "./packages/design/tsconfig.build.json" },
     { "path": "./packages/form-service" },
     { "path": "./packages/forms" }
   ]
