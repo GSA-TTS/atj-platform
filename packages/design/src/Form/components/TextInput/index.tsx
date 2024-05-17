@@ -29,7 +29,7 @@ const TextInput: PatternComponent<TextInputProps> = props => {
             id={`input-error-message-${props.inputId}`}
             role="alert"
           >
-            {props.error}
+            {props.error.message}
           </span>
         )}
         <input

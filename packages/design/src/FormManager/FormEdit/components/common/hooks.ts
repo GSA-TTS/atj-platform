@@ -2,17 +2,11 @@ import { useFormContext } from 'react-hook-form';
 
 import { type Pattern, type PatternId, type PatternMap } from '@atj/forms';
 
-type NestedKeys<T> = T extends object
-  ? {
-      [K in keyof T]-?: K extends string | number
-        ? T[K] extends Array<infer U>
-          ? U extends object
-            ? `${K & string}` | `${K & string}.${NestedKeys<U>}`
-            : `${K & string}`
-          : `${K & string}` | `${K & string}.${NestedKeys<T[K]>}`
-        : never;
-    }[keyof T]
-  : never;
+type NestedKeys<T extends object> = {
+  [K in keyof T & (string | number)]: T[K] extends object
+    ? `${K}` | `${K}.${NestedKeys<T[K]>}`
+    : `${K}`;
+}[keyof T & (string | number)];
 
 export const usePatternEditFormContext = <T extends Pattern>(
   patternId: PatternId

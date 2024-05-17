@@ -61,6 +61,17 @@ jobs:
         shell: bash
         run: pnpm test
 
+      - name: Initialize Terraform CDK configuration
+        shell: bash
+        run: |
+          cd infra
+          pnpm cdktf get
+          pnpm build:tsc
+
+      - name: Typecheck source code
+        shell: bash
+        run: pnpm typecheck
+
       #- name: Vitest Coverage Report
       #  if: always()
       #  uses: davelosert/vitest-coverage-report-action@v2.2.0

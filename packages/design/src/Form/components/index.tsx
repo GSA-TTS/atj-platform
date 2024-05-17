@@ -1,4 +1,4 @@
-import { type ComponentForPattern } from '..';
+import { PatternComponent, type ComponentForPattern } from '..';
 
 import Address from './Address';
 import Checkbox from './Checkbox';
@@ -11,13 +11,13 @@ import SubmissionConfirmation from './SubmissionConfirmation';
 import TextInput from './TextInput';
 
 export const defaultPatternComponents: ComponentForPattern = {
-  address: Address,
-  checkbox: Checkbox,
-  fieldset: Fieldset,
-  'form-summary': FormSummary,
-  input: TextInput,
-  paragraph: Paragraph,
-  'radio-group': RadioGroup,
-  sequence: Sequence,
-  'submission-confirmation': SubmissionConfirmation,
+  address: Address as PatternComponent,
+  checkbox: Checkbox as PatternComponent,
+  fieldset: Fieldset as PatternComponent,
+  'form-summary': FormSummary as PatternComponent,
+  input: TextInput as PatternComponent,
+  paragraph: Paragraph as PatternComponent,
+  'radio-group': RadioGroup as PatternComponent,
+  sequence: Sequence as PatternComponent,
+  'submission-confirmation': SubmissionConfirmation as PatternComponent,
 };

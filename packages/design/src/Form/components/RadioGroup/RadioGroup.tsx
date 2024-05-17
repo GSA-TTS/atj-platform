@@ -1,6 +1,6 @@
 import React, { type ReactElement } from 'react';
 
-type RadioGroupProps = {
+export type RadioGroupProps = {
   legend: string;
   children: ReactElement<RadioProps> | ReactElement<RadioProps>[];
 };

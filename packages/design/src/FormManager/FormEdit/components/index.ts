@@ -1,4 +1,7 @@
-import { type EditComponentForPattern } from '../types';
+import {
+  type PatternEditComponent,
+  type EditComponentForPattern,
+} from '../types';
 
 import CheckboxPatternEdit from './CheckboxPatternEdit';
 import FieldsetEdit from './FieldsetEdit';
@@ -9,13 +12,13 @@ import RadioGroupPatternEdit from './RadioGroupPatternEdit';
 import SubmissionConfirmationEdit from './SubmissionConfirmationEdit';
 
 export const defaultPatternEditComponents: EditComponentForPattern = {
-  checkbox: CheckboxPatternEdit,
-  paragraph: ParagraphPatternEdit,
-  input: InputPatternEdit,
-  'form-summary': FormSummaryEdit,
-  fieldset: FieldsetEdit,
-  'radio-group': RadioGroupPatternEdit,
-  //sequence: SequencePatternEdit,
-  //sequence: PreviewSequencePattern,
-  'submission-confirmation': SubmissionConfirmationEdit,
+  checkbox: CheckboxPatternEdit as PatternEditComponent,
+  paragraph: ParagraphPatternEdit as PatternEditComponent,
+  input: InputPatternEdit as PatternEditComponent,
+  'form-summary': FormSummaryEdit as PatternEditComponent,
+  fieldset: FieldsetEdit as PatternEditComponent,
+  'radio-group': RadioGroupPatternEdit as PatternEditComponent,
+  //sequence: SequencePatternEdit as PatternEditComponent,
+  //sequence: PreviewSequencePattern as PatternEditComponent,
+  'submission-confirmation': SubmissionConfirmationEdit as PatternEditComponent,
 };

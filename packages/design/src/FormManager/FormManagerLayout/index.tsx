@@ -5,7 +5,7 @@ import { type NavPage, TopNavigation } from './TopNavigation';
 import { BottomNavigation } from './BottomNavigation';
 
 type FormManagerLayoutProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   step?: NavPage;
   back?: string;
   close?: string;

@@ -108,6 +108,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
               type="checkbox"
               id={fieldId('required')}
               {...register('required')}
+              defaultChecked={pattern.data.required}
             />
             <label
               style={{ display: 'inline-block' }}

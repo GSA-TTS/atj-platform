@@ -1,35 +1,14 @@
 {
-  "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "composite": true,
-    "declaration": true,
-    "esModuleInterop": true,
-    "isolatedModules": false,
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "noErrorTruncation": true,
-    "noImplicitAny": true,
-    "strict": true,
-    "target": "ESNext",
-    "resolveJsonModule": true,
-  },
-  "exclude": [
-    "node_modules",
-    "**/*/lib",
-    "**/*/dist"
-  ],
+  "extends": "./tsconfig.base.json",
+  "files": [],
   "references": [
-    {
-      "path": "./packages/common/tsconfig.json"
-    },
-    {
-      "path": "./packages/design/tsconfig.json"
-    },
-    {
-      "path": "./packages/form-service/tsconfig.json"
-    },
-    {
-      "path": "./packages/forms/tsconfig.json"
-    }
+    { "path": "./apps/cli" },
+    { "path": "./apps/rest-api" },
+    { "path": "./infra" },
+    { "path": "./packages/common" },
+    { "path": "./packages/dependency-graph" },
+    { "path": "./packages/design/tsconfig.build.json" },
+    { "path": "./packages/form-service" },
+    { "path": "./packages/forms" }
   ]
 }

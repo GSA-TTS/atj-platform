@@ -13,7 +13,7 @@ const readFileAsync = (file: File) => {
 
 export const onFileInputChangeGetFile =
   (setFile: ({ name, data }: { name: string; data: Uint8Array }) => void) =>
-  (event: ChangeEvent<HTMLInputPattern>) => {
+  (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       const inputFile = event.target.files[0];
       readFileAsync(inputFile).then(data => {

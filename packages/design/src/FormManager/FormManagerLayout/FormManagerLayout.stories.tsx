@@ -7,7 +7,7 @@ import { createTestForm, createTestFormManagerContext } from '../../test-form';
 import { FormManagerProvider } from '../store';
 import { NavPage } from './TopNavigation';
 
-export default {
+const meta: Meta<typeof FormManagerLayout> = {
   title: 'FormManagerLayout',
   component: FormManagerLayout,
   decorators: [
@@ -24,8 +24,9 @@ export default {
   ],
   args: {},
   tags: ['autodocs'],
-} satisfies Meta<typeof FormManagerLayout>;
+};
 
+export default meta;
 export const Configure = {
   args: {
     step: NavPage.configure,
