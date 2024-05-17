@@ -3,10 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { type ParagraphPattern } from '@atj/forms/src/patterns/paragraph';
 import { en as message } from '@atj/common/src/locales/en/app';
 
-import {
-  createPatternEditStoryMeta,
-  testEmptyFormLabelError,
-} from './common/story-helper';
+import { createPatternEditStoryMeta } from './common/story-helper';
 import FormEdit from '..';
 import { expect, userEvent } from '@storybook/test';
 import { within } from '@testing-library/react';
