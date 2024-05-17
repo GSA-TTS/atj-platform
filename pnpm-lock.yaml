@@ -242,7 +242,7 @@ importers:
         specifier: ^6.22.3
         version: 6.22.3(react-dom@18.2.0)(react@18.2.0)
       storybook:
-        specifier: ^7.6.19
+        specifier: ^7.6.10
         version: 7.6.19
       zustand:
         specifier: ^4.5.2
