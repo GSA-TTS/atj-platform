@@ -84,14 +84,14 @@ const EditComponent = ({ pattern }: { pattern: RadioGroupPattern }) => {
                   id={fieldId(`options.${index}.id`)}
                   {...register(`options.${index}.id`)}
                   defaultValue={option.id}
-                  aria-label={`options.${index}.id value`}
+                  aria-label={`Option ${index + 1} id`}
                 />
                 <input
                   className="usa-input"
                   id={fieldId(`options.${index}.label`)}
                   {...register(`options.${index}.label`)}
                   defaultValue={option.label}
-                  aria-label={`options.${index}.id label`}
+                  aria-label={`Option ${index + 1} label`}
                 />
               </div>
             </div>
