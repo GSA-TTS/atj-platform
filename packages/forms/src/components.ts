@@ -53,6 +53,11 @@ export type CheckboxProps = PatternProps<{
   defaultChecked: boolean;
 }>;
 
+export type PageProps = PatternProps<{
+  type: 'page';
+  title: string;
+}>;
+
 export type RadioGroupProps = PatternProps<{
   type: 'radio-group';
   legend: string;

@@ -4,6 +4,7 @@ import Address from './Address';
 import Checkbox from './Checkbox';
 import Fieldset from './Fieldset';
 import FormSummary from './FormSummary';
+import Page from './Page';
 import Paragraph from './Paragraph';
 import RadioGroup from './RadioGroup';
 import Sequence from './Sequence';
@@ -16,6 +17,7 @@ export const defaultPatternComponents: ComponentForPattern = {
   fieldset: Fieldset as PatternComponent,
   'form-summary': FormSummary as PatternComponent,
   input: TextInput as PatternComponent,
+  page: Page as PatternComponent,
   paragraph: Paragraph as PatternComponent,
   'radio-group': RadioGroup as PatternComponent,
   sequence: Sequence as PatternComponent,

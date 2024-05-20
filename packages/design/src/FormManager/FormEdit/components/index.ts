@@ -18,7 +18,7 @@ export const defaultPatternEditComponents: EditComponentForPattern = {
   input: InputPatternEdit as PatternEditComponent,
   'form-summary': FormSummaryEdit as PatternEditComponent,
   fieldset: FieldsetEdit as PatternEditComponent,
-  page: FieldsetEdit as PatternEditComponent,
+  page: PatternPreviewSequence as PatternEditComponent,
   'radio-group': RadioGroupPatternEdit as PatternEditComponent,
   sequence: PatternPreviewSequence as PatternEditComponent,
   'submission-confirmation': SubmissionConfirmationEdit as PatternEditComponent,
