@@ -57,14 +57,28 @@ export const Basic: StoryObj<typeof FormEdit> = {
      */
     form?.requestSubmit();
 
-    // const radioInput = optionLabel.closest('input');
-    // console.log((radioInput as HTMLElement).id);
-
     await expect(await canvas.findByText(updatedLabel)).toBeInTheDocument();
     await expect(await canvas.findByText('Yes')).toBeInTheDocument();
-    // await expect(
-    //   (radioInput as HTMLElement).id.indexOf('radio-group-1')
-    // ).toEqual(0);
+  },
+};
+
+export const AddField: StoryObj<typeof FormEdit> = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await userEvent.click(
+      canvas.getByText(message.patterns.radioGroup.displayName)
+    );
+
+    await userEvent.click(
+      canvas.getByRole('button', {
+        name: /add new/i,
+      })
+    );
+
+    await expect(
+      await canvas.findByLabelText('Option 4 label')
+    ).toBeInTheDocument();
   },
 };
 
