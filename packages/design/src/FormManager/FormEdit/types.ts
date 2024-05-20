@@ -15,5 +15,4 @@ export type PatternEditComponent<T extends PatternProps = PatternProps> =
     focus?: PatternFocus;
   }>;
 
-export type EditComponentForPattern<T extends PatternProps = PatternProps> =
-  Record<string, PatternEditComponent<T>>;
+export type EditComponentForPattern = Record<string, PatternEditComponent>;

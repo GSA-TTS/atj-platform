@@ -10,6 +10,7 @@ import { PatternEditComponent } from '../types';
 import { PatternEditActions } from './common/PatternEditActions';
 import { PatternEditForm } from './common/PatternEditForm';
 import { usePatternEditFormContext } from './common/hooks';
+import { en as message } from '@atj/common/src/locales/en/app';
 
 const RadioGroupPatternEdit: PatternEditComponent<RadioGroupProps> = ({
   focus,
@@ -44,7 +45,7 @@ const EditComponent = ({ pattern }: { pattern: RadioGroupPattern }) => {
           })}
           htmlFor={fieldId('label')}
         >
-          Radio group label
+          {message.patterns.radioGroup.fieldLabel}
         </label>
         {label.error ? (
           <span className="usa-error-message" role="alert">
@@ -83,12 +84,14 @@ const EditComponent = ({ pattern }: { pattern: RadioGroupPattern }) => {
                   id={fieldId(`options.${index}.id`)}
                   {...register(`options.${index}.id`)}
                   defaultValue={option.id}
+                  aria-label={`Option ${index + 1} id`}
                 />
                 <input
                   className="usa-input"
                   id={fieldId(`options.${index}.label`)}
                   {...register(`options.${index}.label`)}
                   defaultValue={option.label}
+                  aria-label={`Option ${index + 1} label`}
                 />
               </div>
             </div>
@@ -96,6 +99,7 @@ const EditComponent = ({ pattern }: { pattern: RadioGroupPattern }) => {
         })}
         <button
           className="usa-button usa-button--outline"
+          type="button"
           onClick={event => {
             event.preventDefault();
             const optionId = `${options.length + 1}`;

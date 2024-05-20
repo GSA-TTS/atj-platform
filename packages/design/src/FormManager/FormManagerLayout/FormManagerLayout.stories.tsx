@@ -3,7 +3,10 @@ import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { FormManagerLayout } from '.';
-import { createTestForm, createTestFormManagerContext } from '../../test-form';
+import {
+  createTwoPatternTestForm,
+  createTestFormManagerContext
+} from '../../test-form';
 import { FormManagerProvider } from '../store';
 import { NavPage } from './TopNavigation';
 
@@ -15,7 +18,7 @@ const meta: Meta<typeof FormManagerLayout> = {
       <MemoryRouter initialEntries={['/']}>
         <FormManagerProvider
           context={createTestFormManagerContext()}
-          form={createTestForm()}
+          form={createTwoPatternTestForm()}
         >
           <Story {...args} />
         </FormManagerProvider>

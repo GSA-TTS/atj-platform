@@ -3,7 +3,10 @@ import React from 'react';
 
 import { Notifications } from './Notifications';
 import { FormManagerProvider, useFormManagerStore } from '../store';
-import { createTestForm, createTestFormManagerContext } from '../../test-form';
+import {
+  createTestFormManagerContext,
+  createTwoPatternTestForm,
+} from '../../test-form';
 
 const StoryImpl = () => {
   const { addNotification } = useFormManagerStore();
@@ -26,7 +29,7 @@ export default {
     () => (
       <FormManagerProvider
         context={createTestFormManagerContext()}
-        form={createTestForm()}
+        form={createTwoPatternTestForm()}
       >
         <StoryImpl />
       </FormManagerProvider>
