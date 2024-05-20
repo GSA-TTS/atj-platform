@@ -2,6 +2,7 @@ import React from 'react';
 
 import { type PatternId, type FieldsetProps } from '@atj/forms';
 
+import { PatternComponent } from '../../../Form';
 import Fieldset from '../../../Form/components/Fieldset';
 import { useFormManagerStore } from '../../store';
 import { PatternEditComponent } from '../types';
@@ -29,7 +30,7 @@ const FieldsetEdit: PatternEditComponent<FieldsetProps> = ({
   );
 };
 
-const FieldsetPreview = (props: FieldsetProps) => {
+const FieldsetPreview: PatternComponent<FieldsetProps> = props => {
   const pattern = useFormManagerStore(
     state => state.form.patterns[props._patternId]
   );
@@ -57,6 +58,7 @@ const FieldsetPreview = (props: FieldsetProps) => {
             </div>
           </div>
         )}
+        {props.children}
       </Fieldset>
     </>
   );
