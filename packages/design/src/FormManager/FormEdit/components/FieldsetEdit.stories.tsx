@@ -13,11 +13,12 @@ const pattern: FieldsetPattern = {
   },
 };
 
-export default {
+const storyConfig: Meta = {
   title: 'Edit components/FieldsetPattern',
   ...createPatternEditStoryMeta({
     pattern,
   }),
 } as Meta<typeof FormEdit>;
+export default storyConfig;
 
 export const Basic: StoryObj<typeof FormEdit> = {};

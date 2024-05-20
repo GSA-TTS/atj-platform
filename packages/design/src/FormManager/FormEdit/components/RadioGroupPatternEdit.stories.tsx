@@ -22,12 +22,13 @@ const pattern: RadioGroupPattern = {
   },
 };
 
-export default {
+const storyConfig: Meta = {
   title: 'Edit components/RadioGroupPattern',
   ...createPatternEditStoryMeta({
     pattern,
   }),
 } as Meta<typeof FormEdit>;
+export default storyConfig;
 
 export const Basic: StoryObj<typeof FormEdit> = {
   play: async ({ canvasElement }) => {

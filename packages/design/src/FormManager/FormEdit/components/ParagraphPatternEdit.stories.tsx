@@ -16,12 +16,13 @@ const pattern: ParagraphPattern = {
   },
 };
 
-export default {
+const storyConfig: Meta = {
   title: 'Edit components/ParagraphPattern',
   ...createPatternEditStoryMeta({
     pattern,
   }),
 } as Meta<typeof FormEdit>;
+export default storyConfig;
 
 export const Basic: StoryObj<typeof FormEdit> = {};
 
