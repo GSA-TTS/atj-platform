@@ -64,6 +64,10 @@ export type RadioGroupProps = PatternProps<{
   }[];
 }>;
 
+export type SequenceProps = PatternProps<{
+  type: 'sequence';
+}>;
+
 export type PatternProps<T = {}> = {
   _patternId: PatternId;
   type: string;

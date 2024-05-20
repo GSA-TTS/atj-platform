@@ -6,7 +6,7 @@ import {
   type PatternId,
   getPattern,
 } from '../pattern';
-import { createPromptForPattern } from '../components';
+import { type SequenceProps, createPromptForPattern } from '../components';
 import { safeZodParseFormErrors } from '../util/zod';
 
 export type SequencePattern = Pattern<{
@@ -52,7 +52,7 @@ export const sequenceConfig: PatternConfig<SequencePattern> = {
       props: {
         _patternId: pattern.id,
         type: 'sequence',
-      },
+      } satisfies SequenceProps,
       children,
     };
   },
