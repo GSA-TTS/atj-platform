@@ -8,16 +8,16 @@ import { type SequencePattern } from '../patterns/sequence';
 
 describe('form builder', () => {
   it('addPattern adds initial pattern of given type', () => {
-    const builder = new BlueprintBuilder();
+    const builder = new BlueprintBuilder(defaultFormConfig);
     expect(Object.keys(builder.form.patterns).length).toEqual(1);
-    builder.addPattern(defaultFormConfig, 'input');
+    builder.addPattern('input');
     expect(Object.keys(builder.form.patterns).length).toEqual(2);
   });
 
   it('addPattern preserves existing structure', () => {
     const initial = createTestBlueprint();
-    const newBuilder = new BlueprintBuilder(initial);
-    const newPattern = newBuilder.addPattern(defaultFormConfig, 'input');
+    const newBuilder = new BlueprintBuilder(defaultFormConfig, initial);
+    const newPattern = newBuilder.addPattern('input');
     expect(newBuilder.form.patterns[newPattern.id]).toEqual(newPattern);
     expect(
       newBuilder.form.patterns[newBuilder.form.root].data.patterns
@@ -26,8 +26,8 @@ describe('form builder', () => {
 
   it('removePattern removes pattern and sequence reference', () => {
     const initial = createTestBlueprint();
-    const builder = new BlueprintBuilder(initial);
-    builder.removePattern(defaultFormConfig, 'element-2');
+    const builder = new BlueprintBuilder(defaultFormConfig, initial);
+    builder.removePattern('element-2');
     expect(builder.form.patterns).toEqual({
       root: {
         type: 'sequence',

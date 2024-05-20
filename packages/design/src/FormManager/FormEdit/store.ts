@@ -49,8 +49,8 @@ export const createFormEditSlice =
     ),
     addPattern: patternType => {
       const state = get();
-      const builder = new BlueprintBuilder(state.form);
-      const newPattern = builder.addPattern(state.context.config, patternType);
+      const builder = new BlueprintBuilder(state.context.config, state.form);
+      const newPattern = builder.addPattern(patternType);
       set({ form: builder.form, focus: { pattern: newPattern } });
       state.addNotification('success', 'Element added successfully.');
     },
@@ -59,8 +59,8 @@ export const createFormEditSlice =
       if (state.focus === undefined) {
         return;
       }
-      const builder = new BlueprintBuilder(state.form);
-      builder.removePattern(state.context.config, state.focus.pattern.id);
+      const builder = new BlueprintBuilder(state.context.config, state.form);
+      builder.removePattern(state.focus.pattern.id);
       set({ focus: undefined, form: builder.form });
       state.addNotification('success', 'Element removed successfully.');
     },
@@ -82,14 +82,10 @@ export const createFormEditSlice =
     },
     updatePattern: pattern => {
       const state = get();
-      const builder = new BlueprintBuilder(state.form);
-      const success = builder.updatePattern(
-        state.context.config,
-        state.form.patterns[pattern.id],
-        {
-          [pattern.id]: pattern,
-        }
-      );
+      const builder = new BlueprintBuilder(state.context.config, state.form);
+      const success = builder.updatePattern(state.form.patterns[pattern.id], {
+        [pattern.id]: pattern,
+      });
       if (success) {
         set({ form: builder.form, focus: undefined });
       }
@@ -99,9 +95,8 @@ export const createFormEditSlice =
       if (state.focus === undefined) {
         return;
       }
-      const builder = new BlueprintBuilder(state.form);
+      const builder = new BlueprintBuilder(state.context.config, state.form);
       const result = builder.updatePatternById(
-        state.context.config,
         state.focus.pattern.id,
         formData
       );

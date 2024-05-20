@@ -67,7 +67,7 @@ const createFormManagerSlice =
     form,
     formId,
     createNewForm: async function () {
-      const builder = new BlueprintBuilder();
+      const builder = new BlueprintBuilder(context.config);
       builder.setFormSummary({
         title: `My form - ${new Date().toISOString()}`,
         description: '',

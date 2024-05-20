@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { Decorator, Meta, StoryObj } from '@storybook/react';
 
 import { PageMenu, PageMenuProps } from './PageMenu';
 
 const withContentArea: Decorator = (Story, context) => {
-  const [pages, setPages] = React.useState<PageMenuProps['pages']>([
+  const [pages, setPages] = useState<PageMenuProps['pages']>([
     {
       selected: false,
       title: 'First page',
@@ -47,7 +47,7 @@ const withContentArea: Decorator = (Story, context) => {
 const meta: Meta<typeof PageMenu> = {
   title: 'FormManager/PageMenu',
   component: PageMenu,
-  decorators: [withContentArea],
+  //decorators: [withContentArea],
   tags: ['autodocs'],
 };
 
