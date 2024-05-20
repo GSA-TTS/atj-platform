@@ -10,7 +10,7 @@ const CheckboxPattern: PatternComponent<CheckboxProps> = props => {
     <Checkbox
       id={props.id}
       defaultChecked={props.defaultChecked}
-      name={props.name}
+      name={props.id}
       label={props.label}
     />
   );

@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { FormPreview } from '.';
 import {
-  createTestForm,
+  createTwoPatternTestForm,
   createTestFormContext,
   createTestFormManagerContext,
 } from '../../test-form';
@@ -18,7 +18,7 @@ const meta: Meta<typeof FormPreview> = {
       <MemoryRouter initialEntries={['/']}>
         <FormManagerProvider
           context={createTestFormManagerContext()}
-          form={createTestForm()}
+          form={createTwoPatternTestForm()}
         >
           <Story {...args} />
         </FormManagerProvider>
@@ -27,7 +27,7 @@ const meta: Meta<typeof FormPreview> = {
   ],
   args: {
     context: createTestFormContext(),
-    form: createTestForm(),
+    form: createTwoPatternTestForm(),
   },
   tags: ['autodocs'],
 };

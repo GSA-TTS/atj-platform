@@ -4,7 +4,7 @@ import React from 'react';
 import { Notifications } from './Notifications';
 import { FormManagerProvider, useFormManagerStore } from '../../store';
 import {
-  createTestForm,
+  createTwoPatternTestForm,
   createTestFormManagerContext,
 } from '../../../test-form';
 
@@ -29,7 +29,7 @@ export default {
     () => (
       <FormManagerProvider
         context={createTestFormManagerContext()}
-        form={createTestForm()}
+        form={createTwoPatternTestForm()}
       >
         <StoryImpl />
       </FormManagerProvider>

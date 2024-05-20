@@ -1,16 +1,16 @@
 import classnames from 'classnames';
 import React from 'react';
 
-import { type CheckboxProps, type PatternId } from '@atj/forms';
+import { type CheckboxProps } from '@atj/forms';
 import { type CheckboxPattern } from '@atj/forms/src/patterns/checkbox';
 
 import Checkbox from '../../../Form/components/Checkbox';
-import { useFormManagerStore } from '../../store';
 import { PatternEditComponent } from '../types';
 
 import { PatternEditActions } from './common/PatternEditActions';
 import { PatternEditForm } from './common/PatternEditForm';
 import { usePatternEditFormContext } from './common/hooks';
+import { en as message } from '@atj/common/src/locales/en/app';
 
 const CheckboxPatternEdit: PatternEditComponent<CheckboxProps> = ({
   focus,
@@ -21,7 +21,7 @@ const CheckboxPatternEdit: PatternEditComponent<CheckboxProps> = ({
       {focus ? (
         <PatternEditForm
           pattern={focus.pattern}
-          editComponent={<CheckboxEditComponent patternId={focus.pattern.id} />}
+          editComponent={<CheckboxEditComponent pattern={focus.pattern} />}
         ></PatternEditForm>
       ) : (
         <Checkbox {...previewProps} />
@@ -30,10 +30,9 @@ const CheckboxPatternEdit: PatternEditComponent<CheckboxProps> = ({
   );
 };
 
-const CheckboxEditComponent = ({ patternId }: { patternId: PatternId }) => {
-  const pattern = useFormManagerStore(state => state.form.patterns[patternId]);
+const CheckboxEditComponent = ({ pattern }: { pattern: CheckboxPattern }) => {
   const { fieldId, getFieldState, register } =
-    usePatternEditFormContext<CheckboxPattern>(patternId);
+    usePatternEditFormContext<CheckboxPattern>(pattern.id);
 
   const label = getFieldState('label');
 
@@ -46,7 +45,7 @@ const CheckboxEditComponent = ({ patternId }: { patternId: PatternId }) => {
           })}
           htmlFor={fieldId('label')}
         >
-          Field label
+          {message.patterns.checkbox.fieldLabel}
         </label>
         {label.error ? (
           <span className="usa-error-message" role="alert">
@@ -73,7 +72,7 @@ const CheckboxEditComponent = ({ patternId }: { patternId: PatternId }) => {
             className="usa-checkbox__label"
             htmlFor={fieldId('defaultChecked')}
           >
-            Default field value
+            {message.patterns.checkbox.defaultFieldValue}
           </label>
         </div>
       </div>

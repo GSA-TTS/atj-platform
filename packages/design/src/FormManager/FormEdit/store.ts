@@ -25,6 +25,7 @@ export type FormEditSlice = {
   }[];
 
   addPattern: (patternType: string) => void;
+  clearFocus: () => void;
   deleteSelectedPattern: () => void;
   setFocus: (patternId: PatternId) => boolean;
   updatePattern: (data: Pattern) => void;
@@ -56,6 +57,9 @@ export const createFormEditSlice =
       const newPattern = builder.addPattern(state.context.config, patternType);
       set({ form: builder.form, focus: { pattern: newPattern } });
       state.addNotification('info', 'Pattern added.');
+    },
+    clearFocus: () => {
+      set({ focus: undefined });
     },
     deleteSelectedPattern: () => {
       const state = get();
