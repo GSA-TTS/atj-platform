@@ -169,8 +169,9 @@ export const callExternalParser = async (
     type: 'form-summary',
     id: formSummaryId,
     data: {
-      title: extracted.form_summary.title,
-      description: extracted.form_summary.description,
+      title: extracted.form_summary.title || 'Default Form Title',
+      description:
+        extracted.form_summary.description || 'Default Form Description',
     },
   } satisfies FormSummary;
   rootSequence.push(formSummaryId);
