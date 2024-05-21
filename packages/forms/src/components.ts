@@ -159,6 +159,11 @@ export const createPromptForPattern: CreatePrompt<Pattern> = (
   options
 ) => {
   const patternConfig = getPatternConfig(config, pattern.type);
+  if (!patternConfig) {
+    throw new Error(
+      `Pattern config not found for pattern type ${pattern.type} with id ${pattern.id} and config ${JSON.stringify(config, null, 2)}`
+    );
+  }
   return patternConfig.createPrompt(config, session, pattern, options);
 };
 

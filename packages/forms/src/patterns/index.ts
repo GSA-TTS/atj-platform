@@ -22,7 +22,7 @@ export const defaultFormConfig: FormConfig = {
     page: pageConfig,
     'page-set': pageSetConfig,
     paragraph: paragraphConfig,
-    radioGroup: radioGroupConfig,
+    'radio-group': radioGroupConfig,
     sequence: sequenceConfig,
   },
 };

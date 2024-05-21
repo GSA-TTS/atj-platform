@@ -129,7 +129,7 @@ export const updatePatternFromFormData = (
   };
 };
 
-const generatePatternId = () => crypto.randomUUID();
+export const generatePatternId = () => crypto.randomUUID();
 
 export const createPattern = (
   config: FormConfig,

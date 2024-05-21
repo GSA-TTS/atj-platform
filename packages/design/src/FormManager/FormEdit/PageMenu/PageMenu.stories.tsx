@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import type { Decorator, Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
-import { PageMenu, PageMenuProps } from './PageMenu';
+import { PageMenu } from './PageMenu';
 
+/*
 const withContentArea: Decorator = (Story, context) => {
   const [pages, setPages] = useState<PageMenuProps['pages']>([
     {
@@ -43,6 +43,7 @@ const withContentArea: Decorator = (Story, context) => {
     </div>
   );
 };
+*/
 
 const meta: Meta<typeof PageMenu> = {
   title: 'FormManager/PageMenu',
