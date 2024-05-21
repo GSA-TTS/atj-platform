@@ -38,7 +38,7 @@ const TextInput: PatternComponent<TextInputProps> = props => {
           })}
           id={`input-${props.inputId}`}
           defaultValue={props.value}
-          {...register(props.inputId, {
+          {...register(props.inputId || Math.random().toString(), {
             //required: props.required,
           })}
           type="text"

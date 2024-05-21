@@ -5,17 +5,18 @@ import { type PatternId, type PatternMap } from '../..';
 import { type FieldsetPattern } from '../../patterns/fieldset';
 import { type InputPattern } from '../../patterns/input';
 import { type ParagraphPattern } from '../../patterns/paragraph';
-import { type SequencePattern } from '../../patterns/sequence';
 
 import { stringToBase64, uint8ArrayToBase64 } from '../util';
 import { type DocumentFieldMap } from '../types';
+import { PageSetPattern } from '../../patterns/pageset';
+import { PagePattern } from '../../patterns/page';
 
 const TxInput = z.object({
   input_type: z.literal('Tx'),
   input_params: z.object({
     text: z.string(),
     text_style: z.string(),
-    output_id: z.string(),
+    output_id: z.string().min(1),
     placeholder: z.string(),
     instructions: z.string(),
     required: z.boolean(),
@@ -175,12 +176,26 @@ export const callExternalParser = async (
       rootSequence.push(element.id);
     }
   }
-  parsedPdf.patterns['root'] = {
-    id: 'root',
-    type: 'sequence',
+
+  // Create a pattern for the single, first page.
+  const pagePattern = {
+    id: 'single-page-sequence',
+    type: 'page',
     data: {
+      title: 'Untitled Page',
       patterns: rootSequence,
     },
-  } satisfies SequencePattern;
+  } satisfies PagePattern;
+  parsedPdf.patterns[pagePattern.id] = pagePattern;
+
+  // Assign the page to the root page set.
+  parsedPdf.patterns['root'] = {
+    id: 'root',
+    type: 'page-set',
+    data: {
+      pages: [pagePattern.id],
+    },
+  } satisfies PageSetPattern;
+
   return parsedPdf;
 };

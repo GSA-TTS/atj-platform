@@ -1,8 +1,10 @@
 import React from 'react';
 
-import { type PatternComponent } from '../../../Form';
+import { type PageProps } from '@atj/forms';
 
-const Page: PatternComponent = ({ children }) => {
+import { type PatternComponent } from '../..';
+
+const Page: PatternComponent<PageProps> = ({ children }) => {
   return <>{children}</>;
 };
 
