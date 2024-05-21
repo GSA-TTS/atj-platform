@@ -112,15 +112,6 @@ main {
   width: -webkit-fill-available;
 }
 
-nav {
-  background: #f7f9fd;
-  padding: 0 units(3);
-
-  > ul {
-    padding-top: units(5);
-  }
-}
-
 [contentEditable='true']:focus,
 [href]:focus,
 [tabindex]:focus,
