@@ -1,6 +1,6 @@
 import * as z from 'zod';
 
-import { type PatternId, type PatternMap } from '../..';
+import { generatePatternId, type PatternId, type PatternMap } from '../..';
 
 import { type FieldsetPattern } from '../../patterns/fieldset';
 import { type InputPattern } from '../../patterns/input';
@@ -161,19 +161,19 @@ export const callExternalParser = async (
   const rootSequence: PatternId[] = [];
 
   for (const element of extracted.elements) {
-    const random_id = Math.random().toString(36).substring(2, 18); // TODO: verify we like this
+    const randomId = generatePatternId();
     const fieldsetPatterns: PatternId[] = [];
 
     // Add paragraph elements
     if (element.component_type === 'paragraph') {
-      parsedPdf.patterns[random_id] = {
+      parsedPdf.patterns[randomId] = {
         type: 'paragraph',
-        id: random_id,
+        id: randomId,
         data: {
           text: element.text,
         },
       } satisfies ParagraphPattern;
-      rootSequence.push(random_id);
+      rootSequence.push(randomId);
       continue;
     }
 
@@ -241,15 +241,15 @@ export const callExternalParser = async (
 
     // Add fieldset to parsedPdf.patterns and rootSequence
     if (element.component_type === 'fieldset' && fieldsetPatterns.length > 0) {
-      parsedPdf.patterns[random_id] = {
-        id: random_id,
+      parsedPdf.patterns[randomId] = {
+        id: randomId,
         type: 'fieldset',
         data: {
           legend: element.legend,
           patterns: fieldsetPatterns,
         },
       } satisfies FieldsetPattern;
-      rootSequence.push(random_id);
+      rootSequence.push(randomId);
     }
   }
 
