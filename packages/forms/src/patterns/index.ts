@@ -18,7 +18,7 @@ export const defaultFormConfig: FormConfig = {
     fieldset: fieldsetConfig,
     input: inputConfig,
     paragraph: paragraphConfig,
-    radioGroup: radioGroupConfig,
+    'radio-group': radioGroupConfig,
     sequence: sequenceConfig,
   },
 };

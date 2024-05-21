@@ -1,89 +1,122 @@
 import * as z from 'zod';
 
-import { type PatternId, type PatternMap } from '../..';
+import { generatePatternId, type PatternId, type PatternMap } from '../..';
 
 import { type FieldsetPattern } from '../../patterns/fieldset';
 import { type InputPattern } from '../../patterns/input';
 import { type ParagraphPattern } from '../../patterns/paragraph';
 import { type SequencePattern } from '../../patterns/sequence';
+import { type CheckboxPattern } from '../../patterns/checkbox';
+import { type RadioGroupPattern } from '../../patterns/radio-group';
 
-import { stringToBase64, uint8ArrayToBase64 } from '../util';
+import { uint8ArrayToBase64 } from '../util';
 import { type DocumentFieldMap } from '../types';
 
+/** API v1 response format
+ * // formSummary json
+ * {
+ *   "component_type": "form_summary",
+ *   "title": "", // The title of the form.
+ *   "description": "" // A brief description of the form.
+ * }
+ *
+ * // TxInput json
+ * {
+ *   "component_type": "text_input",
+ *   "id": "", // A unique identifier for the text input.
+ *   "label": "", // The label text for the text input.
+ *   "default_value": "", // The default value of the text input.
+ *   "required": true // Whether the text input is required.
+ * }
+ *
+ * // checkbox json
+ * {
+ *   "component_type": "checkbox",
+ *   "id": "", // A unique identifier for the checkbox.
+ *   "label": "", // The label text for the checkbox.
+ *   "default_checked": false // Whether the checkbox is checked by default.
+ * }
+ *
+ * // radioGroup json
+ * {
+ *   "component_type": "radio_group",
+ *   "legend": "", // The legend for the radio group.
+ *   "options": [
+ *     {
+ *       "id": "", // A unique identifier for each option.
+ *       "label": "", // The label text for the option.
+ *       "name": "", // The name shared by all options in the group.
+ *       "default_checked": false // Whether the option is checked by default.
+ *     }
+ *   ]
+ * }
+ *
+ * // paragraph json
+ * {
+ *   "component_type": "paragraph",
+ *   "text": "" // The text content of the paragraph.
+ * }
+ *
+ * // fieldset json
+ * {
+ *   "component_type": "fieldset",
+ *   "legend": "", // The legend for the field set.
+ *   "fields": [] // An array of elements, can include text inputs and checkboxes.
+ * }
+ */
+
+const FormSummary = z.object({
+  component_type: z.literal('form_summary'),
+  title: z.string(),
+  description: z.string(),
+});
+
 const TxInput = z.object({
-  input_type: z.literal('Tx'),
-  input_params: z.object({
-    text: z.string(),
-    text_style: z.string(),
-    output_id: z.string(),
-    placeholder: z.string(),
-    instructions: z.string(),
-    required: z.boolean(),
-    options: z.array(z.string()),
-  }),
-});
-
-const BtnInput = z.object({
-  input_type: z.literal('Btn'),
-  input_params: z.object({
-    text: z.string(),
-    text_style: z.string(),
-    output_id: z.string(),
-    placeholder: z.string(),
-    instructions: z.string(),
-    required: z.boolean(),
-    options: z.array(z.string()),
-  }),
-});
-
-const ExtractedInput = z.discriminatedUnion('input_type', [TxInput, BtnInput]);
-type ExtractedInput = z.infer<typeof ExtractedInput>;
-
-const ExtractedElement = z.object({
+  component_type: z.literal('text_input'),
   id: z.string(),
-  group_id: z.number(),
-  element_type: z.string(),
-  element_params: z.object({
-    text: z.string(),
-    text_style: z.string(),
-    options: z.string().array().nullable(),
-  }),
-  inputs: ExtractedInput.array(),
-  parent: z.string().nullable(),
-});
-type ExtractedElement = z.infer<typeof ExtractedElement>;
-
-const RawTxField = z.object({
-  type: z.literal('/Tx'),
-  var_name: z.string(),
-  field_dict: z.object({
-    font_info: z.string(),
-    field_type: z.string(),
-    coordinates: z.number().array().optional(),
-    field_label: z.string(),
-    field_instructions: z.string(),
-  }),
+  label: z.string(),
+  default_value: z.string(),
+  required: z.boolean(),
 });
 
-const RawBtnField = z.object({
-  type: z.literal('/Btn'),
-  var_name: z.string(),
-  field_dict: z.object({
-    font_info: z.string(),
-    flags: z.unknown().optional(),
-    field_type: z.string(),
-    field_label: z.string(),
-    child_fields: z.array(z.object({ coordinates: z.number().array() })),
-    num_children: z.number(),
-  }),
+const Checkbox = z.object({
+  component_type: z.literal('checkbox'),
+  id: z.string(),
+  label: z.string(),
+  default_checked: z.boolean(),
+});
+
+const RadioGroupOption = z.object({
+  id: z.string(),
+  label: z.string(),
+  name: z.string(),
+  default_checked: z.boolean(),
+});
+
+const RadioGroup = z.object({
+  id: z.string(),
+  component_type: z.literal('radio_group'),
+  legend: z.string(),
+  options: RadioGroupOption.array(),
+});
+
+const Paragraph = z.object({
+  component_type: z.literal('paragraph'),
+  text: z.string(),
+});
+
+const Fieldset = z.object({
+  component_type: z.literal('fieldset'),
+  legend: z.string(),
+  fields: z.union([TxInput, Checkbox]).array(),
 });
 
 const ExtractedObject = z.object({
   raw_text: z.string(),
-  title: z.string(),
-  description: z.string(),
-  elements: ExtractedElement.array(),
-  raw_fields: z.discriminatedUnion('type', [RawTxField, RawBtnField]).array(),
+  form_summary: FormSummary,
+  elements: z
+    .union([TxInput, Checkbox, RadioGroup, Paragraph, Fieldset])
+    .array(),
 });
 
 type ExtractedObject = z.infer<typeof ExtractedObject>;
@@ -97,7 +130,7 @@ export type ParsedPdf = {
 
 export const callExternalParser = async (
   rawData: Uint8Array,
-  endpointUrl: string = 'https://10x-atj-doc-automation-staging.app.cloud.gov/api/parse'
+  endpointUrl: string = 'https://10x-atj-doc-automation-staging.app.cloud.gov/api/v1/parse'
 ): Promise<ParsedPdf> => {
   const base64 = await uint8ArrayToBase64(rawData);
 
@@ -122,59 +155,104 @@ export const callExternalParser = async (
     patterns: {},
     outputs: {},
     root: 'root',
-    title: extracted.title,
+    title: extracted.form_summary.title,
   };
 
   const rootSequence: PatternId[] = [];
+
   for (const element of extracted.elements) {
+    const randomId = generatePatternId();
     const fieldsetPatterns: PatternId[] = [];
-    if (element.inputs.length === 0) {
-      parsedPdf.patterns[element.id] = {
+
+    // Add paragraph elements
+    if (element.component_type === 'paragraph') {
+      parsedPdf.patterns[randomId] = {
         type: 'paragraph',
-        id: element.id,
+        id: randomId,
         data: {
-          text: element.element_params.text,
+          text: element.text,
         },
       } satisfies ParagraphPattern;
+      rootSequence.push(randomId);
+      continue;
+    }
+
+    if (element.component_type === 'checkbox') {
+      parsedPdf.patterns[element.id] = {
+        type: 'checkbox',
+        id: element.id,
+        data: {
+          label: element.label,
+          defaultChecked: element.default_checked,
+        },
+      } satisfies CheckboxPattern;
       rootSequence.push(element.id);
       continue;
     }
-    for (const input of element.inputs) {
-      if (input.input_type === 'Tx') {
-        const id = stringToBase64(input.input_params.output_id);
-        parsedPdf.patterns[id] = {
-          type: 'input',
-          id,
-          data: {
-            label: input.input_params.instructions,
-            required: false,
-            initial: '',
-            maxLength: 128,
-          },
-        } satisfies InputPattern;
-        fieldsetPatterns.push(id);
-        parsedPdf.outputs[id] = {
-          type: 'TextField',
-          name: input.input_params.output_id,
-          label: input.input_params.instructions,
-          value: '',
-          maxLength: 1024,
-          required: input.input_params.required,
-        };
+
+    if (element.component_type === 'radio_group') {
+      parsedPdf.patterns[element.id] = {
+        type: 'radio-group',
+        id: element.id,
+        data: {
+          label: element.legend,
+          options: element.options.map(option => ({
+            id: option.id,
+            label: option.label,
+            name: option.name,
+            defaultChecked: option.default_checked,
+          })),
+        },
+      } satisfies RadioGroupPattern;
+      rootSequence.push(element.id);
+      continue;
+    }
+
+    if (element.component_type === 'fieldset') {
+      for (const input of element.fields) {
+        if (input.component_type === 'text_input') {
+          // const id = stringToBase64(input.id);
+
+          parsedPdf.patterns[input.id] = {
+            type: 'input',
+            id: input.id,
+            data: {
+              label: input.label,
+              required: false,
+              initial: '',
+              maxLength: 128,
+            },
+          } satisfies InputPattern;
+
+          fieldsetPatterns.push(input.id);
+
+          parsedPdf.outputs[input.id] = {
+            type: 'TextField',
+            name: input.id,
+            label: input.label,
+            value: '',
+            maxLength: 1024,
+            required: input.required,
+          };
+        }
+        // TODO: Look for checkbox or other element types
       }
     }
-    if (fieldsetPatterns.length > 0) {
-      parsedPdf.patterns[element.id] = {
-        id: element.id,
+
+    // Add fieldset to parsedPdf.patterns and rootSequence
+    if (element.component_type === 'fieldset' && fieldsetPatterns.length > 0) {
+      parsedPdf.patterns[randomId] = {
+        id: randomId,
         type: 'fieldset',
         data: {
-          legend: element.element_params.text,
+          legend: element.legend,
           patterns: fieldsetPatterns,
         },
       } satisfies FieldsetPattern;
-      rootSequence.push(element.id);
+      rootSequence.push(randomId);
     }
   }
+
   parsedPdf.patterns['root'] = {
     id: 'root',
     type: 'sequence',
@@ -182,5 +260,6 @@ export const callExternalParser = async (
       patterns: rootSequence,
     },
   } satisfies SequencePattern;
+
   return parsedPdf;
 };
