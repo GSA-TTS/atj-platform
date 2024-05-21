@@ -27,7 +27,7 @@ export const addDocument = async (
   if (parsedPdf) {
     form = updateFormSummary(form, {
       title: parsedPdf.title,
-      description: parsedPdf.description,
+      description: '',
     });
     form = addPatternMap(form, parsedPdf.patterns, parsedPdf.root);
     const updatedForm = addFormOutput(form, {

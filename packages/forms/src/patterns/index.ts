@@ -3,7 +3,6 @@ import { type FormConfig } from '../pattern';
 import { addressConfig } from './address';
 import { checkboxConfig } from './checkbox';
 import { fieldsetConfig } from './fieldset';
-import { formSummaryConfig } from './form-summary';
 import { inputConfig } from './input';
 import { paragraphConfig } from './paragraph';
 import { radioGroupConfig } from './radio-group';
@@ -14,7 +13,6 @@ import { sequenceConfig } from './sequence';
 // understand the usage scenarios better.
 export const defaultFormConfig: FormConfig = {
   patterns: {
-    'form-summary': formSummaryConfig,
     address: addressConfig,
     checkbox: checkboxConfig,
     fieldset: fieldsetConfig,

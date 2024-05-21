@@ -8,7 +8,6 @@ import { type ParagraphPattern } from '../../patterns/paragraph';
 import { type SequencePattern } from '../../patterns/sequence';
 import { type CheckboxPattern } from '../../patterns/checkbox';
 import { type RadioGroupPattern } from '../../patterns/radio-group';
-import { type FormSummary } from '../../patterns/form-summary';
 
 import { uint8ArrayToBase64 } from '../util';
 import { type DocumentFieldMap } from '../types';
@@ -127,12 +126,11 @@ export type ParsedPdf = {
   outputs: DocumentFieldMap; // to populate FormOutput
   root: PatternId;
   title: string;
-  description: string;
 };
 
 export const callExternalParser = async (
   rawData: Uint8Array,
-  endpointUrl: string = 'http://localhost:5000/api/v1/parse' //'https://10x-atj-doc-automation-staging.app.cloud.gov/api/v1/parse'
+  endpointUrl: string = 'https://10x-atj-doc-automation-staging.app.cloud.gov/api/v1/parse'
 ): Promise<ParsedPdf> => {
   const base64 = await uint8ArrayToBase64(rawData);
 
@@ -153,28 +151,14 @@ export const callExternalParser = async (
   const json = await response.json();
   const extracted: ExtractedObject = ExtractedObject.parse(json.parsed_pdf);
 
-  const rootSequence: PatternId[] = [];
-
   const parsedPdf: ParsedPdf = {
     patterns: {},
     outputs: {},
     root: 'root',
     title: extracted.form_summary.title,
-    description: extracted.form_summary.description,
   };
 
-  const formSummaryId = generatePatternId();
-
-  parsedPdf.patterns[formSummaryId] = {
-    type: 'form-summary',
-    id: formSummaryId,
-    data: {
-      title: extracted.form_summary.title || 'Default Form Title',
-      description:
-        extracted.form_summary.description || 'Default Form Description',
-    },
-  } satisfies FormSummary;
-  rootSequence.push(formSummaryId);
+  const rootSequence: PatternId[] = [];
 
   for (const element of extracted.elements) {
     const randomId = generatePatternId();
