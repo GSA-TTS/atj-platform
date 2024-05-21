@@ -6,9 +6,12 @@ import { expect, userEvent, waitFor, within } from '@storybook/test';
 import { FormManagerProvider } from '../store';
 
 import FormEdit from '.';
-import { createTestForm, createTestFormManagerContext } from '../../test-form';
+import {
+  createTwoPatternTestForm,
+  createTestFormManagerContext,
+} from '../../test-form';
 
-export default {
+const meta: Meta<typeof FormEdit> = {
   title: 'FormManager/FormEdit',
   component: FormEdit,
   decorators: [
@@ -16,7 +19,7 @@ export default {
       <MemoryRouter initialEntries={['/']}>
         <FormManagerProvider
           context={createTestFormManagerContext()}
-          form={createTestForm()}
+          form={createTwoPatternTestForm()}
         >
           <Story {...args} />
         </FormManagerProvider>
@@ -27,8 +30,9 @@ export default {
     formId: 'test-form',
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof FormEdit>;
+};
 
+export default meta;
 export const FormEditTest: StoryObj<typeof FormEdit> = {
   play: async ({ canvasElement }) => {
     await editFieldLabel(canvasElement, 'Pattern 1', 'Pattern 1 (updated)');

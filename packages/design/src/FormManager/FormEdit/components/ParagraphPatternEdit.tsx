@@ -11,6 +11,7 @@ import { PatternEditActions } from './common/PatternEditActions';
 import { PatternEditForm } from './common/PatternEditForm';
 import { usePatternEditFormContext } from './common/hooks';
 import { useFormManagerStore } from '../../store';
+import { en as message } from '@atj/common/src/locales/en/app';
 
 const ParagraphPatternEdit: PatternEditComponent<ParagraphProps> = ({
   focus,
@@ -47,7 +48,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           })}
           htmlFor={fieldId('text')}
         >
-          Paragraph text
+          {message.patterns.paragraph.fieldLabel}
         </label>
         {text.error ? (
           <span className="usa-error-message" role="alert">

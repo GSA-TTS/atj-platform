@@ -1,4 +1,4 @@
-import { getRootPattern } from '..';
+import { type FormError, getRootPattern } from '..';
 import {
   type FormConfig,
   type Pattern,
@@ -13,7 +13,7 @@ export type TextInputProps = PatternProps<{
   value: string;
   label: string;
   required: boolean;
-  error?: string;
+  error?: FormError;
 }>;
 
 export type FormSummaryProps = PatternProps<{
@@ -48,7 +48,6 @@ export type ZipcodeProps = PatternProps<{
 export type CheckboxProps = PatternProps<{
   type: 'checkbox';
   id: string;
-  name: string;
   label: string;
   defaultChecked: boolean;
 }>;

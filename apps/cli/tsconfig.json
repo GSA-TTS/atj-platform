@@ -1,12 +1,10 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "module": "CommonJS",
     "outDir": "./dist",
     "emitDeclarationOnly": true
   },
-  "include": [
-    "./src"
-  ],
+  "include": ["./src"],
   "references": []
 }

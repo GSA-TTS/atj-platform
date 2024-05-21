@@ -1,4 +1,9 @@
-import { createForm, createFormSession, defaultFormConfig } from '@atj/forms';
+import {
+  Pattern,
+  createForm,
+  createFormSession,
+  defaultFormConfig,
+} from '@atj/forms';
 import { type SequencePattern } from '@atj/forms/src/patterns/sequence';
 import { type InputPattern } from '@atj/forms/src/patterns/input';
 import { createTestFormService } from '@atj/form-service';
@@ -8,7 +13,7 @@ import { defaultPatternComponents } from './Form/components';
 import { defaultPatternEditComponents } from './FormManager/FormEdit/components';
 import { type FormManagerContext } from './FormManager';
 
-export const createTestForm = () => {
+export const createTwoPatternTestForm = () => {
   return createForm(
     {
       title: 'Test form',
@@ -49,6 +54,28 @@ export const createTestForm = () => {
   );
 };
 
+export const createSimpleTestBlueprint = (pattern: Pattern) => {
+  return createForm(
+    {
+      title: 'Test form',
+      description: 'Test description',
+    },
+    {
+      root: 'root',
+      patterns: [
+        {
+          type: 'sequence',
+          id: 'root',
+          data: {
+            patterns: [pattern.id],
+          },
+        } satisfies SequencePattern,
+        pattern,
+      ],
+    }
+  );
+};
+
 export const createTestFormConfig = () => {
   return defaultFormConfig;
 };
@@ -77,6 +104,6 @@ export const createTestFormManagerContext = (): FormManagerContext => {
 };
 
 export const createTestSession = () => {
-  const form = createTestForm();
+  const form = createTwoPatternTestForm();
   return createFormSession(form);
 };

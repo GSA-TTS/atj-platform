@@ -2,7 +2,7 @@ import * as z from 'zod';
 
 import { type Pattern, type PatternConfig } from '../pattern';
 import { type ParagraphProps } from '../components';
-import { safeZodParse } from '../util/zod';
+import { safeZodParseFormErrors } from '../util/zod';
 
 const configSchema = z.object({
   text: z.string().min(1),
@@ -14,7 +14,7 @@ export const paragraphConfig: PatternConfig<ParagraphPattern> = {
   initial: {
     text: 'Paragraph text...',
   },
-  parseConfigData: obj => safeZodParse(configSchema, obj),
+  parseConfigData: obj => safeZodParseFormErrors(configSchema, obj),
   getChildren() {
     return [];
   },
