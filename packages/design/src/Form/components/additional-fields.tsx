@@ -107,7 +107,7 @@ export const SelectField = ({ field }: { field: Field }) => {
 export const RadioField = ({ field }: { field: Field }) => {
   return (
     <fieldset className="usa-fieldset width-full">
-      <legend className="usa-legend usa-legend--large text-uppercase line-height-body-4">{field.label}</legend>
+      <legend className="usa-legend font-body-5 text-uppercase line-height-body-4">{field.label}</legend>
       {field.options?.map((option, index) => (
         <div key={index} className="usa-radio">
           <input
