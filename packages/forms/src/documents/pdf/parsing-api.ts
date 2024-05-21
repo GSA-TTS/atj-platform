@@ -9,7 +9,7 @@ import { type SequencePattern } from '../../patterns/sequence';
 import { type CheckboxPattern } from '../../patterns/checkbox';
 import { type RadioGroupPattern } from '../../patterns/radio-group';
 
-import { stringToBase64, uint8ArrayToBase64 } from '../util';
+import { uint8ArrayToBase64 } from '../util';
 import { type DocumentFieldMap } from '../types';
 
 /** API v1 response format
