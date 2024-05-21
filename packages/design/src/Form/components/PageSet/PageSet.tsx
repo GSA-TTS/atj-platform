@@ -11,10 +11,12 @@ const PageSet: PatternComponent<PageSetProps> = props => {
       <nav className="tablet:grid-col-3 bg-primary-lightest">
         <ul className="usa-sidenav">
           {props.pages.map((page, index) => (
-            <li key={index} className="usa-sidenav__item">
+            <li key={index} className={'usa-sidenav__item'}>
               <a
-                className={classNames({ 'usa-current': page.active })}
-                href={''}
+                className={classNames({
+                  'usa-current': page.active,
+                })}
+                href="javascript:void(0);"
               >
                 {page.title}
               </a>

@@ -8,7 +8,8 @@ import {
   type PatternId,
   type PatternMap,
   addDocument,
-  addPatternToRoot,
+  addPageToPageSet,
+  addPatternToPage,
   createPattern,
   getPattern,
   nullBlueprint,
@@ -16,6 +17,7 @@ import {
   updateFormSummary,
   updatePatternFromFormData,
 } from '..';
+import { PageSetPattern } from '../patterns/pageset';
 
 export class BlueprintBuilder {
   constructor(
@@ -36,9 +38,17 @@ export class BlueprintBuilder {
     this.bp = updatedForm;
   }
 
-  addPattern(patternType: string) {
+  addPage() {
+    const newPage = createPattern(this.config, 'page');
+    this.bp = addPageToPageSet(this.form, newPage);
+    return newPage;
+  }
+
+  addPatternToFirstPage(patternType: string) {
     const pattern = createPattern(this.config, patternType);
-    this.bp = addPatternToRoot(this.form, pattern);
+    const root = this.form.patterns[this.form.root] as PageSetPattern;
+    const firstPagePatternId = root.data.pages[0];
+    this.bp = addPatternToPage(this.form, firstPagePatternId, pattern);
     return pattern;
   }
 

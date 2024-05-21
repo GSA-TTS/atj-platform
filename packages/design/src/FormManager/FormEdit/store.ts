@@ -21,6 +21,7 @@ export type FormEditSlice = {
     displayName: string;
   }[];
 
+  addPage: () => void;
   addPattern: (patternType: string) => void;
   clearFocus: () => void;
   deleteSelectedPattern: () => void;
@@ -48,10 +49,17 @@ export const createFormEditSlice =
         displayName: patternConfig.displayName,
       })
     ),
+    addPage: () => {
+      const state = get();
+      const builder = new BlueprintBuilder(state.context.config, state.form);
+      const newPage = builder.addPage();
+      set({ form: builder.form, focus: { pattern: newPage } });
+      state.addNotification('success', 'New page added successfully.');
+    },
     addPattern: patternType => {
       const state = get();
       const builder = new BlueprintBuilder(state.context.config, state.form);
-      const newPattern = builder.addPattern(patternType);
+      const newPattern = builder.addPatternToFirstPage(patternType);
       set({ form: builder.form, focus: { pattern: newPattern } });
       state.addNotification('success', 'Element added successfully.');
     },
