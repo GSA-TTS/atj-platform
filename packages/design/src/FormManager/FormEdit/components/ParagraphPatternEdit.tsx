@@ -40,7 +40,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const text = getFieldState('text');
 
   return (
-    <div className="grid-row grid-gap-1 edit-component-panel">
+    <div className="grid-row grid-gap-1">
       <div className="tablet:grid-col-12">
         <label
           className={classnames('usa-label', {

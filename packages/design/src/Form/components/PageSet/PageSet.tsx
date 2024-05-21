@@ -8,7 +8,7 @@ import classNames from 'classnames';
 const PageSet: PatternComponent<PageSetProps> = props => {
   return (
     <div className="grid-row grid-gap">
-      <nav className="tablet:grid-col-3">
+      <nav className="tablet:grid-col-3 bg-primary-lightest">
         <ul className="usa-sidenav">
           {props.pages.map((page, index) => (
             <li key={index} className="usa-sidenav__item">

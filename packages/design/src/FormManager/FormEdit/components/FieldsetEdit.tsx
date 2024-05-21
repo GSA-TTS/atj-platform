@@ -67,7 +67,7 @@ const FieldsetPreview: PatternComponent<FieldsetProps> = props => {
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const { register } = usePatternEditFormContext<FieldsetPattern>(patternId);
   return (
-    <div className="grid-row edit-component-panel">
+    <div className="grid-row">
       <div className="grid-col-12 margin-bottom-3 flex-align-self-end">
         <label className="usa-label width-full maxw-full">
           Legend Text Element
