@@ -1,14 +1,48 @@
-import * as pdfLib from 'pdf-lib';
+import {
+  PDFDocument,
+  PDFName,
+  PDFDict,
+  PDFTextField,
+  PDFField,
+  PDFCheckBox,
+  PDFDropdown,
+  PDFOptionList,
+  PDFRadioGroup,
+} from 'pdf-lib';
 
 import { stringToBase64 } from '../util';
 import type { DocumentFieldValue, DocumentFieldMap } from '../types';
 
+// TODO: copied from pdf-lib acrofield internals, check if it's already exposed outside of acroform somewhere
+export const getWidgets = async (pdfDoc: PDFDocument): Promise<PDFDict[]> => {
+  return pdfDoc.context
+    .enumerateIndirectObjects()
+    .map(([, obj]) => obj)
+    .filter(
+      obj =>
+        obj instanceof PDFDict &&
+        obj.get(PDFName.of('Type')) === PDFName.of('Annot') &&
+        obj.get(PDFName.of('Subtype')) === PDFName.of('Widget')
+    )
+    .map(obj => obj as PDFDict);
+};
+
 export const getDocumentFieldData = async (
   pdfBytes: Uint8Array
 ): Promise<DocumentFieldMap> => {
-  const pdfDoc = await pdfLib.PDFDocument.load(pdfBytes);
+  const pdfDoc = await PDFDocument.load(pdfBytes);
+  const widgets = await getWidgets(pdfDoc);
+
+  pdfDoc.catalog.set(
+    PDFName.of('AcroForm'),
+    pdfDoc.context.obj({
+      Fields: widgets.map(widget => pdfDoc.context.getObjectRef(widget)), // array of widget refs
+    })
+  );
+
   const form = pdfDoc.getForm();
   const fields = form.getFields();
+
   return Object.fromEntries(
     fields.map(field => {
       return [stringToBase64(field.getName()), getFieldValue(field)];
@@ -16,8 +50,8 @@ export const getDocumentFieldData = async (
   );
 };
 
-const getFieldValue = (field: pdfLib.PDFField): DocumentFieldValue => {
-  if (field instanceof pdfLib.PDFTextField) {
+const getFieldValue = (field: PDFField): DocumentFieldValue => {
+  if (field instanceof PDFTextField) {
     return {
       type: 'TextField',
       name: field.getName(),
@@ -26,7 +60,7 @@ const getFieldValue = (field: pdfLib.PDFField): DocumentFieldValue => {
       maxLength: field.getMaxLength(),
       required: field.isRequired(),
     };
-  } else if (field instanceof pdfLib.PDFCheckBox) {
+  } else if (field instanceof PDFCheckBox) {
     return {
       type: 'CheckBox',
       name: field.getName(),
@@ -34,7 +68,7 @@ const getFieldValue = (field: pdfLib.PDFField): DocumentFieldValue => {
       value: field.isChecked(),
       required: field.isRequired(),
     };
-  } else if (field instanceof pdfLib.PDFDropdown) {
+  } else if (field instanceof PDFDropdown) {
     return {
       type: 'Dropdown',
       name: field.getName(),
@@ -42,7 +76,7 @@ const getFieldValue = (field: pdfLib.PDFField): DocumentFieldValue => {
       value: field.getSelected(),
       required: field.isRequired(),
     };
-  } else if (field instanceof pdfLib.PDFOptionList) {
+  } else if (field instanceof PDFOptionList) {
     return {
       type: 'OptionList',
       name: field.getName(),
@@ -50,7 +84,7 @@ const getFieldValue = (field: pdfLib.PDFField): DocumentFieldValue => {
       value: field.getSelected(),
       required: field.isRequired(),
     };
-  } else if (field instanceof pdfLib.PDFRadioGroup) {
+  } else if (field instanceof PDFRadioGroup) {
     return {
       type: 'RadioGroup',
       name: field.getName(),
