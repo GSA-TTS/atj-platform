@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import TextInput from '.';
 
-export default {
+const meta: Meta<typeof TextInput> = {
   title: 'patterns/TextInput',
   component: TextInput,
   decorators: [
@@ -21,8 +21,9 @@ export default {
     },
   ],
   tags: ['autodocs'],
-} satisfies Meta<typeof TextInput>;
+};
 
+export default meta;
 export const Required = {
   args: {
     _patternId: '',

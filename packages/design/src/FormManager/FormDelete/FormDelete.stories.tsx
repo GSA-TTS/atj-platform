@@ -5,9 +5,9 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { createTestFormService } from '@atj/form-service';
 
 import FormDelete from '.';
-import { createTestForm } from '../../test-form';
+import { createTwoPatternTestForm } from '../../test-form';
 
-export default {
+const meta: Meta<typeof FormDelete> = {
   title: 'FormManager/FormDelete',
   component: FormDelete,
   decorators: [
@@ -20,10 +20,11 @@ export default {
   args: {
     formId: 'test-form',
     formService: createTestFormService({
-      'test-form': createTestForm(),
+      'test-form': createTwoPatternTestForm(),
     }),
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof FormDelete>;
+};
 
+export default meta;
 export const FormDeleteTest = {} satisfies StoryObj<typeof FormDelete>;

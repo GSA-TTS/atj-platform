@@ -7,8 +7,6 @@
     "outDir": "./dist",
     "module": "esnext"
   },
-  "include": [
-    "./src"
-  ],
+  "include": ["./src"],
   "references": []
 }

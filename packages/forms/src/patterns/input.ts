@@ -3,10 +3,11 @@ import * as z from 'zod';
 import { type Pattern, type PatternConfig, validatePattern } from '../pattern';
 import { type TextInputProps } from '../components';
 import { getFormSessionValue } from '../session';
-import { safeZodParse } from '../util/zod';
+import { safeZodParseFormErrors, safeZodParseToFormError } from '../util/zod';
+import { en as message } from '@atj/common/src/locales/en/app';
 
 const configSchema = z.object({
-  label: z.string().min(1, 'A field label is required'),
+  label: z.string().min(1, message.patterns.input.fieldLabelRequired),
   initial: z.string().optional(),
   required: z.boolean(),
   maxLength: z.coerce.number(),
@@ -24,17 +25,17 @@ const createSchema = (data: InputPattern['data']) => {
 type InputPatternOutput = z.infer<ReturnType<typeof createSchema>>;
 
 export const inputConfig: PatternConfig<InputPattern, InputPatternOutput> = {
-  displayName: 'Text input',
+  displayName: message.patterns.input.displayName,
   initial: {
-    label: 'Field label',
+    label: message.patterns.input.fieldLabel,
     initial: '',
     required: true,
     maxLength: 128,
   },
   parseUserInput: (pattern, obj) => {
-    return safeZodParse(createSchema(pattern['data']), obj);
+    return safeZodParseToFormError(createSchema(pattern['data']), obj);
   },
-  parseConfigData: obj => safeZodParse(configSchema, obj),
+  parseConfigData: obj => safeZodParseFormErrors(configSchema, obj),
   getChildren() {
     return [];
   },

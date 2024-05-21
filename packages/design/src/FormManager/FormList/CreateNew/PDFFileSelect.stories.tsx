@@ -3,13 +3,13 @@ import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import {
-  createTestForm,
+  createTwoPatternTestForm,
   createTestFormManagerContext,
 } from '../../../test-form';
 import { FormManagerProvider } from '../../store';
 import CreateNew from '.';
 
-export default {
+const meta: Meta<typeof CreateNew> = {
   title: 'FormManager/FormList/CreateNew',
   component: CreateNew,
   decorators: [
@@ -17,7 +17,7 @@ export default {
       <MemoryRouter initialEntries={['/']}>
         <FormManagerProvider
           context={createTestFormManagerContext()}
-          form={createTestForm()}
+          form={createTwoPatternTestForm()}
         >
           <Story {...args} />
         </FormManagerProvider>
@@ -28,6 +28,7 @@ export default {
     baseUrl: '/',
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof CreateNew>;
+};
 
+export default meta;
 export const CreateNewTest = {} satisfies StoryObj<typeof CreateNew>;

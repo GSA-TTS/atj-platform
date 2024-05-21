@@ -2,11 +2,15 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { FormManagerLayout, NavPage } from '.';
-import { createTestForm, createTestFormManagerContext } from '../../test-form';
+import { FormManagerLayout } from '.';
+import {
+  createTwoPatternTestForm,
+  createTestFormManagerContext
+} from '../../test-form';
 import { FormManagerProvider } from '../store';
+import { NavPage } from './TopNavigation';
 
-export default {
+const meta: Meta<typeof FormManagerLayout> = {
   title: 'FormManagerLayout',
   component: FormManagerLayout,
   decorators: [
@@ -14,7 +18,7 @@ export default {
       <MemoryRouter initialEntries={['/']}>
         <FormManagerProvider
           context={createTestFormManagerContext()}
-          form={createTestForm()}
+          form={createTwoPatternTestForm()}
         >
           <Story {...args} />
         </FormManagerProvider>
@@ -23,8 +27,9 @@ export default {
   ],
   args: {},
   tags: ['autodocs'],
-} satisfies Meta<typeof FormManagerLayout>;
+};
 
+export default meta;
 export const Configure = {
   args: {
     step: NavPage.configure,

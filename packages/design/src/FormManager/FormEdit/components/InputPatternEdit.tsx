@@ -11,6 +11,7 @@ import { PatternEditComponent } from '../types';
 import { PatternEditActions } from './common/PatternEditActions';
 import { PatternEditForm } from './common/PatternEditForm';
 import { usePatternEditFormContext } from './common/hooks';
+import { en as message } from '@atj/common/src/locales/en/app';
 
 const InputPatternEdit: PatternEditComponent<TextInputProps> = ({
   focus,
@@ -50,7 +51,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           })}
           htmlFor={fieldId('label')}
         >
-          Field label
+          {message.patterns.input.fieldLabel}
         </label>
         {label.error ? (
           <span className="usa-error-message" role="alert">
@@ -74,7 +75,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           })}
           htmlFor={fieldId('initial')}
         >
-          Default field value
+          {message.patterns.input.defaultFieldValue}
         </label>
         <input
           className="usa-input bg-primary-lighter text-bold"
@@ -90,7 +91,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           })}
           htmlFor={fieldId('maxLength')}
         >
-          Maximum length
+          {message.patterns.input.maxLength}
         </label>
         <input
           className="usa-input bg-primary-lighter text-bold"
@@ -108,6 +109,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
               type="checkbox"
               id={fieldId('required')}
               {...register('required')}
+              defaultChecked={pattern.data.required}
             />
             <label
               style={{ display: 'inline-block' }}

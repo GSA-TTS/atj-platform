@@ -1,11 +1,10 @@
 {
-    "extends": "../../tsconfig.json",
-    "compilerOptions": {
-        "outDir": "./dist",
-        "emitDeclarationOnly": true
-    },
-    "include": [
-        "./src"
-    ],
-    "references": []
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "emitDeclarationOnly": true,
+    "outDir": "./dist"
+  },
+  "include": ["./src/**/*"],
+  "exclude": ["./dist"],
+  "references": []
 }

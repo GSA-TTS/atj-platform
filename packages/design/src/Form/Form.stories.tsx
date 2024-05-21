@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import Form from '.';
 import { createTestFormContext, createTestSession } from '../test-form';
 
-export default {
+const meta: Meta<typeof Form> = {
   title: 'Form',
   component: Form,
   decorators: [(Story, args) => <Story {...args} />],
@@ -13,6 +13,7 @@ export default {
     session: createTestSession(),
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof Form>;
+};
 
+export default meta;
 export const FormTest = {} satisfies StoryObj<typeof Form>;

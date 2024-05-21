@@ -1,12 +1,11 @@
 import * as z from 'zod';
 
-import {
-  validatePattern,
-  type Pattern,
-  type PatternConfig,
-} from '../../pattern';
+import { type Pattern, type PatternConfig } from '../../pattern';
 import { PatternProps } from '../../components';
-import { safeZodParse } from '../../util/zod';
+import {
+  safeZodParseFormErrors,
+  safeZodParseToFormError,
+} from '../../util/zod';
 import {
   stateTerritoryOrMilitaryPostAbbreviations,
   stateTerritoryOrMilitaryPostList,
@@ -86,9 +85,9 @@ export const addressConfig: PatternConfig<
     patterns: [],
   },
   parseUserInput: (_, obj) => {
-    return safeZodParse(AddressSchema, obj);
+    return safeZodParseToFormError(AddressSchema, obj);
   },
-  parseConfigData: obj => safeZodParse(configSchema, obj),
+  parseConfigData: obj => safeZodParseFormErrors(configSchema, obj),
   getChildren(pattern, patterns) {
     return [];
   },

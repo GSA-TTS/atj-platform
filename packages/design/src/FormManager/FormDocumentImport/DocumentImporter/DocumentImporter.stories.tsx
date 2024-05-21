@@ -3,9 +3,9 @@ import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import DocumentImporter from '.';
-import { createTestForm } from '../../../test-form';
+import { createTwoPatternTestForm } from '../../../test-form';
 
-export default {
+const meta: Meta<typeof DocumentImporter> = {
   title: 'FormManager/DocumentImporter',
   component: DocumentImporter,
   decorators: [
@@ -17,9 +17,10 @@ export default {
   ],
   parameters: {
     formId: 'test-id',
-    form: createTestForm(),
+    form: createTwoPatternTestForm(),
   },
   tags: ['autodocs'],
-} as Meta<typeof DocumentImporter>;
+};
 
+export default meta;
 export const TestForm = {} satisfies StoryObj<typeof DocumentImporter>;
