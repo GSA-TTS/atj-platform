@@ -25,7 +25,7 @@ export default function CreateNew() {
           }
         }}
       >
-        Create form
+        New form
       </button>
       <label
         className="usa-label"

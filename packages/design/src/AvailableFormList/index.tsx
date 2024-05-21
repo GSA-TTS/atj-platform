@@ -35,7 +35,6 @@ const FormList = ({
 }) => {
   return (
     <table className="usa-table usa-table--stacked">
-      <caption>Available forms</caption>
       <thead>
         <tr>
           <th className="column1" scope="col">
@@ -50,19 +49,29 @@ const FormList = ({
         </tr>
       </thead>
       <tbody>
-        {forms.map((form, index) => (
-          <tr key={index}>
+        {!forms.length ? (
+          <tr>
             <th data-label="Form title" scope="row">
-              {form.title}
+              There are no forms here yet
             </th>
-            <td data-label="Description">{form.description}</td>
-            <td data-label="Actions">
-              <a href={urlForForm(form.id)} title={form.title}>
-                Go to form
-              </a>
-            </td>
+            <td data-label="Description">{''}</td>
+            <td data-label="Actions">{''}</td>
           </tr>
-        ))}
+        ) : (
+          forms.map((form, index) => (
+            <tr key={index}>
+              <th data-label="Form title" scope="row">
+                {form.title}
+              </th>
+              <td data-label="Description">{form.description}</td>
+              <td data-label="Actions">
+                <a href={urlForForm(form.id)} title={form.title}>
+                  Go to form
+                </a>
+              </td>
+            </tr>
+          ))
+        )}
       </tbody>
     </table>
   );
