@@ -159,8 +159,9 @@ export const callExternalParser = async (
     patterns: {},
     outputs: {},
     root: 'root',
-    title: extracted.form_summary.title,
-    description: extracted.form_summary.description,
+    title: extracted.form_summary.title || 'Default Form Title',
+    description:
+      extracted.form_summary.description || 'Default Form Description',
   };
 
   const formSummaryId = generatePatternId();
