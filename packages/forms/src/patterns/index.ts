@@ -5,7 +5,7 @@ import { checkboxConfig } from './checkbox';
 import { fieldsetConfig } from './fieldset';
 import { inputConfig } from './input';
 import { pageConfig } from './page';
-import { pageSetConfig } from './pageset';
+import { pageSetConfig } from './page-set';
 import { paragraphConfig } from './paragraph';
 import { radioGroupConfig } from './radio-group';
 import { sequenceConfig } from './sequence';
