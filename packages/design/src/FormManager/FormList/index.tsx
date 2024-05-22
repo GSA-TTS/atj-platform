@@ -15,9 +15,9 @@ export default function FormList({
   }
   return (
     <>
-      <header className="text-center tablet:margin-bottom-5">
-        <h1>Create a New Form</h1>
-        <p>
+      <header className="text-center margin-bottom-1 tablet:margin-bottom-6">
+        <h1 className="margin-bottom-1">Create a New Form</h1>
+        <p className="margin-top-0">
           Create or Import a form to start building your guided application.
         </p>
       </header>
