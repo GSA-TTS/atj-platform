@@ -15,7 +15,12 @@ export default function FormList({
   }
   return (
     <>
-      <ManageFormsTable formListItems={result.data} />
+      <header className="text-center tablet:margin-bottom-5">
+        <h1>Create a New Form</h1>
+        <p>
+          Create or Import a form to start building your guided application.
+        </p>
+      </header>
       <CreateNew />
     </>
   );
