@@ -11,8 +11,6 @@ import { useFormManagerStore } from '../store';
 export default function FormEdit({ queryString }: { queryString: string }) {
   return (
     <>
-      <h1>Edit form</h1>
-      <p className="usa-intro">Your form has been imported for web delivery.</p>
       <EditForm queryString={queryString} />
     </>
   );

@@ -82,6 +82,7 @@ export const createFormEditSlice =
         return true;
       }
       if (state.focus?.errors) {
+        console.log(state.focus.errors);
         return false;
       }
       const elementToSet = getPattern(state.form, patternId);
