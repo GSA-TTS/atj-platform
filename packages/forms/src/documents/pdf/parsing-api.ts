@@ -10,8 +10,8 @@ import { type RadioGroupPattern } from '../../patterns/radio-group';
 
 import { uint8ArrayToBase64 } from '../util';
 import { type DocumentFieldMap } from '../types';
-import { PageSetPattern } from '../../patterns/pageset';
-import { PagePattern } from '../../patterns/page';
+import { PagePattern } from '../../patterns/page/config';
+import { PageSetPattern } from '../../patterns/page-set/config';
 
 /** API v1 response format
  * // formSummary json
