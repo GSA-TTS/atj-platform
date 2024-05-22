@@ -3,7 +3,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 
 import { AvailableFormList } from '@atj/design';
 import { getAppContext } from '../context';
-import { getFormUrl } from '../routes';
+import { getFormManagerUrlById, getFormUrl } from '../routes';
 import DebugTools from './DebugTools';
 
 export default () => {
@@ -20,6 +20,7 @@ export default () => {
       <AvailableFormList
         formService={ctx.formService}
         urlForForm={getFormUrl}
+        urlForFormManager={getFormManagerUrlById}
       />
     </ErrorBoundary>
   );
