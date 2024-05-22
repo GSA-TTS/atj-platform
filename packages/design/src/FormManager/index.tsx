@@ -129,6 +129,7 @@ export default function FormManager({ context }: FormManagerProps) {
                 context={context}
                 formId={formId}
                 form={form}
+                savePeriodically={true}
               >
                 <FormManagerLayout
                   step={NavPage.create}
