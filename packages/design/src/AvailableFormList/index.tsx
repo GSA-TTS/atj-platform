@@ -65,9 +65,35 @@ const FormList = ({
               </th>
               <td data-label="Description">{form.description}</td>
               <td data-label="Actions">
-                <a href={urlForForm(form.id)} title={form.title}>
-                  Go to form
-                </a>
+                <div className="grid-container">
+                  <div className="grid-row grid-gap-md">
+                    <a
+                      href={urlForForm(form.id)}
+                      title={form.title}
+                      className="grid-col-auto"
+                    >
+                      Go to form
+                    </a>
+                    <a
+                      href={`/manage/#/${form.id}/create`}
+                      className="grid-col-auto"
+                    >
+                      Edit
+                    </a>
+                    <a
+                      href={`/manage/#/${form.id}/delete`}
+                      className="grid-col-auto"
+                    >
+                      Delete
+                    </a>
+                  </div>
+                </div>
+                {/*<span>*/}
+                {/*  <Link to={`/${form.id}/create`}>Edit</Link>*/}
+                {/*</span>*/}
+                {/*<span>*/}
+                {/*  <Link to={`/${form.id}/delete`}>Delete</Link>*/}
+                {/*</span>*/}
               </td>
             </tr>
           ))
