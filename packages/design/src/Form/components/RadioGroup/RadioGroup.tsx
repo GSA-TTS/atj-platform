@@ -8,7 +8,7 @@ export type RadioGroupProps = {
 export default function RadioGroup({ legend, children }: RadioGroupProps) {
   return (
     <div className="usa-fieldset">
-      <legend className="usa-legend">{legend}</legend>
+      <legend className="usa-legend usa-legend--large">{legend}</legend>
       {children}
     </div>
   );
