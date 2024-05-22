@@ -164,6 +164,7 @@ export const addPatternToPage = (
   if (pagePattern.type !== 'page') {
     throw new Error('Pattern is not a page.');
   }
+  console.log(pagePattern);
   return {
     ...bp,
     patterns: {

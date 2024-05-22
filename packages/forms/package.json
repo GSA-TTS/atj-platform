@@ -13,6 +13,10 @@
   "dependencies": {
     "@atj/common": "workspace:*",
     "pdf-lib": "^1.17.1",
+    "qs": "^6.12.1",
     "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/qs": "^6.9.15"
   }
 }

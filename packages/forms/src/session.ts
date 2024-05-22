@@ -12,6 +12,7 @@ import {
   type PatternValue,
   type PatternValueMap,
 } from './pattern';
+import { RouteData, getRouteDataFromQueryString } from './route-data';
 
 export type FormErrorMap = Record<PatternId, FormError>;
 
@@ -21,6 +22,7 @@ export type FormSession = {
     values: PatternValueMap;
   };
   form: Blueprint;
+  routeParams?: RouteData;
 };
 
 export const nullSession: FormSession = {
@@ -49,7 +51,10 @@ export const nullSession: FormSession = {
   },
 };
 
-export const createFormSession = (form: Blueprint): FormSession => {
+export const createFormSession = (
+  form: Blueprint,
+  queryString?: string
+): FormSession => {
   return {
     data: {
       errors: {},
@@ -64,6 +69,9 @@ export const createFormSession = (form: Blueprint): FormSession => {
       */
     },
     form,
+    routeParams: queryString
+      ? getRouteDataFromQueryString(queryString)
+      : undefined,
   };
 };
 

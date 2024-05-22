@@ -29,10 +29,10 @@ export const safeZodParseToFormError = <T extends Pattern>(
   }
 };
 
-export const safeZodParseFormErrors = <T extends Pattern>(
-  schema: z.Schema,
+export const safeZodParseFormErrors = <Schema extends z.Schema>(
+  schema: Schema,
   obj: unknown
-): r.Result<T['data'], FormErrors> => {
+): r.Result<z.infer<Schema>, FormErrors> => {
   const result = safeZodParse(schema, obj);
   if (result.success) {
     return r.success(result.data);

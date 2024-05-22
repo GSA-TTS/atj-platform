@@ -1,5 +1,11 @@
 import React from 'react';
-import { useParams, HashRouter, Route, Routes } from 'react-router-dom';
+import {
+  useParams,
+  HashRouter,
+  Route,
+  Routes,
+  useSearchParams,
+} from 'react-router-dom';
 
 import { type FormConfig, nullBlueprint } from '@atj/forms';
 import { FormService } from '@atj/form-service';
@@ -109,6 +115,7 @@ export default function FormManager({ context }: FormManagerProps) {
           path={AppRoutes.Create.path}
           Component={() => {
             const { formId } = useParams();
+            const [searchParams] = useSearchParams();
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
@@ -129,7 +136,7 @@ export default function FormManager({ context }: FormManagerProps) {
                   next={AppRoutes.Configure.getUrl(formId)}
                   preview={AppRoutes.Preview.getUrl(formId)}
                 >
-                  <FormEdit />
+                  <FormEdit queryString={searchParams.toString()} />
                 </FormManagerLayout>
               </FormManagerProvider>
             );

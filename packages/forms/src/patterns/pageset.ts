@@ -9,6 +9,7 @@ import {
 import { createPromptForPattern, PageSetProps } from '../components';
 import { safeZodParseFormErrors } from '../util/zod';
 import { PagePattern } from './page';
+import { RouteData } from '../route-data';
 
 export type PageSetPattern = Pattern<{
   pages: PatternId[];
@@ -17,6 +18,15 @@ export type PageSetPattern = Pattern<{
 const configSchema = z.object({
   pages: z.array(z.string()),
 });
+
+const getRouteParamSchema = (pattern: PageSetPattern) => {
+  return z.object({
+    page: z.coerce
+      .number()
+      .min(0)
+      .max(pattern.data.pages.length - 1),
+  });
+};
 
 export const pageSetConfig: PatternConfig<PageSetPattern> = {
   displayName: 'Page set',
@@ -43,15 +53,24 @@ export const pageSetConfig: PatternConfig<PageSetPattern> = {
     };
   },
   createPrompt(config, session, pattern, options) {
-    const children = pattern.data.pages.map((patternId: string) => {
-      const childPattern = getPattern(session.form, patternId);
-      return createPromptForPattern(config, session, childPattern, options);
-    });
+    const route = parseRouteData(pattern, session.routeParams);
+    const activePage = route.success ? route.data.page : null;
+    const children =
+      activePage !== null
+        ? [
+            createPromptForPattern(
+              config,
+              session,
+              getPattern(session.form, pattern.data.pages[activePage]),
+              options
+            ),
+          ]
+        : [];
     return {
       props: {
         _patternId: pattern.id,
         type: 'page-set',
-        pages: pattern.data.pages.map((patternId: string) => {
+        pages: pattern.data.pages.map((patternId, index) => {
           const childPattern = getPattern(
             session.form,
             patternId
@@ -60,12 +79,17 @@ export const pageSetConfig: PatternConfig<PageSetPattern> = {
             throw new Error('Page set children must be pages');
           }
           return {
-            title: childPattern.data.title,
-            active: false,
+            title: childPattern.data.title || 'Untitled',
+            active: index === activePage,
           };
         }),
       } satisfies PageSetProps,
       children,
     };
   },
+};
+
+const parseRouteData = (pattern: PageSetPattern, routeParams?: RouteData) => {
+  const schema = getRouteParamSchema(pattern);
+  return safeZodParseFormErrors(schema, routeParams);
 };
