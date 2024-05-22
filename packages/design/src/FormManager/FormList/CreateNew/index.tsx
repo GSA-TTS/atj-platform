@@ -40,9 +40,17 @@ export default function CreateNew() {
               <p>Jump in and build your form from an empty canvas.</p>
             </div>
             <div className="usa-card__footer">
-              <a href="#" className="usa-button">
+              <button
+                className="usa-button"
+                onClick={async () => {
+                  const result = await actions.createNewForm();
+                  if (result.success) {
+                    navigate(`/${result.data}/create`);
+                  }
+                }}
+              >
                 New Form
-              </a>
+              </button>
             </div>
           </div>
         </li>
