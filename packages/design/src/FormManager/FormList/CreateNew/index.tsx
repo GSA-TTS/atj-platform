@@ -18,16 +18,22 @@ export default function CreateNew() {
     <>
       <ul className="usa-card-group">
         <li className="usa-card tablet:grid-col-6">
-          <div className="usa-card__container">
+          <div className="usa-card__container border-1px border-base-lighter radius-md">
             <div className="usa-card__header">
               <h2 className="usa-card__heading">Start from Scratch</h2>
             </div>
             <div className="usa-card__media">
-              <div className="usa-card__img">
-                <img
-                  src="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg"
-                  alt="A placeholder image"
-                />
+              <div className="usa-card__img bg-primary-lighter">
+                <svg
+                  className="usa-icon usa-icon--size-9 margin-y-3 margin-x-auto text-middle display-block bg-blue-vivid-60 text-primary"
+                  aria-hidden="true"
+                  focusable="false"
+                  role="img"
+                >
+                  <use
+                    xlinkHref={`${actions.context.uswdsRoot}img/sprite.svg#add`}
+                  ></use>
+                </svg>
               </div>
             </div>
             <div className="usa-card__body margin-bottom-4">
@@ -41,16 +47,22 @@ export default function CreateNew() {
           </div>
         </li>
         <li className="usa-card tablet:grid-col-6">
-          <div className="usa-card__container">
+          <div className="usa-card__container border-1px border-base-lighter radius-md">
             <div className="usa-card__header">
               <h2 className="usa-card__heading">Start from Import</h2>
             </div>
             <div className="usa-card__media">
-              <div className="usa-card__img">
-                <img
-                  src="https://designsystem.digital.gov/img/introducing-uswds-2-0/built-to-grow--alt.jpg"
-                  alt="A placeholder image"
-                />
+              <div className="usa-card__img bg-primary-lighter">
+                <svg
+                  className="usa-icon usa-icon--size-9 margin-y-3 margin-x-auto text-middle display-block bg-blue-vivid-60 text-primary"
+                  aria-hidden="true"
+                  focusable="false"
+                  role="img"
+                >
+                  <use
+                    xlinkHref={`${actions.context.uswdsRoot}img/sprite.svg#upload_file`}
+                  ></use>
+                </svg>
               </div>
             </div>
             <div className="usa-card__body margin-bottom-4">
