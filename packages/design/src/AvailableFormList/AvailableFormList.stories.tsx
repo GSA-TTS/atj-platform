@@ -19,6 +19,7 @@ export default {
       }),
     }),
     urlForForm: () => `#`,
+    urlForFormManager: () => `#`,
   },
   tags: ['autodocs'],
 } satisfies Meta<typeof AvailableFormList>;
