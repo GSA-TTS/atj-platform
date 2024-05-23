@@ -8,8 +8,8 @@ import {
   getPatternMap,
   removeChildPattern,
 } from './pattern';
-import { PageSetPattern } from './patterns/pageset';
-import { PagePattern } from './patterns/page';
+import { type PagePattern } from './patterns/page/config';
+import { type PageSetPattern } from './patterns/page-set/config';
 
 export * from './builder';
 export * from './components';

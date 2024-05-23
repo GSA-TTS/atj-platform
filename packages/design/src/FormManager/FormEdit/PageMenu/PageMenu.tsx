@@ -11,7 +11,6 @@ export type PageMenuProps = {
 };
 
 export const PageMenu = ({ onAddPage, pages }: PageMenuProps) => {
-  console.log(onAddPage);
   return (
     <div>
       <ul className="usa-sidenav">

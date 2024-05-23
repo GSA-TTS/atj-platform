@@ -27,7 +27,7 @@ const meta: Meta<typeof FormEdit> = {
     ),
   ],
   args: {
-    formId: 'test-form',
+    queryString: 'page=0',
   },
   tags: ['autodocs'],
 };

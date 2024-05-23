@@ -10,14 +10,14 @@ describe('form builder', () => {
   it('addPattern adds initial pattern of given type', () => {
     const builder = new BlueprintBuilder(defaultFormConfig);
     expect(Object.keys(builder.form.patterns).length).toEqual(1);
-    builder.addPattern('input');
+    builder.addPatternToFirstPage('input');
     expect(Object.keys(builder.form.patterns).length).toEqual(2);
   });
 
   it('addPattern preserves existing structure', () => {
     const initial = createTestBlueprint();
     const newBuilder = new BlueprintBuilder(defaultFormConfig, initial);
-    const newPattern = newBuilder.addPattern('input');
+    const newPattern = newBuilder.addPatternToFirstPage('input');
     expect(newBuilder.form.patterns[newPattern.id]).toEqual(newPattern);
     expect(
       newBuilder.form.patterns[newBuilder.form.root].data.patterns

@@ -7,6 +7,7 @@ import Form, { type ComponentForPattern } from '../../Form';
 import { AddPatternDropdown } from './AddPatternDropdown';
 import { PreviewPattern } from './PreviewPattern';
 import { useFormManagerStore } from '../store';
+import { Toolbar } from './Toolbar';
 
 export default function FormEdit({ queryString }: { queryString: string }) {
   return (
@@ -22,7 +23,8 @@ const EditForm = ({ queryString }: { queryString: string }) => {
   const disposable = createFormSession(form, queryString); // nullSession instead?
 
   return (
-    <div className="position-relative edit-form-content-wrapper">
+    <div className="position-relative">
+      <Toolbar uswdsRoot={uiContext.uswdsRoot} />
       <div className="grid-row">
         <div className="grid-col-12">
           <AddPatternDropdown />

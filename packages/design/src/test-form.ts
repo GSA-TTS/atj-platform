@@ -12,6 +12,8 @@ import { type FormUIContext } from './Form';
 import { defaultPatternComponents } from './Form/components';
 import { defaultPatternEditComponents } from './FormManager/FormEdit/components';
 import { type FormManagerContext } from './FormManager';
+import { PageSetPattern } from '@atj/forms/src/patterns/page-set/config';
+import { PagePattern } from '@atj/forms/src/patterns/page/config';
 
 export const createTwoPatternTestForm = () => {
   return createForm(
@@ -23,12 +25,20 @@ export const createTwoPatternTestForm = () => {
       root: 'root',
       patterns: [
         {
-          type: 'sequence',
+          type: 'page-set',
           id: 'root',
           data: {
+            pages: ['page-1'],
+          },
+        } satisfies PageSetPattern,
+        {
+          type: 'page',
+          id: 'page-1',
+          data: {
+            title: 'Page 1',
             patterns: ['element-1', 'element-2'],
           },
-        } satisfies SequencePattern,
+        } satisfies PagePattern,
         {
           type: 'input',
           id: 'element-1',

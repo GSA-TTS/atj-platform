@@ -9,7 +9,8 @@ import {
 import { type RouteData } from '../../route-data';
 import { safeZodParseFormErrors } from '../../util/zod';
 
-import { PageSetPattern } from './config';
+import { type PageSetPattern } from './config';
+import { type PagePattern } from '../page/config';
 
 export const createPrompt: CreatePrompt<PageSetPattern> = (
   config,

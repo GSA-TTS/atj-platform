@@ -17,7 +17,7 @@ import {
   updateFormSummary,
   updatePatternFromFormData,
 } from '..';
-import { PageSetPattern } from '../patterns/pageset';
+import { type PageSetPattern } from '../patterns/page-set/config';
 
 export class BlueprintBuilder {
   constructor(
