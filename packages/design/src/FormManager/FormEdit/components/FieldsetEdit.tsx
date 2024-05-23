@@ -32,7 +32,7 @@ const FieldsetEdit: PatternEditComponent<FieldsetProps> = ({
 
 const FieldsetPreview: PatternComponent<FieldsetProps> = props => {
   const pattern = useFormManagerStore(
-    state => state.form.patterns[props._patternId]
+    state => state.session.form.patterns[props._patternId]
   );
   return (
     <>

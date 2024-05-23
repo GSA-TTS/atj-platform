@@ -7,6 +7,7 @@ import {
   type PatternMap,
   getPatternMap,
   removeChildPattern,
+  generatePatternId,
 } from './pattern';
 import { type PagePattern } from './patterns/page/config';
 import { type PageSetPattern } from './patterns/page-set/config';
@@ -43,6 +44,35 @@ export const nullBlueprint: Blueprint = {
     } satisfies SequencePattern,
   },
   outputs: [],
+};
+
+export const createOnePageBlueprint = (): Blueprint => {
+  const page1 = generatePatternId();
+  return {
+    summary: {
+      title: '',
+      description: '',
+    },
+    root: 'root',
+    patterns: {
+      root: {
+        type: 'page-set',
+        id: 'root',
+        data: {
+          pages: [page1],
+        },
+      } satisfies PageSetPattern,
+      [page1]: {
+        type: 'page',
+        id: page1,
+        data: {
+          title: 'Page 1',
+          patterns: [],
+        },
+      },
+    },
+    outputs: [],
+  };
 };
 
 export type FormSummary = {
@@ -258,8 +288,11 @@ export const addFormOutput = (
   };
 };
 
-export const getPattern = (form: Blueprint, id: PatternId): Pattern => {
-  return form.patterns[id];
+export const getPattern = <T extends Pattern = Pattern>(
+  form: Blueprint,
+  id: PatternId
+): T => {
+  return form.patterns[id] as T;
 };
 
 export const updateFormSummary = (

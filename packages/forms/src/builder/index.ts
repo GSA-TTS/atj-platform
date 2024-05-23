@@ -16,14 +16,19 @@ import {
   removePatternFromBlueprint,
   updateFormSummary,
   updatePatternFromFormData,
+  createOnePageBlueprint,
 } from '..';
 import { type PageSetPattern } from '../patterns/page-set/config';
 
 export class BlueprintBuilder {
+  bp: Blueprint;
+
   constructor(
     private config: FormConfig,
-    private bp: Blueprint = nullBlueprint
-  ) {}
+    bp?: Blueprint
+  ) {
+    this.bp = bp || createOnePageBlueprint();
+  }
 
   get form(): Blueprint {
     return this.bp;

@@ -11,7 +11,7 @@ import { PatternEditComponent } from '../../types';
 export const PatternPreviewSequence: PatternEditComponent<
   SequenceProps
 > = props => {
-  const form = useFormManagerStore(state => state.form);
+  const form = useFormManagerStore(state => state.session.form);
   const updatePattern = useFormManagerStore(state => state.updatePattern);
   const pattern = getPattern(form, props.previewProps._patternId);
 

@@ -8,7 +8,7 @@ import {
 import { createContext } from 'zustand-utils';
 
 import { Result } from '@atj/common';
-import { BlueprintBuilder, type Blueprint } from '@atj/forms';
+import { BlueprintBuilder, FormSession, type Blueprint } from '@atj/forms';
 
 import { type FormEditSlice, createFormEditSlice } from './FormEdit/store';
 import { type FormListSlice, createFormListSlice } from './FormList/store';
@@ -17,7 +17,7 @@ import { type FormManagerContext } from '.';
 type StoreContext = {
   context: FormManagerContext;
   formId?: string;
-  form: Blueprint;
+  session: FormSession;
   savePeriodically?: boolean;
 };
 
@@ -28,13 +28,13 @@ export const useFormManagerStore = useStore;
 const createStore = ({
   context,
   formId,
-  form,
+  session,
   savePeriodically,
 }: StoreContext) => {
   const store = create<FormManagerStore>((...args) => ({
-    ...createFormEditSlice({ context, form })(...args),
+    ...createFormEditSlice({ context, session })(...args),
     ...createFormListSlice({ context })(...args),
-    ...createFormManagerSlice({ context, formId, form })(...args),
+    ...createFormManagerSlice({ context, formId, session })(...args),
   }));
   if (savePeriodically) {
     initializePeriodicSave(store);
@@ -45,7 +45,7 @@ const createStore = ({
 export const FormManagerProvider = (props: {
   context: FormManagerContext;
   formId?: string;
-  form: Blueprint;
+  session: FormSession;
   savePeriodically?: boolean;
   children: React.ReactNode;
 }) => {
@@ -56,7 +56,7 @@ export const FormManagerProvider = (props: {
 
 type FormManagerSlice = {
   context: FormManagerContext;
-  form: Blueprint;
+  session: FormSession;
   formId?: string;
   saveStatus: {
     inProgress: boolean;
@@ -73,11 +73,11 @@ type FormManagerSliceCreator = StateCreator<
   FormManagerSlice
 >;
 const createFormManagerSlice =
-  ({ context, formId, form }: StoreContext): FormManagerSliceCreator =>
+  ({ context, formId, session }: StoreContext): FormManagerSliceCreator =>
   (set, get) => ({
     context,
-    form,
     formId,
+    session,
     saveStatus: {
       inProgress: false,
     },
@@ -128,10 +128,10 @@ const initializePeriodicSave = (
 ) => {
   let lastForm: Blueprint;
   setInterval(async () => {
-    const { form, saveForm } = store.getState();
-    if (form && form !== lastForm) {
-      await saveForm(form);
-      lastForm = form;
+    const { session, saveForm } = store.getState();
+    if (session.form && session.form !== lastForm) {
+      await saveForm(session.form);
+      lastForm = session.form;
     }
   }, 5000);
 };

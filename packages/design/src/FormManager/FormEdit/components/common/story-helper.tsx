@@ -6,6 +6,7 @@ import { type Pattern } from '@atj/forms';
 import {
   createSimpleTestBlueprint,
   createTestFormManagerContext,
+  createTestSession,
 } from '../../../../test-form';
 
 import FormEdit from '../../../FormEdit';
@@ -27,7 +28,9 @@ export const createPatternEditStoryMeta = ({
       (Story, args) => (
         <FormManagerProvider
           context={createTestFormManagerContext()}
-          form={createSimpleTestBlueprint(pattern)}
+          session={createTestSession({
+            form: createSimpleTestBlueprint(pattern),
+          })}
         >
           <Story {...args} />
         </FormManagerProvider>

@@ -1,8 +1,9 @@
 import {
-  Pattern,
   createForm,
   createFormSession,
   defaultFormConfig,
+  type Blueprint,
+  type Pattern,
 } from '@atj/forms';
 import { type SequencePattern } from '@atj/forms/src/patterns/sequence';
 import { type InputPattern } from '@atj/forms/src/patterns/input';
@@ -12,10 +13,10 @@ import { type FormUIContext } from './Form';
 import { defaultPatternComponents } from './Form/components';
 import { defaultPatternEditComponents } from './FormManager/FormEdit/components';
 import { type FormManagerContext } from './FormManager';
-import { PageSetPattern } from '@atj/forms/src/patterns/page-set/config';
-import { PagePattern } from '@atj/forms/src/patterns/page/config';
+import { type PageSetPattern } from '@atj/forms/src/patterns/page-set/config';
+import { type PagePattern } from '@atj/forms/src/patterns/page/config';
 
-export const createTwoPatternTestForm = () => {
+export const createOnePageTwoPatternTestForm = () => {
   return createForm(
     {
       title: 'Test form',
@@ -39,6 +40,47 @@ export const createTwoPatternTestForm = () => {
             patterns: ['element-1', 'element-2'],
           },
         } satisfies PagePattern,
+        {
+          type: 'input',
+          id: 'element-1',
+          data: {
+            label: 'Pattern 1',
+            initial: '',
+            required: true,
+            maxLength: 128,
+          },
+        } satisfies InputPattern,
+        {
+          type: 'input',
+          id: 'element-2',
+          data: {
+            label: 'Pattern 2',
+            initial: 'test',
+            required: true,
+            maxLength: 128,
+          },
+        } satisfies InputPattern,
+      ],
+    }
+  );
+};
+
+export const createTwoPatternTestForm = () => {
+  return createForm(
+    {
+      title: 'Test form',
+      description: 'Test description',
+    },
+    {
+      root: 'root',
+      patterns: [
+        {
+          type: 'sequence',
+          id: 'root',
+          data: {
+            patterns: ['element-1', 'element-2'],
+          },
+        } satisfies SequencePattern,
         {
           type: 'input',
           id: 'element-1',
@@ -113,7 +155,12 @@ export const createTestFormManagerContext = (): FormManagerContext => {
   };
 };
 
-export const createTestSession = () => {
-  const form = createTwoPatternTestForm();
-  return createFormSession(form);
+export const createTestSession = (options?: {
+  form?: Blueprint;
+  routeParams?: string;
+}) => {
+  return createFormSession(
+    options?.form || createTwoPatternTestForm(),
+    options?.routeParams
+  );
 };

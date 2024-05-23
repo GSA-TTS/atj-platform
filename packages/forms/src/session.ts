@@ -170,3 +170,11 @@ const addError = (
     },
   },
 });
+
+export const mergeSession = (
+  oldSession: FormSession,
+  newSession: Partial<FormSession>
+): FormSession => ({
+  ...oldSession,
+  ...newSession,
+});

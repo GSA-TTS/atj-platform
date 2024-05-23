@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { createFormSession } from '@atj/forms';
-
 import Form, { type ComponentForPattern } from '../../Form';
 
 import { AddPatternDropdown } from './AddPatternDropdown';
@@ -9,18 +7,9 @@ import { PreviewPattern } from './PreviewPattern';
 import { useFormManagerStore } from '../store';
 import { Toolbar } from './Toolbar';
 
-export default function FormEdit({ queryString }: { queryString: string }) {
-  return (
-    <>
-      <EditForm queryString={queryString} />
-    </>
-  );
-}
-
-const EditForm = ({ queryString }: { queryString: string }) => {
-  const { form } = useFormManagerStore();
+const EditForm = () => {
+  const session = useFormManagerStore(state => state.session);
   const uiContext = useFormManagerStore(state => state.context);
-  const disposable = createFormSession(form, queryString); // nullSession instead?
 
   return (
     <div className="position-relative">
@@ -41,13 +30,15 @@ const EditForm = ({ queryString }: { queryString: string }) => {
               components: createPreviewComponents(uiContext.components),
               uswdsRoot: uiContext.uswdsRoot,
             }}
-            session={disposable}
+            session={session}
           ></Form>
         </div>
       </div>
     </div>
   );
 };
+
+export default EditForm;
 
 const createPreviewComponents = (
   components: ComponentForPattern

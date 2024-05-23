@@ -33,7 +33,7 @@ const ParagraphPatternEdit: PatternEditComponent<ParagraphProps> = ({
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const pattern = useFormManagerStore<ParagraphPattern>(
-    state => state.form.patterns[patternId]
+    state => state.session.form.patterns[patternId]
   );
   const { fieldId, getFieldState, register } =
     usePatternEditFormContext<ParagraphPattern>(patternId);

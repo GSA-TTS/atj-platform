@@ -33,7 +33,7 @@ const InputPatternEdit: PatternEditComponent<TextInputProps> = ({
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const pattern = useFormManagerStore<InputPattern>(
-    state => state.form.patterns[patternId]
+    state => state.session.form.patterns[patternId]
   );
   const { fieldId, register, getFieldState } =
     usePatternEditFormContext<InputPattern>(patternId);

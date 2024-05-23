@@ -1,25 +1,29 @@
 import { StateCreator } from 'zustand';
 
 import {
-  type Blueprint,
   type Pattern,
   type PatternId,
   type PatternMap,
+  type FormSession,
   getPattern,
   BlueprintBuilder,
+  mergeSession,
 } from '@atj/forms';
 import { type FormManagerContext } from '..';
 import { type PatternFocus } from './types';
-import { NotificationSlice, createNotificationsSlice } from '../Notifications';
+import {
+  type NotificationSlice,
+  createNotificationsSlice,
+} from '../Notifications';
 
 export type FormEditSlice = {
   context: FormManagerContext;
-  form: Blueprint;
   focus?: PatternFocus;
   availablePatterns: {
     patternType: string;
     displayName: string;
   }[];
+  session: FormSession;
 
   addPage: () => void;
   addPattern: (patternType: string) => void;
@@ -32,35 +36,47 @@ export type FormEditSlice = {
 
 type FormEditStoreContext = {
   context: FormManagerContext;
-  form: Blueprint;
+  session: FormSession;
 };
 
 type FormEditStoreCreator = StateCreator<FormEditSlice, [], [], FormEditSlice>;
 
 export const createFormEditSlice =
-  ({ context, form }: FormEditStoreContext): FormEditStoreCreator =>
+  ({ context, session }: FormEditStoreContext): FormEditStoreCreator =>
   (set, get, store) => ({
     ...createNotificationsSlice()(set, get, store),
     context,
-    form,
     availablePatterns: Object.entries(context.config.patterns).map(
       ([patternType, patternConfig]) => ({
         patternType,
         displayName: patternConfig.displayName,
       })
     ),
+    session,
     addPage: () => {
       const state = get();
-      const builder = new BlueprintBuilder(state.context.config, state.form);
+      const builder = new BlueprintBuilder(
+        state.context.config,
+        state.session.form
+      );
       const newPage = builder.addPage();
-      set({ form: builder.form, focus: { pattern: newPage } });
+      set({
+        session: mergeSession(state.session, { form: builder.form }),
+        focus: { pattern: newPage },
+      });
       state.addNotification('success', 'New page added successfully.');
     },
     addPattern: patternType => {
       const state = get();
-      const builder = new BlueprintBuilder(state.context.config, state.form);
+      const builder = new BlueprintBuilder(
+        state.context.config,
+        state.session.form
+      );
       const newPattern = builder.addPatternToFirstPage(patternType);
-      set({ form: builder.form, focus: { pattern: newPattern } });
+      set({
+        session: mergeSession(state.session, { form: builder.form }),
+        focus: { pattern: newPattern },
+      });
       state.addNotification('success', 'Element added successfully.');
     },
     clearFocus: () => {
@@ -71,9 +87,15 @@ export const createFormEditSlice =
       if (state.focus === undefined) {
         return;
       }
-      const builder = new BlueprintBuilder(state.context.config, state.form);
+      const builder = new BlueprintBuilder(
+        state.context.config,
+        state.session.form
+      );
       builder.removePattern(state.focus.pattern.id);
-      set({ focus: undefined, form: builder.form });
+      set({
+        focus: undefined,
+        session: mergeSession(state.session, { form: builder.form }),
+      });
       state.addNotification('success', 'Element removed successfully.');
     },
     setFocus: function (patternId) {
@@ -85,7 +107,7 @@ export const createFormEditSlice =
         console.log(state.focus.errors);
         return false;
       }
-      const elementToSet = getPattern(state.form, patternId);
+      const elementToSet = getPattern(state.session.form, patternId);
       if (elementToSet) {
         set({ focus: { errors: undefined, pattern: elementToSet } });
       } else {
@@ -95,12 +117,21 @@ export const createFormEditSlice =
     },
     updatePattern: pattern => {
       const state = get();
-      const builder = new BlueprintBuilder(state.context.config, state.form);
-      const success = builder.updatePattern(state.form.patterns[pattern.id], {
-        [pattern.id]: pattern,
-      });
+      const builder = new BlueprintBuilder(
+        state.context.config,
+        state.session.form
+      );
+      const success = builder.updatePattern(
+        state.session.form.patterns[pattern.id],
+        {
+          [pattern.id]: pattern,
+        }
+      );
       if (success) {
-        set({ form: builder.form, focus: undefined });
+        set({
+          session: mergeSession(state.session, { form: builder.form }),
+          focus: undefined,
+        });
       }
     },
     updateActivePattern: formData => {
@@ -108,14 +139,17 @@ export const createFormEditSlice =
       if (state.focus === undefined) {
         return;
       }
-      const builder = new BlueprintBuilder(state.context.config, state.form);
+      const builder = new BlueprintBuilder(
+        state.context.config,
+        state.session.form
+      );
       const result = builder.updatePatternById(
         state.focus.pattern.id,
         formData
       );
       if (result.success) {
         set({
-          form: builder.form,
+          session: mergeSession(state.session, { form: builder.form }),
           focus: {
             pattern: state.focus.pattern,
             errors: undefined,
