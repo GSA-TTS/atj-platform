@@ -7,6 +7,7 @@ import { type InputPattern } from '../../patterns/input';
 import { type ParagraphPattern } from '../../patterns/paragraph';
 import { type CheckboxPattern } from '../../patterns/checkbox';
 import { type RadioGroupPattern } from '../../patterns/radio-group';
+import { type FormSummary } from '../../patterns/form-summary';
 
 import { uint8ArrayToBase64 } from '../util';
 import { type DocumentFieldMap } from '../types';
@@ -127,6 +128,7 @@ export type ParsedPdf = {
   outputs: DocumentFieldMap; // to populate FormOutput
   root: PatternId;
   title: string;
+  description: string;
 };
 
 export const callExternalParser = async (
@@ -152,14 +154,29 @@ export const callExternalParser = async (
   const json = await response.json();
   const extracted: ExtractedObject = ExtractedObject.parse(json.parsed_pdf);
 
+  const rootSequence: PatternId[] = [];
+
   const parsedPdf: ParsedPdf = {
     patterns: {},
     outputs: {},
     root: 'root',
-    title: extracted.form_summary.title,
+    title: extracted.form_summary.title || 'Default Form Title',
+    description:
+      extracted.form_summary.description || 'Default Form Description',
   };
 
-  const rootSequence: PatternId[] = [];
+  const formSummaryId = generatePatternId();
+
+  parsedPdf.patterns[formSummaryId] = {
+    type: 'form-summary',
+    id: formSummaryId,
+    data: {
+      title: extracted.form_summary.title || 'Default Form Title',
+      description:
+        extracted.form_summary.description || 'Default Form Description',
+    },
+  } satisfies FormSummary;
+  rootSequence.push(formSummaryId);
 
   for (const element of extracted.elements) {
     const randomId = generatePatternId();

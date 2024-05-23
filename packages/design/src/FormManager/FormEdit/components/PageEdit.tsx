@@ -25,7 +25,7 @@ export const PageEdit: PatternEditComponent<PageProps> = props => {
           <div className="text-uppercase text-ls-1 text-base">
             {props.previewProps.title || 'untitled page'}
           </div>
-          <div className="text-base">Page 1</div>
+          <div className="text-base">Page X</div>
         </div>
       )}
       <PatternPreviewSequence

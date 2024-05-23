@@ -143,7 +143,7 @@ const FormContents = ({
           <div className="usa-form-group">
             <div className="usa-form-group">
               <fieldset className="usa-fieldset width-full">
-                <legend className="usa-legend font-body-5 text-uppercase line-height-body-4">
+                <legend className="usa-legend usa-legend--large text-uppercase line-height-body-4">
                   County where you live
                 </legend>
                 <label className="usa-label">Name of your county *</label>
@@ -162,7 +162,7 @@ const FormContents = ({
           <div className="usa-form-group">
             <div className="usa-form-group">
               <fieldset className="usa-fieldset width-full">
-                <legend className="usa-legend font-body-5 text-uppercase line-height-body-4">
+                <legend className="usa-legend usa-legend--large text-uppercase line-height-body-4">
                   Your current name
                 </legend>
                 <label className="usa-label">First name *</label>
