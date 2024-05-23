@@ -15,6 +15,7 @@ import {
   type NotificationSlice,
   createNotificationsSlice,
 } from '../Notifications';
+import { getRouteDataFromQueryString } from '@atj/forms/src/route-data';
 
 export type FormEditSlice = {
   context: FormManagerContext;
@@ -30,6 +31,7 @@ export type FormEditSlice = {
   clearFocus: () => void;
   deleteSelectedPattern: () => void;
   setFocus: (patternId: PatternId) => boolean;
+  setRouteParams: (routeParams: string) => void;
   updatePattern: (data: Pattern) => void;
   updateActivePattern: (formData: PatternMap) => void;
 } & NotificationSlice;
@@ -114,6 +116,14 @@ export const createFormEditSlice =
         set({ focus: undefined });
       }
       return true;
+    },
+    setRouteParams: routeParams => {
+      const state = get();
+      set({
+        session: mergeSession(state.session, {
+          routeParams: getRouteDataFromQueryString(routeParams),
+        }),
+      });
     },
     updatePattern: pattern => {
       const state = get();

@@ -16,7 +16,6 @@ const PageSetEdit: PatternEditComponent<PageSetProps> = ({ previewProps }) => {
         className="usa-button"
         onClick={() => {
           addPage();
-          console.log('add button clicked');
         }}
       >
         Add New Page

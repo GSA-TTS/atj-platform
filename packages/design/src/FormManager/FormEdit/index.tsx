@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import Form, { type ComponentForPattern } from '../../Form';
 
@@ -6,14 +6,27 @@ import { AddPatternDropdown } from './AddPatternDropdown';
 import { PreviewPattern } from './PreviewPattern';
 import { useFormManagerStore } from '../store';
 import { Toolbar } from './Toolbar';
+import { useLocation } from 'react-router-dom';
 
 const EditForm = () => {
   const session = useFormManagerStore(state => state.session);
-  const uiContext = useFormManagerStore(state => state.context);
+  const { context, setRouteParams } = useFormManagerStore(state => ({
+    context: state.context,
+    setRouteParams: state.setRouteParams,
+  }));
+  const location = useLocation();
+
+  // Update the state's routeParams on react-router-dom's update.
+  useEffect(() => {
+    const routeParams = location.search.startsWith('?')
+      ? location.search.substring(1)
+      : location.search;
+    setRouteParams(routeParams);
+  }, [location]);
 
   return (
     <div className="position-relative">
-      <Toolbar uswdsRoot={uiContext.uswdsRoot} />
+      <Toolbar uswdsRoot={context.uswdsRoot} />
       <div className="grid-row">
         <div className="grid-col-12">
           <AddPatternDropdown />
@@ -24,11 +37,11 @@ const EditForm = () => {
           <Form
             isPreview={true}
             context={{
-              config: uiContext.config,
+              config: context.config,
               // TODO: We might want to hoist this definition up to a higher level,
               // so we don't have to regenerate it every time we render the form.
-              components: createPreviewComponents(uiContext.components),
-              uswdsRoot: uiContext.uswdsRoot,
+              components: createPreviewComponents(context.components),
+              uswdsRoot: context.uswdsRoot,
             }}
             session={session}
           ></Form>

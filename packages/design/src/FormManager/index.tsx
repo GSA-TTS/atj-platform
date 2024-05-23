@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   useParams,
   HashRouter,
   Route,
   Routes,
   useSearchParams,
+  useLocation,
 } from 'react-router-dom';
 
 import {

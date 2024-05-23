@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   type StoreApi,
   type StateCreator,
@@ -13,6 +13,7 @@ import { BlueprintBuilder, FormSession, type Blueprint } from '@atj/forms';
 import { type FormEditSlice, createFormEditSlice } from './FormEdit/store';
 import { type FormListSlice, createFormListSlice } from './FormList/store';
 import { type FormManagerContext } from '.';
+import { useSearchParams } from 'react-router-dom';
 
 type StoreContext = {
   context: FormManagerContext;
@@ -42,13 +43,9 @@ const createStore = ({
   return store;
 };
 
-export const FormManagerProvider = (props: {
-  context: FormManagerContext;
-  formId?: string;
-  session: FormSession;
-  savePeriodically?: boolean;
-  children: React.ReactNode;
-}) => {
+export const FormManagerProvider = (
+  props: React.PropsWithChildren<StoreContext>
+) => {
   return (
     <Provider createStore={() => createStore(props)}>{props.children}</Provider>
   );

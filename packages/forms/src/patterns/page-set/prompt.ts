@@ -55,7 +55,8 @@ const getRouteParamSchema = (pattern: PageSetPattern) => {
     page: z.coerce
       .number()
       .min(0)
-      .max(pattern.data.pages.length - 1),
+      .max(pattern.data.pages.length - 1)
+      .default(0),
   });
 };
 

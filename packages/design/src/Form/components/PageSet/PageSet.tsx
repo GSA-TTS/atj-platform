@@ -5,16 +5,17 @@ import { useLocation } from 'react-router-dom';
 import { type PageSetProps } from '@atj/forms';
 
 import { type PatternComponent } from '../..';
+import { useFormManagerStore } from '../../../FormManager/store';
 
 const PageSet: PatternComponent<PageSetProps> = props => {
   const location = useLocation();
-
+  const routeParams = useFormManagerStore(state => state.session.routeParams);
   return (
     <div className="grid-row grid-gap">
       <nav className="tablet:grid-col-3 bg-primary-lightest">
         <ul className="usa-sidenav">
           {props.pages.map((page, index) => {
-            const params = new URLSearchParams(location.search);
+            const params = new URLSearchParams(routeParams?.toString());
             params.set('page', index.toString());
             return (
               <li key={index} className={'usa-sidenav__item'}>
@@ -22,7 +23,7 @@ const PageSet: PatternComponent<PageSetProps> = props => {
                   className={classNames({
                     'usa-current': page.active,
                   })}
-                  href={`#${location.pathname}?${params.toString()}`}
+                  href={`#${location.pathname}?page=${index}`}
                 >
                   {page.title}
                 </a>
