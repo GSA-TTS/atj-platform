@@ -1,19 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   useParams,
   HashRouter,
   Route,
   Routes,
   useSearchParams,
-  useLocation,
 } from 'react-router-dom';
 
-import {
-  type FormConfig,
-  nullBlueprint,
-  createFormSession,
-  nullSession,
-} from '@atj/forms';
+import { type FormConfig, createFormSession, nullSession } from '@atj/forms';
 import { FormService } from '@atj/form-service';
 
 import { type ComponentForPattern } from '../Form';
@@ -28,7 +22,6 @@ import { NavPage } from './FormManagerLayout/TopNavigation';
 import { FormPreview } from './FormPreview';
 import * as AppRoutes from './routes';
 import { FormManagerProvider } from './store';
-import { createTestSession } from 'test-form';
 
 export type FormManagerContext = {
   baseUrl: `${string}/`;
