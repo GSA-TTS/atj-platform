@@ -22,7 +22,7 @@ export default function CreateNew() {
             <div className="usa-card__header">
               <h2 className="usa-card__heading">Start from Scratch</h2>
             </div>
-            <div className="usa-card__media">
+            <div className="usa-card__media bg-primary-lighter">
               <div className="usa-card__img bg-primary-lighter">
                 <svg
                   className="usa-icon usa-icon--size-9 margin-y-3 margin-x-auto text-middle display-block bg-blue-vivid-60 text-primary"
@@ -49,7 +49,7 @@ export default function CreateNew() {
                   }
                 }}
               >
-                New Form
+                Create New
               </button>
             </div>
           </div>
@@ -59,7 +59,7 @@ export default function CreateNew() {
             <div className="usa-card__header">
               <h2 className="usa-card__heading">Start from Import</h2>
             </div>
-            <div className="usa-card__media">
+            <div className="usa-card__media bg-primary-lighter">
               <div className="usa-card__img bg-primary-lighter">
                 <svg
                   className="usa-icon usa-icon--size-9 margin-y-3 margin-x-auto text-middle display-block bg-blue-vivid-60 text-primary"
