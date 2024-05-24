@@ -13,17 +13,18 @@ import FormEdit from '../../../FormEdit';
 import { FormManagerProvider } from '../../../store';
 import { expect, userEvent } from '@storybook/test';
 import { within } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 
 type PatternEditStoryMetaOptions = {
   pattern?: Pattern;
   blueprint?: Blueprint;
-  decorators: Decorator[];
+  decorators?: Decorator[];
 };
 
 export const createPatternEditStoryMeta = ({
   pattern,
   blueprint,
-  decorators = [],
+  decorators,
 }: PatternEditStoryMetaOptions): Meta<typeof FormEdit> => {
   const form = blueprint ?? createSimpleTestBlueprint(pattern as Pattern);
   return {
@@ -31,16 +32,18 @@ export const createPatternEditStoryMeta = ({
     component: FormEdit,
     decorators: [
       (Story, args) => (
-        <FormManagerProvider
-          context={createTestFormManagerContext()}
-          session={createTestSession({
-            form,
-          })}
-        >
-          <Story {...args} />
-        </FormManagerProvider>
+        <MemoryRouter initialEntries={['/']}>
+          <FormManagerProvider
+            context={createTestFormManagerContext()}
+            session={createTestSession({
+              form,
+            })}
+          >
+            <Story {...args} />
+          </FormManagerProvider>
+        </MemoryRouter>
       ),
-      ...decorators,
+      ...(decorators ?? []),
     ],
     args: {},
     tags: ['autodocs'],

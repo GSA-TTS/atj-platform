@@ -16,13 +16,6 @@ const storyConfig: Meta<typeof PageSetEdit> = {
   title: 'Edit components/PageSetEdit',
   ...createPatternEditStoryMeta({
     blueprint,
-    decorators: [
-      (Story, args) => (
-        <MemoryRouter initialEntries={['/']}>
-          <Story {...args} />
-        </MemoryRouter>
-      ),
-    ],
   }),
 };
 export default storyConfig;
