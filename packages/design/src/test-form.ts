@@ -65,6 +65,63 @@ export const createOnePageTwoPatternTestForm = () => {
   );
 };
 
+export const createTwoPageTwoPatternTestForm = () => {
+  return createForm(
+    {
+      title: 'Test form',
+      description: 'Test description',
+    },
+    {
+      root: 'root',
+      patterns: [
+        {
+          type: 'page-set',
+          id: 'root',
+          data: {
+            pages: ['page-1', 'page-2'],
+          },
+        } satisfies PageSetPattern,
+        {
+          type: 'page',
+          id: 'page-1',
+          data: {
+            title: 'Page 1',
+            patterns: ['element-1', 'element-2'],
+          },
+        } satisfies PagePattern,
+        {
+          type: 'page',
+          id: 'page-2',
+          data: {
+            title: 'Page 2',
+            patterns: [],
+          },
+        } satisfies PagePattern,
+        {
+          type: 'input',
+          id: 'element-1',
+          data: {
+            label: 'Pattern 1',
+            initial: '',
+            required: true,
+            maxLength: 128,
+          },
+        } satisfies InputPattern,
+        {
+          type: 'input',
+          id: 'element-2',
+          data: {
+            label: 'Pattern 2',
+            initial: 'test',
+            required: true,
+            maxLength: 128,
+          },
+        } satisfies InputPattern,
+      ],
+    }
+  );
+};
+
 export const createTwoPatternTestForm = () => {
   return createForm(
     {

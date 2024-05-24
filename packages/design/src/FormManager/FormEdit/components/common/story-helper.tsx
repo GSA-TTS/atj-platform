@@ -1,7 +1,7 @@
 import React from 'react';
-import { type Meta } from '@storybook/react';
+import { type Decorator, type Meta } from '@storybook/react';
 
-import { type Pattern } from '@atj/forms';
+import { type Blueprint, type Pattern } from '@atj/forms';
 
 import {
   createSimpleTestBlueprint,
@@ -15,12 +15,17 @@ import { expect, userEvent } from '@storybook/test';
 import { within } from '@testing-library/react';
 
 type PatternEditStoryMetaOptions = {
-  pattern: Pattern;
+  pattern?: Pattern;
+  blueprint?: Blueprint;
+  decorators: Decorator[];
 };
 
 export const createPatternEditStoryMeta = ({
   pattern,
+  blueprint,
+  decorators = [],
 }: PatternEditStoryMetaOptions): Meta<typeof FormEdit> => {
+  const form = blueprint ?? createSimpleTestBlueprint(pattern as Pattern);
   return {
     title: 'Untitled pattern edit story',
     component: FormEdit,
@@ -29,16 +34,17 @@ export const createPatternEditStoryMeta = ({
         <FormManagerProvider
           context={createTestFormManagerContext()}
           session={createTestSession({
-            form: createSimpleTestBlueprint(pattern),
+            form,
           })}
         >
           <Story {...args} />
         </FormManagerProvider>
       ),
+      ...decorators,
     ],
     args: {},
     tags: ['autodocs'],
-  } satisfies Meta<typeof FormEdit>;
+  };
 };
 
 export const testUpdateFormFieldOnSubmit = async (
@@ -47,15 +53,30 @@ export const testUpdateFormFieldOnSubmit = async (
   fieldLabel: string,
   updatedLabel: string
 ): Promise<void> => {
+  const canvas = within(canvasElement);
+  return testUpdateFormFieldOnSubmitByElement(
+    canvasElement,
+    await canvas.findByLabelText(displayName),
+    fieldLabel,
+    updatedLabel
+  );
+};
+
+export const testUpdateFormFieldOnSubmitByElement = async (
+  canvasElement: HTMLElement,
+  element: HTMLElement,
+  fieldLabel: string,
+  updatedValue: string
+): Promise<void> => {
   userEvent.setup();
   const canvas = within(canvasElement);
 
-  await userEvent.click(await canvas.findByLabelText(displayName));
+  await userEvent.click(element);
   const input = canvas.getByLabelText(fieldLabel);
 
   // Enter new text for the field
   await userEvent.clear(input);
-  await userEvent.type(input, updatedLabel);
+  await userEvent.type(input, updatedValue);
 
   const form = input?.closest('form');
   /**
@@ -65,7 +86,9 @@ export const testUpdateFormFieldOnSubmit = async (
    */
   form?.requestSubmit();
 
-  await expect(await canvas.findByText(updatedLabel)).toBeInTheDocument();
+  await expect(
+    (await canvas.findAllByText(updatedValue)).length
+  ).toBeGreaterThan(0);
 };
 
 export const testEmptyFormLabelError = async (
