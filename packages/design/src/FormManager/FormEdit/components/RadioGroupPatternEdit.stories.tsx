@@ -11,7 +11,7 @@ import { within } from '@testing-library/react';
 
 const pattern: RadioGroupPattern = {
   id: 'radio-group-1',
-  type: 'radioGroup',
+  type: 'radio-group',
   data: {
     label: message.patterns.radioGroup.displayName,
     options: [

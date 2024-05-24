@@ -1,3 +1,5 @@
+import { type PropsWithChildren } from 'react';
+
 import { type FormErrors, type Pattern, type PatternProps } from '@atj/forms';
 import { FormManagerContext } from '..';
 
@@ -9,7 +11,7 @@ export type PatternFocus = {
 export type PatternEditComponent<T extends PatternProps = PatternProps> =
   React.ComponentType<{
     context: FormManagerContext;
-    previewProps: T;
+    previewProps: PropsWithChildren<T>;
     focus?: PatternFocus;
   }>;
 

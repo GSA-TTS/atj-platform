@@ -1,10 +1,10 @@
 import {
-  type FormConfig,
   type Blueprint,
+  type FormConfig,
+  type FormError,
   type Pattern,
   getPatternConfig,
   validatePattern,
-  FormError,
 } from '.';
 import { SequencePattern } from './patterns/sequence';
 import {
@@ -12,6 +12,7 @@ import {
   type PatternValue,
   type PatternValueMap,
 } from './pattern';
+import { type RouteData, getRouteDataFromQueryString } from './route-data';
 
 export type FormErrorMap = Record<PatternId, FormError>;
 
@@ -21,6 +22,7 @@ export type FormSession = {
     values: PatternValueMap;
   };
   form: Blueprint;
+  routeParams?: RouteData;
 };
 
 export const nullSession: FormSession = {
@@ -49,7 +51,10 @@ export const nullSession: FormSession = {
   },
 };
 
-export const createFormSession = (form: Blueprint): FormSession => {
+export const createFormSession = (
+  form: Blueprint,
+  queryString?: string
+): FormSession => {
   return {
     data: {
       errors: {},
@@ -64,6 +69,9 @@ export const createFormSession = (form: Blueprint): FormSession => {
       */
     },
     form,
+    routeParams: queryString
+      ? getRouteDataFromQueryString(queryString)
+      : undefined,
   };
 };
 
@@ -161,4 +169,12 @@ const addError = (
       [id]: error,
     },
   },
+});
+
+export const mergeSession = (
+  oldSession: FormSession,
+  newSession: Partial<FormSession>
+): FormSession => ({
+  ...oldSession,
+  ...newSession,
 });

@@ -2,6 +2,7 @@ import React from 'react';
 
 import { type PatternId, type FieldsetProps } from '@atj/forms';
 
+import { PatternComponent } from '../../../Form';
 import Fieldset from '../../../Form/components/Fieldset';
 import { useFormManagerStore } from '../../store';
 import { PatternEditComponent } from '../types';
@@ -29,9 +30,9 @@ const FieldsetEdit: PatternEditComponent<FieldsetProps> = ({
   );
 };
 
-const FieldsetPreview = (props: FieldsetProps) => {
+const FieldsetPreview: PatternComponent<FieldsetProps> = props => {
   const pattern = useFormManagerStore(
-    state => state.form.patterns[props._patternId]
+    state => state.session.form.patterns[props._patternId]
   );
   return (
     <>
@@ -57,6 +58,7 @@ const FieldsetPreview = (props: FieldsetProps) => {
             </div>
           </div>
         )}
+        {props.children}
       </Fieldset>
     </>
   );
@@ -65,7 +67,7 @@ const FieldsetPreview = (props: FieldsetProps) => {
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const { register } = usePatternEditFormContext<FieldsetPattern>(patternId);
   return (
-    <div className="grid-row edit-component-panel">
+    <div className="grid-row">
       <div className="grid-col-12 margin-bottom-3 flex-align-self-end">
         <label className="usa-label width-full maxw-full">
           Legend Text Element

@@ -25,7 +25,7 @@ export const createFormListSlice =
     createNewFormByPDFUrl: async url => {
       const data = await fetchUint8Array(`${context.baseUrl}${url}`);
 
-      const builder = new BlueprintBuilder();
+      const builder = new BlueprintBuilder(context.config);
       builder.setFormSummary({
         title: url,
         description: '',
@@ -48,7 +48,7 @@ export const createFormListSlice =
       }
     },
     createNewFormByPDFUpload: async fileDetails => {
-      const builder = new BlueprintBuilder();
+      const builder = new BlueprintBuilder(context.config);
       builder.setFormSummary({
         title: fileDetails.name,
         description: '',

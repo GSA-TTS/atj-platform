@@ -1,21 +1,19 @@
 import React from 'react';
 
-import { PatternProps, getPattern } from '@atj/forms';
-import { SequencePattern } from '@atj/forms/src/patterns/sequence';
-
-import { PatternComponent } from '../../../../Form';
+import { type SequenceProps, getPattern } from '@atj/forms';
 
 import { DraggableList } from './DraggableList';
 import { useFormManagerStore } from '../../../store';
+import { PatternEditComponent } from '../../types';
 
 // TODO: consider merging this component with DraggableList, to clean up
 // sematics around how its children are handled.
-export const PatternPreviewSequence: PatternComponent<
-  PatternProps<SequencePattern>
-> = function PatternPreviewSequence(props) {
-  const form = useFormManagerStore(state => state.form);
+export const PatternPreviewSequence: PatternEditComponent<
+  SequenceProps
+> = props => {
+  const form = useFormManagerStore(state => state.session.form);
   const updatePattern = useFormManagerStore(state => state.updatePattern);
-  const pattern = getPattern(form, props._patternId);
+  const pattern = getPattern(form, props.previewProps._patternId);
 
   /**
    * Here, we assume that we are rendering a "sequence" pattern, and that
@@ -42,7 +40,7 @@ export const PatternPreviewSequence: PatternComponent<
         });
       }}
     >
-      {props.children}
+      {props.previewProps.children}
     </DraggableList>
   );
 };

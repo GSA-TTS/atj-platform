@@ -11,7 +11,7 @@ export const BottomNavigation = ({
 }) => {
   return (
     <div className="position-sticky bottom-0 bg-white padding-1">
-      <div className="grid-container grid-row display-flex flex-justify-end">
+      <div className="grid-container grid-row display-flex flex-justify-end width-full">
         {back && (
           <a className="usa-button" href={back}>
             Back

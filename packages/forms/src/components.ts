@@ -52,6 +52,16 @@ export type CheckboxProps = PatternProps<{
   defaultChecked: boolean;
 }>;
 
+export type PageSetProps = PatternProps<{
+  type: 'page-set';
+  pages: { title: string; active: boolean }[];
+}>;
+
+export type PageProps = PatternProps<{
+  type: 'page';
+  title: string;
+}>;
+
 export type RadioGroupProps = PatternProps<{
   type: 'radio-group';
   legend: string;
@@ -61,6 +71,10 @@ export type RadioGroupProps = PatternProps<{
     label: string;
     defaultChecked: boolean;
   }[];
+}>;
+
+export type SequenceProps = PatternProps<{
+  type: 'sequence';
 }>;
 
 export type PatternProps<T = {}> = {

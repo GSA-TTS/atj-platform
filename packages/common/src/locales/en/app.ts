@@ -17,6 +17,9 @@ export const en = {
       displayName: 'Checkbox input',
       errorTextMustContainChar: 'String must contain at least 1 character(s)',
     },
+    page: {
+      fieldLabel: 'Page title',
+    },
     paragraph: {
       fieldLabel: 'Paragraph text',
       displayName: 'Lorem ipsum...',

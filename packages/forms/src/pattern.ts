@@ -20,7 +20,7 @@ type ParseUserInput<Pattern, PatternOutput> = (
   obj: unknown
 ) => Result<PatternOutput, FormError>;
 
-type ParsePatternConfigData<PatternConfigData> = (
+export type ParsePatternConfigData<PatternConfigData> = (
   patternData: unknown
 ) => Result<PatternConfigData, FormErrors>;
 

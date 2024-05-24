@@ -29,7 +29,7 @@ const FormSummaryEdit: PatternEditComponent<FormSummaryProps> = ({
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const { register } = usePatternEditFormContext(patternId);
   return (
-    <div className="grid-row grid-gap-1 edit-component-panel">
+    <div className="grid-row grid-gap-1">
       <div className="desktop:grid-col-4 mobile:grid-col-12">
         <label className="usa-label">
           Title

@@ -8,48 +8,62 @@ import {
   type PatternId,
   type PatternMap,
   addDocument,
-  addPatternToRoot,
+  addPageToPageSet,
+  addPatternToPage,
   createPattern,
   getPattern,
   nullBlueprint,
   removePatternFromBlueprint,
   updateFormSummary,
   updatePatternFromFormData,
+  createOnePageBlueprint,
 } from '..';
+import { type PageSetPattern } from '../patterns/page-set/config';
 
 export class BlueprintBuilder {
-  private _bp: Blueprint;
+  bp: Blueprint;
 
-  constructor(initial: Blueprint = nullBlueprint) {
-    this._bp = initial;
+  constructor(
+    private config: FormConfig,
+    bp?: Blueprint
+  ) {
+    this.bp = bp || createOnePageBlueprint();
   }
 
   get form(): Blueprint {
-    return this._bp;
+    return this.bp;
   }
 
   setFormSummary(summary: FormSummary) {
-    this._bp = updateFormSummary(this.form, summary);
+    this.bp = updateFormSummary(this.form, summary);
   }
 
   async addDocument(fileDetails: { name: string; data: Uint8Array }) {
     const { updatedForm } = await addDocument(this.form, fileDetails);
-    this._bp = updatedForm;
+    this.bp = updatedForm;
   }
 
-  addPattern(config: FormConfig, patternType: string) {
-    const pattern = createPattern(config, patternType);
-    this._bp = addPatternToRoot(this.form, pattern);
+  addPage() {
+    const newPage = createPattern(this.config, 'page');
+    this.bp = addPageToPageSet(this.form, newPage);
+    return newPage;
+  }
+
+  addPatternToFirstPage(patternType: string) {
+    const pattern = createPattern(this.config, patternType);
+    const root = this.form.patterns[this.form.root] as PageSetPattern;
+    const firstPagePatternId = root.data.pages[0];
+    this.bp = addPatternToPage(this.form, firstPagePatternId, pattern);
     return pattern;
   }
 
-  removePattern(config: FormConfig, id: PatternId) {
-    this._bp = removePatternFromBlueprint(config, this._bp, id);
+  removePattern(id: PatternId) {
+    this.bp = removePatternFromBlueprint(this.config, this.bp, id);
   }
 
-  updatePattern(config: FormConfig, pattern: Pattern, formData: PatternMap) {
+  updatePattern(pattern: Pattern, formData: PatternMap) {
     const result = updatePatternFromFormData(
-      config,
+      this.config,
       this.form,
       pattern,
       formData
@@ -57,18 +71,17 @@ export class BlueprintBuilder {
     if (!result.success) {
       return false;
     }
-    this._bp = result.data;
+    this.bp = result.data;
     return true;
   }
 
   updatePatternById(
-    config: FormConfig,
     id: PatternId,
     formData: PatternMap
   ): VoidResult<FormErrors> {
     const pattern = getPattern(this.form, id);
     const result = updatePatternFromFormData(
-      config,
+      this.config,
       this.form,
       pattern,
       formData
@@ -76,7 +89,7 @@ export class BlueprintBuilder {
     if (!result.success) {
       return result;
     }
-    this._bp = result.data;
+    this.bp = result.data;
     return {
       success: true,
     };

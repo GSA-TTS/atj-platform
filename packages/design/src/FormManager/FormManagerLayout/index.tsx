@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Notifications } from '../common/Notifications';
+import { Notifications } from '../Notifications';
 import { type NavPage, TopNavigation } from './TopNavigation';
 import { BottomNavigation } from './BottomNavigation';
 

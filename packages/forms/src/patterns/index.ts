@@ -5,6 +5,8 @@ import { checkboxConfig } from './checkbox';
 import { fieldsetConfig } from './fieldset';
 import { formSummaryConfig } from './form-summary';
 import { inputConfig } from './input';
+import { pageConfig } from './page';
+import { pageSetConfig } from './page-set';
 import { paragraphConfig } from './paragraph';
 import { radioGroupConfig } from './radio-group';
 import { sequenceConfig } from './sequence';
@@ -19,6 +21,8 @@ export const defaultFormConfig: FormConfig = {
     checkbox: checkboxConfig,
     fieldset: fieldsetConfig,
     input: inputConfig,
+    page: pageConfig,
+    'page-set': pageSetConfig,
     paragraph: paragraphConfig,
     'radio-group': radioGroupConfig,
     sequence: sequenceConfig,

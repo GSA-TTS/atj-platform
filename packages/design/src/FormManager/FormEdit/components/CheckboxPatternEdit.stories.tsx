@@ -20,12 +20,12 @@ const pattern: CheckboxPattern = {
   },
 };
 
-const storyConfig: Meta = {
+const storyConfig: Meta<typeof FormEdit> = {
   title: 'Edit components/CheckboxPatternEdit',
   ...createPatternEditStoryMeta({
     pattern,
   }),
-} as Meta<typeof FormEdit>;
+};
 export default storyConfig;
 
 export const Basic: StoryObj<typeof CheckboxPatternEdit> = {

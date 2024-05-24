@@ -1,5 +1,5 @@
 import React from 'react';
-import { useFormManagerStore } from '../../store';
+import { useFormManagerStore } from '../store';
 import { NotificationAlert } from './NotificationAlert';
 
 export const Notifications = () => {
