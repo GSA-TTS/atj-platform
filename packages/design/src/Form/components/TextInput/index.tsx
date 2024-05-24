@@ -18,32 +18,31 @@ const TextInput: PatternComponent<TextInputProps> = props => {
           className={classNames('usa-label', {
             'usa-label--error': props.error,
           })}
-          htmlFor={`input-${props.inputId}`}
           id={`input-message-${props.inputId}`}
         >
           {props.label}
+          {props.error && (
+            <span
+              className="usa-error-message"
+              id={`input-error-message-${props.inputId}`}
+              role="alert"
+            >
+              {props.error.message}
+            </span>
+          )}
+          <input
+            className={classNames('usa-input', {
+              'usa-input--error': props.error,
+            })}
+            id={`input-${props.inputId}`}
+            defaultValue={props.value}
+            {...register(props.inputId || Math.random().toString(), {
+              //required: props.required,
+            })}
+            type="text"
+            aria-describedby={`input-message-${props.inputId}`}
+          />
         </label>
-        {props.error && (
-          <span
-            className="usa-error-message"
-            id={`input-error-message-${props.inputId}`}
-            role="alert"
-          >
-            {props.error.message}
-          </span>
-        )}
-        <input
-          className={classNames('usa-input', {
-            'usa-input--error': props.error,
-          })}
-          id={`input-${props.inputId}`}
-          defaultValue={props.value}
-          {...register(props.inputId, {
-            //required: props.required,
-          })}
-          type="text"
-          aria-describedby={`input-message-${props.inputId}`}
-        />
       </div>
     </div>
   );
