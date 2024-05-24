@@ -13,11 +13,6 @@ export const PageMenu = ({ pages }: PageMenuProps) => {
   return (
     <div>
       <ul className="usa-sidenav">
-        <li className="usa-sidenav__item">
-          <button className="usa-button usa-button--primary">
-            Add New Page
-          </button>
-        </li>
         {pages.map((page, index) => (
           <li
             key={index}
