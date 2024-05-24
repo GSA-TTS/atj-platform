@@ -77,7 +77,6 @@ export default function Form({
     context.config,
     session
   );
-  console.log('prompt', prompt);
 
   // So the preview view can update the session, regen the prompt.
   // This feels smelly.
@@ -99,46 +98,6 @@ export default function Form({
     <FormProvider {...formMethods}>
       <div className="preview">
         <div className="grid-row">
-          {!isPreview && (
-            <nav className="sideNav tablet:grid-col-3 margin-bottom-4 tablet:margin-bottom-0">
-              <ul className="usa-sidenav">
-                <li className="usa-sidenav__item">
-                  <a className="usa-current" href="">
-                    County
-                  </a>
-                </li>
-                <li className="usa-sidenav__item">
-                  <a href="">Current name</a>
-                </li>
-                <ul className="usa-sidenav__sublist">
-                  <li className="usa-sidenav__item">
-                    <a href="">First name</a>
-                  </li>
-                  <li className="usa-sidenav__item">
-                    <a href="">Middle name</a>
-                  </li>
-                  <li className="usa-sidenav__item">
-                    <a href="">Last name</a>
-                  </li>
-                </ul>
-                <li className="usa-sidenav__item">
-                  <a href="">Declarations</a>
-                </li>
-                <li className="usa-sidenav__item">
-                  <a href="">Address</a>
-                </li>
-                <li className="usa-sidenav__item">
-                  <a href="">Telephone</a>
-                </li>
-                <li className="usa-sidenav__item">
-                  <a href="">Date of Birth</a>
-                </li>
-                <li className="usa-sidenav__item">
-                  <a href="">Name at Birth</a>
-                </li>
-              </ul>
-            </nav>
-          )}
           <div className="desktop:grid-col-9 mobile:grid-col-12 usa-prose">
             {!isPreview ? (
               <form

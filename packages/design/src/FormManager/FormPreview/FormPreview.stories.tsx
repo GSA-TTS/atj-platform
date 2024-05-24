@@ -7,6 +7,7 @@ import {
   createTwoPatternTestForm,
   createTestFormContext,
   createTestFormManagerContext,
+  createTestSession,
 } from '../../test-form';
 import { FormManagerProvider } from '../store';
 
@@ -18,7 +19,7 @@ const meta: Meta<typeof FormPreview> = {
       <MemoryRouter initialEntries={['/']}>
         <FormManagerProvider
           context={createTestFormManagerContext()}
-          form={createTwoPatternTestForm()}
+          session={createTestSession({ form: createTwoPatternTestForm() })}
         >
           <Story {...args} />
         </FormManagerProvider>

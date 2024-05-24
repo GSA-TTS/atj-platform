@@ -7,8 +7,9 @@ import { FormManagerProvider } from '../store';
 
 import FormEdit from '.';
 import {
-  createTwoPatternTestForm,
   createTestFormManagerContext,
+  createTestSession,
+  createOnePageTwoPatternTestForm,
 } from '../../test-form';
 
 const meta: Meta<typeof FormEdit> = {
@@ -19,7 +20,10 @@ const meta: Meta<typeof FormEdit> = {
       <MemoryRouter initialEntries={['/']}>
         <FormManagerProvider
           context={createTestFormManagerContext()}
-          form={createTwoPatternTestForm()}
+          session={createTestSession({
+            form: createOnePageTwoPatternTestForm(),
+            routeParams: 'page=0',
+          })}
         >
           <Story {...args} />
         </FormManagerProvider>
@@ -27,7 +31,7 @@ const meta: Meta<typeof FormEdit> = {
     ),
   ],
   args: {
-    formId: 'test-form',
+    queryString: 'page=0',
   },
   tags: ['autodocs'],
 };

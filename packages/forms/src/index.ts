@@ -7,7 +7,10 @@ import {
   type PatternMap,
   getPatternMap,
   removeChildPattern,
+  generatePatternId,
 } from './pattern';
+import { type PagePattern } from './patterns/page/config';
+import { type PageSetPattern } from './patterns/page-set/config';
 
 export * from './builder';
 export * from './components';
@@ -41,6 +44,35 @@ export const nullBlueprint: Blueprint = {
     } satisfies SequencePattern,
   },
   outputs: [],
+};
+
+export const createOnePageBlueprint = (): Blueprint => {
+  const page1 = generatePatternId();
+  return {
+    summary: {
+      title: '',
+      description: '',
+    },
+    root: 'root',
+    patterns: {
+      root: {
+        type: 'page-set',
+        id: 'root',
+        data: {
+          pages: [page1],
+        },
+      } satisfies PageSetPattern,
+      [page1]: {
+        type: 'page',
+        id: page1,
+        data: {
+          title: 'Page 1',
+          patterns: [],
+        },
+      },
+    },
+    outputs: [],
+  };
 };
 
 export type FormSummary = {
@@ -153,21 +185,48 @@ export const addPatterns = (
   return addPatternMap(form, formPatternMap, root);
 };
 
-export const addPatternToRoot = (
+export const addPatternToPage = (
   bp: Blueprint,
+  pagePatternId: PatternId,
   pattern: Pattern
 ): Blueprint => {
-  const rootSequence = bp.patterns[bp.root] as SequencePattern;
+  const pagePattern = bp.patterns[pagePatternId] as PagePattern;
+  if (pagePattern.type !== 'page') {
+    throw new Error('Pattern is not a page.');
+  }
   return {
     ...bp,
     patterns: {
       ...bp.patterns,
-      [rootSequence.id]: {
-        ...rootSequence,
+      [pagePattern.id]: {
+        ...pagePattern,
         data: {
-          patterns: [...rootSequence.data.patterns, pattern.id],
+          patterns: [...pagePattern.data.patterns, pattern.id],
         },
-      },
+      } satisfies SequencePattern,
+      [pattern.id]: pattern,
+    },
+  };
+};
+
+export const addPageToPageSet = (
+  bp: Blueprint,
+  pattern: Pattern
+): Blueprint => {
+  const pageSet = bp.patterns[bp.root] as PageSetPattern;
+  if (pageSet.type !== 'page-set') {
+    throw new Error('Root pattern is not a page set.');
+  }
+  return {
+    ...bp,
+    patterns: {
+      ...bp.patterns,
+      [pageSet.id]: {
+        ...pageSet,
+        data: {
+          pages: [...pageSet.data.pages, pattern.id],
+        },
+      } satisfies PageSetPattern,
       [pattern.id]: pattern,
     },
   };
@@ -228,8 +287,11 @@ export const addFormOutput = (
   };
 };
 
-export const getPattern = (form: Blueprint, id: PatternId): Pattern => {
-  return form.patterns[id];
+export const getPattern = <T extends Pattern = Pattern>(
+  form: Blueprint,
+  id: PatternId
+): T => {
+  return form.patterns[id] as T;
 };
 
 export const updateFormSummary = (

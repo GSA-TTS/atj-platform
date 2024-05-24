@@ -43,22 +43,21 @@ const EditComponent = ({ pattern }: { pattern: RadioGroupPattern }) => {
           className={classnames('usa-label', {
             'usa-label--error': label.error,
           })}
-          htmlFor={fieldId('label')}
         >
           {message.patterns.radioGroup.fieldLabel}
+          {label.error ? (
+            <span className="usa-error-message" role="alert">
+              {label.error.message}
+            </span>
+          ) : null}
+          <input
+            className="usa-input"
+            id={fieldId('label')}
+            defaultValue={pattern.data.label}
+            {...register('label')}
+            type="text"
+          ></input>
         </label>
-        {label.error ? (
-          <span className="usa-error-message" role="alert">
-            {label.error.message}
-          </span>
-        ) : null}
-        <input
-          className="usa-input"
-          id={fieldId('label')}
-          defaultValue={pattern.data.label}
-          {...register('label')}
-          type="text"
-        ></input>
       </div>
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
         {options.map((option, index) => {

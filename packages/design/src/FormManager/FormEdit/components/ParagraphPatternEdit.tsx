@@ -33,14 +33,14 @@ const ParagraphPatternEdit: PatternEditComponent<ParagraphProps> = ({
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const pattern = useFormManagerStore<ParagraphPattern>(
-    state => state.form.patterns[patternId]
+    state => state.session.form.patterns[patternId]
   );
   const { fieldId, getFieldState, register } =
     usePatternEditFormContext<ParagraphPattern>(patternId);
   const text = getFieldState('text');
 
   return (
-    <div className="grid-row grid-gap-1 edit-component-panel">
+    <div className="grid-row grid-gap-1">
       <div className="tablet:grid-col-12">
         <label
           className={classnames('usa-label', {

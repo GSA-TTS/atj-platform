@@ -1,34 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import { createFormSession } from '@atj/forms';
-
-import Form, {
-  type ComponentForPattern,
-  type PatternComponent,
-} from '../../Form';
+import Form, { type ComponentForPattern } from '../../Form';
 
 import { AddPatternDropdown } from './AddPatternDropdown';
 import { PreviewPattern } from './PreviewPattern';
-import { PatternPreviewSequence } from './components/PreviewSequencePattern';
 import { useFormManagerStore } from '../store';
-
-export default function FormEdit() {
-  return (
-    <>
-      <h1>Edit form</h1>
-      <p className="usa-intro">Your form has been imported for web delivery.</p>
-      <EditForm />
-    </>
-  );
-}
+import { Toolbar } from './Toolbar';
+import { useLocation } from 'react-router-dom';
 
 const EditForm = () => {
-  const { form } = useFormManagerStore();
-  const uiContext = useFormManagerStore(state => state.context);
-  const disposable = createFormSession(form); // nullSession instead?
+  const session = useFormManagerStore(state => state.session);
+  const { context, setRouteParams } = useFormManagerStore(state => ({
+    context: state.context,
+    setRouteParams: state.setRouteParams,
+  }));
+  const location = useLocation();
+
+  // Update the state's routeParams on react-router-dom's update.
+  useEffect(() => {
+    const routeParams = location.search.startsWith('?')
+      ? location.search.substring(1)
+      : location.search;
+    setRouteParams(routeParams);
+  }, [location]);
 
   return (
-    <div className="position-relative edit-form-content-wrapper">
+    <div className="position-relative">
+      <Toolbar uswdsRoot={context.uswdsRoot} />
       <div className="grid-row">
         <div className="grid-col-12">
           <AddPatternDropdown />
@@ -39,13 +37,13 @@ const EditForm = () => {
           <Form
             isPreview={true}
             context={{
-              config: uiContext.config,
+              config: context.config,
               // TODO: We might want to hoist this definition up to a higher level,
               // so we don't have to regenerate it every time we render the form.
-              components: createPreviewComponents(uiContext.components),
-              uswdsRoot: uiContext.uswdsRoot,
+              components: createPreviewComponents(context.components),
+              uswdsRoot: context.uswdsRoot,
             }}
-            session={disposable}
+            session={session}
           ></Form>
         </div>
       </div>
@@ -53,21 +51,14 @@ const EditForm = () => {
   );
 };
 
-// TODO: We want to get rid of this and rely entirely on the injected
-// editComponent configuration.
+export default EditForm;
+
 const createPreviewComponents = (
   components: ComponentForPattern
 ): ComponentForPattern => {
   const previewComponents: ComponentForPattern = {};
-  // TODO: Create a configurable way to to define preview components.
-  for (const [patternType, Component] of Object.entries(components)) {
-    previewComponents[patternType] = Component;
-    if (patternType === 'sequence') {
-      previewComponents[patternType] =
-        PatternPreviewSequence as PatternComponent;
-    } else {
-      previewComponents[patternType] = PreviewPattern;
-    }
+  for (const patternType of Object.keys(components)) {
+    previewComponents[patternType] = PreviewPattern;
   }
   return previewComponents;
 };

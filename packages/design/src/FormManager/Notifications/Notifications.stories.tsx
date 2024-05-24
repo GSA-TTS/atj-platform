@@ -2,11 +2,11 @@ import { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
 import { Notifications } from './Notifications';
-import { FormManagerProvider, useFormManagerStore } from '../../store';
+import { FormManagerProvider, useFormManagerStore } from '../store';
 import {
-  createTwoPatternTestForm,
   createTestFormManagerContext,
-} from '../../../test-form';
+  createTwoPatternTestForm,
+} from '../../test-form';
 
 const StoryImpl = () => {
   const { addNotification } = useFormManagerStore();

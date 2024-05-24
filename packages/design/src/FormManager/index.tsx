@@ -1,7 +1,13 @@
 import React from 'react';
-import { useParams, HashRouter, Route, Routes } from 'react-router-dom';
+import {
+  useParams,
+  HashRouter,
+  Route,
+  Routes,
+  useSearchParams,
+} from 'react-router-dom';
 
-import { type FormConfig, nullBlueprint } from '@atj/forms';
+import { type FormConfig, createFormSession, nullSession } from '@atj/forms';
 import { FormService } from '@atj/form-service';
 
 import { type ComponentForPattern } from '../Form';
@@ -38,7 +44,7 @@ export default function FormManager({ context }: FormManagerProps) {
           path={AppRoutes.MyForms.path}
           Component={() => {
             return (
-              <FormManagerProvider context={context} form={nullBlueprint}>
+              <FormManagerProvider context={context} session={nullSession}>
                 <FormManagerLayout>
                   <FormList formService={context.formService} />
                 </FormManagerLayout>
@@ -53,15 +59,15 @@ export default function FormManager({ context }: FormManagerProps) {
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
-            const form = context.formService.getForm(formId);
-            if (!form.success) {
+            const formResult = context.formService.getForm(formId);
+            if (!formResult.success) {
               return <div>Error loading form preview</div>;
             }
             return (
               <FormManagerProvider
                 context={context}
                 formId={formId}
-                form={form.data}
+                session={createFormSession(formResult.data)}
               >
                 <FormManagerLayout>
                   <FormPreview />
@@ -77,16 +83,15 @@ export default function FormManager({ context }: FormManagerProps) {
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
-            const result = context.formService.getForm(formId);
-            if (!result.success) {
+            const formResult = context.formService.getForm(formId);
+            if (!formResult.success) {
               return <div>Form not found</div>;
             }
-            const form = result.data;
             return (
               <FormManagerProvider
                 context={context}
                 formId={formId}
-                form={form}
+                session={createFormSession(formResult.data)}
               >
                 <FormManagerLayout
                   step={NavPage.upload}
@@ -109,19 +114,23 @@ export default function FormManager({ context }: FormManagerProps) {
           path={AppRoutes.Create.path}
           Component={() => {
             const { formId } = useParams();
+            const [searchParams] = useSearchParams();
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
-            const result = context.formService.getForm(formId);
-            if (!result.success) {
+            const formResult = context.formService.getForm(formId);
+            if (!formResult.success) {
               return <div>Form not found</div>;
             }
-            const form = result.data;
             return (
               <FormManagerProvider
                 context={context}
                 formId={formId}
-                form={form}
+                session={createFormSession(
+                  formResult.data,
+                  searchParams.toString()
+                )}
+                savePeriodically={true}
               >
                 <FormManagerLayout
                   step={NavPage.create}
@@ -142,16 +151,15 @@ export default function FormManager({ context }: FormManagerProps) {
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
-            const result = context.formService.getForm(formId);
-            if (!result.success) {
+            const formResult = context.formService.getForm(formId);
+            if (!formResult.success) {
               return 'Form not found';
             }
-            const form = result.data;
             return (
               <FormManagerProvider
                 context={context}
                 formId={formId}
-                form={form}
+                session={createFormSession(formResult.data)}
               >
                 <FormManagerLayout
                   step={NavPage.configure}
@@ -176,12 +184,12 @@ export default function FormManager({ context }: FormManagerProps) {
             if (!result.success) {
               return 'Form not found';
             }
-            const form = result.data;
+            const session = createFormSession(result.data);
             return (
               <FormManagerProvider
                 context={context}
                 formId={formId}
-                form={form}
+                session={session}
               >
                 <FormManagerLayout
                   step={NavPage.publish}

@@ -39,7 +39,7 @@ export const TopNavigation = ({
   preview?: string;
 }) => {
   const uswdsRoot = useFormManagerStore(state => state.context.uswdsRoot);
-  const lastSaved = useFormManagerStore(state => state.lastSaved);
+  const lastSaved = useFormManagerStore(state => state.saveStatus.lastSaved);
   return (
     <div className="position-sticky top-0 z-100 bg-white padding-1">
       <div className="grid-container grid-row margin-bottom-105 display-block tablet:display-none">
