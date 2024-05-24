@@ -194,7 +194,6 @@ export const addPatternToPage = (
   if (pagePattern.type !== 'page') {
     throw new Error('Pattern is not a page.');
   }
-  console.log(pagePattern);
   return {
     ...bp,
     patterns: {
@@ -204,7 +203,7 @@ export const addPatternToPage = (
         data: {
           patterns: [...pagePattern.data.patterns, pattern.id],
         },
-      } as SequencePattern,
+      } satisfies SequencePattern,
       [pattern.id]: pattern,
     },
   };
@@ -227,7 +226,7 @@ export const addPageToPageSet = (
         data: {
           pages: [...pageSet.data.pages, pattern.id],
         },
-      } as PageSetPattern,
+      } satisfies PageSetPattern,
       [pattern.id]: pattern,
     },
   };

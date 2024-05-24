@@ -1,10 +1,10 @@
 import {
-  type FormConfig,
   type Blueprint,
+  type FormConfig,
+  type FormError,
   type Pattern,
   getPatternConfig,
   validatePattern,
-  FormError,
 } from '.';
 import { SequencePattern } from './patterns/sequence';
 import {
@@ -12,7 +12,7 @@ import {
   type PatternValue,
   type PatternValueMap,
 } from './pattern';
-import { RouteData, getRouteDataFromQueryString } from './route-data';
+import { type RouteData, getRouteDataFromQueryString } from './route-data';
 
 export type FormErrorMap = Record<PatternId, FormError>;
 
