@@ -71,6 +71,32 @@ const DocumentImporter = ({
       </div>
     );
   };
+const SampleDocumentsList = ({
+  baseUrl,
+  form,
+  formService,
+}: {
+  baseUrl: string;
+  formId: string;
+  context: FormUIContext;
+  form: Blueprint;
+  formService: FormService;
+}) => {
+    const { actions } = useDocumentImporter(formService, form, baseUrl);
+    return (
+      <>
+        <p>Or use an example file, selected for testing purposes:</p>
+        {SAMPLE_DOCUMENTS.map((document, index) => (
+          <SampleDocumentButton
+            key={index}
+            callback={actions.stepOneSelectPdfByUrl}
+            documentPath={document.path}
+          />
+        ))}
+        )
+      </>
+    );
+  };
 
   const ButtonBar = () => {
     return (
