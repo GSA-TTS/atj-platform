@@ -115,7 +115,7 @@ export const addDocumentFieldsToForm = (
           maxLength: 128,
         },
       } satisfies InputPattern);
-    } else if (field.type === 'RadioGroup') {
+    } else if (field.type === 'radio-group') {
       patterns.push({
         type: 'input',
         id: patternId,

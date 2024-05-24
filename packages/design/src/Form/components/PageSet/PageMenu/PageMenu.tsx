@@ -7,20 +7,14 @@ export type PageMenuProps = {
     title: string;
     url: string;
   }[];
-  onAddPage: () => void;
 };
 
-export const PageMenu = ({ onAddPage, pages }: PageMenuProps) => {
+export const PageMenu = ({ pages }: PageMenuProps) => {
   return (
     <div>
       <ul className="usa-sidenav">
         <li className="usa-sidenav__item">
-          <button
-            className="usa-button usa-button--primary"
-            onClick={() => {
-              onAddPage();
-            }}
-          >
+          <button className="usa-button usa-button--primary">
             Add New Page
           </button>
         </li>
