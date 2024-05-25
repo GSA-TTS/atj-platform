@@ -15,7 +15,7 @@ export type PatternValueMap = Record<PatternId, PatternValue>;
 export type PatternMap = Record<PatternId, Pattern>;
 export type GetPattern = (form: Blueprint, id: PatternId) => Pattern;
 
-type ParseUserInput<Pattern, PatternOutput> = (
+export type ParseUserInput<Pattern, PatternOutput> = (
   pattern: Pattern,
   obj: unknown
 ) => Result<PatternOutput, FormError>;

@@ -62,5 +62,5 @@ const getRouteParamSchema = (pattern: PageSetPattern) => {
 
 const parseRouteData = (pattern: PageSetPattern, routeParams?: RouteData) => {
   const schema = getRouteParamSchema(pattern);
-  return safeZodParseFormErrors(schema, routeParams);
+  return safeZodParseFormErrors(schema, routeParams || {});
 };
