@@ -117,7 +117,7 @@ export const Error: StoryObj<typeof CheckboxPatternEdit> = {
     optionId.blur();
 
     await expect(
-      await canvas.findByText('Invalid option ID')
+      await canvas.findByText('Option ID may not contain spaces')
     ).toBeInTheDocument();
 
     await userEvent.clear(optionLabel);
