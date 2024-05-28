@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import {
   type DocumentFieldMap,
   type Blueprint,
-  SAMPLE_DOCUMENTS,
   addDocument,
   addDocumentFieldsToForm,
   createFormSession,
@@ -58,16 +57,6 @@ const DocumentImporter = ({
             />
           </div>
         </div>
-        <label className="usa-label">
-          Or use an example file, selected for testing purposes:
-          {SAMPLE_DOCUMENTS.map((document, index) => (
-            <SampleDocumentButton
-              key={index}
-              callback={actions.stepOneSelectPdfByUrl}
-              documentPath={document.path}
-            />
-          ))}
-        </label>
       </div>
     );
   };

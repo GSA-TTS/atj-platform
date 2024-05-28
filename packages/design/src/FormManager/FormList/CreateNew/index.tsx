@@ -186,21 +186,6 @@ export default function CreateNew() {
               />
             </div>
           </div>
-          <label className="usa-label">
-            Or use an example file, selected for testing purposes
-            {SAMPLE_DOCUMENTS.map((document, index) => (
-              <SampleDocumentButton
-                key={index}
-                callback={async url => {
-                  const result = await actions.createNewFormByPDFUrl(url);
-                  if (result.success) {
-                    navigate(`/${result.data}/create`);
-                  }
-                }}
-                documentPath={document.path}
-              />
-            ))}
-          </label>
         </div>
       )}
     </>
