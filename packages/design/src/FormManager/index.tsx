@@ -77,40 +77,6 @@ export default function FormManager({ context }: FormManagerProps) {
           }}
         />
         <Route
-          path={AppRoutes.Upload.path}
-          Component={() => {
-            const { formId } = useParams();
-            if (formId === undefined) {
-              return <div>formId is undefined</div>;
-            }
-            const formResult = context.formService.getForm(formId);
-            if (!formResult.success) {
-              return <div>Form not found</div>;
-            }
-            return (
-              <FormManagerProvider
-                context={context}
-                formId={formId}
-                session={createFormSession(formResult.data)}
-              >
-                <FormManagerLayout
-                  step={NavPage.upload}
-                  back={AppRoutes.GuidedFormCreation.getUrl()}
-                  next={AppRoutes.Create.getUrl(formId)}
-                  preview={AppRoutes.Preview.getUrl(formId)}
-                >
-                  <FormDocumentImport
-                    context={context}
-                    baseUrl={context.baseUrl}
-                    formId={formId}
-                    formService={context.formService}
-                  />
-                </FormManagerLayout>
-              </FormManagerProvider>
-            );
-          }}
-        />
-        <Route
           path={AppRoutes.Create.path}
           Component={() => {
             const { formId } = useParams();
@@ -134,7 +100,7 @@ export default function FormManager({ context }: FormManagerProps) {
               >
                 <FormManagerLayout
                   step={NavPage.create}
-                  back={AppRoutes.Upload.getUrl(formId)}
+                  back={AppRoutes.GuidedFormCreation.getUrl()}
                   next={AppRoutes.Configure.getUrl(formId)}
                   preview={AppRoutes.Preview.getUrl(formId)}
                 >
