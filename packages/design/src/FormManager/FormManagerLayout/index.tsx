@@ -3,6 +3,9 @@ import React from 'react';
 import { Notifications } from '../Notifications';
 import { type NavPage, TopNavigation } from './TopNavigation';
 import { BottomNavigation } from './BottomNavigation';
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useFormManagerStore } from '../store';
 
 type FormManagerLayoutProps = {
   children?: React.ReactNode;
@@ -21,6 +24,15 @@ export const FormManagerLayout = ({
   next,
   preview,
 }: FormManagerLayoutProps) => {
+  const location = useLocation();
+  const { addNotification } = useFormManagerStore();
+
+  useEffect(() => {
+    if (location?.state?.result?.success) {
+      addNotification('success', 'Form import was successful.');
+    }
+  }, []);
+
   return (
     <>
       <Notifications />
