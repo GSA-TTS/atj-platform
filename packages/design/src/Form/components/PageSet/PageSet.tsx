@@ -1,15 +1,13 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
 
 import { type PageSetProps } from '@atj/forms';
 
 import { type PatternComponent } from '../..';
-import { useFormManagerStore } from '../../../FormManager/store';
 import { PageMenu } from './PageMenu';
+import { useRouteParams } from '../../../FormRouter/hooks';
 
 const PageSet: PatternComponent<PageSetProps> = props => {
-  const location = useLocation();
-  const routeParams = useFormManagerStore(state => state.session.routeParams);
+  const { routeParams, pathname } = useRouteParams();
   return (
     <div className="grid-row grid-gap">
       <nav className="tablet:grid-col-3 bg-primary-lightest">
@@ -20,7 +18,7 @@ const PageSet: PatternComponent<PageSetProps> = props => {
             return {
               title: page.title,
               selected: page.active,
-              url: `#${location.pathname}?page=${index}`,
+              url: `#${pathname}?page=${index}`,
             };
           })}
         />

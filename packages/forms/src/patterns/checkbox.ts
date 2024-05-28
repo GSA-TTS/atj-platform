@@ -2,7 +2,7 @@ import * as z from 'zod';
 
 import { type Pattern, type PatternConfig, validatePattern } from '../pattern';
 import { type CheckboxProps } from '../components';
-import { getFormSessionValue } from '../session';
+import { getFormSessionError, getFormSessionValue } from '../session';
 import { safeZodParseFormErrors, safeZodParseToFormError } from '../util/zod';
 
 const configSchema = z.object({
@@ -32,6 +32,7 @@ export const checkboxConfig: PatternConfig<CheckboxPattern, PatternOutput> = {
   createPrompt(_, session, pattern, options) {
     const extraAttributes: Record<string, any> = {};
     const sessionValue = getFormSessionValue(session, pattern.id);
+    //const sessionError = getFormSessionError(session, pattern.id);
     if (options.validate) {
       const isValidResult = validatePattern(
         checkboxConfig,

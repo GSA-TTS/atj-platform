@@ -82,6 +82,13 @@ export const getFormSessionValue = (
   return session.data.values[patternId];
 };
 
+export const getFormSessionError = (
+  session: FormSession,
+  patternId: PatternId
+) => {
+  return session.data.errors[patternId];
+};
+
 export const updateSessionValue = (
   session: FormSession,
   id: PatternId,

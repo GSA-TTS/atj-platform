@@ -5,7 +5,7 @@ import {
   getPattern,
 } from '../..';
 
-import { PagePattern } from './config';
+import { type PagePattern } from './config';
 
 export const createPrompt: CreatePrompt<PagePattern> = (
   config,
