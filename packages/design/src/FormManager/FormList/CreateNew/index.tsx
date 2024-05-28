@@ -14,8 +14,33 @@ export default function CreateNew() {
     createNewForm: state.createNewForm,
     createNewFormByPDFUpload: state.createNewFormByPDFUpload,
     createNewFormByPDFUrl: state.createNewFormByPDFUrl,
-    addNotification: state.addNotification
+    addNotification: state.addNotification,
   }));
+
+  const handleSampleDocumentImport = async (url: string) => {
+    try {
+      const result = await actions.createNewFormByPDFUrl(url);
+      if (result.success) {
+        navigate(`/${result.data}/create`, {
+          state: {
+            result,
+          },
+        });
+      } else {
+        // show error toast
+        actions.addNotification(
+          'error',
+          'Sorry, but there was an error importing the form.'
+        );
+      }
+    } catch (e: unknown) {
+      // show error toast
+      if ((e as Error).message) {
+        actions.addNotification('error', (e as Error).message);
+      }
+    }
+  };
+
   return (
     <>
       <Notifications />
@@ -104,26 +129,7 @@ export default function CreateNew() {
             {SAMPLE_DOCUMENTS.map((file, index) => (
               <li key={index}>
                 <SampleDocumentButton
-                  callback={async url => {
-                    try {
-                      const result = await actions.createNewFormByPDFUrl(url);
-                      if (result.success) {
-                        navigate(`/${result.data}/create`, {
-                          state: {
-                            result
-                          }
-                        });
-                      } else {
-                        // show error toast
-                        actions.addNotification('error', 'Sorry, but there was an error importing the form.');
-                      }
-                    } catch (e: unknown) {
-                      // show error toast
-                      if((e as Error).message) {
-                        actions.addNotification('error', (e as Error).message);
-                      }
-                    }
-                  }}
+                  callback={handleSampleDocumentImport}
                   documentPath={file.path}
                 />
               </li>
@@ -202,9 +208,9 @@ export default function CreateNew() {
 }
 
 const SampleDocumentButton = ({
-                                callback,
-                                documentPath,
-                              }: {
+  callback,
+  documentPath,
+}: {
   callback: (path: string) => Promise<void>;
   documentPath: string;
 }) => {
