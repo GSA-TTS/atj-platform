@@ -5,6 +5,7 @@ import { SAMPLE_DOCUMENTS } from '@atj/forms';
 
 import { useFormManagerStore } from '../../store';
 import { onFileInputChangeGetFile } from './file-input';
+import { Notifications } from '../../Notifications';
 
 export default function CreateNew() {
   const navigate = useNavigate();
@@ -13,9 +14,11 @@ export default function CreateNew() {
     createNewForm: state.createNewForm,
     createNewFormByPDFUpload: state.createNewFormByPDFUpload,
     createNewFormByPDFUrl: state.createNewFormByPDFUrl,
+    addNotification: state.addNotification
   }));
   return (
     <>
+      <Notifications />
       <ul className="usa-card-group">
         <li className="usa-card tablet:grid-col-6">
           <div className="usa-card__container border-1px border-base-lighter radius-md">
@@ -102,9 +105,23 @@ export default function CreateNew() {
               <li key={index}>
                 <SampleDocumentButton
                   callback={async url => {
-                    const result = await actions.createNewFormByPDFUrl(url);
-                    if (result.success) {
-                      navigate(`/${result.data}/create`);
+                    try {
+                      const result = await actions.createNewFormByPDFUrl(url);
+                      if (result.success) {
+                        navigate(`/${result.data}/create`, {
+                          state: {
+                            result
+                          }
+                        });
+                      } else {
+                        // show error toast
+                        actions.addNotification('error', 'Sorry, but there was an error importing the form.');
+                      }
+                    } catch (e: unknown) {
+                      // show error toast
+                      if((e as Error).message) {
+                        actions.addNotification('error', (e as Error).message);
+                      }
                     }
                   }}
                   documentPath={file.path}
