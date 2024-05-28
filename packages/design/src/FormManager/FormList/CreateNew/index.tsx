@@ -92,6 +92,28 @@ export default function CreateNew() {
           </div>
         </li>
       </ul>
+      <div className="usa-section">
+        <details>
+          <summary>
+            Or use an example file, selected for testing purposes:
+          </summary>
+          <ul>
+            {SAMPLE_DOCUMENTS.map((file, index) => (
+              <li key={index}>
+                <SampleDocumentButton
+                  callback={async url => {
+                    const result = await actions.createNewFormByPDFUrl(url);
+                    if (result.success) {
+                      navigate(`/${result.data}/create`);
+                    }
+                  }}
+                  documentPath={file.path}
+                />
+              </li>
+            ))}
+          </ul>
+        </details>
+      </div>
       {false && (
         <div className="usa-form-group">
           <button
@@ -163,9 +185,9 @@ export default function CreateNew() {
 }
 
 const SampleDocumentButton = ({
-  callback,
-  documentPath,
-}: {
+                                callback,
+                                documentPath,
+                              }: {
   callback: (path: string) => Promise<void>;
   documentPath: string;
 }) => {

@@ -12,7 +12,7 @@ export default () => {
     <ErrorBoundary
       fallback={
         <div>
-          There was an unexpected error rendering the form list.
+          <p>There was an unexpected error rendering the form list.</p>
           <DebugTools />
         </div>
       }
