@@ -21,7 +21,7 @@ export default function FormDelete({
     navigate('/');
   };
   return (
-    <div className="deleteFormPage">
+    <div className="deleteFormPage grid-container">
       <h1>Delete form</h1>
       <h2>Are you sure you want to delete the form with id: `{formId}`?</h2>
       <p className="padding-bottom-3">
