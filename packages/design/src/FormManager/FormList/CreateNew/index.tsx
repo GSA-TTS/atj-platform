@@ -105,17 +105,49 @@ export default function CreateNew() {
               <p>Mold your new form from imported pdf contents.</p>
             </div>
             <div className="usa-card__footer">
-              <button
+              <div className="usa-file-input usa-sr-only">
+                <div className="usa-sr-only" aria-live="polite">
+                  No files selected.
+                </div>
+                <div className="usa-file-input__target">
+                  <div className="usa-file-input__box"></div>
+                  <div
+                    className="usa-file-input__instructions"
+                    aria-hidden="true"
+                  >
+                    Drag file here or{' '}
+                    <span className="usa-file-input__choose">
+                      choose from folder
+                    </span>
+                  </div>
+
+                  <input
+                    className="usa-file-input__input"
+                    id="file-input-specific"
+                    aria-describedby="file-input-specific-hint"
+                    type="file"
+                    accept=".pdf"
+                    onChange={onFileInputChangeGetFile(async fileDetails => {
+                      const result =
+                        await actions.createNewFormByPDFUpload(fileDetails);
+                      if (result.success) {
+                        navigate(`/${result.data}/create`, {
+                          state: {
+                            result,
+                          },
+                        });
+                      }
+                    })}
+                  />
+                </div>
+              </div>
+              <label
                 className="usa-button"
-                onClick={async () => {
-                  const result = await actions.createNewForm();
-                  if (result.success) {
-                    navigate(`/${result.data}/upload`);
-                  }
-                }}
+                id="file-input-specific-hint"
+                htmlFor="file-input-specific"
               >
                 Upload File
-              </button>
+              </label>
             </div>
           </div>
         </li>
