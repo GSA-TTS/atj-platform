@@ -41,7 +41,7 @@ export default function FormManager({ context }: FormManagerProps) {
     <HashRouter>
       <Routes>
         <Route
-          path={AppRoutes.MyForms.path}
+          path={AppRoutes.GuidedFormCreation.path}
           Component={() => {
             return (
               <FormManagerProvider context={context} session={nullSession}>
@@ -95,7 +95,7 @@ export default function FormManager({ context }: FormManagerProps) {
               >
                 <FormManagerLayout
                   step={NavPage.upload}
-                  back={AppRoutes.MyForms.getUrl()}
+                  back={AppRoutes.GuidedFormCreation.getUrl()}
                   next={AppRoutes.Create.getUrl(formId)}
                   preview={AppRoutes.Preview.getUrl(formId)}
                 >
@@ -194,7 +194,7 @@ export default function FormManager({ context }: FormManagerProps) {
                 <FormManagerLayout
                   step={NavPage.publish}
                   back={AppRoutes.Configure.getUrl(formId)}
-                  close={AppRoutes.MyForms.getUrl()}
+                  close={AppRoutes.GuidedFormCreation.getUrl()}
                   preview={AppRoutes.Preview.getUrl(formId)}
                 >
                   Publish
