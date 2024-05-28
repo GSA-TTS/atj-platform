@@ -2,7 +2,6 @@ import React from 'react';
 import { FormService } from '@atj/form-service';
 
 import CreateNew from './CreateNew';
-import { ManageFormsTable } from './ManageFormsTable';
 
 export default function FormList({
   formService,
