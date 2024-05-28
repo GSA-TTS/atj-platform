@@ -144,33 +144,32 @@ export type ParsedPdf = {
   description: string;
 };
 
-const fetchResponse = async (url: string, rawData: Uint8Array) => {
+export type FetchPdfApiResponse = (
+  rawData: Uint8Array,
+  url?: string
+) => Promise<any>;
+
+export const fetchPdfApiResponse: FetchPdfApiResponse = async (
+  rawData: Uint8Array,
+  url: string = 'https://10x-atj-doc-automation-staging.app.cloud.gov/api/v1/parse'
+) => {
   const base64 = await uint8ArrayToBase64(rawData);
-  if (false) {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        pdf: base64,
-      }),
-    });
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return await response.json();
-  } else {
-    const { mockResponse } = await import('./mock-response');
-    return mockResponse;
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      pdf: base64,
+    }),
+  });
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
   }
+  return await response.json();
 };
 
-export const callExternalParser = async (
-  rawData: Uint8Array,
-  endpointUrl: string = 'https://10x-atj-doc-automation-staging.app.cloud.gov/api/v1/parse'
-): Promise<ParsedPdf> => {
-  const json = await fetchResponse(endpointUrl, rawData);
+export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
   const extracted: ExtractedObject = ExtractedObject.parse(json.parsed_pdf);
   const rootSequence: PatternId[] = [];
   const parsedPdf: ParsedPdf = {

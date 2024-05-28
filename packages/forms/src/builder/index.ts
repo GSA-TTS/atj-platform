@@ -51,6 +51,9 @@ export class BlueprintBuilder {
   addPatternToFirstPage(patternType: string) {
     const pattern = createDefaultPattern(this.config, patternType);
     const root = this.form.patterns[this.form.root] as PageSetPattern;
+    if (root.type !== 'page-set') {
+      throw new Error('expected root to be a page-set');
+    }
     const firstPagePatternId = root.data.pages[0];
     this.bp = addPatternToPage(this.form, firstPagePatternId, pattern);
     return pattern;

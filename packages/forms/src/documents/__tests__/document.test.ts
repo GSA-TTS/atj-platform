@@ -18,10 +18,19 @@ describe('addDocument document processing', () => {
     const pdfBytes = await loadSamplePDF(
       'doj-pardon-marijuana/application_for_certificate_of_pardon_for_simple_marijuana_possession.pdf'
     );
-    const { updatedForm, errors } = await addDocument(builder.form, {
-      name: 'test.pdf',
-      data: new Uint8Array(pdfBytes),
-    });
+    const { updatedForm, errors } = await addDocument(
+      builder.form,
+      {
+        name: 'test.pdf',
+        data: new Uint8Array(pdfBytes),
+      },
+      {
+        fetchPdfApiResponse: async () => {
+          const { mockResponse } = await import('../pdf/mock-response');
+          return mockResponse;
+        },
+      }
+    );
     const rootPattern = getPattern<PageSetPattern>(
       updatedForm,
       updatedForm.root

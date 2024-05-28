@@ -9,7 +9,11 @@ import {
 import { InputPattern } from '../patterns/input';
 import { SequencePattern } from '../patterns/sequence';
 import { PDFDocument, getDocumentFieldData } from './pdf';
-import { callExternalParser } from './pdf/parsing-api';
+import {
+  type FetchPdfApiResponse,
+  processApiResponse,
+  fetchPdfApiResponse,
+} from './pdf/parsing-api';
 import { DocumentFieldMap } from './types';
 
 export type DocumentTemplate = PDFDocument;
@@ -19,10 +23,14 @@ export const addDocument = async (
   fileDetails: {
     name: string;
     data: Uint8Array;
-  }
+  },
+  context: {
+    fetchPdfApiResponse: FetchPdfApiResponse;
+  } = { fetchPdfApiResponse }
 ) => {
   const fields = await getDocumentFieldData(fileDetails.data);
-  const parsedPdf = await callExternalParser(fileDetails.data);
+  const json = await context.fetchPdfApiResponse(fileDetails.data);
+  const parsedPdf = await processApiResponse(json);
 
   if (parsedPdf) {
     form = updateFormSummary(form, {
