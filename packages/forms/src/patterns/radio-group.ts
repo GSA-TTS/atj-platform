@@ -12,7 +12,7 @@ const configSchema = z.object({
   label: z.string().min(1),
   options: z
     .object({
-      id: z.string().regex(/^[^\s]+$/, 'Invalid option ID'),
+      id: z.string().regex(/^[^\s]+$/, 'Option ID may not contain spaces'),
       label: z.string().min(1),
     })
     .array(),
@@ -37,9 +37,6 @@ export const radioGroupConfig: PatternConfig<RadioGroupPattern, PatternOutput> =
     },
     parseConfigData: obj => {
       const result = safeZodParseFormErrors(configSchema, obj);
-      if (!result.success) {
-        console.error(result.error);
-      }
       return result;
     },
     getChildren() {

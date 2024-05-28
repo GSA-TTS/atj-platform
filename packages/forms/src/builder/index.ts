@@ -10,9 +10,8 @@ import {
   addDocument,
   addPageToPageSet,
   addPatternToPage,
-  createPattern,
+  createDefaultPattern,
   getPattern,
-  nullBlueprint,
   removePatternFromBlueprint,
   updateFormSummary,
   updatePatternFromFormData,
@@ -44,13 +43,13 @@ export class BlueprintBuilder {
   }
 
   addPage() {
-    const newPage = createPattern(this.config, 'page');
+    const newPage = createDefaultPattern(this.config, 'page');
     this.bp = addPageToPageSet(this.form, newPage);
     return newPage;
   }
 
   addPatternToFirstPage(patternType: string) {
-    const pattern = createPattern(this.config, patternType);
+    const pattern = createDefaultPattern(this.config, patternType);
     const root = this.form.patterns[this.form.root] as PageSetPattern;
     const firstPagePatternId = root.data.pages[0];
     this.bp = addPatternToPage(this.form, firstPagePatternId, pattern);

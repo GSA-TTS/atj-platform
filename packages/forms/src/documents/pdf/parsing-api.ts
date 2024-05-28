@@ -1,6 +1,14 @@
 import * as z from 'zod';
 
-import { generatePatternId, type PatternId, type PatternMap } from '../..';
+import {
+  type FormConfig,
+  type FormErrors,
+  type Pattern,
+  type PatternId,
+  type PatternMap,
+  createPattern,
+  defaultFormConfig,
+} from '../..';
 
 import { type FieldsetPattern } from '../../patterns/fieldset';
 import { type InputPattern } from '../../patterns/input';
@@ -125,39 +133,49 @@ type ExtractedObject = z.infer<typeof ExtractedObject>;
 
 export type ParsedPdf = {
   patterns: PatternMap;
+  errors: {
+    type: Pattern['type'];
+    data: Pattern['data'];
+    errors: FormErrors;
+  }[];
   outputs: DocumentFieldMap; // to populate FormOutput
   root: PatternId;
   title: string;
   description: string;
 };
 
+const fetchResponse = async (url: string, rawData: Uint8Array) => {
+  const base64 = await uint8ArrayToBase64(rawData);
+  if (false) {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        pdf: base64,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return await response.json();
+  } else {
+    const { mockResponse } = await import('./mock-response');
+    return mockResponse;
+  }
+};
+
 export const callExternalParser = async (
   rawData: Uint8Array,
   endpointUrl: string = 'https://10x-atj-doc-automation-staging.app.cloud.gov/api/v1/parse'
 ): Promise<ParsedPdf> => {
-  const base64 = await uint8ArrayToBase64(rawData);
-
-  const response = await fetch(endpointUrl, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      pdf: base64,
-    }),
-  });
-
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
-
-  const json = await response.json();
+  const json = await fetchResponse(endpointUrl, rawData);
   const extracted: ExtractedObject = ExtractedObject.parse(json.parsed_pdf);
-
   const rootSequence: PatternId[] = [];
-
   const parsedPdf: ParsedPdf = {
     patterns: {},
+    errors: [],
     outputs: {},
     root: 'root',
     title: extracted.form_summary.title || 'Default Form Title',
@@ -165,54 +183,61 @@ export const callExternalParser = async (
       extracted.form_summary.description || 'Default Form Description',
   };
 
-  const formSummaryId = generatePatternId();
-
-  parsedPdf.patterns[formSummaryId] = {
-    type: 'form-summary',
-    id: formSummaryId,
-    data: {
+  const summary = processPatternData(
+    defaultFormConfig,
+    parsedPdf,
+    'form-summary',
+    {
       title: extracted.form_summary.title || 'Default Form Title',
       description:
         extracted.form_summary.description || 'Default Form Description',
-    },
-  } satisfies FormSummary;
-  rootSequence.push(formSummaryId);
+    }
+  );
+  if (summary) {
+    rootSequence.push(summary.id);
+  }
 
   for (const element of extracted.elements) {
-    const randomId = generatePatternId();
     const fieldsetPatterns: PatternId[] = [];
 
     // Add paragraph elements
     if (element.component_type === 'paragraph') {
-      parsedPdf.patterns[randomId] = {
-        type: 'paragraph',
-        id: randomId,
-        data: {
+      const paragraph = processPatternData<ParagraphPattern>(
+        defaultFormConfig,
+        parsedPdf,
+        'paragraph',
+        {
           text: element.text,
-        },
-      } satisfies ParagraphPattern;
-      rootSequence.push(randomId);
+        }
+      );
+      if (paragraph) {
+        rootSequence.push(paragraph.id);
+      }
       continue;
     }
 
     if (element.component_type === 'checkbox') {
-      parsedPdf.patterns[element.id] = {
-        type: 'checkbox',
-        id: element.id,
-        data: {
+      const checkbox = processPatternData<CheckboxPattern>(
+        defaultFormConfig,
+        parsedPdf,
+        'checkbox',
+        {
           label: element.label,
           defaultChecked: element.default_checked,
-        },
-      } satisfies CheckboxPattern;
-      rootSequence.push(element.id);
+        }
+      );
+      if (checkbox) {
+        rootSequence.push(checkbox.id);
+      }
       continue;
     }
 
     if (element.component_type === 'radio_group') {
-      parsedPdf.patterns[element.id] = {
-        type: 'radio-group',
-        id: element.id,
-        data: {
+      const radioGroup = processPatternData<RadioGroupPattern>(
+        defaultFormConfig,
+        parsedPdf,
+        'radio-group',
+        {
           label: element.legend,
           options: element.options.map(option => ({
             id: option.id,
@@ -220,38 +245,39 @@ export const callExternalParser = async (
             name: option.name,
             defaultChecked: option.default_checked,
           })),
-        },
-      } satisfies RadioGroupPattern;
-      rootSequence.push(element.id);
+        }
+      );
+      if (radioGroup) {
+        rootSequence.push(radioGroup.id);
+      }
       continue;
     }
 
     if (element.component_type === 'fieldset') {
       for (const input of element.fields) {
         if (input.component_type === 'text_input') {
-          // const id = stringToBase64(input.id);
-
-          parsedPdf.patterns[input.id] = {
-            type: 'input',
-            id: input.id,
-            data: {
+          const inputPattern = processPatternData<InputPattern>(
+            defaultFormConfig,
+            parsedPdf,
+            'input',
+            {
               label: input.label,
               required: false,
               initial: '',
               maxLength: 128,
-            },
-          } satisfies InputPattern;
-
-          fieldsetPatterns.push(input.id);
-
-          parsedPdf.outputs[input.id] = {
-            type: 'TextField',
-            name: input.id,
-            label: input.label,
-            value: '',
-            maxLength: 1024,
-            required: input.required,
-          };
+            }
+          );
+          if (inputPattern) {
+            fieldsetPatterns.push(inputPattern.id);
+            parsedPdf.outputs[inputPattern.id] = {
+              type: 'TextField',
+              name: input.id,
+              label: input.label,
+              value: '',
+              maxLength: 1024,
+              required: input.required,
+            };
+          }
         }
         // TODO: Look for checkbox or other element types
       }
@@ -259,37 +285,70 @@ export const callExternalParser = async (
 
     // Add fieldset to parsedPdf.patterns and rootSequence
     if (element.component_type === 'fieldset' && fieldsetPatterns.length > 0) {
-      parsedPdf.patterns[randomId] = {
-        id: randomId,
-        type: 'fieldset',
-        data: {
+      const fieldset = processPatternData<FieldsetPattern>(
+        defaultFormConfig,
+        parsedPdf,
+        'fieldset',
+        {
           legend: element.legend,
           patterns: fieldsetPatterns,
-        },
-      } satisfies FieldsetPattern;
-      rootSequence.push(randomId);
+        }
+      );
+      if (fieldset) {
+        rootSequence.push(fieldset.id);
+      }
     }
   }
 
   // Create a pattern for the single, first page.
-  const pagePattern = {
-    id: 'single-page-sequence',
-    type: 'page',
-    data: {
+  const pagePattern = processPatternData<PagePattern>(
+    defaultFormConfig,
+    parsedPdf,
+    'page',
+    {
       title: 'Untitled Page',
       patterns: rootSequence,
-    },
-  } satisfies PagePattern;
-  parsedPdf.patterns[pagePattern.id] = pagePattern;
+    }
+  );
+
+  const pages: PatternId[] = [];
+  if (pagePattern) {
+    parsedPdf.patterns[pagePattern.id] = pagePattern;
+    pages.push(pagePattern.id);
+  }
 
   // Assign the page to the root page set.
-  parsedPdf.patterns['root'] = {
-    id: 'root',
-    type: 'page-set',
-    data: {
-      pages: [pagePattern.id],
+  const rootPattern = processPatternData<PageSetPattern>(
+    defaultFormConfig,
+    parsedPdf,
+    'page-set',
+    {
+      pages,
     },
-  } satisfies PageSetPattern;
-
+    'root'
+  );
+  if (rootPattern) {
+    parsedPdf.patterns['root'] = rootPattern;
+  }
   return parsedPdf;
+};
+
+const processPatternData = <T extends Pattern>(
+  config: FormConfig,
+  parsedPdf: ParsedPdf,
+  patternType: T['type'],
+  patternData: T['data'],
+  patternId?: PatternId
+) => {
+  const result = createPattern<T>(config, patternType, patternData, patternId);
+  if (!result.success) {
+    parsedPdf.errors.push({
+      type: patternType,
+      data: patternData,
+      errors: result.error,
+    });
+    return;
+  }
+  parsedPdf.patterns[result.data.id] = result.data;
+  return result.data;
 };

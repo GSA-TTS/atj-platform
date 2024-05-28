@@ -9,7 +9,7 @@ import {
 import { InputPattern } from '../patterns/input';
 import { SequencePattern } from '../patterns/sequence';
 import { PDFDocument, getDocumentFieldData } from './pdf';
-import { getSuggestedPatterns } from './suggestions';
+import { callExternalParser } from './pdf/parsing-api';
 import { DocumentFieldMap } from './types';
 
 export type DocumentTemplate = PDFDocument;
@@ -22,7 +22,7 @@ export const addDocument = async (
   }
 ) => {
   const fields = await getDocumentFieldData(fileDetails.data);
-  const parsedPdf = await getSuggestedPatterns(fileDetails.data);
+  const parsedPdf = await callExternalParser(fileDetails.data);
 
   if (parsedPdf) {
     form = updateFormSummary(form, {
@@ -43,6 +43,7 @@ export const addDocument = async (
     return {
       newFields: fields,
       updatedForm,
+      errors: parsedPdf.errors,
     };
   } else {
     const formWithFields = addDocumentFieldsToForm(form, fields);
