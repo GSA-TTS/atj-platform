@@ -13,7 +13,6 @@ import { FormService } from '@atj/form-service';
 import { type ComponentForPattern } from '../Form';
 
 import FormDelete from './FormDelete';
-import { FormDocumentImport } from './FormDocumentImport';
 import FormEdit from './FormEdit';
 import { type EditComponentForPattern } from './FormEdit/types';
 import FormList from './FormList';

@@ -243,23 +243,4 @@ const useDocumentImporter = (
   };
 };
 
-const SampleDocumentButton = ({
-  callback,
-  documentPath,
-}: {
-  callback: (path: string) => Promise<void>;
-  documentPath: string;
-}) => {
-  return (
-    <button
-      className="usa-button--unstyled"
-      onClick={async () => {
-        await callback(documentPath);
-      }}
-    >
-      {documentPath}
-    </button>
-  );
-};
-
 export default DocumentImporter;
