@@ -2,7 +2,6 @@ import React from 'react';
 import { FormService } from '@atj/form-service';
 
 import CreateNew from './CreateNew';
-import { ManageFormsTable } from './ManageFormsTable';
 
 export default function FormList({
   formService,
@@ -15,7 +14,12 @@ export default function FormList({
   }
   return (
     <>
-      <ManageFormsTable formListItems={result.data} />
+      <header className="text-center margin-bottom-1 tablet:margin-bottom-6">
+        <h1 className="margin-bottom-1">Create a New Form</h1>
+        <p className="margin-top-0">
+          Create or Import a form to start building your guided application.
+        </p>
+      </header>
       <CreateNew />
     </>
   );

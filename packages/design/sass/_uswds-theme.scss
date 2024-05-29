@@ -1,3 +1,7 @@
 @use "uswds-core" with (
-  $theme-show-notifications: false
+  $theme-show-notifications: false,
+  $theme-banner-max-width: "widescreen",
+  $theme-footer-max-width: "widescreen",
+  $theme-grid-container-max-width: "widescreen",
+  $theme-header-max-width: "widescreen",
 );

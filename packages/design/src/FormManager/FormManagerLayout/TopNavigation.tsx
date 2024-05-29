@@ -67,16 +67,6 @@ export const TopNavigation = ({
               <li
                 className={classNames(
                   'usa-step-indicator__segment',
-                  stepClass(NavPage.upload, curPage)
-                )}
-              >
-                <span className="usa-step-indicator__segment-label">
-                  Upload {srHint(NavPage.upload, curPage)}
-                </span>
-              </li>
-              <li
-                className={classNames(
-                  'usa-step-indicator__segment',
                   stepClass(NavPage.create, curPage)
                 )}
               >

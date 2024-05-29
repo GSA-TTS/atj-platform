@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function DebugTools() {
   return (
-    <section>
+    <p>
       <button
         className="usa-button"
         onClick={() => {
@@ -13,6 +13,6 @@ export default function DebugTools() {
       >
         Delete all demo data (clear browser local storage)
       </button>
-    </section>
+    </p>
   );
 }

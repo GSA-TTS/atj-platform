@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-
 import { FormService } from '@atj/form-service';
 
 type FormDetails = {
@@ -8,13 +7,16 @@ type FormDetails = {
   description: string;
 };
 type UrlForForm = (id: string) => string;
+type UrlForFormManager = UrlForForm;
 
 export default function AvailableFormList({
   formService,
   urlForForm,
+  urlForFormManager,
 }: {
   formService: FormService;
   urlForForm: UrlForForm;
+  urlForFormManager: UrlForFormManager;
 }) {
   const [forms, setForms] = useState<FormDetails[]>([]);
   useEffect(() => {
@@ -23,19 +25,26 @@ export default function AvailableFormList({
       setForms(result.data);
     }
   }, []);
-  return <FormList forms={forms} urlForForm={urlForForm} />;
+  return (
+    <FormList
+      forms={forms}
+      urlForForm={urlForForm}
+      urlForFormManager={urlForFormManager}
+    />
+  );
 }
 
 const FormList = ({
   forms,
   urlForForm,
+  urlForFormManager,
 }: {
   forms: FormDetails[];
   urlForForm: UrlForForm;
+  urlForFormManager: UrlForFormManager;
 }) => {
   return (
     <table className="usa-table usa-table--stacked">
-      <caption>Available forms</caption>
       <thead>
         <tr>
           <th className="column1" scope="col">
@@ -50,19 +59,47 @@ const FormList = ({
         </tr>
       </thead>
       <tbody>
-        {forms.map((form, index) => (
-          <tr key={index}>
+        {!forms.length ? (
+          <tr>
             <th data-label="Form title" scope="row">
-              {form.title}
+              There are no forms here yet
             </th>
-            <td data-label="Description">{form.description}</td>
-            <td data-label="Actions">
-              <a href={urlForForm(form.id)} title={form.title}>
-                Go to form
-              </a>
-            </td>
+            <td data-label="Description">{''}</td>
+            <td data-label="Actions">{''}</td>
           </tr>
-        ))}
+        ) : (
+          forms.map((form, index) => (
+            <tr key={index}>
+              <th data-label="Form title" scope="row">
+                {form.title}
+              </th>
+              <td data-label="Description">{form.description}</td>
+              <td data-label="Actions">
+                <div className="grid-row grid-gap-md">
+                  <a
+                    href={urlForForm(form.id)}
+                    title={form.title}
+                    className="grid-col-auto"
+                  >
+                    Go to form
+                  </a>
+                  <a
+                    href={`${urlForFormManager(form.id)}/create`}
+                    className="grid-col-auto"
+                  >
+                    Edit
+                  </a>
+                  <a
+                    href={`${urlForFormManager(form.id)}/delete`}
+                    className="grid-col-auto"
+                  >
+                    Delete
+                  </a>
+                </div>
+              </td>
+            </tr>
+          ))
+        )}
       </tbody>
     </table>
   );

@@ -96,7 +96,7 @@ export default function Form({
 
   return (
     <FormProvider {...formMethods}>
-      <div className="preview">
+      <div className="preview grid-container">
         <div className="grid-row">
           <div className="desktop:grid-col-9 mobile:grid-col-12 usa-prose">
             {!isPreview ? (

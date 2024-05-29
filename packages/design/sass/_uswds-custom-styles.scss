@@ -77,15 +77,15 @@ main {
   width: 100%;
 
   .column1 {
-    width: 50%;
+    width: 33.3333%;
   }
 
   .column2 {
-    width: 30%;
+    width: 33.3333%;
   }
 
   .column3 {
-    width: 20%;
+    width: 33.3333%;
   }
 
   .actionColumn {
@@ -137,4 +137,49 @@ iframe:focus {
   position: relative;
   padding-bottom: 62.5%;
   height: 0;
+}
+
+.usa-table {
+  th[scope="row"],
+  th[scope="row"]:nth-child(odd) {
+    background: $color-gray-10;
+  }
+
+  tbody tr:last-child {
+    border-bottom-width: 1px;
+  }
+}
+
+@include at-media("mobile-lg") {
+  .usa-table th[scope="row"],
+  .usa-table th[scope="row"]:nth-child(odd) {
+    background: #fff;
+  }
+
+  .usa-table {
+    thead th {
+      border-bottom-width: 2px;
+
+      &:not(:first-child), &:not(:first-child) {
+        border-left-width: 2px;
+      }
+    }
+
+    tbody {
+      tr:last-child {
+        th, td {
+          border-bottom-width: 1px;
+        }
+      }
+
+      th, td {
+        border-bottom-width: 2px;
+      }
+
+      th:not(:first-child), td:not(:first-child) {
+        border-left-width: 2px;
+      }
+    }
+
+  }
 }

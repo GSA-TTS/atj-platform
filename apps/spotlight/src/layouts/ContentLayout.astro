@@ -8,15 +8,5 @@ const { title } = Astro.props;
 ---
 
 <Layout title={title}>
-  <section class="grid-container usa-section">
-    <div class="grid-row flex-justify-center">
-      <div class="grid-col-12 tablet:grid-col-12 desktop:grid-col-12">
-        <div
-          class="bg-white padding-y-3 padding-x-3 border border-base-lighter"
-        >
-          <slot />
-        </div>
-      </div>
-    </div>
-  </section>
+  <slot></slot>
 </Layout>

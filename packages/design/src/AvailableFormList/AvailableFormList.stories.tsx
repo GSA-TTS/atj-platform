@@ -19,6 +19,18 @@ export default {
       }),
     }),
     urlForForm: () => `#`,
+    urlForFormManager: () => `#`,
+  },
+  tags: ['autodocs'],
+} satisfies Meta<typeof AvailableFormList>;
+
+export const Empty = {
+  title: 'Empty form list',
+  component: AvailableFormList,
+  args: {
+    formService: createTestFormService({}),
+    urlForForm: () => `#`,
+    urlForFormManager: () => `#`,
   },
   tags: ['autodocs'],
 } satisfies Meta<typeof AvailableFormList>;
