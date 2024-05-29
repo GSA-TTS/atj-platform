@@ -15,6 +15,7 @@ import { type ComponentForPattern } from '../Form';
 import FormDelete from './FormDelete';
 import FormEdit from './FormEdit';
 import { type EditComponentForPattern } from './FormEdit/types';
+import { FormInspect } from './FormInspect';
 import FormList from './FormList';
 import { FormManagerLayout } from './FormManagerLayout';
 import { NavPage } from './FormManagerLayout/TopNavigation';
@@ -46,6 +47,30 @@ export default function FormManager({ context }: FormManagerProps) {
               <FormManagerProvider context={context} session={nullSession}>
                 <FormManagerLayout>
                   <FormList formService={context.formService} />
+                </FormManagerLayout>
+              </FormManagerProvider>
+            );
+          }}
+        />
+        <Route
+          path={AppRoutes.Inspect.path}
+          Component={() => {
+            const { formId } = useParams();
+            if (formId === undefined) {
+              return <div>formId is undefined</div>;
+            }
+            const formResult = context.formService.getForm(formId);
+            if (!formResult.success) {
+              return <div>Error loading form preview</div>;
+            }
+            return (
+              <FormManagerProvider
+                context={context}
+                formId={formId}
+                session={createFormSession(formResult.data)}
+              >
+                <FormManagerLayout>
+                  <FormInspect />
                 </FormManagerLayout>
               </FormManagerProvider>
             );

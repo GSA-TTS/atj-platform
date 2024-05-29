@@ -13,6 +13,11 @@ export const GuidedFormCreation: Route<[]> = {
   getUrl: () => `#`,
 };
 
+export const Inspect: Route = {
+  path: '/:formId/inspect',
+  getUrl: (formId: string) => `#/${formId}/inspect`,
+};
+
 export const Preview: Route = {
   path: '/:formId/preview',
   getUrl: (formId: string) => `#/${formId}/preview`,

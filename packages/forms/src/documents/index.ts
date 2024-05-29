@@ -1,6 +1,5 @@
 export * from './document';
 export * from './pdf';
-export * from './suggestions';
 export * from './types';
 
 export const SAMPLE_DOCUMENTS = [
