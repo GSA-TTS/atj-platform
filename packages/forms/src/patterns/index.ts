@@ -27,4 +27,4 @@ export const defaultFormConfig: FormConfig = {
     'radio-group': radioGroupConfig,
     sequence: sequenceConfig,
   },
-};
+} as const;

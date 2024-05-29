@@ -1,4 +1,4 @@
-import { type Result } from '@atj/common';
+import * as r from '@atj/common';
 import { type FormErrors, type Blueprint, updatePattern, FormError } from '..';
 
 import { type CreatePrompt } from './components';
@@ -18,11 +18,11 @@ export type GetPattern = (form: Blueprint, id: PatternId) => Pattern;
 export type ParseUserInput<Pattern, PatternOutput> = (
   pattern: Pattern,
   obj: unknown
-) => Result<PatternOutput, FormError>;
+) => r.Result<PatternOutput, FormError>;
 
 export type ParsePatternConfigData<PatternConfigData> = (
   patternData: unknown
-) => Result<PatternConfigData, FormErrors>;
+) => r.Result<PatternConfigData, FormErrors>;
 
 type RemoveChildPattern<P extends Pattern> = (
   pattern: P,
@@ -72,7 +72,7 @@ export const validatePattern = (
   patternConfig: PatternConfig,
   pattern: Pattern,
   value: any
-): Result<Pattern['data'], FormError> => {
+): r.Result<Pattern['data'], FormError> => {
   if (!patternConfig.parseUserInput) {
     return {
       success: true,
@@ -113,7 +113,7 @@ export const updatePatternFromFormData = (
   form: Blueprint,
   pattern: Pattern,
   formData: PatternMap
-): Result<Blueprint, FormErrors> => {
+): r.Result<Blueprint, FormErrors> => {
   const elementConfig = getPatternConfig(config, pattern.type);
   const result = elementConfig.parseConfigData(formData[pattern.id]);
   if (!result.success) {
@@ -131,7 +131,7 @@ export const updatePatternFromFormData = (
 
 export const generatePatternId = () => crypto.randomUUID();
 
-export const createPattern = (
+export const createDefaultPattern = (
   config: FormConfig,
   patternType: string
 ): Pattern => {
@@ -140,6 +140,25 @@ export const createPattern = (
     type: patternType,
     data: config.patterns[patternType].initial,
   };
+};
+
+export const createPattern = <T extends Pattern>(
+  config: FormConfig,
+  patternType: keyof FormConfig['patterns'],
+  configData: T['data'],
+  patternId?: PatternId
+): r.Result<T, FormErrors> => {
+  const result = config.patterns[patternType].parseConfigData(
+    configData || config.patterns[patternType].initial
+  );
+  if (!result.success) {
+    return r.failure(result.error);
+  }
+  return r.success({
+    id: patternId || generatePatternId(),
+    type: patternType,
+    data: result.data,
+  } as T);
 };
 
 export const removeChildPattern = (
