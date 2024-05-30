@@ -22,6 +22,7 @@ import { NavPage } from './FormManagerLayout/TopNavigation';
 import { FormPreview } from './FormPreview';
 import * as AppRoutes from './routes';
 import { FormManagerProvider } from './store';
+import AvailableFormList from '../AvailableFormList';
 
 export type FormManagerContext = {
   baseUrl: `${string}/`;
@@ -30,6 +31,8 @@ export type FormManagerContext = {
   editComponents: EditComponentForPattern;
   formService: FormService;
   uswdsRoot: `${string}/`;
+  urlForForm?: string;
+  urlForFormManager?: string;
 };
 
 type FormManagerProps = {
@@ -40,6 +43,22 @@ export default function FormManager({ context }: FormManagerProps) {
   return (
     <HashRouter>
       <Routes>
+        <Route
+          path={AppRoutes.MyForms.path}
+          Component={() => {
+            return (
+              <FormManagerProvider context={context} session={nullSession}>
+                <FormManagerLayout>
+                  <AvailableFormList
+                    formService={context.formService}
+                    urlForForm={context.urlForForm}
+                    urlForFormManager={context.urlForFormManager}
+                  />
+                </FormManagerLayout>
+              </FormManagerProvider>
+            );
+          }}
+        />
         <Route
           path={AppRoutes.GuidedFormCreation.path}
           Component={() => {

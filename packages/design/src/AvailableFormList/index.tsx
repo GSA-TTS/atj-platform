@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FormService } from '@atj/form-service';
+import * as AppRoutes from '../FormManager/routes';
 
 type FormDetails = {
   id: string;
@@ -26,11 +27,18 @@ export default function AvailableFormList({
     }
   }, []);
   return (
-    <FormList
-      forms={forms}
-      urlForForm={urlForForm}
-      urlForFormManager={urlForFormManager}
-    />
+    <>
+      <FormList
+        forms={forms}
+        urlForForm={urlForForm}
+        urlForFormManager={urlForFormManager}
+      />
+      <p>
+        <a href={AppRoutes.GuidedFormCreation.getUrl()} className="usa-button">
+          Create New
+        </a>
+      </p>
+    </>
   );
 }
 

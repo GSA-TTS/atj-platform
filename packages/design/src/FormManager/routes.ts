@@ -5,12 +5,12 @@ type Route<UrlParams extends string[] = string[]> = {
 
 export const MyForms: Route<[]> = {
   path: '/',
-  getUrl: () => `/`,
+  getUrl: () => `#`,
 };
 
 export const GuidedFormCreation: Route<[]> = {
-  path: '/',
-  getUrl: () => `#`,
+  path: '/create-form',
+  getUrl: () => `#/create-form`,
 };
 
 export const Inspect: Route = {

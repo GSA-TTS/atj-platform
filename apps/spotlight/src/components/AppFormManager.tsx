@@ -7,6 +7,7 @@ import {
 } from '@atj/design';
 
 import { getAppContext } from '../context';
+import { getFormManagerUrlById, getFormUrl } from '../routes';
 
 export default function () {
   const ctx = getAppContext();
@@ -19,6 +20,8 @@ export default function () {
         editComponents: defaultPatternEditComponents,
         formService: ctx.formService,
         uswdsRoot: ctx.uswdsRoot,
+        urlForForm: getFormUrl,
+        urlForFormManager: getFormManagerUrlById
       }}
     />
   );
