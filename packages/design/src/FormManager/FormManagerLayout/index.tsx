@@ -37,10 +37,10 @@ export const FormManagerLayout = ({
     <>
       <Notifications />
       {step && <TopNavigation curPage={step} preview={preview} />}
-      <section className="grid-container usa-section">
+      <section>
         <div className="grid-row flex-justify-center">
-          <div className="grid-col-12 tablet:grid-col-10 desktop:grid-col-7">
-            <div className="bg-white padding-y-3 padding-x-3">{children}</div>
+          <div className="grid-col-12 tablet:grid-col-12 desktop:grid-col-12">
+            <div className="bg-white">{children}</div>
           </div>
         </div>
       </section>
