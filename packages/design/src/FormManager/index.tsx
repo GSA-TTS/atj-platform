@@ -203,7 +203,7 @@ export default function FormManager({ context }: FormManagerProps) {
                 <FormManagerLayout
                   step={NavPage.publish}
                   back={AppRoutes.Configure.getUrl(formId)}
-                  close={AppRoutes.GuidedFormCreation.getUrl()}
+                  close={AppRoutes.MyForms.getUrl()}
                   preview={AppRoutes.Preview.getUrl(formId)}
                 >
                   Publish
