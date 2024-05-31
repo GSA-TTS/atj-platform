@@ -2,7 +2,6 @@
 import ContentLayout from '../layouts/ContentLayout.astro';
 import AppAvailableFormList from '../components/AppAvailableFormList';
 import DebugTools from '../components/DebugTools';
-import FormManagerFooter from '../components/FormManagerFooter';
 ---
 
 <ContentLayout title="10x Access to Justice Spotlight">
@@ -21,7 +20,6 @@ import FormManagerFooter from '../components/FormManagerFooter';
     </div>
   </section>
   <div class="usa-section grid-container">
-    <FormManagerFooter client:only />
     <DebugTools client:only />
   </div>
 
