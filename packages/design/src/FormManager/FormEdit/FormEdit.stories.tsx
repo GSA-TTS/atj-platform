@@ -52,7 +52,7 @@ export const FormEditAddPattern: StoryObj<typeof FormEdit> = {
     const initialCount = (await canvas.findAllByRole('textbox')).length;
 
     const select = canvas.getByLabelText('Add Element');
-    await userEvent.selectOptions(select, 'Text input');
+    await userEvent.selectOptions(select, 'Short answer');
 
     const finalCount = (await canvas.findAllByRole('textbox')).length;
     expect(finalCount).toBeGreaterThan(initialCount);
