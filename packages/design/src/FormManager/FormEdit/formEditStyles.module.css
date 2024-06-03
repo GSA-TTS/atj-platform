@@ -41,6 +41,12 @@
     z-index: 1;
 }
 
+/* Draggable List */
+
+.draggableListWrapper span {
+    background-color: #fff;
+}
+
 @media (max-width: 40em) {
     .dropdownMenu {
         bottom: 4.5rem;
