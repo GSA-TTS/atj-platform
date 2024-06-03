@@ -62,12 +62,10 @@ export const AddPatternDropdown = ({ uswdsRoot }: { uswdsRoot: string; }) => {
     setDisplayValue('Question');
     setIsOpen(false);
   };
-  const blockIconSVG = Object.values(blockIcon);
-  const dropDownIconSVG = Object.values(dropDownIcon);
 
   const getIconPath = (iconPath: string) => {
-    let iconPathObject = Object.values(icons[iconPath]);
-    let blockIconObject = Object.values(blockIcon);
+    const iconPathObject = Object.values(icons[iconPath]);
+    const blockIconObject = Object.values(blockIcon);
 
     return iconPathObject[0] || blockIconObject[0];
   };
