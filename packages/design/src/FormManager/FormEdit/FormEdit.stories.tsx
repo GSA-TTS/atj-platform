@@ -76,9 +76,15 @@ const editFieldLabel = async (
 
   // Enter new text for first field
   const input = canvas.getByLabelText('Field label');
+  const select = canvas.getAllByText('Add Element');
+
   await userEvent.clear(input);
   await userEvent.type(input, updatedLabel);
-  await userEvent.click(canvas.getByText('Add Element'));
+  //await userEvent.click(canvas.getByText('Add Element'));
+
+  select.forEach(async (element) => {
+    await userEvent.click(element);
+  });
 
   waitFor(
     async () => {
