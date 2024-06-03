@@ -1,4 +1,4 @@
-import { type FormError, getRootPattern } from '..';
+import { type FormError, getRootPattern } from '.';
 import {
   type FormConfig,
   type Pattern,
