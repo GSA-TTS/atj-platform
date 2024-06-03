@@ -5,6 +5,7 @@ import { Notifications } from './Notifications';
 import { FormManagerProvider, useFormManagerStore } from '../store';
 import {
   createTestFormManagerContext,
+  createTestSession,
   createTwoPatternTestForm,
 } from '../../test-form';
 
@@ -29,7 +30,7 @@ export default {
     () => (
       <FormManagerProvider
         context={createTestFormManagerContext()}
-        form={createTwoPatternTestForm()}
+        session={createTestSession({ form: createTwoPatternTestForm() })}
       >
         <StoryImpl />
       </FormManagerProvider>
