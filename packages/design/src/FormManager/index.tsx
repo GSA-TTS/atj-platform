@@ -22,7 +22,10 @@ import { NavPage } from './FormManagerLayout/TopNavigation';
 import { FormPreview } from './FormPreview';
 import * as AppRoutes from './routes';
 import { FormManagerProvider } from './store';
-import AvailableFormList from '../AvailableFormList';
+import AvailableFormList, {
+  UrlForForm,
+  UrlForFormManager,
+} from '../AvailableFormList';
 
 export type FormManagerContext = {
   baseUrl: `${string}/`;
@@ -31,8 +34,8 @@ export type FormManagerContext = {
   editComponents: EditComponentForPattern;
   formService: FormService;
   uswdsRoot: `${string}/`;
-  urlForForm?: string;
-  urlForFormManager?: string;
+  urlForForm: UrlForForm;
+  urlForFormManager: UrlForFormManager;
 };
 
 type FormManagerProps = {

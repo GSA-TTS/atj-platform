@@ -8,8 +8,8 @@ type FormDetails = {
   title: string;
   description: string;
 };
-type UrlForForm = (id: string) => string;
-type UrlForFormManager = UrlForForm;
+export type UrlForForm = (id: string) => string;
+export type UrlForFormManager = UrlForForm;
 
 export default function AvailableFormList({
   formService,
