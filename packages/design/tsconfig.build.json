@@ -1,7 +1,6 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "types": ["vite/client", "node"],
     "baseUrl": "./src",
     "emitDeclarationOnly": true,
     "jsx": "react",
