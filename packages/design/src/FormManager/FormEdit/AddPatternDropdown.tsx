@@ -33,7 +33,6 @@ const icons: IconsType = {
 
 export const AddPatternDropdown = ({ uswdsRoot }: { uswdsRoot: string; }) => {
   const { availablePatterns, addPattern } = useFormManagerStore(state => ({
-    context: state.context,
     availablePatterns: state.availablePatterns,
     addPattern: state.addPattern,
   }));

@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["vite/client", "node"],
     "allowSyntheticDefaultImports": true,
     "composite": true,
     "declaration": true,
