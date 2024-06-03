@@ -38,6 +38,7 @@ export type PatternConfig<
   PatternOutput = unknown,
 > = {
   displayName: string;
+  iconPath?: string;
   initial: ThisPattern['data'];
   parseUserInput?: ParseUserInput<ThisPattern, PatternOutput>;
   parseConfigData: ParsePatternConfigData<ThisPattern['data']>;

@@ -1,17 +1,26 @@
 {
   "compilerOptions": {
+    "types": ["vite/client", "node"],
     "allowSyntheticDefaultImports": true,
     "composite": true,
     "declaration": true,
     "esModuleInterop": true,
     "isolatedModules": false,
+    "target": "ES6",
     "module": "ESNext",
     "moduleResolution": "node",
     "noErrorTruncation": true,
     "noImplicitAny": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "ESNext",
-    "resolveJsonModule": true
-  }
+    "resolveJsonModule": true,
+    "baseUrl": "./",
+    "paths": {
+      "*": ["src/*"],
+      "components/*": ["src/components/*"]
+    }
+  },
+  "include": [
+    "src/**/*"
+  ]
 }

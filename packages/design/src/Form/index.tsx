@@ -98,7 +98,7 @@ export default function Form({
     <FormProvider {...formMethods}>
       <div className="preview grid-container">
         <div className="grid-row">
-          <div className="desktop:grid-col-9 mobile:grid-col-12 usa-prose">
+          <div className="grid-col-12 usa-prose">
             {!isPreview ? (
               <form
                 className="usa-form usa-form--large margin-bottom-3"
@@ -115,7 +115,7 @@ export default function Form({
                 <FormContents context={context} prompt={prompt} />
               </form>
             ) : (
-              <div>
+              <div className="formContentWrapper">
                 <FormContents context={context} prompt={prompt} />
               </div>
             )}
@@ -137,13 +137,13 @@ const FormContents = ({
     <>
       {false && (
         <fieldset className="usa-fieldset width-full">
-          <legend className="usa-legend usa-legend--large">
+          <legend className="usa-legend text-bold">
             Request to Change Name
           </legend>
           <div className="usa-form-group">
             <div className="usa-form-group">
               <fieldset className="usa-fieldset width-full">
-                <legend className="usa-legend usa-legend--large text-uppercase line-height-body-4">
+                <legend className="usa-legend text-bold text-uppercase line-height-body-4">
                   County where you live
                 </legend>
                 <label className="usa-label">Name of your county *</label>
@@ -162,7 +162,7 @@ const FormContents = ({
           <div className="usa-form-group">
             <div className="usa-form-group">
               <fieldset className="usa-fieldset width-full">
-                <legend className="usa-legend usa-legend--large text-uppercase line-height-body-4">
+                <legend className="usa-legend text-bold text-uppercase line-height-body-4">
                   Your current name
                 </legend>
                 <label className="usa-label">First name *</label>

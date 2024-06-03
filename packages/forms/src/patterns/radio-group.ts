@@ -24,7 +24,8 @@ type PatternOutput = z.infer<typeof PatternOutput>;
 
 export const radioGroupConfig: PatternConfig<RadioGroupPattern, PatternOutput> =
   {
-    displayName: 'Radio group',
+    displayName: 'Single select',
+    iconPath: 'singleselect-icon.svg',
     initial: {
       label: 'Radio group label',
       options: [

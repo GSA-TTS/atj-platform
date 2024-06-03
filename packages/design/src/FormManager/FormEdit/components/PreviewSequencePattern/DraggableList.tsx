@@ -78,7 +78,7 @@ const SortableItem = ({
 
   return (
     <div
-      className="draggable-list-item-wrapper"
+      className="draggable-list-item-wrapper bg-white margin-bottom-3 padding-3"
       ref={setNodeRef}
       style={{
         transform: CSS.Transform.toString(transform),

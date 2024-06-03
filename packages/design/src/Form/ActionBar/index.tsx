@@ -4,7 +4,7 @@ import { PromptAction } from '@atj/forms';
 
 export default function ActionBar({ actions }: { actions: PromptAction[] }) {
   return (
-    <p className="usa-button-wrapper">
+    <p className="preview-form-button-wrapper">
       {actions.map((action, index) => {
         if (action.type === 'submit') {
           return (

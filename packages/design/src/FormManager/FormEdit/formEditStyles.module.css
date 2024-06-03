@@ -1,0 +1,51 @@
+/* Add a Pattern Menu */
+
+.dropdownMenu {
+    min-width: 315px;
+}
+
+.dropdownMenu:active,
+.dropdownMenu:hover,
+.dropdownButton:active,
+.dropdownButton:hover {
+    color: #1b1b1b;
+    background-color: #fff;
+    font-weight: bold;
+}
+
+.dropdownMenu:hover li,
+.dropdownItem:hover {
+    font-weight: normal;
+}
+
+.dropdownItem:hover {
+    background: #d9e8f6;
+}
+
+/* Page Title Area */
+
+.titleArea::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    border-top: 1px dotted #888;
+    z-index: 0;
+    transform: translateY(-50%);
+}
+
+.titleText,
+.pageNumber {
+    z-index: 1;
+}
+
+@media (max-width: 40em) {
+    .dropdownMenu {
+        bottom: 4.5rem;
+        max-height: 40vh;
+        overflow: auto;
+        left: 32px;
+    }
+}

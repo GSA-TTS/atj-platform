@@ -19,6 +19,7 @@ const configSchema = z.object({
 
 export const sequenceConfig: PatternConfig<SequencePattern> = {
   displayName: 'Sequence',
+  iconPath: 'block-icon.svg',
   initial: {
     patterns: [],
   },
