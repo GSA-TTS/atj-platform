@@ -1,26 +1,8 @@
 ---
-import ContentLayout from '../layouts/ContentLayout.astro';
-import AppAvailableFormList from '../components/AppAvailableFormList';
-import DebugTools from '../components/DebugTools';
+import AppFormManager from '../components/AppFormManager';
+import Layout from '../layouts/Layout.astro';
 ---
 
-<ContentLayout title="10x Access to Justice Spotlight">
-  <section class="padding-y-3 desktop:margin-top-10 border-base-lighter border-y">
-    <div class="grid-container">
-      <div class="grid-row flex-justify-center">
-        <div class="grid-col-12 tablet:grid-col-12 desktop:grid-col-12">
-          <div
-            class="bg-white padding-y- padding-x-3 border border-base-lighter"
-          >
-            <h1>My Forms</h1>
-            <AppAvailableFormList client:only />
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <div class="usa-section grid-container">
-    <DebugTools client:only />
-  </div>
-
-</ContentLayout>
+<Layout title="10x Access to Justice Spotlight">
+  <AppFormManager client:only />
+</Layout>
