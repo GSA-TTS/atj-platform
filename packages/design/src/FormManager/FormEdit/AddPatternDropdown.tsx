@@ -72,7 +72,7 @@ export const AddPatternDropdown = ({ uswdsRoot }: { uswdsRoot: string; }) => {
 
   return (
     <fieldset className="usa-fieldset">
-      <label className="tablet:display-block display-none usa-label margin-top-0 font-ui-3xs text-uppercase margin-bottom-3">Add Element</label>
+      <p className="tablet:display-block display-none usa-label margin-top-0 font-ui-3xs text-uppercase margin-bottom-3">Add Element</p>
       <div className="dropdownContainer margin-bottom-3" ref={dropdownRef}>
         <ul className="usa-list usa-list--unstyled grid-row tablet:flex-justify-end flex-justify-center">
           <li className="position-relative tablet:grid-col-12 grid-col-5 text-center">
