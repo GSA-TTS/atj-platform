@@ -22,11 +22,20 @@ export const PageEdit: PatternEditComponent<PageProps> = props => {
           editComponent={<PageEditComopnent pattern={props.focus.pattern} />}
         ></PatternEditForm>
       ) : (
-        <div className={`${styles.titleArea} display-flex flex-justify flex-align-center position-relative margin-bottom-205`}>
-          <span className={`${styles.titleText} padding-right-1 text-uppercase text-ls-1 text-base bg-primary-lighter`}>
-            {props.previewProps.title || 'untitled page'} <span className="text-red">*</span>
+        <div
+          className={`${styles.titleArea} display-flex flex-justify flex-align-center position-relative margin-bottom-205`}
+        >
+          <span
+            className={`${styles.titleText} padding-right-1 text-uppercase text-ls-1 text-base bg-primary-lighter`}
+          >
+            {props.previewProps.title || 'untitled page'}{' '}
+            <span className="text-red">*</span>
           </span>
-          <span className={`${styles.pageNumber} padding-left-1 text-base bg-primary-lighter`}>Page X</span>
+          <span
+            className={`${styles.pageNumber} padding-left-1 text-base bg-primary-lighter`}
+          >
+            Page X
+          </span>
         </div>
       )}
       <PatternPreviewSequence

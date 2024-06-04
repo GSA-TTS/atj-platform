@@ -57,7 +57,8 @@ export const TopNavigation = ({
       </div>
       <div className="display-none tablet:display-block margin-top-1 margin-bottom-1">
         <div className="grid-container">
-          <div className="grid-row margin-bottom-0 classes usa-step-indicator "
+          <div
+            className="grid-row margin-bottom-0 classes usa-step-indicator "
             aria-label="progress"
           >
             <div className="margin-top-1 grid-col-2">
@@ -107,26 +108,28 @@ export const TopNavigation = ({
               </li>
             </ol>
             <div className="desktop:grid-col-4 tablet:grid-col-5 text-right">
-              <span className={`text-base font-ui-3xs padding-left-1 display-inline-block text-middle ${styles.savedStatus}`}>
-                  {lastSaved
-                    ? 'Saved ' +
-                      lastSaved.toLocaleDateString('en-us', {
-                        month: 'short',
-                        day: 'numeric',
-                        hour: 'numeric',
-                        minute: 'numeric',
-                        second: 'numeric',
-                      })
-                    : 'Blueprint loaded'}
-                </span>
-                {preview && (
-                  <a
-                    href={preview}
-                    className="usa-button usa-button--outline margin-left-1 display-inline-block text-middle"
-                  >
-                    Preview
-                  </a>
-                )}
+              <span
+                className={`text-base font-ui-3xs padding-left-1 display-inline-block text-middle ${styles.savedStatus}`}
+              >
+                {lastSaved
+                  ? 'Saved ' +
+                    lastSaved.toLocaleDateString('en-us', {
+                      month: 'short',
+                      day: 'numeric',
+                      hour: 'numeric',
+                      minute: 'numeric',
+                      second: 'numeric',
+                    })
+                  : 'Blueprint loaded'}
+              </span>
+              {preview && (
+                <a
+                  href={preview}
+                  className="usa-button usa-button--outline margin-left-1 display-inline-block text-middle"
+                >
+                  Preview
+                </a>
+              )}
             </div>
           </div>
         </div>
@@ -175,7 +178,9 @@ const MobileStepIndicator = ({ curPage }: { curPage: NavPage }) => (
       <span className="usa-step-indicator__heading-counter">
         <span className="usa-sr-only">Step</span>
         <span className="usa-step-indicator__current-step">1</span>
-        <span className="usa-step-indicator__total-steps margin-left-05">of 3</span>{' '}
+        <span className="usa-step-indicator__total-steps margin-left-05">
+          of 3
+        </span>{' '}
       </span>
     </div>
     <div className="grid-col grid-col-8">

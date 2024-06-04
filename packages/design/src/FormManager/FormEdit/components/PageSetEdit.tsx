@@ -7,7 +7,6 @@ import { PatternEditComponent } from '../types';
 import PageSet from '../../../Form/components/PageSet';
 
 const PageSetEdit: PatternEditComponent<PageSetProps> = ({ previewProps }) => {
-
   return (
     <>
       <PageSet {...previewProps} />

@@ -17,11 +17,17 @@ export const PageMenu = ({ pages }: PageMenuProps) => {
         {pages.map((page, index) => (
           <li
             key={index}
-            className={classNames('usa-sidenav__item tablet:margin-left-0 margin-left-2', styles.sideNav, {
-              'usa-current text-primary': page.selected,
-            })}
+            className={classNames(
+              'usa-sidenav__item tablet:margin-left-0 margin-left-2',
+              styles.sideNav,
+              {
+                'usa-current text-primary': page.selected,
+              }
+            )}
           >
-            <a className={`${styles.usaNavLink}`} href={page.url}>{page.title}</a>
+            <a className={`${styles.usaNavLink}`} href={page.url}>
+              {page.title}
+            </a>
           </li>
         ))}
       </ul>

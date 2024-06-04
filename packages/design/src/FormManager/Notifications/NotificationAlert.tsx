@@ -13,10 +13,7 @@ export const NotificationAlert = ({
   message,
 }: NotificationAlertProps) => (
   <div
-    className={classNames(
-      'usa-alert',
-      `usa-alert--${type}`
-    )}
+    className={classNames('usa-alert', `usa-alert--${type}`)}
     role="alert"
     aria-live="assertive"
     aria-atomic="true"

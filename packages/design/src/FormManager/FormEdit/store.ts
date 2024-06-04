@@ -53,7 +53,7 @@ export const createFormEditSlice =
       ([patternType, patternConfig]) => ({
         patternType,
         displayName: patternConfig.displayName,
-        iconPath: patternConfig.iconPath
+        iconPath: patternConfig.iconPath,
       })
     ),
     session,
