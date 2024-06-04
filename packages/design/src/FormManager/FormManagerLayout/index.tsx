@@ -6,6 +6,7 @@ import { BottomNavigation } from './BottomNavigation';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useFormManagerStore } from '../store';
+import styles from './formManagerStyles.module.css';
 
 type FormManagerLayoutProps = {
   children?: React.ReactNode;
@@ -37,10 +38,12 @@ export const FormManagerLayout = ({
     <>
       <Notifications />
       {step && <TopNavigation curPage={step} preview={preview} />}
-      <section className="grid-container usa-section">
+      <section className={`${styles.editPage} grid-container editPage`}>
         <div className="grid-row flex-justify-center">
-          <div className="grid-col-12 tablet:grid-col-10 desktop:grid-col-7">
-            <div className="bg-white padding-y-3 padding-x-3">{children}</div>
+          <div className="grid-col-12">
+            <div className="bg-white">
+              {children}
+            </div>
           </div>
         </div>
       </section>

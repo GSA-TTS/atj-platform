@@ -81,6 +81,7 @@ export const addressConfig: PatternConfig<
   AddressPatternOutput
 > = {
   displayName: 'Physical address',
+  iconPath: 'block-icon.svg',
   initial: {
     patterns: [],
   },

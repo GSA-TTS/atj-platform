@@ -10,13 +10,13 @@ describe('Notifications store', () => {
     const timeoutMs = 1;
     const store = create(createNotificationsSlice(timeoutMs));
     const state = store.getState();
-    state.addNotification('info', 'Pattern added.');
+    state.addNotification('success', 'Pattern added successfully.');
     const notifications = store.getState().notifications;
 
     expect(notifications.length).toEqual(1);
     expect(typeof notifications[0].id).toEqual('string');
-    expect(notifications[0].message).toEqual('Pattern added.');
-    expect(notifications[0].type).toEqual('info');
+    expect(notifications[0].message).toEqual('Pattern added successfully.');
+    expect(notifications[0].type).toEqual('success');
 
     // Wait for the timeout and confirm the notification has been removed.
     await wait(timeoutMs);

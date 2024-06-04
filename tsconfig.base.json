@@ -4,14 +4,14 @@
     "composite": true,
     "declaration": true,
     "esModuleInterop": true,
-    "isolatedModules": false,
+    "isolatedModules": true,
     "module": "ESNext",
     "moduleResolution": "node",
     "noErrorTruncation": true,
     "noImplicitAny": true,
+    "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "ESNext",
-    "resolveJsonModule": true
+    "target": "ESNext"
   }
 }

@@ -9,20 +9,20 @@ export const en = {
   patterns: {
     input: {
       ...defaults,
-      displayName: 'Text input',
+      displayName: 'Short answer',
       maxLength: 'Maximum length',
     },
     checkbox: {
       ...defaults,
-      displayName: 'Checkbox input',
+      displayName: 'Checkbox',
       errorTextMustContainChar: 'String must contain at least 1 character(s)',
     },
     page: {
       fieldLabel: 'Page title',
     },
     paragraph: {
-      fieldLabel: 'Paragraph text',
-      displayName: 'Lorem ipsum...',
+      fieldLabel: 'Paragraph Text',
+      displayName: 'Long answer',
       errorTextMustContainChar: 'String must contain at least 1 character(s)',
     },
     radioGroup: {

@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
-
 import Form, { type ComponentForPattern } from '../../Form';
-
 import { AddPatternDropdown } from './AddPatternDropdown';
 import { PreviewPattern } from './PreviewPattern';
 import { useFormManagerStore } from '../store';
-import { Toolbar } from './Toolbar';
 import { useLocation } from 'react-router-dom';
 
 const EditForm = () => {
@@ -25,14 +22,11 @@ const EditForm = () => {
   }, [location]);
 
   return (
-    <div className="position-relative">
-      <Toolbar uswdsRoot={context.uswdsRoot} />
-      <div className="grid-row">
-        <div className="grid-col-12">
-          <AddPatternDropdown />
-        </div>
+    <div className="grid-row position-relative">
+      <div className="desktop:grid-col-2  tablet:grid-col-3 tablet:display-block grid-col-12 display-none padding-y-3 padding-right-3">
+          <AddPatternDropdown uswdsRoot={context.uswdsRoot} />
       </div>
-      <div className="grid-row">
+      <div className="desktop:grid-col-10 tablet:grid-col-9 grid-col-12 tablet:border-left tablet:border-bottom tablet:border-right tablet:border-left-2px tablet:border-base-lighter bg-primary-lighter contentWrapper">
         <div className="grid-col-12">
           <Form
             isPreview={true}
@@ -46,6 +40,9 @@ const EditForm = () => {
             session={session}
           ></Form>
         </div>
+      </div>
+      <div className="tablet:display-none grid-col-12 padding-y-3">
+          <AddPatternDropdown uswdsRoot={context.uswdsRoot} />
       </div>
     </div>
   );

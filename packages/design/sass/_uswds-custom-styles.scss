@@ -103,13 +103,10 @@ main {
   max-width: 32rem;
 }
 
-.usa-legend-wrapper {
-  word-wrap: break-word;
-  hyphens: auto;
-}
-
 .usa-legend {
   width: -webkit-fill-available;
+  word-wrap: break-word;
+  hyphens: auto;
 }
 
 [contentEditable='true']:focus,
@@ -117,20 +114,6 @@ main {
 [tabindex]:focus,
 iframe:focus {
   outline: units(0.5) solid #783cb9;
-}
-
-.usa-step-indicator__segment {
-  max-width: 22rem;
-
-  &--current {
-    .usa-step-indicator__segment-label {
-      color: #783cb9;
-    }
-
-    &::after {
-      background: #783cb9;
-    }
-  }
 }
 
 .videoWrapper {
@@ -147,6 +130,13 @@ iframe:focus {
 
   tbody tr:last-child {
     border-bottom-width: 1px;
+  }
+}
+
+/* A quick way to hide the submit button when form is in edit mode. Can be replaced with a programmatic solution in the future */
+.editPage {
+  .preview-form-button-wrapper {
+    display: none;
   }
 }
 

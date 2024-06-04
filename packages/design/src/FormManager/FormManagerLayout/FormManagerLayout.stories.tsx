@@ -6,6 +6,7 @@ import { FormManagerLayout } from '.';
 import {
   createTwoPatternTestForm,
   createTestFormManagerContext,
+  createTestSession,
 } from '../../test-form';
 import { FormManagerProvider } from '../store';
 import { NavPage } from './TopNavigation';
@@ -18,7 +19,7 @@ const meta: Meta<typeof FormManagerLayout> = {
       <MemoryRouter initialEntries={['/']}>
         <FormManagerProvider
           context={createTestFormManagerContext()}
-          form={createTwoPatternTestForm()}
+          session={createTestSession({ form: createTwoPatternTestForm() })}
         >
           <Story {...args} />
         </FormManagerProvider>

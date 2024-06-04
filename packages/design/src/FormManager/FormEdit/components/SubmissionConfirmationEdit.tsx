@@ -30,40 +30,44 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   return (
     <div className="grid-row grid-gap-1">
       <div className="desktop:grid-col-4 mobile:grid-col-12">
-        <label className="usa-label">
+        <label className="usa-label" htmlFor={fieldId('text')}>
           Field label
           <input
             className="usa-input bg-primary-lighter text-bold"
             {...register('text')}
+            id={fieldId('text')}
             type="text"
           ></input>
         </label>
       </div>
       <div className="desktop:grid-col-2 mobile:grid-col-12">
-        <label className="usa-label">
+        <label className="usa-label" htmlFor={fieldId('initial')}>
           Default field value
           <input
             className="usa-input bg-primary-lighter text-bold"
+            id={fieldId('initial')}
             type="text"
             {...register('initial')}
           ></input>
         </label>
       </div>
       <div className="desktop:grid-col-2 mobile:grid-col-12">
-        <label className="usa-label">
+        <label className="usa-label" htmlFor={fieldId('maxLength')}>
           Maximum length
           <input
             className="usa-input bg-primary-lighter text-bold"
+            id={fieldId('maxLength')}
             type="text"
             {...register('maxLength')}
           ></input>
         </label>
       </div>
       <div className="desktop:grid-col-2 mobile:grid-col-12">
-        <label className="usa-label">
+        <label className="usa-label" htmlFor={fieldId('type')}>
           Field type
           <select
             className="usa-select bg-primary-lighter text-bold"
+            id={fieldId('type')}
             {...register('type')}
           >
             <option value={'input'}>Input</option>

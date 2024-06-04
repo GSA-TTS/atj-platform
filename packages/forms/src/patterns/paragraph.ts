@@ -10,7 +10,8 @@ const configSchema = z.object({
 export type ParagraphPattern = Pattern<z.infer<typeof configSchema>>;
 
 export const paragraphConfig: PatternConfig<ParagraphPattern> = {
-  displayName: 'Paragraph',
+  displayName: 'Long answer',
+  iconPath: 'longanswer-icon.svg',
   initial: {
     text: 'Paragraph text...',
   },

@@ -21,6 +21,7 @@ const configSchema = z.object({
 
 export const fieldsetConfig: PatternConfig<FieldsetPattern> = {
   displayName: 'Fieldset',
+  iconPath: 'block-icon.svg',
   initial: {
     legend: 'Default Heading',
     patterns: [],

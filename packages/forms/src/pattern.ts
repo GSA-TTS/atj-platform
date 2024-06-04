@@ -1,5 +1,10 @@
 import * as r from '@atj/common';
-import { type FormErrors, type Blueprint, updatePattern, FormError } from '..';
+import {
+  type Blueprint,
+  type FormError,
+  type FormErrors,
+  updatePattern,
+} from '.';
 
 import { type CreatePrompt } from './components';
 
@@ -38,6 +43,7 @@ export type PatternConfig<
   PatternOutput = unknown,
 > = {
   displayName: string;
+  iconPath?: string;
   initial: ThisPattern['data'];
   parseUserInput?: ParseUserInput<ThisPattern, PatternOutput>;
   parseConfigData: ParsePatternConfigData<ThisPattern['data']>;

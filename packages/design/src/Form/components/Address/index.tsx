@@ -10,7 +10,7 @@ const Address: PatternComponent<AddressComponentProps> = props => {
   const { register } = useFormContext();
   return (
     <fieldset className="usa-fieldset width-full">
-      <legend className="usa-legend usa-legend--large text-uppercase line-height-body-4">
+      <legend className="usa-legend text-bold text-uppercase line-height-body-4">
         Mailing address
       </legend>
       <label

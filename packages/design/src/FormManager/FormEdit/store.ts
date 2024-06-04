@@ -21,6 +21,7 @@ export type FormEditSlice = {
   context: FormManagerContext;
   focus?: PatternFocus;
   availablePatterns: {
+    iconPath?: string;
     patternType: string;
     displayName: string;
   }[];
@@ -52,6 +53,7 @@ export const createFormEditSlice =
       ([patternType, patternConfig]) => ({
         patternType,
         displayName: patternConfig.displayName,
+        iconPath: patternConfig.iconPath
       })
     ),
     session,
