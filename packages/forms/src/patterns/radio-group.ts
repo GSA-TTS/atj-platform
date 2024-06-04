@@ -12,7 +12,7 @@ const configSchema = z.object({
   label: z.string().min(1),
   options: z
     .object({
-      id: z.string().regex(/^[^\s]+$/, 'Option ID may not contain spaces'),
+      id: z.string().regex(/^[A-Za-z][A-Za-z0-9\-_:.]*$/, 'Invalid Option ID'),
       label: z.string().min(1),
     })
     .array(),
