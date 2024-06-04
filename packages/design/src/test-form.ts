@@ -202,6 +202,8 @@ export const createTestFormContext = (): FormUIContext => {
 };
 
 export const createTestFormManagerContext = (): FormManagerContext => {
+  const mockGetUrl = (id: string) => id;
+
   return {
     baseUrl: '/',
     components: defaultPatternComponents,
@@ -209,6 +211,8 @@ export const createTestFormManagerContext = (): FormManagerContext => {
     editComponents: defaultPatternEditComponents,
     formService: createTestFormService(),
     uswdsRoot: `/static/uswds/`,
+    urlForForm: mockGetUrl,
+    urlForFormManager: mockGetUrl,
   };
 };
 

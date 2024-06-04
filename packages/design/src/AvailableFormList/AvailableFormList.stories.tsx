@@ -2,10 +2,17 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import AvailableFormList from '.';
 import { createTestFormService } from '@atj/form-service';
-import { createForm } from '@atj/forms';
+import { createForm, nullSession } from '@atj/forms';
+import { MemoryRouter } from 'react-router-dom';
+import { FormManagerProvider } from '../FormManager/store';
+import {
+  createTestFormManagerContext,
+  createTwoPatternTestForm,
+} from '../test-form';
+import React from 'react';
 
-export default {
-  title: 'AvailableFormList',
+const meta: Meta<typeof AvailableFormList> = {
+  title: 'FormManager/AvailableFormList',
   component: AvailableFormList,
   args: {
     formService: createTestFormService({
@@ -21,8 +28,23 @@ export default {
     urlForForm: () => `#`,
     urlForFormManager: () => `#`,
   },
+  decorators: [
+    (Story, args) => (
+      <MemoryRouter initialEntries={['/']}>
+        <FormManagerProvider
+          context={createTestFormManagerContext()}
+          form={createTwoPatternTestForm()}
+          session={nullSession}
+        >
+          <Story {...args} />
+        </FormManagerProvider>
+      </MemoryRouter>
+    ),
+  ],
   tags: ['autodocs'],
-} satisfies Meta<typeof AvailableFormList>;
+};
+
+export default meta;
 
 export const Empty = {
   title: 'Empty form list',

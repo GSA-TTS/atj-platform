@@ -2,12 +2,12 @@ import { getAppContext } from './context';
 
 export const getFormUrl = (formId: string) => {
   const context = getAppContext();
-  return `${context.baseUrl}forms/#${formId}`;
+  return `${context.baseUrl}forms/#/${formId}`;
 };
 
 export const getFormManagerUrlById = (formId: string) => {
   const context = getAppContext();
-  return `${context.baseUrl}manage/#/${formId}`;
+  return `${context.baseUrl}#/${formId}`;
 };
 
 export const getManageUrl = () => {

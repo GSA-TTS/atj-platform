@@ -41,9 +41,7 @@ export const FormManagerLayout = ({
       <section className={`${styles.editPage} grid-container editPage`}>
         <div className="grid-row flex-justify-center">
           <div className="grid-col-12">
-            <div className="bg-white">
-              {children}
-            </div>
+            <div className="bg-white">{children}</div>
           </div>
         </div>
       </section>
