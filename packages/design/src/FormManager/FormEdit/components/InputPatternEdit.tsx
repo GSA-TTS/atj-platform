@@ -49,6 +49,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           className={classnames('usa-label', {
             'usa-label--error': label.error,
           })}
+          htmlFor={fieldId('label')}
         >
           {message.patterns.input.fieldLabel}
           {label.error ? (
@@ -72,6 +73,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           className={classnames('usa-label', {
             'usa-label--error': initial.error,
           })}
+          htmlFor={fieldId('initial')}
         >
           {initial.error ? (
             <span className="usa-error-message" role="alert">
@@ -92,6 +94,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           className={classnames('usa-label', {
             'usa-label--error': maxLength.error,
           })}
+          htmlFor={fieldId('maxLength')}
         >
           {maxLength.error ? (
             <span className="usa-error-message" role="alert">
@@ -113,6 +116,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
             <label
               style={{ display: 'inline-block' }}
               className="usa-checkbox__label"
+              htmlFor={fieldId('required')}
             >
               Required
               <input

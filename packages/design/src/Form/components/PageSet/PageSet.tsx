@@ -9,8 +9,8 @@ import { useRouteParams } from '../../../FormRouter/hooks';
 const PageSet: PatternComponent<PageSetProps> = props => {
   const { routeParams, pathname } = useRouteParams();
   return (
-    <div className="grid-row grid-gap">
-      <nav className="tablet:grid-col-3 bg-primary-lightest">
+    <div className="grid-row">
+      <nav className="tablet:grid-col-3 tablet:padding-y-3 padding-right-4">
         <PageMenu
           pages={props.pages.map((page, index) => {
             const params = new URLSearchParams(routeParams?.toString());
@@ -23,7 +23,7 @@ const PageSet: PatternComponent<PageSetProps> = props => {
           })}
         />
       </nav>
-      <div className="tablet:grid-col-9">{props.children}</div>
+      <div className="tablet:grid-col-9 tablet:padding-left-4 padding-left-0 padding-bottom-3 padding-top-3 tablet:border-left tablet:border-base-lighter contentWrapper">{props.children}</div>
     </div>
   );
 };

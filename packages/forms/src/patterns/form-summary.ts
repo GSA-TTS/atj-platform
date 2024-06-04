@@ -12,6 +12,7 @@ export type FormSummary = Pattern<z.infer<typeof configSchema>>;
 
 export const formSummaryConfig: PatternConfig<FormSummary> = {
   displayName: 'Form summary',
+  iconPath: 'block-icon.svg',
   initial: {
     title: 'Form title',
     description: 'Form extended description',

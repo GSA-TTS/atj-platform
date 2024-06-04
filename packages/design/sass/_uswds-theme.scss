@@ -4,4 +4,9 @@
   $theme-footer-max-width: "widescreen",
   $theme-grid-container-max-width: "widescreen",
   $theme-header-max-width: "widescreen",
+  $theme-color-primary-lighter: "blue-5",
+  $theme-utility-breakpoints: (
+    "mobile": true,
+    "mobile-lg": true
+  ),
 );

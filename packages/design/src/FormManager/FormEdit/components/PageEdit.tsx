@@ -11,6 +11,7 @@ import { PatternEditActions } from './common/PatternEditActions';
 import { PatternEditForm } from './common/PatternEditForm';
 import { usePatternEditFormContext } from './common/hooks';
 import { PatternPreviewSequence } from './PreviewSequencePattern';
+import styles from '../formEditStyles.module.css';
 
 export const PageEdit: PatternEditComponent<PageProps> = props => {
   return (
@@ -21,11 +22,11 @@ export const PageEdit: PatternEditComponent<PageProps> = props => {
           editComponent={<PageEditComopnent pattern={props.focus.pattern} />}
         ></PatternEditForm>
       ) : (
-        <div className="display-flex flex-justify border-bottom border-base border-dotted border-top-width-0 border-left-width-0 border-right-width-0">
-          <div className="text-uppercase text-ls-1 text-base">
-            {props.previewProps.title || 'untitled page'}
-          </div>
-          <div className="text-base">Page X</div>
+        <div className={`${styles.titleArea} display-flex flex-justify flex-align-center position-relative margin-bottom-205`}>
+          <span className={`${styles.titleText} padding-right-1 text-uppercase text-ls-1 text-base bg-primary-lighter`}>
+            {props.previewProps.title || 'untitled page'} <span className="text-red">*</span>
+          </span>
+          <span className={`${styles.pageNumber} padding-left-1 text-base bg-primary-lighter`}>Page X</span>
         </div>
       )}
       <PatternPreviewSequence

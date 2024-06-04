@@ -10,6 +10,7 @@ export type InputPattern = Pattern<InputConfigSchema>;
 
 export const inputConfig: PatternConfig<InputPattern, InputPatternOutput> = {
   displayName: message.patterns.input.displayName,
+  iconPath: 'shortanswer-icon.svg',
   initial: {
     label: message.patterns.input.fieldLabel,
     initial: '',

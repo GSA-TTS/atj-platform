@@ -1,0 +1,14 @@
+/* Bottom Navigation */
+
+
+
+@media (max-width: 40em) {
+    .editPage {
+        background: #eff6fb;
+        padding: 0;
+    }
+    
+    .savedStatus {
+        max-width: 7.5rem;
+    }
+}

@@ -5,7 +5,8 @@
     "emitDeclarationOnly": true,
     "jsx": "react",
     "outDir": "./dist",
-    "module": "esnext"
+    "module": "esnext",
+    "types": ["vite/client", "node"]
   },
   "include": ["./src"],
   "exclude": ["./src/**/*.stories.*", "**/*.test.*"],

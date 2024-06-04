@@ -14,7 +14,7 @@ export const NotificationAlert = ({
 }: NotificationAlertProps) => (
   <div
     className={classNames(
-      'usa-alert usa-alert--slim bg-light-blue padding-2',
+      'usa-alert',
       `usa-alert--${type}`
     )}
     role="alert"

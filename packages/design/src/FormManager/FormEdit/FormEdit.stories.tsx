@@ -51,8 +51,13 @@ export const FormEditAddPattern: StoryObj<typeof FormEdit> = {
     // Get the initial count of inputs
     const initialCount = (await canvas.findAllByRole('textbox')).length;
 
-    const select = canvas.getByLabelText('Add a pattern');
-    await userEvent.selectOptions(select, 'Text input');
+    const select = canvas.getAllByText('Add Element');
+    await userEvent.click(canvas.getByText('Pattern 1'));
+    //await userEvent.selectOptions(select, 'Text input');
+
+    select.forEach(async (element) => {
+      await userEvent.click(element);
+    });
 
     const finalCount = (await canvas.findAllByRole('textbox')).length;
     expect(finalCount).toBeGreaterThan(initialCount);
@@ -71,9 +76,15 @@ const editFieldLabel = async (
 
   // Enter new text for first field
   const input = canvas.getByLabelText('Field label');
+  const select = canvas.getAllByText('Add Element');
+
   await userEvent.clear(input);
   await userEvent.type(input, updatedLabel);
-  await userEvent.click(canvas.getByLabelText('Add a pattern'));
+  //await userEvent.click(canvas.getByText('Add Element'));
+
+  select.forEach(async (element) => {
+    await userEvent.click(element);
+  });
 
   waitFor(
     async () => {

@@ -16,6 +16,7 @@ type PatternOutput = z.infer<typeof PatternOutput>;
 
 export const checkboxConfig: PatternConfig<CheckboxPattern, PatternOutput> = {
   displayName: 'Checkbox',
+  iconPath: 'checkbox-icon.svg',
   initial: {
     label: 'Checkbox label',
     defaultChecked: false,

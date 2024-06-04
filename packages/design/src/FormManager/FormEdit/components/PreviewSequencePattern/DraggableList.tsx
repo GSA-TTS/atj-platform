@@ -17,6 +17,7 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useFormManagerStore } from '../../../store';
+import styles from '../../formEditStyles.module.css';
 
 type DraggableListProps = React.PropsWithChildren<{
   order: UniqueIdentifier[];
@@ -78,7 +79,7 @@ const SortableItem = ({
 
   return (
     <div
-      className="draggable-list-item-wrapper"
+      className={`${styles.draggableListWrapper} draggable-list-item-wrapper bg-white margin-bottom-3 padding-3`}
       ref={setNodeRef}
       style={{
         transform: CSS.Transform.toString(transform),

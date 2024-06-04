@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import { MyForms } from '../routes';
 import { useFormManagerStore } from '../store';
+import styles from './formManagerStyles.module.css';
 
 export enum NavPage {
   upload = 1,
@@ -41,7 +42,7 @@ export const TopNavigation = ({
   const uswdsRoot = useFormManagerStore(state => state.context.uswdsRoot);
   const lastSaved = useFormManagerStore(state => state.saveStatus.lastSaved);
   return (
-    <div className="position-sticky top-0 z-100 bg-white padding-1">
+    <div className="position-sticky top-0 z-100 bg-white border-bottom border-bottom-width-1px border-base-lighter padding-1">
       <div className="grid-container grid-row margin-bottom-105 display-block tablet:display-none">
         <div className="grid-row">
           <div className="grid-col-6">
@@ -55,18 +56,27 @@ export const TopNavigation = ({
         <MobileStepIndicator curPage={curPage} />
       </div>
       <div className="display-none tablet:display-block margin-top-1 margin-bottom-1">
-        <div className="grid-container grid-row">
-          <div
-            className="grid-col-12 margin-bottom-0 usa-step-indicator"
+        <div className="grid-container">
+          <div className="grid-row margin-bottom-0 classes usa-step-indicator "
             aria-label="progress"
           >
-            <ol className="usa-step-indicator__segments">
-              <li className="margin-right-1 margin-top-1">
-                <MyFormsLink uswdsRoot={uswdsRoot} />
-              </li>
+            <div className="margin-top-1 grid-col-2">
+              <MyFormsLink uswdsRoot={uswdsRoot} />
+            </div>
+            <ol className="usa-step-indicator__segments desktop:grid-col-6 tablet:grid-col-5">
               <li
                 className={classNames(
                   'usa-step-indicator__segment',
+                  stepClass(NavPage.upload, curPage)
+                )}
+              >
+                <span className="usa-step-indicator__segment-label">
+                  Upload {srHint(NavPage.upload, curPage)}
+                </span>
+              </li>
+              <li
+                className={classNames(
+                  'usa-step-indicator__segment font-body-xs',
                   stepClass(NavPage.create, curPage)
                 )}
               >
@@ -76,7 +86,7 @@ export const TopNavigation = ({
               </li>
               <li
                 className={classNames(
-                  'usa-step-indicator__segment',
+                  'usa-step-indicator__segment font-body-xs',
                   stepClass(NavPage.configure, curPage)
                 )}
                 aria-current="true"
@@ -87,7 +97,7 @@ export const TopNavigation = ({
               </li>
               <li
                 className={classNames(
-                  'usa-step-indicator__segment',
+                  'usa-step-indicator__segment font-body-xs',
                   stepClass(NavPage.publish, curPage)
                 )}
               >
@@ -95,8 +105,9 @@ export const TopNavigation = ({
                   Publish {srHint(NavPage.publish, curPage)}
                 </span>
               </li>
-              <li>
-                <span className="text-base font-ui-3xs padding-left-1 padding-top-2">
+            </ol>
+            <div className="desktop:grid-col-4 tablet:grid-col-5 text-right">
+              <span className={`text-base font-ui-3xs padding-left-1 display-inline-block text-middle ${styles.savedStatus}`}>
                   {lastSaved
                     ? 'Saved ' +
                       lastSaved.toLocaleDateString('en-us', {
@@ -111,13 +122,12 @@ export const TopNavigation = ({
                 {preview && (
                   <a
                     href={preview}
-                    className="usa-button usa-button--outline margin-left-1"
+                    className="usa-button usa-button--outline margin-left-1 display-inline-block text-middle"
                   >
                     Preview
                   </a>
                 )}
-              </li>
-            </ol>
+            </div>
           </div>
         </div>
       </div>
@@ -128,7 +138,7 @@ export const TopNavigation = ({
 const MyFormsLink = ({ uswdsRoot }: { uswdsRoot: `${string}/` }) => (
   <a href={MyForms.getUrl()} className="usa-link margin-top-3 margin-right-1">
     <svg
-      className="usa-icon usa-icon--size-3 text-middle"
+      className="usa-icon usa-icon--size-3 text-middle margin-right-1"
       aria-hidden="true"
       focusable="false"
       role="img"
@@ -164,8 +174,8 @@ const MobileStepIndicator = ({ curPage }: { curPage: NavPage }) => (
     <div className="grid-col grid-col-4">
       <span className="usa-step-indicator__heading-counter">
         <span className="usa-sr-only">Step</span>
-        <span className="usa-step-indicator__current-step">3</span>
-        <span className="usa-step-indicator__total-steps">of 5</span>{' '}
+        <span className="usa-step-indicator__current-step">1</span>
+        <span className="usa-step-indicator__total-steps margin-left-05">of 3</span>{' '}
       </span>
     </div>
     <div className="grid-col grid-col-8">

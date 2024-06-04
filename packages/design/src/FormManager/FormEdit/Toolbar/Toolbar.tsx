@@ -2,7 +2,7 @@ import React from 'react';
 
 export const Toolbar = ({ uswdsRoot }: { uswdsRoot: string }) => {
   return (
-    <div className="display-inline">
+    <div className="grid-col-auto">
       <ToolbarButton
         uswdsRoot={uswdsRoot}
         title="Add question"
@@ -37,20 +37,22 @@ const ToolbarButton = ({
   onClick: () => void;
 }) => {
   return (
-    <button
-      className="usa-button usa-button--unstyled usa-tooltip text-ink"
-      title={title}
-      data-position="right"
-      onClick={onClick}
-    >
-      <svg
-        className="usa-icon usa-icon--size-4"
-        aria-hidden="true"
-        focusable="false"
-        role="img"
+    <div className="display-block">
+      <button
+        className="usa-button usa-button--unstyled usa-tooltip text-ink"
+        title={title}
+        data-position="right"
+        onClick={onClick}
       >
-        <use xlinkHref={`${uswdsRoot}img/sprite.svg#${icon}`}></use>
-      </svg>
-    </button>
+        <svg
+          className="usa-icon usa-icon--size-4"
+          aria-hidden="true"
+          focusable="false"
+          role="img"
+        >
+          <use xlinkHref={`${uswdsRoot}img/sprite.svg#${icon}`}></use>
+        </svg>
+      </button>
+    </div>
   );
 };

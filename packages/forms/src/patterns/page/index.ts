@@ -5,6 +5,7 @@ import { createPrompt } from './prompt';
 
 export const pageConfig: PatternConfig<PagePattern> = {
   displayName: 'Page',
+  iconPath: 'block-icon.svg',
   initial: {
     title: 'Untitled Page',
     patterns: [],
