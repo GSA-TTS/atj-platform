@@ -113,12 +113,6 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
       <div className="grid-col-12">
         <PatternEditActions>
           <span className="usa-checkbox">
-            <label
-              style={{ display: 'inline-block' }}
-              className="usa-checkbox__label"
-              htmlFor={fieldId('required')}
-            >
-              Required
               <input
                 style={{ display: 'inline-block' }}
                 className="usa-checkbox__input bg-primary-lighter"
@@ -127,6 +121,12 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
                 {...register('required')}
                 defaultChecked={pattern.data.required}
               />
+            <label
+              style={{ display: 'inline-block' }}
+              className="usa-checkbox__label"
+              htmlFor={fieldId('required')}
+            >
+              Required
             </label>
           </span>
         </PatternEditActions>
