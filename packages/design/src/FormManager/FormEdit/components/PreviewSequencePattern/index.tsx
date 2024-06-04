@@ -32,9 +32,9 @@ export const PatternPreviewSequence: PatternEditComponent<
       order={pattern.data.patterns}
       updateOrder={order => {
         updatePattern({
-          id: pattern.id,
-          type: pattern.type,
+          ...pattern,
           data: {
+            ...pattern.data,
             patterns: order,
           },
         });
