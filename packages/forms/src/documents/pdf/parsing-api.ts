@@ -151,7 +151,7 @@ export type FetchPdfApiResponse = (
 
 export const fetchPdfApiResponse: FetchPdfApiResponse = async (
   rawData: Uint8Array,
-  url: string = 'https://10x-atj-doc-automation-staging.app.cloud.gov/api/v1/parse'
+  url: string = 'http://localhost:5000/api/v1/parse' // 'https://10x-atj-doc-automation-staging.app.cloud.gov/api/v1/parse'
 ) => {
   const base64 = await uint8ArrayToBase64(rawData);
   const response = await fetch(url, {
@@ -278,7 +278,27 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
             };
           }
         }
-        // TODO: Look for checkbox or other element types
+        if (input.component_type === 'checkbox') {
+          const checkboxPattern = processPatternData<CheckboxPattern>(
+            defaultFormConfig,
+            parsedPdf,
+            'checkbox',
+            {
+              label: input.label,
+              defaultChecked: false,
+            }
+          );
+          if (checkboxPattern) {
+            fieldsetPatterns.push(checkboxPattern.id);
+            parsedPdf.outputs[checkboxPattern.id] = {
+              type: 'CheckBox',
+              name: input.id,
+              label: input.label,
+              value: false,
+              required: true,
+            };
+          }
+        }
       }
     }
 
