@@ -5,8 +5,9 @@ import {
   type PatternId,
   type PatternMap,
   type FormSession,
-  getPattern,
   BlueprintBuilder,
+  getPattern,
+  getSessionPage,
   mergeSession,
 } from '@atj/forms';
 import { type FormManagerContext } from '..';
@@ -76,7 +77,8 @@ export const createFormEditSlice =
         state.context.config,
         state.session.form
       );
-      const newPattern = builder.addPatternToFirstPage(patternType);
+      const page = getSessionPage(state.session);
+      const newPattern = builder.addPatternToPage(patternType, page);
       set({
         session: mergeSession(state.session, { form: builder.form }),
         focus: { pattern: newPattern },
@@ -135,7 +137,7 @@ export const createFormEditSlice =
       const success = builder.updatePattern(
         state.session.form.patterns[pattern.id],
         {
-          [pattern.id]: pattern,
+          [pattern.id]: pattern.data,
         }
       );
       if (success) {

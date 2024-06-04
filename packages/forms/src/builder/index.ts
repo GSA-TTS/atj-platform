@@ -48,14 +48,14 @@ export class BlueprintBuilder {
     return newPage;
   }
 
-  addPatternToFirstPage(patternType: string) {
+  addPatternToPage(patternType: string, pageNum: number = 0) {
     const pattern = createDefaultPattern(this.config, patternType);
     const root = this.form.patterns[this.form.root] as PageSetPattern;
     if (root.type !== 'page-set') {
       throw new Error('expected root to be a page-set');
     }
-    const firstPagePatternId = root.data.pages[0];
-    this.bp = addPatternToPage(this.form, firstPagePatternId, pattern);
+    const pagePatternId = root.data.pages[pageNum];
+    this.bp = addPatternToPage(this.form, pagePatternId, pattern);
     return pattern;
   }
 
