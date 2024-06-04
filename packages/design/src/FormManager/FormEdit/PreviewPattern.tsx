@@ -15,7 +15,11 @@ export const PreviewPattern: PatternComponent = function PreviewPattern(props) {
   });
   const focusRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (focus && focus.pattern.id === props._patternId) {
+    if (
+      focus &&
+      focus.pattern.id === props._patternId &&
+      focusRef.current?.scrollIntoView
+    ) {
       focusRef.current?.scrollIntoView({
         behavior: 'instant',
         block: 'center',
