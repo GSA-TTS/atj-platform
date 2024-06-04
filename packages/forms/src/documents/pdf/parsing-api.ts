@@ -151,7 +151,7 @@ export type FetchPdfApiResponse = (
 
 export const fetchPdfApiResponse: FetchPdfApiResponse = async (
   rawData: Uint8Array,
-  url: string = 'http://localhost:5000/api/v1/parse' // 'https://10x-atj-doc-automation-staging.app.cloud.gov/api/v1/parse'
+  url: string = 'https://10x-atj-doc-automation-staging.app.cloud.gov/api/v1/parse'
 ) => {
   const base64 = await uint8ArrayToBase64(rawData);
   const response = await fetch(url, {
