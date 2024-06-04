@@ -55,7 +55,7 @@ export const FormEditAddPattern: StoryObj<typeof FormEdit> = {
     await userEvent.click(canvas.getByText('Pattern 1'));
     //await userEvent.selectOptions(select, 'Text input');
 
-    select.forEach(async (element) => {
+    select.forEach(async element => {
       await userEvent.click(element);
     });
 
@@ -82,7 +82,7 @@ const editFieldLabel = async (
   await userEvent.type(input, updatedLabel);
   //await userEvent.click(canvas.getByText('Add Element'));
 
-  select.forEach(async (element) => {
+  select.forEach(async element => {
     await userEvent.click(element);
   });
 
