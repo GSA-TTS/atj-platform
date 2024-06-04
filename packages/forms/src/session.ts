@@ -185,3 +185,7 @@ export const mergeSession = (
   ...oldSession,
   ...newSession,
 });
+
+export const getSessionPage = (session: FormSession) => {
+  return parseInt(session.routeParams?.page as string) || 0;
+};
