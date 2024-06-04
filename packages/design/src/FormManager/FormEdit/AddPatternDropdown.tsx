@@ -31,7 +31,7 @@ const icons: IconsType = {
   'template-icon.svg': templateIcon,
 };
 
-export const AddPatternDropdown = ({ uswdsRoot }: { uswdsRoot: string; }) => {
+export const AddPatternDropdown = ({ uswdsRoot }: { uswdsRoot: string }) => {
   const { availablePatterns, addPattern } = useFormManagerStore(state => ({
     availablePatterns: state.availablePatterns,
     addPattern: state.addPattern,
@@ -45,7 +45,10 @@ export const AddPatternDropdown = ({ uswdsRoot }: { uswdsRoot: string; }) => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -71,41 +74,88 @@ export const AddPatternDropdown = ({ uswdsRoot }: { uswdsRoot: string; }) => {
 
   return (
     <fieldset className="usa-fieldset">
-      <p className="tablet:display-block display-none usa-label margin-top-0 font-ui-3xs text-uppercase margin-bottom-3">Add Element</p>
+      <p className="tablet:display-block display-none usa-label margin-top-0 font-ui-3xs text-uppercase margin-bottom-3">
+        Add Element
+      </p>
       <div className="dropdownContainer margin-bottom-3" ref={dropdownRef}>
         <ul className="usa-list usa-list--unstyled grid-row tablet:flex-justify-end flex-justify-center">
           <li className="position-relative tablet:grid-col-12 grid-col-5 text-center">
-            <button className={`${styles.dropdownButton} tablet:width-full text-left width-auto text-base-darkest text-normal padding-0 bg-white border-0 cursor-pointer margin-bottom-3`} onClick={() => setIsOpen(!isOpen)}>
+            <button
+              className={`${styles.dropdownButton} tablet:width-full text-left width-auto text-base-darkest text-normal padding-0 bg-white border-0 cursor-pointer margin-bottom-3`}
+              onClick={() => setIsOpen(!isOpen)}
+            >
               <span className="tablet:display-inline-block tablet:width-auto tablet:margin-right-1 display-block width-full text-ttop text-center">
-                <svg className="usa-icon" width="24" height="24" aria-hidden="true" focusable="false" role="img">
-                  <use xlinkHref={`${uswdsRoot}img/sprite.svg#add_circle`}></use>
+                <svg
+                  className="usa-icon"
+                  width="24"
+                  height="24"
+                  aria-hidden="true"
+                  focusable="false"
+                  role="img"
+                >
+                  <use
+                    xlinkHref={`${uswdsRoot}img/sprite.svg#add_circle`}
+                  ></use>
                 </svg>
               </span>
 
               <span className="display-inline-block text-ttop tablet:width-auto text-center">
-                <span className="display-inline-block text-ttop margin-right-1 width-9">{displayValue}</span>
-                <img className="display-inline-block text-ttop" src={getIconPath('dropdown-icon.svg')} alt="" width="16" height="16" />
+                <span className="display-inline-block text-ttop margin-right-1 width-9">
+                  {displayValue}
+                </span>
+                <img
+                  className="display-inline-block text-ttop"
+                  src={getIconPath('dropdown-icon.svg')}
+                  alt=""
+                  width="16"
+                  height="16"
+                />
               </span>
-
             </button>
             {isOpen && (
-              <ul className={`${styles.dropdownMenu} usa-list usa-list--unstyled position-absolute width-full bg-white z-100 shadow-3 text-left`}>
+              <ul
+                className={`${styles.dropdownMenu} usa-list usa-list--unstyled position-absolute width-full bg-white z-100 shadow-3 text-left`}
+              >
                 {availablePatterns.map((pattern, index) => (
-                  <li key={index} className={`${styles.dropdownItem} padding-1 cursor-pointer margin-left-1`} onClick={() => handleSelect(pattern)}>
-                    <img className="display-inline-block text-ttop margin-right-1" src={getIconPath(pattern.iconPath || 'block-icon.svg')} alt="" width="24" height="24" />
-                    <span className="display-inline-block text-ttop">{pattern.displayName}</span>
+                  <li
+                    key={index}
+                    className={`${styles.dropdownItem} padding-1 cursor-pointer margin-left-1`}
+                    onClick={() => handleSelect(pattern)}
+                  >
+                    <img
+                      className="display-inline-block text-ttop margin-right-1"
+                      src={getIconPath(pattern.iconPath || 'block-icon.svg')}
+                      alt=""
+                      width="24"
+                      height="24"
+                    />
+                    <span className="display-inline-block text-ttop">
+                      {pattern.displayName}
+                    </span>
                   </li>
                 ))}
               </ul>
             )}
           </li>
           <li className="tablet:grid-col-12 grid-col-5 text-center">
-            <button className={`${styles.dropdownButton} tablet:width-full text-left width-auto text-base-darkest text-normal padding-0 bg-white border-0 cursor-pointer`}
-              onClick={() => { addPage(); }} >
+            <button
+              className={`${styles.dropdownButton} tablet:width-full text-left width-auto text-base-darkest text-normal padding-0 bg-white border-0 cursor-pointer`}
+              onClick={() => {
+                addPage();
+              }}
+            >
               <span className="tablet:display-inline-block tablet:width-auto tablet:margin-right-1 display-block width-full text-ttop text-center">
-                <img className="usa-icon" src={getIconPath('page-icon.svg')} alt="" width="24" height="24" />
+                <img
+                  className="usa-icon"
+                  src={getIconPath('page-icon.svg')}
+                  alt=""
+                  width="24"
+                  height="24"
+                />
               </span>
-              <span className="display-inline-block text-ttop tablet:width-auto width-9 text-center">Page</span>
+              <span className="display-inline-block text-ttop tablet:width-auto width-9 text-center">
+                Page
+              </span>
             </button>
           </li>
         </ul>
