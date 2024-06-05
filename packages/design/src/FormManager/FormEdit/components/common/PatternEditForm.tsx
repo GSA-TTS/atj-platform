@@ -42,8 +42,10 @@ export const PatternEditForm = ({
           updateActivePattern(formData);
         })}
         onSubmit={methods.handleSubmit(formData => {
-          updateActivePattern(formData);
-          clearFocus();
+          const success = updateActivePattern(formData);
+          if (success) {
+            clearFocus();
+          }
         })}
       >
         <div className="border-1 radius-md border-primary-light padding-1">

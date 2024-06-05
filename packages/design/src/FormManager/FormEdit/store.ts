@@ -35,7 +35,7 @@ export type FormEditSlice = {
   setFocus: (patternId: PatternId) => boolean;
   setRouteParams: (routeParams: string) => void;
   updatePattern: (data: Pattern) => void;
-  updateActivePattern: (formData: PatternMap) => void;
+  updateActivePattern: (formData: PatternMap) => boolean;
 } & NotificationSlice;
 
 type FormEditStoreContext = {
@@ -150,7 +150,7 @@ export const createFormEditSlice =
     updateActivePattern: formData => {
       const state = get();
       if (state.focus === undefined) {
-        return;
+        return false;
       }
       const builder = new BlueprintBuilder(
         state.context.config,
@@ -168,6 +168,7 @@ export const createFormEditSlice =
             errors: undefined,
           },
         });
+        return true;
       } else {
         set({
           focus: {
@@ -175,6 +176,7 @@ export const createFormEditSlice =
             errors: result.error,
           },
         });
+        return false;
       }
     },
   });

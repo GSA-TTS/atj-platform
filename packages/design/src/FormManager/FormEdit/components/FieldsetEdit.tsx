@@ -11,6 +11,7 @@ import { PatternEditActions } from './common/PatternEditActions';
 import { PatternEditForm } from './common/PatternEditForm';
 import { usePatternEditFormContext } from './common/hooks';
 import { FieldsetPattern } from '@atj/forms/src/patterns/fieldset';
+import classNames from 'classnames';
 
 const FieldsetEdit: PatternEditComponent<FieldsetProps> = ({
   focus,
@@ -65,14 +66,33 @@ const FieldsetPreview: PatternComponent<FieldsetProps> = props => {
 };
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
-  const { register } = usePatternEditFormContext<FieldsetPattern>(patternId);
+  const pattern = useFormManagerStore<FieldsetPattern>(
+    state => state.session.form.patterns[patternId]
+  );
+  const { fieldId, getFieldState, register } =
+    usePatternEditFormContext<FieldsetPattern>(patternId);
+  const legend = getFieldState('legend');
   return (
     <div className="grid-row">
       <div className="grid-col-12 margin-bottom-3 flex-align-self-end">
-        <label className="usa-label width-full maxw-full">
+        <label
+          className={classNames('usa-label width-full maxw-full', {
+            'usa-label--error': legend.error,
+          })}
+          htmlFor={fieldId('legend')}
+        >
           Legend Text Element
+          {legend.error ? (
+            <span className="usa-error-message" role="alert">
+              {legend.error.message}
+            </span>
+          ) : null}
           <input
-            className="usa-input bg-primary-lighter text-bold"
+            className={classNames('usa-input bg-primary-lighter text-bold', {
+              'usa-input--error': legend.error,
+            })}
+            id={fieldId('legend')}
+            defaultValue={pattern.data.legend}
             {...register('legend')}
             type="text"
           ></input>
