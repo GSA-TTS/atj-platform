@@ -64,6 +64,7 @@ export type PageProps = PatternProps<{
 
 export type RadioGroupProps = PatternProps<{
   type: 'radio-group';
+  groupId: string;
   legend: string;
   options: {
     id: string;

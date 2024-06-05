@@ -1,14 +1,37 @@
-import Checkbox from './Checkbox';
+import React from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { type Meta, type StoryObj } from '@storybook/react';
 
-export default {
-  component: Checkbox,
-  title: 'Components/Checkbox',
+import { CheckboxPattern } from './Checkbox';
+import { CheckboxProps } from '@atj/forms';
+
+const meta: Meta<typeof CheckboxPattern> = {
+  title: 'patterns/CheckboxPattern',
+  component: CheckboxPattern,
+  decorators: [
+    (Story, args) => {
+      const FormDecorator = () => {
+        const formMethods = useForm();
+        return (
+          <FormProvider {...formMethods}>
+            <Story {...args} />
+          </FormProvider>
+        );
+      };
+      return <FormDecorator />;
+    },
+  ],
   tags: ['autodocs'],
 };
 
-export const Primary = {
+export default meta;
+
+export const Default = {
   args: {
-    id: '1',
-    label: 'Primary label Text',
-  },
-};
+    _patternId: '',
+    type: 'checkbox',
+    id: 'checkbox-1',
+    label: 'Checkbox 1',
+    defaultChecked: true,
+  } satisfies CheckboxProps,
+} satisfies StoryObj<typeof CheckboxPattern>;
