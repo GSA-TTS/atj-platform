@@ -42,6 +42,10 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const label = getFieldState('label');
   const maxLength = getFieldState('maxLength');
 
+  const maxLengthAttributes = pattern.data.maxLength > 0 ? {
+    defaultValue: pattern.data.maxLength
+  } : {};
+
   return (
     <div className="grid-row grid-gap-1">
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
@@ -68,7 +72,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           ></input>
         </label>
       </div>
-      <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
+      <div className="tablet:grid-col-6 mobile-lg:grid-col-12 ohio">
         <label
           className={classnames('usa-label', {
             'usa-label--error': initial.error,
@@ -85,6 +89,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
             className="usa-input bg-primary-lighter text-bold"
             id={fieldId('initial')}
             type="text"
+            defaultValue={pattern.data.initial}
             {...register('initial')}
           ></input>
         </label>
@@ -105,6 +110,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           <input
             className="usa-input bg-primary-lighter text-bold"
             id={fieldId('maxLength')}
+            {...maxLengthAttributes}
             type="text"
             {...register('maxLength')}
           ></input>
