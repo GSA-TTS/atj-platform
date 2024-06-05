@@ -37,6 +37,7 @@ export type FieldsetProps = PatternProps<{
   type: 'fieldset';
   legend?: string;
   subHeading?: string;
+  error?: FormError;
 }>;
 
 export type ZipcodeProps = PatternProps<{

@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import { en as message } from '@atj/common/src/locales/en/app';
 
-import { ParsePatternConfigData, Pattern } from '../../pattern';
+import { ParsePatternConfigData } from '../../pattern';
 import { safeZodParseFormErrors } from '../../util/zod';
 
 const configSchema = z.object({

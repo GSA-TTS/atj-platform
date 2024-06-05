@@ -100,11 +100,28 @@ export const testEmptyFormLabelError = async (
   fieldLabel: string,
   errorText: string
 ): Promise<void> => {
+  const canvas = within(canvasElement);
+
+  const element = await canvas.findByLabelText(displayName);
+  return await testEmptyFormLabelErrorByElement(
+    canvasElement,
+    element,
+    fieldLabel,
+    errorText
+  );
+};
+
+export const testEmptyFormLabelErrorByElement = async (
+  canvasElement: HTMLElement,
+  element: HTMLElement,
+  fieldLabel: string,
+  errorText: string
+): Promise<void> => {
   userEvent.setup();
 
   const canvas = within(canvasElement);
 
-  await userEvent.click(await canvas.findByLabelText(displayName));
+  await userEvent.click(element);
   const input = canvas.getByLabelText(fieldLabel);
 
   // Clear input, remove focus, and wait for error
