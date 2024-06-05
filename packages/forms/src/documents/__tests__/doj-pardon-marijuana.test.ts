@@ -1,13 +1,60 @@
-import { describe, expect, it } from 'vitest';
+/**
+ * @vitest-environment jsdom
+ */
+import { describe, expect, test } from 'vitest';
 
 import { Success } from '@atj/common';
 
-import { loadSamplePDF } from './sample-data';
+import { type DocumentFieldMap } from '..';
 import { fillPDF, getDocumentFieldData } from '../pdf';
-import { DocumentFieldMap } from '..';
+import {
+  BlueprintBuilder,
+  createForm,
+  createFormSession,
+  defaultFormConfig,
+} from '../..';
+import { createTestFormService } from '../../service';
 
-describe('DOJ Pardon Office marijuana pardon application form', () => {
-  it('produces valid PDF from imported PDF', async () => {
+import { loadSamplePDF } from './sample-data';
+
+describe('DOJ Pardon Attorney Office - Marijuana pardon application form', () => {
+  test('works end-to-end', async () => {
+    const formService = createTestFormService();
+    const builder = new BlueprintBuilder(
+      defaultFormConfig,
+      createForm({
+        title:
+          'Application for Certificate of Pardon for Simple Possession, Attempted Possession, and Use of Marijuana',
+        description: '',
+      })
+    );
+    await builder.addDocument({
+      name: '',
+      data: await loadSamplePDF(
+        'doj-pardon-marijuana/application_for_certificate_of_pardon_for_simple_marijuana_possession.pdf'
+      ),
+    });
+
+    const addResult = await formService.addForm(builder.bp);
+    expect(addResult.success).toEqual(true);
+    const formId = addResult.success ? addResult.data.id : '';
+    const submitResult = await formService.submitForm(
+      createFormSession(builder.bp),
+      formId,
+      {}
+    );
+    const documents: {
+      fileName: string;
+      data: Uint8Array;
+    }[] = submitResult.success ? submitResult.data : [];
+    expect(documents.length).toEqual(1);
+
+    documents.map(document => {
+      console.log('got document', document);
+    });
+  });
+
+  test('produces valid PDF from imported PDF', async () => {
     const pdfBytes = await loadSamplePDF(
       'doj-pardon-marijuana/application_for_certificate_of_pardon_for_simple_marijuana_possession.pdf'
     );
