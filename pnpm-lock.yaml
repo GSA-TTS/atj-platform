@@ -81,9 +81,6 @@ importers:
       '@atj/design':
         specifier: workspace:*
         version: link:../../packages/design
-      '@atj/form-service':
-        specifier: workspace:*
-        version: link:../../packages/form-service
       '@atj/forms':
         specifier: workspace:*
         version: link:../../packages/forms
@@ -109,9 +106,9 @@ importers:
 
   apps/rest-api:
     dependencies:
-      '@atj/form-service':
+      '@atj/forms':
         specifier: workspace:*
-        version: link:../../packages/form-service
+        version: link:../../packages/forms
     devDependencies:
       '@types/aws-lambda':
         specifier: ^8.10.109
@@ -128,9 +125,6 @@ importers:
       '@atj/design':
         specifier: workspace:*
         version: link:../../packages/design
-      '@atj/form-service':
-        specifier: workspace:*
-        version: link:../../packages/form-service
       '@atj/forms':
         specifier: workspace:*
         version: link:../../packages/forms
@@ -208,9 +202,6 @@ importers:
       '@atj/common':
         specifier: workspace:*
         version: link:../common
-      '@atj/form-service':
-        specifier: workspace:*
-        version: link:../form-service
       '@atj/forms':
         specifier: workspace:*
         version: link:../forms
@@ -363,15 +354,6 @@ importers:
       vitest:
         specifier: ^1.6.0
         version: 1.6.0(@types/node@20.11.16)(@vitest/ui@1.2.2)
-
-  packages/form-service:
-    dependencies:
-      '@atj/common':
-        specifier: workspace:*
-        version: link:../common
-      '@atj/forms':
-        specifier: workspace:*
-        version: link:../forms
 
   packages/forms:
     dependencies:

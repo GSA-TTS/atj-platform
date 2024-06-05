@@ -13,6 +13,7 @@ export const CheckboxPattern: PatternComponent<CheckboxProps> = props => {
         id={props.id}
         type="checkbox"
         className="usa-checkbox__input"
+        defaultChecked={props.defaultChecked}
         {...register(props.id)}
       />
       <label className="usa-checkbox__label" htmlFor={props.id}>

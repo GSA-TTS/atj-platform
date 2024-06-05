@@ -7,7 +7,7 @@ import {
   createFormOutputFieldData,
   fillPDF,
   sessionIsComplete,
-} from '@atj/forms';
+} from '../../..';
 
 import { getFormFromStorage } from '../context/browser/form-repo';
 

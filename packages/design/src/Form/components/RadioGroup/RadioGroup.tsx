@@ -19,6 +19,7 @@ export const RadioGroupPattern: PatternComponent<RadioGroupProps> = props => {
               id={option.id}
               {...register(props.groupId)}
               value={option.id}
+              defaultChecked={option.defaultChecked}
             />
             <label htmlFor={option.id} className="usa-radio__label">
               {option.label}

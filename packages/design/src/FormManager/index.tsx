@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 
 import { type FormConfig, createFormSession, nullSession } from '@atj/forms';
-import { FormService } from '@atj/form-service';
+import { service } from '@atj/forms';
 
 import { type ComponentForPattern } from '../Form';
 
@@ -32,7 +32,7 @@ export type FormManagerContext = {
   components: ComponentForPattern;
   config: FormConfig;
   editComponents: EditComponentForPattern;
-  formService: FormService;
+  formService: service.FormService;
   uswdsRoot: `${string}/`;
   urlForForm: UrlForForm;
   urlForFormManager: UrlForFormManager;

@@ -1,4 +1,4 @@
-import { defaultFormConfig } from '@atj/forms';
+import { defaultFormConfig } from '../../..';
 
 import { createBrowserFormService } from '../browser';
 import { type TestData, createTestStorage } from './storage';

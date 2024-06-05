@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, HashRouter, Route, Routes } from 'react-router-dom';
 
-import { type FormService } from '@atj/form-service';
+import { service } from '@atj/forms';
 import { createFormSession } from '@atj/forms';
 
 import Form, { type FormUIContext } from '../Form';
@@ -13,7 +13,7 @@ export default function FormRouter({
   formService,
 }: {
   context: FormUIContext;
-  formService: FormService;
+  formService: service.FormService;
 }) {
   return (
     <HashRouter>

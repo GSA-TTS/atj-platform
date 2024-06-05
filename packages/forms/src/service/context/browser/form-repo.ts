@@ -1,5 +1,5 @@
 import { Result } from '@atj/common';
-import { type Blueprint } from '@atj/forms';
+import { type Blueprint } from '../../..';
 
 export const getFormFromStorage = (
   storage: Storage,

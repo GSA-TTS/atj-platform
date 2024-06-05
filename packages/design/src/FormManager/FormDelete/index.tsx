@@ -1,14 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import type { FormService } from '@atj/form-service';
+import { service } from '@atj/forms';
 
 export default function FormDelete({
   formId,
   formService,
 }: {
   formId: string;
-  formService: FormService;
+  formService: service.FormService;
 }) {
   const navigate = useNavigate();
   const result = formService.getForm(formId);

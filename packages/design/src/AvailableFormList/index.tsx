@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FormService } from '@atj/form-service';
+import { service } from '@atj/forms';
 import * as AppRoutes from '../FormManager/routes';
 import { Link } from 'react-router-dom';
 
@@ -16,7 +16,7 @@ export default function AvailableFormList({
   urlForForm,
   urlForFormManager,
 }: {
-  formService: FormService;
+  formService: service.FormService;
   urlForForm: UrlForForm;
   urlForFormManager: UrlForFormManager;
 }) {
