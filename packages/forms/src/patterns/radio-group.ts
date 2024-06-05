@@ -87,6 +87,7 @@ export const radioGroupConfig: PatternConfig<RadioGroupPattern, PatternOutput> =
         props: {
           _patternId: pattern.id,
           type: 'radio-group',
+          groupId: pattern.id,
           legend: pattern.data.label,
           options: pattern.data.options.map(option => {
             const optionId = createId(pattern.id, option.id);
