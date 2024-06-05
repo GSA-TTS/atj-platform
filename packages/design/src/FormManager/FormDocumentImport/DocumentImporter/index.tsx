@@ -8,7 +8,7 @@ import {
   addDocumentFieldsToForm,
   createFormSession,
 } from '@atj/forms';
-import { type FormService } from '@atj/form-service';
+import { service } from '@atj/forms';
 
 import Form, { FormUIContext } from '../../../Form';
 import { onFileInputChangeGetFile } from '../../FormList/CreateNew/file-input';
@@ -24,7 +24,7 @@ const DocumentImporter = ({
   formId: string;
   context: FormUIContext;
   form: Blueprint;
-  formService: FormService;
+  formService: service.FormService;
 }) => {
   const { state, actions } = useDocumentImporter(formService, form, baseUrl);
 
@@ -131,7 +131,7 @@ type State = {
 };
 
 const useDocumentImporter = (
-  formService: FormService,
+  formService: service.FormService,
   form: Blueprint,
   baseUrl: string
 ) => {

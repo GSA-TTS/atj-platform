@@ -1,12 +1,12 @@
 import React from 'react';
-import { FormService } from '@atj/form-service';
+import { service } from '@atj/forms';
 
 import CreateNew from './CreateNew';
 
 export default function FormList({
   formService,
 }: {
-  formService: FormService;
+  formService: service.FormService;
 }) {
   const result = formService.getFormList();
   if (!result.success) {

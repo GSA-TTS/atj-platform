@@ -8,7 +8,6 @@
     { "path": "./packages/common" },
     { "path": "./packages/dependency-graph" },
     { "path": "./packages/design/tsconfig.build.json" },
-    { "path": "./packages/form-service" },
     { "path": "./packages/forms" }
   ]
 }

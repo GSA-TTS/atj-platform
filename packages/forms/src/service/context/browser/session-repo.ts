@@ -1,5 +1,5 @@
 import { type Result, type VoidResult } from '@atj/common';
-import { type FormSession } from '@atj/forms';
+import { type FormSession } from '../../..';
 
 export const getSessionFromStorage = (
   storage: Storage,

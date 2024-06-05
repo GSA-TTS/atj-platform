@@ -1,4 +1,4 @@
-import { type FormConfig, defaultFormConfig } from '@atj/forms';
+import { type FormConfig, defaultFormConfig } from '../../..';
 
 import { addForm } from '../../operations/add-form';
 import { deleteForm } from '../../operations/delete-form';

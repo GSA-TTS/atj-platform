@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { type FormService } from '@atj/form-service';
+import { service } from '@atj/forms';
 
 import { type FormUIContext } from '../../Form';
 import DocumentImporter from './DocumentImporter';
@@ -14,7 +14,7 @@ export const FormDocumentImport = ({
   baseUrl: string;
   context: FormUIContext;
   formId: string;
-  formService: FormService;
+  formService: service.FormService;
 }) => {
   // Fallback to hardcoded data if a magic ID is chosen.
   const result = formService.getForm(formId);

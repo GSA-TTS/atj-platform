@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { FormListItem } from '@atj/form-service/src/operations/get-form-list';
+import { type FormListItem } from '@atj/forms/src/service/operations/get-form-list';
 
 type ManageFormsTableProps = {
   formListItems: FormListItem[];

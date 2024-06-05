@@ -1,5 +1,5 @@
 import { Result } from '@atj/common';
-import { Blueprint } from '@atj/forms';
+import { Blueprint } from '../../..';
 
 import { addFormToStorage } from '../context/browser/form-repo';
 

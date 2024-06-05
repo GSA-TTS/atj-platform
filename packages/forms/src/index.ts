@@ -20,6 +20,7 @@ export * from './error';
 export * from './pattern';
 export * from './response';
 export * from './session';
+export * as service from './service';
 
 export type Blueprint = {
   summary: FormSummary;

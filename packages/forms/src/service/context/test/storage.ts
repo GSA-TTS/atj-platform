@@ -1,4 +1,4 @@
-import { type Blueprint } from '@atj/forms';
+import { type Blueprint } from '../../..';
 import { saveFormToStorage } from '../browser/form-repo';
 
 export type TestData = Record<string, Blueprint>;

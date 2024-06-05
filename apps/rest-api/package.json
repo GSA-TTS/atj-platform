@@ -10,7 +10,7 @@
     "dev": "tsup src/* --watch"
   },
   "dependencies": {
-    "@atj/form-service": "workspace:*"
+    "@atj/forms": "workspace:*"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.109",

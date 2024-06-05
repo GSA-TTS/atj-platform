@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { createForm, createFormSession } from '@atj/forms';
+import { createForm, createFormSession } from '../../..';
 import { createTestFormService } from '../context/test';
 
 describe('submitForm', () => {
