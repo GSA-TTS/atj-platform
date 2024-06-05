@@ -54,7 +54,6 @@ const PageEditComopnent = ({ pattern }: { pattern: PagePattern }) => {
   const { fieldId, getFieldState, register } =
     usePatternEditFormContext<PagePattern>(pattern.id);
   const title = getFieldState('title');
-
   return (
     <div className="grid-row grid-gap">
       <input
@@ -78,10 +77,10 @@ const PageEditComopnent = ({ pattern }: { pattern: PagePattern }) => {
         ) : null}
         <input
           className="usa-input"
+          type="text"
           id={fieldId('title')}
           defaultValue={pattern.data.title}
           {...register('title')}
-          type="text"
         ></input>
       </div>
       <div className="grid-col-12">

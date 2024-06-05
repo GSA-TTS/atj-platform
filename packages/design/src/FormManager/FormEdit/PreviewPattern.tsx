@@ -18,6 +18,7 @@ export const PreviewPattern: PatternComponent = function PreviewPattern(props) {
     if (
       focus &&
       focus.pattern.id === props._patternId &&
+      focus.pattern.type !== 'page' &&
       focusRef.current?.scrollIntoView
     ) {
       focusRef.current?.scrollIntoView({

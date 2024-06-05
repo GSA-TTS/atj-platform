@@ -13,7 +13,12 @@ const configSchema = z.object({
     // as a hidden input in the form. We should probably just store it as JSON.
     z
       .string()
-      .transform(value => value.split(',').map(String))
+      .transform(value =>
+        value
+          .split(',')
+          .map(String)
+          .filter(value => value)
+      )
       .pipe(z.string().array()),
   ]),
 });
