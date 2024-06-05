@@ -42,9 +42,12 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const label = getFieldState('label');
   const maxLength = getFieldState('maxLength');
 
-  const maxLengthAttributes = pattern.data.maxLength > 0 ? {
-    defaultValue: pattern.data.maxLength
-  } : {};
+  const maxLengthAttributes =
+    pattern.data.maxLength > 0
+      ? {
+          defaultValue: pattern.data.maxLength,
+        }
+      : {};
 
   return (
     <div className="grid-row grid-gap-1">
@@ -119,14 +122,14 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
       <div className="grid-col-12">
         <PatternEditActions>
           <span className="usa-checkbox">
-              <input
-                style={{ display: 'inline-block' }}
-                className="usa-checkbox__input bg-primary-lighter"
-                type="checkbox"
-                id={fieldId('required')}
-                {...register('required')}
-                defaultChecked={pattern.data.required}
-              />
+            <input
+              style={{ display: 'inline-block' }}
+              className="usa-checkbox__input bg-primary-lighter"
+              type="checkbox"
+              id={fieldId('required')}
+              {...register('required')}
+              defaultChecked={pattern.data.required}
+            />
             <label
               style={{ display: 'inline-block' }}
               className="usa-checkbox__label"
