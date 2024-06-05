@@ -1,4 +1,4 @@
-import classnames from 'classnames';
+import classNames from 'classnames';
 import React from 'react';
 
 import { PatternId, TextInputProps } from '@atj/forms';
@@ -42,11 +42,18 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const label = getFieldState('label');
   const maxLength = getFieldState('maxLength');
 
+  const maxLengthAttributes =
+    pattern.data.maxLength > 0
+      ? {
+          defaultValue: pattern.data.maxLength,
+        }
+      : {};
+
   return (
     <div className="grid-row grid-gap-1">
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
         <label
-          className={classnames('usa-label', {
+          className={classNames('usa-label', {
             'usa-label--error': label.error,
           })}
           htmlFor={fieldId('label')}
@@ -58,7 +65,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
             </span>
           ) : null}
           <input
-            className={classnames('usa-input bg-primary-lighter text-bold', {
+            className={classNames('usa-input bg-primary-lighter text-bold', {
               'usa-input--error': label.error,
             })}
             id={fieldId('label')}
@@ -68,9 +75,9 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           ></input>
         </label>
       </div>
-      <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
+      <div className="tablet:grid-col-6 mobile-lg:grid-col-12 ohio">
         <label
-          className={classnames('usa-label', {
+          className={classNames('usa-label', {
             'usa-label--error': initial.error,
           })}
           htmlFor={fieldId('initial')}
@@ -85,13 +92,14 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
             className="usa-input bg-primary-lighter text-bold"
             id={fieldId('initial')}
             type="text"
+            defaultValue={pattern.data.initial}
             {...register('initial')}
           ></input>
         </label>
       </div>
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
         <label
-          className={classnames('usa-label', {
+          className={classNames('usa-label', {
             'usa-label--error': maxLength.error,
           })}
           htmlFor={fieldId('maxLength')}
@@ -105,6 +113,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           <input
             className="usa-input bg-primary-lighter text-bold"
             id={fieldId('maxLength')}
+            {...maxLengthAttributes}
             type="text"
             {...register('maxLength')}
           ></input>
@@ -113,14 +122,14 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
       <div className="grid-col-12">
         <PatternEditActions>
           <span className="usa-checkbox">
-              <input
-                style={{ display: 'inline-block' }}
-                className="usa-checkbox__input bg-primary-lighter"
-                type="checkbox"
-                id={fieldId('required')}
-                {...register('required')}
-                defaultChecked={pattern.data.required}
-              />
+            <input
+              style={{ display: 'inline-block' }}
+              className="usa-checkbox__input bg-primary-lighter"
+              type="checkbox"
+              id={fieldId('required')}
+              {...register('required')}
+              defaultChecked={pattern.data.required}
+            />
             <label
               style={{ display: 'inline-block' }}
               className="usa-checkbox__label"

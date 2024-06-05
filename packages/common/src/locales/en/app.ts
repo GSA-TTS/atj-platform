@@ -7,15 +7,20 @@ const defaults = {
 
 export const en = {
   patterns: {
-    input: {
-      ...defaults,
-      displayName: 'Short answer',
-      maxLength: 'Maximum length',
-    },
     checkbox: {
       ...defaults,
       displayName: 'Checkbox',
       errorTextMustContainChar: 'String must contain at least 1 character(s)',
+    },
+    fieldset: {
+      ...defaults,
+      displayName: 'Fieldset',
+      errorTextMustContainChar: 'String must contain at least 1 character(s)',
+    },
+    input: {
+      ...defaults,
+      displayName: 'Short answer',
+      maxLength: 'Maximum length',
     },
     page: {
       fieldLabel: 'Page title',

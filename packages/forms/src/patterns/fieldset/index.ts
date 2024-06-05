@@ -1,23 +1,15 @@
-import * as z from 'zod';
-
 import {
   type Pattern,
   type PatternConfig,
   type PatternId,
-  getPattern,
-} from '../pattern';
-import { type FieldsetProps, createPromptForPattern } from '../components';
-import { safeZodParseFormErrors } from '../util/zod';
+} from '../../pattern';
+import { parseConfigData } from './config';
+import { createPrompt } from './prompt';
 
 export type FieldsetPattern = Pattern<{
   legend?: string;
   patterns: PatternId[];
 }>;
-
-const configSchema = z.object({
-  legend: z.string().optional(),
-  patterns: z.array(z.string()),
-});
 
 export const fieldsetConfig: PatternConfig<FieldsetPattern> = {
   displayName: 'Fieldset',
@@ -26,7 +18,7 @@ export const fieldsetConfig: PatternConfig<FieldsetPattern> = {
     legend: 'Default Heading',
     patterns: [],
   },
-  parseConfigData: obj => safeZodParseFormErrors(configSchema, obj),
+  parseConfigData,
   getChildren(pattern, patterns) {
     return pattern.data.patterns.map(
       (patternId: string) => patterns[patternId]
@@ -47,18 +39,5 @@ export const fieldsetConfig: PatternConfig<FieldsetPattern> = {
       },
     };
   },
-  createPrompt(config, session, pattern, options) {
-    const children = pattern.data.patterns.map((patternId: string) => {
-      const childPattern = getPattern(session.form, patternId);
-      return createPromptForPattern(config, session, childPattern, options);
-    });
-    return {
-      props: {
-        _patternId: pattern.id,
-        type: 'fieldset',
-        legend: pattern.data.legend,
-      } satisfies FieldsetProps,
-      children,
-    };
-  },
+  createPrompt,
 };
