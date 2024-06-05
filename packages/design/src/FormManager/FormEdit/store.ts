@@ -113,6 +113,10 @@ export const createFormEditSlice =
         return false;
       }
       const elementToSet = getPattern(state.session.form, patternId);
+      if (elementToSet.type === 'page-set') {
+        console.warn('Cannot focus on a page or page-set.', elementToSet.type);
+        return false;
+      }
       if (elementToSet) {
         set({ focus: { errors: undefined, pattern: elementToSet } });
       } else {

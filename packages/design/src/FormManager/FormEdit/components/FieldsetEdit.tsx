@@ -75,6 +75,11 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   return (
     <div className="grid-row">
       <div className="grid-col-12 margin-bottom-3 flex-align-self-end">
+        <input
+          type="hidden"
+          {...register('patterns')}
+          defaultValue={pattern.data.patterns}
+        ></input>
         <label
           className={classNames('usa-label width-full maxw-full', {
             'usa-label--error': legend.error,
