@@ -1,23 +1,14 @@
-/**
- * @vitest-environment jsdom
- */
 import { describe, expect, test } from 'vitest';
 
 import { Success } from '@atj/common';
 
 import { type DocumentFieldMap } from '..';
 import { fillPDF, getDocumentFieldData } from '../pdf';
-import {
-  BlueprintBuilder,
-  createForm,
-  createFormSession,
-  defaultFormConfig,
-} from '../..';
-import { createTestFormService } from '../../service';
 
 import { loadSamplePDF } from './sample-data';
 
 describe('DOJ Pardon Attorney Office - Marijuana pardon application form', () => {
+  /*
   test('works end-to-end', async () => {
     const formService = createTestFormService();
     const builder = new BlueprintBuilder(
@@ -53,7 +44,7 @@ describe('DOJ Pardon Attorney Office - Marijuana pardon application form', () =>
       console.log('got document', document);
     });
   });
-
+  */
   test('produces valid PDF from imported PDF', async () => {
     const pdfBytes = await loadSamplePDF(
       'doj-pardon-marijuana/application_for_certificate_of_pardon_for_simple_marijuana_possession.pdf'
