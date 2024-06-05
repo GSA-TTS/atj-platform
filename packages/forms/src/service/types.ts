@@ -1,7 +1,7 @@
-import { Result, VoidResult } from '@atj/common';
-import { Blueprint, FormSession } from '@atj/forms';
+import { type Result, type VoidResult } from '@atj/common';
 
-import { FormListItem } from './operations/get-form-list';
+import { type FormListItem } from './operations/get-form-list';
+import { type Blueprint, type FormSession } from '..';
 
 export type FormService = {
   addForm: (form: Blueprint) => Result<{ timestamp: Date; id: string }>;
