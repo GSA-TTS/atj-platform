@@ -25,14 +25,7 @@ export type RadioProps = {
 export const RadioInput = (props: RadioProps) => {
   return (
     <div className="usa-radio">
-      <input
-        id={props.id}
-        name={props.name}
-        className="usa-radio__input"
-        type="radio"
-        disabled={props.disabled}
-        defaultChecked={props.defaultChecked}
-      />
+      <input className="usa-radio__input" type="radio" {...props} />
       <label htmlFor={props.id} className="usa-radio__label">
         {props.label}
       </label>

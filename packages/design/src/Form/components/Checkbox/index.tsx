@@ -1,18 +1,24 @@
 import React from 'react';
+import { useFormContext } from 'react-hook-form';
 
 import { type CheckboxProps } from '@atj/forms';
 
 import { type PatternComponent } from '../../../Form';
-import Checkbox from './Checkbox';
 
 const CheckboxPattern: PatternComponent<CheckboxProps> = props => {
+  const { register } = useFormContext();
   return (
-    <Checkbox
-      id={props.id}
-      defaultChecked={props.defaultChecked}
-      name={props.id}
-      label={props.label}
-    />
+    <div className="usa-checkbox">
+      <input
+        id={props.id}
+        type="checkbox"
+        className="usa-checkbox__input"
+        {...register(props.id)}
+      />
+      <label className="usa-checkbox__label" htmlFor={props.id}>
+        {props.label}
+      </label>
+    </div>
   );
 };
 

@@ -10,13 +10,7 @@ type CheckboxProps = {
 export default function Checkbox(props: CheckboxProps) {
   return (
     <div className="usa-checkbox">
-      <input
-        id={props.id}
-        name={props.name}
-        type="checkbox"
-        className="usa-checkbox__input"
-        defaultChecked={props.defaultChecked}
-      />
+      <input type="checkbox" className="usa-checkbox__input" {...props} />
       <label className="usa-checkbox__label" htmlFor={props.id}>
         {props.label}
       </label>

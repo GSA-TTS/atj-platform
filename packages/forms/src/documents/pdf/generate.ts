@@ -14,6 +14,10 @@ export const createFormOutputFieldData = (
       return;
     }
     const outputFieldId = output.formFields[patternId];
+    if (outputFieldId === '') {
+      console.error(`empty outputFieldId for patternId: ${patternId}`);
+      return;
+    }
     results[outputFieldId] = {
       type: docField.type,
       value: formData[patternId],

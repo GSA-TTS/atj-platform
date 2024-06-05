@@ -15,9 +15,9 @@ const pattern: RadioGroupPattern = {
   data: {
     label: message.patterns.radioGroup.displayName,
     options: [
-      { label: 'Option 1', id: '1' },
-      { label: 'Option 2', id: '2' },
-      { label: 'Option 3', id: '3' },
+      { label: 'Option 1', id: 'option-1' },
+      { label: 'Option 2', id: 'option-2' },
+      { label: 'Option 3', id: 'option-3' },
     ],
   },
 };
@@ -117,7 +117,7 @@ export const Error: StoryObj<typeof CheckboxPatternEdit> = {
     optionId.blur();
 
     await expect(
-      await canvas.findByText('Option ID may not contain spaces')
+      await canvas.findByText('Invalid Option ID')
     ).toBeInTheDocument();
 
     await userEvent.clear(optionLabel);
