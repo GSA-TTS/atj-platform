@@ -51,6 +51,11 @@
     background-color: #fff;
 }
 
+/* Configure and Publish Pages */
+.progressPage {
+    min-height: 60vh;
+}
+
 @media (max-width: 40em) {
     .dropdownMenu {
         bottom: 4.5rem;
