@@ -363,7 +363,7 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
     parsedPdf,
     'page',
     {
-      title: 'Untitled Page',
+      title: parsedPdf.title, // Use the form title as the first page title
       patterns: rootSequence,
     }
   );
