@@ -5,7 +5,7 @@ import { type FormSummaryProps } from '../components';
 import { safeZodParseFormErrors } from '../util/zod';
 
 const configSchema = z.object({
-  title: z.string().max(128),
+  title: z.string().max(128).min(1, 'Title is required'),
   description: z.string().max(2024),
 });
 export type FormSummary = Pattern<z.infer<typeof configSchema>>;
