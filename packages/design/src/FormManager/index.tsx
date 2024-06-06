@@ -115,7 +115,11 @@ export default function FormManager({ context }: FormManagerProps) {
                 formId={formId}
                 session={createFormSession(formResult.data)}
               >
-                <FormManagerLayout>
+                <FormManagerLayout
+                  step={NavPage.preview}
+                  preview={AppRoutes.Preview.getUrl(formId)}
+                  back={AppRoutes.Create.getUrl(formId)}
+                >
                   <FormPreview />
                 </FormManagerLayout>
               </FormManagerProvider>

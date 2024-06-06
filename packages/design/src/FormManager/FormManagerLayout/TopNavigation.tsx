@@ -10,6 +10,7 @@ export enum NavPage {
   create = 2,
   configure = 3,
   publish = 4,
+  preview = 5,
 }
 
 const stepClass = (page: NavPage, curPage: NavPage) => {
