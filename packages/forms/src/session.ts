@@ -196,10 +196,10 @@ export const getPageCount = (bp: Blueprint) => {
 };
 
 export const getSessionPage = (session: FormSession) => {
-  const currentPage = parseInt(session.routeParams?.page as string) || 0;
-  const lastPage = getPageCount(session.form) - 1;
-  if (currentPage < lastPage) {
-    return currentPage;
+  const currentPageIndex = parseInt(session.routeParams?.page as string) || 0;
+  const lastPageIndex = getPageCount(session.form) - 1;
+  if (currentPageIndex <= lastPageIndex) {
+    return currentPageIndex;
   }
-  return Math.max(0, lastPage - 1);
+  return Math.max(0, lastPageIndex - 1);
 };
