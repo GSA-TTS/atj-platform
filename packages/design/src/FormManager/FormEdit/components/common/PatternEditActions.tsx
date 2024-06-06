@@ -68,6 +68,22 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
             </svg>
           </button>
 
+          <button
+            type="submit"
+            aria-label="Save changes to this pattern"
+            title="Save changes to this pattern"
+            className="usa-button--outline usa-button--unstyled text-success hover:text-success"
+          >
+            <svg
+              className="usa-icon usa-icon--size-3 margin-1 text-middle"
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+            >
+              <use xlinkHref={`${context.uswdsRoot}img/sprite.svg#check`}></use>
+            </svg>
+          </button>
+
           {children ? (
             <span className="margin-left-1 padding-left-2 border-left-1px border-base-lighter">
               {children}
