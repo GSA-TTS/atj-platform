@@ -31,7 +31,7 @@ export type DocumentFieldValue =
   | {
       type: 'RadioGroup';
       name: string;
-      options: string[];
+      options: any[];
       label: string;
       value: string;
       required: boolean;

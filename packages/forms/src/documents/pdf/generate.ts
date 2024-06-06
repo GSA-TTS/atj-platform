@@ -11,11 +11,12 @@ export const createFormOutputFieldData = (
   const results = {} as Record<string, { value: any; type: PDFFieldType }>;
   Object.entries(output.fields).forEach(([patternId, docField]) => {
     if (docField.type === 'not-supported') {
+      console.error(`unsupported field: ${patternId}: ${docField}`);
       return;
     }
     const outputFieldId = output.formFields[patternId];
     if (outputFieldId === '') {
-      console.error(`empty outputFieldId for patternId: ${patternId}`);
+      console.error(`empty outputFieldId for field: ${patternId}: ${docField}`);
       return;
     }
     results[outputFieldId] = {
@@ -71,8 +72,21 @@ const setFormFieldData = (
     const field = form.getDropdown(fieldName);
     field.select(fieldValue);
   } else if (fieldType === 'RadioGroup') {
-    const field = form.getRadioGroup(fieldName);
-    field.select(fieldValue);
+    // TODO: remove this when we have a better way to handle radio groups
+    try {
+      const field = form.getRadioGroup(fieldName);
+      field.select(fieldValue);
+    } catch (error: any) {
+      console.error(
+        `error setting radio field: ${fieldName}: ${error.message}`
+      );
+      const field = form.getCheckBox(fieldName);
+      if (fieldValue) {
+        field.check();
+      } else {
+        field.uncheck();
+      }
+    }
   } else if (fieldType === 'Paragraph') {
     // do nothing
   } else {
