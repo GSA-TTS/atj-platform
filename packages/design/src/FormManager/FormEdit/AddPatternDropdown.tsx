@@ -66,7 +66,9 @@ export const AddPatternDropdown = ({ uswdsRoot }: { uswdsRoot: string }) => {
   };
 
   return (
-    <fieldset className={`${styles.usaFieldset} usa-fieldset position-sticky`}>
+    <fieldset
+      className={`${styles.usaFieldset} usa-fieldset position-sticky z-100`}
+    >
       <p className="tablet:display-block display-none usa-label margin-top-0 font-ui-3xs text-uppercase margin-bottom-3">
         Add Element
       </p>
