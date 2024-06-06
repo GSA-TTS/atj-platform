@@ -45,7 +45,6 @@ export const getDocumentFieldData = async (
   const fields = form.getFields();
   console.log('fields', fields);
 
-  // Get the field objects at indices 14 and 15
   const fieldObjects = [fields[14], fields[15]];
 
   // Iterate over the field objects
