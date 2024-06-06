@@ -41,23 +41,7 @@ export const getDocumentFieldData = async (
   );
 
   const form = pdfDoc.getForm();
-  console.log('form', form);
   const fields = form.getFields();
-  console.log('fields', fields);
-
-  // Get the field objects at indices 14 and 15
-  const fieldObjects = [fields[14], fields[15]];
-
-  // Iterate over the field objects
-  for (const field of fieldObjects) {
-    // Call getName and getFieldValue on each field object
-    const name = field.getName();
-    const value = getFieldValue(field);
-
-    // Do something with name and value...
-    console.log('Name: ', name);
-    console.log('Value: ', value);
-  }
 
   return Object.fromEntries(
     fields.map(field => {

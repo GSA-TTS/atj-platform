@@ -10,7 +10,6 @@ import { safeZodParseFormErrors } from '../util/zod';
 
 const configSchema = z.object({
   label: z.string().min(1),
-  groupIdTest: z.string().min(1),
   options: z
     .object({
       id: z.string().regex(/^[A-Za-z][A-Za-z0-9\-_:.]*$/, 'Invalid Option ID'),
@@ -29,7 +28,6 @@ export const radioGroupConfig: PatternConfig<RadioGroupPattern, PatternOutput> =
     iconPath: 'singleselect-icon.svg',
     initial: {
       label: 'Radio group label',
-      groupIdTest: 'radio-group',
       options: [
         { id: 'option-1', label: 'Option 1' },
         { id: 'option-2', label: 'Option 2' },
@@ -90,7 +88,6 @@ export const radioGroupConfig: PatternConfig<RadioGroupPattern, PatternOutput> =
           _patternId: pattern.id,
           type: 'radio-group',
           groupId: pattern.id,
-          groupIdTest: pattern.data.groupIdTest,
           legend: pattern.data.label,
           options: pattern.data.options.map(option => {
             const optionId = createId(pattern.id, option.id);

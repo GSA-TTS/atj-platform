@@ -245,7 +245,7 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
         'radio-group',
         {
           label: element.legend,
-          groupIdTest: element.id,
+          // outputId: element.id,
           options: element.options.map(option => ({
             id: option.id,
             label: option.label,

@@ -19,7 +19,6 @@ export const createFormOutputFieldData = (
       console.error(`empty outputFieldId for field: ${patternId}: ${docField}`);
       return;
     }
-    console.log('outputting field: ', docField);
     results[outputFieldId] = {
       type: docField.type,
       value: formData[patternId],
@@ -56,7 +55,6 @@ const setFormFieldData = (
   fieldName: string,
   fieldValue: any
 ) => {
-  console.log('setFormFieldData', { fieldType, fieldName, fieldValue });
   if (fieldType === 'TextField') {
     const field = form.getTextField(fieldName);
     field.setText(fieldValue);
