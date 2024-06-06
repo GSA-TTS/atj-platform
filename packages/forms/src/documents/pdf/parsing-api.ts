@@ -216,7 +216,7 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
     }
 
     if (element.component_type === 'checkbox') {
-      const checkbox = processPatternData<CheckboxPattern>(
+      const checkboxPattern = processPatternData<CheckboxPattern>(
         defaultFormConfig,
         parsedPdf,
         'checkbox',
@@ -225,19 +225,27 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
           defaultChecked: element.default_checked,
         }
       );
-      if (checkbox) {
-        rootSequence.push(checkbox.id);
+      if (checkboxPattern) {
+        rootSequence.push(checkboxPattern.id);
+        parsedPdf.outputs[checkboxPattern.id] = {
+          type: 'CheckBox',
+          name: element.id,
+          label: element.label,
+          value: false,
+          required: true,
+        };
       }
       continue;
     }
 
     if (element.component_type === 'radio_group') {
-      const radioGroup = processPatternData<RadioGroupPattern>(
+      const radioGroupPattern = processPatternData<RadioGroupPattern>(
         defaultFormConfig,
         parsedPdf,
         'radio-group',
         {
           label: element.legend,
+          groupIdTest: element.id,
           options: element.options.map(option => ({
             id: option.id,
             label: option.label,
@@ -246,8 +254,21 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
           })),
         }
       );
-      if (radioGroup) {
-        rootSequence.push(radioGroup.id);
+      if (radioGroupPattern) {
+        rootSequence.push(radioGroupPattern.id);
+        parsedPdf.outputs[radioGroupPattern.id] = {
+          type: 'RadioGroup',
+          name: element.id,
+          label: element.legend,
+          options: element.options.map(option => ({
+            id: option.id,
+            label: option.label,
+            name: option.name,
+            defaultChecked: option.default_checked,
+          })),
+          value: '',
+          required: true,
+        };
       }
       continue;
     }

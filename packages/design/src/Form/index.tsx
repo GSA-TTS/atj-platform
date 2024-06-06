@@ -105,7 +105,7 @@ export default function Form({
                 onSubmit={formMethods.handleSubmit(async data => {
                   updatePrompt(data);
                   if (onSubmit) {
-                    console.log('Submitting form...');
+                    console.log(`Submitting form with data: ${data}`);
                     onSubmit(data);
                   } else {
                     console.warn('Skipping form submission...');

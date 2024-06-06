@@ -39,6 +39,10 @@ export const submitForm = async (
     action: 'submit',
     data: formData,
   });
+  console.log('form', form);
+  console.log('formData', formData);
+  console.log('newSessionResult', newSessionResult);
+
   if (!newSessionResult.success) {
     return Promise.resolve({
       success: false,
@@ -62,7 +66,10 @@ const generateDocumentPackage = async (
   const documents = new Array<{ fileName: string; data: Uint8Array }>();
   for (const document of form.outputs) {
     const docFieldData = createFormOutputFieldData(document, formData);
+    console.log('docFieldData', docFieldData);
+    console.log('document.data', document.data);
     const pdfDocument = await fillPDF(document.data, docFieldData);
+    console.log('pdfDocument', pdfDocument);
     if (!pdfDocument.success) {
       errors.push(pdfDocument.error);
     } else {

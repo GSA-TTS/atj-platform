@@ -11,13 +11,15 @@ export const createFormOutputFieldData = (
   const results = {} as Record<string, { value: any; type: PDFFieldType }>;
   Object.entries(output.fields).forEach(([patternId, docField]) => {
     if (docField.type === 'not-supported') {
+      console.error(`unsupported field: ${patternId}: ${docField}`);
       return;
     }
     const outputFieldId = output.formFields[patternId];
     if (outputFieldId === '') {
-      console.error(`empty outputFieldId for patternId: ${patternId}`);
+      console.error(`empty outputFieldId for field: ${patternId}: ${docField}`);
       return;
     }
+    console.log('outputting field: ', docField);
     results[outputFieldId] = {
       type: docField.type,
       value: formData[patternId],
@@ -54,6 +56,7 @@ const setFormFieldData = (
   fieldName: string,
   fieldValue: any
 ) => {
+  console.log('setFormFieldData', { fieldType, fieldName, fieldValue });
   if (fieldType === 'TextField') {
     const field = form.getTextField(fieldName);
     field.setText(fieldValue);
@@ -71,8 +74,17 @@ const setFormFieldData = (
     const field = form.getDropdown(fieldName);
     field.select(fieldValue);
   } else if (fieldType === 'RadioGroup') {
-    const field = form.getRadioGroup(fieldName);
-    field.select(fieldValue);
+    try {
+      const field = form.getRadioGroup(fieldName);
+      field.select(fieldValue);
+    } catch (error: any) {
+      const field = form.getCheckBox(fieldName);
+      if (fieldValue) {
+        field.check();
+      } else {
+        field.uncheck();
+      }
+    }
   } else if (fieldType === 'Paragraph') {
     // do nothing
   } else {

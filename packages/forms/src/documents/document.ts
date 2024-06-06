@@ -48,6 +48,10 @@ export const addDocument = async (
         })
       ),
     });
+    if (parsedPdf.errors.length) {
+      console.error('Errors parsing PDF:', parsedPdf.errors);
+    }
+    console.log('Importing fields: ', fields);
     return {
       newFields: fields,
       updatedForm,
@@ -80,6 +84,7 @@ export const addDocumentFieldsToForm = (
 ) => {
   const patterns: Pattern[] = [];
   Object.entries(fields).map(([patternId, field]) => {
+    console.log('Importing field: ', field);
     if (field.type === 'CheckBox') {
       patterns.push({
         type: 'input',
@@ -125,6 +130,7 @@ export const addDocumentFieldsToForm = (
         },
       } satisfies InputPattern);
     } else if (field.type === 'RadioGroup') {
+      console.log('Found radio group!!!');
       patterns.push({
         type: 'input',
         id: patternId,
