@@ -15,6 +15,13 @@ export const PatternPreviewSequence: PatternEditComponent<
   const updatePattern = useFormManagerStore(state => state.updatePattern);
   const pattern = getPattern(form, props.previewProps._patternId);
 
+  if (!pattern) {
+    console.log(
+      'Skipping sequence pattern preview: pattern not found.',
+      props.previewProps._patternId
+    );
+    return null;
+  }
   /**
    * Here, we assume that we are rendering a "sequence" pattern, and that
    * sequences have no styling of their own. If sequences were to get their
