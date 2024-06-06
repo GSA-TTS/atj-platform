@@ -71,6 +71,7 @@ export class BlueprintBuilder {
       formData
     );
     if (!result.success) {
+      console.error('Error updating pattern', result.error);
       return false;
     }
     this.bp = result.data;
