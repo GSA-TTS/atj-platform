@@ -5,7 +5,10 @@ import {
   getRouteDataFromQueryString,
 } from '@atj/forms/src/route-data';
 
-export const useRouteParams = (): RouteData => {
+export const useRouteParams = (): {
+  routeParams: RouteData;
+  pathname: string;
+} => {
   const location = useLocation();
   const queryString = location.search.startsWith('?')
     ? location.search.substring(1)

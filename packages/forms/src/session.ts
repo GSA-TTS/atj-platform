@@ -186,6 +186,20 @@ export const mergeSession = (
   ...newSession,
 });
 
+export const getPageCount = (bp: Blueprint) => {
+  const rootPattern = bp.patterns[bp.root];
+  if (rootPattern.type !== 'page-set') {
+    console.error('Root pattern is not a page set.');
+    return 0;
+  }
+  return rootPattern.data.pages.length;
+};
+
 export const getSessionPage = (session: FormSession) => {
-  return parseInt(session.routeParams?.page as string) || 0;
+  const currentPage = parseInt(session.routeParams?.page as string) || 0;
+  const lastPage = getPageCount(session.form) - 1;
+  if (currentPage < lastPage) {
+    return currentPage;
+  }
+  return Math.max(0, lastPage - 1);
 };

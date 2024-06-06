@@ -60,6 +60,7 @@ type FormManagerSlice = {
   };
   createNewForm: () => Promise<Result<string>>;
   saveForm: (blueprint: Blueprint) => void;
+  setSession: (session: FormSession) => void;
 };
 
 type FormManagerSliceCreator = StateCreator<
@@ -116,6 +117,9 @@ const createFormManagerSlice =
           });
         }
       }
+    },
+    setSession: session => {
+      set({ session });
     },
   });
 

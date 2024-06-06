@@ -100,7 +100,12 @@ export const createFormEditSlice =
       builder.removePattern(state.focus.pattern.id);
       set({
         focus: undefined,
-        session: mergeSession(state.session, { form: builder.form }),
+        session: mergeSession(state.session, {
+          form: builder.form,
+          routeParams: {
+            page: getSessionPage(state.session).toString(),
+          },
+        }),
       });
       state.addNotification('success', 'Element removed successfully.');
     },
@@ -113,8 +118,12 @@ export const createFormEditSlice =
         return false;
       }
       const elementToSet = getPattern(state.session.form, patternId);
+      if (elementToSet === undefined) {
+        console.warn('Cannot focus on missing pattern.', patternId);
+        return false;
+      }
       if (elementToSet.type === 'page-set') {
-        console.warn('Cannot focus on a page or page-set.', elementToSet.type);
+        console.warn('Cannot focus on page-set.');
         return false;
       }
       if (elementToSet) {
