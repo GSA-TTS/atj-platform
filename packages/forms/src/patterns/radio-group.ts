@@ -10,10 +10,12 @@ import { safeZodParseFormErrors } from '../util/zod';
 
 const configSchema = z.object({
   label: z.string().min(1),
+  page: z.number().int().min(0),
   options: z
     .object({
       id: z.string().regex(/^[A-Za-z][A-Za-z0-9\-_:.]*$/, 'Invalid Option ID'),
       label: z.string().min(1),
+      page: z.number().int().min(0),
     })
     .array(),
 });
@@ -28,9 +30,10 @@ export const radioGroupConfig: PatternConfig<RadioGroupPattern, PatternOutput> =
     iconPath: 'singleselect-icon.svg',
     initial: {
       label: 'Radio group label',
+      page: 0,
       options: [
-        { id: 'option-1', label: 'Option 1' },
-        { id: 'option-2', label: 'Option 2' },
+        { id: 'option-1', label: 'Option 1', page: 0 },
+        { id: 'option-2', label: 'Option 2', page: 0 },
       ],
     },
     parseUserInput: (pattern, input: unknown) => {
@@ -89,6 +92,7 @@ export const radioGroupConfig: PatternConfig<RadioGroupPattern, PatternOutput> =
           type: 'radio-group',
           groupId: pattern.id,
           legend: pattern.data.label,
+          page: pattern.data.page,
           options: pattern.data.options.map(option => {
             const optionId = createId(pattern.id, option.id);
             return {
@@ -96,6 +100,7 @@ export const radioGroupConfig: PatternConfig<RadioGroupPattern, PatternOutput> =
               name: pattern.id,
               label: option.label,
               defaultChecked: sessionValue === optionId,
+              page: pattern.data.page,
             };
           }),
           ...extraAttributes,

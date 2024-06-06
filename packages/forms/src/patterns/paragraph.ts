@@ -6,6 +6,7 @@ import { safeZodParseFormErrors } from '../util/zod';
 
 const configSchema = z.object({
   text: z.string().min(1),
+  page: z.number().int().min(0),
 });
 export type ParagraphPattern = Pattern<z.infer<typeof configSchema>>;
 
@@ -14,6 +15,7 @@ export const paragraphConfig: PatternConfig<ParagraphPattern> = {
   iconPath: 'longanswer-icon.svg',
   initial: {
     text: 'Paragraph text...',
+    page: 0,
   },
   parseConfigData: obj => safeZodParseFormErrors(configSchema, obj),
   getChildren() {
@@ -25,6 +27,7 @@ export const paragraphConfig: PatternConfig<ParagraphPattern> = {
         _patternId: pattern.id,
         type: 'paragraph' as const,
         text: pattern.data.text,
+        page: pattern.data.page,
       } as ParagraphProps,
       children: [],
     };

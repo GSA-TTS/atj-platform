@@ -8,6 +8,7 @@ import { createPrompt } from './prompt';
 
 export type FieldsetPattern = Pattern<{
   legend?: string;
+  page: number;
   patterns: PatternId[];
 }>;
 
@@ -16,6 +17,7 @@ export const fieldsetConfig: PatternConfig<FieldsetPattern> = {
   iconPath: 'block-icon.svg',
   initial: {
     legend: 'Default Heading',
+    page: 0,
     patterns: [],
   },
   parseConfigData,

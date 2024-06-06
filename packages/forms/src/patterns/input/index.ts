@@ -16,6 +16,7 @@ export const inputConfig: PatternConfig<InputPattern, InputPatternOutput> = {
     initial: '',
     required: true,
     maxLength: 128,
+    page: 0,
   },
   parseUserInput,
   parseConfigData,

@@ -87,6 +87,7 @@ const TxInput = z.object({
   label: z.string(),
   default_value: z.string(),
   required: z.boolean(),
+  page: z.number(),
 });
 
 const Checkbox = z.object({
@@ -94,6 +95,7 @@ const Checkbox = z.object({
   id: z.string(),
   label: z.string(),
   default_checked: z.boolean(),
+  page: z.number(),
 });
 
 const RadioGroupOption = z.object({
@@ -101,6 +103,7 @@ const RadioGroupOption = z.object({
   label: z.string(),
   name: z.string(),
   default_checked: z.boolean(),
+  page: z.number(),
 });
 
 const RadioGroup = z.object({
@@ -108,17 +111,20 @@ const RadioGroup = z.object({
   component_type: z.literal('radio_group'),
   legend: z.string(),
   options: RadioGroupOption.array(),
+  page: z.number(),
 });
 
 const Paragraph = z.object({
   component_type: z.literal('paragraph'),
   text: z.string(),
+  page: z.number(),
 });
 
 const Fieldset = z.object({
   component_type: z.literal('fieldset'),
   legend: z.string(),
   fields: z.union([TxInput, Checkbox]).array(),
+  page: z.number(),
 });
 
 const ExtractedObject = z.object({
@@ -207,6 +213,7 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
         'paragraph',
         {
           text: element.text,
+          page: element.page,
         }
       );
       if (paragraph) {
@@ -223,6 +230,7 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
         {
           label: element.label,
           defaultChecked: element.default_checked,
+          page: element.page,
         }
       );
       if (checkboxPattern) {
@@ -233,6 +241,7 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
           label: element.label,
           value: false,
           required: true,
+          page: element.page,
         };
       }
       continue;
@@ -245,12 +254,13 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
         'radio-group',
         {
           label: element.legend,
-          // outputId: element.id,
+          page: element.page,
           options: element.options.map(option => ({
             id: option.id,
             label: option.label,
             name: option.name,
             defaultChecked: option.default_checked,
+            page: element.page,
           })),
         }
       );
@@ -265,9 +275,11 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
             label: option.label,
             name: option.name,
             defaultChecked: option.default_checked,
+            page: element.page,
           })),
           value: '',
           required: true,
+          page: element.page,
         };
       }
       continue;
@@ -285,6 +297,7 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
               required: false,
               initial: '',
               maxLength: 128,
+              page: element.page,
             }
           );
           if (inputPattern) {
@@ -296,6 +309,7 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
               value: '',
               maxLength: 1024,
               required: input.required,
+              page: element.page,
             };
           }
         }
@@ -307,6 +321,7 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
             {
               label: input.label,
               defaultChecked: false,
+              page: element.page,
             }
           );
           if (checkboxPattern) {
@@ -317,6 +332,7 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
               label: input.label,
               value: false,
               required: true,
+              page: element.page,
             };
           }
         }
@@ -331,6 +347,7 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
         'fieldset',
         {
           legend: element.legend,
+          page: element.page,
           patterns: fieldsetPatterns,
         }
       );

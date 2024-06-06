@@ -14,6 +14,7 @@ export type TextInputProps = PatternProps<{
   label: string;
   required: boolean;
   error?: FormError;
+  page: number;
 }>;
 
 export type FormSummaryProps = PatternProps<{
@@ -31,6 +32,7 @@ export type ParagraphProps = PatternProps<{
   type: 'paragraph';
   text: string;
   style: 'indent' | 'normal' | 'heading' | 'subheading';
+  page: number;
 }>;
 
 export type FieldsetProps = PatternProps<{
@@ -38,6 +40,7 @@ export type FieldsetProps = PatternProps<{
   legend?: string;
   subHeading?: string;
   error?: FormError;
+  page: number;
 }>;
 
 export type ZipcodeProps = PatternProps<{
@@ -51,6 +54,7 @@ export type CheckboxProps = PatternProps<{
   id: string;
   label: string;
   defaultChecked: boolean;
+  page: number;
 }>;
 
 export type PageSetProps = PatternProps<{
@@ -72,7 +76,9 @@ export type RadioGroupProps = PatternProps<{
     name: string;
     label: string;
     defaultChecked: boolean;
+    page: number;
   }[];
+  page: number;
 }>;
 
 export type SequenceProps = PatternProps<{

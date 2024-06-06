@@ -10,6 +10,7 @@ const configSchema = z.object({
   initial: z.string().optional(),
   required: z.boolean(),
   maxLength: z.coerce.number(),
+  page: z.number().int().min(0),
 });
 export type InputConfigSchema = z.infer<typeof configSchema>;
 

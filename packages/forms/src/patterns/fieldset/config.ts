@@ -5,6 +5,7 @@ import { ParsePatternConfigData } from '../../pattern';
 
 const configSchema = z.object({
   legend: z.string().min(1),
+  page: z.number().int().min(0),
   patterns: z.union([
     // Support either an array of strings...
     z.array(z.string()),

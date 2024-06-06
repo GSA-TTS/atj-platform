@@ -8,6 +8,7 @@ import { safeZodParseFormErrors, safeZodParseToFormError } from '../util/zod';
 const configSchema = z.object({
   label: z.string().min(1),
   defaultChecked: z.boolean(),
+  page: z.number().int().min(0),
 });
 export type CheckboxPattern = Pattern<z.infer<typeof configSchema>>;
 
@@ -20,6 +21,7 @@ export const checkboxConfig: PatternConfig<CheckboxPattern, PatternOutput> = {
   initial: {
     label: 'Checkbox label',
     defaultChecked: false,
+    page: 0,
   },
   parseUserInput: (_, obj) => {
     return safeZodParseToFormError(PatternOutput, obj);
@@ -52,6 +54,7 @@ export const checkboxConfig: PatternConfig<CheckboxPattern, PatternOutput> = {
         name: pattern.id,
         value: sessionValue,
         label: pattern.data.label,
+        page: pattern.data.page,
         defaultChecked: pattern.data.defaultChecked,
         ...extraAttributes,
       } as CheckboxProps,
