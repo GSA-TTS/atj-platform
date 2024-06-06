@@ -21,11 +21,6 @@ import { getRouteDataFromQueryString } from '@atj/forms/src/route-data';
 export type FormEditSlice = {
   context: FormManagerContext;
   focus?: PatternFocus;
-  availablePatterns: {
-    iconPath?: string;
-    patternType: string;
-    displayName: string;
-  }[];
   session: FormSession;
 
   addPage: () => void;
@@ -50,13 +45,6 @@ export const createFormEditSlice =
   (set, get, store) => ({
     ...createNotificationsSlice()(set, get, store),
     context,
-    availablePatterns: Object.entries(context.config.patterns).map(
-      ([patternType, patternConfig]) => ({
-        patternType,
-        displayName: patternConfig.displayName,
-        iconPath: patternConfig.iconPath,
-      })
-    ),
     session,
     addPage: () => {
       const state = get();
