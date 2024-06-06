@@ -39,7 +39,6 @@ export const submitForm = async (
     action: 'submit',
     data: formData,
   });
-
   if (!newSessionResult.success) {
     return Promise.resolve({
       success: false,
