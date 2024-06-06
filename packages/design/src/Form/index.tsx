@@ -101,7 +101,7 @@ export default function Form({
           <div className="grid-col-12 usa-prose">
             {!isPreview ? (
               <form
-                className="usa-form usa-form--large margin-bottom-3"
+                className="usa-form margin-bottom-3 maxw-full"
                 onSubmit={formMethods.handleSubmit(async data => {
                   updatePrompt(data);
                   if (onSubmit) {
@@ -224,8 +224,8 @@ const FormContents = ({
             />
           );
         })}
+        <ActionBar actions={prompt.actions} />
       </fieldset>
-      <ActionBar actions={prompt.actions} />
     </>
   );
 };

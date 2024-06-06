@@ -26,13 +26,13 @@ export const PageEdit: PatternEditComponent<PageProps> = props => {
           className={`${styles.titleArea} display-flex flex-justify flex-align-center position-relative margin-bottom-205`}
         >
           <span
-            className={`${styles.titleText} padding-right-1 text-uppercase text-ls-1 text-base bg-primary-lighter`}
+            className={`${styles.titleText} padding-right-1 text-uppercase text-ls-1 text-base-darkest bg-primary-lighter`}
           >
             {props.previewProps.title || 'untitled page'}{' '}
-            <span className="text-red">*</span>
+            <span className="text-secondary-darker">*</span>
           </span>
           <span
-            className={`${styles.pageNumber} padding-left-1 text-base bg-primary-lighter`}
+            className={`${styles.pageNumber} padding-left-1 text-base-darkest bg-primary-lighter`}
           >
             Page X
           </span>

@@ -27,7 +27,7 @@ export const en = {
     },
     paragraph: {
       fieldLabel: 'Paragraph Text',
-      displayName: 'Long answer',
+      displayName: 'Paragraph',
       errorTextMustContainChar: 'String must contain at least 1 character(s)',
     },
     radioGroup: {

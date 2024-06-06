@@ -22,6 +22,10 @@
     background: #d9e8f6;
 }
 
+.usaFieldset {
+    top: 96px;
+}
+
 /* Page Title Area */
 
 .titleArea::before {

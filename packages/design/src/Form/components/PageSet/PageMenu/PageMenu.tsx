@@ -12,7 +12,7 @@ export type PageMenuProps = {
 
 export const PageMenu = ({ pages }: PageMenuProps) => {
   return (
-    <div>
+    <div className={`${styles.sideNavWrapper} position-sticky`}>
       <ul className={`${styles.sideNav} usa-sidenav`}>
         {pages.map((page, index) => (
           <li
