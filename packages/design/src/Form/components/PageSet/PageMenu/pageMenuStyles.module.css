@@ -1,3 +1,7 @@
+.sideNavWrapper {
+    top: 6rem;
+}
+
 .sideNav a:not(.usa-button):not(.usa-current) {
     color: #005ea2;
 }

@@ -139,7 +139,7 @@ export const TopNavigation = ({
 };
 
 const MyFormsLink = ({ uswdsRoot }: { uswdsRoot: `${string}/` }) => (
-  <a href={MyForms.getUrl()} className="usa-link margin-top-3 margin-right-1">
+  <a href={MyForms.getUrl()} className="usa-link margin-right-1 display-block">
     <svg
       className="usa-icon usa-icon--size-3 text-middle margin-right-1"
       aria-hidden="true"

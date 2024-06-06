@@ -133,13 +133,6 @@ iframe:focus {
   }
 }
 
-/* A quick way to hide the submit button when form is in edit mode. Can be replaced with a programmatic solution in the future */
-.editPage {
-  .preview-form-button-wrapper {
-    display: none;
-  }
-}
-
 @include at-media("mobile-lg") {
   .usa-table th[scope="row"],
   .usa-table th[scope="row"]:nth-child(odd) {

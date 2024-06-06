@@ -38,7 +38,7 @@ export const FormManagerLayout = ({
     <>
       <Notifications />
       {step && <TopNavigation curPage={step} preview={preview} />}
-      <section className={`${styles.editPage} grid-container editPage`}>
+      <section className={`${styles.editPage} position-relative`}>
         <div className="grid-row flex-justify-center">
           <div className="grid-col-12">
             <div className="bg-white">{children}</div>

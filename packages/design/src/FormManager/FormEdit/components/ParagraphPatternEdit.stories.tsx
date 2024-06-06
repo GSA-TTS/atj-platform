@@ -12,7 +12,7 @@ const pattern: ParagraphPattern = {
   id: '1',
   type: 'paragraph',
   data: {
-    text: 'Long answer',
+    text: 'Paragraph',
   },
 };
 
