@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
+
 import { useFormManagerStore } from '../store';
-import { FormEditSlice } from './store';
+
 import styles from './formEditStyles.module.css';
 import blockIcon from './images/block-icon.svg';
 import checkboxIcon from './images/checkbox-icon.svg';
@@ -13,12 +14,7 @@ import shortanswerIcon from './images/shortanswer-icon.svg';
 import singleselectIcon from './images/singleselect-icon.svg';
 import templateIcon from './images/template-icon.svg';
 
-// Define a type for the icons object
-type IconsType = {
-  [key: string]: string;
-};
-
-const icons: IconsType = {
+const icons: Record<string, string> = {
   'block-icon.svg': blockIcon,
   'checkbox-icon.svg': checkboxIcon,
   'date-icon.svg.svg': dateIcon,
@@ -32,16 +28,22 @@ const icons: IconsType = {
 };
 
 export const AddPatternDropdown = ({ uswdsRoot }: { uswdsRoot: string }) => {
-  const { availablePatterns, addPattern } = useFormManagerStore(state => ({
-    availablePatterns: state.availablePatterns,
+  const { addPattern, context } = useFormManagerStore(state => ({
     addPattern: state.addPattern,
+    context: state.context,
   }));
   const addPage = useFormManagerStore(state => state.addPage);
   const [isOpen, setIsOpen] = useState(false);
-  const [displayValue, setDisplayValue] = useState('Question');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  type Pattern = FormEditSlice['availablePatterns'][number];
+  const availablePatterns = [
+    ['form-summary', context.config.patterns['form-summary']],
+    //['address', context.config.patterns['address']],
+    ['fieldset', context.config.patterns['fieldset']],
+    ['input', context.config.patterns['input']],
+    ['paragraph', context.config.patterns['paragraph']],
+    ['radio-group', context.config.patterns['radio-group']],
+  ] as const;
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -59,17 +61,8 @@ export const AddPatternDropdown = ({ uswdsRoot }: { uswdsRoot: string }) => {
     };
   }, []);
 
-  const handleSelect = (pattern: Pattern) => {
-    addPattern(pattern.patternType);
-    setDisplayValue('Question');
-    setIsOpen(false);
-  };
-
   const getIconPath = (iconPath: string) => {
-    const iconPathObject = Object.values(icons[iconPath]);
-    const blockIconObject = Object.values(blockIcon);
-
-    return iconPathObject[0] || blockIconObject[0];
+    return Object.values(icons[iconPath])[0];
   };
 
   return (
@@ -101,7 +94,7 @@ export const AddPatternDropdown = ({ uswdsRoot }: { uswdsRoot: string }) => {
 
               <span className="display-inline-block text-ttop tablet:width-auto text-center">
                 <span className="display-inline-block text-ttop margin-right-1 width-9">
-                  {displayValue}
+                  Question
                 </span>
                 <img
                   className="display-inline-block text-ttop"
@@ -116,11 +109,14 @@ export const AddPatternDropdown = ({ uswdsRoot }: { uswdsRoot: string }) => {
               <ul
                 className={`${styles.dropdownMenu} usa-list usa-list--unstyled position-absolute width-full bg-white z-100 shadow-3 text-left`}
               >
-                {availablePatterns.map((pattern, index) => (
+                {availablePatterns.map(([patternType, pattern], index) => (
                   <li
                     key={index}
                     className={`${styles.dropdownItem} padding-1 cursor-pointer margin-left-1`}
-                    onClick={() => handleSelect(pattern)}
+                    onClick={() => {
+                      addPattern(patternType);
+                      setIsOpen(false);
+                    }}
                   >
                     <img
                       className="display-inline-block text-ttop margin-right-1"
