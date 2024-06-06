@@ -77,7 +77,7 @@ const EditComponent = ({ pattern }: { pattern: RadioGroupPattern }) => {
               ) : null}
               <div className="display-flex">
                 <input
-                  className={classnames('usa-input', {
+                  className={classnames('hide', 'usa-input', {
                     'usa-label--error': label.error,
                   })}
                   id={fieldId(`options.${index}.id`)}
@@ -101,7 +101,7 @@ const EditComponent = ({ pattern }: { pattern: RadioGroupPattern }) => {
           type="button"
           onClick={event => {
             event.preventDefault();
-            const optionId = `${options.length + 1}`;
+            const optionId = `option-${options.length + 1}`;
             setOptions(options.concat({ id: optionId, label: optionId }));
           }}
         >

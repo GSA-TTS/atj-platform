@@ -19,7 +19,7 @@ export const PageEdit: PatternEditComponent<PageProps> = props => {
       {props.focus ? (
         <PatternEditForm
           pattern={props.focus.pattern}
-          editComponent={<PageEditComopnent pattern={props.focus.pattern} />}
+          editComponent={<PageEditComponent pattern={props.focus.pattern} />}
         ></PatternEditForm>
       ) : (
         <div
@@ -50,7 +50,7 @@ export const PageEdit: PatternEditComponent<PageProps> = props => {
   );
 };
 
-const PageEditComopnent = ({ pattern }: { pattern: PagePattern }) => {
+const PageEditComponent = ({ pattern }: { pattern: PagePattern }) => {
   const { fieldId, getFieldState, register } =
     usePatternEditFormContext<PagePattern>(pattern.id);
   const title = getFieldState('title');
