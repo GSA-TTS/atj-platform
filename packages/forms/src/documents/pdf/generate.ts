@@ -76,6 +76,9 @@ const setFormFieldData = (
       const field = form.getRadioGroup(fieldName);
       field.select(fieldValue);
     } catch (error: any) {
+      console.error(
+        `error setting radio field: ${fieldName}: ${error.message}`
+      );
       const field = form.getCheckBox(fieldName);
       if (fieldValue) {
         field.check();
