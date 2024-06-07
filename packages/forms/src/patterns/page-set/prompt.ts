@@ -77,9 +77,13 @@ const getActionsForPage = (
   }
   const actions: PromptAction[] = [];
   if (pageIndex > 0) {
+    // FIXME: HACK! Don't do this here. We need to pass the form's ID, or its
+    // URL, to createPrompt.
+    const pathName = location.hash.split('?')[0];
     actions.push({
-      type: 'submit',
+      type: 'link',
       text: 'Back',
+      url: `${pathName}?page=${pageIndex - 1}`,
     });
   }
   if (pageIndex < pageCount - 1) {

@@ -89,7 +89,12 @@ export type SubmitAction = {
   type: 'submit';
   text: string;
 };
-export type PromptAction = SubmitAction;
+export type LinkAction = {
+  type: 'link';
+  text: string;
+  url: string;
+};
+export type PromptAction = SubmitAction | LinkAction;
 
 export type PromptComponent = {
   props: PatternProps;
