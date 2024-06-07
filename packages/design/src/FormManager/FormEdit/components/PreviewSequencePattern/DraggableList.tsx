@@ -37,33 +37,40 @@ export const DraggableList: React.FC<DraggableListProps> = ({
   const arrayChildren = Children.toArray(children);
 
   return (
-    <DndContext
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragEnd={event => {
-        const { active, over } = event;
-        if (over === null) {
-          return;
-        }
-        if (active.id !== over.id) {
-          const oldIndex = order.indexOf(active.id);
-          const newIndex = order.indexOf(over.id);
-          const newOrder = arrayMove(order, oldIndex, newIndex);
-          updateOrder(newOrder);
-        }
+    <div
+      onFocus={event => {
+        // Stop onFocus events from bubbling up to parent elements.
+        event.stopPropagation();
       }}
     >
-      <SortableContext items={order} strategy={verticalListSortingStrategy}>
-        {arrayChildren.map((child, index) => {
-          const patternId = order[index];
-          return (
-            <SortableItem key={index} id={patternId}>
-              {child}
-            </SortableItem>
-          );
-        })}
-      </SortableContext>
-    </DndContext>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={event => {
+          const { active, over } = event;
+          if (over === null) {
+            return;
+          }
+          if (active.id !== over.id) {
+            const oldIndex = order.indexOf(active.id);
+            const newIndex = order.indexOf(over.id);
+            const newOrder = arrayMove(order, oldIndex, newIndex);
+            updateOrder(newOrder);
+          }
+        }}
+      >
+        <SortableContext items={order} strategy={verticalListSortingStrategy}>
+          {arrayChildren.map((child, index) => {
+            const patternId = order[index];
+            return (
+              <SortableItem key={index} id={patternId}>
+                {child}
+              </SortableItem>
+            );
+          })}
+        </SortableContext>
+      </DndContext>
+    </div>
   );
 };
 

@@ -141,6 +141,9 @@ export const createFormEditSlice =
           [pattern.id]: pattern.data,
         }
       );
+      if (!success) {
+        console.error('Failed to update pattern.', pattern);
+      }
       if (success) {
         set({
           session: mergeSession(state.session, { form: builder.form }),
