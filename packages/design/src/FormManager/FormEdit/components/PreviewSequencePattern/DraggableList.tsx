@@ -63,7 +63,7 @@ export const DraggableList: React.FC<DraggableListProps> = ({
           {arrayChildren.map((child, index) => {
             const patternId = order[index];
             return (
-              <SortableItem key={index} id={patternId}>
+              <SortableItem key={patternId} id={patternId}>
                 {child}
               </SortableItem>
             );
