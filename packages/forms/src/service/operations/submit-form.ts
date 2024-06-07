@@ -51,7 +51,7 @@ export const submitForm = async (
       error: 'Session is not complete',
     });
   }
-  return generateDocumentPackage(form, formData);
+  return generateDocumentPackage(form, newSessionResult.data.data.values);
 };
 
 const generateDocumentPackage = async (

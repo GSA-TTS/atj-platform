@@ -144,6 +144,12 @@ export const sessionIsComplete = (config: FormConfig, session: FormSession) => {
     const patternConfig = getPatternConfig(config, pattern.type);
     const value = getFormSessionValue(session, pattern.id);
     const isValidResult = validatePattern(patternConfig, pattern, value);
+    if (!isValidResult.success) {
+      console.error({
+        pattern,
+        error: isValidResult.error,
+      });
+    }
     return isValidResult.success;
   });
 };

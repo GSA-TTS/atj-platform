@@ -56,6 +56,7 @@ export type CheckboxProps = PatternProps<{
 export type PageSetProps = PatternProps<{
   type: 'page-set';
   pages: { title: string; active: boolean }[];
+  actions: PromptAction[];
 }>;
 
 export type PageProps = PatternProps<{
@@ -86,9 +87,15 @@ export type PatternProps<T = {}> = {
 
 export type SubmitAction = {
   type: 'submit';
-  text: 'Submit';
+  submitAction: 'next' | 'submit';
+  text: string;
 };
-export type PromptAction = SubmitAction;
+export type LinkAction = {
+  type: 'link';
+  text: string;
+  url: string;
+};
+export type PromptAction = SubmitAction | LinkAction;
 
 export type PromptComponent = {
   props: PatternProps;
@@ -96,7 +103,6 @@ export type PromptComponent = {
 };
 
 export type Prompt = {
-  actions: PromptAction[];
   components: PromptComponent[];
 };
 
@@ -107,7 +113,6 @@ export const createPrompt = (
 ): Prompt => {
   if (options.validate && sessionIsComplete(config, session)) {
     return {
-      actions: [],
       components: [
         {
           props: {
@@ -137,12 +142,6 @@ export const createPrompt = (
   const root = getRootPattern(session.form);
   components.push(createPromptForPattern(config, session, root, options));
   return {
-    actions: [
-      {
-        type: 'submit',
-        text: 'Submit',
-      },
-    ],
     components,
   };
 };
@@ -169,10 +168,6 @@ export const createPromptForPattern: CreatePrompt<Pattern> = (
   return patternConfig.createPrompt(config, session, pattern, options);
 };
 
-export const isPromptAction = (prompt: Prompt, action: string) => {
-  return prompt.actions.find(a => a.type === action);
-};
-
 export const createNullPrompt = ({
   config,
   pattern,
@@ -187,6 +182,5 @@ export const createNullPrompt = ({
         validate: false,
       }),
     ],
-    actions: [],
   };
 };
