@@ -256,6 +256,7 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
       );
       if (radioGroupPattern) {
         rootSequence.push(radioGroupPattern.id);
+        /*
         parsedPdf.outputs[radioGroupPattern.id] = {
           type: 'RadioGroup',
           name: element.id,
@@ -269,6 +270,7 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
           value: '',
           required: true,
         };
+        */
       }
       continue;
     }
