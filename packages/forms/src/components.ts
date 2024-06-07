@@ -86,7 +86,7 @@ export type PatternProps<T = {}> = {
 
 export type SubmitAction = {
   type: 'submit';
-  text: 'Submit';
+  text: string;
 };
 export type PromptAction = SubmitAction;
 
@@ -138,6 +138,10 @@ export const createPrompt = (
   components.push(createPromptForPattern(config, session, root, options));
   return {
     actions: [
+      {
+        type: 'submit',
+        text: 'Back',
+      },
       {
         type: 'submit',
         text: 'Submit',
