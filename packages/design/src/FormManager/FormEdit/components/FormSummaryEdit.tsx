@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import { type FormSummaryProps } from '@atj/forms';
@@ -8,7 +9,7 @@ import { PatternEditComponent } from '../types';
 
 import { PatternEditForm } from './common/PatternEditForm';
 import { usePatternEditFormContext } from './common/hooks';
-import classNames from 'classnames';
+import { PatternEditActions } from './common/PatternEditActions';
 
 const FormSummaryEdit: PatternEditComponent<FormSummaryProps> = ({
   focus,
@@ -79,6 +80,9 @@ const EditComponent = ({ pattern }: { pattern: Pattern }) => {
             defaultValue={pattern.data.description}
           ></textarea>
         </label>
+      </div>
+      <div className="grid-col-12">
+        <PatternEditActions />
       </div>
     </div>
   );
