@@ -103,6 +103,7 @@ const RadioGroupOption = z.object({
   label: z.string(),
   name: z.string(),
   default_checked: z.boolean(),
+  page: z.number(),
 });
 
 const RadioGroup = z.object({
