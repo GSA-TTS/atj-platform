@@ -89,11 +89,13 @@ const getActionsForPage = (
   if (pageIndex < pageCount - 1) {
     actions.push({
       type: 'submit',
+      submitAction: 'next',
       text: 'Next',
     });
   } else {
     actions.push({
       type: 'submit',
+      submitAction: 'submit',
       text: 'Submit',
     });
   }

@@ -6,7 +6,7 @@ import {
   getPatternConfig,
   validatePattern,
 } from '.';
-import { type PromptAction, createPrompt, isPromptAction } from './components';
+import { type PromptAction } from './components';
 import { type FormSession, updateSession, FormErrorMap } from './session';
 
 export type PromptResponse = {
@@ -19,17 +19,8 @@ export const applyPromptResponse = (
   session: FormSession,
   response: PromptResponse
 ): Result<FormSession> => {
-  // Get the current prompt for this session.
-  const prompt = createPrompt(config, session, { validate: false });
-  if (!isPromptAction(prompt, response.action)) {
-    return {
-      success: false,
-      error: 'invalid action',
-    };
-  }
   const { errors, values } = parsePromptResponse(session, config, response);
   const newSession = updateSession(session, values, errors);
-
   return {
     success: true,
     data: newSession,
