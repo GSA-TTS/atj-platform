@@ -12,8 +12,6 @@ import {
   type PromptComponent,
 } from '@atj/forms';
 
-import ActionBar from './ActionBar';
-
 export type FormUIContext = {
   config: FormConfig;
   components: ComponentForPattern;
@@ -224,7 +222,6 @@ const FormContents = ({
             />
           );
         })}
-        <ActionBar actions={prompt.actions} />
       </fieldset>
     </>
   );

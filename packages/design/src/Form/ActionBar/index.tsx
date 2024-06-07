@@ -8,9 +8,25 @@ export default function ActionBar({ actions }: { actions: PromptAction[] }) {
       {actions.map((action, index) => {
         if (action.type === 'submit') {
           return (
-            <button key={index} type={action.type} className="usa-button">
+            <button
+              key={index}
+              type="submit"
+              name="action"
+              value={action.submitAction}
+              className="usa-button"
+            >
               {action.text}
             </button>
+          );
+        } else if (action.type === 'link') {
+          return (
+            <a
+              key={index}
+              href={action.url}
+              className="usa-button usa-button--outline"
+            >
+              {action.text}
+            </a>
           );
         }
       })}

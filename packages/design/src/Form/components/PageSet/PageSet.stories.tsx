@@ -1,6 +1,8 @@
 import React from 'react';
-
+import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
+
+import { type PageSetProps } from '@atj/forms';
 
 import { FormManagerProvider } from '../../../FormManager/store';
 import {
@@ -10,7 +12,6 @@ import {
 } from '../../../test-form';
 
 import PageSet from './PageSet';
-import { MemoryRouter } from 'react-router-dom';
 
 const meta: Meta<typeof PageSet> = {
   title: 'patterns/PageSet',
@@ -46,5 +47,6 @@ export const Basic = {
         active: true,
       },
     ],
-  },
+    actions: [],
+  } satisfies PageSetProps,
 } satisfies StoryObj<typeof PageSet>;

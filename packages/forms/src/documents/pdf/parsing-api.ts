@@ -87,6 +87,7 @@ const TxInput = z.object({
   label: z.string(),
   default_value: z.string(),
   required: z.boolean(),
+  page: z.number(),
 });
 
 const Checkbox = z.object({
@@ -94,6 +95,7 @@ const Checkbox = z.object({
   id: z.string(),
   label: z.string(),
   default_checked: z.boolean(),
+  page: z.number(),
 });
 
 const RadioGroupOption = z.object({
@@ -108,17 +110,20 @@ const RadioGroup = z.object({
   component_type: z.literal('radio_group'),
   legend: z.string(),
   options: RadioGroupOption.array(),
+  page: z.number(),
 });
 
 const Paragraph = z.object({
   component_type: z.literal('paragraph'),
   text: z.string(),
+  page: z.number(),
 });
 
 const Fieldset = z.object({
   component_type: z.literal('fieldset'),
   legend: z.string(),
   fields: z.union([TxInput, Checkbox]).array(),
+  page: z.number(),
 });
 
 const ExtractedObject = z.object({
@@ -172,6 +177,7 @@ export const fetchPdfApiResponse: FetchPdfApiResponse = async (
 export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
   const extracted: ExtractedObject = ExtractedObject.parse(json.parsed_pdf);
   const rootSequence: PatternId[] = [];
+  const pagePatterns: Record<PatternId, PatternId[]> = {};
   const parsedPdf: ParsedPdf = {
     patterns: {},
     errors: [],
@@ -210,7 +216,9 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
         }
       );
       if (paragraph) {
-        rootSequence.push(paragraph.id);
+        pagePatterns[element.page] = (pagePatterns[element.page] || []).concat(
+          paragraph.id
+        );
       }
       continue;
     }
@@ -226,7 +234,9 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
         }
       );
       if (checkboxPattern) {
-        rootSequence.push(checkboxPattern.id);
+        pagePatterns[element.page] = (pagePatterns[element.page] || []).concat(
+          checkboxPattern.id
+        );
         parsedPdf.outputs[checkboxPattern.id] = {
           type: 'CheckBox',
           name: element.id,
@@ -245,7 +255,6 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
         'radio-group',
         {
           label: element.legend,
-          // outputId: element.id,
           options: element.options.map(option => ({
             id: option.id,
             label: option.label,
@@ -255,7 +264,9 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
         }
       );
       if (radioGroupPattern) {
-        rootSequence.push(radioGroupPattern.id);
+        pagePatterns[element.page] = (pagePatterns[element.page] || []).concat(
+          radioGroupPattern.id
+        );
         /*
         parsedPdf.outputs[radioGroupPattern.id] = {
           type: 'RadioGroup',
@@ -337,27 +348,30 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
         }
       );
       if (fieldset) {
-        rootSequence.push(fieldset.id);
+        pagePatterns[element.page] = (pagePatterns[element.page] || []).concat(
+          fieldset.id
+        );
       }
     }
   }
 
   // Create a pattern for the single, first page.
-  const pagePattern = processPatternData<PagePattern>(
-    defaultFormConfig,
-    parsedPdf,
-    'page',
-    {
-      title: 'Untitled Page',
-      patterns: rootSequence,
-    }
-  );
-
-  const pages: PatternId[] = [];
-  if (pagePattern) {
-    parsedPdf.patterns[pagePattern.id] = pagePattern;
-    pages.push(pagePattern.id);
-  }
+  const pages: PatternId[] = Object.entries(pagePatterns)
+    .map(([page, patterns]) => {
+      const pagePattern = processPatternData<PagePattern>(
+        defaultFormConfig,
+        parsedPdf,
+        'page',
+        {
+          title: `Page ${parseInt(page) + 1}`,
+          patterns,
+        },
+        undefined,
+        parseInt(page)
+      );
+      return pagePattern?.id;
+    })
+    .filter(page => page !== undefined) as PatternId[];
 
   // Assign the page to the root page set.
   const rootPattern = processPatternData<PageSetPattern>(
@@ -380,7 +394,8 @@ const processPatternData = <T extends Pattern>(
   parsedPdf: ParsedPdf,
   patternType: T['type'],
   patternData: T['data'],
-  patternId?: PatternId
+  patternId?: PatternId,
+  page?: number
 ) => {
   const result = createPattern<T>(config, patternType, patternData, patternId);
   if (!result.success) {
