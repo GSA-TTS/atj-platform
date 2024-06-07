@@ -6,6 +6,7 @@ export type DocumentFieldValue =
       value: string;
       maxLength?: number;
       required: boolean;
+      page: number;
     }
   | {
       type: 'CheckBox';
@@ -13,6 +14,7 @@ export type DocumentFieldValue =
       label: string;
       value: boolean;
       required: boolean;
+      page: number;
     }
   | {
       type: 'Dropdown';
@@ -35,6 +37,7 @@ export type DocumentFieldValue =
       label: string;
       value: string;
       required: boolean;
+      page: number;
     }
   | {
       type: 'Paragraph';
@@ -43,6 +46,7 @@ export type DocumentFieldValue =
       label: string;
       value: string;
       required: boolean;
+      page: number;
     }
   | {
       type: 'not-supported';

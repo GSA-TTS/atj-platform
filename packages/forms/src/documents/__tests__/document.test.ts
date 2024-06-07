@@ -38,13 +38,14 @@ describe('addDocument document processing', () => {
 
     console.error(JSON.stringify(errors, null, 2)); // Fix these
     expect(rootPattern).toEqual(expect.objectContaining({ type: 'page-set' }));
-    expect(rootPattern.data.pages.length).toEqual(1);
-    const pagePattern = getPattern<PagePattern>(
-      updatedForm,
-      rootPattern.data.pages[0]
-    );
-
-    // As a sanity check, just confirm that there is content on the first page.
-    expect(pagePattern.data.patterns.length).toBeGreaterThan(1);
+    expect(rootPattern.data.pages.length).toEqual(4);
+    for (let page = 0; page < rootPattern.data.pages.length; page++) {
+      const pagePattern = getPattern<PagePattern>(
+        updatedForm,
+        rootPattern.data.pages[page]
+      );
+      // As a sanity check, just confirm that there is content on the first page.
+      expect(pagePattern.data.patterns.length).toBeGreaterThanOrEqual(1);
+    }
   });
 });
