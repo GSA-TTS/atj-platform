@@ -56,6 +56,7 @@ export type CheckboxProps = PatternProps<{
 export type PageSetProps = PatternProps<{
   type: 'page-set';
   pages: { title: string; active: boolean }[];
+  actions: PromptAction[];
 }>;
 
 export type PageProps = PatternProps<{
