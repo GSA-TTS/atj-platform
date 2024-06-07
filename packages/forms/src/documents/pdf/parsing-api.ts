@@ -268,7 +268,6 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
         pagePatterns[element.page] = (pagePatterns[element.page] || []).concat(
           radioGroupPattern.id
         );
-        rootSequence.push(radioGroupPattern.id);
         parsedPdf.outputs[radioGroupPattern.id] = {
           type: 'RadioGroup',
           name: element.id,
