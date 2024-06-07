@@ -244,7 +244,6 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
           label: element.label,
           value: false,
           required: true,
-          page: element.page,
         };
       }
       continue;
@@ -281,7 +280,6 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
           })),
           value: '',
           required: true,
-          page: element.page,
         };
       }
       continue;
@@ -310,7 +308,6 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
               value: '',
               maxLength: 1024,
               required: input.required,
-              page: element.page,
             };
           }
         }
@@ -332,7 +329,6 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
               label: input.label,
               value: false,
               required: true,
-              page: element.page,
             };
           }
         }
