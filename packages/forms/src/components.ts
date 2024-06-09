@@ -30,7 +30,7 @@ export type SubmissionConfirmationProps = PatternProps<{
 export type ParagraphProps = PatternProps<{
   type: 'paragraph';
   text: string;
-  style: 'indent' | 'normal' | 'heading' | 'subheading';
+  style: string;
 }>;
 
 export type FieldsetProps = PatternProps<{

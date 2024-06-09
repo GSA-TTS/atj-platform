@@ -116,6 +116,7 @@ const RadioGroup = z.object({
 const Paragraph = z.object({
   component_type: z.literal('paragraph'),
   text: z.string(),
+  style: z.string(),
   page: z.number(),
 });
 
@@ -213,6 +214,7 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
         'paragraph',
         {
           text: element.text,
+          style: element.style,
         }
       );
       if (paragraph) {

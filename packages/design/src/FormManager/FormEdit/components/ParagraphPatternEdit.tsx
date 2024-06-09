@@ -39,6 +39,8 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
     usePatternEditFormContext<ParagraphPattern>(patternId);
   const text = getFieldState('text');
 
+  const options = ['normal', 'subheading', 'heading'];
+
   return (
     <div className="grid-row grid-gap-1">
       <div className="tablet:grid-col-12">
@@ -63,6 +65,23 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           {...register('text')}
           defaultValue={pattern.data.text}
         ></textarea>
+        <label
+          className={classnames('usa-label')}
+          htmlFor={fieldId('style')}
+        >
+          Style
+        </label>
+        <select
+          id={fieldId('style')}
+          {...register('style')}
+          defaultValue={pattern.data.style}
+        >
+          {options.map(option => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
       </div>
       <PatternEditActions />
     </div>

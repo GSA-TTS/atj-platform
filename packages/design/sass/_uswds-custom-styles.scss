@@ -6,7 +6,7 @@ html {
 
 h1 {
   font-size: units(5);
-
+  white-space: pre-line;
   span {
     display: inline-block;
     vertical-align: top;
@@ -17,10 +17,12 @@ h1 {
 h2 {
   margin-top: units(4);
   margin-bottom: units(2);
+  white-space: pre-line;
 }
 
 p {
   line-height: units(3);
+  white-space: pre-line;
 }
 
 .hide {
