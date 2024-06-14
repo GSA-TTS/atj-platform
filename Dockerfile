@@ -5,6 +5,7 @@ ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
 FROM base AS build
+ARG APP_DIR
 
 RUN apt update && \
   apt install -y git
@@ -12,6 +13,7 @@ COPY . /usr/src/app
 WORKDIR /usr/src/app
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm build
+RUN pnpm --filter=$APP_DIR --prod deploy /app/$APP_DIR
 
 FROM base AS app
 ARG APP_DIR=doj-demo
