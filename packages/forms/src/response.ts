@@ -7,7 +7,7 @@ import {
   validatePattern,
 } from '.';
 import { type PromptAction } from './components';
-import { type FormSession, updateSession, FormErrorMap } from './session';
+import { type FormErrorMap, type FormSession, updateSession } from './session';
 
 export type PromptResponse = {
   action: PromptAction['type'];
