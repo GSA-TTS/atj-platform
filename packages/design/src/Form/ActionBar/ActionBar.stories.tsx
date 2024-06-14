@@ -10,6 +10,7 @@ export default {
       {
         type: 'submit',
         text: 'Submit',
+        submitAction: 'submit',
       },
     ],
   },
