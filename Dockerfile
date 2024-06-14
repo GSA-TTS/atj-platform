@@ -5,6 +5,7 @@ ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
 FROM base AS build
+ARG APP_DIR
 
 RUN apt update && \
   apt install -y git
@@ -12,16 +13,17 @@ COPY . /usr/src/app
 WORKDIR /usr/src/app
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm build
-RUN pnpm deploy --filter=doj-demo --prod /app/doj-demo
+RUN pnpm deploy --filter=$APP_DIR --prod /app/$APP_DIR
 #RUN pnpm deploy --filter=spotlight --prod /app/spotlight
 
-FROM base AS doj-demo
+FROM base AS app
+ARG APP_DIR=doj-demo
 
 LABEL org.opencontainers.image.description 10x-atj DOJ demo
 
-COPY --from=build /app/doj-demo /app/doj-demo
-COPY --from=build /usr/src/app/apps/doj-demo/dist /app/doj-demo/dist
-WORKDIR /app/doj-demo
+COPY --from=build /app/$APP_DIR /app/$APP_DIR
+COPY --from=build /usr/src/app/apps/$APP_DIR/dist /app/$APP_DIR/dist
+WORKDIR /app/$APP_DIR
 
 ENV HOST=0.0.0.0
 ENV PORT=4321
