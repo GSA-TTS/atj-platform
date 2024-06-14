@@ -1,6 +1,6 @@
 import { Construct } from 'constructs';
 
-import * as cloudfoundry from '../../.gen/providers/cloudfoundry';
+import * as cloudfoundry from '../../../.gen/providers/cloudfoundry';
 import { CLOUD_GOV_ORG_NAME } from './config';
 import { AstroService } from './node-astro';
 

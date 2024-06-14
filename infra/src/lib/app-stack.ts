@@ -1,6 +1,6 @@
 import { App, TerraformStack } from 'cdktf';
 import { Construct } from 'constructs';
-import { CloudfoundryProvider } from '../.gen/providers/cloudfoundry/provider';
+import { CloudfoundryProvider } from '../../.gen/providers/cloudfoundry/provider';
 
 import { withBackend } from './backend';
 import { CloudGovSpace } from './cloud.gov/space';

@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import * as cloudfoundry from '../../.gen/providers/cloudfoundry';
+import * as cloudfoundry from '../../../.gen/providers/cloudfoundry';
 
 export class AstroService extends Construct {
   constructor(scope: Construct, id: string, spaceId: string) {

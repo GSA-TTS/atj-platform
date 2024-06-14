@@ -5,7 +5,7 @@ on:
     branches:
       - main
     tags:
-      - stable
+      - staging
   workflow_dispatch:
 
 env:
