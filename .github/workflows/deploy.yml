@@ -99,4 +99,4 @@ jobs:
         run: |
           cd infra
           cf api https://api.fr.cloud.gov
-          pnpm cdktf deploy --auto-approve
+          DEPLOY_ENV=${TAG_NAME} pnpm cdktf deploy --auto-approve
