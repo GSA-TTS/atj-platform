@@ -3,7 +3,10 @@
   "app": "npx ts-node src/index.ts",
   "projectId": "9bbe7827-9202-4cf8-8d85-a8241c08ab5c",
   "sendCrashReports": "false",
-  "terraformProviders": ["cloudfoundry-community/cloudfoundry@0.53.1"],
+  "terraformProviders": [
+    "hashicorp/aws@5.54.1",
+    "cloudfoundry-community/cloudfoundry@0.53.1"
+  ],
   "terraformModules": [],
   "context": {
     "excludeStackIdFromLogicalIds": "true",

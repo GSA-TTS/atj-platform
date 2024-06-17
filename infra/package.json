@@ -18,9 +18,8 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@cdktf/provider-aws": "18.0.1",
-    "cdktf": "^0.20.4",
-    "cdktf-cli": "^0.20.4",
+    "cdktf": "^0.20.7",
+    "cdktf-cli": "^0.20.7",
     "constructs": "^10.3.0"
   },
   "devDependencies": {
