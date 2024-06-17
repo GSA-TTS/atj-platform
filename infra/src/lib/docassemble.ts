@@ -1,10 +1,10 @@
 import { TerraformOutput } from 'cdktf';
 import { Construct } from 'constructs';
 
-import { LightsailInstance } from '@cdktf/provider-aws/lib/lightsail-instance';
-import { LightsailStaticIp } from '@cdktf/provider-aws/lib/lightsail-static-ip';
-import { LightsailInstancePublicPorts } from '@cdktf/provider-aws/lib/lightsail-instance-public-ports';
-import { LightsailStaticIpAttachment } from '@cdktf/provider-aws/lib/lightsail-static-ip-attachment';
+import { LightsailInstance } from '../../.gen/providers/aws/lightsail-instance';
+import { LightsailStaticIp } from '../../.gen/providers/aws/lightsail-static-ip';
+import { LightsailInstancePublicPorts } from '../../.gen/providers/aws/lightsail-instance-public-ports';
+import { LightsailStaticIpAttachment } from '../../.gen/providers/aws/lightsail-static-ip-attachment';
 
 export class Docassemble extends Construct {
   constructor(scope: Construct, id: string) {

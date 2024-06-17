@@ -2,7 +2,7 @@ import * as path from 'path';
 
 import { AssetType, TerraformAsset, TerraformOutput } from 'cdktf';
 import { Construct } from 'constructs';
-import * as aws from '@cdktf/provider-aws';
+import * as aws from '../../.gen/providers/aws';
 
 export class FormService extends Construct {
   readonly url: string;
