@@ -33,7 +33,7 @@ jobs:
 
       - name: Tag Docker image
         run: |
-          docker tag ${REGISTRY_PATH}:${github.sha} ${REGISTRY_PATH}:${TAG_NAME}
+          docker tag ${REGISTRY_PATH}:${COMMIT_SHA} ${REGISTRY_PATH}:${TAG_NAME}
 
       - name: Log in to the Container registry
         uses: docker/login-action@v2
