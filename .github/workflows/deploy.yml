@@ -28,3 +28,5 @@ jobs:
   deploy:
     uses: ./.github/workflows/_apply-terraform.yml
     secrets: inherit
+    with:
+      deploy-env: ${{ github.ref_name }}

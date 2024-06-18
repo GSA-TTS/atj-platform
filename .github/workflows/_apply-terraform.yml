@@ -2,6 +2,13 @@ name: Apply Terraform CDK configuration
 
 on:
   workflow_call:
+    inputs:
+      deploy-env:
+        type: string
+        required: true
+
+env:
+  DEPLOY_ENV: ${{ inputs.deploy-env }}
 
 jobs:
   apply-terraform:
@@ -64,4 +71,4 @@ jobs:
         run: |
           cd infra
           cf api https://api.fr.cloud.gov
-          DEPLOY_ENV=${TAG_NAME} pnpm cdktf deploy --auto-approve
+          DEPLOY_ENV=${DEPLOY_ENV} pnpm cdktf deploy --auto-approve
