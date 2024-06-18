@@ -1,0 +1,47 @@
+name: Build Docker image
+
+on:
+  workflow_call:
+    inputs:
+      app-name:
+        required: true
+        type: string
+      org-name:
+        type: string
+        default: gsa-tts
+      repo-name:
+        type: string
+        default: ${{ github.event.repository.name }}
+
+env:
+  TAG_NAME: ${{ github.ref_name }}
+  APP_DIR: ${{ inputs.app-name }}
+  REGISTRY_PATH: ghcr.io/${{ inputs.org-name }}/${{ inputs.repo-name }}/${{ inputs.app-name }}
+  COMMIT_SHA: ${{github.sha}}
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: |
+          docker build . --platform linux/amd64 --target app --build-arg APP_DIR=${APP_DIR} --tag ${REGISTRY_PATH}:${COMMIT_SHA}
+
+      - name: Tag Docker image
+        run: |
+          docker tag ${REGISTRY_PATH}:${COMMIT_SHA} ${REGISTRY_PATH}:${TAG_NAME}
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to container registry
+        run: |
+          docker push --all-tags ${REGISTRY_PATH}
