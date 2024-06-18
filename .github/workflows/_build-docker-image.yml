@@ -6,14 +6,17 @@ on:
       app-name:
         required: true
         type: string
+      org-name:
+        type: string
+        default: gsa-tts
       repo-name:
         type: string
-        default: ${{ github.repository }}
+        default: ${{ github.event.repository.name }}
 
 env:
   TAG_NAME: ${{ github.ref_name }}
   APP_DIR: ${{ inputs.app-name }}
-  REGISTRY_PATH: ghcr.io/${{ inputs.repo-name }}/${{ inputs.app-name }}
+  REGISTRY_PATH: ghcr.io/${{ inputs.org-name }}/${{ inputs.repo-name }}/${{ inputs.app-name }}
   COMMIT_SHA: ${{github.sha}}
 
 jobs:
