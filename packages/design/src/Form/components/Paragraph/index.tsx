@@ -7,7 +7,7 @@ import { type PatternComponent } from '../../../Form';
 const FormSummary: PatternComponent<ParagraphProps> = props => {
   return (
     <>
-      <p>{props.text}</p>
+      <p className="maxw-tablet">{props.text}</p>
     </>
   );
 };
