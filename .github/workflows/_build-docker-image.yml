@@ -14,6 +14,7 @@ env:
   TAG_NAME: ${{ github.ref_name }}
   APP_DIR: ${{ inputs.app-name }}
   REGISTRY_PATH: ghcr.io/${{ inputs.repo-name }}/${{ inputs.app-name }}
+  COMMIT_SHA: ${{github.sha}}
 
 jobs:
   setup:
@@ -25,7 +26,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build . --platform linux/amd64 --target app --build-arg APP_DIR=${APP_DIR} --tag ${REGISTRY_PATH}:${github.sha}
+          docker build . --platform linux/amd64 --target app --build-arg APP_DIR=${APP_DIR} --tag ${REGISTRY_PATH}:${COMMIT_SHA}
 
       - name: Tag Docker image
         run: |
