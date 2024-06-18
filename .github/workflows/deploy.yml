@@ -26,6 +26,7 @@ jobs:
       app-name: spotlight
 
   deploy:
+    needs: [build-image-doj, build-image-spotlight]
     uses: ./.github/workflows/_apply-terraform.yml
     secrets: inherit
     with:
