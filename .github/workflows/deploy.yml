@@ -25,9 +25,6 @@ jobs:
     with:
       app-name: spotlight
 
-  setup:
-    uses: ./.github/workflows/_setup.yml
-
   deploy:
     uses: ./.github/workflows/_apply-terraform.yml
     secrets: inherit

@@ -7,8 +7,5 @@ on:
   pull_request:
 
 jobs:
-  setup:
-    uses: ./.github/workflows/_setup.yml
-
   run-tests:
     uses: ./.github/workflows/_validate.yml
