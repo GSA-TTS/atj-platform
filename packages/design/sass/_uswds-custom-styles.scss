@@ -122,7 +122,7 @@ iframe:focus {
   height: 0;
 }
 
-.usa-table {
+.form-list-table {
   th[scope="row"],
   th[scope="row"]:nth-child(odd) {
     background: $color-gray-10;
@@ -134,12 +134,12 @@ iframe:focus {
 }
 
 @include at-media("mobile-lg") {
-  .usa-table th[scope="row"],
-  .usa-table th[scope="row"]:nth-child(odd) {
+  .form-list-table th[scope="row"],
+  .form-list-table th[scope="row"]:nth-child(odd) {
     background: #fff;
   }
 
-  .usa-table {
+  .form-list-table {
     thead th {
       border-bottom-width: 2px;
 

@@ -69,7 +69,7 @@ const FormList = ({
   urlForFormManager: UrlForFormManager;
 }) => {
   return (
-    <table className="usa-table usa-table--stacked">
+    <table className="usa-table usa-table--stacked form-list-table">
       <thead>
         <tr>
           <th className="mobile-lg:grid-col-4" scope="col">
