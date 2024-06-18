@@ -1,9 +1,9 @@
 @use "uswds-core" with (
   $theme-show-notifications: false,
-  $theme-banner-max-width: "widescreen",
-  $theme-footer-max-width: "widescreen",
-  $theme-grid-container-max-width: "widescreen",
-  $theme-header-max-width: "widescreen",
+  $theme-banner-max-width: "full",
+  $theme-footer-max-width: "full",
+  $theme-grid-container-max-width: "full",
+  $theme-header-max-width: "none",
   $theme-color-primary-lighter: "blue-5",
   $theme-utility-breakpoints: (
     "mobile": true,
