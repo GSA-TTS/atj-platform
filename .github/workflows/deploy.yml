@@ -14,20 +14,20 @@ env:
 
 jobs:
   build-image-doj:
-    uses: ./.github/workflows/shared/build-docker-image.yml
+    uses: ./.github/workflows/_build-docker-image.yml
     secrets: inherit
     with:
       app-name: doj-demo
 
   build-image-spotlight:
-    uses: ./.github/workflows/shared/build-docker-image.yml
+    uses: ./.github/workflows/_build-docker-image.yml
     secrets: inherit
     with:
       app-name: spotlight
 
   setup:
-    uses: ./.github/workflows/shared/setup.yml
+    uses: ./.github/workflows/_setup.yml
 
   deploy:
-    uses: ./.github/workflows/shared/apply-terraform.yml
+    uses: ./.github/workflows/_apply-terraform.yml
     secrets: inherit

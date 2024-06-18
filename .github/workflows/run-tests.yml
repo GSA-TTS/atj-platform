@@ -8,7 +8,7 @@ on:
 
 jobs:
   setup:
-    uses: ./.github/workflows/shared/setup.yml
+    uses: ./.github/workflows/_setup.yml
 
   run-tests:
-    uses: ./.github/workflows/shared/validate.yml
+    uses: ./.github/workflows/_validate.yml
