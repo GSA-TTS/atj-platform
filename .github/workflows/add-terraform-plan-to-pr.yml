@@ -1,11 +1,10 @@
-name: Post Terraform plan to pull request comment
+name: Post Terraform plan to PR comment
 
 on:
   pull_request:
     branches:
       - staging
       - main
-      - docker-static-assets
     types:
       - opened
       - synchronize
