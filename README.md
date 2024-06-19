@@ -79,3 +79,19 @@ A command-line interface is provided for manually running operations. The corres
 ```bash
 ./manage.sh --help
 ```
+
+## End-to-end testing
+E2E testing runs in a docker container. 
+
+```bash
+docker build --tag 'playwright' . -f Dockerfile.e2e
+```
+
+You can add the `--no-cache` flag to build from scratch.
+
+To run the container: 
+
+```bash
+docker run -it playwright sh
+```
+

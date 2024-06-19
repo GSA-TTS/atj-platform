@@ -1,0 +1,20 @@
+# base image with Node.js and playwright preinstalled
+FROM mcr.microsoft.com/playwright:v1.44.1-jammy
+
+# set working directory
+WORKDIR /home/atj-platform
+
+# create app directory in the container
+RUN mkdir -p /home/atj-platform
+
+# Install global deps
+RUN npm install -g pnpm
+RUN npx playwright install --with-deps
+
+#
+COPY . .
+
+# Install project deps
+RUN pnpm install
+
+CMD ["pnpm", "test"]
