@@ -7,6 +7,9 @@ on:
         required: true
         type: string
 
+env:
+  DEPLOY_ENV: ${{ inputs.deploy-env }}
+
 jobs:
   terraform:
     runs-on: ubuntu-latest
