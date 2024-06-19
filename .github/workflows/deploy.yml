@@ -4,13 +4,8 @@ on:
   push:
     branches:
       - main
-    tags:
       - staging
   workflow_dispatch:
-
-env:
-  TAG_NAME: ${{ github.ref_name }}
-  REGISTRY: ghcr.io/gsa-tts/atj-platform
 
 jobs:
   build-image-doj:

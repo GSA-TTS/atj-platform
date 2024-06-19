@@ -1,0 +1,13 @@
+name: Create PR from main to staging
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create-pr-to-staging:
+    uses: ./.github/workflows/_create-pr-to-branch.yml
+    secrets: inherit
+    with:
+      base: staging
