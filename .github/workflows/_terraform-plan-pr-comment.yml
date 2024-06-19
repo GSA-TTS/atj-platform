@@ -7,12 +7,14 @@ on:
         required: true
         type: string
 
-env:
-  DEPLOY_ENV: ${{ inputs.deploy-env }}
-
 jobs:
   terraform:
     runs-on: ubuntu-latest
+    env:
+      DEPLOY_ENV: ${{ inputs.deploy-env }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
