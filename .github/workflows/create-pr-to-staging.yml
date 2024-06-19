@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - organize-workflows
 
 jobs:
   create-pr-to-staging:
