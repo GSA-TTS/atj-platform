@@ -76,7 +76,9 @@ jobs:
         run: |
           output=$(DEPLOY_ENV=${DEPLOY_ENV} pnpm cdktf diff --no-color --app "npx ts-node src/index.ts")
           echo "${output}"
-          echo "::set-output name=stdout::$output"
+          echo "stdout<<nEOFn" >> $GITHUB_OUTPUT
+          echo "${output}" >> $GITHUB_OUTPUT
+          echo "nEOFn" >> $GITHUB_OUTPUT
         working-directory: infra
 
       - name: Find Comment
