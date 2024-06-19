@@ -1,0 +1,18 @@
+name: Add Terraform CDK plan as comment on pull request
+
+on:
+  pull_request:
+    branches:
+      - staging
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  add-terraform-plan-to-staging-pr:
+    uses: ./.github/workflows/_terraform-plan-pr-comment.yml
+    secrets: inherit
+    with:
+      deploy-env: staging
