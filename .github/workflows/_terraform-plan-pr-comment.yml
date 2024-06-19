@@ -67,39 +67,18 @@ jobs:
         run: |
           cf api https://api.fr.cloud.gov
 
-      - name: Show Terraform plan
-        id: show_plan
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        shell: bash
+      - name: Synthesize Terraform configuration
         run: |
-          output=$(DEPLOY_ENV=${DEPLOY_ENV} pnpm cdktf diff --no-color --app "npx ts-node src/index.ts")
-          echo "${output}"
-          echo "stdout<<nEOFn" >> $GITHUB_OUTPUT
-          echo "${output}" >> $GITHUB_OUTPUT
-          echo "nEOFn" >> $GITHUB_OUTPUT
-        working-directory: infra
+          DEPLOY_ENV=${DEPLOY_ENV} pnpm cdktf synth
 
-      - name: Find Comment
-        uses: peter-evans/find-comment@v3
-        id: find_comment
-        with:
-          issue-number: ${{ github.event.pull_request.number }}
-          comment-author: 'github-actions[bot]'
-          body-includes: '<!-- terraform-plan-comment -->'
+      - name: Get Terraform stack name
+        id: get_stack_name
+        run: |
+          DEPLOY_ENV=${DEPLOY_ENV} pnpm cdktf output --outputs-file outputs.json
+          echo "stack_name=$(jq -r 'keys[0]' outputs.json)" >> $GITHUB_OUTPUT
 
-      - name: Create or update PR comment with Terraform plan
-        uses: peter-evans/create-or-update-comment@v4
+      - name: Create Terraform plan
+        uses: dflook/terraform-plan@v1
         with:
-          comment-id: ${{ steps.find_comment.outputs.comment-id }}
-          issue-number: ${{ github.event.pull_request.number }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.repository }}
-          body: |
-            <!-- terraform-plan-comment -->
-            **Terraform Plan**
-            ```terraform
-            ${{ steps.show_plan.outputs.stdout }}
-            ```
-          edit-mode: replace
+          path: infra/cdktf.out/stacks/${{ steps.get_stack_name.outputs.stack_name }}
+          label: ${{ steps.get_stack_name.outputs.stack_name }}

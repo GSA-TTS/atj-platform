@@ -5,6 +5,7 @@ on:
     branches:
       - staging
       - main
+      - docker-static-assets
     types:
       - opened
       - synchronize
