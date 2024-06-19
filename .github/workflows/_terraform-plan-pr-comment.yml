@@ -79,15 +79,25 @@ jobs:
           echo "::set-output name=stdout::$output"
         working-directory: infra
 
+      - name: Find Comment
+        uses: peter-evans/find-comment@v3
+        id: find_comment
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: '<!-- terraform-plan-comment -->'
+
       - name: Create or update PR comment with Terraform plan
         uses: peter-evans/create-or-update-comment@v4
         with:
+          comment-id: ${{ steps.find_comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
           token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.repository }}
-          issue-number: ${{ github.event.pull_request.number }}
           body: |
             <!-- terraform-plan-comment -->
             **Terraform Plan**
             ```terraform
             ${{ steps.show_plan.outputs.stdout }}
             ```
+          edit-mode: replace
