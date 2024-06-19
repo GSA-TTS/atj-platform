@@ -74,7 +74,9 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         shell: bash
         run: |
-          DEPLOY_ENV=${DEPLOY_ENV} pnpm cdktf diff --app "npx ts-node src/index.ts"
+          output=$(DEPLOY_ENV=${DEPLOY_ENV} pnpm cdktf diff --no-color --app "npx ts-node src/index.ts")
+          echo "${output}"
+          echo "::set-output name=stdout::$output"
         working-directory: infra
 
       - name: Create or update PR comment with Terraform plan
