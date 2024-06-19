@@ -5,7 +5,7 @@ import react from '@astrojs/react';
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
-  trailingSlash: 'always',
+  trailingSlash: 'never',
   base: addTrailingSlash(process.env.BASEURL || ''),
   adapter: node({
     mode: 'standalone',
