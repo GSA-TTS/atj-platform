@@ -1,8 +1,8 @@
 ---
-import ContentLayout from '../layouts/ContentLayout.astro';
+import AppFormManager from '../components/AppFormManager';
+import Layout from '../layouts/Layout.astro';
 ---
 
-<ContentLayout title="Home">
-  <h1>Office of the Pardon Attorney</h1>
-  <h2>Sample forms</h2>
-</ContentLayout>
+<Layout title="10x Access to Justice Spotlight">
+  <AppFormManager client:only />
+</Layout>

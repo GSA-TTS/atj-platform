@@ -2,6 +2,10 @@ import { defineConfig } from 'astro/config';
 import node from '@astrojs/node';
 import react from '@astrojs/react';
 
+import { getGithubRepository } from './src/lib/github';
+
+const githubRepository = await getGithubRepository(process.env);
+
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
@@ -17,6 +21,11 @@ export default defineConfig({
   ],
   server: {
     port: 4322,
+  },
+  vite: {
+    define: {
+      'import.meta.env.GITHUB': JSON.stringify(githubRepository),
+    },
   },
 });
 
