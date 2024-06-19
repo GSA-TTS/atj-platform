@@ -7,7 +7,7 @@ on:
 
 jobs:
   create-pr-to-staging:
-    uses: ./.github/workflows/_create-pr-to-branch.yml
+    uses: ./.github/workflows/_pr-create.yml
     secrets: inherit
     with:
       base: staging

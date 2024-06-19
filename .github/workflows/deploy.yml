@@ -9,20 +9,20 @@ on:
 
 jobs:
   build-image-doj:
-    uses: ./.github/workflows/_build-docker-image.yml
+    uses: ./.github/workflows/_docker-build-image.yml
     secrets: inherit
     with:
       app-name: doj-demo
 
   build-image-spotlight:
-    uses: ./.github/workflows/_build-docker-image.yml
+    uses: ./.github/workflows/_docker-build-image.yml
     secrets: inherit
     with:
       app-name: spotlight
 
   deploy:
     needs: [build-image-doj, build-image-spotlight]
-    uses: ./.github/workflows/_apply-terraform.yml
+    uses: ./.github/workflows/_terraform-apply.yml
     secrets: inherit
     with:
       deploy-env: ${{ github.ref_name }}
