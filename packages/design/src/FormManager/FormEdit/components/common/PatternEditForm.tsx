@@ -48,7 +48,7 @@ export const PatternEditForm = ({
           }
         })}
       >
-        <div className="border-1 radius-md border-primary-light padding-1">
+        <div className="border-05 radius-md border-primary-light padding-3">
           {editComponent}
         </div>
       </form>
