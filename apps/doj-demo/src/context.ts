@@ -2,10 +2,13 @@ import { FormConfig } from '@atj/forms';
 import { defaultFormConfig } from '@atj/forms';
 import { service } from '@atj/forms';
 
+import { type GithubRepository } from './lib/github';
+
 export type AppContext = {
   baseUrl: `${string}/`;
   formConfig: FormConfig;
   formService: service.FormService;
+  github: GithubRepository;
   uswdsRoot: `${string}/`;
 };
 
@@ -23,6 +26,7 @@ const createAppContext = (env: any): AppContext => {
     baseUrl: env.BASE_URL,
     formConfig: defaultFormConfig,
     formService: createAppFormService(),
+    github: env.GITHUB,
     uswdsRoot: `${env.BASE_URL}uswds/`,
   };
 };

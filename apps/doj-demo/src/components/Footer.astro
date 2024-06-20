@@ -1,5 +1,11 @@
 ---
+import { type GithubRepository, getBranchTreeUrl } from '../lib/github';
 
+type Props = {
+  github: GithubRepository;
+};
+
+const { github } = Astro.props;
 ---
 
 <footer class="usa-footer usa-footer--slim">
@@ -16,6 +22,16 @@
             >
               <a class="usa-footer__primary-link" href="https://10x.gsa.gov/">
                 10x
+              </a>
+            </li>
+            <li
+              class="mobile-lg:grid-col-6 desktop:grid-col-auto usa-footer__primary-content"
+            >
+              <a
+                class="usa-footer__primary-link"
+                href={getBranchTreeUrl(github, true)}
+              >
+                Github repository
               </a>
             </li>
           </ul>
