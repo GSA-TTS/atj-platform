@@ -1,0 +1,88 @@
+name: Add Terraform CDK plan as comment on pull request
+
+on:
+  workflow_call:
+    inputs:
+      deploy-env:
+        required: true
+        type: string
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    env:
+      DEPLOY_ENV: ${{ inputs.deploy-env }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Read node version from `.nvmrc` file
+        id: nvmrc
+        shell: bash
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Install required node.js version
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ steps.nvmrc.outputs.NODE_VERSION }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        id: pnpm-install
+        with:
+          version: 8
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Initialize Terraform CDK configuration
+        shell: bash
+        working-directory: infra
+        run: |
+          pnpm cdktf get
+          pnpm build:tsc
+
+      - name: Install CloudFoundry CLI
+        run: |
+          curl -L "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v8&source=github" | sudo tar -zx --directory=/usr/local/bin
+          cf --version
+
+      - name: Configure CloudFoundry API endpoint
+        run: |
+          cf api https://api.fr.cloud.gov
+
+      - name: Synthesize Terraform configuration
+        working-directory: infra
+        run: |
+          DEPLOY_ENV=${DEPLOY_ENV} pnpm cdktf synth
+
+      - name: Get Terraform stack name
+        id: get_stack_name
+        working-directory: infra
+        run: |
+          DEPLOY_ENV=${DEPLOY_ENV} pnpm cdktf output --outputs-file outputs.json
+          echo "stack_name=$(jq -r 'keys[0]' outputs.json)" >> $GITHUB_OUTPUT
+
+      - name: Create Terraform plan
+        uses: dflook/terraform-plan@v1
+        with:
+          path: infra/cdktf.out/stacks/${{ steps.get_stack_name.outputs.stack_name }}
+          label: ${{ steps.get_stack_name.outputs.stack_name }}

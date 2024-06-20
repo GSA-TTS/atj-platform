@@ -11,7 +11,7 @@ The project dependencies within the workspace are:
 Additional documentation:
 
 - [Architectural Decision Records (ADRs)](./documents/adr/)
-- [Non-project contributions](./documents/value-created-log.md)
+- [Release process](./documents/release-process.md)
 
 ## Overview
 
