@@ -84,15 +84,6 @@ const SortableItem = ({
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
   const context = useFormManagerStore(state => state.context);
-  const { tabIndex, ...restAttributes } = attributes;
-
-  const handleItemClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    // Only focus if the target is the parent div
-    if (event.target === event.currentTarget) {
-      event.currentTarget.focus();
-    }
-  };
-
 
   return (
     <div
@@ -102,8 +93,6 @@ const SortableItem = ({
         transform: CSS.Transform.toString(transform),
         transition,
       }}
-      onMouseDown={handleItemClick}
-      tabIndex={tabIndex ?? 0}
     >
       <div className="grid-row draggable-list-item cursor-pointer">
         <div

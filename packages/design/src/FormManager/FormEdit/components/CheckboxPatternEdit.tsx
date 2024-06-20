@@ -11,7 +11,6 @@ import { PatternEditActions } from './common/PatternEditActions';
 import { PatternEditForm } from './common/PatternEditForm';
 import { usePatternEditFormContext } from './common/hooks';
 import { en as message } from '@atj/common/src/locales/en/app';
-import styles from '../formEditStyles.module.css';
 
 const CheckboxPatternEdit: PatternEditComponent<CheckboxProps> = ({
   focus,
