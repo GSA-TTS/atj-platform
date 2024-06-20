@@ -92,6 +92,6 @@ You can add the `--no-cache` flag to build from scratch.
 To run the container: 
 
 ```bash
-docker run -it playwright sh
+docker run -p 4321:4321 -it --rm playwright
 ```
 

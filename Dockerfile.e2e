@@ -2,19 +2,20 @@
 FROM mcr.microsoft.com/playwright:v1.44.1-jammy
 
 # set working directory
-WORKDIR /home/atj-platform
+WORKDIR /srv/apps/atj-platform
 
 # create app directory in the container
-RUN mkdir -p /home/atj-platform
+RUN mkdir -p /srv/apps/atj-platform
 
 # Install global deps
 RUN npm install -g pnpm
 RUN npx playwright install --with-deps
 
-#
+# Copy files from local to docker container
 COPY . .
 
 # Install project deps
-RUN pnpm install
+RUN pnpm install --filter=@atj/spotlight
+EXPOSE 4321
 
-CMD ["pnpm", "test"]
+CMD ["pnpm", "dev", "--filter=@atj/spotlight"]
