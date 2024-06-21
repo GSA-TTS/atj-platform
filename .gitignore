@@ -11,3 +11,7 @@ NOTES.md
 tsconfig.tsbuildinfo
 *storybook.log
 packages/form-service
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
