@@ -1,5 +1,5 @@
 # base image with Node.js and playwright preinstalled
-FROM mcr.microsoft.com/playwright:v1.44.1-jammy as base
+FROM mcr.microsoft.com/playwright:v1.43.1-jammy as base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
@@ -17,7 +17,7 @@ RUN npm install -g serve
 COPY . .
 
 # Install project deps
-RUN pnpm install --filter=@atj/spotlight
+RUN pnpm install --filter=@atj/spotlight --frozen-lockfile
 RUN pnpm build --filter=@atj/spotlight
 EXPOSE 9090
 
