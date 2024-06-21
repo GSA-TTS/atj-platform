@@ -92,6 +92,9 @@ You can add the `--no-cache` flag to build from scratch.
 To run the container: 
 
 ```bash
-docker run -p 80:80 -it --rm playwright
+docker run -p 9090:9090 -it --name e2e --rm playwright
 ```
 
+```bash
+docker exec -it e2e pnpm playwright test
+```
