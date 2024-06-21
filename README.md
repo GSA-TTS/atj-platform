@@ -98,3 +98,10 @@ docker run -p 9090:9090 -it --name e2e --rm playwright
 ```bash
 docker exec -it e2e pnpm playwright test
 ```
+
+### Debugging
+To debug and follow the flow of a test in a browser, you can run:
+
+```bash
+pnpm playwright test --ui-port=8080 --ui-host=0.0.0.0
+```
