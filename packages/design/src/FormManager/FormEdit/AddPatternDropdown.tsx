@@ -115,21 +115,25 @@ export const AddPatternDropdown = ({ uswdsRoot }: { uswdsRoot: string }) => {
                   <li
                     key={index}
                     className={`${styles.dropdownItem} padding-1 cursor-pointer margin-left-1`}
-                    onClick={() => {
-                      addPattern(patternType);
-                      setIsOpen(false);
-                    }}
                   >
-                    <img
-                      className="display-inline-block text-ttop margin-right-1"
-                      src={getIconPath(pattern.iconPath || 'block-icon.svg')}
-                      alt=""
-                      width="24"
-                      height="24"
-                    />
-                    <span className="display-inline-block text-ttop">
-                      {pattern.displayName}
-                    </span>
+                    <button
+                      className="bg-transparent padding-0 border-0 bg-white"
+                      onClick={() => {
+                        addPattern(patternType);
+                        setIsOpen(false);
+                      }}
+                    >
+                      <img
+                        className="display-inline-block text-ttop margin-right-1"
+                        src={getIconPath(pattern.iconPath || 'block-icon.svg')}
+                        alt=""
+                        width="24"
+                        height="24"
+                      />
+                      <span className="display-inline-block text-ttop">
+                        {pattern.displayName}
+                      </span>
+                    </button>
                   </li>
                 ))}
               </ul>
