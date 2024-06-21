@@ -117,7 +117,7 @@ export const AddPatternDropdown = ({ uswdsRoot }: { uswdsRoot: string }) => {
                     className={`${styles.dropdownItem} padding-1 cursor-pointer margin-left-1`}
                   >
                     <button
-                      className="bg-transparent padding-0 border-0 bg-white"
+                      className="bg-transparent padding-0 border-0"
                       onClick={() => {
                         addPattern(patternType);
                         setIsOpen(false);
