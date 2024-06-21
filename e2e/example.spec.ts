@@ -1,18 +1,10 @@
 import { test, expect } from '@playwright/test';
+import * as AppRoutes from '../packages/design/src/FormManager/routes';
+import { BASE_URL } from './constants';
 
-test('has title', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
-
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
-});
-
-test('get started link', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
-
-  // Click the get started link.
-  await page.getByRole('link', { name: 'Get started' }).click();
-
-  // Expects page to have a heading with the name of Installation.
-  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+test('Create form from scratch', async ({ page }) => {
+  const createSlug = new RegExp(`[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/${AppRoutes.Create.slug}$`, 'i');
+  await page.goto(`${BASE_URL}/${AppRoutes.GuidedFormCreation.getUrl()}`);
+  await page.getByRole('button', { name: 'Create New' }).click();
+  await expect(page).toHaveURL(createSlug);
 });
