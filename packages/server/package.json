@@ -7,6 +7,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro check && astro build",
+    "build:entry": "tsup --dts --format esm src/index.ts",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -17,12 +18,14 @@
     "@atj/design": "workspace:*",
     "@atj/forms": "workspace:*",
     "astro": "^4.10.3",
+    "express": "^4.19.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-error-boundary": "^4.0.12",
     "typescript": "^5.3.3"
   },
   "devDependencies": {
+    "@types/express": "^4.17.21",
     "@types/react": "^18.2.62"
   }
 }

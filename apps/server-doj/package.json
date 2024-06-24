@@ -11,8 +11,7 @@
     "dev": "tsup src/* --watch"
   },
   "dependencies": {
-    "@atj/server": "workspace:*",
-    "express": "^4.19.2"
+    "@atj/server": "workspace:*"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
