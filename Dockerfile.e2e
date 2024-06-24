@@ -1,24 +1,31 @@
 # base image with Node.js and playwright preinstalled
 FROM mcr.microsoft.com/playwright:v1.43.1-jammy as base
+
+FROM base as test
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
-
-# set working directory
+ENV NODE_ENV=test
 WORKDIR /srv/apps/atj-platform
-
-# create app directory in the container
-RUN mkdir -p /srv/apps/atj-platform
-
-# Install global deps
-RUN npm install -g serve
-
-# Copy files from local to docker container
 COPY . .
-
-# Install project deps
-RUN pnpm install --filter=@atj/spotlight --frozen-lockfile
-RUN pnpm build --filter=@atj/spotlight
 EXPOSE 9090
+RUN npm install -g serve
+RUN --mount=type=bind,src=./apps/spotlight,target=/srv/apps/atj/platform \
+    pnpm install --filter=@atj/spotlight --frozen-lockfile && \
+    pnpm build --filter=@atj/spotlight
+RUN serve ./apps/spotlight/dist -p 9090 & sleep 5 ; pnpm playwright test
 
+FROM base as serve
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+ENV NODE_ENV=test
+WORKDIR /srv/apps/atj-platform
+COPY . .
+EXPOSE 9090
+EXPOSE 9393
+RUN npm install -g serve
+RUN --mount=type=bind,src=./apps/spotlight,target=/srv/apps/atj/platform \
+    pnpm install --filter=@atj/spotlight --frozen-lockfile && \
+    pnpm build --filter=@atj/spotlight
 CMD ["serve", "./apps/spotlight/dist", "-p", "9090"]
