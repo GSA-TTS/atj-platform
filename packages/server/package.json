@@ -1,7 +1,8 @@
 {
-  "name": "doj-demo",
+  "name": "@atj/server",
   "type": "module",
   "version": "0.0.1",
+  "main": "dist/server/entry.mjs",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",

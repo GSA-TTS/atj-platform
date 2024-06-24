@@ -12,7 +12,7 @@ export default defineConfig({
   trailingSlash: 'never',
   base: addTrailingSlash(process.env.BASEURL || ''),
   adapter: node({
-    mode: 'standalone',
+    mode: 'middleware',
   }),
   integrations: [
     react({
