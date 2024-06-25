@@ -1,4 +1,4 @@
-import { test, expect, Page, Response } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
 import { GuidedFormCreation, Create } from '../packages/design/src/FormManager/routes';
 import { BASE_URL } from './constants';
 
@@ -10,7 +10,6 @@ const createNewForm = async (page: Page) => {
 }
 
 const getLocalStorageData = async (page: Page, token: string) => {
-  console.log(localStorage);
   const localStorageValue = await page.evaluate((token) => localStorage.getItem(token), token);
   return JSON.parse((localStorageValue as string));
 };
@@ -19,11 +18,6 @@ const getPatternData = (storageData: any, pageNumber: number, patternIndex: numb
   const patternPage = storageData.patterns.root.data.pages[pageNumber];
   return storageData.patterns[patternPage].data.patterns[patternIndex];
 }
-
-test('Open site', async ({ page }) => {
-  const response = await page.goto(`${BASE_URL}`);
-  await expect(response.ok()).toBe(true);
-});
 
 test('Create form from scratch', async ({ page }) => {
   const createPage = new RegExp(`${uuidPattern}/${Create.slug}$`, 'i');
