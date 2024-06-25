@@ -20,7 +20,7 @@ jobs:
     - name: Run Playwright tests
       run: pnpm exec playwright test
       env:
-        TEST_URL: ${{ secrets.BASE_URL }}/${{ github.ref_name }}
+        TEST_URL: ${{ secrets.BASE_URL }}/preview/${{ github.ref_name }}
     - uses: actions/upload-artifact@v4
       if: always()
       with:
