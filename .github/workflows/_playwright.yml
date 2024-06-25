@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: [ main, master ]
 jobs:
-  test:
+  end_to_end:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
@@ -17,10 +17,12 @@ jobs:
       run: npm install -g pnpm && pnpm install
     - name: Install Playwright Browsers
       run: pnpm exec playwright install --with-deps
+    - name: Echo URL
+      run: ECHO ${{ secrets.PULL_REQUEST_PREVIEW_URL }}/${{ github.head_ref }}
     - name: Run Playwright tests
       run: pnpm exec playwright test
       env:
-        E2E_ENDPOINT: ${{ secrets.BASE_URL }}/preview/${{ github.ref_name }}
+        E2E_ENDPOINT: ${{ secrets.PULL_REQUEST_PREVIEW_URL }}/${{ github.head_ref }}
     - uses: actions/upload-artifact@v4
       if: always()
       with:
