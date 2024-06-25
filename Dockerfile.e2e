@@ -6,6 +6,7 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 ENV NODE_ENV=test
+ENV E2E_ENDPOINT=http://localhost:9090
 WORKDIR /srv/apps/atj-platform
 COPY . .
 EXPOSE 9090
@@ -22,10 +23,12 @@ RUN corepack enable
 ENV NODE_ENV=test
 WORKDIR /srv/apps/atj-platform
 COPY . .
-EXPOSE 9090
-EXPOSE 9393
+ENV E2E_ENDPOINT=http://localhost:4321
+EXPOSE 4321
+EXPOSE 9292
+EXPOSE 9323
 RUN npm install -g serve
 RUN --mount=type=bind,src=./apps/spotlight,target=/srv/apps/atj/platform \
     pnpm install --filter=@atj/spotlight --frozen-lockfile && \
     pnpm build --filter=@atj/spotlight
-CMD ["serve", "./apps/spotlight/dist", "-p", "9090"]
+CMD ["pnpm", "dev"]

@@ -89,7 +89,7 @@ docker build --tag 'playwright' . -f Dockerfile.e2e
 
 To see the output of the tests and run everything when the docker container is built, run the command below:
 ```bash
-docker build --tag 'playwright' . -f Dockerfile.e2e --progress=plain --no-cache --target test .
+docker build --tag 'playwright' . -f Dockerfile.e2e --progress=plain --no-cache --target test
 ```
 You can add the `--no-cache` flag to build from scratch.
 
