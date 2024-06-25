@@ -96,7 +96,7 @@ You can add the `--no-cache` flag to build from scratch.
 To run the container (best for development): 
 
 ```bash
-docker run -p 9090:9090 -it --name e2e --rm playwright
+docker run -p 4321:4321 -it --name e2e --rm playwright
 ```
 
 ```bash
@@ -107,5 +107,5 @@ docker exec -it e2e pnpm playwright test
 To debug and follow the flow of a test in a browser, you can run:
 
 ```bash
-pnpm playwright test --ui-port=8080 --ui-host=0.0.0.0
+export E2E_ENDPOINT=http://localhost:4321; pnpm playwright test --ui-port=8080 --ui-host=0.0.0.0
 ```
