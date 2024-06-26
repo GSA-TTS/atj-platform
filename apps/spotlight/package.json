@@ -6,7 +6,7 @@
     "astro": "astro",
     "build": "astro build",
     "clean": "rm -rf dist",
-    "dev": "astro dev",
+    "dev": "astro dev --host",
     "preview": "astro preview"
   },
   "dependencies": {
