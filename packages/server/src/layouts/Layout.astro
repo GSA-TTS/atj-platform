@@ -1,18 +1,14 @@
 ---
 import '../styles.css';
 
-const locals = Astro.locals;
-
 import UsaBanner from '../components/UsaBanner.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { getAstroAppContext } from '../context';
 
 interface Props {
   title: string;
 }
 const { title } = Astro.props;
-const context = getAstroAppContext(Astro);
 ---
 
 <html lang="en">
@@ -59,10 +55,9 @@ const context = getAstroAppContext(Astro);
       <UsaBanner />
       <Header />
       <main id="main-content">
-        <div>Locals: <pre><code>{JSON.stringify(locals)}</code></pre></div>
         <slot />
       </main>
-      <Footer github={context.github} />
+      <Footer />
     </div>
   </body>
 </html>

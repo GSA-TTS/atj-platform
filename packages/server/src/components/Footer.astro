@@ -1,11 +1,8 @@
 ---
-import { type GithubRepository, getBranchTreeUrl } from '../lib/github';
+import { getBranchTreeUrl } from '../lib/github';
 
-type Props = {
-  github: GithubRepository;
-};
-
-const { github } = Astro.props;
+import { getAstroAppContext } from '../context';
+const { github } = getAstroAppContext(Astro);
 ---
 
 <footer class="usa-footer usa-footer--slim">
