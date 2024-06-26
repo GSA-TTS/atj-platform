@@ -1,31 +1,23 @@
-import { getAppContext } from './context';
-
-export const getFormUrl = (formId: string) => {
-  const context = getAppContext();
-  return `${context.baseUrl}forms#${formId}`;
+export const getFormUrl = (baseUrl: string, formId: string) => {
+  return `${baseUrl}forms#${formId}`;
 };
 
-export const getFormManagerUrlById = (formId: string) => {
-  const context = getAppContext();
-  return `${context.baseUrl}#/${formId}`;
+export const getFormManagerUrlById = (baseUrl: string, formId: string) => {
+  return `${baseUrl}#/${formId}`;
 };
 
-export const getManageUrl = () => {
-  const context = getAppContext();
-  return `${context.baseUrl}manage`;
+export const getManageUrl = (baseUrl: string) => {
+  return `${baseUrl}manage`;
 };
 
-export const getHomeUrl = () => {
-  const context = getAppContext();
-  return context.baseUrl;
+export const getHomeUrl = (baseUrl: string) => {
+  return baseUrl;
 };
 
-export const getFaviconUrl = () => {
-  const context = getAppContext();
-  return `${context.baseUrl}favicon.ico`;
+export const getFaviconUrl = (baseUrl: string) => {
+  return `${baseUrl}favicon.ico`;
 };
 
-export const getStorybookUrl = () => {
-  const context = getAppContext();
-  return `${context.baseUrl}design/index.html`;
+export const getStorybookUrl = (baseUrl: string) => {
+  return `${baseUrl}design/index.html`;
 };

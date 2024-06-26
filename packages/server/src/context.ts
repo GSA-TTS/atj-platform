@@ -1,4 +1,4 @@
-import { FormConfig } from '@atj/forms';
+import { type FormConfig } from '@atj/forms';
 import { defaultFormConfig } from '@atj/forms';
 import { service } from '@atj/forms';
 
@@ -9,32 +9,24 @@ export type AppContext = {
   formConfig: FormConfig;
   formService: service.FormService;
   github: GithubRepository;
+  title: string;
   uswdsRoot: `${string}/`;
 };
 
-let _context: AppContext | null = null;
-
-export const getAppContext = (): AppContext => {
-  if (_context === null) {
-    _context = createAppContext(import.meta.env);
+export const getAstroAppContext = (Astro: any): AppContext => {
+  if (!Astro.locals.ctx) {
+    Astro.locals.ctx = createAstroAppContext(Astro, import.meta.env);
   }
-  return _context;
+  return Astro.locals.ctx;
 };
 
-const createAppContext = (env: any): AppContext => {
+const createAstroAppContext = (Astro: any, env: any): AppContext => {
   return {
     baseUrl: env.BASE_URL,
     formConfig: defaultFormConfig,
-    formService: createAppFormService(),
+    formService: service.createTestFormService(),
     github: env.GITHUB,
+    title: Astro.locals.serverOptions.title,
     uswdsRoot: `${env.BASE_URL}uswds/`,
   };
-};
-
-const createAppFormService = () => {
-  if (globalThis.window) {
-    return service.createBrowserFormService();
-  } else {
-    return service.createTestFormService();
-  }
 };

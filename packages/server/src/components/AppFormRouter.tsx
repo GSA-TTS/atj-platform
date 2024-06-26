@@ -1,18 +1,15 @@
 import React from 'react';
 
-import { FormRouter, defaultPatternComponents } from '@atj/design';
-import { getAppContext } from '../context';
+import { FormRouter } from '@atj/design';
+import { service } from '@atj/forms';
 
-export default function AppFormRouter() {
-  const ctx = getAppContext();
-  return (
-    <FormRouter
-      context={{
-        config: ctx.formConfig,
-        components: defaultPatternComponents,
-        uswdsRoot: ctx.uswdsRoot,
-      }}
-      formService={ctx.formService}
-    />
-  );
+import { type AppContext } from '../context';
+
+export default function AppFormRouter({
+  uswdsRoot,
+}: {
+  uswdsRoot: AppContext['uswdsRoot'];
+}) {
+  const formService = service.createBrowserFormService();
+  return <FormRouter uswdsRoot={uswdsRoot} formService={formService} />;
 }

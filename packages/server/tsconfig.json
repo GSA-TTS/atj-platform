@@ -7,6 +7,6 @@
     "jsx": "react",
     "resolveJsonModule": true
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["src/components/**"]
+  "include": ["src/**/*.ts", "src/*.ts"],
+  "exclude": [".astro", "dist", "node_modules", "src/components/**"]
 }

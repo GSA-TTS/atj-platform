@@ -2,7 +2,7 @@
   "name": "@atj/server",
   "type": "module",
   "version": "0.0.1",
-  "main": "dist/server/entry.mjs",
+  "main": "dist/server/index.js",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",

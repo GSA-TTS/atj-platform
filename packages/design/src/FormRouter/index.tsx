@@ -1,20 +1,29 @@
 import React from 'react';
 import { useParams, HashRouter, Route, Routes } from 'react-router-dom';
 
-import { service } from '@atj/forms';
+import { defaultFormConfig, service } from '@atj/forms';
 import { createFormSession } from '@atj/forms';
 
-import Form, { type FormUIContext } from '../Form';
 import { useQueryString } from './hooks';
+import { defaultPatternComponents } from '..';
+import Form, { FormUIContext } from '../Form';
 
 // Wrapper around Form that includes a client-side router for loading forms.
 export default function FormRouter({
-  context,
+  uswdsRoot,
   formService,
 }: {
-  context: FormUIContext;
+  uswdsRoot: `${string}/`;
   formService: service.FormService;
 }) {
+  // For now, hardcode the pattern configuration.
+  // If these are user-configurable, we'll likely need to, in some manner,
+  // inject a compiled bundle into the application.
+  const context: FormUIContext = {
+    config: defaultFormConfig,
+    components: defaultPatternComponents,
+    uswdsRoot,
+  };
   return (
     <HashRouter>
       <Routes>

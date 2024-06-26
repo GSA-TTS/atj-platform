@@ -1,8 +1,11 @@
 ---
 import AppFormManager from '../../components/AppFormManager';
 import Layout from '../../layouts/Layout.astro';
+import { getAstroAppContext } from '../../context';
+
+const ctx = getAstroAppContext(Astro);
 ---
 
 <Layout title="10x Access to Justice Spotlight">
-  <AppFormManager client:only />
+  <AppFormManager client:only="react" ctx={ctx} />
 </Layout>

@@ -1,27 +1,26 @@
 import React from 'react';
 
-import {
-  FormManager,
-  defaultPatternComponents,
-  defaultPatternEditComponents,
-} from '@atj/design';
+import { FormManager } from '@atj/design';
+import { service } from '@atj/forms';
 
-import { getAppContext } from '../context';
+import { type AppContext } from '../context';
 import { getFormManagerUrlById, getFormUrl } from '../routes';
 
-export default function () {
-  const ctx = getAppContext();
+type AppFormManagerContext = {
+  baseUrl: AppContext['baseUrl'];
+  uswdsRoot: AppContext['uswdsRoot'];
+};
+
+export default function ({ ctx }: { ctx: AppFormManagerContext }) {
+  const formService = service.createBrowserFormService();
   return (
     <FormManager
       context={{
         baseUrl: ctx.baseUrl,
-        components: defaultPatternComponents,
-        config: ctx.formConfig,
-        editComponents: defaultPatternEditComponents,
-        formService: ctx.formService,
+        formService: formService,
         uswdsRoot: ctx.uswdsRoot,
-        urlForForm: getFormUrl,
-        urlForFormManager: getFormManagerUrlById,
+        urlForForm: formId => getFormUrl(ctx.baseUrl, formId),
+        urlForFormManager: formId => getFormManagerUrlById(ctx.baseUrl, formId),
       }}
     />
   );
