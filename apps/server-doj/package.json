@@ -8,14 +8,16 @@
   "scripts": {
     "start": "node dist/index.js",
     "build": "tsup src/* --format esm",
-    "dev": "tsup src/* --watch"
+    "dev": "tsup src/* --watch",
+    "test": "vitest run --coverage"
   },
   "dependencies": {
     "@atj/server": "workspace:*"
   },
   "devDependencies": {
-    "@types/express": "^4.17.21",
     "@types/node": "^20.14.8",
+    "@types/supertest": "^6.0.2",
+    "supertest": "^7.0.0",
     "ts-node": "^10.9.2"
   }
 }
