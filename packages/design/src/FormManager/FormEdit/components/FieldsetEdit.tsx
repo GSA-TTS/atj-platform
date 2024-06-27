@@ -12,6 +12,7 @@ import { PatternEditForm } from './common/PatternEditForm';
 import { usePatternEditFormContext } from './common/hooks';
 import { FieldsetPattern } from '@atj/forms/src/patterns/fieldset';
 import classNames from 'classnames';
+import styles from '../formEditStyles.module.css';
 
 const FieldsetEdit: PatternEditComponent<FieldsetProps> = ({
   focus,
@@ -39,8 +40,8 @@ const FieldsetPreview: PatternComponent<FieldsetProps> = props => {
     <>
       <Fieldset {...(props as FieldsetProps)}>
         {pattern && pattern.data.patterns.length === 0 && (
-          <div className="usa-alert usa-alert--warning usa-alert--no-icon margin-bottom-3">
-            <div className="usa-alert__body">
+          <div className={`${styles.usaAlert} usa-alert usa-alert--warning usa-alert--no-icon margin-left-3 margin-right-3 margin-bottom-3`}>
+            <div className={`${styles.usaAlertBody} usa-alert__body`}>
               <p className="usa-alert__text">
                 <span className="alert-text display-inline-block text-top margin-right-2">
                   Empty sections will not display.
@@ -100,6 +101,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
             defaultValue={pattern.data.legend}
             {...register('legend')}
             type="text"
+            autoFocus
           ></input>
         </label>
       </div>

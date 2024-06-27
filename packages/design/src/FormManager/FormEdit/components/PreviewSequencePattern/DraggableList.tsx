@@ -87,16 +87,16 @@ const SortableItem = ({
 
   return (
     <div
-      className={`${styles.draggableListWrapper} draggable-list-item-wrapper bg-white margin-bottom-3 padding-3`}
+      className={`${styles.draggableListWrapper} draggable-list-item-wrapper bg-white margin-bottom-3`}
       ref={setNodeRef}
       style={{
         transform: CSS.Transform.toString(transform),
         transition,
       }}
     >
-      <div className="grid-row grid-gap draggable-list-item cursor-pointer">
+      <div className="grid-row draggable-list-item cursor-pointer">
         <div
-          className="grid-col-12 width-full draggable-list-button cursor-grab margin-top-2 margin-bottom-2"
+          className="grid-col-12 width-full draggable-list-button cursor-grab padding-2"
           {...listeners}
           {...attributes}
         >
