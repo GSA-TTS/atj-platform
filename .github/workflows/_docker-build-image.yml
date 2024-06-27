@@ -6,14 +6,15 @@ on:
       app-name:
         required: true
         type: string
+      tag-name:
+        required: true
+        type: string
       org-name:
         type: string
         default: gsa-tts
       repo-name:
         type: string
         default: ${{ github.event.repository.name }}
-      tag-name:
-        type: string
 
 env:
   TAG_NAME: ${{ inputs.tag-name }}
