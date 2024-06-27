@@ -1,9 +1,4 @@
 ---
-import {
-  defaultPatternComponents,
-  defaultPatternEditComponents,
-} from '@atj/design';
-
 import AppFormManager from '../components/AppFormManager';
 import { getAstroAppContext } from '../context';
 import Layout from '../layouts/Layout.astro';
@@ -11,6 +6,6 @@ import Layout from '../layouts/Layout.astro';
 const ctx = getAstroAppContext(Astro);
 ---
 
-<Layout title="10x Access to Justice Spotlight">
+<Layout title="10x Access to Justice">
   <AppFormManager client:only="react" ctx={ctx} />
 </Layout>
