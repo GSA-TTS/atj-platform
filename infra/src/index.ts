@@ -12,7 +12,7 @@ switch (deployEnv) {
     import('./spaces/staging');
     break;
   default:
-    throw new Error('Please specify a valid environment');
+    throw new Error(`Please specify a valid environment (got: "${deployEnv}")`);
 }
 
 app.synth();
