@@ -14,6 +14,7 @@ import shortanswerIcon from './images/shortanswer-icon.svg';
 import singleselectIcon from './images/singleselect-icon.svg';
 import templateIcon from './images/template-icon.svg';
 
+// eslint-disable-next-line  @typescript-eslint/no-explicit-any
 const icons: Record<string, string | any> = {
   'block-icon.svg': blockIcon,
   'checkbox-icon.svg': checkboxIcon,
