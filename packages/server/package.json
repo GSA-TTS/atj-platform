@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build",
+    "build": "astro check && astro build && pnpm build:entry",
     "build:entry": "tsup --dts --format esm src/index.ts",
     "preview": "astro preview",
     "astro": "astro"

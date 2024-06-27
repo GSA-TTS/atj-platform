@@ -14,7 +14,6 @@ jobs:
     secrets: inherit
     with:
       app-name: server-doj
-      #tag-name: ${{ github.ref_name }}
       tag-name: main
 
   build-image-kansas:
@@ -22,7 +21,6 @@ jobs:
     secrets: inherit
     with:
       app-name: server-kansas
-      #tag-name: ${{ github.ref_name }}
       tag-name: main
 
   deploy:
@@ -30,5 +28,4 @@ jobs:
     uses: ./.github/workflows/_terraform-apply.yml
     secrets: inherit
     with:
-      #deploy-env: ${{ github.ref_name }}
       deploy-env: main
