@@ -25,7 +25,9 @@ const ParagraphPatternEdit: PatternEditComponent<ParagraphProps> = ({
           editComponent={<EditComponent patternId={focus.pattern.id} />}
         ></PatternEditForm>
       ) : (
-        <Paragraph {...previewProps} />
+        <div className="padding-left-3 padding-bottom-3 padding-right-3">
+           <Paragraph {...previewProps} />
+        </div>
       )}
     </>
   );
@@ -62,6 +64,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           rows={4}
           {...register('text')}
           defaultValue={pattern.data.text}
+          autoFocus
         ></textarea>
       </div>
       <PatternEditActions />

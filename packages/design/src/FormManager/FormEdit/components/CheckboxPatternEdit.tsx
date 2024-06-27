@@ -24,7 +24,9 @@ const CheckboxPatternEdit: PatternEditComponent<CheckboxProps> = ({
           editComponent={<CheckboxEditComponent pattern={focus.pattern} />}
         ></PatternEditForm>
       ) : (
-        <Checkbox {...previewProps} />
+        <div className="padding-left-3 padding-bottom-3 padding-right-3">
+           <Checkbox {...previewProps} />
+        </div>
       )}
     </>
   );
@@ -37,7 +39,7 @@ const CheckboxEditComponent = ({ pattern }: { pattern: CheckboxPattern }) => {
   const label = getFieldState('label');
 
   return (
-    <div className="grid-row grid-gap">
+    <div className="grid-row grid-gap padding-3">
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
         <label
           className={classnames('usa-label', {
@@ -58,6 +60,7 @@ const CheckboxEditComponent = ({ pattern }: { pattern: CheckboxPattern }) => {
           defaultValue={pattern.data.label}
           {...register('label')}
           type="text"
+          autoFocus
         ></input>
       </div>
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">

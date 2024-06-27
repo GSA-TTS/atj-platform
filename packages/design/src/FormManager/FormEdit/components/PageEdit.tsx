@@ -14,6 +14,13 @@ import { PatternPreviewSequence } from './PreviewSequencePattern';
 import styles from '../formEditStyles.module.css';
 
 export const PageEdit: PatternEditComponent<PageProps> = props => {
+  const handleParentClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (event.target === event.currentTarget) {
+      // Trigger focus or any other action you want when the parent div is clicked
+      event.currentTarget.focus();
+    }
+  };
+
   return (
     <>
       {props.focus ? (
@@ -24,6 +31,8 @@ export const PageEdit: PatternEditComponent<PageProps> = props => {
       ) : (
         <div
           className={`${styles.titleArea} display-flex flex-justify flex-align-center position-relative margin-bottom-205`}
+          onClick={handleParentClick}
+          tabIndex={0} // Make the div focusable
         >
           <span
             className={`${styles.titleText} padding-right-1 text-uppercase text-ls-1 text-base-darkest bg-primary-lighter`}
@@ -81,6 +90,7 @@ const PageEditComponent = ({ pattern }: { pattern: PagePattern }) => {
           id={fieldId('title')}
           defaultValue={pattern.data.title}
           {...register('title')}
+          autoFocus
         ></input>
       </div>
       <div className="grid-col-12">
