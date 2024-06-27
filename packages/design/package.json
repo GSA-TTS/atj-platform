@@ -17,7 +17,7 @@
     "dev:styles": "gulp watch",
     "lint": "eslint --ext ts,tsx --report-unused-disable-directives --max-warnings 0 src",
     "test:url": "test-storybook --url http://127.0.0.1:9009 --config-dir .storybook",
-    "test:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"pnpm build:storybook --quiet && npx http-server storybook/public --port 9009 --silent\" \"wait-on tcp:127.0.0.1:9009 && pnpm test:url --maxWorkers=2\""
+    "test:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"pnpm build:storybook --quiet && pnpm http-server storybook-static --port 9009 --silent\" \"wait-on tcp:127.0.0.1:9009 && pnpm test:url --maxWorkers=2\""
   },
   "files": [
     "dist/**/*"
