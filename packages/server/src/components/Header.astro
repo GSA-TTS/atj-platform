@@ -2,7 +2,10 @@
 import closeSvg from '@atj/design/static/uswds/img/usa-icons/close.svg';
 import logoSvg from '@atj/design/images/logo.svg';
 
+import { getAstroAppContext } from '../context';
 import * as routes from '../routes';
+
+const { baseUrl, title } = getAstroAppContext(Astro);
 
 const getNavLinkClasses = (url: string) => {
   if (url === Astro.url.pathname) {
@@ -25,9 +28,9 @@ const getNavLinkClasses = (url: string) => {
     <div class="usa-navbar">
       <div class="usa-logo">
         <em class="usa-logo__text">
-          <a href={routes.getHomeUrl()} title="10x Access to Justice">
+          <a href={routes.getHomeUrl(baseUrl)} title="10x Access to Justice">
             <img src={logoSvg.src} role="img" alt="10x Logo" />
-            <span class="text-white">DOJ A2J Forms</span>
+            <span class="text-white">{title}</span>
           </a>
         </em>
       </div>
@@ -42,15 +45,15 @@ const getNavLinkClasses = (url: string) => {
       <ul class="usa-nav__primary usa-accordion">
         <li class="usa-nav__primary-item">
           <a
-            href={routes.getHomeUrl()}
-            class={getNavLinkClasses(routes.getHomeUrl())}
+            href={routes.getHomeUrl(baseUrl)}
+            class={getNavLinkClasses(routes.getHomeUrl(baseUrl))}
             ><span>My Forms</span></a
           >
         </li>
         <li class="usa-nav__primary-item">
           <a
-            href={routes.getStorybookUrl()}
-            class={getNavLinkClasses(routes.getStorybookUrl())}
+            href={routes.getStorybookUrl(baseUrl)}
+            class={getNavLinkClasses(routes.getStorybookUrl(baseUrl))}
             ><span>Storybook</span></a
           >
         </li>
