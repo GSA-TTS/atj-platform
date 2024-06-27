@@ -13,6 +13,6 @@ describe('Kansas State Courts Form Service', () => {
   test('renders the home page', async () => {
     const response = await request(app).get('/');
     expect(response.ok).toBe(true);
-    expect(response.text).toMatch(/Kansas State Courts Form Service/);
+    expect(response.text).toMatch(/KS Courts Form Service/);
   });
 });
