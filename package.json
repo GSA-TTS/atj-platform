@@ -8,7 +8,7 @@
   "scripts": {
     "build": "turbo run build --filter=!infra",
     "clean": "turbo run clean",
-    "dev": "turbo run dev --concurrency 12",
+    "dev": "turbo run dev --concurrency 14",
     "format": "prettier --write \"packages/*/src/**/*.{js,jsx,ts,tsx,scss}\"",
     "lint": "turbo run lint",
     "pages": "rm -rf node_modules && npm i -g pnpm turbo && pnpm i && pnpm build && ln -sf ./apps/spotlight/dist _site",
