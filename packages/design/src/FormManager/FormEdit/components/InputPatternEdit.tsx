@@ -26,7 +26,7 @@ const InputPatternEdit: PatternEditComponent<TextInputProps> = ({
         ></PatternEditForm>
       ) : (
         <div className="padding-left-3 padding-bottom-3 padding-right-3">
-           <TextInput {...previewProps} />
+          <TextInput {...previewProps} />
         </div>
       )}
     </>

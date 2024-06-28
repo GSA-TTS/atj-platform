@@ -14,7 +14,9 @@ import { PatternPreviewSequence } from './PreviewSequencePattern';
 import styles from '../formEditStyles.module.css';
 
 export const PageEdit: PatternEditComponent<PageProps> = props => {
-  const handleParentClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleParentClick = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
     if (event.target === event.currentTarget) {
       // Trigger focus or any other action you want when the parent div is clicked
       event.currentTarget.focus();

@@ -41,7 +41,7 @@ export const DraggableList: React.FC<DraggableListProps> = ({
 
   return (
     <div
-      onFocus={(event) => {
+      onFocus={event => {
         // Stop onFocus events from bubbling up to parent elements.
         event.stopPropagation();
       }}
@@ -49,10 +49,10 @@ export const DraggableList: React.FC<DraggableListProps> = ({
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
-        onDragStart={(event) => {
+        onDragStart={event => {
           setActiveId(event.active.id);
         }}
-        onDragEnd={(event) => {
+        onDragEnd={event => {
           const { active, over } = event;
           setActiveId(null);
 
@@ -98,12 +98,8 @@ export const DraggableList: React.FC<DraggableListProps> = ({
   );
 };
 
-const SortableItemOverlay = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-  const context = useFormManagerStore((state) => state.context);
+const SortableItemOverlay = ({ children }: { children: React.ReactNode }) => {
+  const context = useFormManagerStore(state => state.context);
 
   return (
     <div
@@ -148,7 +144,7 @@ const SortableItem = ({
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
-  const context = useFormManagerStore((state) => state.context);
+  const context = useFormManagerStore(state => state.context);
 
   return (
     <div

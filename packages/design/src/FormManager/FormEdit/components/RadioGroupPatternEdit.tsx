@@ -25,9 +25,11 @@ const RadioGroupPatternEdit: PatternEditComponent<RadioGroupProps> = ({
           editComponent={<EditComponent pattern={focus.pattern} />}
         ></PatternEditForm>
       ) : (
-        <div className={`${styles.radioFormPattern} padding-left-3 padding-bottom-3 padding-right-3`}>
-           <RadioGroup {...previewProps} />
-        </div>   
+        <div
+          className={`${styles.radioFormPattern} padding-left-3 padding-bottom-3 padding-right-3`}
+        >
+          <RadioGroup {...previewProps} />
+        </div>
       )}
     </>
   );

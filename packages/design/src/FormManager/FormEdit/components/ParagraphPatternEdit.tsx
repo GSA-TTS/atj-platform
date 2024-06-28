@@ -26,7 +26,7 @@ const ParagraphPatternEdit: PatternEditComponent<ParagraphProps> = ({
         ></PatternEditForm>
       ) : (
         <div className="padding-left-3 padding-bottom-3 padding-right-3">
-           <Paragraph {...previewProps} />
+          <Paragraph {...previewProps} />
         </div>
       )}
     </>
