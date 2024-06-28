@@ -1,0 +1,12 @@
+{
+  "name": "end-to-end-tests",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "tsc -w",
+    "test:e2e": "export E2E_ENDPOINT=http://localhost:4321; pnpm playwright test --ui-port=8080 --ui-host=0.0.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@playwright/test": "^1.43.1"
+  }
+}

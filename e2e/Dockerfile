@@ -13,9 +13,10 @@ ENV E2E_ENDPOINT=http://localhost:9090
 RUN npm install -g serve
 EXPOSE 9090
 RUN pnpm build --filter=@atj/spotlight
-RUN serve ./apps/spotlight/dist -p 9090 & sleep 5 ; pnpm playwright test
+WORKDIR ./e2e
+RUN serve ../apps/spotlight/dist -p 9090 & sleep 5; pnpm playwright test;
 
 FROM base as serve
 ENV E2E_ENDPOINT=http://localhost:4321
 EXPOSE 4321 9292 9323
-CMD ["pnpm", "dev", "--filter=@atj/spotlight"]
+CMD ["pnpm", "dev", "--filter=@atj/spotlight", "--", "--host"]
