@@ -11,7 +11,7 @@ WORKDIR /srv/apps/atj-platform
 COPY . .
 EXPOSE 9090
 RUN npm install -g serve
-RUN --mount=type=bind,src=./apps/spotlight,target=/srv/apps/atj/platform \
+RUN --mount=type=bind,src=../apps/spotlight,target=/srv/apps/atj/platform \
     pnpm install --filter=@atj/spotlight --frozen-lockfile && \
     pnpm build --filter=@atj/spotlight
 RUN serve ./apps/spotlight/dist -p 9090 & sleep 5 ; pnpm playwright test
@@ -28,7 +28,7 @@ EXPOSE 4321
 EXPOSE 9292
 EXPOSE 9323
 RUN npm install -g serve
-RUN --mount=type=bind,src=./apps/spotlight,target=/srv/apps/atj/platform \
+RUN --mount=type=bind,src=../apps/spotlight,target=/srv/apps/atj/platform \
     pnpm install --filter=@atj/spotlight --frozen-lockfile && \
     pnpm build --filter=@atj/spotlight
 CMD ["pnpm", "dev"]

@@ -1,5 +1,5 @@
 import { test, expect, Page } from '@playwright/test';
-import { GuidedFormCreation, Create } from '../packages/design/src/FormManager/routes';
+import { GuidedFormCreation, Create } from '../../packages/design/src/FormManager/routes';
 import { BASE_URL } from './constants';
 import html from 'astro/dist/vite-plugin-html';
 
