@@ -1,34 +1,21 @@
 # base image with Node.js and playwright preinstalled
 FROM mcr.microsoft.com/playwright:v1.43.1-jammy as base
-
-FROM base as test
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
 ENV NODE_ENV=test
-ENV E2E_ENDPOINT=http://localhost:9090
 WORKDIR /srv/apps/atj-platform
 COPY . .
-EXPOSE 9090
+RUN corepack enable
+RUN pnpm install --filter=@atj/spotlight --frozen-lockfile
+
+FROM base as test
+ENV E2E_ENDPOINT=http://localhost:9090
 RUN npm install -g serve
-RUN --mount=type=bind,src=../apps/spotlight,target=/srv/apps/atj/platform \
-    pnpm install --filter=@atj/spotlight --frozen-lockfile && \
-    pnpm build --filter=@atj/spotlight
+EXPOSE 9090
+RUN pnpm build --filter=@atj/spotlight
 RUN serve ./apps/spotlight/dist -p 9090 & sleep 5 ; pnpm playwright test
 
 FROM base as serve
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
-ENV NODE_ENV=test
-WORKDIR /srv/apps/atj-platform
-COPY . .
 ENV E2E_ENDPOINT=http://localhost:4321
-EXPOSE 4321
-EXPOSE 9292
-EXPOSE 9323
-RUN npm install -g serve
-RUN --mount=type=bind,src=../apps/spotlight,target=/srv/apps/atj/platform \
-    pnpm install --filter=@atj/spotlight --frozen-lockfile && \
-    pnpm build --filter=@atj/spotlight
-CMD ["pnpm", "dev"]
+EXPOSE 4321 9292 9323
+CMD ["pnpm", "dev", "--filter=@atj/spotlight"]
