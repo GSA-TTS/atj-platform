@@ -1,4 +1,4 @@
-import React, { Children } from 'react';
+import React, { Children, useState } from 'react';
 import {
   DndContext,
   closestCenter,
@@ -7,6 +7,7 @@ import {
   useSensor,
   useSensors,
   UniqueIdentifier,
+  DragOverlay,
 } from '@dnd-kit/core';
 import {
   arrayMove,
@@ -24,6 +25,7 @@ type DraggableListProps = React.PropsWithChildren<{
   order: UniqueIdentifier[];
   updateOrder: (order: UniqueIdentifier[]) => void;
 }>;
+
 export const DraggableList: React.FC<DraggableListProps> = ({
   children,
   order,
@@ -35,10 +37,11 @@ export const DraggableList: React.FC<DraggableListProps> = ({
   );
 
   const arrayChildren = Children.toArray(children);
+  const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
 
   return (
     <div
-      onFocus={event => {
+      onFocus={(event) => {
         // Stop onFocus events from bubbling up to parent elements.
         event.stopPropagation();
       }}
@@ -46,8 +49,13 @@ export const DraggableList: React.FC<DraggableListProps> = ({
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
-        onDragEnd={event => {
+        onDragStart={(event) => {
+          setActiveId(event.active.id);
+        }}
+        onDragEnd={(event) => {
           const { active, over } = event;
+          setActiveId(null);
+
           if (over === null) {
             return;
           }
@@ -58,18 +66,71 @@ export const DraggableList: React.FC<DraggableListProps> = ({
             updateOrder(newOrder);
           }
         }}
+        onDragCancel={() => {
+          setActiveId(null);
+        }}
       >
         <SortableContext items={order} strategy={verticalListSortingStrategy}>
           {arrayChildren.map((child, index) => {
             const patternId = order[index];
             return (
-              <SortableItem key={patternId} id={patternId}>
+              <SortableItem
+                key={patternId}
+                id={patternId}
+                isActive={patternId === activeId}
+                isOver={patternId === activeId}
+              >
                 {child}
               </SortableItem>
             );
           })}
         </SortableContext>
+
+        <DragOverlay>
+          {activeId ? (
+            <SortableItemOverlay>
+              {arrayChildren[order.indexOf(activeId)]}
+            </SortableItemOverlay>
+          ) : null}
+        </DragOverlay>
       </DndContext>
+    </div>
+  );
+};
+
+const SortableItemOverlay = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const context = useFormManagerStore((state) => state.context);
+
+  return (
+    <div
+      className={`${styles.draggableListWrapper} draggable-list-item-wrapper bg-white margin-bottom-3`}
+      style={{
+        boxShadow: '0 16px 24px rgba(0, 0, 0, 0.4)',
+        cursor: 'grabbing',
+      }}
+    >
+      <div className="grid-row draggable-list-item">
+        <div
+          className="grid-col-12 width-full draggable-list-button padding-2"
+          style={{ outline: '.25rem solid #783cb9' }}
+        >
+          <svg
+            className="usa-icon margin-x-auto display-block"
+            aria-hidden="true"
+            focusable="false"
+            role="img"
+          >
+            <use
+              xlinkHref={`${context.uswdsRoot}img/sprite.svg#drag_handle`}
+            ></use>
+          </svg>
+        </div>
+        <div className="grid-col-12 grid-col">{children}</div>
+      </div>
     </div>
   );
 };
@@ -77,21 +138,27 @@ export const DraggableList: React.FC<DraggableListProps> = ({
 const SortableItem = ({
   id,
   children,
+  isActive,
+  isOver,
 }: {
   id: UniqueIdentifier;
   children: React.ReactNode;
+  isActive: boolean;
+  isOver: boolean;
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
-  const context = useFormManagerStore(state => state.context);
+  const context = useFormManagerStore((state) => state.context);
 
   return (
     <div
       className={`${styles.draggableListWrapper} draggable-list-item-wrapper bg-white margin-bottom-3`}
       ref={setNodeRef}
       style={{
-        transform: CSS.Transform.toString(transform),
+        transform: CSS.Translate.toString(transform),
         transition,
+        opacity: isOver ? 0.4 : 1,
+        border: isOver ? '1px dashed #8168B3' : 'none',
       }}
     >
       <div className="grid-row draggable-list-item cursor-pointer">
@@ -99,6 +166,7 @@ const SortableItem = ({
           className="grid-col-12 width-full draggable-list-button cursor-grab padding-2"
           {...listeners}
           {...attributes}
+          style={{ outline: isActive ? 'none' : '' }}
         >
           <svg
             className="usa-icon margin-x-auto display-block"
