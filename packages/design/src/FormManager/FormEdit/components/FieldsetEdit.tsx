@@ -1,7 +1,10 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import { type PatternId, type FieldsetProps } from '@atj/forms';
+import { FieldsetPattern } from '@atj/forms/src/patterns/fieldset';
 
+import { AddPatternDropdown } from '../AddElementMenu';
 import { PatternComponent } from '../../../Form';
 import Fieldset from '../../../Form/components/Fieldset';
 import { useFormManagerStore } from '../../store';
@@ -10,8 +13,6 @@ import { PatternEditComponent } from '../types';
 import { PatternEditActions } from './common/PatternEditActions';
 import { PatternEditForm } from './common/PatternEditForm';
 import { usePatternEditFormContext } from './common/hooks';
-import { FieldsetPattern } from '@atj/forms/src/patterns/fieldset';
-import classNames from 'classnames';
 import styles from '../formEditStyles.module.css';
 
 const FieldsetEdit: PatternEditComponent<FieldsetProps> = ({
@@ -33,6 +34,9 @@ const FieldsetEdit: PatternEditComponent<FieldsetProps> = ({
 };
 
 const FieldsetPreview: PatternComponent<FieldsetProps> = props => {
+  const { addPatternToFieldset } = useFormManagerStore(state => ({
+    addPatternToFieldset: state.addPatternToFieldset,
+  }));
   const pattern = useFormManagerStore(
     state => state.session.form.patterns[props._patternId]
   );
@@ -48,16 +52,17 @@ const FieldsetPreview: PatternComponent<FieldsetProps> = props => {
                 <span className="alert-text display-inline-block text-top margin-right-2">
                   Empty sections will not display.
                 </span>
-                <span className="action-text add-question display-inline-block margin-right-2">
-                  <a className="usa-link" href="#">
-                    Add question
-                  </a>
-                </span>
-                <span className="action-text remove-section display-inline-block text-top margin-right-2">
-                  <a className="usa-link" href="#">
-                    Remove section
-                  </a>
-                </span>
+                <div
+                  className="margin-right-2 bg-none"
+                  data-pattern-edit-control="true"
+                >
+                  <AddPatternDropdown
+                    title="Add question"
+                    patternSelected={patternType =>
+                      addPatternToFieldset(patternType, props._patternId)
+                    }
+                  />
+                </div>
               </p>
             </div>
           </div>
