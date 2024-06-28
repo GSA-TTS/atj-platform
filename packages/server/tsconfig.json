@@ -1,0 +1,12 @@
+{
+  // For reference, the base Astro tsconfig:
+  // https://github.com/withastro/astro/blob/main/packages/astro/tsconfigs/base.json
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "jsx": "react",
+    "resolveJsonModule": true
+  },
+  "include": ["src/**/*.ts", "src/*.ts"],
+  "exclude": [".astro", "dist", "node_modules", "src/components/**"]
+}

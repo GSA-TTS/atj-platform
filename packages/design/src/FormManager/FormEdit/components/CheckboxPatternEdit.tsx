@@ -25,7 +25,7 @@ const CheckboxPatternEdit: PatternEditComponent<CheckboxProps> = ({
         ></PatternEditForm>
       ) : (
         <div className="padding-left-3 padding-bottom-3 padding-right-3">
-           <Checkbox {...previewProps} />
+          <Checkbox {...previewProps} />
         </div>
       )}
     </>

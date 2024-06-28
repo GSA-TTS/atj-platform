@@ -1,0 +1,11 @@
+---
+import AppFormRouter from '../../components/AppFormRouter';
+import ContentLayout from '../../layouts/ContentLayout.astro';
+import { getAstroAppContext } from '../../context';
+
+const ctx = getAstroAppContext(Astro);
+---
+
+<ContentLayout title="10x Access to Justice">
+  <AppFormRouter client:only="react" uswdsRoot={ctx.uswdsRoot} />
+</ContentLayout>

@@ -12,17 +12,19 @@ jobs:
     uses: ./.github/workflows/_docker-build-image.yml
     secrets: inherit
     with:
-      app-name: doj-demo
+      app-name: server-doj
+      #tag-name: main
 
-  build-image-spotlight:
+  build-image-kansas:
     uses: ./.github/workflows/_docker-build-image.yml
     secrets: inherit
     with:
-      app-name: spotlight
+      app-name: server-kansas
+      #tag-name: main
 
   deploy:
-    needs: [build-image-doj, build-image-spotlight]
+    needs: [build-image-doj, build-image-kansas]
     uses: ./.github/workflows/_terraform-apply.yml
     secrets: inherit
-    with:
-      deploy-env: ${{ github.ref_name }}
+    #with:
+    #  deploy-env: main

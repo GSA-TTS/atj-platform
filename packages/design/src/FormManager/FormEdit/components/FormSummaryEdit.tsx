@@ -24,7 +24,7 @@ const FormSummaryEdit: PatternEditComponent<FormSummaryProps> = ({
         ></PatternEditForm>
       ) : (
         <div className="padding-left-3 padding-bottom-3 padding-right-3">
-           <FormSummary {...previewProps} />
+          <FormSummary {...previewProps} />
         </div>
       )}
     </>
