@@ -79,33 +79,3 @@ A command-line interface is provided for manually running operations. The corres
 ```bash
 ./manage.sh --help
 ```
-
-## End-to-end testing
-E2E testing runs in a docker container.
-
-```bash
-docker build --tag 'playwright' . -f Dockerfile.e2e
-```
-
-To see the output of the tests and run everything when the docker container is built, run the command below:
-```bash
-docker build --tag 'playwright' . -f Dockerfile.e2e --progress=plain --no-cache --target test
-```
-You can add the `--no-cache` flag to build from scratch.
-
-To run the container (best for development): 
-
-```bash
-docker run -p 4321:4321 -it --name e2e --rm playwright
-```
-
-```bash
-docker exec -it e2e pnpm playwright test
-```
-
-### Debugging
-To debug and follow the flow of a test in a browser, you can run:
-
-```bash
-export E2E_ENDPOINT=http://localhost:4321; pnpm playwright test --ui-port=8080 --ui-host=0.0.0.0
-```

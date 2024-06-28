@@ -21,7 +21,6 @@
     "pre-commit": "pnpm format"
   },
   "devDependencies": {
-    "@playwright/test": "^1.43.1",
     "@types/node": "^20.11.16",
     "@vitest/coverage-c8": "^0.33.0",
     "@vitest/coverage-v8": "^1.2.2",
