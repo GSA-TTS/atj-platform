@@ -1,0 +1,22 @@
+{
+  "name": "@atj/server-kansas",
+  "version": "1.0.0",
+  "description": "Form server instance for Kansas State Courts",
+  "type": "module",
+  "license": "CC0",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "node dist/index.js",
+    "build": "tsup src/* --format esm",
+    "dev": "tsup src/* --watch  --format esm",
+    "test": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@atj/server": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.8",
+    "@types/supertest": "^6.0.2",
+    "supertest": "^7.0.0"
+  }
+}

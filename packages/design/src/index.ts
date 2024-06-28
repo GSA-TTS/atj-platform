@@ -1,8 +1,8 @@
-import '@uswds/uswds';
+//import '@uswds/uswds';
 
 export { default as AvailableFormList } from './AvailableFormList';
 export { default as Form } from './Form';
 export { defaultPatternComponents } from './Form/components';
-export { default as FormManager } from './FormManager';
+export { default as FormManager, type FormManagerContext } from './FormManager';
 export { defaultPatternEditComponents } from './FormManager/FormEdit/components';
 export { default as FormRouter } from './FormRouter';
