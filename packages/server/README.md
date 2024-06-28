@@ -26,7 +26,7 @@ import { createServer } from '@atj/server/dist/index.js';
 const port = process.env.PORT || 4321;
 
 const app = createServer({
-  title: 'KS Courts Form Service',
+  title: 'Example Form Service',
 });
 
 app.listen(port, () => {
