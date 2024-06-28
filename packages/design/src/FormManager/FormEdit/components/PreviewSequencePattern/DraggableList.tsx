@@ -107,7 +107,7 @@ const SortableItemOverlay = ({
 
   return (
     <div
-      className={`${styles.draggableListWrapper} draggable-list-item-wrapper bg-white margin-bottom-3 dragging`}
+      className={`${styles.draggableListWrapper} draggable-list-item-wrapper bg-white margin-bottom-3`}
       style={{
         boxShadow: '0 16px 24px rgba(0, 0, 0, 0.4)',
         cursor: 'grabbing',
@@ -152,9 +152,7 @@ const SortableItem = ({
 
   return (
     <div
-      className={`${styles.draggableListWrapper} draggable-list-item-wrapper bg-white margin-bottom-3 ${
-        isActive ? 'dragging' : ''
-      } ${isOver ? 'over' : ''}`}
+      className={`${styles.draggableListWrapper} draggable-list-item-wrapper bg-white margin-bottom-3`}
       ref={setNodeRef}
       style={{
         transform: CSS.Translate.toString(transform),
