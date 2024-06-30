@@ -4,7 +4,7 @@ import React from 'react';
 import { type PatternId, type FieldsetProps } from '@atj/forms';
 import { FieldsetPattern } from '@atj/forms/src/patterns/fieldset';
 
-import { AddPatternDropdown } from '../AddElementMenu';
+import { AddPatternDropdown, fieldsetPatterns } from '../AddElementMenu';
 import { PatternComponent } from '../../../Form';
 import Fieldset from '../../../Form/components/Fieldset';
 import { useFormManagerStore } from '../../store';
@@ -43,8 +43,10 @@ const FieldsetPreview: PatternComponent<FieldsetProps> = props => {
   return (
     <>
       <Fieldset {...(props as FieldsetProps)}>
+        {props.children}
         {pattern && pattern.data.patterns.length === 0 && (
           <div
+            data-pattern-edit-control="true"
             className={`${styles.usaAlert} usa-alert usa-alert--warning usa-alert--no-icon margin-left-3 margin-right-3 margin-bottom-3`}
           >
             <div className={`${styles.usaAlertBody} usa-alert__body`}>
@@ -52,22 +54,25 @@ const FieldsetPreview: PatternComponent<FieldsetProps> = props => {
                 <span className="alert-text display-inline-block text-top margin-right-2">
                   Empty sections will not display.
                 </span>
-                <div
-                  className="margin-right-2 bg-none"
-                  data-pattern-edit-control="true"
-                >
-                  <AddPatternDropdown
-                    title="Add question"
-                    patternSelected={patternType =>
-                      addPatternToFieldset(patternType, props._patternId)
-                    }
-                  />
-                </div>
               </p>
             </div>
           </div>
         )}
-        {props.children}
+        <div
+          data-pattern-edit-control="true"
+          className="margin-left-3 margin-right-3 margin-bottom-3 bg-none"
+        >
+          <hr />
+          <div className={`${styles.usaAlertBody} usa-alert__body`}>
+            <AddPatternDropdown
+              title="Add question to fieldset"
+              patternSelected={patternType =>
+                addPatternToFieldset(patternType, props._patternId)
+              }
+              availablePatterns={fieldsetPatterns}
+            />
+          </div>
+        </div>
       </Fieldset>
     </>
   );

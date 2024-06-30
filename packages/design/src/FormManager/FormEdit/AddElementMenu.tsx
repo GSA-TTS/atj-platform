@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-import { type PatternId } from '@atj/forms';
+import { defaultFormConfig, type PatternConfig } from '@atj/forms';
 
 import { useFormManagerStore } from '../store';
 
@@ -79,28 +79,38 @@ export const AddElementMenu = ({ uswdsRoot }: { uswdsRoot: string }) => {
   );
 };
 
+type DropdownPattern = [string, PatternConfig];
+const defaultPatterns: DropdownPattern[] = [
+  ['form-summary', defaultFormConfig.patterns['form-summary']],
+  ['fieldset', defaultFormConfig.patterns['fieldset']],
+  ['input', defaultFormConfig.patterns['input']],
+  ['paragraph', defaultFormConfig.patterns['paragraph']],
+  ['radio-group', defaultFormConfig.patterns['radio-group']],
+] as const;
+export const fieldsetPatterns: DropdownPattern[] = [
+  ['form-summary', defaultFormConfig.patterns['form-summary']],
+  ['input', defaultFormConfig.patterns['input']],
+  ['paragraph', defaultFormConfig.patterns['paragraph']],
+  ['radio-group', defaultFormConfig.patterns['radio-group']],
+] as const;
+
 export const AddPatternDropdown = ({
   patternSelected,
   title,
+  availablePatterns,
 }: {
   patternSelected: (patternType: string) => void;
   title: string;
+  availablePatterns?: DropdownPattern[];
 }) => {
+  availablePatterns = availablePatterns || defaultPatterns;
+
   const { context } = useFormManagerStore(state => ({
     context: state.context,
   }));
 
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const availablePatterns = [
-    ['form-summary', context.config.patterns['form-summary']],
-    //['address', context.config.patterns['address']],
-    ['fieldset', context.config.patterns['fieldset']],
-    ['input', context.config.patterns['input']],
-    ['paragraph', context.config.patterns['paragraph']],
-    ['radio-group', context.config.patterns['radio-group']],
-  ] as const;
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -140,7 +150,7 @@ export const AddPatternDropdown = ({
         </span>
 
         <span className="display-inline-block text-ttop tablet:width-auto text-center">
-          <span className="display-inline-block text-ttop margin-right-1 width-9">
+          <span className="display-inline-block text-ttop margin-right-1">
             {title}
           </span>
           <img
