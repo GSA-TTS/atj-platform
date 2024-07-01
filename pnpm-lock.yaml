@@ -150,14 +150,13 @@ importers:
         version: 23.0.1
 
   e2e:
-    dependencies:
-      path-to-regex:
-        specifier: ^1.3.8
-        version: 1.3.8
     devDependencies:
       '@playwright/test':
         specifier: ^1.43.1
         version: 1.43.1
+      path-to-regexp:
+        specifier: ^7.0.0
+        version: 7.0.0
 
   infra:
     dependencies:
@@ -8486,18 +8485,15 @@ packages:
     resolution: {integrity: sha512-92olbatybjsHTGB2CUnAM7s0mU/27gcMfLNA7t09UftndUdxywlQKur3fzXEPpfLrgZD3I2Bt8+UmiL7YDEgXQ==}
     engines: {node: '>=8.15'}
 
-  path-to-regex@1.3.8:
-    resolution: {integrity: sha512-LKzBjGETV/O+7naBRwthW8OMD7ztjmbZcNnf0pl0H21/1eIil5I4ByERzuGhSr7SNQxxVbynA7K4MxSGM7LSpg==}
-    engines: {node: '>=10.11.0'}
-
   path-to-regexp@0.1.7:
     resolution: {integrity: sha512-5DFkuoqlv1uYQKxy8omFBeJPQcdoE07Kv2sferDCrAq1ohOU+MSDswDIbnx3YAM60qIOnYa53wBhXW0EbMonrQ==}
 
-  path-to-regexp@6.2.1:
-    resolution: {integrity: sha512-JLyh7xT1kizaEvcaXOQwOc2/Yhw6KZOvPf1S8401UyLk86CU79LN3vl7ztXGm/pZ+YjoyAJ4rxmHwbkBXJX+yw==}
-
   path-to-regexp@6.2.2:
     resolution: {integrity: sha512-GQX3SSMokngb36+whdpRXE+3f9V8UzyAorlYvOGx87ufGHehNTn5lCxrKtLyZ4Yl/wEKnNnr98ZzOwwDZV5ogw==}
+
+  path-to-regexp@7.0.0:
+    resolution: {integrity: sha512-58Y94bQqF3zBIASFNiufRPH1NfgZth1qwZ35radL87sg8pgbVqr6uikAhqZtFD+w65MGH6SWnY/ly3GbrM4fbg==}
+    engines: {node: '>=16'}
 
   path-type@1.1.0:
     resolution: {integrity: sha512-S4eENJz1pkiQn9Znv33Q+deTOKmbl+jj1Fl+qiP/vYezj+S8x+J3Uo0ISrx/QoEvIlOaDWJhPaRd1flJ9HXZqg==}
@@ -16707,7 +16703,7 @@ snapshots:
       ora: 7.0.1
       p-limit: 5.0.0
       p-queue: 8.0.1
-      path-to-regexp: 6.2.1
+      path-to-regexp: 6.2.2
       preferred-pm: 3.1.2
       probe-image-size: 7.2.3
       prompts: 2.4.2
@@ -16787,7 +16783,7 @@ snapshots:
       ora: 7.0.1
       p-limit: 5.0.0
       p-queue: 8.0.1
-      path-to-regexp: 6.2.1
+      path-to-regexp: 6.2.2
       preferred-pm: 3.1.2
       prompts: 2.4.2
       rehype: 13.0.1
@@ -22266,13 +22262,11 @@ snapshots:
     dependencies:
       unique-string: 2.0.0
 
-  path-to-regex@1.3.8: {}
-
   path-to-regexp@0.1.7: {}
 
-  path-to-regexp@6.2.1: {}
-
   path-to-regexp@6.2.2: {}
+
+  path-to-regexp@7.0.0: {}
 
   path-type@1.1.0:
     dependencies:

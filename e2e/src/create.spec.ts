@@ -1,9 +1,8 @@
 import { test, expect, Page } from '@playwright/test';
 import { GuidedFormCreation, Create } from '../../packages/design/src/FormManager/routes';
 import { BASE_URL } from './constants';
-import html from 'astro/dist/vite-plugin-html';
+import { pathToRegexp } from 'path-to-regexp';
 
-const uuidPattern = '[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}';
 
 const createNewForm = async (page: Page) => {
   await page.goto(`${BASE_URL}/${GuidedFormCreation.getUrl()}`);
@@ -11,9 +10,21 @@ const createNewForm = async (page: Page) => {
 }
 
 test('Create form from scratch', async ({ page }) => {
-  const createPage = new RegExp(`${uuidPattern}/${Create.slug}$`, 'i');
+  const regexp = pathToRegexp(Create.path);
   await createNewForm(page);
-  await expect(page).toHaveURL(createPage);
+  let pageUrl = page.url();
+  let pagePath = '';
+
+  if(Create.getUrl().indexOf('#') === 0) {
+    const parts = pageUrl.split('#');
+    if(parts.length === 2) {
+      pagePath = parts[1];
+    }
+  } else {
+    pagePath = new URL(pageUrl).pathname;
+  }
+
+  expect(regexp.test(pagePath)).toBe(true);
 });
 
 test('Add questions', async ({ page }) => {
