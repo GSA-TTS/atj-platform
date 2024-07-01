@@ -22,10 +22,10 @@ jobs:
           echo "Workflow triggered by actor '${{ github.actor }}''."
     - name: Determine E2E_ENDPOINT
       run: >
-        echo E2E_ENDPOINT=$(if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-        echo "${{ vars.PREVIEW_URL }}/${{ github.head_ref }}";
-        else
-        echo "${{ vars.MAIN_URL }}";
+        echo E2E_ENDPOINT=$(if [[ "${{ github.event_name }}" == "pull_request" && "${{ github.head_ref }}" != "main" ]]; then
+        echo "${{ secrets.PULL_REQUEST_PREVIEW_URL }}/${{ github.head_ref }}";
+        elif [ "${{ github.event_name }}" == "push" ]; then
+        echo "${{ secrets.MAIN_URL }}";
         fi) >> $GITHUB_ENV
     - name: Run Playwright tests
       run: pnpm --filter=end-to-end-tests exec playwright test
