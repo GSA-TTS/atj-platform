@@ -29,6 +29,6 @@ jobs:
     with:
       deploy-env: ${{ github.ref_name }}
   e2e:
-    needs: [build-image-doj, build-image-kansas]
+    needs: [deploy]
     uses: ./.github/workflows/_playwright.yml
     secrets: inherit
