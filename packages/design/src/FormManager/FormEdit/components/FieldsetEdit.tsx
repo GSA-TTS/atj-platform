@@ -7,7 +7,7 @@ import { FieldsetPattern } from '@atj/forms/src/patterns/fieldset';
 import {
   FieldsetAddPatternButton,
   FieldsetEmptyStateAddPatternButton,
-} from '../AddElementMenu';
+} from '../AddPatternMenu';
 import { PatternComponent } from '../../../Form';
 import Fieldset from '../../../Form/components/Fieldset';
 import { useFormManagerStore } from '../../store';
