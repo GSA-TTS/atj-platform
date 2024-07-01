@@ -5,6 +5,7 @@ import { pathToRegexp } from 'path-to-regexp';
 
 
 const createNewForm = async (page: Page) => {
+  console.log(`${BASE_URL}/${GuidedFormCreation.getUrl()}`);
   await page.goto(`${BASE_URL}/${GuidedFormCreation.getUrl()}`);
   await page.getByRole('button', { name: 'Create New' }).click();
 }
