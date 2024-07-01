@@ -16,10 +16,10 @@ jobs:
       run: pnpm --filter=end-to-end-tests exec playwright install --with-deps
     - name: Debugging steps
       run: |
-          echo "Workflow triggered in branch '${{ github.ref }}'."
-          echo "Workflow triggered in head_ref '${{ github.head_ref }}'."
-          echo "Workflow triggered by event '${{ github.event_name }}'."
-          echo "Workflow triggered by actor '${{ github.actor }}''."
+        echo "Workflow triggered in branch '${{ github.ref }}'."
+        echo "Workflow triggered in head_ref '${{ github.head_ref }}'."
+        echo "Workflow triggered by event '${{ github.event_name }}'."
+        echo "Workflow triggered by actor '${{ github.actor }}''."
     - name: Determine E2E_ENDPOINT
       run: >
         echo E2E_ENDPOINT=$(if [[ "${{ github.event_name }}" == "pull_request" ]]; then
