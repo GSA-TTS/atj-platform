@@ -7,7 +7,7 @@ import { FieldsetPattern } from '@atj/forms/src/patterns/fieldset';
 import {
   FieldsetAddPatternButton,
   FieldsetEmptyStateAddPatternButton,
-} from '../AddPatternMenu';
+} from '../AddPatternDropdown';
 import { PatternComponent } from '../../../Form';
 import Fieldset from '../../../Form/components/Fieldset';
 import { useFormManagerStore } from '../../store';
@@ -53,7 +53,7 @@ const FieldsetPreview: PatternComponent<FieldsetProps> = props => {
             className={`${styles.usaAlert} usa-alert usa-alert--warning usa-alert--no-icon margin-left-3 margin-right-3 margin-bottom-3`}
           >
             <div className={`${styles.usaAlertBody} usa-alert__body`}>
-              <p className="usa-alert__text">
+              <div className="usa-alert__text">
                 <span className="alert-text display-inline-block text-top margin-right-2">
                   Empty sections will not display.
                 </span>
@@ -70,7 +70,7 @@ const FieldsetPreview: PatternComponent<FieldsetProps> = props => {
                     Remove section
                   </a>
                 </span>
-              </p>
+              </div>
             </div>
           </div>
         )}
@@ -121,17 +121,17 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
               {legend.error.message}
             </span>
           ) : null}
-          <input
-            className={classnames('usa-input bg-primary-lighter text-bold', {
-              'usa-input--error': legend.error,
-            })}
-            id={fieldId('legend')}
-            defaultValue={pattern.data.legend}
-            {...register('legend')}
-            type="text"
-            autoFocus
-          ></input>
         </label>
+        <input
+          className={classnames('usa-input bg-primary-lighter text-bold', {
+            'usa-input--error': legend.error,
+          })}
+          id={fieldId('legend')}
+          defaultValue={pattern.data.legend}
+          {...register('legend')}
+          type="text"
+          autoFocus
+        ></input>
       </div>
       <Fieldset type="fieldset" _patternId={patternId} />
       <PatternEditActions />

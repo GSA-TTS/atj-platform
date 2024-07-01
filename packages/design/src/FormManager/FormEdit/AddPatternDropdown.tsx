@@ -35,7 +35,7 @@ const getIconPath = (iconPath: string) => {
   return Object.values(icons[iconPath])[0] as string;
 };
 
-export const AddPatternMenu = ({ uswdsRoot }: { uswdsRoot: string }) => {
+export const AddPatternMenu = () => {
   const addPage = useFormManagerStore(state => state.addPage);
   const { addPattern } = useFormManagerStore(state => ({
     addPattern: state.addPattern,

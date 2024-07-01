@@ -62,7 +62,7 @@ const isPatternEditControlEvent = (
   const patternEditControls = event.currentTarget.querySelectorAll(
     '[data-pattern-edit-control="true"]'
   );
-  for (let patternEditControl of patternEditControls) {
+  for (const patternEditControl of patternEditControls) {
     if (
       patternEditControl === event.target ||
       patternEditControl.contains(event.target as HTMLElement)

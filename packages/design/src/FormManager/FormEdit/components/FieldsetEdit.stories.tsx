@@ -15,6 +15,7 @@ const pattern: FieldsetPattern = {
   id: '1',
   type: 'fieldset',
   data: {
+    legend: 'Fieldset pattern description',
     patterns: [],
   },
 };
@@ -32,7 +33,7 @@ export const Basic: StoryObj<typeof FormEdit> = {
     const canvas = within(canvasElement);
     await testUpdateFormFieldOnSubmitByElement(
       canvasElement,
-      await canvas.findByText('Empty sections will not display.'),
+      await canvas.findByText('Fieldset pattern description'),
       'Legend Text Element',
       'Updated fieldset pattern'
     );
@@ -44,7 +45,7 @@ export const Error: StoryObj<typeof FormEdit> = {
     const canvas = within(canvasElement);
     await testEmptyFormLabelErrorByElement(
       canvasElement,
-      await canvas.findByText('Empty sections will not display.'),
+      await canvas.findByText('Fieldset pattern description'),
       'Legend Text Element',
       message.patterns.fieldset.errorTextMustContainChar
     );
