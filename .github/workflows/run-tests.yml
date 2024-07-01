@@ -9,7 +9,3 @@ on:
 jobs:
   run-tests:
     uses: ./.github/workflows/_validate.yml
-  e2e:
-    needs: [ deploy ]
-    uses: ./.github/workflows/_playwright.yml
-    secrets: inherit
