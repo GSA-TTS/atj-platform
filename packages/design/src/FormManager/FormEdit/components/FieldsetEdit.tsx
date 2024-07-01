@@ -1,10 +1,13 @@
-import classNames from 'classnames';
+import classnames from 'classnames';
 import React from 'react';
 
 import { type PatternId, type FieldsetProps } from '@atj/forms';
 import { FieldsetPattern } from '@atj/forms/src/patterns/fieldset';
 
-import { AddPatternDropdown, fieldsetPatterns } from '../AddElementMenu';
+import {
+  FieldsetAddPatternButton,
+  FieldsetEmptyStateAddPatternButton,
+} from '../AddElementMenu';
 import { PatternComponent } from '../../../Form';
 import Fieldset from '../../../Form/components/Fieldset';
 import { useFormManagerStore } from '../../store';
@@ -54,25 +57,38 @@ const FieldsetPreview: PatternComponent<FieldsetProps> = props => {
                 <span className="alert-text display-inline-block text-top margin-right-2">
                   Empty sections will not display.
                 </span>
+                <span className="action-text add-question display-inline-block margin-right-2">
+                  <FieldsetEmptyStateAddPatternButton
+                    title="Add question"
+                    patternSelected={patternType =>
+                      addPatternToFieldset(patternType, props._patternId)
+                    }
+                  />
+                </span>
+                <span className="action-text remove-section display-inline-block text-top margin-right-2">
+                  <a className="usa-link" href="#">
+                    Remove section
+                  </a>
+                </span>
               </p>
             </div>
           </div>
         )}
-        <div
-          data-pattern-edit-control="true"
-          className="margin-left-3 margin-right-3 margin-bottom-3 bg-none"
-        >
-          <hr />
-          <div className={`${styles.usaAlertBody} usa-alert__body`}>
-            <AddPatternDropdown
-              title="Add question to fieldset"
-              patternSelected={patternType =>
-                addPatternToFieldset(patternType, props._patternId)
-              }
-              availablePatterns={fieldsetPatterns}
-            />
+        {pattern.data.patterns.length > 0 && (
+          <div
+            data-pattern-edit-control="true"
+            className="margin-left-3 margin-right-3 margin-bottom-3 bg-none"
+          >
+            <div className={classnames(styles.usaAlertBody, 'usa-alert__body')}>
+              <FieldsetAddPatternButton
+                title="Add question to fieldset"
+                patternSelected={patternType =>
+                  addPatternToFieldset(patternType, props._patternId)
+                }
+              />
+            </div>
           </div>
-        </div>
+        )}
       </Fieldset>
     </>
   );
@@ -94,7 +110,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           defaultValue={pattern.data.patterns}
         ></input>
         <label
-          className={classNames('usa-label width-full maxw-full', {
+          className={classnames('usa-label width-full maxw-full', {
             'usa-label--error': legend.error,
           })}
           htmlFor={fieldId('legend')}
@@ -106,7 +122,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
             </span>
           ) : null}
           <input
-            className={classNames('usa-input bg-primary-lighter text-bold', {
+            className={classnames('usa-input bg-primary-lighter text-bold', {
               'usa-input--error': legend.error,
             })}
             id={fieldId('legend')}

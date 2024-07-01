@@ -15,6 +15,7 @@ import pageIcon from './images/page-icon.svg';
 import shortanswerIcon from './images/shortanswer-icon.svg';
 import singleselectIcon from './images/singleselect-icon.svg';
 import templateIcon from './images/template-icon.svg';
+import classNames from 'classnames';
 
 // eslint-disable-next-line  @typescript-eslint/no-explicit-any
 const icons: Record<string, string | any> = {
@@ -50,7 +51,10 @@ export const AddElementMenu = ({ uswdsRoot }: { uswdsRoot: string }) => {
       <div className="dropdownContainer margin-bottom-3">
         <ul className="usa-list usa-list--unstyled grid-row tablet:flex-justify-end flex-justify-center">
           <li className="position-relative tablet:grid-col-12 grid-col-5 text-center">
-            <AddPatternDropdown title="Question" patternSelected={addPattern} />
+            <SidebarAddPatternMenuItem
+              title="Question"
+              patternSelected={addPattern}
+            />
           </li>
           <li className="tablet:grid-col-12 grid-col-5 text-center">
             <button
@@ -80,7 +84,7 @@ export const AddElementMenu = ({ uswdsRoot }: { uswdsRoot: string }) => {
 };
 
 type DropdownPattern = [string, PatternConfig];
-const defaultPatterns: DropdownPattern[] = [
+const sidebarPatterns: DropdownPattern[] = [
   ['form-summary', defaultFormConfig.patterns['form-summary']],
   ['fieldset', defaultFormConfig.patterns['fieldset']],
   ['input', defaultFormConfig.patterns['input']],
@@ -94,42 +98,25 @@ export const fieldsetPatterns: DropdownPattern[] = [
   ['radio-group', defaultFormConfig.patterns['radio-group']],
 ] as const;
 
-export const AddPatternDropdown = ({
+export const SidebarAddPatternMenuItem = ({
   patternSelected,
   title,
-  availablePatterns,
 }: {
   patternSelected: (patternType: string) => void;
   title: string;
-  availablePatterns?: DropdownPattern[];
 }) => {
-  availablePatterns = availablePatterns || defaultPatterns;
-
-  const { context } = useFormManagerStore(state => ({
-    context: state.context,
+  const [isOpen, setIsOpen] = useState(false);
+  const { uswdsRoot } = useFormManagerStore(state => ({
+    uswdsRoot: state.context.uswdsRoot,
   }));
 
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
   return (
-    <div ref={dropdownRef}>
+    <AddPatternDropdown
+      availablePatterns={sidebarPatterns}
+      closeDropdown={() => setIsOpen(false)}
+      isOpen={isOpen}
+      patternSelected={patternSelected}
+    >
       <button
         className={`${styles.dropdownButton} tablet:width-full text-left width-auto text-base-darkest text-normal padding-0 bg-white border-0 cursor-pointer margin-bottom-3`}
         onClick={() => setIsOpen(!isOpen)}
@@ -143,12 +130,48 @@ export const AddPatternDropdown = ({
             focusable="false"
             role="img"
           >
-            <use
-              xlinkHref={`${context.uswdsRoot}img/sprite.svg#add_circle`}
-            ></use>
+            <use xlinkHref={`${uswdsRoot}img/sprite.svg#add_circle`}></use>
           </svg>
         </span>
 
+        <span className="display-inline-block text-ttop tablet:width-auto text-center">
+          <span className="display-inline-block text-ttop margin-right-1 width-9">
+            {title}
+          </span>
+          <img
+            className="display-inline-block text-ttop"
+            src={getIconPath('dropdown-icon.svg')}
+            alt=""
+            width="16"
+            height="16"
+          />
+        </span>
+      </button>
+    </AddPatternDropdown>
+  );
+};
+
+export const FieldsetAddPatternButton = ({
+  patternSelected,
+  title,
+}: {
+  patternSelected: (patternType: string) => void;
+  title: string;
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <AddPatternDropdown
+      availablePatterns={fieldsetPatterns}
+      closeDropdown={() => setIsOpen(false)}
+      isOpen={isOpen}
+      patternSelected={patternSelected}
+    >
+      <button
+        className={classNames(
+          'tablet:width-full bg-white text-left width-auto text-base-darkest text-normal padding-0 border-0 cursor-pointer margin-top-1 margin-bottom-3'
+        )}
+        onClick={() => setIsOpen(!isOpen)}
+      >
         <span className="display-inline-block text-ttop tablet:width-auto text-center">
           <span className="display-inline-block text-ttop margin-right-1">
             {title}
@@ -162,33 +185,112 @@ export const AddPatternDropdown = ({
           />
         </span>
       </button>
+    </AddPatternDropdown>
+  );
+};
+
+export const FieldsetEmptyStateAddPatternButton = ({
+  patternSelected,
+  title,
+}: {
+  patternSelected: (patternType: string) => void;
+  title: string;
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <AddPatternDropdown
+      availablePatterns={fieldsetPatterns}
+      closeDropdown={() => setIsOpen(false)}
+      isOpen={isOpen}
+      patternSelected={patternSelected}
+    >
+      <button
+        className="usa-button usa-button--unstyled"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        {title}
+      </button>
+    </AddPatternDropdown>
+  );
+};
+
+export const AddPatternDropdown = ({
+  children,
+  availablePatterns,
+  closeDropdown,
+  isOpen,
+  patternSelected,
+}: React.PropsWithChildren<{
+  availablePatterns: DropdownPattern[];
+  closeDropdown: () => void;
+  isOpen: boolean;
+  patternSelected: (patternType: string) => void;
+}>) => {
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        closeDropdown();
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  return (
+    <div ref={dropdownRef}>
+      {children}
       {isOpen && (
-        <ul
-          className={`${styles.dropdownMenu} usa-list usa-list--unstyled position-absolute width-full bg-white z-100 shadow-3 text-left`}
-        >
-          {availablePatterns.map(([patternType, pattern], index) => (
-            <li
-              key={index}
-              className={`${styles.dropdownItem} padding-1 cursor-pointer margin-left-1`}
-              onClick={() => {
-                patternSelected(patternType);
-                setIsOpen(false);
-              }}
-            >
-              <img
-                className="display-inline-block text-ttop margin-right-1"
-                src={getIconPath(pattern.iconPath || 'block-icon.svg')}
-                alt=""
-                width="24"
-                height="24"
-              />
-              <span className="display-inline-block text-ttop">
-                {pattern.displayName}
-              </span>
-            </li>
-          ))}
-        </ul>
+        <AddPatternDropdownContent
+          availablePatterns={availablePatterns}
+          patternSelected={(patternType: string) => {
+            closeDropdown();
+            patternSelected(patternType);
+          }}
+        />
       )}
     </div>
+  );
+};
+
+const AddPatternDropdownContent = ({
+  availablePatterns,
+  patternSelected,
+}: {
+  availablePatterns: DropdownPattern[];
+  patternSelected: (patternType: string) => void;
+}) => {
+  return (
+    <ul
+      className={`${styles.dropdownMenu} usa-list usa-list--unstyled position-absolute width-full bg-white z-100 shadow-3 text-left`}
+    >
+      {availablePatterns.map(([patternType, pattern], index) => (
+        <li
+          key={index}
+          className={`${styles.dropdownItem} padding-1 cursor-pointer margin-left-1`}
+          onClick={() => {
+            patternSelected(patternType);
+          }}
+        >
+          <img
+            className="display-inline-block text-ttop margin-right-1"
+            src={getIconPath(pattern.iconPath || 'block-icon.svg')}
+            alt=""
+            width="24"
+            height="24"
+          />
+          <span className="display-inline-block text-ttop">
+            {pattern.displayName}
+          </span>
+        </li>
+      ))}
+    </ul>
   );
 };
