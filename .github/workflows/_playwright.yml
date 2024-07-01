@@ -18,7 +18,7 @@ jobs:
     - name: Install Playwright Browsers
       run: pnpm exec playwright install --with-deps
     - name: Run Playwright tests
-      run: pnpm exec playwright test
+      run: pnpm --filter=end-to-end-tests exec playwright test
       env:
         E2E_ENDPOINT: ${{ secrets.PULL_REQUEST_PREVIEW_URL }}/${{ github.head_ref }}
     - uses: actions/upload-artifact@v4
