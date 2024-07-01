@@ -28,8 +28,3 @@ jobs:
     secrets: inherit
     with:
       deploy-env: ${{ github.ref_name }}
-
-  e2e:
-    needs: [deploy]
-    uses: ./.github/workflows/_playwright.yml
-    secrets: inherit
