@@ -1,83 +1,79 @@
 /* Add a Pattern Menu */
 
 .dropdownMenu {
-    min-width: 315px;
+  min-width: 315px;
 }
 
 .dropdownMenu:active,
 .dropdownMenu:hover,
 .dropdownButton:active,
 .dropdownButton:hover {
-    color: #1b1b1b;
-    background-color: #fff;
-    font-weight: bold;
+  color: #1b1b1b;
+  background-color: #fff;
+  font-weight: bold;
 }
 
 .dropdownMenu:hover li,
 .dropdownItem:hover {
-    font-weight: normal;
+  font-weight: normal;
 }
 
 .dropdownItem:hover {
-    background: #d9e8f6;
+  background: #d9e8f6;
 }
 
 .usaFieldset {
-    top: 96px;
+  top: 96px;
 }
 
 /* Page Title Area */
 
 .titleArea::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    height: 1px;
-    border-top: 1px dotted #888;
-    z-index: 0;
-    transform: translateY(-50%);
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  border-top: 1px dotted #888;
+  z-index: 0;
+  transform: translateY(-50%);
 }
 
 .titleText,
 .pageNumber {
-    z-index: 1;
+  z-index: 1;
 }
 
 /* Draggable List */
 
-.draggableListWrapper span {
-    background-color: #fff;
-}
-
 .draggableListWrapper legend {
-    padding-left: 1.5rem;
+  padding-left: 1.5rem;
 }
 
 .draggableListWrapper .radioFormPattern legend {
-    padding-left: 0;
+  padding-left: 0;
 }
 
 /* Configure and Publish Pages */
 .progressPage {
-    min-height: 60vh;
+  min-height: 60vh;
 }
 
 /* Fieldset */
 .usaAlert .usaAlertBody {
-    margin-left: 0;
+  margin-left: 0;
 }
 
 .usaAlert span {
-    background: none;
+  background: none;
 }
 
 @media (max-width: 40em) {
-    .dropdownMenu {
-        bottom: 4.5rem;
-        max-height: 40vh;
-        overflow: auto;
-        left: 32px;
-    }
+  .dropdownMenu {
+    bottom: 4.5rem;
+    max-height: 40vh;
+    overflow: auto;
+    left: 32px;
+  }
 }

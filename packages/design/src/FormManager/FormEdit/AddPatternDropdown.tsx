@@ -269,7 +269,7 @@ const AddPatternDropdownContent = ({
 }) => {
   return (
     <ul
-      className={`${styles.dropdownMenu} usa-list usa-list--unstyled position-absolute width-full bg-white z-100 shadow-3 text-left`}
+      className={`${styles.dropdownMenu} usa-list usa-list--unstyled position-absolute bg-white z-100 shadow-3 text-left`}
     >
       {availablePatterns.map(([patternType, pattern], index) => (
         <li
