@@ -1,13 +1,7 @@
 name: Playwright Tests
 on:
   workflow_call:
-    inputs:
-      head:
-        type: string
-        default: ${{ github.ref_name }}
-      base:
-        required: true
-        type: string
+
 jobs:
   end_to_end:
     timeout-minutes: 60
