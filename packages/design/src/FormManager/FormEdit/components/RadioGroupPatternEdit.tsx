@@ -11,6 +11,7 @@ import { PatternEditActions } from './common/PatternEditActions';
 import { PatternEditForm } from './common/PatternEditForm';
 import { usePatternEditFormContext } from './common/hooks';
 import { en as message } from '@atj/common/src/locales/en/app';
+import styles from '../formEditStyles.module.css';
 
 const RadioGroupPatternEdit: PatternEditComponent<RadioGroupProps> = ({
   focus,
@@ -24,7 +25,11 @@ const RadioGroupPatternEdit: PatternEditComponent<RadioGroupProps> = ({
           editComponent={<EditComponent pattern={focus.pattern} />}
         ></PatternEditForm>
       ) : (
-        <RadioGroup {...previewProps} />
+        <div
+          className={`${styles.radioFormPattern} padding-left-3 padding-bottom-3 padding-right-3`}
+        >
+          <RadioGroup {...previewProps} />
+        </div>
       )}
     </>
   );
@@ -38,7 +43,7 @@ const EditComponent = ({ pattern }: { pattern: RadioGroupPattern }) => {
 
   return (
     <div className="grid-row grid-gap">
-      <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
+      <div className="tablet:grid-col-6 mobile-lg:grid-col-12 margin-bottom-2">
         <label
           className={classnames('usa-label', {
             'usa-label--error': label.error,
@@ -56,6 +61,7 @@ const EditComponent = ({ pattern }: { pattern: RadioGroupPattern }) => {
             defaultValue={pattern.data.label}
             {...register('label')}
             type="text"
+            autoFocus
           ></input>
         </label>
       </div>
@@ -75,7 +81,7 @@ const EditComponent = ({ pattern }: { pattern: RadioGroupPattern }) => {
                   {optionLabel.error.message}
                 </span>
               ) : null}
-              <div className="display-flex">
+              <div className="display-flex margin-bottom-2">
                 <input
                   className={classnames('hide', 'usa-input', {
                     'usa-label--error': label.error,
@@ -97,7 +103,7 @@ const EditComponent = ({ pattern }: { pattern: RadioGroupPattern }) => {
           );
         })}
         <button
-          className="usa-button usa-button--outline"
+          className="usa-button usa-button--outline margin-top-1"
           type="button"
           onClick={event => {
             event.preventDefault();

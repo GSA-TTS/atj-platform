@@ -14,7 +14,8 @@ import shortanswerIcon from './images/shortanswer-icon.svg';
 import singleselectIcon from './images/singleselect-icon.svg';
 import templateIcon from './images/template-icon.svg';
 
-const icons: Record<string, string> = {
+// eslint-disable-next-line  @typescript-eslint/no-explicit-any
+const icons: Record<string, string | any> = {
   'block-icon.svg': blockIcon,
   'checkbox-icon.svg': checkboxIcon,
   'date-icon.svg.svg': dateIcon,
@@ -62,7 +63,7 @@ export const AddPatternDropdown = ({ uswdsRoot }: { uswdsRoot: string }) => {
   }, []);
 
   const getIconPath = (iconPath: string) => {
-    return Object.values(icons[iconPath])[0];
+    return Object.values(icons[iconPath])[0] as string;
   };
 
   return (
@@ -115,21 +116,25 @@ export const AddPatternDropdown = ({ uswdsRoot }: { uswdsRoot: string }) => {
                   <li
                     key={index}
                     className={`${styles.dropdownItem} padding-1 cursor-pointer margin-left-1`}
-                    onClick={() => {
-                      addPattern(patternType);
-                      setIsOpen(false);
-                    }}
                   >
-                    <img
-                      className="display-inline-block text-ttop margin-right-1"
-                      src={getIconPath(pattern.iconPath || 'block-icon.svg')}
-                      alt=""
-                      width="24"
-                      height="24"
-                    />
-                    <span className="display-inline-block text-ttop">
-                      {pattern.displayName}
-                    </span>
+                    <button
+                      className="bg-transparent padding-0 border-0"
+                      onClick={() => {
+                        addPattern(patternType);
+                        setIsOpen(false);
+                      }}
+                    >
+                      <img
+                        className="display-inline-block text-ttop margin-right-1"
+                        src={getIconPath(pattern.iconPath || 'block-icon.svg')}
+                        alt=""
+                        width="24"
+                        height="24"
+                      />
+                      <span className="display-inline-block text-ttop">
+                        {pattern.displayName}
+                      </span>
+                    </button>
                   </li>
                 ))}
               </ul>

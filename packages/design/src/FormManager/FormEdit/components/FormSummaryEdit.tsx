@@ -23,7 +23,9 @@ const FormSummaryEdit: PatternEditComponent<FormSummaryProps> = ({
           editComponent={<EditComponent pattern={focus.pattern} />}
         ></PatternEditForm>
       ) : (
-        <FormSummary {...previewProps} />
+        <div className="padding-left-3 padding-bottom-3 padding-right-3">
+          <FormSummary {...previewProps} />
+        </div>
       )}
     </>
   );
@@ -57,6 +59,7 @@ const EditComponent = ({ pattern }: { pattern: Pattern }) => {
             {...register('title')}
             defaultValue={pattern.data.title}
             type="text"
+            autoFocus
           ></input>
         </label>
       </div>

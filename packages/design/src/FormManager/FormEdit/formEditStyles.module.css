@@ -51,9 +51,26 @@
     background-color: #fff;
 }
 
+.draggableListWrapper legend {
+    padding-left: 1.5rem;
+}
+
+.draggableListWrapper .radioFormPattern legend {
+    padding-left: 0;
+}
+
 /* Configure and Publish Pages */
 .progressPage {
     min-height: 60vh;
+}
+
+/* Fieldset */
+.usaAlert .usaAlertBody {
+    margin-left: 0;
+}
+
+.usaAlert span {
+    background: none;
 }
 
 @media (max-width: 40em) {
