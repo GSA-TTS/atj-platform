@@ -1,4 +1,4 @@
-import classnames from 'classnames';
+import classNames from 'classnames';
 import React from 'react';
 
 import { type PatternId, type FieldsetProps } from '@atj/forms';
@@ -87,7 +87,7 @@ const FieldsetPreview: PatternComponent<FieldsetProps> = props => {
             data-pattern-edit-control="true"
             className="margin-left-3 margin-right-3 margin-bottom-3 bg-none"
           >
-            <div className={classnames(styles.usaAlertBody, 'usa-alert__body')}>
+            <div className={classNames(styles.usaAlertBody, 'usa-alert__body')}>
               <FieldsetAddPatternButton
                 title="Add question to fieldset"
                 patternSelected={patternType =>
@@ -118,7 +118,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           defaultValue={pattern.data.patterns}
         ></input>
         <label
-          className={classnames('usa-label width-full maxw-full', {
+          className={classNames('usa-label width-full maxw-full', {
             'usa-label--error': legend.error,
           })}
           htmlFor={fieldId('legend')}
@@ -131,7 +131,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           ) : null}
         </label>
         <input
-          className={classnames('usa-input bg-primary-lighter text-bold', {
+          className={classNames('usa-input bg-primary-lighter text-bold', {
             'usa-input--error': legend.error,
           })}
           id={fieldId('legend')}
