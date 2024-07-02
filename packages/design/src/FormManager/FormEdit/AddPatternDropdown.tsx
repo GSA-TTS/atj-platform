@@ -158,34 +158,44 @@ export const FieldsetAddPatternButton = ({
   patternSelected: (patternType: string) => void;
   title: string;
 }) => {
+  const { uswdsRoot } = useFormManagerStore(state => ({
+    uswdsRoot: state.context.uswdsRoot,
+  }));
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <AddPatternDropdown
-      availablePatterns={fieldsetPatterns}
-      closeDropdown={() => setIsOpen(false)}
-      isOpen={isOpen}
-      patternSelected={patternSelected}
+    <div
+      className={classNames(styles.dottedLine, 'margin-top-2 cursor-default')}
     >
-      <button
-        className={classNames(
-          'tablet:width-full bg-white text-left width-auto text-base-darkest text-normal padding-0 border-0 cursor-pointer margin-top-1 margin-bottom-3'
-        )}
-        onClick={() => setIsOpen(!isOpen)}
+      <AddPatternDropdown
+        availablePatterns={fieldsetPatterns}
+        closeDropdown={() => setIsOpen(false)}
+        isOpen={isOpen}
+        patternSelected={patternSelected}
       >
-        <span className="display-inline-block text-ttop tablet:width-auto text-center">
-          <span className="display-inline-block text-ttop margin-right-1">
-            {title}
+        <svg
+          className="usa-icon text-base"
+          width="24"
+          height="24"
+          aria-hidden="true"
+          focusable="false"
+          role="img"
+        >
+          <use xlinkHref={`${uswdsRoot}img/sprite.svg#add_circle`}></use>
+        </svg>{' '}
+        <button
+          className={classNames(
+            'bg-white text-base padding-0 border-0 cursor-pointer'
+          )}
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <span className="display-inline-block text-ttop tablet:width-auto text-center">
+            <span className="display-inline-block text-ttop margin-right-1">
+              {title}
+            </span>
           </span>
-          <img
-            className="display-inline-block text-ttop"
-            src={getIconPath('dropdown-icon.svg')}
-            alt=""
-            width="16"
-            height="16"
-          />
-        </span>
-      </button>
-    </AddPatternDropdown>
+        </button>
+      </AddPatternDropdown>
+    </div>
   );
 };
 
