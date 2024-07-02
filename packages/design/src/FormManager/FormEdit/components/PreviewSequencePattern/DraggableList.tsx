@@ -73,6 +73,10 @@ export const DraggableList: React.FC<DraggableListProps> = ({
         <SortableContext items={order} strategy={verticalListSortingStrategy}>
           {arrayChildren.map((child, index) => {
             const patternId = order[index];
+            if (patternId === undefined) {
+              console.error('undefined patternId', index);
+              return;
+            }
             return (
               <SortableItem
                 key={patternId}
