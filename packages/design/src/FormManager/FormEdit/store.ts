@@ -27,6 +27,7 @@ export type FormEditSlice = {
   addPattern: (patternType: string) => void;
   addPatternToFieldset: (patternType: string, targetPattern: PatternId) => void;
   clearFocus: () => void;
+  deletePattern: (id: PatternId) => void;
   deleteSelectedPattern: () => void;
   setFocus: (patternId: PatternId) => boolean;
   setRouteParams: (routeParams: string) => void;
@@ -101,11 +102,15 @@ export const createFormEditSlice =
       if (state.focus === undefined) {
         return;
       }
+      state.deletePattern(state.focus.pattern.id);
+    },
+    deletePattern: (id: PatternId) => {
+      const state = get();
       const builder = new BlueprintBuilder(
         state.context.config,
         state.session.form
       );
-      builder.removePattern(state.focus.pattern.id);
+      builder.removePattern(id);
       set({
         focus: undefined,
         session: mergeSession(state.session, {

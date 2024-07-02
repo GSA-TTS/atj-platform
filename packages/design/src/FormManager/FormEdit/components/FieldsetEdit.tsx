@@ -37,9 +37,12 @@ const FieldsetEdit: PatternEditComponent<FieldsetProps> = ({
 };
 
 const FieldsetPreview: PatternComponent<FieldsetProps> = props => {
-  const { addPatternToFieldset } = useFormManagerStore(state => ({
-    addPatternToFieldset: state.addPatternToFieldset,
-  }));
+  const { addPatternToFieldset, deletePattern } = useFormManagerStore(
+    state => ({
+      addPatternToFieldset: state.addPatternToFieldset,
+      deletePattern: state.deletePattern,
+    })
+  );
   const pattern = useFormManagerStore(
     state => state.session.form.patterns[props._patternId]
   );
@@ -66,9 +69,14 @@ const FieldsetPreview: PatternComponent<FieldsetProps> = props => {
                   />
                 </span>
                 <span className="action-text remove-section display-inline-block text-top margin-right-2">
-                  <a className="usa-link" href="#">
+                  <button
+                    className="usa-button usa-button--unstyled"
+                    onClick={() => {
+                      deletePattern(pattern.id);
+                    }}
+                  >
                     Remove section
-                  </a>
+                  </button>
                 </span>
               </div>
             </div>

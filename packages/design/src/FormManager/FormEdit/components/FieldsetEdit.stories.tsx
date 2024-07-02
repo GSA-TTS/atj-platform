@@ -81,3 +81,28 @@ export const AddPattern: StoryObj<typeof FormEdit> = {
     await expect(updatedElement.length).toBeGreaterThan(0);
   },
 };
+
+export const RemovePattern: StoryObj<typeof FormEdit> = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Confirm that the expected fieldset legend exists
+    expect(
+      canvas.queryAllByRole('group', {
+        name: /Fieldset pattern description/i,
+      })
+    ).toHaveLength(1);
+
+    // Add a "short answer" question
+    const removeSectionButton = canvas.getByRole('button', {
+      name: /Remove section/,
+    });
+    await userEvent.click(removeSectionButton);
+
+    // Confirm that the fieldset was removed
+    const test = await canvas.queryAllByRole('group', {
+      name: /Fieldset pattern description/i,
+    });
+    expect(test).toHaveLength(0);
+  },
+};
