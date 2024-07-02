@@ -202,6 +202,7 @@ export const addPatternToPage = (
       [pagePattern.id]: {
         ...pagePattern,
         data: {
+          ...pagePattern.data,
           patterns: [...pagePattern.data.patterns, pattern.id],
         },
       } satisfies SequencePattern,
