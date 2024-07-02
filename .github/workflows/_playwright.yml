@@ -14,12 +14,18 @@ jobs:
       run: npm install -g pnpm && pnpm install
     - name: Install Playwright Browsers
       run: pnpm --filter=end-to-end-tests exec playwright install --with-deps
+    - name: Debugging steps
+      run: |
+        echo "Workflow triggered in branch '${{ github.ref }}'."
+        echo "Workflow triggered in head_ref '${{ github.head_ref }}'."
+        echo "Workflow triggered by event '${{ github.event_name }}'."
+        echo "Workflow triggered by actor '${{ github.actor }}''."
     - name: Determine E2E_ENDPOINT
       run: >
-        echo E2E_ENDPOINT=$(if [[ "${{ github.event_name }}" == "pull_request" ]]; then
-        echo "${{ secrets.PULL_REQUEST_PREVIEW_URL }}/${{ github.head_ref }}";
+        echo E2E_ENDPOINT=$(if [[ "${{ github.event_name }}" == "pull_request" && "${{ github.head_ref }}" != "main" ]]; then
+        echo "${{ vars.PREVIEW_URL }}/${{ github.head_ref }}";
         else
-        echo "${{ secrets.MAIN_URL }}";
+        echo "${{ vars.MAIN_URL }}";
         fi) >> $GITHUB_ENV
     - name: Run Playwright tests
       run: pnpm --filter=end-to-end-tests exec playwright test
