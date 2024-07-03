@@ -11,6 +11,7 @@ import {
 } from './pattern';
 import { type PagePattern } from './patterns/page/config';
 import { type PageSetPattern } from './patterns/page-set/config';
+import { FieldsetPattern } from './patterns/fieldset';
 
 export * from './builder';
 export * from './components';
@@ -205,6 +206,31 @@ export const addPatternToPage = (
           patterns: [...pagePattern.data.patterns, pattern.id],
         },
       } satisfies SequencePattern,
+      [pattern.id]: pattern,
+    },
+  };
+};
+
+export const addPatternToFieldset = (
+  bp: Blueprint,
+  fieldsetPatternId: PatternId,
+  pattern: Pattern
+): Blueprint => {
+  const fieldsetPattern = bp.patterns[fieldsetPatternId] as FieldsetPattern;
+  if (fieldsetPattern.type !== 'fieldset') {
+    throw new Error('Pattern is not a page.');
+  }
+  return {
+    ...bp,
+    patterns: {
+      ...bp.patterns,
+      [fieldsetPattern.id]: {
+        ...fieldsetPattern,
+        data: {
+          ...fieldsetPattern.data,
+          patterns: [...fieldsetPattern.data.patterns, pattern.id],
+        },
+      } satisfies FieldsetPattern,
       [pattern.id]: pattern,
     },
   };

@@ -16,8 +16,10 @@ import {
   updateFormSummary,
   updatePatternFromFormData,
   createOnePageBlueprint,
+  addPatternToFieldset,
 } from '..';
 import { type PageSetPattern } from '../patterns/page-set/config';
+import { FieldsetPattern } from '../patterns/fieldset';
 
 export class BlueprintBuilder {
   bp: Blueprint;
@@ -56,6 +58,16 @@ export class BlueprintBuilder {
     }
     const pagePatternId = root.data.pages[pageNum];
     this.bp = addPatternToPage(this.form, pagePatternId, pattern);
+    return pattern;
+  }
+
+  addPatternToFieldset(patternType: string, fieldsetPatternId: PatternId) {
+    const pattern = createDefaultPattern(this.config, patternType);
+    const root = this.form.patterns[fieldsetPatternId] as FieldsetPattern;
+    if (root.type !== 'fieldset') {
+      throw new Error('expected pattern to be a fieldset');
+    }
+    this.bp = addPatternToFieldset(this.form, fieldsetPatternId, pattern);
     return pattern;
   }
 
