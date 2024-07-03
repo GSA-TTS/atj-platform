@@ -1,7 +1,13 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import { type PatternId, type FieldsetProps } from '@atj/forms';
+import { FieldsetPattern } from '@atj/forms/src/patterns/fieldset';
 
+import {
+  FieldsetAddPatternButton,
+  FieldsetEmptyStateAddPatternButton,
+} from '../AddPatternDropdown';
 import { PatternComponent } from '../../../Form';
 import Fieldset from '../../../Form/components/Fieldset';
 import { useFormManagerStore } from '../../store';
@@ -10,8 +16,6 @@ import { PatternEditComponent } from '../types';
 import { PatternEditActions } from './common/PatternEditActions';
 import { PatternEditForm } from './common/PatternEditForm';
 import { usePatternEditFormContext } from './common/hooks';
-import { FieldsetPattern } from '@atj/forms/src/patterns/fieldset';
-import classNames from 'classnames';
 import styles from '../formEditStyles.module.css';
 
 const FieldsetEdit: PatternEditComponent<FieldsetProps> = ({
@@ -33,36 +37,66 @@ const FieldsetEdit: PatternEditComponent<FieldsetProps> = ({
 };
 
 const FieldsetPreview: PatternComponent<FieldsetProps> = props => {
+  const { addPatternToFieldset, deletePattern } = useFormManagerStore(
+    state => ({
+      addPatternToFieldset: state.addPatternToFieldset,
+      deletePattern: state.deletePattern,
+    })
+  );
   const pattern = useFormManagerStore(
     state => state.session.form.patterns[props._patternId]
   );
   return (
     <>
       <Fieldset {...(props as FieldsetProps)}>
+        {props.children}
         {pattern && pattern.data.patterns.length === 0 && (
           <div
+            data-pattern-edit-control="true"
             className={`${styles.usaAlert} usa-alert usa-alert--warning usa-alert--no-icon margin-left-3 margin-right-3 margin-bottom-3`}
           >
             <div className={`${styles.usaAlertBody} usa-alert__body`}>
-              <p className="usa-alert__text">
+              <div className="usa-alert__text">
                 <span className="alert-text display-inline-block text-top margin-right-2">
                   Empty sections will not display.
                 </span>
                 <span className="action-text add-question display-inline-block margin-right-2">
-                  <a className="usa-link" href="#">
-                    Add question
-                  </a>
+                  <FieldsetEmptyStateAddPatternButton
+                    title="Add question"
+                    patternSelected={patternType =>
+                      addPatternToFieldset(patternType, props._patternId)
+                    }
+                  />
                 </span>
                 <span className="action-text remove-section display-inline-block text-top margin-right-2">
-                  <a className="usa-link" href="#">
+                  <button
+                    className="usa-button usa-button--unstyled"
+                    onClick={() => {
+                      deletePattern(pattern.id);
+                    }}
+                  >
                     Remove section
-                  </a>
+                  </button>
                 </span>
-              </p>
+              </div>
             </div>
           </div>
         )}
-        {props.children}
+        {pattern.data.patterns.length > 0 && (
+          <div
+            data-pattern-edit-control="true"
+            className="margin-left-3 margin-right-3 margin-bottom-3 bg-none"
+          >
+            <div className={classNames(styles.usaAlertBody, 'usa-alert__body')}>
+              <FieldsetAddPatternButton
+                title="Add question to fieldset"
+                patternSelected={patternType =>
+                  addPatternToFieldset(patternType, props._patternId)
+                }
+              />
+            </div>
+          </div>
+        )}
       </Fieldset>
     </>
   );
@@ -95,17 +129,17 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
               {legend.error.message}
             </span>
           ) : null}
-          <input
-            className={classNames('usa-input bg-primary-lighter text-bold', {
-              'usa-input--error': legend.error,
-            })}
-            id={fieldId('legend')}
-            defaultValue={pattern.data.legend}
-            {...register('legend')}
-            type="text"
-            autoFocus
-          ></input>
         </label>
+        <input
+          className={classNames('usa-input bg-primary-lighter text-bold', {
+            'usa-input--error': legend.error,
+          })}
+          id={fieldId('legend')}
+          defaultValue={pattern.data.legend}
+          {...register('legend')}
+          type="text"
+          autoFocus
+        ></input>
       </div>
       <Fieldset type="fieldset" _patternId={patternId} />
       <PatternEditActions />

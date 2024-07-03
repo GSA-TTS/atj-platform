@@ -10,6 +10,7 @@ import { PatternEditComponent } from '../types';
 import { PatternEditForm } from './common/PatternEditForm';
 import { usePatternEditFormContext } from './common/hooks';
 import { PatternEditActions } from './common/PatternEditActions';
+import { FormSummary as FormSummaryPattern } from '@atj/forms/src/patterns/form-summary';
 
 const FormSummaryEdit: PatternEditComponent<FormSummaryProps> = ({
   focus,
@@ -34,7 +35,7 @@ const FormSummaryEdit: PatternEditComponent<FormSummaryProps> = ({
 const EditComponent = ({ pattern }: { pattern: Pattern }) => {
   const patternId = pattern.id;
   const { getFieldState, fieldId, register } =
-    usePatternEditFormContext(patternId);
+    usePatternEditFormContext<FormSummaryPattern>(patternId);
   const description = getFieldState('description');
   const title = getFieldState('title');
 

@@ -51,6 +51,7 @@
     "gulp": "^5.0.0",
     "http-server": "^14.1.1",
     "install": "^0.13.0",
+    "jsdom": "^24.1.0",
     "prop-types": "^15.8.1",
     "react-dom": "^18.2.0",
     "vite": "^5.2.11",
