@@ -32,3 +32,10 @@ To debug and follow the flow of a test in a browser, you can run:
 # run from this directory
 export E2E_ENDPOINT=http://localhost:4321; pnpm playwright test --ui-port=8080 --ui-host=0.0.0.0
 ```
+
+## Storybook Test Runner
+This takes all the stories and runs them with Playwright. Start your dev server and then run:
+
+```bash
+pnpm --filter=end-to-end-tests test:storybook --url http://localhost:9009 --config-dir ../packages/design/.storybook/ --browsers firefox chromium
+```
