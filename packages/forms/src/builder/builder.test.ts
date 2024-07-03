@@ -17,15 +17,15 @@ describe('form builder', () => {
 
   it('addPattern preserves existing structure', () => {
     const initial = createTestBlueprint();
-    const newBuilder = new BlueprintBuilder(defaultFormConfig, initial);
-    const newPattern = newBuilder.addPatternToPage('input');
-    expect(newBuilder.form.patterns[newPattern.id]).toEqual(newPattern);
+    const builder = new BlueprintBuilder(defaultFormConfig, initial);
+    const newPattern = builder.addPatternToPage('input');
+    expect(builder.form.patterns[newPattern.id]).toEqual(newPattern);
     const oldPage = getPattern<PagePattern>(initial, 'page-1');
-    const newPage = getPattern<PagePattern>(newBuilder.form, 'page-1');
-    expect(newPage.data.patterns).toEqual([
-      ...oldPage.data.patterns,
-      newPattern.id,
-    ]);
+    const newPage = getPattern<PagePattern>(builder.form, 'page-1');
+    expect(newPage.data).toEqual({
+      ...oldPage.data,
+      patterns: [...oldPage.data.patterns, newPattern.id],
+    });
   });
 
   it('removePattern removes pattern and sequence reference', () => {
