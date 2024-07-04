@@ -55,6 +55,26 @@
   padding-left: 0;
 }
 
+.draggableListWrapper button {
+  cursor: pointer;
+}
+
+.draggableListWrapper:focus-within,
+.draggableListWrapper button:not([disabled]):focus {
+  outline: 0.25rem solid #783cb9;
+}
+
+.draggableListWrapper [tabindex]:focus,
+.draggableListWrapper:has(input:focus),
+.draggableListWrapper:has(button:focus),
+.draggableListWrapper:has(textarea:focus) {
+  outline: none;
+}
+
+.draggableListWrapper .dropdownMenu {
+  margin-top: 5px;
+}
+
 /* Configure and Publish Pages */
 .progressPage {
   min-height: 60vh;
@@ -89,5 +109,12 @@
   content: '';
   flex: 1;
   border-bottom: 1px dotted #71767a; /* TODO: $theme-color-base */
-  margin: 0 1em;
+}
+
+.dottedLine::before {
+  margin: 0 1em 0 0;
+}
+
+.dottedLine::after {
+  margin: 0 0 0 1em;
 }

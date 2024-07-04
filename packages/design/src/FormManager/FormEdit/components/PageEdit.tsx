@@ -12,6 +12,7 @@ import { PatternEditForm } from './common/PatternEditForm';
 import { usePatternEditFormContext } from './common/hooks';
 import { PatternPreviewSequence } from './PreviewSequencePattern';
 import styles from '../formEditStyles.module.css';
+//import { useSearchParams } from 'react-router-dom';
 
 export const PageEdit: PatternEditComponent<PageProps> = props => {
   const handleParentClick = (
@@ -22,6 +23,9 @@ export const PageEdit: PatternEditComponent<PageProps> = props => {
       event.currentTarget.focus();
     }
   };
+
+  // const [searchParams] = useSearchParams();
+  // const pageNumberText = Number(searchParams.get('page')) + 1;
 
   return (
     <>
@@ -45,6 +49,7 @@ export const PageEdit: PatternEditComponent<PageProps> = props => {
           <span
             className={`${styles.pageNumber} padding-left-1 text-base-darkest bg-primary-lighter`}
           >
+            {/* Page {pageNumberText} */}
             Page X
           </span>
         </div>
