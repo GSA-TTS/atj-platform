@@ -12,28 +12,6 @@ jobs:
     #if: github.event.deployment_status.state == 'success'
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-      - name: Install dependencies
-        run: npm install -g pnpm && pnpm install
-      - name: Install Playwright Browsers
-        run: pnpm --filter=end-to-end-tests exec playwright install --with-deps
-      - name: Debugging steps
+      - name: Build Docker to run tests
         run: |
-          echo "Workflow triggered in branch '${{ github.ref }}'."
-          echo "Workflow triggered in head_ref '${{ github.head_ref }}'."
-          echo "Workflow triggered by event '${{ github.event_name }}'."
-          echo "Workflow triggered by actor '${{ github.actor }}''."
-          echo "Target url is '${{ github.event.deployment_status.target_url }}''."
-      - name: Determine E2E_ENDPOINT
-        run: >
-          echo E2E_ENDPOINT=$(if [[ "${{ github.event_name }}" == "pull_request" && "${{ github.head_ref }}" != "main" ]]; then
-          echo "${{ vars.PREVIEW_URL }}/${{ github.head_ref }}/design";
-          else
-          echo "${{ vars.MAIN_URL }}/design";
-          fi) >> $GITHUB_ENV
-      - name: Run Storybook tests
-        run: pnpm --filter=end-to-end-tests test:storybook --config-dir ../packages/design/.storybook/ --browsers firefox chromium --no-index-json
-        env:
-          TARGET_URL: '${{ env.E2E_ENDPOINT }}'
+          docker build --platform linux/amd64 --tag 'playwright' . -f ./e2e/Dockerfile --progress=plain --target test
