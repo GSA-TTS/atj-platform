@@ -24,7 +24,14 @@ jobs:
           echo "Workflow triggered by event '${{ github.event_name }}'."
           echo "Workflow triggered by actor '${{ github.actor }}''."
           echo "Target url is '${{ github.event.deployment_status.target_url }}''."
+      - name: Determine E2E_ENDPOINT
+        run: >
+          echo E2E_ENDPOINT=$(if [[ "${{ github.event_name }}" == "pull_request" && "${{ github.head_ref }}" != "main" ]]; then
+          echo "${{ vars.PREVIEW_URL }}/${{ github.head_ref }}";
+          else
+          echo "${{ vars.MAIN_URL }}";
+          fi) >> $GITHUB_ENV
       - name: Run Storybook tests
         run: pnpm --filter=end-to-end-tests test:storybook --config-dir ./packages/design/.storybook/ --browsers firefox chromium
         env:
-          TARGET_URL: '${{ github.event.deployment_status.target_url }}'
+          TARGET_URL: '${{ env.E2E_ENDPOINT }}'
