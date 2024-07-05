@@ -2,6 +2,9 @@ name: 'Post-deploy'
 on:
   deployment_status:
   workflow_dispatch:
+  push:
+    branches:
+      - "106-playwright-storybook"
 jobs:
   test:
     timeout-minutes: 60
