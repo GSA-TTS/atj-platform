@@ -1,5 +1,7 @@
 name: 'Post-deploy'
-on: deployment_status
+on:
+  deployment_status:
+  workflow_dispatch:
 jobs:
   test:
     timeout-minutes: 60
