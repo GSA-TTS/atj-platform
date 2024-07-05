@@ -4,7 +4,7 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
-    if: github.event.deployment_status.state == 'success'
+    #if: github.event.deployment_status.state == 'success'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -20,6 +20,6 @@ jobs:
           echo "Workflow triggered by actor '${{ github.actor }}''."
           echo "Target url is '${{ github.event.deployment_status.target_url }}''."
       - name: Run Storybook tests
-        run: pnpm --filter=end-to-end-tests test:storybook --config-dir ../packages/design/.storybook/ --browsers firefox chromium
+        run: pnpm --filter=end-to-end-tests test:storybook --config-dir ../../packages/design/.storybook/ --browsers firefox chromium
         env:
           TARGET_URL: '${{ github.event.deployment_status.target_url }}'
