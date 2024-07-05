@@ -16,8 +16,8 @@ EXPOSE 9090
 EXPOSE 9191
 RUN pnpm build --filter=@atj/spotlight --filter=@atj/design
 WORKDIR ./e2e
-RUN serve ../apps/spotlight/dist -p 9090 & sleep 5; pnpm playwright test;
-RUN serve ../packages/design/storybook-static -p 9191 & sleep 5; pnpm --filter=end-to-end-tests test:storybook --url http://localhost:9191 --config-dir ../packages/design/.storybook/ --browsers firefox chromium
+RUN serve ../apps/spotlight/dist -p 9090 -L & sleep 5; pnpm playwright test;
+RUN serve ../packages/design/storybook-static -p 9191 -L & sleep 5; pnpm --filter=end-to-end-tests test:storybook --url http://localhost:9191 --config-dir ../packages/design/.storybook/ --browsers firefox chromium
 
 FROM base as serve
 ENV E2E_ENDPOINT=http://localhost:4321
