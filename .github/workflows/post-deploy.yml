@@ -1,0 +1,25 @@
+name: Storybook Tests
+on: deployment_status
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    if: github.event.deployment_status.state == 'success'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - name: Install dependencies
+        run: npm install -g pnpm && pnpm install
+      - name: Debugging steps
+        run: |
+          echo "Workflow triggered in branch '${{ github.ref }}'."
+          echo "Workflow triggered in head_ref '${{ github.head_ref }}'."
+          echo "Workflow triggered by event '${{ github.event_name }}'."
+          echo "Workflow triggered by actor '${{ github.actor }}''."
+          echo "Target url is '${{ github.event.deployment_status.target_url }}''."
+      - name: Run Storybook tests
+        run: pnpm --filter=end-to-end-tests test:storybook --config-dir ../packages/design/.storybook/ --browsers firefox chromium
+        env:
+          TARGET_URL: '${{ github.event.deployment_status.target_url }}'
