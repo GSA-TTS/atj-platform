@@ -30,7 +30,7 @@ The platform is made up of the following high-level terms.
 
 ## Development
 
-This project uses the version of NodeJS that is in the .nvmrc. To ensure you're using the correct node version, run:
+This project uses the version of Node.js defined in [.nvmrc](./nvmrc). To ensure you're using the correct node version, you may use the [Node Version Manager (NVM)](https://github.com/nvm-sh/nvm):
 
 ```bash
 nvm install
