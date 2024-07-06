@@ -1,5 +1,4 @@
 ---
-import { getSession } from 'auth-astro/server';
 import '../styles.css';
 
 import UsaBanner from '../components/UsaBanner.astro';
@@ -10,8 +9,6 @@ interface Props {
   title: string;
 }
 const { title } = Astro.props;
-
-const session = await getSession(Astro.request);
 ---
 
 <html lang="en">
@@ -55,14 +52,6 @@ const session = await getSession(Astro.request);
       <UsaBanner />
       <Header />
       <main id="main-content">
-        {session ? <p>Welcome {session.user?.name}</p> : <p>Not logged in</p>}
-        <button id="login">Login</button>
-        <button id="logout">Logout</button>
-        <script>
-          const { signIn, signOut } = await import('auth-astro/client');
-          document.querySelector('#login').onclick = () => signIn('login-gov');
-          document.querySelector('#logout').onclick = () => signOut();
-        </script>
         <slot />
       </main>
       <Footer />
