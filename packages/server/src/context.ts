@@ -26,7 +26,7 @@ const createAstroAppContext = (Astro: any, env: any): AppContext => {
     formConfig: defaultFormConfig,
     formService: service.createTestFormService(),
     github: env.GITHUB,
-    title: Astro.locals.serverOptions.title,
+    title: Astro.locals.serverOptions?.title || 'Form Service',
     uswdsRoot: `${env.BASE_URL}uswds/`,
   };
 };

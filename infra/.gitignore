@@ -1,6 +1,7 @@
 tsconfig.tsbuildinfo
 cdktf.out/
 dist/
+secrets/
 
 # This package does not build to a dist directory, so add explicity exclude
 # patterns for the Typescript artifacts.
