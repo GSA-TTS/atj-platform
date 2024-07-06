@@ -6,7 +6,10 @@ export class AstroService extends Construct {
     scope: Construct,
     id: string,
     spaceId: string,
-    imageName: `${string}:${string}`
+    imageName: `${string}:${string}`,
+    secrets: {
+      loginGovPrivateKey: string;
+    }
   ) {
     super(scope, id);
 
@@ -19,11 +22,24 @@ export class AstroService extends Construct {
         }
       );
 
-    const route = new cloudfoundry.route.Route(scope, `${id}-route`, {
+    const route = new cloudfoundry.route.Route(this, `${id}-route`, {
       domain: domain.id,
       space: spaceId,
       hostname: id,
     });
+
+    const loginGovService =
+      new cloudfoundry.userProvidedService.UserProvidedService(
+        this,
+        `${id}-login-gov-service`,
+        {
+          name: `${id}-login-gov-service`,
+          space: spaceId,
+          credentials: {
+            SECRET_LOGIN_GOV_PRIVATE_KEY: secrets.loginGovPrivateKey,
+          },
+        }
+      );
 
     new cloudfoundry.app.App(this, `${id}-app`, {
       name: `${id}-app`,
@@ -36,6 +52,11 @@ export class AstroService extends Construct {
       routes: [
         {
           route: route.id,
+        },
+      ],
+      serviceBinding: [
+        {
+          serviceInstance: loginGovService.id,
         },
       ],
     });

@@ -3,6 +3,7 @@ import { Construct } from 'constructs';
 import * as cloudfoundry from '../../../.gen/providers/cloudfoundry';
 import { CLOUD_GOV_ORG_NAME } from './config';
 import { AstroService } from './node-astro';
+import { getSecret } from '../secrets';
 
 export class CloudGovSpace extends Construct {
   constructor(scope: Construct, id: string, deployEnv: string) {
@@ -21,13 +22,25 @@ export class CloudGovSpace extends Construct {
       scope,
       `${id}-server-doj`,
       space.id,
-      `server-doj:${deployEnv}`
+      `server-doj:${deployEnv}`,
+      {
+        loginGovPrivateKey: getSecret(
+          this,
+          `/${id}/server-doj/login.gov/private-key`
+        ),
+      }
     );
     new AstroService(
       scope,
       `${id}-server-kansas`,
       space.id,
-      `server-kansas:${deployEnv}`
+      `server-kansas:${deployEnv}`,
+      {
+        loginGovPrivateKey: getSecret(
+          this,
+          `/${id}/server-kansas/login.gov/private-key`
+        ),
+      }
     );
   }
 }
