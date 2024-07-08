@@ -6,7 +6,3 @@ test('Go to MyForms', async ({ page }) => {
   const response = await page.goto(`${BASE_URL}/${MyForms.getUrl()}`);
   expect(response?.ok()).toBe(true);
 });
-
-test('Deliberate failure', async ({ page }) => {
-  expect(false).toBe(true);
-});
