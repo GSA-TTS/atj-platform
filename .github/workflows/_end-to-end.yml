@@ -1,12 +1,8 @@
-name: 'Post-deploy'
+name: End-to-end tests
 on:
-  deployment_status:
-  workflow_dispatch:
-  push:
-    branches:
-      - "106-playwright-storybook"
+  workflow_call:
 jobs:
-  test:
+  end-to-end:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
