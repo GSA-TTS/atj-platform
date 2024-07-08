@@ -1,7 +1,6 @@
 name: End-to-end tests
 on:
-  push:
-  pull_request:
+  workflow_call:
 jobs:
   end-to-end:
     timeout-minutes: 60

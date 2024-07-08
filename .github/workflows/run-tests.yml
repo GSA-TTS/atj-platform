@@ -9,3 +9,6 @@ on:
 jobs:
   run-tests:
     uses: ./.github/workflows/_validate.yml
+  e2e:
+    uses: ./.github/workflows/_end-to-end.yml
+    secrets: inherit
