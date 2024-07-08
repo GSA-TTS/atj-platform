@@ -51,3 +51,30 @@ test('Add questions', async ({ page }) => {
   expect(element1Index).toBeLessThan(element2Index);
 
 });
+
+test('Drag-and-drop via keyboard', async ({ page }) => {
+  await createNewForm(page);
+
+  const menuButton = page.getByRole('button', { name: 'Question' });
+  await menuButton.click();
+  await page.getByRole('button', { name: 'Short Answer' }).click();
+  await menuButton.click();
+  await page.getByRole('button', { name: 'Radio Buttons' }).click();
+
+  const handle = page.locator('[aria-describedby="DndDescribedBy-0"]').first();
+  await handle.focus();
+
+  await page.keyboard.press('Enter');
+  await page.keyboard.press('ArrowDown');
+  await page.keyboard.press('Enter');
+  await page.waitForTimeout(1000);
+
+  const element1 = page.getByText('Field Label');
+  const element2 = page.getByText('Radio group label');
+
+  const htmlContent = await page.content();
+  const element1Index = htmlContent.indexOf((await element1.textContent() as string));
+  const element2Index = htmlContent.indexOf((await element2.textContent() as string));
+  expect(element1Index).toBeGreaterThan(element2Index);
+
+});
