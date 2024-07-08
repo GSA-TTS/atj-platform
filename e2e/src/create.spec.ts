@@ -10,6 +10,14 @@ const createNewForm = async (page: Page) => {
   await page.getByRole('button', { name: 'Create New' }).click();
 }
 
+const addQuestions = async (page: Page) => {
+  const menuButton = page.getByRole('button', { name: 'Question' });
+  await menuButton.click();
+  await page.getByRole('button', { name: 'Short Answer' }).click();
+  await menuButton.click();
+  await page.getByRole('button', { name: 'Radio Buttons' }).click();
+}
+
 test('Create form from scratch', async ({ page }) => {
   const regexp = pathToRegexp(Create.path);
   await createNewForm(page);
@@ -30,12 +38,7 @@ test('Create form from scratch', async ({ page }) => {
 
 test('Add questions', async ({ page }) => {
   await createNewForm(page);
-
-  const menuButton = page.getByRole('button', { name: 'Question' });
-  await menuButton.click();
-  await page.getByRole('button', { name: 'Short Answer' }).click();
-  await menuButton.click();
-  await page.getByRole('button', { name: 'Radio Buttons' }).click();
+  await addQuestions(page);
 
   // Create locators for both elements
   const fields = page.locator('.usa-label');
@@ -54,12 +57,7 @@ test('Add questions', async ({ page }) => {
 
 test('Drag-and-drop via keyboard', async ({ page }) => {
   await createNewForm(page);
-
-  const menuButton = page.getByRole('button', { name: 'Question' });
-  await menuButton.click();
-  await page.getByRole('button', { name: 'Short Answer' }).click();
-  await menuButton.click();
-  await page.getByRole('button', { name: 'Radio Buttons' }).click();
+  await addQuestions(page);
 
   const handle = page.locator('[aria-describedby="DndDescribedBy-0"]').first();
   await handle.focus();
