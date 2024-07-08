@@ -2,6 +2,7 @@ import { test, expect, Page } from '@playwright/test';
 import { GuidedFormCreation, Create } from '../../packages/design/src/FormManager/routes';
 import { BASE_URL } from './constants';
 import { pathToRegexp } from 'path-to-regexp';
+import html from 'astro/dist/vite-plugin-html';
 
 
 const createNewForm = async (page: Page) => {
@@ -16,6 +17,20 @@ const addQuestions = async (page: Page) => {
   await page.getByRole('button', { name: 'Short Answer' }).click();
   await menuButton.click();
   await page.getByRole('button', { name: 'Radio Buttons' }).click();
+}
+
+const getElementIndices = async (page: Page) => {
+  const element1 = page.getByText('Field Label');
+  const element2 = page.getByText('Radio group label');
+
+  const htmlContent = await page.content();
+  const element1Index = htmlContent.indexOf(
+    (await element1.textContent()) as string
+  );
+  const element2Index = htmlContent.indexOf(
+    (await element2.textContent()) as string
+  );
+  return { element1Index, element2Index };
 }
 
 test('Create form from scratch', async ({ page }) => {
@@ -67,12 +82,24 @@ test('Drag-and-drop via keyboard', async ({ page }) => {
   await page.keyboard.press('Enter');
   await page.waitForTimeout(1000);
 
-  const element1 = page.getByText('Field Label');
-  const element2 = page.getByText('Radio group label');
+  const { element1Index, element2Index } = await getElementIndices(page);
+  expect(element1Index).toBeGreaterThan(element2Index);
 
-  const htmlContent = await page.content();
-  const element1Index = htmlContent.indexOf((await element1.textContent() as string));
-  const element2Index = htmlContent.indexOf((await element2.textContent() as string));
+});
+
+test('Drag-and-drop via mouse interaction', async ({ page }) => {
+  await createNewForm(page);
+  await addQuestions(page);
+
+  const handle = page.locator('[aria-describedby="DndDescribedBy-0"]').first();
+  await handle.hover();
+  await page.mouse.down();
+  const nextElement = page.locator('.draggable-list-item-wrapper').nth(1);
+  await nextElement.hover();
+  await page.mouse.up();
+  await page.waitForTimeout(1000);
+
+  const { element1Index, element2Index } = await getElementIndices(page);
   expect(element1Index).toBeGreaterThan(element2Index);
 
 });
