@@ -6,7 +6,7 @@ ENV NODE_ENV=test
 WORKDIR /srv/apps/atj-platform
 COPY . .
 RUN corepack enable
-RUN pnpm install --filter=@atj/spotlight --filter=@atj/design --frozen-lockfile
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 FROM base as test
 ENV E2E_ENDPOINT=http://localhost:9090
