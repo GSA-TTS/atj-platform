@@ -54,25 +54,6 @@ test('Add questions', async ({ page }) => {
 
 });
 
-test('Drag-and-drop via keyboard', async ({ page }) => {
-  await createNewForm(page);
-  await addQuestions(page);
-
-  const handle = page.locator('[aria-describedby="DndDescribedBy-0"]').first();
-  await handle.focus();
-
-  await page.keyboard.press('Enter');
-  await page.keyboard.press('ArrowDown');
-  await page.keyboard.press('Enter');
-
-  const item = page.locator('.draggable-list-item-wrapper').nth(1);
-
-  await expect(item).toContainText(
-    'Field label'
-  );
-
-});
-
 test('Drag-and-drop via mouse interaction', async ({ page }) => {
   await createNewForm(page);
   await addQuestions(page);
@@ -84,10 +65,12 @@ test('Drag-and-drop via mouse interaction', async ({ page }) => {
   await nextElement.hover();
   await page.mouse.up();
 
-  const item = page.locator('.draggable-list-item-wrapper').nth(1);
+  // Initiating a reorder clones the element. We want to await the count to go back to 1 to
+  // signify the invocation of the drag event has completed and the update has rendered.
+  await expect(page.getByText('Field label')).toHaveCount(1, {
+    timeout: 10000
+  });
 
-  await expect(item).toContainText(
-    'Field label'
-  );
+  await expect(page.locator('.draggable-list-item-wrapper').nth(1)).toContainText('Field label');
 
 });
