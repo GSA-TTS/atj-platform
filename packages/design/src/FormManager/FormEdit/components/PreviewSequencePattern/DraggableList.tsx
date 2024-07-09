@@ -115,7 +115,11 @@ const SortableItemOverlay = ({ children }: { children: React.ReactNode }) => {
       }}
     >
       <div className="grid-row draggable-list-item">
-        <div className="grid-col-12 width-full draggable-list-button padding-2">
+        <div className={`${styles.draggableListButton} grid-col-12 width-full draggable-list-button padding-2`}
+        style={{
+          background: '#f0f0f0',
+        }}
+        >
           <svg
             className="usa-icon margin-x-auto display-block"
             aria-hidden="true"
@@ -150,7 +154,7 @@ const SortableItem = ({
 
   return (
     <div
-      className={`${styles.draggableListWrapper} draggable-list-item-wrapper bg-white margin-bottom-3`}
+      className={`${styles.draggableListWrapper} draggable-list-item-wrapper bg-white margin-bottom-3 cursor-pointer`}
       ref={setNodeRef}
       style={{
         transform: CSS.Translate.toString(transform),
@@ -160,9 +164,9 @@ const SortableItem = ({
         outline: isOver ? 'none' : '',
       }}
     >
-      <div className="grid-row draggable-list-item cursor-pointer">
+      <div className="grid-row draggable-list-item">
         <div
-          className="grid-col-12 width-full draggable-list-button cursor-grab padding-2"
+          className={`${styles.draggableListButton} grid-col-12 width-full draggable-list-button padding-2`}
           {...listeners}
           {...attributes}
           style={{
