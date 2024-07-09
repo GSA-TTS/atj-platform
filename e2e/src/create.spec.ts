@@ -2,11 +2,9 @@ import { test, expect, Page } from '@playwright/test';
 import { GuidedFormCreation, Create } from '../../packages/design/src/FormManager/routes';
 import { BASE_URL } from './constants';
 import { pathToRegexp } from 'path-to-regexp';
-import html from 'astro/dist/vite-plugin-html';
 
 
 const createNewForm = async (page: Page) => {
-  console.log(`${BASE_URL}/${GuidedFormCreation.getUrl()}`);
   await page.goto(`${BASE_URL}/${GuidedFormCreation.getUrl()}`);
   await page.getByRole('button', { name: 'Create New' }).click();
 }
@@ -17,20 +15,6 @@ const addQuestions = async (page: Page) => {
   await page.getByRole('button', { name: 'Short Answer' }).click();
   await menuButton.click();
   await page.getByRole('button', { name: 'Radio Buttons' }).click();
-}
-
-const getElementIndices = async (page: Page) => {
-  const element1 = page.getByText('Field Label');
-  const element2 = page.getByText('Radio group label');
-
-  const htmlContent = await page.content();
-  const element1Index = htmlContent.indexOf(
-    (await element1.textContent()) as string
-  );
-  const element2Index = htmlContent.indexOf(
-    (await element2.textContent()) as string
-  );
-  return { element1Index, element2Index };
 }
 
 test('Create form from scratch', async ({ page }) => {
@@ -57,7 +41,7 @@ test('Add questions', async ({ page }) => {
 
   // Create locators for both elements
   const fields = page.locator('.usa-label');
-  const element1 = fields.filter({ hasText: 'Field Label' })
+  const element1 = fields.filter({ hasText: 'Field label' });
   const element2 = fields.filter({ hasText: 'Radio group label' });
   expect(element1.first()).toBeTruthy();
   expect(element2.first()).toBeTruthy();
@@ -80,10 +64,12 @@ test('Drag-and-drop via keyboard', async ({ page }) => {
   await page.keyboard.press('Enter');
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('Enter');
-  await page.waitForTimeout(1000);
 
-  const { element1Index, element2Index } = await getElementIndices(page);
-  expect(element1Index).toBeGreaterThan(element2Index);
+  const item = page.locator('.draggable-list-item-wrapper').nth(1);
+
+  await expect(item).toContainText(
+    'Field label'
+  );
 
 });
 
@@ -97,9 +83,11 @@ test('Drag-and-drop via mouse interaction', async ({ page }) => {
   const nextElement = page.locator('.draggable-list-item-wrapper').nth(1);
   await nextElement.hover();
   await page.mouse.up();
-  await page.waitForTimeout(1000);
 
-  const { element1Index, element2Index } = await getElementIndices(page);
-  expect(element1Index).toBeGreaterThan(element2Index);
+  const item = page.locator('.draggable-list-item-wrapper').nth(1);
+
+  await expect(item).toContainText(
+    'Field label'
+  );
 
 });
