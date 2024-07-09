@@ -115,10 +115,11 @@ const SortableItemOverlay = ({ children }: { children: React.ReactNode }) => {
       }}
     >
       <div className="grid-row draggable-list-item">
-        <div className={`${styles.draggableListButton} grid-col-12 width-full draggable-list-button padding-2`}
-        style={{
-          background: '#f0f0f0',
-        }}
+        <div
+          className={`${styles.draggableListButton} grid-col-12 width-full draggable-list-button padding-2`}
+          style={{
+            background: '#f0f0f0',
+          }}
         >
           <svg
             className="usa-icon margin-x-auto display-block"
