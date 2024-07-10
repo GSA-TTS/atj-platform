@@ -7,7 +7,12 @@ import {
   useSearchParams,
 } from 'react-router-dom';
 
-import { type FormConfig, createFormSession, nullSession } from '@atj/forms';
+import {
+  type FormConfig,
+  createFormSession,
+  nullSession,
+  defaultFormConfig,
+} from '@atj/forms';
 import { service } from '@atj/forms';
 
 import { type ComponentForPattern } from '../Form';
@@ -28,22 +33,37 @@ import AvailableFormList, {
 } from '../AvailableFormList';
 import styles from './FormEdit/formEditStyles.module.css';
 
-export type FormManagerContext = {
+import { defaultPatternComponents, defaultPatternEditComponents } from '..';
+
+export type PatternLessFormManagerContext = {
   baseUrl: `${string}/`;
-  components: ComponentForPattern;
-  config: FormConfig;
-  editComponents: EditComponentForPattern;
   formService: service.FormService;
   uswdsRoot: `${string}/`;
   urlForForm: UrlForForm;
   urlForFormManager: UrlForFormManager;
 };
 
-type FormManagerProps = {
-  context: FormManagerContext;
+export type FormManagerContext = PatternLessFormManagerContext & {
+  config: FormConfig;
+  components: ComponentForPattern;
+  editComponents: EditComponentForPattern;
 };
 
-export default function FormManager({ context }: FormManagerProps) {
+type FormManagerProps = {
+  //context: FormManagerContext;
+  context: PatternLessFormManagerContext;
+};
+
+export default function FormManager(props: FormManagerProps) {
+  // For now, hardcode the pattern React components.
+  // If these are user-configurable, we'll likely need to, in some manner,
+  // inject a compiled bundle into the application.
+  const context: FormManagerContext = {
+    ...props.context,
+    components: defaultPatternComponents,
+    config: defaultFormConfig,
+    editComponents: defaultPatternEditComponents,
+  };
   return (
     <HashRouter>
       <Routes>

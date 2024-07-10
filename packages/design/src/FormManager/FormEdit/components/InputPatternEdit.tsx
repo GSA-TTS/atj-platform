@@ -25,7 +25,9 @@ const InputPatternEdit: PatternEditComponent<TextInputProps> = ({
           editComponent={<EditComponent patternId={focus.pattern.id} />}
         ></PatternEditForm>
       ) : (
-        <TextInput {...previewProps} />
+        <div className="padding-left-3 padding-bottom-3 padding-right-3">
+          <TextInput {...previewProps} />
+        </div>
       )}
     </>
   );
@@ -72,6 +74,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
             defaultValue={pattern.data.label}
             {...register('label')}
             type="text"
+            autoFocus
           ></input>
         </label>
       </div>

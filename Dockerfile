@@ -16,9 +16,9 @@ RUN pnpm build
 RUN pnpm --filter=$APP_DIR --prod deploy /app/$APP_DIR
 
 FROM base AS app
-ARG APP_DIR=doj-demo
+ARG APP_DIR
 
-LABEL org.opencontainers.image.description 10x-atj DOJ demo
+LABEL org.opencontainers.image.description 10x Access to Justice Form Builder
 
 COPY --from=build /app/$APP_DIR /app/$APP_DIR
 COPY --from=build /usr/src/app/apps/$APP_DIR/dist /app/$APP_DIR/dist
@@ -28,7 +28,7 @@ ENV HOST=0.0.0.0
 ENV PORT=4321
 EXPOSE 4321
 
-CMD [ "node", "./dist/server/entry.mjs" ]
+CMD [ "node", "./dist/index.js" ]
 
 #HEALTHCHECK --interval=5m --timeout=3s \
 #  CMD curl -f http://localhost:4321/ || exit 1

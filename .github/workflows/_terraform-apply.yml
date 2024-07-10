@@ -28,7 +28,7 @@ jobs:
           node-version: ${{ steps.nvmrc.outputs.NODE_VERSION }}
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
         id: pnpm-install
         with:
           version: 8

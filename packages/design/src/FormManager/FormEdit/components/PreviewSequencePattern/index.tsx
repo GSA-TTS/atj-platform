@@ -8,6 +8,7 @@ import { PatternEditComponent } from '../../types';
 
 // TODO: consider merging this component with DraggableList, to clean up
 // sematics around how its children are handled.
+// Counterpoint: it's nice to have state management separate from DraggableList.
 export const PatternPreviewSequence: PatternEditComponent<
   SequenceProps
 > = props => {

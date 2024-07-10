@@ -10,7 +10,7 @@ const TextInput: PatternComponent<TextInputProps> = props => {
   return (
     <div className="usa-form-group-wrapper" key={props.inputId}>
       <div
-        className={classNames('usa-form-group', {
+        className={classNames('usa-form-group margin-top-2', {
           'usa-form-group--error': props.error,
         })}
       >

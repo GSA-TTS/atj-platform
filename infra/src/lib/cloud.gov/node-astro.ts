@@ -2,7 +2,12 @@ import { Construct } from 'constructs';
 import * as cloudfoundry from '../../../.gen/providers/cloudfoundry';
 
 export class AstroService extends Construct {
-  constructor(scope: Construct, id: string, spaceId: string) {
+  constructor(
+    scope: Construct,
+    id: string,
+    spaceId: string,
+    imageName: `${string}:${string}`
+  ) {
     super(scope, id);
 
     const domain =
@@ -23,8 +28,7 @@ export class AstroService extends Construct {
     new cloudfoundry.app.App(this, `${id}-app`, {
       name: `${id}-app`,
       space: spaceId,
-      //dockerImage: 'ghcr.io/gsa-tts/tts-10x-atj-dev/doj-demo:latest',
-      dockerImage: 'ghcr.io/gsa-tts/atj-platform/doj-demo:main',
+      dockerImage: `ghcr.io/gsa-tts/atj-platform/${imageName}`,
       memory: 1024,
       diskQuota: 4096,
       healthCheckType: 'http',

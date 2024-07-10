@@ -75,7 +75,7 @@ export const testUpdateFormFieldOnSubmitByElement = async (
   const canvas = within(canvasElement);
 
   await userEvent.click(element);
-  const input = canvas.getByLabelText(fieldLabel);
+  const input = await canvas.findByLabelText(fieldLabel);
 
   // Enter new text for the field
   await userEvent.clear(input);
@@ -89,9 +89,8 @@ export const testUpdateFormFieldOnSubmitByElement = async (
    */
   form?.requestSubmit();
 
-  await expect(
-    (await canvas.findAllByText(updatedValue)).length
-  ).toBeGreaterThan(0);
+  const updatedElement = await canvas.findAllByText(updatedValue);
+  await expect(updatedElement.length).toBeGreaterThan(0);
 };
 
 export const testEmptyFormLabelError = async (
@@ -122,7 +121,7 @@ export const testEmptyFormLabelErrorByElement = async (
   const canvas = within(canvasElement);
 
   await userEvent.click(element);
-  const input = canvas.getByLabelText(fieldLabel);
+  const input = await canvas.findByLabelText(fieldLabel);
 
   // Clear input, remove focus, and wait for error
   await userEvent.clear(input);

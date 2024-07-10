@@ -21,9 +21,10 @@ export default storyConfig;
 export const Basic: StoryObj<typeof PageSetEdit> = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    const pagesetHeaderElement = await canvas.findByText(/Page 1/);
     await testUpdateFormFieldOnSubmitByElement(
       canvasElement,
-      await canvas.findByText('Page X'),
+      pagesetHeaderElement,
       'Page title',
       'Page 1 updated'
     );

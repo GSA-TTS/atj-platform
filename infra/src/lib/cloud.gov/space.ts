@@ -5,7 +5,7 @@ import { CLOUD_GOV_ORG_NAME } from './config';
 import { AstroService } from './node-astro';
 
 export class CloudGovSpace extends Construct {
-  constructor(scope: Construct, id: string) {
+  constructor(scope: Construct, id: string, deployEnv: string) {
     super(scope, id);
 
     const space = new cloudfoundry.dataCloudfoundrySpace.DataCloudfoundrySpace(
@@ -17,6 +17,17 @@ export class CloudGovSpace extends Construct {
       }
     );
 
-    new AstroService(scope, `${id}-doj-demo`, space.id);
+    new AstroService(
+      scope,
+      `${id}-server-doj`,
+      space.id,
+      `server-doj:${deployEnv}`
+    );
+    new AstroService(
+      scope,
+      `${id}-server-kansas`,
+      space.id,
+      `server-kansas:${deployEnv}`
+    );
   }
 }

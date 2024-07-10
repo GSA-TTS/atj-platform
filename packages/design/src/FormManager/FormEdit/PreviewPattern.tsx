@@ -33,13 +33,13 @@ export const PreviewPattern: PatternComponent = function PreviewPattern(props) {
     <div
       ref={focusRef}
       onClick={event => {
-        if (EditComponent) {
+        if (EditComponent && !isPatternEditControlEvent(event)) {
           event.stopPropagation();
           setFocus(props._patternId);
         }
       }}
       onFocus={event => {
-        if (EditComponent) {
+        if (EditComponent && !isPatternEditControlEvent(event)) {
           event.stopPropagation();
           setFocus(props._patternId);
         }
@@ -48,4 +48,27 @@ export const PreviewPattern: PatternComponent = function PreviewPattern(props) {
       <EditComponent context={context} previewProps={props} focus={focus} />
     </div>
   );
+};
+
+/**
+ * Determine if this mouse event corresponds to a pattern edit control, which
+ * should not trigger setting the pattern edit focus.
+ */
+const isPatternEditControlEvent = (
+  event:
+    | React.MouseEvent<HTMLDivElement, MouseEvent>
+    | React.FocusEvent<HTMLDivElement, Element>
+) => {
+  const patternEditControls = event.currentTarget.querySelectorAll(
+    '[data-pattern-edit-control="true"]'
+  );
+  for (const patternEditControl of patternEditControls) {
+    if (
+      patternEditControl === event.target ||
+      patternEditControl.contains(event.target as HTMLElement)
+    ) {
+      return true;
+    }
+  }
+  return false;
 };
