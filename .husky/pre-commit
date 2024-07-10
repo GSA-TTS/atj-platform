@@ -1,12 +1,4 @@
 #!/bin/sh
-
 pnpm lint
 pnpm format
 pnpm test
-
-#command -v docker >/dev/null 2>&1 || { echo "Docker is not installed, skipping Docker commands." >&2; exit 0; }
-#
-#docker build --tag 'playwright' . -f ./e2e/Dockerfile --target test
-#
-## It's important to exit with 0 status code if the commit should not be aborted
-#exit 0
