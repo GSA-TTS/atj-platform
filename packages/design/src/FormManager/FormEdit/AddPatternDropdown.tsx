@@ -172,22 +172,22 @@ export const FieldsetAddPatternButton = ({
         isOpen={isOpen}
         patternSelected={patternSelected}
       >
-        <svg
-          className="usa-icon text-base"
-          width="24"
-          height="24"
-          aria-hidden="true"
-          focusable="false"
-          role="img"
-        >
-          <use xlinkHref={`${uswdsRoot}img/sprite.svg#add_circle`}></use>
-        </svg>{' '}
         <button
           className={classNames(
             'bg-white text-base padding-0 border-0 cursor-pointer'
           )}
           onClick={() => setIsOpen(!isOpen)}
         >
+          <svg
+            className="usa-icon text-base"
+            width="24"
+            height="24"
+            aria-hidden="true"
+            focusable="false"
+            role="img"
+          >
+            <use xlinkHref={`${uswdsRoot}img/sprite.svg#add_circle`}></use>
+          </svg>{' '}
           <span className="display-inline-block text-ttop tablet:width-auto text-center">
             <span className="display-inline-block text-ttop margin-right-1">
               {title}
