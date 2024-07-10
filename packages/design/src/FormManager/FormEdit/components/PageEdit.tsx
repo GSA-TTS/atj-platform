@@ -5,6 +5,7 @@ import { PageProps } from '@atj/forms';
 import { en as message } from '@atj/common/src/locales/en/app';
 import { PagePattern } from '@atj/forms/src/patterns/page/config';
 
+import { useRouteParams } from '../../../FormRouter/hooks';
 import { PatternEditComponent } from '../types';
 
 import { PatternEditActions } from './common/PatternEditActions';
@@ -22,6 +23,10 @@ export const PageEdit: PatternEditComponent<PageProps> = props => {
       event.currentTarget.focus();
     }
   };
+
+  const { routeParams } = useRouteParams();
+  const params = new URLSearchParams(routeParams?.toString());
+  const pageNumberText = Number(params.get('page')) + 1;
 
   return (
     <>
@@ -45,7 +50,7 @@ export const PageEdit: PatternEditComponent<PageProps> = props => {
           <span
             className={`${styles.pageNumber} padding-left-1 text-base-darkest bg-primary-lighter`}
           >
-            Page X
+            Page {pageNumberText}
           </span>
         </div>
       )}
