@@ -38,17 +38,16 @@ describe('set-login-gov-secrets command', () => {
     };
     const appKey = randomUUID();
 
-    await setLoginGovSecrets(context, 'dev', appKey);
+    const oldResult = await setLoginGovSecrets(context, 'dev', appKey);
     const secondResult = await setLoginGovSecrets(context, 'dev', appKey);
 
     expect(secondResult.preexisting).toEqual(true);
     expect(
       await context.vault.getSecrets(await context.vault.getSecretKeys())
     ).toEqual({
-      [`/tts-10x-atj-dev/${appKey}/login.gov/public-key`]:
-        secondResult.publicKey,
+      [`/tts-10x-atj-dev/${appKey}/login.gov/public-key`]: oldResult.publicKey,
       [`/tts-10x-atj-dev/${appKey}/login.gov/private-key`]:
-        secondResult.privateKey,
+        oldResult.privateKey,
     });
   });
 });
