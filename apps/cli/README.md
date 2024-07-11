@@ -2,7 +2,7 @@
 
 This package defines the platform's command-line interface.
 
-Commands are defined to aid in performance management operations for the platform. To see available commands, run:
+Commands are defined to aid with platform management operations. To see available commands, run:
 
 ```bash
 pnpm cli --help
