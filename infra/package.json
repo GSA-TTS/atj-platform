@@ -18,6 +18,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@aws-sdk/client-ssm": "^3.613.0",
     "cdktf": "^0.20.7",
     "cdktf-cli": "^0.20.7",
     "constructs": "^10.3.0"

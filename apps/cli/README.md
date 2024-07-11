@@ -1,13 +1,11 @@
 # @atj/cli-app
 
-This package includes a very simple command-line interface.
+This package defines the platform's command-line interface.
 
-## Example commands
-
-Examples:
+Commands are defined to aid in performance management operations for the platform. To see available commands, run:
 
 ```bash
-pnpm run cli create-workspace-graph
+pnpm cli --help
 ```
 
 ## Development

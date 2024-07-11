@@ -1,9 +1,8 @@
-import { join } from 'path';
-import process from 'process';
-import { CliController } from './cli-controller';
+const { join } = require('path');
+const { CliController } = require('./cli-controller');
 
 // This should map to the directory containing the package.json.
-// By convention, assume that the originating process was run from the root
+// By convention, assume that the originating process was run = require(the roo)t
 // directory.
 const workspaceRoot = join(process.cwd(), '../../');
 
@@ -16,4 +15,4 @@ const app = CliController({
     apiKey: process.env.VITE_DOCASSEMBLE_API_KEY || '',
   },*/
 });
-app.parseAsync(process.argv).then(() => console.log('Done'));
+app.parseAsync(process.argv).then(() => console.error('Exiting...'));
