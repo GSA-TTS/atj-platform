@@ -1,31 +1,12 @@
-import { promises as fs } from 'fs';
 import { Command } from 'commander';
 
 import { createDependencyGraph } from '@atj/dependency-graph';
-import {
-  createInMemorySecretsVault,
-  getSecretMap,
-  getSecretsVault,
-} from '@atj/secrets';
+import { commands as secretCommands, getSecretsVault } from '@atj/secrets';
 
 type Context = {
   console: Console;
   workspaceRoot: string;
   file?: string;
-};
-
-const getContextSecretsVault = async (ctx: Context) => {
-  if (ctx.file) {
-    const maybeJsonString = (await fs.readFile(ctx.file)).toString();
-    const result = createInMemorySecretsVault(maybeJsonString);
-    if (result.success) {
-      return result.data;
-    } else {
-      throw new Error(result.error);
-    }
-  } else {
-    return getSecretsVault();
-  }
 };
 
 export const CliController = (ctx: Context) => {
@@ -59,47 +40,44 @@ export const CliController = (ctx: Context) => {
 };
 
 const addSecretCommands = (ctx: Context, cli: Command) => {
-  const secrets = cli
-    .command('secrets')
-    .description('secrets management commands');
+  const cmd = cli.command('secrets').description('secrets management commands');
 
-  secrets
+  cmd
     .command('get')
     .description('get a secret value')
     .argument('<string>', 'secret key name')
     .action(async (key: string) => {
-      const vault = await getContextSecretsVault(ctx);
-      const value = vault.getSecret(key);
-      console.log(value);
+      const vault = await getSecretsVault(ctx);
+      const secret = await secretCommands.getSecret(vault, key);
+      console.log(secret);
     });
 
-  secrets
+  cmd
     .command('set')
     .description('set a secret value')
     .argument('<string>', 'secret key name')
     .argument('<string>', 'secret value to set')
     .action(async (key: string, value: string) => {
-      const vault = await getContextSecretsVault(ctx);
-      await vault.setSecret(key, value);
-      console.log(`Secret value to "${key}" saved`);
+      const vault = await getSecretsVault(ctx);
+      await secretCommands.setSecret(vault, key, value);
     });
 
-  secrets
+  cmd
     .command('list')
     .description('list all secret keys')
     .action(async () => {
-      const vault = await getContextSecretsVault(ctx);
-      const secretKeys = await vault.getSecretKeys();
+      const vault = await getSecretsVault(ctx);
+      const secretKeys = await secretCommands.getSecretKeyList(vault);
       console.log(JSON.stringify(secretKeys, null, 2));
     });
 
-  secrets
+  cmd
     .command('show')
     .description('show all secrets')
     .action(async () => {
-      const vault = await getContextSecretsVault(ctx);
-      const secretMap = await getSecretMap(vault);
-      console.log(JSON.stringify(secretMap, null, 2));
+      const vault = await getSecretsVault(ctx);
+      const allSecrets = await secretCommands.getSecrets(vault);
+      console.log(JSON.stringify(allSecrets, null, 2));
     });
 };
 
