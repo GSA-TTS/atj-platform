@@ -12,6 +12,7 @@ RUN corepack enable
 FROM base as test
 ENV E2E_ENDPOINT=http://localhost:9090
 ENV CI=true
+COPY . .
 RUN npm install -g serve
 EXPOSE 9090
 EXPOSE 9191
@@ -23,5 +24,12 @@ RUN serve ../packages/design/storybook-static -p 9191 -L & while ! nc -z localho
 
 FROM base as serve
 ENV E2E_ENDPOINT=http://localhost:4321
-EXPOSE 4321 9292 9323
-CMD ["pnpm", "dev", "--filter=@atj/spotlight", "--", "--host"]
+EXPOSE 4321 9292 9323 9009
+RUN git config --global --add safe.directory /srv/apps/atj-platform
+CMD ["pnpm", "dev", "--filter=@atj/spotlight", "--", "--host", "--silent"]
+
+FROM base as local
+RUN npm install -g serve
+EXPOSE 9090 9191 4321 9292 9323
+WORKDIR ./e2e
+CMD serve ../packages/design/storybook-static -p 9191 -L & sleep 5; pnpm --filter=end-to-end-tests test:storybook --url http://localhost:9191 --config-dir ../packages/design/.storybook/ --browsers firefox chromium
