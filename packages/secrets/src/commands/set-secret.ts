@@ -6,5 +6,4 @@ export const setSecret = async (
   value: string
 ) => {
   await vault.setSecret(key, value);
-  console.log(`Secret value to "${key}" saved`);
 };

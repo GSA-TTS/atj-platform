@@ -5,6 +5,7 @@ import {
   PutParameterCommand,
   DescribeParametersCommand,
   DescribeParametersCommandOutput,
+  ParameterNotFound,
 } from '@aws-sdk/client-ssm';
 
 import type { SecretKey, SecretMap, SecretValue, SecretsVault } from './types';
@@ -22,6 +23,9 @@ export class AWSParameterStoreSecretsVault implements SecretsVault {
       );
       return response.Parameter?.Value || '';
     } catch (error) {
+      if (error instanceof ParameterNotFound) {
+        return undefined;
+      }
       console.error('Error getting parameter:', error);
       throw error;
     }

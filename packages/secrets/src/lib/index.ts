@@ -11,9 +11,16 @@ import {
 import { InMemorySecretsVault } from './in-memory';
 export { getSecretMapFromJsonString } from './types';
 
-export const getSecretsVault = async (ctx?: { file?: string }) => {
-  if (ctx?.file) {
-    const maybeJsonString = (await fs.readFile(ctx.file)).toString();
+/**
+ * Returns either a production vault or an in-memory vault initialized with the
+ * contents of a JSON file.
+ * @param jsonFilePath Optional path to a local JSON file that will stand-in
+ * for a secrets vault.
+ * @returns In-memory or production vault.
+ */
+export const getSecretsVault = async (jsonFilePath?: string) => {
+  if (jsonFilePath) {
+    const maybeJsonString = (await fs.readFile(jsonFilePath)).toString();
     const result = createInMemorySecretsVault(maybeJsonString);
     if (result.success) {
       return result.data;
