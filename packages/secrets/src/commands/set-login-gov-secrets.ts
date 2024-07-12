@@ -7,9 +7,18 @@ import { type DeployEnv, getAppLoginGovKeys } from '../values';
 
 const execPromise = promisify(exec);
 
+type GenerateLoginGovKey = (
+  privateKeyPath: string,
+  publicKeyPath: string
+) => Promise<{
+  publicKey: string;
+  privateKey: string;
+}>;
+
 type Context = {
   vault: SecretsVault;
   secretsDir: string;
+  generateLoginGovKey?: GenerateLoginGovKey;
 };
 
 export const setLoginGovSecrets = async (
@@ -31,7 +40,8 @@ export const setLoginGovSecrets = async (
   }
 
   // Generate a new keypair and return it.
-  const { publicKey, privateKey } = await generateLoginGovKey(
+  const myGenerateKey = ctx.generateLoginGovKey || generateLoginGovKey;
+  const { publicKey, privateKey } = await myGenerateKey(
     loginGovPrivateKeyPath(ctx.secretsDir, appKey),
     loginGovPublicKeyPath(ctx.secretsDir, appKey)
   );
@@ -50,7 +60,7 @@ const loginGovPublicKeyPath = (secretsDir: string, appKey: string) =>
 const loginGovPrivateKeyPath = (secretsDir: string, appKey: string) =>
   `${secretsDir}/login-gov-${appKey}-cert.pem`;
 
-const generateLoginGovKey = async (
+const generateLoginGovKey: GenerateLoginGovKey = async (
   privateKeyPath: string,
   publicKeyPath: string
 ) => {

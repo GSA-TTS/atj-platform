@@ -19,6 +19,10 @@ describe('set-login-gov-secrets command', () => {
     const context = {
       vault: getTestVault({}),
       secretsDir: path.resolve(__dirname, '../../../../infra/secrets'),
+      generateLoginGovKey: async () => ({
+        publicKey: 'mock public key',
+        privateKey: 'mock private key',
+      }),
     };
     const appKey = randomUUID();
     const result = await setLoginGovSecrets(context, 'dev', appKey);
@@ -38,8 +42,28 @@ describe('set-login-gov-secrets command', () => {
     };
     const appKey = randomUUID();
 
-    const oldResult = await setLoginGovSecrets(context, 'dev', appKey);
-    const secondResult = await setLoginGovSecrets(context, 'dev', appKey);
+    const oldResult = await setLoginGovSecrets(
+      {
+        ...context,
+        generateLoginGovKey: async () => ({
+          publicKey: 'mock public key - 1',
+          privateKey: 'mock private key - 1',
+        }),
+      },
+      'dev',
+      appKey
+    );
+    const secondResult = await setLoginGovSecrets(
+      {
+        ...context,
+        generateLoginGovKey: async () => ({
+          publicKey: 'mock public key - 2',
+          privateKey: 'mock private key - 2',
+        }),
+      },
+      'dev',
+      appKey
+    );
 
     expect(secondResult.preexisting).toEqual(true);
     expect(
