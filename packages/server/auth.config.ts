@@ -5,7 +5,7 @@ import { getServerSecrets } from './src/secrets';
 const secrets = getServerSecrets((import.meta as any).env);
 
 export default defineConfig({
-  secret: secrets.authSecret,
+  secret: 'secrets.authSecret',
   providers: [
     /**
      * https://dashboard.int.identitysandbox.gov/service_providers/5237
