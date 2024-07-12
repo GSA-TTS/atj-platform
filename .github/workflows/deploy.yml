@@ -15,7 +15,7 @@ jobs:
     with:
       app-name: server-doj
       #tag-name: ${{ github.ref_name }}
-      tag-name: staging
+      tag-name: main
 
   build-image-kansas:
     uses: ./.github/workflows/_docker-build-image.yml
@@ -23,7 +23,7 @@ jobs:
     with:
       app-name: server-kansas
       #tag-name: ${{ github.ref_name }}
-      tag-name: staging
+      tag-name: main
 
   deploy:
     needs: [build-image-doj, build-image-kansas]
@@ -31,4 +31,4 @@ jobs:
     secrets: inherit
     with:
       #deploy-env: ${{ github.ref_name }}
-      deploy-env: staging
+      deploy-env: main
