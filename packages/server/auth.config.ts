@@ -1,6 +1,7 @@
 import { defineConfig } from 'auth-astro';
 
 export default defineConfig({
+  secret: (import.meta as any).env.AUTH_SECRET,
   providers: [
     /**
      * https://dashboard.int.identitysandbox.gov/service_providers/5237
