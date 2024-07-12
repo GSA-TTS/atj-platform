@@ -11,7 +11,7 @@ Pending
 Certain tests are not able to be performed with Storybook and JSDOM (e.g. drag-and-drop). The ability to replicate more complex user interactions in the test suite through an actual browser can provide this feature.
 
 ## Decision
-The end-to-end tests should be used sparingly since they are slower to run than the ones through JSDOM. We will Playwright in CI/CD for the comprehensive tests and JSDOM during development for speed. Storybook still should be the primary mechanism for UI testing, and during CI/CD, the interaction tests will be run in Playwright using a docker container against the build. 
+The end-to-end tests should be used sparingly since they are slower to run than the ones through JSDOM. We will use Playwright in CI/CD for the comprehensive tests and JSDOM during development for speed. Storybook still should be the primary mechanism for UI testing, and during CI/CD, the interaction tests will be run in Playwright using a docker container against the build. 
 
 ## Consequences
 
