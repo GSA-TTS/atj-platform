@@ -1,4 +1,4 @@
-import type { SecretKey, SecretMap, SecretValue, SecretsVault } from './types';
+import type { SecretMap, SecretsVault } from '../types';
 
 export class InMemorySecretsVault implements SecretsVault {
   constructor(private secretMap: SecretMap) {}

@@ -2,7 +2,7 @@ import * as z from 'zod';
 import { Result } from '@atj/common/src';
 
 export type SecretKey = string;
-export type SecretValue = string;
+export type SecretValue = string | undefined;
 export type SecretMap = Record<SecretKey, SecretValue>;
 
 const secretMap = z.record(z.string());

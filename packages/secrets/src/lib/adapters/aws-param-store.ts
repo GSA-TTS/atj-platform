@@ -8,7 +8,7 @@ import {
   ParameterNotFound,
 } from '@aws-sdk/client-ssm';
 
-import type { SecretKey, SecretMap, SecretValue, SecretsVault } from './types';
+import type { SecretKey, SecretMap, SecretValue, SecretsVault } from '../types';
 
 export class AWSParameterStoreSecretsVault implements SecretsVault {
   async getSecret(key: SecretKey) {
@@ -55,7 +55,7 @@ export class AWSParameterStoreSecretsVault implements SecretsVault {
     }
   }
 
-  async setSecret(key: string, value: string) {
+  async setSecret(key: SecretKey, value: SecretValue) {
     const client = new SSMClient();
     try {
       await client.send(
