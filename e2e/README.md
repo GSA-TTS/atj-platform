@@ -1,41 +1,45 @@
-# End-to-end testing
-E2E testing runs in a docker container.
+# End-to-end and interaction testing
+E2E testing runs in a docker container. There is a shell script (`./scripts/end-to-end.sh`) that provides configuration to automate several Docker-related commands. 
+
+Parameters:
+-p : Configure the port on which Storybook will be served. Defaults to 9009 if no value is specified.
+-c : Configure the name of the Docker container. Defaults to e2e if no value is specified.
+-f : Specify the function(s) you'd like to run. You can add multiple -f parameters followed by function name, like `-f build_container -f run_container`
+-t : This parameter lets you specify the Docker build target. This should be either `serve` or `test`.
+
+Functions:
+`build_container` : Builds a Docker container, where the build target is specified using a -t flag (the default target is `test`).
+`run_container` : Runs the built Docker container.
+`end_to_end` : Performs playwright test command inside the Docker container for end-to-end testing. Requires the container to be running.
+`interaction` : Performs the interaction tests inside the Docker container against the storybook instance. Requires the container to be running.
+
+If Docker is not installed on your machine, running the script will prompt you to install Docker. If no function(s) are defined using -f flag, it runs `end_to_end` and `interaction` function by default.
+
+## Build targets
+The `test` target is self-contained and meant to run mostly in the build pipeline. The `serve` target is most useful during local development. When the `serve` container is run, it will mount a volume from your local machine and start a dev server, so you get persistent storage without having to rebuild the image. 
+
+## Getting Started
+
+First, make sure the script is executable: 
 
 ```bash
-# run from project root
-docker build --tag 'playwright' . -f ./e2e/Dockerfile
+# from the project root
+chmod +x ./e2e/scripts/end-to-end.sh
 ```
 
-To see the output of the tests and run everything when the docker container is built, run the command below:
-```bash
-# run from project root
-docker build --tag 'playwright' . -f ./e2e/Dockerfile --progress=plain --target test
-```
-You can add the `--no-cache` flag to build from scratch.
-
-To run the container (best for development):
+Examples:
 
 ```bash
-# run from project root
-docker run -p 4321:4321 -it --name e2e --rm playwright
+# builds the test container (also will run the tests)
+./e2e/scripts/end-to-end.sh -f build_container -t test
 ```
 
 ```bash
-# run from project root
-docker exec -it e2e pnpm playwright test
+# builds the serve container and start it
+./e2e/scripts/end-to-end.sh -f build_container -t serve -f run_container
 ```
 
-### Debugging
-To debug and follow the flow of a test in a browser, you can run:
-
 ```bash
-# run from this directory
-export E2E_ENDPOINT=http://localhost:4321; pnpm playwright test --ui-port=8080 --ui-host=0.0.0.0
-```
-
-## Storybook Test Runner
-This takes all the stories and runs them with Playwright. Start your dev server and then run:
-
-```bash
-pnpm --filter=end-to-end-tests test:storybook --url http://localhost:9009 --config-dir ../packages/design/.storybook/ --browsers firefox chromium
+# Runs the default tasks `end_to_end` and `interaction`
+./e2e/scripts/end-to-end.sh
 ```
