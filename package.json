@@ -13,7 +13,7 @@
     "lint": "turbo run lint",
     "pages": "rm -rf node_modules && npm i -g pnpm turbo && pnpm i && pnpm build && ln -sf ./apps/spotlight/dist _site",
     "test": "vitest run",
-    "test:ci": "vitest run --coverage.enabled --coverage.reporter=text --coverage.reporter=json-summary --coverage.reporter=json --coverage.reportOnFailure --reporter vitest-github-actions-reporter",
+    "test:ci": "vitest run --coverage.enabled --coverage.reporter=text --coverage.reporter=json-summary --coverage.reporter=json --coverage.reportOnFailure",
     "test:infra": "turbo run --filter=infra test",
     "typecheck": "tsc --build",
     "prepare": "husky"
@@ -37,7 +37,6 @@
     "type-fest": "^4.10.2",
     "typescript": "^5.3.3",
     "vitest": "^1.6.0",
-    "vitest-github-actions-reporter": "^0.11.1",
     "vitest-mock-extended": "^1.3.1"
   },
   "dependencies": {
