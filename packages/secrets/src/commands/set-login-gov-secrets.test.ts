@@ -30,8 +30,8 @@ describe('set-login-gov-secrets command', () => {
     expect(
       await context.vault.getSecrets(await context.vault.getSecretKeys())
     ).toEqual({
-      [`/tts-10x-atj-dev/${appKey}/login.gov/public-key`]: result.publicKey,
-      [`/tts-10x-atj-dev/${appKey}/login.gov/private-key`]: result.privateKey,
+      [`/tts-10x-atj-dev/${appKey}/login.gov/public-key`]: 'mock public key',
+      [`/tts-10x-atj-dev/${appKey}/login.gov/private-key`]: 'mock private key',
     });
   });
 
@@ -42,7 +42,7 @@ describe('set-login-gov-secrets command', () => {
     };
     const appKey = randomUUID();
 
-    const oldResult = await setLoginGovSecrets(
+    await setLoginGovSecrets(
       {
         ...context,
         generateLoginGovKey: async () => ({
@@ -69,9 +69,10 @@ describe('set-login-gov-secrets command', () => {
     expect(
       await context.vault.getSecrets(await context.vault.getSecretKeys())
     ).toEqual({
-      [`/tts-10x-atj-dev/${appKey}/login.gov/public-key`]: oldResult.publicKey,
+      [`/tts-10x-atj-dev/${appKey}/login.gov/public-key`]:
+        'mock public key - 1',
       [`/tts-10x-atj-dev/${appKey}/login.gov/private-key`]:
-        oldResult.privateKey,
+        'mock private key - 1',
     });
   });
 });
