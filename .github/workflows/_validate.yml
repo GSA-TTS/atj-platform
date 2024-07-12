@@ -56,7 +56,7 @@ jobs:
 
       - name: Run test suite
         shell: bash
-        run: pnpm test:ci
+        run: AUTH_SECRET=`openssl rand -hex 32` pnpm test:ci
 
       - name: Initialize Terraform CDK configuration
         shell: bash
