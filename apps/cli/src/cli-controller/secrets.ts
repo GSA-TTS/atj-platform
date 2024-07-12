@@ -14,6 +14,15 @@ export const addSecretCommands = (ctx: Context, cli: Command) => {
     .description('secrets management commands');
 
   cmd
+    .command('delete')
+    .description('delete a secret')
+    .argument('<string>', 'secret key name')
+    .action(async (key: string) => {
+      const vault = await getSecretsVault(ctx.file);
+      await commands.deleteSecret(vault, key);
+    });
+
+  cmd
     .command('get')
     .description('get a secret value')
     .argument('<string>', 'secret key name')

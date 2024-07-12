@@ -3,6 +3,10 @@ import type { SecretMap, SecretsVault } from '../types';
 export class InMemorySecretsVault implements SecretsVault {
   constructor(private secretMap: SecretMap) {}
 
+  async deleteSecret(key: string) {
+    delete this.secretMap[key];
+  }
+
   async getSecret(key: string) {
     return this.secretMap[key];
   }

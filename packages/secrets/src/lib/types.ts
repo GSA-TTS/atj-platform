@@ -26,6 +26,7 @@ export const getSecretMapFromJsonString = (
 };
 
 export interface SecretsVault {
+  deleteSecret(key: SecretKey): Promise<void>;
   getSecret(key: SecretKey): Promise<SecretValue>;
   getSecrets(keys: SecretKey[]): Promise<SecretMap>;
   setSecret(key: SecretKey, value: SecretValue): Promise<void>;

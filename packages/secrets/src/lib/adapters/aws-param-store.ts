@@ -1,16 +1,31 @@
 import {
-  SSMClient,
-  GetParameterCommand,
-  GetParametersCommand,
-  PutParameterCommand,
+  DeleteParameterCommand,
   DescribeParametersCommand,
   DescribeParametersCommandOutput,
+  GetParameterCommand,
+  GetParametersCommand,
   ParameterNotFound,
+  PutParameterCommand,
+  SSMClient,
 } from '@aws-sdk/client-ssm';
 
 import type { SecretKey, SecretMap, SecretValue, SecretsVault } from '../types';
 
 export class AWSParameterStoreSecretsVault implements SecretsVault {
+  async deleteSecret(key: SecretKey) {
+    const client = new SSMClient();
+    try {
+      await client.send(
+        new DeleteParameterCommand({
+          Name: key,
+        })
+      );
+      console.log(`Secret "${key}" deleted successfully.`);
+    } catch (error) {
+      console.warn('Skipped deleting parameter due to error:', error);
+    }
+  }
+
   async getSecret(key: SecretKey) {
     const client = new SSMClient();
 
