@@ -1,7 +1,11 @@
 import { defineConfig } from 'auth-astro';
 
+import { getServerSecrets } from './src/secrets';
+
+const secrets = getServerSecrets((import.meta as any).env);
+
 export default defineConfig({
-  secret: (import.meta as any).env.AUTH_SECRET,
+  secret: secrets.authSecret,
   providers: [
     /**
      * https://dashboard.int.identitysandbox.gov/service_providers/5237
@@ -21,7 +25,7 @@ export default defineConfig({
       issuer: 'https://idp.int.identitysandbox.gov',
       clientId:
         'urn:gov:gsa:openidconnect.profiles:sp:sso:gsa:tts-10x-atj-dev-server-doj',
-      clientSecret: (import.meta as any).env.SECRET_LOGIN_GOV_PRIVATE_KEY,
+      clientSecret: secrets.loginGov.clientSecret,
     },
   ],
 });
