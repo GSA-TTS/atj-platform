@@ -17,9 +17,11 @@ import {
   updatePatternFromFormData,
   createOnePageBlueprint,
   addPatternToFieldset,
+  movePatternBetweenPages,
 } from '..';
 import { type PageSetPattern } from '../patterns/page-set/config';
 import { FieldsetPattern } from '../patterns/fieldset';
+import { PagePattern } from '../patterns/page/config';
 
 export class BlueprintBuilder {
   bp: Blueprint;
@@ -58,6 +60,31 @@ export class BlueprintBuilder {
     }
     const pagePatternId = root.data.pages[pageNum];
     this.bp = addPatternToPage(this.form, pagePatternId, pattern);
+
+    console.log('pattern in addToPage function builder: ', pattern);
+    console.log('root in addToPage function builder: ', root);
+    console.log('pagePatternId in addToPage function builder: ', pagePatternId);
+    return pattern;
+  }
+
+  movePatternBetweenPages(sourcePageId: PatternId, targetPageId: PatternId, patternId: PatternId, pageNum: number = 0) {
+    const pattern = getPattern(this.form, patternId);
+    if (!pattern) {
+      throw new Error(`Pattern with id ${patternId} not found.`);
+    }
+    const root = this.form.patterns[this.form.root] as PageSetPattern;
+    if (root.type !== 'page-set') {
+      throw new Error('expected root to be a page-set');
+    }
+    const pagePatternId = root.data.pages[pageNum];
+
+    // Remove the pattern from the current page
+    this.bp = movePatternBetweenPages(this.form, pagePatternId, targetPageId, patternId);
+
+    console.log('pattern in move function builder: ', patternId);
+    console.log('root in move function builder: ', root);
+    console.log('pagePatternId in move function builder: ', pagePatternId);
+
     return pattern;
   }
 
@@ -109,4 +136,41 @@ export class BlueprintBuilder {
       success: true,
     };
   }
+
+
+
+  // Function to move a pattern from one page to another
+  // movePatternToPage(patternId: PatternId, targetPageId: PatternId) {
+  //   const pattern = getPattern(this.form, patternId);
+  //   if (!pattern) {
+  //     throw new Error(`Pattern with id ${patternId} not found.`);
+  //   }
+
+  //   // Find the current page containing the pattern
+  //   const currentPage = Object.values(this.form.patterns).find(p => 
+  //     p.type === 'page' && p.data.patterns.includes(patternId)
+  //   ) as PagePattern;
+
+  //   if (!currentPage) {
+  //     throw new Error(`Current page for pattern ${patternId} not found.`);
+  //   }
+
+  //   // Remove the pattern from the current page
+  //   this.bp = {
+  //     ...this.bp,
+  //     patterns: {
+  //       ...this.bp.patterns,
+  //       [currentPage.id]: {
+  //         ...currentPage,
+  //         data: {
+  //           ...currentPage.data,
+  //           patterns: currentPage.data.patterns.filter(id => id !== patternId),
+  //         },
+  //       },
+  //     },
+  //   };
+
+  //   // Add the pattern to the target page
+  //   this.bp = addPatternToPage(this.form, targetPageId, pattern);
+  // }
 }

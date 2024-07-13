@@ -118,3 +118,9 @@
 .dottedLine::after {
   margin: 0 0 0 1em;
 }
+
+/* Move to Page */
+
+.moveToPage select {
+  max-width: 5rem;
+}

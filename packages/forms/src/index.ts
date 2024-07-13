@@ -237,6 +237,44 @@ export const addPatternToFieldset = (
   };
 };
 
+export const movePatternBetweenPages = (
+  bp: Blueprint,
+  sourcePageId: PatternId,
+  targetPageId: PatternId,
+  patternId: PatternId
+): Blueprint => {
+  const sourcePage = bp.patterns[sourcePageId] as PagePattern;
+  const targetPage = bp.patterns[targetPageId] as PagePattern;
+  if (sourcePage.type !== 'page' || targetPage.type !== 'page') {
+    throw new Error('Pattern is not a page.');
+  }
+  const indexToRemove = sourcePage.data.patterns.indexOf(patternId);
+  const newPatterns = sourcePage.data.patterns.splice(indexToRemove, 1);
+
+  console.log('indexToRemove: ', indexToRemove);
+  console.log('newPatterns: ', newPatterns);
+  return {
+    ...bp,
+    patterns: {
+      ...bp.patterns,
+      [sourcePageId]: {
+        ...sourcePage,
+        data: {
+          ...sourcePage.data,
+          patterns: newPatterns,
+        },
+      } satisfies PagePattern,
+      [targetPageId]: {
+        ...targetPage,
+        data: {
+          ...targetPage.data,
+          patterns: [...targetPage.data.patterns, patternId],
+        },
+      } satisfies PagePattern,
+    },
+  };
+};
+
 export const addPageToPageSet = (
   bp: Blueprint,
   pattern: Pattern

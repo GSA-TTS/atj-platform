@@ -77,6 +77,8 @@ export const DraggableList: React.FC<DraggableListProps> = ({
               console.error('undefined patternId', index);
               return;
             }
+
+            //console.log('patternId in Drag List: ', patternId);
             return (
               <SortableItem
                 key={patternId}
