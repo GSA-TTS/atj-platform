@@ -33,7 +33,11 @@ export type FormEditSlice = {
   setRouteParams: (routeParams: string) => void;
   updatePattern: (data: Pattern) => void;
   updateActivePattern: (formData: PatternMap) => boolean;
-  movePattern: (sourcePage: PatternId, targetPage: PatternId, patternId: PatternId) => void;
+  movePattern: (
+    sourcePage: PatternId,
+    targetPage: PatternId,
+    patternId: PatternId
+  ) => void;
 } & NotificationSlice;
 
 type FormEditStoreContext = {
@@ -83,7 +87,7 @@ export const createFormEditSlice =
     movePattern: (sourcePage, targetPage, patternId) => {
       const state = get();
       const builder = new BlueprintBuilder(
-        state.context.config, 
+        state.context.config,
         state.session.form
       );
       //const page = getSessionPage(state.session);
@@ -93,7 +97,10 @@ export const createFormEditSlice =
         patternId
       );
 
-      console.log('moveSelectedPattern in movePatternToPage-store function: ', movePatternBetweenPages);
+      console.log(
+        'moveSelectedPattern in movePatternToPage-store function: ',
+        movePatternBetweenPages
+      );
       set({
         session: mergeSession(state.session, { form: builder.form }),
         focus: { pattern: movePatternBetweenPages },
@@ -233,5 +240,4 @@ export const createFormEditSlice =
         return false;
       }
     },
-    
   });

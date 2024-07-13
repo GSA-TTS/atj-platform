@@ -8,9 +8,7 @@ type PatternEditActionsProps = PropsWithChildren<{
   children?: ReactElement;
 }>;
 
-export const PatternEditActions = ({ 
-  children,
-}: PatternEditActionsProps) => {
+export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
   children;
   const context = useFormManagerStore(state => state.context);
   const { deleteSelectedPattern } = useFormManagerStore(state => ({
@@ -28,14 +26,16 @@ export const PatternEditActions = ({
   const currentPageIndex = 1;
 
   // Exclude the current page from the move options
-  const availablePages = pages.slice(1).filter((_, index) => index !== currentPageIndex - 1);
+  const availablePages = pages
+    .slice(1)
+    .filter((_, index) => index !== currentPageIndex - 1);
 
   const handleMovePattern = () => {
     if (focusPatternId && targetPage) {
       movePatternToPage(sourcePage, targetPage, focusPatternId);
     }
   };
-  
+
   console.log('focusPatternId: ', focusPatternId);
   console.log('sourcePage: ', sourcePage);
   console.log('targetPage: ', targetPage);
@@ -52,9 +52,22 @@ export const PatternEditActions = ({
           })}
         >
           <span className={`${styles.moveToPage} margin-right-2`}>
-            <label className="usa-label display-inline-block margin-right-1" htmlFor="pagenumbers">Move question to page</label>
-            <select className="usa-select display-inline-block" name="pagenumbers" id="pagenumbers" value={targetPage} onChange={e => setTargetPage(e.target.value)}>
-              <option value="" disabled>Select page</option>
+            <label
+              className="usa-label display-inline-block margin-right-1"
+              htmlFor="pagenumbers"
+            >
+              Move question to page
+            </label>
+            <select
+              className="usa-select display-inline-block"
+              name="pagenumbers"
+              id="pagenumbers"
+              value={targetPage}
+              onChange={e => setTargetPage(e.target.value)}
+            >
+              <option value="" disabled>
+                Select page
+              </option>
               {availablePages.map((page, index) => (
                 <option key={page.id} value={page.id}>
                   {page.data.title || `Page ${index + 2}`}

@@ -67,7 +67,12 @@ export class BlueprintBuilder {
     return pattern;
   }
 
-  movePatternBetweenPages(sourcePageId: PatternId, targetPageId: PatternId, patternId: PatternId, pageNum: number = 0) {
+  movePatternBetweenPages(
+    sourcePageId: PatternId,
+    targetPageId: PatternId,
+    patternId: PatternId,
+    pageNum: number = 0
+  ) {
     const pattern = getPattern(this.form, patternId);
     if (!pattern) {
       throw new Error(`Pattern with id ${patternId} not found.`);
@@ -79,7 +84,12 @@ export class BlueprintBuilder {
     const pagePatternId = root.data.pages[pageNum];
 
     // Remove the pattern from the current page
-    this.bp = movePatternBetweenPages(this.form, pagePatternId, targetPageId, patternId);
+    this.bp = movePatternBetweenPages(
+      this.form,
+      pagePatternId,
+      targetPageId,
+      patternId
+    );
 
     console.log('pattern in move function builder: ', patternId);
     console.log('root in move function builder: ', root);
@@ -137,8 +147,6 @@ export class BlueprintBuilder {
     };
   }
 
-
-
   // Function to move a pattern from one page to another
   // movePatternToPage(patternId: PatternId, targetPageId: PatternId) {
   //   const pattern = getPattern(this.form, patternId);
@@ -147,7 +155,7 @@ export class BlueprintBuilder {
   //   }
 
   //   // Find the current page containing the pattern
-  //   const currentPage = Object.values(this.form.patterns).find(p => 
+  //   const currentPage = Object.values(this.form.patterns).find(p =>
   //     p.type === 'page' && p.data.patterns.includes(patternId)
   //   ) as PagePattern;
 
