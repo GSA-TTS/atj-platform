@@ -39,14 +39,11 @@ export const Basic: StoryObj<typeof FormEdit> = {
       canvas.getByText(message.patterns.radioGroup.displayName)
     );
     const input = canvas.getByLabelText(message.patterns.radioGroup.fieldLabel);
-    const optionId = canvas.getByLabelText('Option 1 id');
     const optionLabel = canvas.getByLabelText('Option 1 label');
 
     // Enter new text for the field
     await userEvent.clear(input);
     await userEvent.type(input, updatedLabel);
-    await userEvent.clear(optionId);
-    await userEvent.type(optionId, 'yes');
     await userEvent.clear(optionLabel);
     await userEvent.type(optionLabel, 'Yes');
 
@@ -59,7 +56,7 @@ export const Basic: StoryObj<typeof FormEdit> = {
     form?.requestSubmit();
 
     await expect(await canvas.findByText(updatedLabel)).toBeInTheDocument();
-    await expect(await canvas.findByText('Yes')).toBeInTheDocument();
+    await expect(await canvas.findByText('Yes')).toBeVisible();
   },
 };
 
@@ -94,7 +91,6 @@ export const Error: StoryObj<typeof CheckboxPatternEdit> = {
     );
 
     const input = canvas.getByLabelText(message.patterns.radioGroup.fieldLabel);
-    const optionId = canvas.getByLabelText('Option 1 id');
     const optionLabel = canvas.getByLabelText('Option 1 label');
 
     // Clear input, remove focus, and wait for error
@@ -112,13 +108,6 @@ export const Error: StoryObj<typeof CheckboxPatternEdit> = {
       the error text from the option label below
     */
     await userEvent.type(input, message.patterns.radioGroup.fieldLabel);
-
-    await userEvent.clear(optionId);
-    optionId.blur();
-
-    await expect(
-      await canvas.findByText('Invalid Option ID')
-    ).toBeInTheDocument();
 
     await userEvent.clear(optionLabel);
     optionLabel.blur();
