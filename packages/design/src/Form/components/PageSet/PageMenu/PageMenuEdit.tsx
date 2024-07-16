@@ -15,6 +15,7 @@ export type PageMenuProps = {
   }[];
 };
 
+// :TODO: fix at a11y for DND
 export const PageMenuEdit = ({ pages }: PageMenuProps) => {
   const form = useFormManagerStore(state => state.session.form);
   const updatePattern = useFormManagerStore(state => state.updatePattern);
