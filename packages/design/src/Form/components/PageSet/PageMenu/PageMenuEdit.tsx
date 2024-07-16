@@ -5,6 +5,7 @@ import { DraggableList } from '../../../../FormManager/FormEdit/components/Previ
 import { useFormManagerStore } from '../../../../FormManager/store';
 import { getPattern } from '@atj/forms';
 import { useSearchParams } from 'react-router-dom';
+import { UniqueIdentifier } from '@dnd-kit/core';
 
 export type PageMenuProps = {
   pages: {
@@ -22,26 +23,28 @@ export const PageMenuEdit = ({ pages }: PageMenuProps) => {
   const currentPageId =
     pattern.data.pages[Number(searchParams.get('page')) || 0];
 
+  const updatePageOrder = (order: UniqueIdentifier[]) => {
+    const pageIndex = order.indexOf(currentPageId);
+    updatePattern({
+      ...pattern,
+      data: {
+        ...pattern.data,
+        pages: order,
+      },
+    });
+    if (pageIndex !== -1) {
+      setSearchParams({
+        page: pageIndex.toString(),
+      });
+    }
+  };
+
   return (
     <div className={`${styles.sideNavWrapper} position-sticky`}>
       <ul className={`${styles.sideNav} usa-sidenav`}>
         <DraggableList
           order={pattern.data.pages}
-          updateOrder={order => {
-            const pageIndex = order.indexOf(currentPageId);
-            updatePattern({
-              ...pattern,
-              data: {
-                ...pattern.data,
-                pages: order,
-              },
-            });
-            if (pageIndex !== -1) {
-              setSearchParams({
-                page: pageIndex.toString(),
-              });
-            }
-          }}
+          updateOrder={updatePageOrder}
         >
           {pages.map((page, index) => (
             <li
