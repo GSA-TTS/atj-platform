@@ -1,8 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
-import styles from './pageMenuStyles.module.css';
-import { DraggableList } from '../../../../FormManager/FormEdit/components/PreviewSequencePattern/DraggableList';
-import { useFormManagerStore } from '../../../../FormManager/store';
+import styles from '../../../../Form/components/PageSet/PageMenu/pageMenuStyles.module.css';
+import { DraggableList } from '../PreviewSequencePattern/DraggableList';
+import { useFormManagerStore } from '../../../store';
 import { getPattern } from '@atj/forms';
 import { useSearchParams } from 'react-router-dom';
 import { UniqueIdentifier } from '@dnd-kit/core';
@@ -43,10 +43,7 @@ export const PageMenuEdit = ({ pages }: PageMenuProps) => {
   return (
     <div className={`${styles.sideNavWrapper} position-sticky`}>
       <ul className={`${styles.sideNav} usa-sidenav`}>
-        <DraggableList
-          order={pattern.data.pages}
-          updateOrder={updatePageOrder}
-        >
+        <DraggableList order={pattern.data.pages} updateOrder={updatePageOrder}>
           {pages.map((page, index) => (
             <li
               key={index}

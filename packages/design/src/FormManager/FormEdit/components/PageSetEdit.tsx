@@ -4,11 +4,10 @@ import { type PageSetProps } from '@atj/forms';
 
 import { PatternEditComponent } from '../types';
 
-import PageSet from '../../../Form/components/PageSet';
 import ActionBar from '../../../Form/ActionBar';
 import { useRouteParams } from '../../../FormRouter/hooks';
 
-import { PageMenuEdit } from '../../../Form/components/PageSet/PageMenu';
+import { PageMenuEdit } from './PageMenuEdit';
 
 const PageSetEdit: PatternEditComponent<PageSetProps> = ({ previewProps }) => {
   const { routeParams, pathname } = useRouteParams();
@@ -32,12 +31,6 @@ const PageSetEdit: PatternEditComponent<PageSetProps> = ({ previewProps }) => {
         <ActionBar actions={previewProps.actions} />
       </div>
     </div>
-  );
-  return (
-    <>
-      <p>asdfasdfasdfasdf</p>
-      <PageSet {...previewProps} />
-    </>
   );
 };
 
