@@ -1,9 +1,10 @@
-import classNames from 'classnames';
 import React from 'react';
+import classNames from 'classnames';
 import styles from './pageMenuStyles.module.css';
 import { DraggableList } from '../../../../FormManager/FormEdit/components/PreviewSequencePattern/DraggableList';
 import { useFormManagerStore } from '../../../../FormManager/store';
 import { getPattern } from '@atj/forms';
+import { useSearchParams } from 'react-router-dom';
 
 export type PageMenuProps = {
   pages: {
@@ -17,6 +18,8 @@ export const PageMenuEdit = ({ pages }: PageMenuProps) => {
   const form = useFormManagerStore(state => state.session.form);
   const updatePattern = useFormManagerStore(state => state.updatePattern);
   const pattern = getPattern(form, 'root');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPageId = pattern.data.pages[Number(searchParams.get('page')) || 0];
 
   return (
     <div className={`${styles.sideNavWrapper} position-sticky`}>
@@ -24,6 +27,7 @@ export const PageMenuEdit = ({ pages }: PageMenuProps) => {
         <DraggableList
           order={pattern.data.pages}
           updateOrder={order => {
+            const pageIndex = order.indexOf(currentPageId);
             updatePattern({
               ...pattern,
               data: {
@@ -31,6 +35,11 @@ export const PageMenuEdit = ({ pages }: PageMenuProps) => {
                 pages: order,
               },
             });
+            if(pageIndex !== -1) {
+              setSearchParams({
+                page: pageIndex.toString()
+              });
+            }
           }}
         >
           {pages.map((page, index) => (
