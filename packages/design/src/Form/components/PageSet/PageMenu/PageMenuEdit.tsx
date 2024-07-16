@@ -19,7 +19,8 @@ export const PageMenuEdit = ({ pages }: PageMenuProps) => {
   const updatePattern = useFormManagerStore(state => state.updatePattern);
   const pattern = getPattern(form, 'root');
   const [searchParams, setSearchParams] = useSearchParams();
-  const currentPageId = pattern.data.pages[Number(searchParams.get('page')) || 0];
+  const currentPageId =
+    pattern.data.pages[Number(searchParams.get('page')) || 0];
 
   return (
     <div className={`${styles.sideNavWrapper} position-sticky`}>
@@ -35,9 +36,9 @@ export const PageMenuEdit = ({ pages }: PageMenuProps) => {
                 pages: order,
               },
             });
-            if(pageIndex !== -1) {
+            if (pageIndex !== -1) {
               setSearchParams({
-                page: pageIndex.toString()
+                page: pageIndex.toString(),
               });
             }
           }}
