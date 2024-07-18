@@ -184,6 +184,7 @@ const SortableItem = ({
               xlinkHref={`${context.uswdsRoot}img/sprite.svg#drag_handle`}
             ></use>
           </svg>
+          <span className="usa-sr-only">Move this item</span>
         </div>
         <div className="grid-col-12 grid-col">{children}</div>
       </div>
