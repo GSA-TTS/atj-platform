@@ -1,5 +1,4 @@
 import { defineConfig } from 'astro/config';
-import auth from 'auth-astro';
 import node from '@astrojs/node';
 import react from '@astrojs/react';
 
@@ -19,7 +18,6 @@ export default defineConfig({
     react({
       include: ['src/components/react/**'],
     }),
-    auth(),
   ],
   server: {
     port: 4322,
