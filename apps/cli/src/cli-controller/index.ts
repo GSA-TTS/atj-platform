@@ -25,7 +25,6 @@ export const CliController = (ctx: Context) => {
     });
 
   addSecretCommands(ctx, cli);
-  //addDocassembleCommands(ctx, cli);
 
   return cli;
 };
