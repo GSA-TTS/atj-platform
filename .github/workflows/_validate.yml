@@ -61,7 +61,7 @@ jobs:
       - name: Initialize Terraform CDK configuration
         shell: bash
         run: |
-          cd infra
+          cd infra/cdktf
           pnpm cdktf get
           pnpm build:tsc
 
