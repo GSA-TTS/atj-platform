@@ -1,5 +1,5 @@
 {
-  "name": "@atj/secrets",
+  "name": "@atj/infra-core",
   "version": "1.0.0",
   "description": "10x ATJ secrets storage backend",
   "type": "module",

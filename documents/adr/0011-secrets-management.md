@@ -20,6 +20,8 @@ Additionally, adapters to the backend vault will be utilized. This will enable m
 
 We will continue to utilize AWS Systems Manager Parameter Store.
 
+The implementation will live in `infra/core`, which will be the home for other abstract infrastructure code, while `infra/cdktf` will include the concrete implementation of the deployment.
+
 ## Consequences
 
 Secrets management that requires repeated manual operations will be automated. In the future, this will include things like secrets rotation via the same command-line interface.

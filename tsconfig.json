@@ -4,7 +4,8 @@
   "references": [
     { "path": "./apps/cli" },
     { "path": "./apps/rest-api" },
-    { "path": "./infra" },
+    { "path": "./infra/cdktf" },
+    { "path": "./infra/core" },
     { "path": "./packages/common" },
     { "path": "./packages/dependency-graph" },
     { "path": "./packages/design/tsconfig.build.json" },

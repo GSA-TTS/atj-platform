@@ -1,8 +1,8 @@
 import { Command } from 'commander';
 
-import { commands, getSecretsVault } from '@atj/secrets';
+import { commands, getSecretsVault } from '@atj/infra-core';
 import { Context } from './types';
-import { type DeployEnv } from '@atj/secrets/src/values';
+import { type DeployEnv } from '@atj/infra-core/src/values';
 import path from 'path';
 
 export const addSecretCommands = (ctx: Context, cli: Command) => {

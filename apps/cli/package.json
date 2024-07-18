@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@atj/dependency-graph": "workspace:*",
-    "@atj/secrets": "workspace:*",
+    "@atj/infra-core": "workspace:*",
     "commander": "^11.1.0"
   }
 }
