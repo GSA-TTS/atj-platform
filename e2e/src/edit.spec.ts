@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { BASE_URL } from './constants';
 
-interface PageData {
+interface PageDataTest {
   title: string;
   pattern?: Array<string>;
 }
@@ -62,20 +62,20 @@ test('Drag-and-drop pages via mouse interaction', async ({ context, page }) => {
   const pageTitles = Object.values(obj.patterns).filter(item => {
     return item.type === 'page';
   }).map(item => {
-    return (item.data as PageData).title;
+    return (item.data as PageDataTest).title;
   });
 
   await page.goto(`${BASE_URL}`);
-
-
   await page.getByRole('link', { name: 'Edit' }).click();
+
+  const firstUrl = new URL(page.url());
+  expect(firstUrl.hash.indexOf('?page=')).toEqual(-1);
 
   const handle = page.locator('ul').filter({ hasText: pageTitles.join('') }).getByRole('button').first();
   await handle.hover();
   await page.mouse.down();
   const nextElement = page.locator('ul').filter({ hasText: pageTitles.join('') }).getByRole('button').nth(1);
   await nextElement.hover();
-
   await page.mouse.up();
 
   await page.waitForFunction((pageTitles) => {
@@ -89,5 +89,8 @@ test('Drag-and-drop pages via mouse interaction', async ({ context, page }) => {
   const reorderedFirst = page.locator('ul').filter({ hasText: newPageTitles.join('') }).getByRole('button').first();
 
   await expect(reorderedFirst).toBeVisible();
+
+  const nextUrl = new URL(page.url());
+  expect(nextUrl.hash.indexOf('?page=1')).not.toEqual(-1);
 
 });
