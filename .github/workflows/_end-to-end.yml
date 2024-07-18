@@ -1,0 +1,12 @@
+name: End-to-end tests
+on:
+  workflow_call:
+jobs:
+  end-to-end:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Docker to run tests
+        run: |
+          docker build --platform linux/amd64 --tag 'playwright' . -f ./e2e/Dockerfile --target test
