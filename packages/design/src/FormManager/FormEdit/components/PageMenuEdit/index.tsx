@@ -15,7 +15,6 @@ export type PageMenuProps = {
   }[];
 };
 
-// :TODO: fix at a11y for DND
 export const PageMenuEdit = ({ pages }: PageMenuProps) => {
   const form = useFormManagerStore(state => state.session.form);
   const updatePattern = useFormManagerStore(state => state.updatePattern);
@@ -42,10 +41,10 @@ export const PageMenuEdit = ({ pages }: PageMenuProps) => {
 
   return (
     <div className={`${styles.sideNavWrapper} position-sticky`}>
-      <ul className={`${styles.sideNav} usa-sidenav`}>
+      <div className={`${styles.sideNav} usa-sidenav`}>
         <DraggableList order={pattern.data.pages} updateOrder={updatePageOrder}>
           {pages.map((page, index) => (
-            <li
+            <div
               key={index}
               className={classNames(
                 'usa-sidenav__item tablet:margin-left-0 margin-left-2',
@@ -58,10 +57,10 @@ export const PageMenuEdit = ({ pages }: PageMenuProps) => {
               <a className={`${styles.usaNavLink}`} href={page.url}>
                 {page.title}
               </a>
-            </li>
+            </div>
           ))}
         </DraggableList>
-      </ul>
+      </div>
     </div>
   );
 };
