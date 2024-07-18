@@ -70,25 +70,27 @@ export const DraggableList: React.FC<DraggableListProps> = ({
           setActiveId(null);
         }}
       >
-        <SortableContext items={order} strategy={verticalListSortingStrategy}>
-          {arrayChildren.map((child, index) => {
-            const patternId = order[index];
-            if (patternId === undefined) {
-              console.error('undefined patternId', index);
-              return;
-            }
-            return (
-              <SortableItem
-                key={patternId}
-                id={patternId}
-                isActive={patternId === activeId}
-                isOver={patternId === activeId}
-              >
-                {child}
-              </SortableItem>
-            );
-          })}
-        </SortableContext>
+        <ul className="add-list-reset">
+          <SortableContext items={order} strategy={verticalListSortingStrategy}>
+            {arrayChildren.map((child, index) => {
+              const patternId = order[index];
+              if (patternId === undefined) {
+                console.error('undefined patternId', index);
+                return;
+              }
+              return (
+                <SortableItem
+                  key={patternId}
+                  id={patternId}
+                  isActive={patternId === activeId}
+                  isOver={patternId === activeId}
+                >
+                  {child}
+                </SortableItem>
+              );
+            })}
+          </SortableContext>
+        </ul>
 
         <DragOverlay>
           {activeId ? (
@@ -154,7 +156,7 @@ const SortableItem = ({
   const context = useFormManagerStore(state => state.context);
 
   return (
-    <div
+    <li
       className={`${styles.draggableListWrapper} draggable-list-item-wrapper bg-white margin-bottom-3 cursor-pointer`}
       ref={setNodeRef}
       style={{
@@ -188,6 +190,6 @@ const SortableItem = ({
         </div>
         <div className="grid-col-12 grid-col">{children}</div>
       </div>
-    </div>
+    </li>
   );
 };
