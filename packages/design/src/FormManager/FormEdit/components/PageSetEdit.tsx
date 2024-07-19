@@ -13,7 +13,7 @@ const PageSetEdit: PatternEditComponent<PageSetProps> = ({ previewProps }) => {
   const { routeParams, pathname } = useRouteParams();
   return (
     <div className="grid-row">
-      <nav className="tablet:grid-col-3 tablet:padding-y-3 padding-right-4">
+      <nav className="tablet:grid-col-3 tablet:padding-y-3 tablet:padding-right-4">
         <PageMenuEdit
           pages={previewProps.pages.map((page, index) => {
             const params = new URLSearchParams(routeParams?.toString());
