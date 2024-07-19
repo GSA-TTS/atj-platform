@@ -59,13 +59,20 @@ const session = null;
             ><span>Storybook</span></a
           >
         </li>
-        {
-          session ? (
-            <button id="logout">Logout</button>
-          ) : (
-            <button id="login">Login</button>
-          )
-        }
+        <li class="usa-nav__primary-item">
+          {
+            session ? (
+              <button id="logout">Logout</button>
+            ) : (
+              <a
+                href={routes.getLoginUrl(baseUrl)}
+                class={getNavLinkClasses(routes.getLoginUrl(baseUrl))}
+              >
+                Login
+              </a>
+            )
+          }
+        </li>
       </ul>
     </div>
   </nav>

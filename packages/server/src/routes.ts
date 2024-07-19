@@ -1,3 +1,7 @@
+export const getLoginUrl = (baseUrl: string) => {
+  return `${baseUrl}login`;
+};
+
 export const getFormUrl = (baseUrl: string, formId: string) => {
   return `${baseUrl}forms#${formId}`;
 };

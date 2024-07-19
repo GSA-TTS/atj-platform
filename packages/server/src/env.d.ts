@@ -10,5 +10,9 @@ namespace App {
 
     // Lazy-loaded app context, derived from `serverOptions`.
     ctx?: AppContext;
+
+    // Auth types from Lucia
+    session: import('lucia').Session | null;
+    user: import('lucia').User | null;
   }
 }
