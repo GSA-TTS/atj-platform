@@ -21,15 +21,18 @@ import { CSS } from '@dnd-kit/utilities';
 import { useFormManagerStore } from '../../../store';
 import styles from '../../formEditStyles.module.css';
 
+type DraggableListPresentation = "compact" | "default";
 type DraggableListProps = React.PropsWithChildren<{
   order: UniqueIdentifier[];
   updateOrder: (order: UniqueIdentifier[]) => void;
+  presentation?: DraggableListPresentation;
 }>;
 
 export const DraggableList: React.FC<DraggableListProps> = ({
   children,
   order,
   updateOrder,
+  presentation
 }) => {
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -84,6 +87,7 @@ export const DraggableList: React.FC<DraggableListProps> = ({
                   id={patternId}
                   isActive={patternId === activeId}
                   isOver={patternId === activeId}
+                  presentation={presentation || 'default'}
                 >
                   {child}
                 </SortableItem>
@@ -145,11 +149,13 @@ const SortableItem = ({
   children,
   isActive,
   isOver,
+  presentation
 }: {
   id: UniqueIdentifier;
   children: React.ReactNode;
   isActive: boolean;
   isOver: boolean;
+  presentation: DraggableListPresentation;
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
