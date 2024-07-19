@@ -42,21 +42,19 @@ export const PageMenuEdit = ({ pages }: PageMenuProps) => {
   return (
     <div className={`${styles.sideNavWrapper} position-sticky`}>
       <div className={`${styles.sideNav} usa-sidenav`}>
-        <DraggableList order={pattern.data.pages} updateOrder={updatePageOrder}>
+        <DraggableList
+          order={pattern.data.pages}
+          updateOrder={updatePageOrder}
+          presentation="compact"
+        >
           {pages.map((page, index) => (
             <div
               key={index}
-              className={classNames(
-                'usa-sidenav__item tablet:margin-left-0 margin-left-2',
-                styles.sideNav,
-                {
-                  'usa-current text-primary': page.selected,
-                }
-              )}
+              className={classNames('usa-sidenav__item', styles.sideNav, {
+                'usa-current text-primary': page.selected,
+              })}
             >
-              <a className={`${styles.usaNavLink}`} href={page.url}>
-                {page.title}
-              </a>
+              <a href={page.url}>{page.title}</a>
             </div>
           ))}
         </DraggableList>

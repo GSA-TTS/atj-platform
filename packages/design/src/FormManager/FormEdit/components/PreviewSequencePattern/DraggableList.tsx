@@ -20,8 +20,9 @@ import { CSS } from '@dnd-kit/utilities';
 
 import { useFormManagerStore } from '../../../store';
 import styles from '../../formEditStyles.module.css';
+import classNames from 'classnames';
 
-type DraggableListPresentation = "compact" | "default";
+type DraggableListPresentation = 'compact' | 'default';
 type DraggableListProps = React.PropsWithChildren<{
   order: UniqueIdentifier[];
   updateOrder: (order: UniqueIdentifier[]) => void;
@@ -32,7 +33,7 @@ export const DraggableList: React.FC<DraggableListProps> = ({
   children,
   order,
   updateOrder,
-  presentation
+  presentation,
 }) => {
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -98,7 +99,7 @@ export const DraggableList: React.FC<DraggableListProps> = ({
 
         <DragOverlay>
           {activeId ? (
-            <SortableItemOverlay>
+            <SortableItemOverlay presentation={presentation || 'default'}>
               {arrayChildren[order.indexOf(activeId)]}
             </SortableItemOverlay>
           ) : null}
@@ -108,7 +109,13 @@ export const DraggableList: React.FC<DraggableListProps> = ({
   );
 };
 
-const SortableItemOverlay = ({ children }: { children: React.ReactNode }) => {
+const SortableItemOverlay = ({
+  children,
+  presentation,
+}: {
+  children: React.ReactNode;
+  presentation: DraggableListPresentation;
+}) => {
   const context = useFormManagerStore(state => state.context);
 
   return (
@@ -122,7 +129,10 @@ const SortableItemOverlay = ({ children }: { children: React.ReactNode }) => {
     >
       <div className="grid-row draggable-list-item">
         <div
-          className={`${styles.draggableListButton} grid-col-12 width-full draggable-list-button padding-2`}
+          className={classNames('draggable-list-button', {
+            'width-5 padding-1': presentation === 'compact',
+            'grid-col-12 width-full padding-2': presentation === 'default',
+          })}
           style={{
             background: '#f0f0f0',
           }}
@@ -138,7 +148,14 @@ const SortableItemOverlay = ({ children }: { children: React.ReactNode }) => {
             ></use>
           </svg>
         </div>
-        <div className="grid-col-12 grid-col">{children}</div>
+        <div
+          className={classNames('grid-col', {
+            'flex-fill': presentation === 'compact',
+            'grid-col-12': presentation === 'default',
+          })}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );
@@ -149,7 +166,7 @@ const SortableItem = ({
   children,
   isActive,
   isOver,
-  presentation
+  presentation,
 }: {
   id: UniqueIdentifier;
   children: React.ReactNode;
@@ -163,7 +180,15 @@ const SortableItem = ({
 
   return (
     <li
-      className={`${styles.draggableListWrapper} draggable-list-item-wrapper bg-white margin-bottom-3 cursor-pointer`}
+      className={classNames(
+        styles.draggableListWrapper,
+        'draggable-list-item-wrapper',
+        'bg-white',
+        'cursor-pointer',
+        {
+          'margin-bottom-3 ': presentation === 'default',
+        }
+      )}
       ref={setNodeRef}
       style={{
         transform: CSS.Translate.toString(transform),
@@ -173,9 +198,16 @@ const SortableItem = ({
         outline: isOver ? 'none' : '',
       }}
     >
-      <div className="grid-row draggable-list-item">
+      <div
+        className={classNames('grid-row', 'draggable-list-item', {
+          'display-flex': presentation === 'compact',
+        })}
+      >
         <div
-          className={`${styles.draggableListButton} grid-col-12 width-full draggable-list-button padding-2`}
+          className={classNames('draggable-list-button', {
+            'width-5 padding-1': presentation === 'compact',
+            'grid-col-12 width-full padding-2': presentation === 'default',
+          })}
           {...listeners}
           {...attributes}
           style={{
@@ -194,7 +226,14 @@ const SortableItem = ({
           </svg>
           <span className="usa-sr-only">Move this item</span>
         </div>
-        <div className="grid-col-12 grid-col">{children}</div>
+        <div
+          className={classNames('grid-col', {
+            'flex-fill': presentation === 'compact',
+            'grid-col-12': presentation === 'default',
+          })}
+        >
+          {children}
+        </div>
       </div>
     </li>
   );
