@@ -49,7 +49,7 @@ The "definition of done" ensures our quality standards are met with each bit of 
   - [ ] Code is reviewed by team member
   - [ ] Code quality checks passed
 - [ ] Security and privacy
-  - [ ] Security and privacy gates passed
+  - [ ] Automated security and privacy gates passed
 - [ ] Testing tasks completed
   - [ ] Automated tests pass
   - [ ] Unit test coverage of our code >= 90%
