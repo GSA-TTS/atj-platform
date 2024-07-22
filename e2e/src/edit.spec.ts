@@ -67,26 +67,27 @@ test('Drag-and-drop pages via mouse interaction', async ({ context, page }) => {
 
   await page.goto(`${BASE_URL}`);
   await page.getByRole('link', { name: 'Edit' }).click();
+  const buttonText = 'Move this item';
 
   const firstUrl = new URL(page.url());
   expect(firstUrl.hash.indexOf('?page=')).toEqual(-1);
 
-  const handle = page.locator('ul').filter({ hasText: pageTitles.join('') }).getByRole('button').first();
+  const handle = page.locator('li').filter({ hasText: `${buttonText}${pageTitles[0]}` }).getByRole('button');
   await handle.hover();
   await page.mouse.down();
-  const nextElement = page.locator('ul').filter({ hasText: pageTitles.join('') }).getByRole('button').nth(1);
+  const nextElement = page.locator('li').filter({ hasText: `${buttonText}${pageTitles[1]}` }).getByRole('button');
   await nextElement.hover();
   await page.mouse.up();
 
-  await page.waitForFunction((pageTitles) => {
+  await page.waitForFunction(([pageTitles, buttonText]) => {
     const items = document.querySelectorAll('.usa-sidenav .draggable-list-item-wrapper');
-    return (items[0] as HTMLElement).innerText === pageTitles[1] && items.length === 3;
-  }, pageTitles);
+    return (items[0] as HTMLElement).innerText === buttonText + '\n' + pageTitles[1] && items.length === 3;
+  }, [pageTitles, buttonText]);
   const pageTitlesCopy = [...pageTitles];
   const newFirstItem = pageTitlesCopy.shift();
 
   const newPageTitles = pageTitlesCopy.toSpliced(1, 0, newFirstItem || '');
-  const reorderedFirst = page.locator('ul').filter({ hasText: newPageTitles.join('') }).getByRole('button').first();
+  const reorderedFirst = page.locator('ul').filter({ hasText: buttonText + newPageTitles.join(buttonText) }).getByRole('button').first();
 
   await expect(reorderedFirst).toBeVisible();
 
