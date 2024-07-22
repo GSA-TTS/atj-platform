@@ -22,8 +22,8 @@ import { useFormManagerStore } from '../../../store';
 import styles from '../../formEditStyles.module.css';
 import classNames from 'classnames';
 
-type DraggableListPresentation = 'compact' | 'default';
-type DraggableListProps = React.PropsWithChildren<{
+export type DraggableListPresentation = 'compact' | 'default';
+export type DraggableListProps = React.PropsWithChildren<{
   order: UniqueIdentifier[];
   updateOrder: (order: UniqueIdentifier[]) => void;
   presentation?: DraggableListPresentation;
