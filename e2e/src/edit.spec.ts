@@ -1,9 +1,46 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, Page } from '@playwright/test';
 import { BASE_URL } from './constants';
 
 interface PageDataTest {
   title: string;
   pattern?: Array<string>;
+}
+
+class TestPage {
+  page: Page;
+  constructor(page: Page) {
+    this.page = page;
+  }
+  async setLocalStorage(key: string, value: any) {
+    await this.page.context().addInitScript(([key, value]) => {
+      localStorage.setItem(key, value);
+    }, [key, JSON.stringify(value)]);
+  }
+  async moveListItem(buttonText: string, pageTitles: string[]) {
+    const handle = this.page.locator('li').filter({ hasText: `${buttonText}${pageTitles[0]}` }).getByRole('button');
+    await handle.hover();
+    await this.page.mouse.down();
+    const nextElement = this.page.locator('li').filter({ hasText: `${buttonText}${pageTitles[1]}` }).getByRole('button');
+    await nextElement.hover();
+    await this.page.mouse.up();
+  }
+  async checkFirstUrl(path: string) {
+    const firstUrl = new URL(this.page.url());
+    expect(firstUrl.hash.indexOf(path)).toEqual(-1);
+  }
+  async checkNextUrl(path: string) {
+    const nextUrl = new URL(this.page.url());
+    expect(nextUrl.hash.indexOf(path)).not.toEqual(-1);
+  }
+}
+
+const preparePageTitles = (items: any) => {
+  return Object.values(items).filter(item => item.type === 'page').map(item => (item.data as PageDataTest).title);
+}
+
+const prepareUpdatedPageTitles = (items: string[]) => {
+  const newFirstItem = items.shift();
+  return items.splice(1, 0, newFirstItem || '');
 }
 
 test('Drag-and-drop pages via mouse interaction', async ({ context, page }) => {
@@ -53,45 +90,28 @@ test('Drag-and-drop pages via mouse interaction', async ({ context, page }) => {
     },
     "outputs": []
   };
-  const value = JSON.stringify(obj);
-
-  await context.addInitScript(([key, value]) => {
-    localStorage.setItem(key, value);
-  }, [key, value])
-
-  const pageTitles = Object.values(obj.patterns).filter(item => {
-    return item.type === 'page';
-  }).map(item => {
-    return (item.data as PageDataTest).title;
-  });
+  const testPage = new TestPage(page);
+  await testPage.setLocalStorage(key, obj);
+  const pageTitles = preparePageTitles(obj.patterns);
 
   await page.goto(`${BASE_URL}`);
   await page.getByRole('link', { name: 'Edit' }).click();
   const buttonText = 'Move this item';
 
-  const firstUrl = new URL(page.url());
-  expect(firstUrl.hash.indexOf('?page=')).toEqual(-1);
-
-  const handle = page.locator('li').filter({ hasText: `${buttonText}${pageTitles[0]}` }).getByRole('button');
-  await handle.hover();
-  await page.mouse.down();
-  const nextElement = page.locator('li').filter({ hasText: `${buttonText}${pageTitles[1]}` }).getByRole('button');
-  await nextElement.hover();
-  await page.mouse.up();
+  await testPage.checkFirstUrl('?page=');
+  await testPage.moveListItem(buttonText, pageTitles);
 
   await page.waitForFunction(([pageTitles, buttonText]) => {
     const items = document.querySelectorAll('.usa-sidenav .draggable-list-item-wrapper');
     return (items[0] as HTMLElement).innerText === buttonText + '\n' + pageTitles[1] && items.length === 3;
   }, [pageTitles, buttonText]);
-  const pageTitlesCopy = [...pageTitles];
-  const newFirstItem = pageTitlesCopy.shift();
 
-  const newPageTitles = pageTitlesCopy.toSpliced(1, 0, newFirstItem || '');
+  const pageTitlesCopy = [...pageTitles];
+  const newPageTitles = prepareUpdatedPageTitles(pageTitlesCopy);
+
   const reorderedFirst = page.locator('ul').filter({ hasText: buttonText + newPageTitles.join(buttonText) }).getByRole('button').first();
 
   await expect(reorderedFirst).toBeVisible();
-
-  const nextUrl = new URL(page.url());
-  expect(nextUrl.hash.indexOf('?page=1')).not.toEqual(-1);
+  await testPage.checkNextUrl('?page=1');
 
 });
