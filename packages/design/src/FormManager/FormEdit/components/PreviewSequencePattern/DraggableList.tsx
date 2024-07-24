@@ -186,7 +186,9 @@ const SortableItem = ({
         'bg-white',
         'cursor-pointer',
         {
-          'margin-bottom-3 ': presentation === 'default',
+          'margin-bottom-3': presentation === 'default',
+          'border-top-1px': presentation === 'compact',
+          'border-base-lighter': presentation === 'compact',
         }
       )}
       ref={setNodeRef}
@@ -194,7 +196,9 @@ const SortableItem = ({
         transform: CSS.Translate.toString(transform),
         transition,
         opacity: isOver ? 0.5 : 1,
-        border: isOver ? '1px dashed #8168B3' : 'none',
+        ...(isOver || presentation !== 'compact'
+          ? { border: isOver ? '1px dashed #8168B3' : 'none' }
+          : {}),
         outline: isOver ? 'none' : '',
       }}
     >
