@@ -199,12 +199,12 @@ const SortableItem = ({
       }}
     >
       <div
-        className={classNames('grid-row', 'draggable-list-item', {
+        className={classNames('grid-row', {
           'display-flex': presentation === 'compact',
         })}
       >
         <div
-          className={classNames('draggable-list-button', {
+          className={classNames({
             'width-5 padding-1': presentation === 'compact',
             'grid-col-12 width-full padding-2': presentation === 'default',
           })}
