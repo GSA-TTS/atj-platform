@@ -431,7 +431,6 @@ export const removePatternFromBlueprint = (
     {} as PatternMap
   );
 
-  console.log('patterns to remove: ', patterns);
   // Remove the pattern itself
   delete patterns[id];
   return {
