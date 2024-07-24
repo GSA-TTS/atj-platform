@@ -74,11 +74,9 @@ export const DraggableList: React.FC<DraggableListProps> = ({
           {arrayChildren.map((child, index) => {
             const patternId = order[index];
             if (patternId === undefined) {
-              console.error('undefined patternId', index);
               return;
             }
-
-            //console.log('patternId in Drag List: ', patternId);
+            
             return (
               <SortableItem
                 key={patternId}

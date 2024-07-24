@@ -89,15 +89,6 @@
   background: none;
 }
 
-@media (max-width: 40em) {
-  .dropdownMenu {
-    bottom: 4.5rem;
-    max-height: 40vh;
-    overflow: auto;
-    left: 32px;
-  }
-}
-
 .dottedLine {
   display: flex;
   align-items: center;
@@ -121,6 +112,73 @@
 
 /* Move to Page */
 
-.moveToPage select {
-  max-width: 5rem;
+.moveToPage,
+.questionPosition {
+  max-width: 21rem;
+}
+
+.patternActionWrapper .dropdownMenu div {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.patternActionWrapper .dropdownMenu div:hover {
+  background: #f0f0f0;
+}
+
+.patternActionWrapper .dropDown {
+  position: absolute;
+  top: 3rem;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  z-index: 100;
+  width: 16rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.patternActionWrapper .dropDown select {
+  max-width: 9.375rem;
+}
+
+.patternActionWrapper .dropDown button {
+  width: 9.375rem;
+}
+
+.patternActionButtons {
+  max-width: 15.625rem;
+}
+
+.movePatternButton {
+  color: #005ea2;
+}
+
+.movePatternButton:focus {
+  outline: 0.25rem solid red;
+}
+
+.movePatternButton span {
+  font-size: 1.25rem;
+}
+
+.movePatternButton svg {
+  font-size: 1.5rem;
+}
+
+@media (min-width: 64.5em) {
+
+
+  .moveToPage,
+  .questionPosition {
+    min-width: 18.75rem;
+  }
+}
+
+@media (max-width: 40em) {
+  .dropdownMenu {
+    bottom: 4.5rem;
+    max-height: 40vh;
+    overflow: auto;
+    left: 32px;
+  }
 }

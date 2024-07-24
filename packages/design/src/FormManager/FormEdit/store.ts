@@ -36,7 +36,9 @@ export type FormEditSlice = {
   movePattern: (
     sourcePage: PatternId,
     targetPage: PatternId,
-    patternId: PatternId
+    patternId: PatternId,
+    position: string,
+    isPageMove: boolean
   ) => void;
 } & NotificationSlice;
 
@@ -83,24 +85,21 @@ export const createFormEditSlice =
       });
       state.addNotification('success', 'Element added successfully.');
     },
-
-    movePattern: (sourcePage, targetPage, patternId) => {
+    movePattern: (sourcePage, targetPage, patternId, position, isPageMove) => {
       const state = get();
       const builder = new BlueprintBuilder(
         state.context.config,
         state.session.form
       );
-      //const page = getSessionPage(state.session);
+ 
       const movePatternBetweenPages = builder.movePatternBetweenPages(
         sourcePage,
         targetPage,
-        patternId
+        patternId,
+        position,
+        isPageMove
       );
 
-      console.log(
-        'moveSelectedPattern in movePatternToPage-store function: ',
-        movePatternBetweenPages
-      );
       set({
         session: mergeSession(state.session, { form: builder.form }),
         focus: { pattern: movePatternBetweenPages },

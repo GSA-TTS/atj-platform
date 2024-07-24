@@ -212,6 +212,89 @@ export const addPatternToPage = (
   };
 };
 
+export const movePatternBetweenPages = (
+  bp: Blueprint,
+  sourcePageId: PatternId,
+  targetPageId: PatternId,
+  patternId: PatternId,
+  position: string,
+  isPageMove: boolean = false
+): Blueprint => {
+  const sourcePage = bp.patterns[sourcePageId] as PagePattern;
+  const targetPage = bp.patterns[targetPageId] as PagePattern;
+
+  if (sourcePage.type !== 'page' || targetPage.type !== 'page') {
+    throw new Error('Pattern is not a page.');
+  }
+  
+  let updatedSourcePatterns;
+  let updatedTargetPatterns;
+
+  const sourcePagePatterns = sourcePage.data.patterns;
+  const indexToRemove = sourcePagePatterns.indexOf(patternId);
+  const newPattern = sourcePagePatterns.splice(indexToRemove, 1).toString();
+
+  if (isPageMove) {
+    // Moving a pattern within the source page
+    if (indexToRemove === -1) {
+      throw new Error('Pattern ID not found in the source page.');
+    }
+
+    updatedSourcePatterns = [
+      ...sourcePagePatterns.slice(0, indexToRemove),
+      ...sourcePagePatterns.slice(indexToRemove + 1)
+    ];
+
+    updatedTargetPatterns = position === 'top'
+      ? [newPattern, ...updatedSourcePatterns]
+      : [...updatedSourcePatterns, newPattern];
+  } else {
+    // Moving a pattern between pages
+    if (indexToRemove === -1) {
+      throw new Error('Pattern ID not found in the source page.');
+    }
+
+    updatedSourcePatterns = [
+      ...sourcePagePatterns.slice(0, indexToRemove),
+      ...sourcePagePatterns.slice(indexToRemove + 1)
+    ];
+
+    updatedTargetPatterns = position === 'top'
+      ? [patternId, ...targetPage.data.patterns]
+      : [...targetPage.data.patterns, patternId];
+  }
+
+
+  // console.log('patternId: ', patternId);
+  // console.log('blueprint patterns: ', sourcePage.data.patterns);
+  // console.log('blueprint data: ', sourcePage.data);
+  // console.log('indexToRemove: ', indexToRemove);
+  // console.log('sourcePage: ', sourcePage);
+  // console.log('targetPage: ', targetPage);
+  // console.log('newPatterns: ', newPattern);
+  // console.log('updatedSourcePatterns: ', updatedSourcePatterns);
+  return {
+    ...bp,
+    patterns: {
+      ...bp.patterns,
+      [sourcePageId]: {
+        ...sourcePage,
+        data: {
+          ...sourcePage.data,
+          patterns: updatedSourcePatterns,
+        },
+      } satisfies PagePattern,
+      [targetPageId]: {
+        ...targetPage,
+        data: {
+          ...targetPage.data,
+          patterns: updatedTargetPatterns,
+        },
+      } satisfies PagePattern,
+    },
+  };
+};
+
 export const addPatternToFieldset = (
   bp: Blueprint,
   fieldsetPatternId: PatternId,
@@ -233,44 +316,6 @@ export const addPatternToFieldset = (
         },
       } satisfies FieldsetPattern,
       [pattern.id]: pattern,
-    },
-  };
-};
-
-export const movePatternBetweenPages = (
-  bp: Blueprint,
-  sourcePageId: PatternId,
-  targetPageId: PatternId,
-  patternId: PatternId
-): Blueprint => {
-  const sourcePage = bp.patterns[sourcePageId] as PagePattern;
-  const targetPage = bp.patterns[targetPageId] as PagePattern;
-  if (sourcePage.type !== 'page' || targetPage.type !== 'page') {
-    throw new Error('Pattern is not a page.');
-  }
-  const indexToRemove = sourcePage.data.patterns.indexOf(patternId);
-  const newPatterns = sourcePage.data.patterns.splice(indexToRemove, 1);
-
-  console.log('indexToRemove: ', indexToRemove);
-  console.log('newPatterns: ', newPatterns);
-  return {
-    ...bp,
-    patterns: {
-      ...bp.patterns,
-      [sourcePageId]: {
-        ...sourcePage,
-        data: {
-          ...sourcePage.data,
-          patterns: newPatterns,
-        },
-      } satisfies PagePattern,
-      [targetPageId]: {
-        ...targetPage,
-        data: {
-          ...targetPage.data,
-          patterns: [...targetPage.data.patterns, patternId],
-        },
-      } satisfies PagePattern,
     },
   };
 };
@@ -384,6 +429,8 @@ export const removePatternFromBlueprint = (
     },
     {} as PatternMap
   );
+
+  console.log('patterns to remove: ', patterns)
   // Remove the pattern itself
   delete patterns[id];
   return {
