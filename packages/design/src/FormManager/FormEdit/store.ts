@@ -77,8 +77,6 @@ export const createFormEditSlice =
       const page = getSessionPage(state.session);
       const newPattern = builder.addPatternToPage(patternType, page);
 
-      console.log('page in addPattern-store function: ', page);
-      console.log('newPattern in addPattern-store function: ', newPattern);
       set({
         session: mergeSession(state.session, { form: builder.form }),
         focus: { pattern: newPattern },

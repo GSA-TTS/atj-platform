@@ -266,14 +266,6 @@ export const movePatternBetweenPages = (
         : [...targetPage.data.patterns, patternId];
   }
 
-  // console.log('patternId: ', patternId);
-  // console.log('blueprint patterns: ', sourcePage.data.patterns);
-  // console.log('blueprint data: ', sourcePage.data);
-  // console.log('indexToRemove: ', indexToRemove);
-  // console.log('sourcePage: ', sourcePage);
-  // console.log('targetPage: ', targetPage);
-  // console.log('newPatterns: ', newPattern);
-  // console.log('updatedSourcePatterns: ', updatedSourcePatterns);
   return {
     ...bp,
     patterns: {
