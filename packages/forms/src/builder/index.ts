@@ -61,7 +61,6 @@ export class BlueprintBuilder {
     const pagePatternId = root.data.pages[pageNum];
     this.bp = addPatternToPage(this.form, pagePatternId, pattern);
 
-
     return pattern;
   }
 

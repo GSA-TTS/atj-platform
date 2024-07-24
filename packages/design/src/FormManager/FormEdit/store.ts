@@ -91,7 +91,7 @@ export const createFormEditSlice =
         state.context.config,
         state.session.form
       );
- 
+
       const movePatternBetweenPages = builder.movePatternBetweenPages(
         sourcePage,
         targetPage,

@@ -226,7 +226,7 @@ export const movePatternBetweenPages = (
   if (sourcePage.type !== 'page' || targetPage.type !== 'page') {
     throw new Error('Pattern is not a page.');
   }
-  
+
   let updatedSourcePatterns;
   let updatedTargetPatterns;
 
@@ -242,12 +242,13 @@ export const movePatternBetweenPages = (
 
     updatedSourcePatterns = [
       ...sourcePagePatterns.slice(0, indexToRemove),
-      ...sourcePagePatterns.slice(indexToRemove + 1)
+      ...sourcePagePatterns.slice(indexToRemove + 1),
     ];
 
-    updatedTargetPatterns = position === 'top'
-      ? [newPattern, ...updatedSourcePatterns]
-      : [...updatedSourcePatterns, newPattern];
+    updatedTargetPatterns =
+      position === 'top'
+        ? [newPattern, ...updatedSourcePatterns]
+        : [...updatedSourcePatterns, newPattern];
   } else {
     // Moving a pattern between pages
     if (indexToRemove === -1) {
@@ -256,14 +257,14 @@ export const movePatternBetweenPages = (
 
     updatedSourcePatterns = [
       ...sourcePagePatterns.slice(0, indexToRemove),
-      ...sourcePagePatterns.slice(indexToRemove + 1)
+      ...sourcePagePatterns.slice(indexToRemove + 1),
     ];
 
-    updatedTargetPatterns = position === 'top'
-      ? [patternId, ...targetPage.data.patterns]
-      : [...targetPage.data.patterns, patternId];
+    updatedTargetPatterns =
+      position === 'top'
+        ? [patternId, ...targetPage.data.patterns]
+        : [...targetPage.data.patterns, patternId];
   }
-
 
   // console.log('patternId: ', patternId);
   // console.log('blueprint patterns: ', sourcePage.data.patterns);
@@ -430,7 +431,7 @@ export const removePatternFromBlueprint = (
     {} as PatternMap
   );
 
-  console.log('patterns to remove: ', patterns)
+  console.log('patterns to remove: ', patterns);
   // Remove the pattern itself
   delete patterns[id];
   return {

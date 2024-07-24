@@ -1,4 +1,10 @@
-import React, { PropsWithChildren, ReactElement, useEffect, useState, useRef } from 'react';
+import React, {
+  PropsWithChildren,
+  ReactElement,
+  useEffect,
+  useState,
+  useRef,
+} from 'react';
 import classNames from 'classnames';
 
 import { useFormManagerStore } from '../../../store';
@@ -43,13 +49,15 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
   );
   const movePatternToPage = useFormManagerStore(state => state.movePattern);
   const focusPatternId = useFormManagerStore(state => state.focus?.pattern.id);
-  const focusPatternType = useFormManagerStore(state => state.focus?.pattern.type);
+  const focusPatternType = useFormManagerStore(
+    state => state.focus?.pattern.type
+  );
 
   useEffect(() => {
     if (focusPatternId) {
       // Check if the focused pattern is inside a fieldset
-      const fieldset = patterns.find(p =>
-        p.type === 'fieldset' && p.data.patterns.includes(focusPatternId)
+      const fieldset = patterns.find(
+        p => p.type === 'fieldset' && p.data.patterns.includes(focusPatternId)
       );
       if (fieldset && !isPatternInFieldset) {
         setIsPatternInFieldset(true);
@@ -82,7 +90,13 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
   const handleMovePattern = () => {
     if (focusPatternId && targetPage) {
       const isPageMove = focusPatternType === 'page';
-      movePatternToPage(sourcePage, targetPage, focusPatternId, moveToPosition, isPageMove);
+      movePatternToPage(
+        sourcePage,
+        targetPage,
+        focusPatternId,
+        moveToPosition,
+        isPageMove
+      );
     }
     setDropdownOpen(false);
   };
@@ -92,7 +106,10 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
   };
 
   const handleClickOutside = (event: MouseEvent) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
       setDropdownOpen(false);
     }
   };
@@ -109,14 +126,19 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
   }, [dropdownOpen]);
 
   const handleBlur = (event: React.FocusEvent) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.relatedTarget as Node)) {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.relatedTarget as Node)
+    ) {
       setDropdownOpen(false);
     }
   };
 
   return (
     <>
-      <div className={`${styles.patternActionWrapper} margin-top-2 margin-bottom-1 padding-top-1 width-full pattern-edit-panel base-dark text-right`}>
+      <div
+        className={`${styles.patternActionWrapper} margin-top-2 margin-bottom-1 padding-top-1 width-full pattern-edit-panel base-dark text-right`}
+      >
         <div
           className={classNames(
             'border-top-1px border-bottom-1px border-base-lighter ',
@@ -124,11 +146,16 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
               'border-base-lighter': children,
               'padding-right-1': children,
               'margin-right-1': children,
-            })}
+            }
+          )}
         >
           {!isPatternInFieldset && (
             <>
-              <div className={`${styles.moveToPageWrapper} display-inline-block text-ttop position-relative`} ref={dropdownRef} onBlur={handleBlur}>
+              <div
+                className={`${styles.moveToPageWrapper} display-inline-block text-ttop position-relative`}
+                ref={dropdownRef}
+                onBlur={handleBlur}
+              >
                 <p
                   className={`${styles.movePatternButton} margin-top-1 display-inline-block text-ttop cursor-pointer`}
                 >
@@ -142,7 +169,7 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
                     }}
                   >
                     <span className="display-inline-block text-ttop">
-                      {isFieldset ? "Move fieldset" : "Move question"}
+                      {isFieldset ? 'Move fieldset' : 'Move question'}
                     </span>
                     <svg
                       className="usa-icon display-inline-block text-ttop"
@@ -151,8 +178,8 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
                       role="img"
                     >
                       <use
-                        xlinkHref={`${context.uswdsRoot}img/sprite.svg#expand_more`}>
-                      </use>
+                        xlinkHref={`${context.uswdsRoot}img/sprite.svg#expand_more`}
+                      ></use>
                     </svg>
                   </button>
                 </p>
@@ -179,7 +206,9 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
                         </option>
                         {availablePages.map((page, index) => (
                           <option key={page.id} value={page.id}>
-                            {page.specialLabel || page.data.title || `Page ${index + 2}`}
+                            {page.specialLabel ||
+                              page.data.title ||
+                              `Page ${index + 2}`}
                           </option>
                         ))}
                       </select>
@@ -198,28 +227,34 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
                         name="elementPosition"
                         id="elementPosition"
                         value={moveToPosition}
-                        onChange={e => setMoveToPosition(e.target.value as 'top' | 'bottom')}
+                        onChange={e =>
+                          setMoveToPosition(e.target.value as 'top' | 'bottom')
+                        }
                       >
                         <option value="" disabled>
                           Select position
                         </option>
-                        <option value="top">
-                          Top of page
-                        </option>
-                        <option value="bottom">
-                          Bottom of page
-                        </option>
+                        <option value="top">Top of page</option>
+                        <option value="bottom">Bottom of page</option>
                       </select>
                     </div>
                     <p>
                       <button
                         type="button"
-                        aria-label={isFieldset ? "Move fieldset to another page" : "Move question to another page"}
-                        title={isFieldset ? "Move fieldset to another page" : "Move question to another page"}
+                        aria-label={
+                          isFieldset
+                            ? 'Move fieldset to another page'
+                            : 'Move question to another page'
+                        }
+                        title={
+                          isFieldset
+                            ? 'Move fieldset to another page'
+                            : 'Move question to another page'
+                        }
                         className="usa-button margin-right-0"
                         onClick={handleMovePattern}
                       >
-                        {isFieldset ? "Move fieldset" : "Move question"}
+                        {isFieldset ? 'Move fieldset' : 'Move question'}
                       </button>
                     </p>
                   </div>
@@ -259,7 +294,9 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
               className="usa-button--outline usa-button--unstyled"
               onClick={event => {
                 event.preventDefault();
-                const confirmed = window.confirm("Are you sure you want to delete this question?");
+                const confirmed = window.confirm(
+                  'Are you sure you want to delete this question?'
+                );
                 if (confirmed) {
                   deleteSelectedPattern();
                 }
@@ -277,9 +314,7 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
               </svg>
             </button>
             {children ? (
-              <span className="padding-left-1">
-                {children}
-              </span>
+              <span className="padding-left-1">{children}</span>
             ) : null}
           </span>
         </div>
@@ -294,7 +329,6 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
           </button>
         </div>
       </div>
-
     </>
   );
 };

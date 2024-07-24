@@ -76,7 +76,7 @@ export const DraggableList: React.FC<DraggableListProps> = ({
             if (patternId === undefined) {
               return;
             }
-            
+
             return (
               <SortableItem
                 key={patternId}
