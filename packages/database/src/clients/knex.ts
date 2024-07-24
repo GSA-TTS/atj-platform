@@ -4,6 +4,8 @@ import knex, { type Knex } from 'knex';
 
 const migrationsDirectory = path.resolve(__dirname, '../../migrations');
 
+export const createKnex = (config: Knex.Config): Knex => knex(config);
+
 export function getTestKnex(): Knex {
   return knex({
     client: 'better-sqlite3',

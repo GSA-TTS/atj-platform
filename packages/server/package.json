@@ -16,6 +16,7 @@
     "@astrojs/node": "^8.3.1",
     "@astrojs/react": "^3.6.0",
     "@atj/common": "workspace:*",
+    "@atj/database": "workspace:*",
     "@atj/design": "workspace:*",
     "@atj/forms": "workspace:*",
     "@lucia-auth/adapter-sqlite": "^3.0.2",

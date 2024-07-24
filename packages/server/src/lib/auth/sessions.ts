@@ -1,15 +1,16 @@
-import { BetterSqlite3Adapter } from '@lucia-auth/adapter-sqlite';
 import { Lucia } from 'lucia';
 
+import {
+  Database,
+  createTestDatabase,
+  createTestLuciaAdapter,
+} from '@atj/database';
+
 import { getServerSecrets } from '../../secrets';
-import { type DatabaseUser, db } from '../db';
 import { LoginGov } from './login-gov';
 
-const adapter = new BetterSqlite3Adapter(db, {
-  user: 'user',
-  session: 'session',
-});
-
+const testDb = createTestDatabase();
+const adapter = createTestLuciaAdapter(testDb.sqlite);
 export const lucia = new Lucia(adapter, {
   sessionCookie: {
     attributes: {
@@ -26,7 +27,7 @@ export const lucia = new Lucia(adapter, {
 declare module 'lucia' {
   interface Register {
     Lucia: typeof lucia;
-    DatabaseUserAttributes: Omit<DatabaseUser, 'id'>;
+    DatabaseUserAttributes: Omit<Database['users'], 'id'>;
   }
 }
 
