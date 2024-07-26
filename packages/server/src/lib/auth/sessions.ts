@@ -1,35 +1,5 @@
-import { Lucia } from 'lucia';
-
-import {
-  Database,
-  createTestDatabase,
-  createTestLuciaAdapter,
-} from '@atj/database';
-
 import { getServerSecrets } from '../../secrets';
 import { LoginGov } from './login-gov';
-
-const testDb = createTestDatabase();
-const adapter = createTestLuciaAdapter(testDb.sqlite);
-export const lucia = new Lucia(adapter, {
-  sessionCookie: {
-    attributes: {
-      secure: import.meta.env.PROD,
-    },
-  },
-  getUserAttributes: attributes => {
-    return {
-      email: attributes.email,
-    };
-  },
-});
-
-declare module 'lucia' {
-  interface Register {
-    Lucia: typeof lucia;
-    DatabaseUserAttributes: Omit<Database['users'], 'id'>;
-  }
-}
 
 const secrets = getServerSecrets((import.meta as any).env);
 

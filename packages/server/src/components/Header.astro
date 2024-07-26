@@ -5,7 +5,7 @@ import logoSvg from '@atj/design/images/logo.svg';
 import { getAstroAppContext } from '../context';
 import * as routes from '../routes';
 
-const { baseUrl, title } = getAstroAppContext(Astro);
+const { baseUrl, title } = await getAstroAppContext(Astro);
 
 const getNavLinkClasses = (url: string) => {
   if (url === Astro.url.pathname) {

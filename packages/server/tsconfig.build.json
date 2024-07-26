@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "emitDeclarationOnly": true,
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "include": [
+    "./src/env.d.ts",
+    "./src/index.ts",
+    "./src/context.ts",
+    "./src/lib/github.ts"
+  ],
+  "exclude": ["./dist"],
+  "references": []
+}

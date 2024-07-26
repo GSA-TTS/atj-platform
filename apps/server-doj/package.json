@@ -12,6 +12,7 @@
     "test": "vitest run --coverage"
   },
   "dependencies": {
+    "@atj/database": "workspace:*",
     "@atj/server": "workspace:*"
   },
   "devDependencies": {

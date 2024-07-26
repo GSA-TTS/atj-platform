@@ -6,7 +6,7 @@
   "license": "CC0",
   "main": "src/index.ts",
   "scripts": {
-    "build": "node ./build.js",
+    "build": "tsup src/* --env.NODE_ENV production",
     "dev": "tsup src/* --watch",
     "test": "vitest run --coverage"
   },
@@ -14,13 +14,14 @@
     "@atj/common": "workspace:*",
     "@lucia-auth/adapter-sqlite": "^3.0.2",
     "@types/pg": "^8.11.6",
+    "better-sqlite3": "^11.1.2",
     "knex": "^3.1.0",
     "kysely": "^0.27.4",
+    "lucia": "^3.2.0",
     "pg": "^8.12.0"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.11",
-    "better-sqlite3": "^11.1.2",
     "vite-tsconfig-paths": "^4.3.2"
   }
 }

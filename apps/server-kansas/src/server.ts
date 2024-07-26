@@ -1,4 +1,4 @@
-import { createServer } from '@atj/server/dist/index.js';
+import { createServer } from '@atj/server/dist/handler.js';
 
 export const createCustomServer = () => {
   return createServer({

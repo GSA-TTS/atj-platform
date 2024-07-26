@@ -1,7 +1,9 @@
 export {
   type Database,
   type DatabaseClient,
-  createTestDatabase,
+  createInMemoryDatabase,
 } from './clients/kysely';
 export { createTestLuciaAdapter } from './clients/lucia';
-export * from './services';
+export { type DatabaseContext, createDevDatabaseContext } from './context';
+export * from './gateways';
+export * from './management';

@@ -1,11 +1,20 @@
-import { type FormConfig } from '@atj/forms';
-import { defaultFormConfig } from '@atj/forms';
-import { service } from '@atj/forms';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
+
+import { type DatabaseContext } from '@atj/database';
+import { type FormConfig, defaultFormConfig, service } from '@atj/forms';
 
 import { type GithubRepository } from './lib/github';
 
+export type ServerOptions = {
+  title: string;
+};
+
+const getDirname = () => dirname(fileURLToPath(import.meta.url));
+
 export type AppContext = {
   baseUrl: `${string}/`;
+  database: DatabaseContext;
   formConfig: FormConfig;
   formService: service.FormService;
   github: GithubRepository;
@@ -13,20 +22,30 @@ export type AppContext = {
   uswdsRoot: `${string}/`;
 };
 
-export const getAstroAppContext = (Astro: any): AppContext => {
+export const getAstroAppContext = async (Astro: any): Promise<AppContext> => {
   if (!Astro.locals.ctx) {
-    Astro.locals.ctx = createAstroAppContext(Astro, import.meta.env);
+    Astro.locals.ctx = await createAstroAppContext(Astro, import.meta.env);
   }
   return Astro.locals.ctx;
 };
 
-const createAstroAppContext = (Astro: any, env: any): AppContext => {
+const createDefaultDatabaseContext = async (): Promise<DatabaseContext> => {
+  const { createDevDatabaseContext } = await import('@atj/database');
+  return createDevDatabaseContext(join(getDirname(), 'main.db'));
+};
+
+export const createAstroAppContext = async (
+  serverOptions: ServerOptions,
+  env: any
+): Promise<AppContext> => {
+  const database = await createDefaultDatabaseContext();
   return {
     baseUrl: env.BASE_URL,
+    database,
     formConfig: defaultFormConfig,
     formService: service.createTestFormService(),
     github: env.GITHUB,
-    title: Astro.locals.serverOptions?.title || 'Form Service',
+    title: serverOptions.title || 'Form Service',
     uswdsRoot: `${env.BASE_URL}uswds/`,
   };
 };

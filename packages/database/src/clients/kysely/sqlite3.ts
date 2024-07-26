@@ -10,8 +10,8 @@ type TestDatabase = {
   sqlite: SqliteDatabase;
 };
 
-export const createTestDatabase = (userDb?: SqliteDatabase): TestDatabase => {
-  const database = userDb ?? new BetterSqliteDatabase(':memory:');
+export const createInMemoryDatabase = (): TestDatabase => {
+  const database = new BetterSqliteDatabase(':memory:');
   return {
     kysely: new Kysely<Database>({
       dialect: new SqliteDialect({
@@ -20,4 +20,12 @@ export const createTestDatabase = (userDb?: SqliteDatabase): TestDatabase => {
     }),
     sqlite: database,
   };
+};
+
+export const createSqliteDatabase = (database: SqliteDatabase) => {
+  return new Kysely<Database>({
+    dialect: new SqliteDialect({
+      database,
+    }),
+  });
 };

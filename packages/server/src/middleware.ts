@@ -1,7 +1,7 @@
 import { defineMiddleware } from 'astro/middleware';
 import { verifyRequestOrigin } from 'lucia';
 
-import { lucia } from './lib/auth/sessions';
+import { getAstroAppContext } from './context';
 
 export const onRequest = defineMiddleware(async (context, next) => {
   if (context.request.method !== 'GET') {
@@ -17,6 +17,9 @@ export const onRequest = defineMiddleware(async (context, next) => {
       });
     }
   }
+
+  const { database } = await getAstroAppContext(context);
+  const lucia = await database.getLucia();
 
   const sessionId = context.cookies.get(lucia.sessionCookieName)?.value ?? null;
   if (!sessionId) {

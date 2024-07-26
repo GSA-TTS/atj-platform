@@ -2,14 +2,15 @@ import esbuild from 'esbuild';
 
 esbuild
   .build({
-    bundle: false,
-    entryPoints: ['./src/index.ts'],
-    //external: ['sqlite3', 'knex'],
+    bundle: true,
+    entryPoints: ['./src/handler.ts'],
     format: 'esm',
     minify: true,
     outdir: './dist',
+    packages: 'external',
     platform: 'node',
     sourcemap: true,
-    target: 'es2020',
+    target: 'esnext',
+    tsconfig: './tsconfig.build.json',
   })
   .catch(() => process.exit(1));
