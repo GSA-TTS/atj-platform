@@ -48,7 +48,9 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
   );
   const movePatternToPage = useFormManagerStore(state => state.movePattern);
   const focusPatternId = useFormManagerStore(state => state.focus?.pattern.id);
-  const focusPatternType = useFormManagerStore(state => state.focus?.pattern.type);
+  const focusPatternType = useFormManagerStore(
+    state => state.focus?.pattern.type
+  );
 
   const isPatternInFieldset = useMemo(() => {
     if (!focusPatternId) return false;
@@ -63,13 +65,16 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
     const pages = useFormManagerStore(state =>
       Object.values(state.session.form.patterns).filter(p => p.type === 'page')
     );
-  
+
     const currentPageIndex = pages.findIndex(page =>
       page.data.patterns.includes(focusPatternId || '')
     );
-  
-    const page1Count = pages.reduce((count, page) => count + (page.data.title === 'Page 1' ? 1 : 0), 0);
-  
+
+    const page1Count = pages.reduce(
+      (count, page) => count + (page.data.title === 'Page 1' ? 1 : 0),
+      0
+    );
+
     const availablePages: PageWithLabel[] =
       page1Count > 1
         ? pages.slice(1).map((page, index) => {
@@ -84,7 +89,7 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
             }
             return page;
           });
-  
+
     return availablePages;
   };
 
@@ -182,7 +187,7 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
                     type="button"
                     ref={buttonRef}
                     aria-haspopup="true"
-                    aria-expanded={dropdownOpen ? "true" : "false"}
+                    aria-expanded={dropdownOpen ? 'true' : 'false'}
                     onClick={event => {
                       event.preventDefault();
                       toggleDropdown();
@@ -204,10 +209,7 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
                   </button>
                 </p>
                 {dropdownOpen && (
-                  <div 
-                    className={`${styles.dropDown} padding-2`}
-                    tabIndex={-1} 
-                  >
+                  <div className={`${styles.dropDown} padding-2`} tabIndex={-1}>
                     <div
                       className={`${styles.moveToPagePosition} margin-bottom-1`}
                     >

@@ -220,7 +220,6 @@ export const movePatternBetweenPages = (
   position: string,
   isPageMove: boolean = false
 ): Blueprint => {
-
   const sourcePage = bp.patterns[sourcePageId] as PagePattern;
   const targetPage = bp.patterns[targetPageId] as PagePattern;
 
@@ -293,7 +292,6 @@ export const movePatternBetweenPages = (
     },
   };
 };
-
 
 export const addPatternToFieldset = (
   bp: Blueprint,
