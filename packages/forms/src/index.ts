@@ -220,25 +220,30 @@ export const movePatternBetweenPages = (
   position: string,
   isPageMove: boolean = false
 ): Blueprint => {
+
   const sourcePage = bp.patterns[sourcePageId] as PagePattern;
   const targetPage = bp.patterns[targetPageId] as PagePattern;
+
+  if (!sourcePage || !targetPage) {
+    throw new Error('Source or target page not found.');
+  }
 
   if (sourcePage.type !== 'page' || targetPage.type !== 'page') {
     throw new Error('Pattern is not a page.');
   }
 
-  let updatedSourcePatterns;
-  let updatedTargetPatterns;
-
-  const sourcePagePatterns = sourcePage.data.patterns;
-  const indexToRemove = sourcePagePatterns.indexOf(patternId);
-  const newPattern = sourcePagePatterns.splice(indexToRemove, 1).toString();
+  let updatedSourcePatterns: PatternId[];
+  let updatedTargetPatterns: PatternId[];
 
   if (isPageMove) {
-    // Moving a pattern within the source page
+    const sourcePagePatterns = sourcePage.data.patterns;
+    const indexToRemove = sourcePagePatterns.indexOf(patternId);
+
     if (indexToRemove === -1) {
-      throw new Error('Pattern ID not found in the source page.');
+      throw new Error(`Pattern ID ${patternId} not found in the source page.`);
     }
+
+    const newPattern = sourcePagePatterns.splice(indexToRemove, 1).toString();
 
     updatedSourcePatterns = [
       ...sourcePagePatterns.slice(0, indexToRemove),
@@ -250,14 +255,15 @@ export const movePatternBetweenPages = (
         ? [newPattern, ...updatedSourcePatterns]
         : [...updatedSourcePatterns, newPattern];
   } else {
-    // Moving a pattern between pages
+    const indexToRemove = sourcePage.data.patterns.indexOf(patternId);
+
     if (indexToRemove === -1) {
-      throw new Error('Pattern ID not found in the source page.');
+      throw new Error(`Pattern ID ${patternId} not found in the source page.`);
     }
 
     updatedSourcePatterns = [
-      ...sourcePagePatterns.slice(0, indexToRemove),
-      ...sourcePagePatterns.slice(indexToRemove + 1),
+      ...sourcePage.data.patterns.slice(0, indexToRemove),
+      ...sourcePage.data.patterns.slice(indexToRemove + 1),
     ];
 
     updatedTargetPatterns =
@@ -287,6 +293,7 @@ export const movePatternBetweenPages = (
     },
   };
 };
+
 
 export const addPatternToFieldset = (
   bp: Blueprint,

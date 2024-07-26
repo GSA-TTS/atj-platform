@@ -117,6 +117,11 @@
   max-width: 21rem;
 }
 
+.draggableListWrapper:has(.patternActionWrapper .dropDown select:focus),
+.draggableListWrapper:has(.patternActionWrapper .dropDown:focus ) {
+  outline: 0;
+}
+
 .patternActionWrapper .dropdownMenu div {
   padding: 8px;
   cursor: pointer;

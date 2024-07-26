@@ -1,6 +1,7 @@
 import React, {
   PropsWithChildren,
   ReactElement,
+  useMemo,
   useEffect,
   useState,
   useRef,
@@ -34,8 +35,6 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
   }));
   const [targetPage, setTargetPage] = useState('');
   const [moveToPosition, setMoveToPosition] = useState('');
-  const [isPatternInFieldset, setIsPatternInFieldset] = useState(false);
-  const [isFieldset, setIsFieldset] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -49,43 +48,53 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
   );
   const movePatternToPage = useFormManagerStore(state => state.movePattern);
   const focusPatternId = useFormManagerStore(state => state.focus?.pattern.id);
-  const focusPatternType = useFormManagerStore(
-    state => state.focus?.pattern.type
-  );
+  const focusPatternType = useFormManagerStore(state => state.focus?.pattern.type);
 
-  useEffect(() => {
-    if (focusPatternId) {
-      // Check if the focused pattern is inside a fieldset
-      const fieldset = patterns.find(
-        p => p.type === 'fieldset' && p.data.patterns.includes(focusPatternId)
-      );
-      if (fieldset && !isPatternInFieldset) {
-        setIsPatternInFieldset(true);
-      } else if (!fieldset && isPatternInFieldset) {
-        setIsPatternInFieldset(false);
-      }
-    }
-  }, [focusPatternId, patterns, isPatternInFieldset]);
+  const isPatternInFieldset = useMemo(() => {
+    if (!focusPatternId) return false;
+    return patterns.some(
+      p => p.type === 'fieldset' && p.data.patterns.includes(focusPatternId)
+    );
+  }, [focusPatternId, patterns]);
 
-  useEffect(() => {
-    // Check if the focus pattern type is fieldset
-    setIsFieldset(focusPatternType === 'fieldset');
-  }, [focusPatternType]);
+  const isFieldset = focusPatternType === 'fieldset';
 
-  // Find the index of the current page
+  const useAvailablePages = (focusPatternId: string | undefined) => {
+    const pages = useFormManagerStore(state =>
+      Object.values(state.session.form.patterns).filter(p => p.type === 'page')
+    );
+  
+    const currentPageIndex = pages.findIndex(page =>
+      page.data.patterns.includes(focusPatternId || '')
+    );
+  
+    const page1Count = pages.reduce((count, page) => count + (page.data.title === 'Page 1' ? 1 : 0), 0);
+  
+    const availablePages: PageWithLabel[] =
+      page1Count > 1
+        ? pages.slice(1).map((page, index) => {
+            if (index + 1 === currentPageIndex) {
+              return { ...page, specialLabel: 'Current page' };
+            }
+            return page;
+          })
+        : pages.map((page, index) => {
+            if (index === currentPageIndex) {
+              return { ...page, specialLabel: 'Current page' };
+            }
+            return page;
+          });
+  
+    return availablePages;
+  };
+
+  const availablePages = useAvailablePages(focusPatternId);
+
   const currentPageIndex = pages.findIndex(page =>
     page.data.patterns.includes(focusPatternId || '')
   );
 
   const sourcePage = pages[currentPageIndex]?.id;
-
-  // Remove the first entry and include the current page with a special label
-  const availablePages: PageWithLabel[] = pages.slice(1).map((page, index) => {
-    if (index + 1 === currentPageIndex) {
-      return { ...page, specialLabel: 'Current page' };
-    }
-    return page;
-  });
 
   const handleMovePattern = () => {
     if (focusPatternId && targetPage) {
@@ -113,15 +122,24 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
       setDropdownOpen(false);
     }
   };
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      setDropdownOpen(false);
+      buttonRef.current?.focus();
+    }
+  };
 
   useEffect(() => {
     if (dropdownOpen) {
       document.addEventListener('mousedown', handleClickOutside);
+      dropdownRef.current?.addEventListener('keydown', handleKeyDown);
     } else {
       document.removeEventListener('mousedown', handleClickOutside);
+      dropdownRef.current?.removeEventListener('keydown', handleKeyDown);
     }
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
+      dropdownRef.current?.removeEventListener('keydown', handleKeyDown);
     };
   }, [dropdownOpen]);
 
@@ -163,6 +181,8 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
                     className="usa-button--outline usa-button--unstyled margin-right-0  padding-top-1 padding-left-05 padding-bottom-05"
                     type="button"
                     ref={buttonRef}
+                    aria-haspopup="true"
+                    aria-expanded={dropdownOpen ? "true" : "false"}
                     onClick={event => {
                       event.preventDefault();
                       toggleDropdown();
@@ -184,7 +204,10 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
                   </button>
                 </p>
                 {dropdownOpen && (
-                  <div className={`${styles.dropDown} padding-2`}>
+                  <div 
+                    className={`${styles.dropDown} padding-2`}
+                    tabIndex={-1} 
+                  >
                     <div
                       className={`${styles.moveToPagePosition} margin-bottom-1`}
                     >
