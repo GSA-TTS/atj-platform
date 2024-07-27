@@ -1,0 +1,19 @@
+{
+  "name": "@atj/auth",
+  "version": "1.0.0",
+  "description": "10x ATJ auth module",
+  "type": "module",
+  "license": "CC0",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsup src/* --env.NODE_ENV production",
+    "dev": "tsup src/* --watch"
+  },
+  "dependencies": {
+    "@atj/common": "workspace:^",
+    "@atj/database": "workspace:*",
+    "arctic": "^1.9.2",
+    "lucia": "^3.2.0",
+    "oslo": "^1.2.1"
+  }
+}

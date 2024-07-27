@@ -1,14 +1,12 @@
 import { OAuth2RequestError } from 'arctic';
 
 import * as r from '@atj/common';
-import { type DatabaseContext, getUserId, createUser } from '@atj/database';
-
-import { type LoginGovUrl } from './login-gov';
-import { loginGov } from './sessions';
+import { getUserId, createUser } from '@atj/database';
+import { type AuthContext } from '..';
 
 type LoginGovUser = {
   sub: string;
-  iss: LoginGovUrl;
+  iss: string;
   email: string;
   email_verified: boolean;
   ial: string;
@@ -21,9 +19,10 @@ type Params = {
 };
 
 export const processLoginGovCallback = async (
-  db: DatabaseContext,
+  ctx: AuthContext,
   params: Params,
-  storedParams: Params
+  storedParams: Params,
+  redirectUrl: string
 ) => {
   if (
     !params.code ||
@@ -36,7 +35,7 @@ export const processLoginGovCallback = async (
 
   console.log(params.code);
   console.log(storedParams.code);
-  const validateResult = await loginGov
+  const validateResult = await ctx.provider
     .validateAuthorizationCode(params.code, storedParams.code)
     .then(result => {
       return r.success(result);
@@ -90,15 +89,15 @@ export const processLoginGovCallback = async (
   /**
    * TODO: Fix up this logic to create a user in the database and create a session.
    */
-  let userId = await getUserId(db, userDataResult.data.email);
+  let userId = await getUserId(ctx.database, userDataResult.data.email);
   if (!userId) {
-    const newUser = await createUser(db, userDataResult.data.email);
+    const newUser = await createUser(ctx.database, userDataResult.data.email);
     if (!newUser) {
       return r.failure({ status: 500, message: 'error creating new user' });
     }
     userId = newUser.id;
   }
-  const lucia = await db.getLucia();
+  const lucia = await ctx.database.getLucia();
   const session = await lucia.createSession(userId, {});
   const sessionCookie = lucia.createSessionCookie(session.id);
 

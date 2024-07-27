@@ -8,18 +8,17 @@ import { fileURLToPath } from 'url';
 
 import express from 'express';
 
-import { type ServerOptions, createAstroAppContext } from './context';
+import { type ServerOptions } from './context';
 
 export const createServer = async (
   serverOptions: ServerOptions
 ): Promise<express.Express> => {
   const app = express();
   const handler = await getHandler();
-  const ctx = await createAstroAppContext(serverOptions, import.meta.env);
   app.use((req, res, next) => {
     // Pass ServerOptions as request locals.
     handler(req, res, next, {
-      ctx,
+      ctx: null,
       serverOptions,
       session: null,
       user: null,

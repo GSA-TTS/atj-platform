@@ -11,16 +11,18 @@ const getTokenEndpoint = (url: LoginGovUrl) =>
 const getAuthorizeEndpoint = (url: LoginGovUrl) =>
   `${url}/openid_connect/authorize?acr_values=http://idmanagement.gov/ns/assurance/ial/1`;
 
+export type LoginGovOptions = {
+  loginGovUrl: LoginGovUrl;
+  clientId: string;
+  clientSecret: string;
+  redirectURI: string;
+};
+
 export class LoginGov implements OAuth2ProviderWithPKCE {
   private client: OAuth2Client;
   private clientSecret: string;
 
-  constructor(opts: {
-    loginGovUrl: LoginGovUrl;
-    clientId: string;
-    clientSecret: string;
-    redirectURI: string;
-  }) {
+  constructor(opts: LoginGovOptions) {
     this.client = new OAuth2Client(
       opts.clientId,
       getAuthorizeEndpoint(opts.loginGovUrl),

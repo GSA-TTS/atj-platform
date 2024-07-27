@@ -211,6 +211,24 @@ importers:
         specifier: ^3.22.4
         version: 3.23.8
 
+  packages/auth:
+    dependencies:
+      '@atj/common':
+        specifier: workspace:^
+        version: link:../common
+      '@atj/database':
+        specifier: workspace:*
+        version: link:../database
+      arctic:
+        specifier: ^1.9.2
+        version: 1.9.2
+      lucia:
+        specifier: ^3.2.0
+        version: 3.2.0
+      oslo:
+        specifier: ^1.2.1
+        version: 1.2.1
+
   packages/common: {}
 
   packages/database:
@@ -447,13 +465,16 @@ importers:
     dependencies:
       '@astrojs/check':
         specifier: ^0.7.0
-        version: 0.7.0(typescript@5.4.2)
+        version: 0.7.0(prettier@3.2.5)(typescript@5.4.2)
       '@astrojs/node':
         specifier: ^8.3.1
         version: 8.3.1(astro@4.10.3)
       '@astrojs/react':
         specifier: ^3.6.0
         version: 3.6.0(@types/react-dom@18.2.14)(@types/react@18.2.79)(react-dom@18.2.0)(react@18.2.0)(vite@5.3.1)
+      '@atj/auth':
+        specifier: workspace:^
+        version: link:../auth
       '@atj/common':
         specifier: workspace:*
         version: link:../common
@@ -466,24 +487,15 @@ importers:
       '@atj/forms':
         specifier: workspace:*
         version: link:../forms
-      '@lucia-auth/adapter-sqlite':
-        specifier: ^3.0.2
-        version: 3.0.2(lucia@3.2.0)
-      arctic:
-        specifier: ^1.9.2
-        version: 1.9.2
       astro:
         specifier: ^4.10.3
-        version: 4.10.3(typescript@5.4.2)
+        version: 4.10.3(@types/node@20.11.16)(typescript@5.4.2)
       express:
         specifier: ^4.19.2
         version: 4.19.2
       lucia:
         specifier: ^3.2.0
         version: 3.2.0
-      oslo:
-        specifier: ^1.2.1
-        version: 1.2.1
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -539,13 +551,13 @@ packages:
       - prettier-plugin-astro
     dev: true
 
-  /@astrojs/check@0.7.0(typescript@5.4.2):
+  /@astrojs/check@0.7.0(prettier@3.2.5)(typescript@5.4.2):
     resolution: {integrity: sha512-UTqwOeKNu9IYZmJXEeWnQuTdSd/pX58Hl4TUARsMlT97SVDL//kLBE4T/ctxRz6J573N87oE5ddtW/uOOnQTug==}
     hasBin: true
     peerDependencies:
       typescript: ^5.0.0
     dependencies:
-      '@astrojs/language-server': 2.10.0(typescript@5.4.2)
+      '@astrojs/language-server': 2.10.0(prettier@3.2.5)(typescript@5.4.2)
       chokidar: 3.6.0
       fast-glob: 3.3.2
       kleur: 4.1.5
@@ -571,7 +583,7 @@ packages:
     resolution: {integrity: sha512-6B13lz5n6BrbTqCTwhXjJXuR1sqiX/H6rTxzlXx+lN1NnV4jgnq/KJldCQaUWJzPL5SiWahQyinxAbxQtwgPHA==}
     dev: false
 
-  /@astrojs/language-server@2.10.0(typescript@5.4.2):
+  /@astrojs/language-server@2.10.0(prettier@3.2.5)(typescript@5.4.2):
     resolution: {integrity: sha512-crHXpqYfA5qWioiuZnZFpTsNItgBlF1f0S9MzDYS7/pfCALkHNJ7K3w9U/j0uMKymsT4hC7BfMaX0DYlfdSzHg==}
     hasBin: true
     peerDependencies:
@@ -591,10 +603,11 @@ packages:
       '@volar/language-service': 2.2.5
       '@volar/typescript': 2.2.5
       fast-glob: 3.3.2
+      prettier: 3.2.5
       volar-service-css: 0.0.45(@volar/language-service@2.2.5)
       volar-service-emmet: 0.0.45(@volar/language-service@2.2.5)
       volar-service-html: 0.0.45(@volar/language-service@2.2.5)
-      volar-service-prettier: 0.0.45(@volar/language-service@2.2.5)
+      volar-service-prettier: 0.0.45(@volar/language-service@2.2.5)(prettier@3.2.5)
       volar-service-typescript: 0.0.45(@volar/language-service@2.2.5)
       volar-service-typescript-twoslash-queries: 0.0.45(@volar/language-service@2.2.5)
       vscode-html-languageservice: 5.2.0
@@ -689,7 +702,7 @@ packages:
     peerDependencies:
       astro: ^4.2.0
     dependencies:
-      astro: 4.10.3(typescript@5.4.2)
+      astro: 4.10.3(@types/node@20.11.16)(typescript@5.4.2)
       send: 0.18.0
       server-destroy: 1.0.1
     transitivePeerDependencies:
@@ -5268,21 +5281,6 @@ packages:
       lucia: 3.2.0
     dev: false
 
-  /@lucia-auth/adapter-sqlite@3.0.2(lucia@3.2.0):
-    resolution: {integrity: sha512-UlXpF+2UoFEdm1AsriJii5BOARwqko6SX29rQ8T8Za7rnjj9KLXLaRVQUgBhGmggAyvzCtguJ2+XOZDsfWm6Sw==}
-    peerDependencies:
-      '@libsql/client': ^0.3.0
-      better-sqlite3: 8.x - 11.x
-      lucia: 3.x
-    peerDependenciesMeta:
-      '@libsql/client':
-        optional: true
-      better-sqlite3:
-        optional: true
-    dependencies:
-      lucia: 3.2.0
-    dev: false
-
   /@mdx-js/react@2.3.0(react@18.2.0):
     resolution: {integrity: sha512-zQH//gdOmuu7nt2oJR29vFhDv88oGPmVw6BggmrHeMI+xgEkp1B2dX9/bMBSYtK0dyLX/aOmesKS09g222K1/g==}
     peerDependencies:
@@ -9155,7 +9153,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': 7.24.6(@babel/core@7.24.7)
       '@types/babel__core': 7.20.5
       react-refresh: 0.14.2
-      vite: 5.3.1
+      vite: 5.3.1(@types/node@20.11.16)
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -10094,7 +10092,7 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
-  /astro@4.10.3(typescript@5.4.2):
+  /astro@4.10.3(@types/node@20.11.16)(typescript@5.4.2):
     resolution: {integrity: sha512-TWCJM+Vg+y0UoEz/H75rfp/u2N8yxeQQ2UrU9+fMcbjlzQJtGGDq3ApdundqPZgAuCryRuJnrKytStMZCFnlvQ==}
     engines: {node: ^18.17.1 || ^20.3.0 || >=21.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0'}
     hasBin: true
@@ -10156,7 +10154,7 @@ packages:
       tsconfck: 3.1.0(typescript@5.4.2)
       unist-util-visit: 5.0.0
       vfile: 6.0.1
-      vite: 5.3.1
+      vite: 5.3.1(@types/node@20.11.16)
       vitefu: 0.2.5(vite@5.3.1)
       which-pm: 2.2.0
       yargs-parser: 21.1.1
@@ -12468,7 +12466,7 @@ packages:
     dependencies:
       semver: 7.6.2
       shelljs: 0.8.5
-      typescript: 5.6.0-dev.20240725
+      typescript: 5.6.0-dev.20240727
     dev: false
 
   /dset@3.1.3:
@@ -19185,7 +19183,6 @@ packages:
     resolution: {integrity: sha512-3/GWa9aOC0YeD7LUfvOG2NiDyhOWRvt1k+rcKhOuYnMY24iiCphgneUfJDyFXd6rZCAnuLBv6UeAULtrhT/F4A==}
     engines: {node: '>=14'}
     hasBin: true
-    dev: true
 
   /pretty-bytes@5.6.0:
     resolution: {integrity: sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==}
@@ -22213,8 +22210,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  /typescript@5.6.0-dev.20240725:
-    resolution: {integrity: sha512-kgUK4mJogTfm3+NjdYSb7LIerXpAG8lyYSdPHdfGPaJyBRhMJARPENf0TeUxhEOrGRuxHTrIPKdrSOQX5xTsuw==}
+  /typescript@5.6.0-dev.20240727:
+    resolution: {integrity: sha512-BaXxGXXwxH/D5L2pcTFLz84BUvJN45dfUrlu3a8YNKa7tWa14NJ6epJO3qgjcI8+xGH2jXLcF1R8pdQgm2wlFw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -22945,41 +22942,6 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vite@5.3.1:
-    resolution: {integrity: sha512-XBmSKRLXLxiaPYamLv3/hnP/KXDai1NDexN0FpkTaZXTfycHvkRHoenpgl/fvuK/kPbB6xAgoyiryAhQNxYmAQ==}
-    engines: {node: ^18.0.0 || >=20.0.0}
-    hasBin: true
-    peerDependencies:
-      '@types/node': ^18.0.0 || >=20.0.0
-      less: '*'
-      lightningcss: ^1.21.0
-      sass: '*'
-      stylus: '*'
-      sugarss: '*'
-      terser: ^5.4.0
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      less:
-        optional: true
-      lightningcss:
-        optional: true
-      sass:
-        optional: true
-      stylus:
-        optional: true
-      sugarss:
-        optional: true
-      terser:
-        optional: true
-    dependencies:
-      esbuild: 0.21.5
-      postcss: 8.4.38
-      rollup: 4.14.3
-    optionalDependencies:
-      fsevents: 2.3.3
-    dev: false
-
   /vite@5.3.1(@types/node@20.11.16):
     resolution: {integrity: sha512-XBmSKRLXLxiaPYamLv3/hnP/KXDai1NDexN0FpkTaZXTfycHvkRHoenpgl/fvuK/kPbB6xAgoyiryAhQNxYmAQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
@@ -23023,7 +22985,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      vite: 5.3.1
+      vite: 5.3.1(@types/node@20.11.16)
     dev: false
 
   /vitest-mock-extended@1.3.1(typescript@5.3.3)(vitest@1.6.0):
@@ -23190,7 +23152,7 @@ packages:
       prettier: 3.2.5
     dev: true
 
-  /volar-service-prettier@0.0.45(@volar/language-service@2.2.5):
+  /volar-service-prettier@0.0.45(@volar/language-service@2.2.5)(prettier@3.2.5):
     resolution: {integrity: sha512-+mBS2EsDgp/kunKEBnHvhBwIQm5v2ahw4NKpKdg4sTpXy3UxqHt+Fq/wRYQ7Z8LlNVNRVfp75ThjM+w2zaZBAw==}
     peerDependencies:
       '@volar/language-service': ~2.2.3
@@ -23202,6 +23164,7 @@ packages:
         optional: true
     dependencies:
       '@volar/language-service': 2.2.5
+      prettier: 3.2.5
       vscode-uri: 3.0.8
     dev: false
 
