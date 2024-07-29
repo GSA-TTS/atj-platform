@@ -87,7 +87,7 @@ const TxInput = z.object({
   label: z.string(),
   default_value: z.string(),
   required: z.boolean(),
-  page: z.number(),
+  page: z.union([z.number(), z.string()]),
 });
 
 const Checkbox = z.object({
@@ -95,7 +95,7 @@ const Checkbox = z.object({
   id: z.string(),
   label: z.string(),
   default_checked: z.boolean(),
-  page: z.number(),
+  page: z.union([z.number(), z.string()]),
 });
 
 const RadioGroupOption = z.object({
@@ -110,20 +110,20 @@ const RadioGroup = z.object({
   component_type: z.literal('radio_group'),
   legend: z.string(),
   options: RadioGroupOption.array(),
-  page: z.number(),
+  page: z.union([z.number(), z.string()]),
 });
 
 const Paragraph = z.object({
   component_type: z.literal('paragraph'),
   text: z.string(),
-  page: z.number(),
+  page: z.union([z.number(), z.string()]),
 });
 
 const Fieldset = z.object({
   component_type: z.literal('fieldset'),
   legend: z.string(),
   fields: z.union([TxInput, Checkbox]).array(),
-  page: z.number(),
+  page: z.union([z.number(), z.string()]),
 });
 
 const ExtractedObject = z.object({
@@ -357,17 +357,17 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
 
   // Create a pattern for the single, first page.
   const pages: PatternId[] = Object.entries(pagePatterns)
-    .map(([page, patterns]) => {
+    .map(([page, patterns], idx) => {
       const pagePattern = processPatternData<PagePattern>(
         defaultFormConfig,
         parsedPdf,
         'page',
         {
-          title: `Page ${parseInt(page) + 1}`,
+          title: `${page}`,
           patterns,
         },
         undefined,
-        parseInt(page)
+        idx
       );
       return pagePattern?.id;
     })
