@@ -7,7 +7,10 @@ export {
   type DevDatabaseContext,
   createDevDatabaseContext,
 } from './context/dev';
-export { createTestDatabaseContext } from './context/test';
+export {
+  type TestDatabaseContext,
+  createTestDatabaseContext,
+} from './context/test';
 export { type DatabaseContext } from './context/types';
 
 export * from './gateways';

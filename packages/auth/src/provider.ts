@@ -50,7 +50,7 @@ export class LoginGov implements OAuth2ProviderWithPKCE {
       scopes: [...scopes, 'openid', 'email'],
     });
     // FIXME: don't hardcode the nonce
-    url.searchParams.set('nonce', 'abcdefghijklmnopqrstuvwxyz');
+    url.searchParams.set('nonce', 'hardcoded-nonce-fixme');
     return url;
   }
 

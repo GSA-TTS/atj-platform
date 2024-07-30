@@ -22,9 +22,9 @@ export class TestDatabaseContext implements DatabaseContext {
     return this.knex;
   }
 
-  private async getSqlite3() {
+  async getSqlite3(): Promise<SqliteDatabase> {
     const knex = await this.getKnex();
-    return (await knex.client.acquireConnection()) as SqliteDatabase;
+    return await knex.client.acquireConnection();
   }
 
   async getKysely() {
