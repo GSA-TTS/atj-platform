@@ -3,6 +3,7 @@ import { OAuth2RequestError } from 'arctic';
 import * as r from '@atj/common';
 import { getUserId, createUser } from '@atj/database';
 import { type AuthContext } from '..';
+import { randomUUID } from 'crypto';
 
 type LoginGovUser = {
   sub: string;
@@ -97,8 +98,10 @@ export const processLoginGovCallback = async (
     }
     userId = newUser.id;
   }
-  const lucia = await ctx.database.getLucia();
-  const session = await lucia.createSession(userId, {});
+  const lucia = await ctx.getLucia();
+  const session = await lucia.createSession(userId, {
+    session_token: randomUUID(),
+  });
   const sessionCookie = lucia.createSessionCookie(session.id);
 
   return r.success({

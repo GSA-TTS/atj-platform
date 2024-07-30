@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { createTestDatabaseContext } from '../context';
+import { createTestDatabaseContext } from '../context/test';
 
 import { migrateDatabase } from './migrate-database';
 

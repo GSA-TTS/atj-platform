@@ -1,11 +1,9 @@
 import { Database as SqliteDatabase } from 'better-sqlite3';
 import { type Knex } from 'knex';
 import { type Kysely } from 'kysely';
-import { Lucia } from 'lucia';
 
 import { getTestKnex } from '../clients/knex';
 import { type Database, createSqliteDatabase } from '../clients/kysely';
-import { createTestLuciaAdapter } from '../clients/lucia';
 import { migrateDatabase } from '../management';
 
 import { type DatabaseContext } from './types';
@@ -13,7 +11,6 @@ import { type DatabaseContext } from './types';
 export class TestDatabaseContext implements DatabaseContext {
   knex?: Knex;
   kysely?: Kysely<Database>;
-  lucia?: Lucia;
   sqlite3?: SqliteDatabase;
 
   constructor() {}
@@ -36,25 +33,6 @@ export class TestDatabaseContext implements DatabaseContext {
       this.kysely = createSqliteDatabase(sqlite3);
     }
     return this.kysely;
-  }
-
-  async getLucia() {
-    const sqlite3Adapter = createTestLuciaAdapter(await this.getSqlite3());
-    if (!this.lucia) {
-      this.lucia = new Lucia(sqlite3Adapter, {
-        sessionCookie: {
-          attributes: {
-            secure: false,
-          },
-        },
-        getUserAttributes: attributes => {
-          return {
-            email: attributes.email,
-          };
-        },
-      });
-    }
-    return this.lucia;
   }
 }
 

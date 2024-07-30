@@ -3,7 +3,12 @@ export {
   type DatabaseClient,
   createInMemoryDatabase,
 } from './clients/kysely';
-export { createTestLuciaAdapter } from './clients/lucia';
-export { type DatabaseContext, createDevDatabaseContext } from './context';
+export {
+  type DevDatabaseContext,
+  createDevDatabaseContext,
+} from './context/dev';
+export { createTestDatabaseContext } from './context/test';
+export { type DatabaseContext } from './context/types';
+
 export * from './gateways';
 export * from './management';

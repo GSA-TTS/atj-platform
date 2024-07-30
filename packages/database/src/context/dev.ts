@@ -1,33 +1,49 @@
-import { Database as SqliteDatabase } from 'better-sqlite3';
-import { type Knex } from 'knex';
-import { type Kysely } from 'kysely';
-import { Lucia } from 'lucia';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-import { getDevKnex } from '../clients/knex';
+import { Database as SqliteDatabase } from 'better-sqlite3';
+import knex, { type Knex } from 'knex';
+import { type Kysely } from 'kysely';
+
 import { type Database, createSqliteDatabase } from '../clients/kysely';
-import { createTestLuciaAdapter } from '../clients/lucia';
 import { migrateDatabase } from '../management';
 
 import { type DatabaseContext } from './types';
 
+const getDirname = () => dirname(fileURLToPath(import.meta.url));
+const migrationsDirectory = path.resolve(getDirname(), '../../migrations');
+
 export class DevDatabaseContext implements DatabaseContext {
   knex?: Knex;
   kysely?: Kysely<Database>;
-  lucia?: Lucia;
   sqlite3?: SqliteDatabase;
 
   constructor(private path: string) {}
 
   async getKnex() {
     if (!this.knex) {
-      this.knex = getDevKnex(this.path);
+      this.knex = knex({
+        client: 'better-sqlite3',
+        connection: {
+          filename: this.path,
+        },
+        pool: {
+          min: 1,
+          max: 20,
+        },
+        useNullAsDefault: true,
+        migrations: {
+          directory: migrationsDirectory,
+          loadExtensions: ['.mjs'],
+        },
+      });
     }
     return this.knex;
   }
 
-  private async getSqlite3() {
+  async getSqlite3(): Promise<SqliteDatabase> {
     const knex = await this.getKnex();
-    return (await knex.client.acquireConnection()) as SqliteDatabase;
+    return await knex.client.acquireConnection();
   }
 
   async getKysely() {
@@ -36,25 +52,6 @@ export class DevDatabaseContext implements DatabaseContext {
       this.kysely = createSqliteDatabase(sqlite3);
     }
     return this.kysely;
-  }
-
-  async getLucia() {
-    const sqlite3Adapter = createTestLuciaAdapter(await this.getSqlite3());
-    if (!this.lucia) {
-      this.lucia = new Lucia(sqlite3Adapter, {
-        sessionCookie: {
-          attributes: {
-            secure: false,
-          },
-        },
-        getUserAttributes: attributes => {
-          return {
-            email: attributes.email,
-          };
-        },
-      });
-    }
-    return this.lucia;
   }
 }
 

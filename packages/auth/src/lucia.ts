@@ -2,7 +2,7 @@ import { BetterSqlite3Adapter } from '@lucia-auth/adapter-sqlite';
 import { Database as Sqlite3Database } from 'better-sqlite3';
 import { Lucia } from 'lucia';
 
-import { Database } from './kysely';
+import { type Database } from '@atj/database';
 
 export const createTestLuciaAdapter = (db: Sqlite3Database) => {
   const adapter = new BetterSqlite3Adapter(db, {

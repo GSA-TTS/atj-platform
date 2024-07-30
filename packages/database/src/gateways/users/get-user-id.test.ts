@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto';
 import { describe, expect, it } from 'vitest';
 
-import { createTestDatabaseContext } from '../../context';
+import { createTestDatabaseContext } from '../../context/test';
 
 import { getUserId } from './get-user-id';
 

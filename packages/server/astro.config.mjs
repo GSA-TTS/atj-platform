@@ -19,6 +19,9 @@ export default defineConfig({
       include: ['src/components/react/**'],
     }),
   ],
+  security: {
+    checkOrigin: true,
+  },
   server: {
     port: 4322,
   },
