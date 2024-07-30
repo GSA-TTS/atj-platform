@@ -13,7 +13,7 @@
     "lint": "turbo run lint",
     "pages": "rm -rf node_modules && npm i -g pnpm turbo && pnpm i && pnpm build && ln -sf ./apps/spotlight/dist _site",
     "test": "vitest run",
-    "test:ci": "vitest run",
+    "test:ci": "vitest run --coverage.enabled --coverage.reporter=text --coverage.reporter=json-summary --coverage.reporter=json",
     "test:infra": "turbo run --filter=infra test",
     "typecheck": "tsc --build",
     "prepare": "husky"
