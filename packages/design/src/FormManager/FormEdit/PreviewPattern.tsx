@@ -31,7 +31,6 @@ export const PreviewPattern: PatternComponent = function PreviewPattern(props) {
   const EditComponent = context.editComponents[props.type];
   return (
     <div
-      id="editComponent"
       ref={focusRef}
       onClick={event => {
         if (EditComponent && !isPatternEditControlEvent(event)) {

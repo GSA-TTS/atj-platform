@@ -36,10 +36,8 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
   const [targetPage, setTargetPage] = useState('');
   const [moveToPosition, setMoveToPosition] = useState('');
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-
   const pages = useFormManagerStore(state =>
     Object.values(state.session.form.patterns).filter(p => p.type === 'page')
   );
@@ -47,63 +45,45 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
     Object.values(state.session.form.patterns)
   );
   const movePatternToPage = useFormManagerStore(state => state.movePattern);
-  const focusPatternId = useFormManagerStore(state => state.focus?.pattern.id);
-  const focusPatternType = useFormManagerStore(
-    state => state.focus?.pattern.type
-  );
-
+  let focusPatternId = useFormManagerStore(state => state.focus?.pattern.id);
+  const focusPatternType = useFormManagerStore(state => state.focus?.pattern.type);
   const isPatternInFieldset = useMemo(() => {
     if (!focusPatternId) return false;
     return patterns.some(
       p => p.type === 'fieldset' && p.data.patterns.includes(focusPatternId)
     );
   }, [focusPatternId, patterns]);
-
   const isFieldset = focusPatternType === 'fieldset';
-
-  const useAvailablePages = (focusPatternId: string | undefined) => {
-    const pages = useFormManagerStore(state =>
-      Object.values(state.session.form.patterns).filter(p => p.type === 'page')
-    );
-
-    const currentPageIndex = pages.findIndex(page =>
-      page.data.patterns.includes(focusPatternId || '')
-    );
-
+  const currentPageIndex = pages.findIndex(page =>
+    page.data.patterns.includes(focusPatternId || '')
+  );
+  const useAvailablePages = () => {
     const page1Count = pages.reduce(
       (count, page) => count + (page.data.title === 'Page 1' ? 1 : 0),
       0
     );
-
     const availablePages: PageWithLabel[] =
       page1Count > 1
         ? pages.slice(1).map((page, index) => {
-            if (index + 1 === currentPageIndex) {
-              return { ...page, specialLabel: 'Current page' };
-            }
-            return page;
-          })
+          if (index + 1 === currentPageIndex) {
+            return { ...page, specialLabel: 'Current page' };
+          }
+          return page;
+        })
         : pages.map((page, index) => {
-            if (index === currentPageIndex) {
-              return { ...page, specialLabel: 'Current page' };
-            }
-            return page;
-          });
+          if (index === currentPageIndex) {
+            return { ...page, specialLabel: 'Current page' };
+          }
+          return page;
+        });
 
     return availablePages;
   };
-
-  const availablePages = useAvailablePages(focusPatternId);
-
-  const currentPageIndex = pages.findIndex(page =>
-    page.data.patterns.includes(focusPatternId || '')
-  );
-
+  const availablePages = useAvailablePages();
   const sourcePage = pages[currentPageIndex]?.id;
-
   const handleMovePattern = () => {
     if (focusPatternId && targetPage) {
-      const isPageMove = focusPatternType === 'page';
+      const isPageMove = sourcePage === targetPage;
       movePatternToPage(
         sourcePage,
         targetPage,
@@ -111,14 +91,14 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
         moveToPosition,
         isPageMove
       );
+
+      focusPatternId = '';
     }
     setDropdownOpen(false);
   };
-
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
-
   const handleClickOutside = (event: MouseEvent) => {
     if (
       dropdownRef.current &&

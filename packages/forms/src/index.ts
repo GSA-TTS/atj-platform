@@ -242,8 +242,6 @@ export const movePatternBetweenPages = (
       throw new Error(`Pattern ID ${patternId} not found in the source page.`);
     }
 
-    const newPattern = sourcePagePatterns.splice(indexToRemove, 1).toString();
-
     updatedSourcePatterns = [
       ...sourcePagePatterns.slice(0, indexToRemove),
       ...sourcePagePatterns.slice(indexToRemove + 1),
@@ -251,8 +249,8 @@ export const movePatternBetweenPages = (
 
     updatedTargetPatterns =
       position === 'top'
-        ? [newPattern, ...updatedSourcePatterns]
-        : [...updatedSourcePatterns, newPattern];
+        ? [patternId, ...updatedSourcePatterns]
+        : [...updatedSourcePatterns, patternId];
   } else {
     const indexToRemove = sourcePage.data.patterns.indexOf(patternId);
 
