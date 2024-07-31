@@ -64,7 +64,10 @@ describe('form builder', () => {
       'top',
       false
     );
-
+    expect(oldPage.data).toEqual({
+      ...oldPage.data,
+      patterns: [...oldPage.data.patterns],
+    });
     expect(newPage.data).toEqual({
       ...newPage.data,
       patterns: [...newPage.data.patterns],
