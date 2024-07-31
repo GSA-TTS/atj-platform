@@ -62,6 +62,12 @@ main {
       }
     }
   }
+  .draggable-list-item-wrapper {
+    background-color: color('primary-lighter');
+    .usa-sidenav__item {
+      border-top: none;
+    }
+  }
 }
 
 .usa-section {

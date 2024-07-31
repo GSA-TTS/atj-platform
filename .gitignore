@@ -1,5 +1,6 @@
 .DS_Store
 .env
+.pnpm-store/
 *.code-workspace
 _site
 .turbo/

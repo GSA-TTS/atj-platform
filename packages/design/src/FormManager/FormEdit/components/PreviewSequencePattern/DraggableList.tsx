@@ -20,16 +20,20 @@ import { CSS } from '@dnd-kit/utilities';
 
 import { useFormManagerStore } from '../../../store';
 import styles from '../../formEditStyles.module.css';
+import classNames from 'classnames';
 
-type DraggableListProps = React.PropsWithChildren<{
+export type DraggableListPresentation = 'compact' | 'default';
+export type DraggableListProps = React.PropsWithChildren<{
   order: UniqueIdentifier[];
   updateOrder: (order: UniqueIdentifier[]) => void;
+  presentation?: DraggableListPresentation;
 }>;
 
 export const DraggableList: React.FC<DraggableListProps> = ({
   children,
   order,
   updateOrder,
+  presentation,
 }) => {
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -70,29 +74,32 @@ export const DraggableList: React.FC<DraggableListProps> = ({
           setActiveId(null);
         }}
       >
-        <SortableContext items={order} strategy={verticalListSortingStrategy}>
-          {arrayChildren.map((child, index) => {
-            const patternId = order[index];
-            if (patternId === undefined) {
-              console.error('undefined patternId', index);
-              return;
-            }
-            return (
-              <SortableItem
-                key={patternId}
-                id={patternId}
-                isActive={patternId === activeId}
-                isOver={patternId === activeId}
-              >
-                {child}
-              </SortableItem>
-            );
-          })}
-        </SortableContext>
+        <ul className="add-list-reset">
+          <SortableContext items={order} strategy={verticalListSortingStrategy}>
+            {arrayChildren.map((child, index) => {
+              const patternId = order[index];
+              if (patternId === undefined) {
+                console.error('undefined patternId', index);
+                return;
+              }
+              return (
+                <SortableItem
+                  key={patternId}
+                  id={patternId}
+                  isActive={patternId === activeId}
+                  isOver={patternId === activeId}
+                  presentation={presentation || 'default'}
+                >
+                  {child}
+                </SortableItem>
+              );
+            })}
+          </SortableContext>
+        </ul>
 
         <DragOverlay>
           {activeId ? (
-            <SortableItemOverlay>
+            <SortableItemOverlay presentation={presentation || 'default'}>
               {arrayChildren[order.indexOf(activeId)]}
             </SortableItemOverlay>
           ) : null}
@@ -102,7 +109,13 @@ export const DraggableList: React.FC<DraggableListProps> = ({
   );
 };
 
-const SortableItemOverlay = ({ children }: { children: React.ReactNode }) => {
+const SortableItemOverlay = ({
+  children,
+  presentation,
+}: {
+  children: React.ReactNode;
+  presentation: DraggableListPresentation;
+}) => {
   const context = useFormManagerStore(state => state.context);
 
   return (
@@ -116,7 +129,10 @@ const SortableItemOverlay = ({ children }: { children: React.ReactNode }) => {
     >
       <div className="grid-row draggable-list-item">
         <div
-          className={`${styles.draggableListButton} grid-col-12 width-full draggable-list-button padding-2`}
+          className={classNames('draggable-list-button', {
+            'width-5 padding-1': presentation === 'compact',
+            'grid-col-12 width-full padding-2': presentation === 'default',
+          })}
           style={{
             background: '#f0f0f0',
           }}
@@ -132,7 +148,14 @@ const SortableItemOverlay = ({ children }: { children: React.ReactNode }) => {
             ></use>
           </svg>
         </div>
-        <div className="grid-col-12 grid-col">{children}</div>
+        <div
+          className={classNames('grid-col', {
+            'flex-fill': presentation === 'compact',
+            'grid-col-12': presentation === 'default',
+          })}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );
@@ -143,31 +166,52 @@ const SortableItem = ({
   children,
   isActive,
   isOver,
+  presentation,
 }: {
   id: UniqueIdentifier;
   children: React.ReactNode;
   isActive: boolean;
   isOver: boolean;
+  presentation: DraggableListPresentation;
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
   const context = useFormManagerStore(state => state.context);
 
   return (
-    <div
-      className={`${styles.draggableListWrapper} draggable-list-item-wrapper bg-white margin-bottom-3 cursor-pointer`}
+    <li
+      className={classNames(
+        styles.draggableListWrapper,
+        'draggable-list-item-wrapper',
+        'bg-white',
+        'cursor-pointer',
+        {
+          'margin-bottom-3': presentation === 'default',
+          'border-top-1px': presentation === 'compact',
+          'border-base-lighter': presentation === 'compact',
+        }
+      )}
       ref={setNodeRef}
       style={{
         transform: CSS.Translate.toString(transform),
         transition,
         opacity: isOver ? 0.5 : 1,
-        border: isOver ? '1px dashed #8168B3' : 'none',
+        ...(isOver || presentation !== 'compact'
+          ? { border: isOver ? '1px dashed #8168B3' : 'none' }
+          : {}),
         outline: isOver ? 'none' : '',
       }}
     >
-      <div className="grid-row draggable-list-item">
+      <div
+        className={classNames('grid-row', {
+          'display-flex': presentation === 'compact',
+        })}
+      >
         <div
-          className={`${styles.draggableListButton} grid-col-12 width-full draggable-list-button padding-2`}
+          className={classNames({
+            'width-5 padding-1': presentation === 'compact',
+            'grid-col-12 width-full padding-2': presentation === 'default',
+          })}
           {...listeners}
           {...attributes}
           style={{
@@ -184,9 +228,17 @@ const SortableItem = ({
               xlinkHref={`${context.uswdsRoot}img/sprite.svg#drag_handle`}
             ></use>
           </svg>
+          <span className="usa-sr-only">Move this item</span>
         </div>
-        <div className="grid-col-12 grid-col">{children}</div>
+        <div
+          className={classNames('grid-col', {
+            'flex-fill': presentation === 'compact',
+            'grid-col-12': presentation === 'default',
+          })}
+        >
+          {children}
+        </div>
       </div>
-    </div>
+    </li>
   );
 };

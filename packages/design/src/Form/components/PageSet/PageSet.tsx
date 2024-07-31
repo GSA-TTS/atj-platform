@@ -12,7 +12,7 @@ const PageSet: PatternComponent<PageSetProps> = props => {
   const { routeParams, pathname } = useRouteParams();
   return (
     <div className="grid-row">
-      <nav className="tablet:grid-col-3 tablet:padding-y-3 padding-right-4">
+      <nav className="tablet:grid-col-3 padding-x-2 tablet:padding-y-3 tablet:padding-right-4 tablet:padding-left-0">
         <PageMenu
           pages={props.pages.map((page, index) => {
             const params = new URLSearchParams(routeParams?.toString());
