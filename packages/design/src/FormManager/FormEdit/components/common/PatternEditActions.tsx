@@ -46,7 +46,9 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
   );
   const movePatternToPage = useFormManagerStore(state => state.movePattern);
   let focusPatternId = useFormManagerStore(state => state.focus?.pattern.id);
-  const focusPatternType = useFormManagerStore(state => state.focus?.pattern.type);
+  const focusPatternType = useFormManagerStore(
+    state => state.focus?.pattern.type
+  );
   const isPatternInFieldset = useMemo(() => {
     if (!focusPatternId) return false;
     return patterns.some(
@@ -65,17 +67,17 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
     const availablePages: PageWithLabel[] =
       page1Count > 1
         ? pages.slice(1).map((page, index) => {
-          if (index + 1 === currentPageIndex) {
-            return { ...page, specialLabel: 'Current page' };
-          }
-          return page;
-        })
+            if (index + 1 === currentPageIndex) {
+              return { ...page, specialLabel: 'Current page' };
+            }
+            return page;
+          })
         : pages.map((page, index) => {
-          if (index === currentPageIndex) {
-            return { ...page, specialLabel: 'Current page' };
-          }
-          return page;
-        });
+            if (index === currentPageIndex) {
+              return { ...page, specialLabel: 'Current page' };
+            }
+            return page;
+          });
 
     return availablePages;
   };

@@ -36,8 +36,14 @@ describe('form builder', () => {
     expect(builder.form.patterns[pattern.id]).toEqual(pattern);
     const oldPage = getPattern<PagePattern>(initial, 'page-1');
     const newPage = getPattern<PagePattern>(builder.form, 'page-1');
-    builder.movePatternBetweenPages(oldPage.id, newPage.id, pattern.id, 'bottom', true);
-    
+    builder.movePatternBetweenPages(
+      oldPage.id,
+      newPage.id,
+      pattern.id,
+      'bottom',
+      true
+    );
+
     expect(newPage.data).toEqual({
       ...oldPage.data,
       patterns: [...newPage.data.patterns],
@@ -51,7 +57,13 @@ describe('form builder', () => {
     expect(builder.form.patterns[pattern.id]).toEqual(pattern);
     const oldPage = getPattern<PagePattern>(initial, 'page-1');
     const newPage = getPattern<PagePattern>(builder.form, 'page-2');
-    builder.movePatternBetweenPages(oldPage.id, newPage.id, pattern.id, 'top', false);
+    builder.movePatternBetweenPages(
+      oldPage.id,
+      newPage.id,
+      pattern.id,
+      'top',
+      false
+    );
 
     expect(newPage.data).toEqual({
       ...newPage.data,
@@ -67,7 +79,7 @@ describe('form builder', () => {
       root: {
         type: 'page-set',
         id: 'root',
-        data: { 
+        data: {
           pages: ['page-1', 'page-2'],
         },
       } satisfies PageSetPattern,
@@ -177,4 +189,3 @@ export const createTestBlueprint = () => {
     }
   );
 };
-
