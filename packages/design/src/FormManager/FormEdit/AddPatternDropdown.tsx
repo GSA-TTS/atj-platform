@@ -89,12 +89,14 @@ const sidebarPatterns: DropdownPattern[] = [
   ['fieldset', defaultFormConfig.patterns['fieldset']],
   ['input', defaultFormConfig.patterns['input']],
   ['paragraph', defaultFormConfig.patterns['paragraph']],
+  ['rich-text', defaultFormConfig.patterns['rich-text']],
   ['radio-group', defaultFormConfig.patterns['radio-group']],
 ] as const;
 export const fieldsetPatterns: DropdownPattern[] = [
   ['form-summary', defaultFormConfig.patterns['form-summary']],
   ['input', defaultFormConfig.patterns['input']],
   ['paragraph', defaultFormConfig.patterns['paragraph']],
+  ['rich-text', defaultFormConfig.patterns['rich-text']],
   ['radio-group', defaultFormConfig.patterns['radio-group']],
 ] as const;
 
@@ -277,6 +279,7 @@ const AddPatternDropdownContent = ({
   availablePatterns: DropdownPattern[];
   patternSelected: (patternType: string) => void;
 }) => {
+  console.log(availablePatterns);
   return (
     <ul
       className={`${styles.dropdownMenu} usa-list usa-list--unstyled position-absolute bg-white z-100 shadow-3 text-left`}

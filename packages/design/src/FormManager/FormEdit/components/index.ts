@@ -10,6 +10,7 @@ import InputPatternEdit from './InputPatternEdit';
 import { PageEdit } from './PageEdit';
 import PageSetEdit from './PageSetEdit';
 import ParagraphPatternEdit from './ParagraphPatternEdit';
+import RichTextPatternEdit from './RichTextPatternEdit';
 import { PatternPreviewSequence } from './PreviewSequencePattern';
 import RadioGroupPatternEdit from './RadioGroupPatternEdit';
 import SubmissionConfirmationEdit from './SubmissionConfirmationEdit';
@@ -23,6 +24,7 @@ export const defaultPatternEditComponents: EditComponentForPattern = {
   page: PageEdit as PatternEditComponent,
   'page-set': PageSetEdit as PatternEditComponent,
   'radio-group': RadioGroupPatternEdit as PatternEditComponent,
+  'rich-text': RichTextPatternEdit as PatternEditComponent,
   sequence: PatternPreviewSequence as PatternEditComponent,
   'submission-confirmation': SubmissionConfirmationEdit as PatternEditComponent,
 };

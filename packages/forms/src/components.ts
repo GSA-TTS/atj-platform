@@ -33,6 +33,12 @@ export type ParagraphProps = PatternProps<{
   style: 'indent' | 'normal' | 'heading' | 'subheading';
 }>;
 
+export type RichTextProps = PatternProps<{
+  type: 'rich-text';
+  text: string;
+  style: 'indent' | 'normal' | 'heading' | 'subheading';
+}>;
+
 export type FieldsetProps = PatternProps<{
   type: 'fieldset';
   legend?: string;

@@ -8,6 +8,7 @@ import { inputConfig } from './input';
 import { pageConfig } from './page';
 import { pageSetConfig } from './page-set';
 import { paragraphConfig } from './paragraph';
+import { richTextConfig } from './rich-text';
 import { radioGroupConfig } from './radio-group';
 import { sequenceConfig } from './sequence';
 
@@ -24,6 +25,7 @@ export const defaultFormConfig: FormConfig = {
     page: pageConfig,
     'page-set': pageSetConfig,
     paragraph: paragraphConfig,
+    'rich-text': richTextConfig,
     'radio-group': radioGroupConfig,
     sequence: sequenceConfig,
   },

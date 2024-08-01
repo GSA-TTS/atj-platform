@@ -13,6 +13,7 @@ import {
 import { type FieldsetPattern } from '../../patterns/fieldset';
 import { type InputPattern } from '../../patterns/input';
 import { type ParagraphPattern } from '../../patterns/paragraph';
+import { type RichTextPattern } from '../../patterns/rich-text';
 import { type CheckboxPattern } from '../../patterns/checkbox';
 import { type RadioGroupPattern } from '../../patterns/radio-group';
 import { type FormSummary } from '../../patterns/form-summary';
@@ -119,6 +120,12 @@ const Paragraph = z.object({
   page: z.number(),
 });
 
+const RichText = z.object({
+  component_type: z.literal('rich_text'),
+  text: z.string(),
+  page: z.number(),
+});
+
 const Fieldset = z.object({
   component_type: z.literal('fieldset'),
   legend: z.string(),
@@ -130,7 +137,7 @@ const ExtractedObject = z.object({
   raw_text: z.string(),
   form_summary: FormSummary,
   elements: z
-    .union([TxInput, Checkbox, RadioGroup, Paragraph, Fieldset])
+    .union([TxInput, Checkbox, RadioGroup, Paragraph, Fieldset, RichText])
     .array(),
 });
 
@@ -218,6 +225,23 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
       if (paragraph) {
         pagePatterns[element.page] = (pagePatterns[element.page] || []).concat(
           paragraph.id
+        );
+      }
+      continue;
+    }
+
+    if (element.component_type === 'rich_text') {
+      const richText = processPatternData<RichTextPattern>(
+        defaultFormConfig,
+        parsedPdf,
+        'rich-text',
+        {
+          text: element.text,
+        }
+      );
+      if (richText) {
+        pagePatterns[element.page] = (pagePatterns[element.page] || []).concat(
+          richText.id
         );
       }
       continue;
