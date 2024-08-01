@@ -10,6 +10,7 @@ import checkboxIcon from './images/checkbox-icon.svg';
 import dateIcon from './images/date-icon.svg';
 import dropDownIcon from './images/dropdown-icon.svg';
 import dropDownOptionIcon from './images/dropdownoption-icon.svg';
+import richTextIcon from './images/richtext-icon.svg';
 import longanswerIcon from './images/longanswer-icon.svg';
 import pageIcon from './images/page-icon.svg';
 import shortanswerIcon from './images/shortanswer-icon.svg';
@@ -24,6 +25,7 @@ const icons: Record<string, string | any> = {
   'date-icon.svg.svg': dateIcon,
   'dropdown-icon.svg': dropDownIcon,
   'dropdownoption-icon.svg': dropDownOptionIcon,
+  'richtext-icon.svg': richTextIcon,
   'longanswer-icon.svg': longanswerIcon,
   'page-icon.svg': pageIcon,
   'shortanswer-icon.svg': shortanswerIcon,

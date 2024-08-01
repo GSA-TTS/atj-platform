@@ -11,7 +11,7 @@ export type RichTextPattern = Pattern<z.infer<typeof configSchema>>;
 
 export const richTextConfig: PatternConfig<RichTextPattern> = {
   displayName: 'Rich Text',
-  iconPath: 'longanswer-icon.svg',
+  iconPath: 'richtext-icon.svg',
   initial: {
     text: 'Rich text...',
   },
