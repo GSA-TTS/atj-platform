@@ -1,5 +1,6 @@
 import { OAuth2ProviderWithPKCE } from 'arctic';
 import { TimeSpan, createDate } from 'oslo';
+import { parseJWT } from 'oslo/jwt';
 import { OAuth2Client } from 'oslo/oauth2';
 
 export type LoginGovUrl =
@@ -39,6 +40,7 @@ export class LoginGov implements OAuth2ProviderWithPKCE {
     codeVerifier: string,
     options?: {
       scopes?: string[];
+      nonce?: string;
     }
   ): Promise<URL> {
     const scopes = options?.scopes ?? [];
@@ -49,8 +51,9 @@ export class LoginGov implements OAuth2ProviderWithPKCE {
       // User attributes (scopes): https://developers.login.gov/attributes/
       scopes: [...scopes, 'openid', 'email'],
     });
-    // FIXME: don't hardcode the nonce
-    url.searchParams.set('nonce', 'hardcoded-nonce-fixme');
+    if (options?.nonce) {
+      url.searchParams.set('nonce', options?.nonce);
+    }
     return url;
   }
 
@@ -67,12 +70,15 @@ export class LoginGov implements OAuth2ProviderWithPKCE {
           codeVerifier,
         }
       );
+
     const tokens: LoginGovTokens = {
       accessToken: result.access_token,
       refreshToken: result.refresh_token ?? null,
       accessTokenExpiresAt: createDate(new TimeSpan(result.expires_in, 's')),
       idToken: result.id_token,
+      decodedToken: parseJWT(result.id_token)!.payload,
     };
+
     return tokens;
   }
 }
@@ -89,4 +95,5 @@ export interface LoginGovTokens {
   refreshToken: string | null;
   accessTokenExpiresAt: Date;
   idToken: string;
+  decodedToken: any;
 }

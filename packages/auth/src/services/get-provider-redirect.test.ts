@@ -19,7 +19,7 @@ describe('getProviderRedirect database gateway', () => {
         redirect_uri: 'http://www.10x.gov/a2j/signin/callback',
         code_challenge: expect.any(String),
         code_challenge_method: 'S256',
-        nonce: 'hardcoded-nonce-fixme',
+        nonce: expect.any(String),
       })
     );
     expect(result.cookies).toEqual([
@@ -31,6 +31,11 @@ describe('getProviderRedirect database gateway', () => {
       expect.objectContaining({
         name: 'code_verifier',
         sameSite: expect.any(Boolean),
+        value: expect.any(String),
+      }),
+      expect.objectContaining({
+        name: 'nonce_code',
+        sameSite: 'lax',
         value: expect.any(String),
       }),
     ]);

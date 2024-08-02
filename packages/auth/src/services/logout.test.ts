@@ -1,7 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
 import { createTestAuthContext } from '../context/test';
-
 import { logOut } from './logout';
 
 describe('logOut database gateway', () => {
