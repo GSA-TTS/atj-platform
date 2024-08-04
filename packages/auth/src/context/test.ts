@@ -40,9 +40,8 @@ export class TestAuthContext implements AuthContext {
   ) {}
 
   async getLucia() {
-    const sqlite3Adapter = createTestLuciaAdapter(
-      await this.database.getSqlite3()
-    );
+    const sqlite3 = await this.database.getSqlite3();
+    const sqlite3Adapter = createTestLuciaAdapter(sqlite3);
     if (!this.lucia) {
       this.lucia = new Lucia(sqlite3Adapter, {
         sessionCookie: {

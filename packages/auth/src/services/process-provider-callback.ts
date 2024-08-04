@@ -19,10 +19,11 @@ type Params = {
   state?: string | null;
 };
 
-export const processLoginGovCallback = async (
+export const processProviderCallback = async (
   ctx: AuthContext,
   params: Params,
-  storedParams: Params & { nonce: string | null }
+  storedParams: Params & { nonce: string | null },
+  fetchUserData: typeof fetchUserDataImpl = fetchUserDataImpl
 ) => {
   if (
     !params.code ||
@@ -75,49 +76,16 @@ export const processLoginGovCallback = async (
     }
    */
   if (validateResult.data.decodedToken.nonce !== storedParams.nonce) {
-    console.error(
-      'validateResult.data.decodedToken.nonce',
-      validateResult.data.decodedToken.nonce
-    );
-    console.error('storedParams.nonce', storedParams.nonce);
     return r.failure({
       status: 403,
       message: 'nonce mismatch',
     });
   }
 
-  const userDataResult = await fetch(
-    'https://idp.int.identitysandbox.gov/api/openid_connect/userinfo',
-    {
-      headers: {
-        Authorization: `Bearer ${validateResult.data.accessToken}`,
-      },
-    }
-  )
-    .then(response => response.json())
-    .then((userData: LoginGovUser) => {
-      if (userData.email_verified === false) {
-        return r.failure({
-          status: 403,
-          message: 'email address not verified',
-        });
-      }
-      return r.success(userData);
-    })
-    .catch(error =>
-      r.failure({
-        status: 500,
-        message: `error fetching user data: ${error.message}`,
-      })
-    );
-
+  const userDataResult = await fetchUserData(validateResult.data.accessToken);
   if (!userDataResult.success) {
     return userDataResult;
   }
-
-  /**
-   * TODO: Fix up this logic to create a user in the database and create a session.
-   */
   let userId = await getUserId(ctx.database, userDataResult.data.email);
   if (!userId) {
     const newUser = await createUser(ctx.database, userDataResult.data.email);
@@ -137,3 +105,26 @@ export const processLoginGovCallback = async (
     sessionCookie,
   });
 };
+
+const fetchUserDataImpl = (accessToken: string) =>
+  fetch('https://idp.int.identitysandbox.gov/api/openid_connect/userinfo', {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
+    .then(response => response.json())
+    .then((userData: LoginGovUser) => {
+      if (userData.email_verified === false) {
+        return r.failure({
+          status: 403,
+          message: 'email address not verified',
+        });
+      }
+      return r.success(userData);
+    })
+    .catch(error =>
+      r.failure({
+        status: 500,
+        message: `error fetching user data: ${error.message}`,
+      })
+    );

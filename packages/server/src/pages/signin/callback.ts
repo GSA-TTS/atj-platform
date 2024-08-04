@@ -1,13 +1,12 @@
 import type { APIContext } from 'astro';
 
-import { processLoginGovCallback } from '@atj/auth';
+import { processProviderCallback } from '@atj/auth';
 import { getAstroAppContext } from '../../context';
 import * as routes from '../../routes';
 
 export async function GET(context: APIContext): Promise<Response> {
   const ctx = await getAstroAppContext(context);
-  console.log('nonce cookie', context.cookies.get('nonce_code')?.value);
-  const result = await processLoginGovCallback(
+  const result = await processProviderCallback(
     ctx.auth,
     {
       code: context.url.searchParams.get('code'),

@@ -4,6 +4,6 @@
     "outDir": "./dist",
     "emitDeclarationOnly": true
   },
-  "include": ["./src"],
+  "include": ["./src", "global.d.ts"],
   "references": []
 }

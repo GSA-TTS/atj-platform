@@ -7,7 +7,7 @@ import { LoginGov } from './provider';
 export { LoginGov };
 export { getProviderRedirect } from './services/get-provider-redirect';
 export { logOut } from './services/logout';
-export { processLoginGovCallback } from './services/process-provider-callback';
+export { processProviderCallback } from './services/process-provider-callback';
 export { processSessionCookie } from './services/process-session-cookie';
 
 // Need to move Lucia into the auth module in order to access these types.

@@ -43,7 +43,10 @@ export class DevDatabaseContext implements DatabaseContext {
 
   async getSqlite3(): Promise<SqliteDatabase> {
     const knex = await this.getKnex();
-    return await knex.client.acquireConnection();
+    if (!this.sqlite3) {
+      this.sqlite3 = (await knex.client.acquireConnection()) as SqliteDatabase;
+    }
+    return this.sqlite3;
   }
 
   async getKysely() {

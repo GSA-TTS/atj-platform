@@ -20,6 +20,7 @@
     "oslo": "^1.2.1"
   },
   "devDependencies": {
-    "@types/better-sqlite3": "^7.6.11"
+    "@types/better-sqlite3": "^7.6.11",
+    "vitest-fetch-mock": "^0.3.0"
   }
 }

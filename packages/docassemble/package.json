@@ -12,9 +12,5 @@
   },
   "dependencies": {
     "@atj/forms": "workspace:*"
-  },
-  "devDependencies": {
-    "@vitest/coverage-v8": "^0.34.6",
-    "vitest": "^1.6.0"
   }
 }
