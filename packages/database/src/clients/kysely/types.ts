@@ -6,9 +6,11 @@ import type {
   Updateable,
 } from 'kysely';
 
-export interface Database {
+export type Engine = 'sqlite' | 'postgres';
+
+export interface Database<T extends Engine = Engine> {
   users: UsersTable;
-  sessions: SessionsTable;
+  sessions: SessionsTable<T>;
 }
 
 interface UsersTable {
@@ -21,16 +23,16 @@ export type UsersSelectable = Selectable<UsersTable>;
 export type UsersInsertable = Insertable<UsersTable>;
 export type UsersUpdateable = Updateable<UsersTable>;
 
-interface SessionsTable {
+interface SessionsTable<T extends Engine> {
   id: string;
   user_id: string;
   session_token: string;
-  expires_at: Date;
+  expires_at: T extends 'sqlite' ? number : T extends 'postgres' ? Date : never;
   created_at: Generated<Date>;
   updated_at: Generated<Date>;
 }
-export type SessionsSelectable = Selectable<SessionsTable>;
-export type SessionsInsertable = Insertable<SessionsTable>;
-export type SessionsUpdateable = Updateable<SessionsTable>;
+export type SessionsSelectable<T extends Engine> = Selectable<SessionsTable<T>>;
+export type SessionsInsertable<T extends Engine> = Insertable<SessionsTable<T>>;
+export type SessionsUpdateable<T extends Engine> = Updateable<SessionsTable<T>>;
 
 export type DatabaseClient = Kysely<Database>;
