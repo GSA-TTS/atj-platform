@@ -24,7 +24,6 @@ export const processSessionCookie = async (
       };
     }
   }
-
   const lucia = await ctx.getLucia();
 
   const sessionId = ctx.getCookie(lucia.sessionCookieName);

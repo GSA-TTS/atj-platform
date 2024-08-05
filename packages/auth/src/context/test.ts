@@ -1,4 +1,5 @@
 import { Cookie, Lucia } from 'lucia';
+import { vi } from 'vitest';
 
 import {
   type TestDatabaseContext,
@@ -9,7 +10,18 @@ import { type AuthContext, type UserSession } from '..';
 import { createTestLuciaAdapter } from '../lucia';
 import { LoginGov } from '../provider';
 
-export const createTestAuthContext = async () => {
+type Options = {
+  getCookie: (name: string) => string | undefined;
+  setCookie: (cookie: Cookie) => void;
+  setUserSession: (userSession: UserSession) => void;
+};
+
+export const createTestAuthContext = async (opts?: Partial<Options>) => {
+  const options: Options = {
+    getCookie: opts?.getCookie || vi.fn(),
+    setCookie: opts?.setCookie || vi.fn(),
+    setUserSession: opts?.setUserSession || vi.fn(),
+  };
   const database = await createTestDatabaseContext();
   return new TestAuthContext(
     database,
@@ -20,11 +32,9 @@ export const createTestAuthContext = async () => {
       clientSecret: 'super-secret',
       redirectURI: 'http://www.10x.gov/a2j/signin/callback',
     }),
-    function getCookie(name) {
-      return '';
-    },
-    function setCookie(cookie) {},
-    function setUserSession({ user, session }) {}
+    options.getCookie,
+    options.setCookie,
+    options.setUserSession
   );
 };
 
