@@ -29,16 +29,12 @@ export type FormEditSlice = {
   clearFocus: () => void;
   deletePattern: (id: PatternId) => void;
   deleteSelectedPattern: () => void;
+  movePattern: (sourcePage: PatternId, targetPage: PatternId, patternId: PatternId, position: string ) => void;
   setFocus: (patternId: PatternId) => boolean;
   setRouteParams: (routeParams: string) => void;
   updatePattern: (data: Pattern) => void;
   updateActivePattern: (formData: PatternMap) => boolean;
-  movePattern: (
-    sourcePage: PatternId,
-    targetPage: PatternId,
-    patternId: PatternId,
-    position: string
-  ) => void;
+
 } & NotificationSlice;
 
 type FormEditStoreContext = {
