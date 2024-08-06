@@ -9,7 +9,8 @@
     "./src/env.d.ts",
     "./src/index.ts",
     "./src/context.ts",
-    "./src/lib/github.ts"
+    "./src/secrets.ts",
+    "./src/lib/github.ts",
   ],
   "exclude": ["./dist"],
   "references": []

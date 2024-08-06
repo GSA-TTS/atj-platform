@@ -3,6 +3,7 @@
     "allowSyntheticDefaultImports": true,
     "composite": true,
     "declaration": true,
+    "declarationMap": true,
     "esModuleInterop": true,
     "isolatedModules": true,
     "module": "ESNext",

@@ -1,10 +1,10 @@
 import { type Cookie, type User, type Session, type Lucia } from 'lucia';
 
-import { type DatabaseContext } from '@atj/database';
+import { type DatabaseService } from '@atj/database';
 
 export { DevAuthContext } from './context/dev';
-import { LoginGov } from './provider';
-export { LoginGov };
+import { type LoginGovOptions, LoginGov } from './provider';
+export { type LoginGovOptions, LoginGov };
 export { getProviderRedirect } from './services/get-provider-redirect';
 export { logOut } from './services/logout';
 export { processProviderCallback } from './services/process-provider-callback';
@@ -17,7 +17,7 @@ export type UserSession = {
 };
 
 export type AuthContext = {
-  database: DatabaseContext;
+  database: DatabaseService;
   provider: LoginGov;
   getCookie: (name: string) => string | undefined;
   setCookie: (cookie: Cookie) => void;

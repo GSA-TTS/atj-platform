@@ -1,6 +1,6 @@
 import { Kysely, SqliteDialect } from 'kysely';
 import BetterSqliteDatabase, {
-  Database as SqliteDatabase,
+  type Database as SqliteDatabase,
 } from 'better-sqlite3';
 
 import { type Database } from './types';

@@ -1,12 +1,12 @@
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-import { Database as SqliteDatabase } from 'better-sqlite3';
+import { type Database as SqliteDatabase } from 'better-sqlite3';
 import knex, { type Knex } from 'knex';
 import { type Kysely } from 'kysely';
 
 import { type Database, createSqliteDatabase } from '../clients/kysely';
-import { migrateDatabase } from '../management';
+import { migrateDatabase } from '../management/migrate-database';
 
 import { type DatabaseContext } from './types';
 

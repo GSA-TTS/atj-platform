@@ -1,8 +1,6 @@
 import { randomUUID } from 'crypto';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { createSession, createUser } from '@atj/database';
-
 import { createTestAuthContext } from '../context/test';
 import { processSessionCookie } from './process-session-cookie';
 
@@ -121,11 +119,11 @@ const setUpTest = async (sessionExpirationDate: Date) => {
     setUserSession: vi.fn(),
   };
   const ctx = await createTestAuthContext(mocks);
-  const user = await createUser(ctx.database, 'user@test.gov');
+  const user = await ctx.database.createUser('user@test.gov');
   if (!user) {
     expect.fail('error creating test user');
   }
-  const sessionId = await createSession(ctx.database, {
+  const sessionId = await ctx.database.createSession({
     id: randomUUID(),
     expiresAt: addOneDay(sessionExpirationDate),
     sessionToken: 'my-token',

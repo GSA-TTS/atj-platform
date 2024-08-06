@@ -5,6 +5,7 @@ esbuild
     bundle: false,
     entryPoints: ['./src/index.ts'],
     //external: ['sqlite3', 'knex'],
+    packages: 'external',
     format: 'esm',
     minify: true,
     outdir: './dist',

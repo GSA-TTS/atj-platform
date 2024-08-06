@@ -4,10 +4,11 @@
   "description": "10x ATJ database",
   "type": "module",
   "license": "CC0",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup src/* --env.NODE_ENV production",
-    "dev": "tsup src/* --watch",
+    "build": "tsc",
+    "dev": "tsc --watch",
     "test": "vitest run --coverage"
   },
   "dependencies": {

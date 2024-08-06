@@ -2,7 +2,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { processProviderCallback } from './process-provider-callback';
 import { createTestAuthContext } from '../context/test';
-import { createUser } from '@atj/database';
 import { AuthContext } from '..';
 
 describe('processProviderCallback', () => {
@@ -14,7 +13,7 @@ describe('processProviderCallback', () => {
 
     // Create test auth context with a test user in the db
     ctx = await createTestAuthContext();
-    const user = await createUser(ctx.database, 'fake-user@gsa.com');
+    const user = await ctx.database.createUser('fake-user@gsa.com');
     if (!user) {
       expect.fail('error creating test user');
     }

@@ -1,10 +1,10 @@
-import { Database as SqliteDatabase } from 'better-sqlite3';
+import { type Database as SqliteDatabase } from 'better-sqlite3';
 import { type Knex } from 'knex';
 import { type Kysely } from 'kysely';
 
 import { getTestKnex } from '../clients/knex';
 import { type Database, createSqliteDatabase } from '../clients/kysely';
-import { migrateDatabase } from '../management';
+import { migrateDatabase } from '../management/migrate-database';
 
 import { type DatabaseContext } from './types';
 

@@ -2,8 +2,9 @@ import { Cookie, Lucia } from 'lucia';
 import { vi } from 'vitest';
 
 import {
-  type TestDatabaseContext,
+  type DatabaseService,
   createTestDatabaseContext,
+  createDatabaseService,
 } from '@atj/database';
 
 import { type AuthContext, type UserSession } from '..';
@@ -22,7 +23,8 @@ export const createTestAuthContext = async (opts?: Partial<Options>) => {
     setCookie: opts?.setCookie || vi.fn(),
     setUserSession: opts?.setUserSession || vi.fn(),
   };
-  const database = await createTestDatabaseContext();
+  const dbContext = await createTestDatabaseContext();
+  const database = createDatabaseService(dbContext);
   return new TestAuthContext(
     database,
     new LoginGov({
@@ -42,7 +44,7 @@ export class TestAuthContext implements AuthContext {
   private lucia?: Lucia;
 
   constructor(
-    public database: TestDatabaseContext,
+    public database: DatabaseService,
     public provider: LoginGov,
     public getCookie: (name: string) => string | undefined,
     public setCookie: (cookie: Cookie) => void,
@@ -50,7 +52,7 @@ export class TestAuthContext implements AuthContext {
   ) {}
 
   async getLucia() {
-    const sqlite3 = await this.database.getSqlite3();
+    const sqlite3 = await (this.database.getContext() as any).getSqlite3();
     const sqlite3Adapter = createTestLuciaAdapter(sqlite3);
     if (!this.lucia) {
       this.lucia = new Lucia(sqlite3Adapter, {

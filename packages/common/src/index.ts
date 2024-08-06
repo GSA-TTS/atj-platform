@@ -1,3 +1,5 @@
+export { createService } from './service';
+
 export type Success<T> = { success: true; data: T };
 export type VoidSuccess = { success: true };
 export type Failure<E> = { success: false; error: E };

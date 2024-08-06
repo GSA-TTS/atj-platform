@@ -2,13 +2,16 @@
   "name": "@atj/server",
   "type": "module",
   "version": "0.0.1",
-  "main": "dist/server/index.js",
+  "main": "handler.ts",
+  "types": "handler.ts",
+  "files": [
+    "dist",
+    "handler.ts"
+  ],
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build && pnpm build:entry",
-    "build:entry": "node ./build.js && tsc --project ./tsconfig.build.json",
-    "build:entry:tsup": "tsup src/index.ts --env.NODE_ENV production",
+    "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },

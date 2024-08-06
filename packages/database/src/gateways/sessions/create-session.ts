@@ -1,6 +1,3 @@
-import { randomUUID } from 'crypto';
-
-import { type SessionSchema } from '../../schema';
 import { type DatabaseContext } from '../../context/types';
 
 type Session = {

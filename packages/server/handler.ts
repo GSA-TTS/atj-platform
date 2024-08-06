@@ -8,7 +8,30 @@ import { fileURLToPath } from 'url';
 
 import express from 'express';
 
-import { type ServerOptions } from './context';
+import { type LoginGovOptions } from '@atj/auth';
+import { type DevDatabaseContext } from '@atj/database';
+
+import { type ServerOptions } from './src/context';
+
+export const createServerAuth = async ({
+  database,
+  loginGovOptions,
+}: {
+  database: DevDatabaseContext;
+  loginGovOptions: LoginGovOptions;
+}) => {
+  return createServer({
+    title: 'DOJ Form Service',
+    database,
+    loginGovOptions: {
+      loginGovUrl: 'https://idp.int.identitysandbox.gov',
+      clientId:
+        'urn:gov:gsa:openidconnect.profiles:sp:sso:gsa:tts-10x-atj-dev-server-doj',
+      clientSecret: '',
+      redirectURI: 'http://localhost:4322/signin/callback',
+    },
+  });
+};
 
 export const createServer = async (
   serverOptions: ServerOptions
@@ -22,9 +45,9 @@ export const createServer = async (
       serverOptions,
       session: null,
       user: null,
-    } satisfies App.Locals);
+    });
   });
-  app.use(express.static(path.join(getDirname(), '../dist/client')));
+  app.use(express.static(path.join(getDirname(), './dist/client')));
 
   return app;
 };
@@ -36,6 +59,6 @@ const getDirname = () => {
 
 const getHandler = async () => {
   // @ts-ignore
-  const { handler } = await import('../dist/server/entry.mjs');
+  const { handler } = await import('./dist/server/entry.mjs');
   return handler;
 };

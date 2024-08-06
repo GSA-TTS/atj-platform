@@ -1,7 +1,6 @@
 import { OAuth2RequestError } from 'arctic';
 
 import * as r from '@atj/common';
-import { getUserId, createUser } from '@atj/database';
 import { type AuthContext } from '..';
 import { randomUUID } from 'crypto';
 
@@ -86,9 +85,9 @@ export const processProviderCallback = async (
   if (!userDataResult.success) {
     return userDataResult;
   }
-  let userId = await getUserId(ctx.database, userDataResult.data.email);
+  let userId = await ctx.database.getUserId(userDataResult.data.email);
   if (!userId) {
-    const newUser = await createUser(ctx.database, userDataResult.data.email);
+    const newUser = await ctx.database.createUser(userDataResult.data.email);
     if (!newUser) {
       return r.failure({ status: 500, message: 'error creating new user' });
     }
