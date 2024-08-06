@@ -12,10 +12,15 @@ import {
 import type { SecretKey, SecretMap, SecretValue, SecretsVault } from '../types';
 
 export class AWSParameterStoreSecretsVault implements SecretsVault {
+  client: SSMClient;
+
+  constructor() {
+    this.client = new SSMClient();
+  }
+
   async deleteSecret(key: SecretKey) {
-    const client = new SSMClient();
     try {
-      await client.send(
+      await this.client.send(
         new DeleteParameterCommand({
           Name: key,
         })
@@ -27,10 +32,8 @@ export class AWSParameterStoreSecretsVault implements SecretsVault {
   }
 
   async getSecret(key: SecretKey) {
-    const client = new SSMClient();
-
     try {
-      const response = await client.send(
+      const response = await this.client.send(
         new GetParameterCommand({
           Name: key,
           WithDecryption: true,
@@ -47,9 +50,8 @@ export class AWSParameterStoreSecretsVault implements SecretsVault {
   }
 
   async getSecrets(keys: SecretKey[]) {
-    const client = new SSMClient();
     try {
-      const response = await client.send(
+      const response = await this.client.send(
         new GetParametersCommand({
           Names: keys,
           WithDecryption: true,
@@ -71,9 +73,8 @@ export class AWSParameterStoreSecretsVault implements SecretsVault {
   }
 
   async setSecret(key: SecretKey, value: SecretValue) {
-    const client = new SSMClient();
     try {
-      await client.send(
+      await this.client.send(
         new PutParameterCommand({
           Name: key,
           Value: value,
@@ -96,18 +97,17 @@ export class AWSParameterStoreSecretsVault implements SecretsVault {
   }
 
   async getSecretKeys() {
-    const client = new SSMClient();
-
     let keys: string[] = [];
     let nextToken: string | undefined;
     do {
       try {
-        const response: DescribeParametersCommandOutput = await client.send(
-          new DescribeParametersCommand({
-            NextToken: nextToken,
-            MaxResults: 50,
-          })
-        );
+        const response: DescribeParametersCommandOutput =
+          await this.client.send(
+            new DescribeParametersCommand({
+              NextToken: nextToken,
+              MaxResults: 50,
+            })
+          );
         if (response.Parameters) {
           keys.push(...response.Parameters.map(param => param.Name!));
         }
