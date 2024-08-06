@@ -43,7 +43,7 @@ describe('form builder', () => {
       'bottom'
     );
 
-    expect(builder.form.patterns).toEqual({   
+    expect(builder.form.patterns).toEqual({
       root: {
         type: 'page-set',
         id: 'root',
@@ -107,13 +107,8 @@ describe('form builder', () => {
     expect(builder.form.patterns[pattern.id]).toEqual(pattern);
     const oldPage = getPattern<PagePattern>(initial, 'page-1');
     const newPage = getPattern<PagePattern>(builder.form, 'page-2');
-    builder.movePatternBetweenPages(
-      oldPage.id,
-      newPage.id,
-      pattern.id,
-      'top'
-    );
-    expect(builder.form.patterns).toEqual({   
+    builder.movePatternBetweenPages(oldPage.id, newPage.id, pattern.id, 'top');
+    expect(builder.form.patterns).toEqual({
       root: {
         type: 'page-set',
         id: 'root',
@@ -183,7 +178,7 @@ describe('form builder', () => {
       pattern.id,
       'bottom'
     );
-    expect(builder.form.patterns).toEqual({   
+    expect(builder.form.patterns).toEqual({
       root: {
         type: 'page-set',
         id: 'root',

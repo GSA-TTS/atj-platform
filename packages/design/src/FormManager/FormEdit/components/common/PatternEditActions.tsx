@@ -15,7 +15,9 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
   const { deleteSelectedPattern } = useFormManagerStore(state => ({
     deleteSelectedPattern: state.deleteSelectedPattern,
   }));
-  const focusPatternType = useFormManagerStore(state => state.focus?.pattern.type);
+  const focusPatternType = useFormManagerStore(
+    state => state.focus?.pattern.type
+  );
   const patterns = useFormManagerStore(state =>
     Object.values(state.session.form.patterns)
   );
@@ -40,9 +42,12 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
               'border-base-lighter': children,
               'padding-right-1': children,
               'margin-right-1': children,
-            })}
+            }
+          )}
         >
-          {!isPatternInFieldset && <MovePatternDropdown isFieldset={isFieldset} />}
+          {!isPatternInFieldset && (
+            <MovePatternDropdown isFieldset={isFieldset} />
+          )}
           <span
             className={`${styles.patternActionButtons} margin-top-1 margin-bottom-1 display-inline-block text-ttop`}
           >
@@ -95,9 +100,7 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
               </svg>
             </button>
             {children ? (
-              <span className="padding-left-1 padding-top-2px">
-                {children}
-              </span>
+              <span className="padding-left-1 padding-top-2px">{children}</span>
             ) : null}
           </span>
         </div>
