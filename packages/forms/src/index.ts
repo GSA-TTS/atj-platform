@@ -217,8 +217,7 @@ export const movePatternBetweenPages = (
   sourcePageId: PatternId,
   targetPageId: PatternId,
   patternId: PatternId,
-  position: string,
-  isPageMove: boolean = false
+  position: string
 ): Blueprint => {
   const sourcePage = bp.patterns[sourcePageId] as PagePattern;
   const targetPage = bp.patterns[targetPageId] as PagePattern;
@@ -234,7 +233,7 @@ export const movePatternBetweenPages = (
   let updatedSourcePatterns: PatternId[];
   let updatedTargetPatterns: PatternId[];
 
-  if (isPageMove) {
+  if (sourcePageId === targetPageId) {
     const sourcePagePatterns = sourcePage.data.patterns;
     const indexToRemove = sourcePagePatterns.indexOf(patternId);
 

@@ -68,8 +68,7 @@ export class BlueprintBuilder {
     sourcePageId: PatternId,
     targetPageId: PatternId,
     patternId: PatternId,
-    position: string,
-    isPageMove: boolean
+    position: string
   ) {
     const pattern = getPattern(this.form, patternId);
     if (!pattern) {
@@ -85,8 +84,7 @@ export class BlueprintBuilder {
       sourcePageId,
       targetPageId,
       patternId,
-      position,
-      isPageMove
+      position
     );
 
     return pattern;

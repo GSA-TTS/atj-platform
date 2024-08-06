@@ -37,8 +37,7 @@ export type FormEditSlice = {
     sourcePage: PatternId,
     targetPage: PatternId,
     patternId: PatternId,
-    position: string,
-    isPageMove: boolean
+    position: string
   ) => void;
 } & NotificationSlice;
 
@@ -83,7 +82,7 @@ export const createFormEditSlice =
       });
       state.addNotification('success', 'Element added successfully.');
     },
-    movePattern: (sourcePage, targetPage, patternId, position, isPageMove) => {
+    movePattern: (sourcePage, targetPage, patternId, position) => {
       const state = get();
       const builder = new BlueprintBuilder(
         state.context.config,
@@ -94,8 +93,7 @@ export const createFormEditSlice =
         sourcePage,
         targetPage,
         patternId,
-        position,
-        isPageMove
+        position
       );
 
       set({
