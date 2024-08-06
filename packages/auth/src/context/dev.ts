@@ -1,6 +1,6 @@
 import { Cookie, Lucia } from 'lucia';
 
-import { type DatabaseService } from '@atj/database';
+import { type DatabaseGateway } from '@atj/database';
 
 import { type AuthContext, type UserSession } from '..';
 import { createTestLuciaAdapter } from '../lucia';
@@ -10,7 +10,7 @@ export class DevAuthContext implements AuthContext {
   private lucia?: Lucia;
 
   constructor(
-    public database: DatabaseService,
+    public db: DatabaseGateway,
     public provider: LoginGov,
     public getCookie: (name: string) => string | undefined,
     public setCookie: (cookie: Cookie) => void,
@@ -19,7 +19,7 @@ export class DevAuthContext implements AuthContext {
 
   async getLucia() {
     const sqlite3Adapter = createTestLuciaAdapter(
-      await (this.database.getContext() as any).getSqlite3()
+      await (this.db.getContext() as any).getSqlite3()
     );
     if (!this.lucia) {
       this.lucia = new Lucia(sqlite3Adapter, {

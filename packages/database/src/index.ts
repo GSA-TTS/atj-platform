@@ -14,11 +14,11 @@ export { type Database } from './clients/kysely';
 export { type DatabaseContext } from './context/types';
 export { migrateDatabase } from './management/migrate-database';
 
-export const createDatabaseService = (ctx: DatabaseContext) =>
+export const createDatabaseGateway = (ctx: DatabaseContext) =>
   createService(ctx, {
     createSession,
     createUser,
     getUserId,
   });
 
-export type DatabaseService = ReturnType<typeof createDatabaseService>;
+export type DatabaseGateway = ReturnType<typeof createDatabaseGateway>;

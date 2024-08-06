@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 const getDirname = () => dirname(fileURLToPath(import.meta.url));
 
 export const createCustomServer = async (): Promise<any> => {
-  const { createDevDatabaseContext, createDatabaseService } = await import(
+  const { createDevDatabaseContext, createDatabaseGateway } = await import(
     '@atj/database'
   );
   const { createServer } = await import('@atj/server');
@@ -12,11 +12,11 @@ export const createCustomServer = async (): Promise<any> => {
   const dbCtx = await createDevDatabaseContext(
     path.join(getDirname(), '../doj.db')
   );
-  const database = createDatabaseService(dbCtx);
+  const db = createDatabaseGateway(dbCtx);
 
   return createServer({
     title: 'KS Courts Form Service',
-    database,
+    db,
     loginGovOptions: {
       loginGovUrl: 'https://idp.int.identitysandbox.gov',
       clientId:

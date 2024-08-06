@@ -119,11 +119,11 @@ const setUpTest = async (sessionExpirationDate: Date) => {
     setUserSession: vi.fn(),
   };
   const ctx = await createTestAuthContext(mocks);
-  const user = await ctx.database.createUser('user@test.gov');
+  const user = await ctx.db.createUser('user@test.gov');
   if (!user) {
     expect.fail('error creating test user');
   }
-  const sessionId = await ctx.database.createSession({
+  const sessionId = await ctx.db.createSession({
     id: randomUUID(),
     expiresAt: addOneDay(sessionExpirationDate),
     sessionToken: 'my-token',

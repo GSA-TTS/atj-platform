@@ -32,6 +32,9 @@ export const createService = <
       }
       const propKey = prop as keyof Functions;
       const originalFn = target[propKey];
+      if (originalFn === undefined) {
+        return undefined;
+      }
       return (...args: any[]) =>
         (originalFn as Function).call(null, ctx, ...args);
     },

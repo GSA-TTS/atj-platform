@@ -8,7 +8,6 @@ export async function GET(context: APIContext): Promise<Response> {
 
   const redirect = await getProviderRedirect(auth);
   redirect.cookies.forEach(cookie => {
-    console.log('setting', cookie.name, cookie.value);
     context.cookies.set(cookie.name, cookie.value, {
       path: '/',
       secure: import.meta.env.PROD,

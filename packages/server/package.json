@@ -16,25 +16,25 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.7.0",
-    "@astrojs/node": "^8.3.1",
-    "@astrojs/react": "^3.6.0",
+    "@astrojs/check": "^0.9.1",
+    "@astrojs/node": "^8.3.2",
+    "@astrojs/react": "^3.6.1",
     "@atj/auth": "workspace:^",
     "@atj/common": "workspace:*",
     "@atj/database": "workspace:*",
     "@atj/design": "workspace:*",
     "@atj/forms": "workspace:*",
-    "astro": "^4.10.3",
+    "astro": "^4.13.1",
     "express": "^4.19.2",
     "jwt-decode": "^4.0.0",
     "lucia": "^3.2.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-error-boundary": "^4.0.12",
-    "typescript": "^5.3.3"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-error-boundary": "^4.0.13",
+    "typescript": "^5.5.4"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
-    "@types/react": "^18.2.62"
+    "@types/react": "^18.3.3"
   }
 }

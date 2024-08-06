@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 import { type APIContext, type AstroGlobal } from 'astro';
 
 import type { AuthContext, LoginGovOptions } from '@atj/auth';
-import { type DatabaseService } from '@atj/database';
+import { type DatabaseGateway } from '@atj/database';
 import { type FormConfig, defaultFormConfig, service } from '@atj/forms';
 
 import { type GithubRepository } from './lib/github';
@@ -34,7 +34,7 @@ const createAstroAppContext = async (
   return {
     auth: await createDefaultAuthContext({
       Astro,
-      database: serverOptions.database,
+      db: serverOptions.db,
       loginGovOptions: serverOptions.loginGovOptions,
     }),
     baseUrl: env.BASE_URL,
@@ -48,15 +48,15 @@ const createAstroAppContext = async (
 
 export type ServerOptions = {
   title: string;
-  database: DatabaseService;
+  db: DatabaseGateway;
   loginGovOptions: LoginGovOptions;
 };
 
 const getDefaultServerOptions = async (): Promise<ServerOptions> => {
-  const database = await createDefaultDatabaseService();
+  const db = await createDefaultDatabaseGateway();
   return {
     title: 'Form Service',
-    database,
+    db,
     loginGovOptions: {
       loginGovUrl: 'https://idp.int.identitysandbox.gov',
       clientId:
@@ -73,25 +73,27 @@ const getServerOptions = async (Astro: AstroGlobal | APIContext) => {
 
 const getDirname = () => dirname(fileURLToPath(import.meta.url));
 
-const createDefaultDatabaseService = async () => {
-  const { createDevDatabaseContext } = await import('@atj/database');
-  const { createDatabaseService } = await import('@atj/database');
-  const ctx = await createDevDatabaseContext(join(getDirname(), 'main.db'));
-  return createDatabaseService(ctx);
+const createDefaultDatabaseGateway = async () => {
+  const { createDatabaseGateway, createDevDatabaseContext } = await import(
+    '@atj/database'
+  );
+  const ctx = await createDevDatabaseContext(join(getDirname(), '../main.db'));
+  const gateway = createDatabaseGateway(ctx);
+  return Promise.resolve(gateway);
 };
 
 const createDefaultAuthContext = async ({
   Astro,
-  database,
+  db,
   loginGovOptions,
 }: {
   Astro: AstroGlobal | APIContext;
-  database: DatabaseService;
+  db: DatabaseGateway;
   loginGovOptions: LoginGovOptions;
 }) => {
   const { LoginGov, DevAuthContext } = await import('@atj/auth');
   return new DevAuthContext(
-    database,
+    db,
     new LoginGov(loginGovOptions),
     function getCookie(name: string) {
       return Astro.cookies.get(name)?.value;

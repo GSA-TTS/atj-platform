@@ -13,7 +13,7 @@ describe('processProviderCallback', () => {
 
     // Create test auth context with a test user in the db
     ctx = await createTestAuthContext();
-    const user = await ctx.database.createUser('fake-user@gsa.com');
+    const user = await ctx.db.createUser('fake-user@gsa.com');
     if (!user) {
       expect.fail('error creating test user');
     }
@@ -37,7 +37,6 @@ describe('processProviderCallback', () => {
           aal: 'ignored',
         });
       } else if (request.url.includes('openid_connect/authorize')) {
-        console.error('********');
         throw new Error('authorize endpoint: todo');
       }
       throw new Error(`unexpected url: ${request.url}`);

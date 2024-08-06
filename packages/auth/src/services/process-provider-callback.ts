@@ -85,9 +85,9 @@ export const processProviderCallback = async (
   if (!userDataResult.success) {
     return userDataResult;
   }
-  let userId = await ctx.database.getUserId(userDataResult.data.email);
+  let userId = await ctx.db.getUserId(userDataResult.data.email);
   if (!userId) {
-    const newUser = await ctx.database.createUser(userDataResult.data.email);
+    const newUser = await ctx.db.createUser(userDataResult.data.email);
     if (!newUser) {
       return r.failure({ status: 500, message: 'error creating new user' });
     }
