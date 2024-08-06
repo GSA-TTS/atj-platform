@@ -29,6 +29,12 @@ export type FormEditSlice = {
   clearFocus: () => void;
   deletePattern: (id: PatternId) => void;
   deleteSelectedPattern: () => void;
+  movePattern: (
+    sourcePage: PatternId,
+    targetPage: PatternId,
+    patternId: PatternId,
+    position: string
+  ) => void;
   setFocus: (patternId: PatternId) => boolean;
   setRouteParams: (routeParams: string) => void;
   updatePattern: (data: Pattern) => void;
@@ -69,11 +75,32 @@ export const createFormEditSlice =
       );
       const page = getSessionPage(state.session);
       const newPattern = builder.addPatternToPage(patternType, page);
+
       set({
         session: mergeSession(state.session, { form: builder.form }),
         focus: { pattern: newPattern },
       });
       state.addNotification('success', 'Element added successfully.');
+    },
+    movePattern: (sourcePage, targetPage, patternId, position) => {
+      const state = get();
+      const builder = new BlueprintBuilder(
+        state.context.config,
+        state.session.form
+      );
+
+      const movePatternBetweenPages = builder.movePatternBetweenPages(
+        sourcePage,
+        targetPage,
+        patternId,
+        position
+      );
+
+      set({
+        session: mergeSession(state.session, { form: builder.form }),
+        focus: { pattern: movePatternBetweenPages },
+      });
+      state.addNotification('success', 'Element moved successfully.');
     },
     addPatternToFieldset: (patternType, targetPattern) => {
       const state = get();
