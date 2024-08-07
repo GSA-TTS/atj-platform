@@ -269,17 +269,17 @@ importers:
     dependencies:
       '@pnpm/find-workspace-packages':
         specifier: ^6.0.9
-        version: 6.0.9(@pnpm/logger@5.0.0)
+        version: 6.0.9(@pnpm/logger@5.2.0)
       '@pnpm/logger':
-        specifier: ^5.0.0
-        version: 5.0.0
+        specifier: ^5.2.0
+        version: 5.2.0
       graphviz:
         specifier: ^0.0.9
         version: 0.0.9
     devDependencies:
       '@types/graphviz':
-        specifier: ^0.0.37
-        version: 0.0.37
+        specifier: ^0.0.39
+        version: 0.0.39
 
   packages/design:
     dependencies:
@@ -5936,19 +5936,19 @@ packages:
       load-json-file: 6.2.0
     dev: false
 
-  /@pnpm/cli-utils@2.0.9(@pnpm/logger@5.0.0):
+  /@pnpm/cli-utils@2.0.9(@pnpm/logger@5.2.0):
     resolution: {integrity: sha512-mNujOPCopIi4r7D2HJ96hHKPEr/UPuZGruQvPVvjoc/pCP0l+y38xZAT72W2WhEM4Fo/zP8L+6g/zf88qUSbbg==}
     engines: {node: '>=16.14'}
     peerDependencies:
       '@pnpm/logger': ^5.0.0
     dependencies:
       '@pnpm/cli-meta': 5.0.1
-      '@pnpm/config': 18.4.0(@pnpm/logger@5.0.0)
-      '@pnpm/default-reporter': 12.2.3(@pnpm/logger@5.0.0)
+      '@pnpm/config': 18.4.0(@pnpm/logger@5.2.0)
+      '@pnpm/default-reporter': 12.2.3(@pnpm/logger@5.2.0)
       '@pnpm/error': 5.0.1
-      '@pnpm/logger': 5.0.0
-      '@pnpm/manifest-utils': 5.0.1(@pnpm/logger@5.0.0)
-      '@pnpm/package-is-installable': 8.0.2(@pnpm/logger@5.0.0)
+      '@pnpm/logger': 5.2.0
+      '@pnpm/manifest-utils': 5.0.1(@pnpm/logger@5.2.0)
+      '@pnpm/package-is-installable': 8.0.2(@pnpm/logger@5.2.0)
       '@pnpm/read-project-manifest': 5.0.1
       '@pnpm/types': 9.1.0
       chalk: 4.1.2
@@ -5960,7 +5960,7 @@ packages:
     engines: {node: '>=12.22.0'}
     dev: false
 
-  /@pnpm/config@18.4.0(@pnpm/logger@5.0.0):
+  /@pnpm/config@18.4.0(@pnpm/logger@5.2.0):
     resolution: {integrity: sha512-8B4Pw7cnMvO3kYUBZYYIjg6BcGhHwxEEkmBAcqAeF9NM6LmG6F0lFNsOf6XPfHZMx2vUTpZxaWo0FQo1uU2AAw==}
     engines: {node: '>=16.14'}
     dependencies:
@@ -5970,7 +5970,7 @@ packages:
       '@pnpm/git-utils': 1.0.0
       '@pnpm/matcher': 5.0.0
       '@pnpm/npm-conf': 2.2.0
-      '@pnpm/pnpmfile': 5.0.7(@pnpm/logger@5.0.0)
+      '@pnpm/pnpmfile': 5.0.7(@pnpm/logger@5.2.0)
       '@pnpm/read-project-manifest': 5.0.1
       '@pnpm/types': 9.1.0
       better-path-resolve: 1.0.0
@@ -5995,13 +5995,13 @@ packages:
     engines: {node: '>=16.14'}
     dev: false
 
-  /@pnpm/core-loggers@9.0.1(@pnpm/logger@5.0.0):
+  /@pnpm/core-loggers@9.0.1(@pnpm/logger@5.2.0):
     resolution: {integrity: sha512-qP/kk6OeLSxqhvA4n6u4XB6evqD9h1w9p4qtdBOVbkZloCK7L9btkSmKNolBoQ3wrOz7WRFfjRekYUSKphMMCg==}
     engines: {node: '>=16.14'}
     peerDependencies:
       '@pnpm/logger': ^5.0.0
     dependencies:
-      '@pnpm/logger': 5.0.0
+      '@pnpm/logger': 5.2.0
       '@pnpm/types': 9.1.0
     dev: false
 
@@ -6019,18 +6019,18 @@ packages:
     engines: {node: '>=16.14'}
     dev: false
 
-  /@pnpm/default-reporter@12.2.3(@pnpm/logger@5.0.0):
+  /@pnpm/default-reporter@12.2.3(@pnpm/logger@5.2.0):
     resolution: {integrity: sha512-ALV6AQOcRPJ5bZlcCHDFQ4cEqH2B/2Luu0VYoAoofINgbhNDOKCrV6PkqLvnMQps98k1f7mtn4w/u4r99+qr7g==}
     engines: {node: '>=16.14'}
     peerDependencies:
       '@pnpm/logger': ^5.0.0
     dependencies:
-      '@pnpm/config': 18.4.0(@pnpm/logger@5.0.0)
-      '@pnpm/core-loggers': 9.0.1(@pnpm/logger@5.0.0)
+      '@pnpm/config': 18.4.0(@pnpm/logger@5.2.0)
+      '@pnpm/core-loggers': 9.0.1(@pnpm/logger@5.2.0)
       '@pnpm/dedupe.issues-renderer': 1.0.0
       '@pnpm/dedupe.types': 1.0.0
       '@pnpm/error': 5.0.1
-      '@pnpm/logger': 5.0.0
+      '@pnpm/logger': 5.2.0
       '@pnpm/render-peer-issues': 4.0.1
       '@pnpm/types': 9.1.0
       ansi-diff: 1.1.1
@@ -6064,11 +6064,11 @@ packages:
       '@types/ssri': 7.1.1
     dev: false
 
-  /@pnpm/find-workspace-packages@6.0.9(@pnpm/logger@5.0.0):
+  /@pnpm/find-workspace-packages@6.0.9(@pnpm/logger@5.2.0):
     resolution: {integrity: sha512-80t6m6w3EfOg5k88CR8Eya6aOJi2uXyYGFSv2Y+3DqGAWD2x6CFLM3kop2Zi1nL9THMYpYF3hLnBRbqcJ8rmRg==}
     engines: {node: '>=16.14'}
     dependencies:
-      '@pnpm/cli-utils': 2.0.9(@pnpm/logger@5.0.0)
+      '@pnpm/cli-utils': 2.0.9(@pnpm/logger@5.2.0)
       '@pnpm/constants': 7.1.0
       '@pnpm/fs.find-packages': 2.0.1
       '@pnpm/types': 9.1.0
@@ -6118,19 +6118,19 @@ packages:
       '@pnpm/types': 9.1.0
     dev: false
 
-  /@pnpm/logger@5.0.0:
-    resolution: {integrity: sha512-YfcB2QrX+Wx1o6LD1G2Y2fhDhOix/bAY/oAnMpHoNLsKkWIRbt1oKLkIFvxBMzLwAEPqnYWguJrYC+J6i4ywbw==}
-    engines: {node: '>=12.17'}
+  /@pnpm/logger@5.2.0:
+    resolution: {integrity: sha512-dCdSs2wPCweMkRLdISAKBOKSWeq/9iS9aanWgjoUkFs06KN2o5XGFg53oCXg/KbZhF9AXS3vMHPwTebzCeAEsA==}
+    engines: {node: '>=18.12'}
     dependencies:
-      bole: 5.0.4
+      bole: 5.0.14
       ndjson: 2.0.0
     dev: false
 
-  /@pnpm/manifest-utils@5.0.1(@pnpm/logger@5.0.0):
+  /@pnpm/manifest-utils@5.0.1(@pnpm/logger@5.2.0):
     resolution: {integrity: sha512-vQUmd0NQNv1yWEeFA4pjuBCs4AqhaHW4bVpuaD19lHE5J9SCs7iNRDpjnxjTm/qgDgO/hqu/spuAXEbPxR8u0A==}
     engines: {node: '>=16.14'}
     dependencies:
-      '@pnpm/core-loggers': 9.0.1(@pnpm/logger@5.0.0)
+      '@pnpm/core-loggers': 9.0.1(@pnpm/logger@5.2.0)
       '@pnpm/error': 5.0.1
       '@pnpm/types': 9.1.0
     transitivePeerDependencies:
@@ -6160,15 +6160,15 @@ packages:
       config-chain: 1.1.13
     dev: false
 
-  /@pnpm/package-is-installable@8.0.2(@pnpm/logger@5.0.0):
+  /@pnpm/package-is-installable@8.0.2(@pnpm/logger@5.2.0):
     resolution: {integrity: sha512-eYuqNBjzYf5wXbD4Xm6ZupRPjYxn2sp6mtYL9+bMntx1+yoUlCJABrYcSvbTM7kheoHyHRf+gEQDFKdn5trQ6w==}
     engines: {node: '>=16.14'}
     peerDependencies:
       '@pnpm/logger': ^5.0.0
     dependencies:
-      '@pnpm/core-loggers': 9.0.1(@pnpm/logger@5.0.0)
+      '@pnpm/core-loggers': 9.0.1(@pnpm/logger@5.2.0)
       '@pnpm/error': 5.0.1
-      '@pnpm/logger': 5.0.0
+      '@pnpm/logger': 5.2.0
       '@pnpm/types': 9.1.0
       detect-libc: 2.0.3
       execa: /safe-execa@0.1.2
@@ -6176,17 +6176,17 @@ packages:
       semver: 7.6.0
     dev: false
 
-  /@pnpm/pnpmfile@5.0.7(@pnpm/logger@5.0.0):
+  /@pnpm/pnpmfile@5.0.7(@pnpm/logger@5.2.0):
     resolution: {integrity: sha512-A8uwamvs9jhf3DYLuGHCngWW8WXEDgcm3nwOeRTWJOOgButgXueIRHcEZPiKgQwy6t116ntimNeW5H3/hjim6w==}
     engines: {node: '>=16.14'}
     peerDependencies:
       '@pnpm/logger': ^5.0.0
     dependencies:
-      '@pnpm/core-loggers': 9.0.1(@pnpm/logger@5.0.0)
+      '@pnpm/core-loggers': 9.0.1(@pnpm/logger@5.2.0)
       '@pnpm/error': 5.0.1
       '@pnpm/hooks.types': 1.0.1
       '@pnpm/lockfile-types': 5.1.0
-      '@pnpm/logger': 5.0.0
+      '@pnpm/logger': 5.2.0
       '@pnpm/store-controller-types': 15.0.1
       '@pnpm/types': 9.1.0
       chalk: 4.1.2
@@ -8904,8 +8904,8 @@ packages:
       '@types/node': 20.14.8
     dev: true
 
-  /@types/graphviz@0.0.37:
-    resolution: {integrity: sha512-8kXuj4vNgbg7dCc/R//3MS9HDlUwTqnUduFHPWh7+aTpeZqX0apUnpY7cSk3/Rz9zbXKBpl2ZJnihg/7EBUNWg==}
+  /@types/graphviz@0.0.39:
+    resolution: {integrity: sha512-3sBvki6GxLB4yvxArDQ0jjfuMKWEGVLUttNo3KULoidIstLIaCa2gG8+YkPQdoSUO74Y/ww3cZ7oAnw61dYIbw==}
     dependencies:
       '@types/node': 20.14.8
     dev: true
@@ -10951,8 +10951,8 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /bole@5.0.4:
-    resolution: {integrity: sha512-eiT3gRFZTlC81m7Z2peYhpHYjgIt04ap91He9P44UsDg1Zf0rxdWGX8fjXSo/MbskvSFv/w9WzqzKuAQZlbVHg==}
+  /bole@5.0.14:
+    resolution: {integrity: sha512-IFDlSAH1GKiQEp4NUa2Eg8RplcV2oXOFCHD/nfNqVlRNf9RgNRdxtR2g3P+Cz57uP5jAGSrq2bGUqXLQeh/h4w==}
     dependencies:
       fast-safe-stringify: 2.1.1
       individual: 3.0.0
