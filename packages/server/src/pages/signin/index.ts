@@ -17,5 +17,5 @@ export async function GET(context: APIContext): Promise<Response> {
     });
   });
 
-  return Response.redirect(redirect.url);
+  return context.redirect(redirect.url.href);
 }

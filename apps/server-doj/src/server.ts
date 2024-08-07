@@ -22,7 +22,7 @@ export const createCustomServer = async (): Promise<any> => {
       clientId:
         'urn:gov:gsa:openidconnect.profiles:sp:sso:gsa:tts-10x-atj-dev-server-doj',
       clientSecret: '',
-      redirectURI: 'http://localhost:4322/signin/callback',
+      redirectURI: 'http://localhost:4321/signin/callback',
     },
   });
 };

@@ -4,7 +4,8 @@
   "description": "10x ATJ shared resources",
   "type": "module",
   "license": "CC0",
-  "main": "src/index.ts",
+  "main": "dist/index.cjs",
+  "types": "src/index.ts",
   "scripts": {
     "build": "tsup src/* --env.NODE_ENV production",
     "dev": "tsup src/* --watch"

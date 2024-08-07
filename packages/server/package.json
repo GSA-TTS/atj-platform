@@ -2,16 +2,16 @@
   "name": "@atj/server",
   "type": "module",
   "version": "0.0.1",
-  "main": "handler.ts",
+  "main": "dist/handler.js",
   "types": "handler.ts",
   "files": [
-    "dist",
-    "handler.ts"
+    "dist"
   ],
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build",
+    "build": "astro check && astro build && pnpm build:handler",
+    "build:handler": "node ./build-handler.js",
     "preview": "astro preview",
     "astro": "astro"
   },

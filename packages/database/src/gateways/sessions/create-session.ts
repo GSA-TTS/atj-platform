@@ -1,4 +1,4 @@
-import { type DatabaseContext } from '../../context/types';
+import { type DatabaseContext } from '../../context/types.js';
 
 type Session = {
   id: string;

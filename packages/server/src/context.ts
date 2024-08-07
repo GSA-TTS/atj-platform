@@ -19,6 +19,12 @@ export type AppContext = {
   uswdsRoot: `${string}/`;
 };
 
+export type ServerOptions = {
+  title: string;
+  db: DatabaseGateway;
+  loginGovOptions: LoginGovOptions;
+};
+
 export const getAstroAppContext = async (Astro: any): Promise<AppContext> => {
   if (!Astro.locals.ctx) {
     Astro.locals.ctx = await createAstroAppContext(Astro, import.meta.env);
@@ -44,12 +50,6 @@ const createAstroAppContext = async (
     title: serverOptions.title,
     uswdsRoot: `${env.BASE_URL}uswds/`,
   };
-};
-
-export type ServerOptions = {
-  title: string;
-  db: DatabaseGateway;
-  loginGovOptions: LoginGovOptions;
 };
 
 const getDefaultServerOptions = async (): Promise<ServerOptions> => {

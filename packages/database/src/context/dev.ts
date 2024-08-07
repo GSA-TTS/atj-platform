@@ -5,10 +5,13 @@ import { type Database as SqliteDatabase } from 'better-sqlite3';
 import knex, { type Knex } from 'knex';
 import { type Kysely } from 'kysely';
 
-import { type Database, createSqliteDatabase } from '../clients/kysely';
-import { migrateDatabase } from '../management/migrate-database';
+import {
+  type Database,
+  createSqliteDatabase,
+} from '../clients/kysely/index.js';
+import { migrateDatabase } from '../management/migrate-database.js';
 
-import { type DatabaseContext } from './types';
+import { type DatabaseContext } from './types.js';
 
 const getDirname = () => dirname(fileURLToPath(import.meta.url));
 const migrationsDirectory = path.resolve(getDirname(), '../../migrations');

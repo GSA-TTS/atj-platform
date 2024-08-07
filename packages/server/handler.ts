@@ -9,20 +9,20 @@ import { fileURLToPath } from 'url';
 import express from 'express';
 
 import { type LoginGovOptions } from '@atj/auth';
-import { type DevDatabaseContext } from '@atj/database';
+import { type DatabaseGateway } from '@atj/database';
 
-import { type ServerOptions } from './src/context';
+import { type ServerOptions } from './src/context.js';
 
 export const createServerAuth = async ({
   database,
   loginGovOptions,
 }: {
-  database: DevDatabaseContext;
+  database: DatabaseGateway;
   loginGovOptions: LoginGovOptions;
 }) => {
   return createServer({
     title: 'DOJ Form Service',
-    database,
+    db: database,
     loginGovOptions: {
       loginGovUrl: 'https://idp.int.identitysandbox.gov',
       clientId:
@@ -47,7 +47,7 @@ export const createServer = async (
       user: null,
     });
   });
-  app.use(express.static(path.join(getDirname(), './dist/client')));
+  app.use(express.static(path.join(getDirname(), './client')));
 
   return app;
 };
@@ -59,6 +59,6 @@ const getDirname = () => {
 
 const getHandler = async () => {
   // @ts-ignore
-  const { handler } = await import('./dist/server/entry.mjs');
+  const { handler } = await import('./server/entry.mjs');
   return handler;
 };
