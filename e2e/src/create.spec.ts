@@ -3,7 +3,6 @@ import { GuidedFormCreation, Create } from '../../packages/design/src/FormManage
 import { BASE_URL } from './constants';
 import { pathToRegexp } from 'path-to-regexp';
 
-
 const createNewForm = async (page: Page) => {
   await page.goto(`${BASE_URL}/${GuidedFormCreation.getUrl()}`);
   await page.getByRole('button', { name: 'Create New' }).click();
@@ -54,7 +53,7 @@ test('Add questions', async ({ page }) => {
 
 });
 
-test('Drag-and-drop via mouse interaction', async ({ page }) => {
+test('Drag-and-drop questions via mouse interaction', async ({ page }) => {
   await createNewForm(page);
   await addQuestions(page);
 
