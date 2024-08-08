@@ -5,6 +5,7 @@
     "emitDeclarationOnly": true,
     "jsx": "react",
     "outDir": "./dist",
+    "rootDir": "./src",
     "types": ["vite/client", "node"]
   },
   "include": ["./src"],
