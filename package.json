@@ -6,14 +6,14 @@
   "main": "index.js",
   "license": "CC0",
   "scripts": {
-    "build": "turbo run build --filter=!infra-cdktf",
+    "build": "turbo run build --filter=!infra/cdktf",
     "clean": "turbo run clean",
     "dev": "turbo run dev --concurrency 14",
     "format": "prettier --write \"packages/*/src/**/*.{js,jsx,ts,tsx,scss}\"",
     "lint": "turbo run lint",
     "pages": "rm -rf node_modules && npm i -g pnpm turbo && pnpm i && pnpm build && ln -sf ./apps/spotlight/dist _site",
     "test": "vitest run",
-    "test:ci": "vitest run --coverage.enabled --coverage.reporter=text --coverage.reporter=json-summary --coverage.reporter=json --coverage.reportOnFailure",
+    "test:ci": "vitest run --coverage.enabled --coverage.provider=v8 --coverage.reporter=text --coverage.reporter=json-summary --coverage.reporter=json --coverage.reportOnFailure",
     "test:infra": "turbo run --filter=infra-cdktf test",
     "typecheck": "tsc --build",
     "prepare": "husky"
@@ -22,20 +22,19 @@
     "pre-commit": "pnpm format"
   },
   "devDependencies": {
-    "@types/node": "^20.14.8",
+    "@types/node": "^20.14.14",
     "@vitest/coverage-v8": "^2.0.5",
     "@vitest/ui": "^2.0.5",
     "esbuild": "^0.23.0",
-    "eslint": "^8.56.0",
+    "eslint": "^8.57.0",
     "husky": "^9.1.4",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.3.3",
     "ts-node": "^10.9.2",
     "tsup": "^8.2.4",
-    "turbo": "^1.12.3",
+    "turbo": "^1.13.4",
     "typescript": "^5.5.4",
     "vitest": "^2.0.5",
     "vitest-mock-extended": "^2.0.0"
-  },
-  "dependencies": {}
+  }
 }

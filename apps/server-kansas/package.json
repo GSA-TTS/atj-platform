@@ -16,7 +16,7 @@
     "@atj/server": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "^20.14.8",
+    "@types/node": "^20.14.14",
     "@types/supertest": "^6.0.2",
     "supertest": "^7.0.0"
   }

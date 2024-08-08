@@ -13,7 +13,7 @@
   "dependencies": {
     "@atj/common": "workspace:*",
     "@atj/forms": "workspace:*",
-    "@aws-sdk/client-ssm": "^3.613.0",
-    "zod": "^3.22.4"
+    "@aws-sdk/client-ssm": "^3.624.0",
+    "zod": "^3.23.8"
   }
 }

@@ -8,7 +8,7 @@ export default {
       : ['default', 'html'],
     */
     coverage: {
-      enabled: false,
+      enabled: true,
       reporter: ['html', 'text', 'text-summary'],
       reportOnFailure: true,
     },

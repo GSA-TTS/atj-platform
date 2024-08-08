@@ -53,8 +53,8 @@
     "jsdom": "^24.1.1",
     "prop-types": "^15.8.1",
     "react-dom": "^18.3.1",
-    "vite": "^5.3.5",
-    "vite-plugin-dts": "^4.0.0",
+    "vite": "^5.4.0",
+    "vite-plugin-dts": "^4.0.1",
     "wait-on": "^7.2.0"
   },
   "dependencies": {
