@@ -8,15 +8,18 @@ import { withBackend } from './backend';
 import { CloudGovSpace } from './cloud.gov/space';
 import { DataAwsSsmParameter } from '../../.gen/providers/aws/data-aws-ssm-parameter';
 
-export const registerAppStack = (stackPrefix: string, deployEnv: string) => {
+export const registerAppStack = (
+  stackPrefix: string,
+  gitCommitHash: string
+) => {
   const app = new App();
-  const stack = new AppStack(app, stackPrefix, deployEnv);
+  const stack = new AppStack(app, stackPrefix, gitCommitHash);
   withBackend(stack, stackPrefix);
   app.synth();
 };
 
 class AppStack extends TerraformStack {
-  constructor(scope: Construct, id: string, deployEnv: string) {
+  constructor(scope: Construct, id: string, gitCommitHash: string) {
     super(scope, id);
 
     new AwsProvider(this, 'AWS', {
@@ -45,7 +48,7 @@ class AppStack extends TerraformStack {
       password: cfPassword.value,
     });
 
-    new CloudGovSpace(this, id, deployEnv);
+    new CloudGovSpace(this, id, gitCommitHash);
 
     //new Docassemble(this, `${id}-docassemble`);
     //new FormService(this, `${id}-rest-api`);
