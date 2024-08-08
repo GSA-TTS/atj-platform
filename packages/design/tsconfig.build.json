@@ -1,11 +1,10 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": "./src",
     "emitDeclarationOnly": true,
     "jsx": "react",
     "outDir": "./dist",
-    "module": "esnext",
     "types": ["vite/client", "node"]
   },
   "include": ["./src"],
