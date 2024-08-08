@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import QuillEditor from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import { PatternId, type RichTextProps } from '@atj/forms';
 import { type RichTextPattern } from '@atj/forms/src/patterns/rich-text';
@@ -43,7 +43,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   );
   const { fieldId, getFieldState, register } =
     usePatternEditFormContext<RichTextPattern>(patternId);
-  const text = getFieldState('text')
+  const text = getFieldState('text');
 
   const [editorContent, setEditorContent] = useState(pattern.data.text);
 
