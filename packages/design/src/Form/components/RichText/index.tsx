@@ -7,8 +7,9 @@ import { type PatternComponent } from '../../../Form';
 const FormSummary: PatternComponent<RichTextProps> = props => {
   return (
     <>
-      Rich text goes here
-      <p className="maxw-tablet">{props.text}</p>
+      <div
+        dangerouslySetInnerHTML={{ __html: props.text }}
+      />
     </>
   );
 };

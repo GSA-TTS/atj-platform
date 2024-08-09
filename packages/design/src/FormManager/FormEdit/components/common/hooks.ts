@@ -11,12 +11,15 @@ type NestedKeys<T extends object> = {
 export const usePatternEditFormContext = <T extends Pattern>(
   patternId: PatternId
 ) => {
-  const { formState, getFieldState, register } = useFormContext<PatternMap>();
+  const { formState, getFieldState, register, setValue } =
+    useFormContext<PatternMap>();
   return {
     errors: formState.errors,
     fieldId: (path: NestedKeys<T['data']>) => `${patternId}.${path}`,
     register: (path: NestedKeys<T['data']>) => register(`${patternId}.${path}`),
     getFieldState: (path: NestedKeys<T['data']>) =>
       getFieldState(`${patternId}.${path}`, formState),
+    setValue: (path: NestedKeys<T['data']>, value: string) =>
+      setValue(`${patternId}.${path}`, value),
   };
 };

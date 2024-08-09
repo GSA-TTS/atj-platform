@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import QuillEditor from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 
 import { PatternId, type RichTextProps } from '@atj/forms';
 import { type RichTextPattern } from '@atj/forms/src/patterns/rich-text';
@@ -41,7 +41,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const pattern = useFormManagerStore<RichTextPattern>(
     state => state.session.form.patterns[patternId]
   );
-  const { fieldId, getFieldState, register } =
+  const { fieldId, getFieldState, register, setValue } =
     usePatternEditFormContext<RichTextPattern>(patternId);
   const text = getFieldState('text');
 
@@ -49,7 +49,8 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
 
   const handleEditorChange = (content, delta, source, editor) => {
     setEditorContent(editor.getHTML());
-  }
+    setValue('text', editor.getHTML());
+  };
 
   return (
     <div className="grid-row grid-gap-1">
@@ -60,7 +61,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           })}
           htmlFor={fieldId('text')}
         >
-          {message.patterns.paragraph.fieldLabel}
+          {message.patterns.richText.fieldLabel}
         </label>
         {text.error ? (
           <span className="usa-error-message" role="alert">
@@ -75,7 +76,8 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
         <input
           id={fieldId('text')}
           {...register('text')}
-          defaultValue={editorContent}
+          defaultValue={pattern.data.text}
+          type="hidden"
         ></input>
       </div>
       <PatternEditActions />
