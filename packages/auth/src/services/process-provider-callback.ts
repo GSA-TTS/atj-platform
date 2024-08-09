@@ -39,6 +39,7 @@ export const processProviderCallback = async (
       return r.success(result);
     })
     .catch(error => {
+      console.error(error, error.stack);
       if (
         error instanceof OAuth2RequestError &&
         error.message === 'bad_verification_code'
