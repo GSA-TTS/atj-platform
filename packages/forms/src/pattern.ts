@@ -1,5 +1,6 @@
 import * as r from '@atj/common';
 import {
+  addPatternToFieldset,
   type Blueprint,
   type FormError,
   type FormErrors,
