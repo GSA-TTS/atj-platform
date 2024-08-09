@@ -7,13 +7,16 @@ const githubRepository = await getGithubRepository(process.env);
 
 // https://astro.build/config
 export default defineConfig({
-  trailingSlash: 'always',
   base: addTrailingSlash(process.env.BASEURL || ''),
   integrations: [
     react({
       include: ['src/components/react/**'],
     }),
   ],
+  security: {
+    checkOrigin: true,
+  },
+  trailingSlash: 'always',
   vite: {
     define: {
       'import.meta.env.GITHUB': JSON.stringify(githubRepository),

@@ -2,7 +2,7 @@
 import { getBranchTreeUrl } from '../lib/github';
 
 import { getAstroAppContext } from '../context';
-const { github } = getAstroAppContext(Astro);
+const { github } = await getAstroAppContext(Astro);
 ---
 
 <footer class="usa-footer usa-footer--slim">

@@ -1,10 +1,10 @@
 import { StateCreator } from 'zustand';
 
 import {
+  type FormSession,
   type Pattern,
   type PatternId,
   type PatternMap,
-  type FormSession,
   BlueprintBuilder,
   getPattern,
   getSessionPage,

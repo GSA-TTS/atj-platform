@@ -3,7 +3,7 @@ import AppFormRouter from '../../components/AppFormRouter';
 import ContentLayout from '../../layouts/ContentLayout.astro';
 import { getAstroAppContext } from '../../context';
 
-const ctx = getAstroAppContext(Astro);
+const ctx = await getAstroAppContext(Astro);
 ---
 
 <ContentLayout title="10x Access to Justice">

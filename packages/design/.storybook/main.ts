@@ -19,12 +19,15 @@ const config: StorybookConfig = {
     getAbsolutePath('@storybook/addon-a11y'),
     getAbsolutePath('@storybook/addon-coverage'),
   ],
-  framework: {
-    name: getAbsolutePath('@storybook/react-vite') as '@storybook/react-vite',
-    options: {},
+  core: {
+    disableTelemetry: true,
   },
   docs: {
     autodocs: 'tag',
+  },
+  framework: {
+    name: getAbsolutePath('@storybook/react-vite') as '@storybook/react-vite',
+    options: {},
   },
   staticDirs: ['../static'],
 };

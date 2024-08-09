@@ -2,10 +2,10 @@
 import closeSvg from '@atj/design/static/uswds/img/usa-icons/close.svg';
 import logoSvg from '@atj/design/images/logo.svg';
 
-import { getAstroAppContext } from '../context';
+import { getAstroAppContext, getUserSession } from '../context';
 import * as routes from '../routes';
 
-const { baseUrl, title } = getAstroAppContext(Astro);
+const { baseUrl, title } = await getAstroAppContext(Astro);
 
 const getNavLinkClasses = (url: string) => {
   if (url === Astro.url.pathname) {
@@ -14,6 +14,8 @@ const getNavLinkClasses = (url: string) => {
     return 'usa-nav-link';
   }
 };
+
+const { session, user } = getUserSession(Astro);
 ---
 
 <div class="usa-overlay"></div>
@@ -56,6 +58,25 @@ const getNavLinkClasses = (url: string) => {
             class={getNavLinkClasses(routes.getStorybookUrl(baseUrl))}
             ><span>Storybook</span></a
           >
+        </li>
+        <li class="usa-nav__primary-item">
+          {
+            session ? (
+              <a
+                href={routes.getLogoutUrl(baseUrl)}
+                class={getNavLinkClasses(routes.getLogoutUrl(baseUrl))}
+              >
+                <span>Sign out</span>
+              </a>
+            ) : (
+              <a
+                href={routes.getLoginUrl(baseUrl)}
+                class={getNavLinkClasses(routes.getLoginUrl(baseUrl))}
+              >
+                Sign in
+              </a>
+            )
+          }
         </li>
       </ul>
     </div>

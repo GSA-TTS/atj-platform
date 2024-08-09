@@ -21,7 +21,7 @@ pnpm dev
 To start the provided Express server:
 
 ```typescript
-import { createServer } from '@atj/server/dist/index.js';
+import { createServer } from '@atj/server';
 
 const port = process.env.PORT || 4321;
 

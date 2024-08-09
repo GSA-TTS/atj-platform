@@ -4,17 +4,14 @@
   "description": "10x ATJ docassemble adapter",
   "type": "module",
   "license": "CC0",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup src/* --env.NODE_ENV production",
-    "dev": "tsup src/* --watch",
+    "build": "tsc",
+    "dev": "tsc --watch",
     "test:integration": "vitest run --coverage"
   },
   "dependencies": {
     "@atj/forms": "workspace:*"
-  },
-  "devDependencies": {
-    "@vitest/coverage-v8": "^0.34.6",
-    "vitest": "^1.6.0"
   }
 }

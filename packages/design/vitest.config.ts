@@ -10,6 +10,7 @@ export default mergeConfig(
     test: {
       ...sharedTestConfig.test,
       environment: 'jsdom',
+      setupFiles: './vitest.setup.ts',
     },
   })
 );

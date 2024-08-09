@@ -1,0 +1,27 @@
+{
+  "name": "@atj/auth",
+  "version": "1.0.0",
+  "description": "10x ATJ auth module",
+  "type": "module",
+  "license": "CC0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@atj/common": "workspace:^",
+    "@atj/database": "workspace:*",
+    "@lucia-auth/adapter-sqlite": "^3.0.2",
+    "arctic": "^1.9.2",
+    "better-sqlite3": "^11.1.2",
+    "lucia": "^3.2.0",
+    "oslo": "^1.2.1"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.11",
+    "vitest-fetch-mock": "^0.3.0"
+  }
+}
