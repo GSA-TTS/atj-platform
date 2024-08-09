@@ -14,6 +14,7 @@ export const createCustomServer = async (): Promise<any> => {
   );
   const db = createDatabaseGateway(dbCtx);
 
+  const secrets = getServerSecrets();
   return createServer({
     title: 'DOJ Form Service',
     db,
@@ -21,8 +22,16 @@ export const createCustomServer = async (): Promise<any> => {
       loginGovUrl: 'https://idp.int.identitysandbox.gov',
       clientId:
         'urn:gov:gsa:openidconnect.profiles:sp:sso:gsa:tts-10x-atj-dev-server-doj',
-      clientSecret: '',
-      redirectURI: 'http://localhost:4321/signin/callback',
+      clientSecret: secrets.loginGovClientSecret,
     },
   });
+};
+
+export const getServerSecrets = () => {
+  const services = JSON.parse(process.env.VCAP_SERVICES || '{}');
+  const loginClientSecret =
+    services['user-provided']?.credentials?.SECRET_LOGIN_GOV_PRIVATE_KEY;
+  return {
+    loginGovClientSecret: loginClientSecret,
+  };
 };

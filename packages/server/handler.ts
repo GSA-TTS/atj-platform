@@ -1,6 +1,6 @@
 /**
  * This is the entrypoint for the server. It provides a `createServer` factory
- * that return an Express handler that wraps the Astro web server.
+ * that returns an Express handler, which in turn wraps the Astro web server.
  * This en
  */
 import path, { dirname } from 'path';
@@ -8,30 +8,7 @@ import { fileURLToPath } from 'url';
 
 import express from 'express';
 
-import { type LoginGovOptions } from '@atj/auth';
-import { type DatabaseGateway } from '@atj/database';
-
 import { type ServerOptions } from './src/context.js';
-
-export const createServerAuth = async ({
-  database,
-  loginGovOptions,
-}: {
-  database: DatabaseGateway;
-  loginGovOptions: LoginGovOptions;
-}) => {
-  return createServer({
-    title: 'DOJ Form Service',
-    db: database,
-    loginGovOptions: {
-      loginGovUrl: 'https://idp.int.identitysandbox.gov',
-      clientId:
-        'urn:gov:gsa:openidconnect.profiles:sp:sso:gsa:tts-10x-atj-dev-server-doj',
-      clientSecret: '',
-      redirectURI: 'http://localhost:4322/signin/callback',
-    },
-  });
-};
 
 export const createServer = async (
   serverOptions: ServerOptions

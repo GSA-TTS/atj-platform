@@ -55,25 +55,6 @@ export const processProviderCallback = async (
     return validateResult;
   }
 
-  /**
-   * {
-      sub: '9bf734c4-54a4-4406-b2f1-4f0c46c2a4a6',
-      iss: 'https://idp.int.identitysandbox.gov/',
-      email: 'daniel.naab@gsa.gov',
-      email_verified: true,
-      ial: 'http://idmanagement.gov/ns/assurance/ial/1',
-      aal: 'urn:gov:gsa:ac:classes:sp:PasswordProtectedTransport:duo',
-      nonce: 'hardcoded-nonce-fixme-hardcoded-nonce-fixme-hardcoded-nonce-fixme',
-      aud: 'urn:gov:gsa:openidconnect.profiles:sp:sso:gsa:tts-10x-atj-dev-server-doj',
-      jti: 'aQ5X-RwN8taB4HOvDI5l_Q',
-      at_hash: 'sr4z2Mu-fVcgECukwfLSFA',
-      c_hash: 'dLhtGK59t3hplY-hFbiSuQ',
-      acr: 'http://idmanagement.gov/ns/assurance/ial/1',
-      exp: 1722461645,
-      iat: 1722460745,
-      nbf: 1722460745
-    }
-   */
   if (validateResult.data.decodedToken.nonce !== storedParams.nonce) {
     return r.failure({
       status: 403,

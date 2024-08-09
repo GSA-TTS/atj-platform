@@ -61,7 +61,7 @@ const getDefaultServerOptions = async (): Promise<ServerOptions> => {
       loginGovUrl: 'https://idp.int.identitysandbox.gov',
       clientId:
         'urn:gov:gsa:openidconnect.profiles:sp:sso:gsa:tts-10x-atj-dev-server-doj',
-      clientSecret: '',
+      clientSecret: import.meta.env.SECRET_LOGIN_GOV_PRIVATE_KEY,
       redirectURI: 'http://localhost:4322/signin/callback',
     },
   };
@@ -82,6 +82,14 @@ const createDefaultDatabaseGateway = async () => {
   return Promise.resolve(gateway);
 };
 
+const getOriginFromRequest = (Astro: AstroGlobal | APIContext) => {
+  const url = new URL(Astro.request.url);
+  const scheme = url.protocol;
+  const hostname = url.hostname;
+  const port = url.port;
+  return `${scheme}//${hostname}${port ? `:${port}` : ''}`;
+};
+
 const createDefaultAuthContext = async ({
   Astro,
   db,
@@ -94,7 +102,10 @@ const createDefaultAuthContext = async ({
   const { LoginGov, DevAuthContext } = await import('@atj/auth');
   return new DevAuthContext(
     db,
-    new LoginGov(loginGovOptions),
+    new LoginGov({
+      ...loginGovOptions,
+      redirectURI: `${getOriginFromRequest(Astro)}/signin/callback`,
+    }),
     function getCookie(name: string) {
       return Astro.cookies.get(name)?.value;
     },

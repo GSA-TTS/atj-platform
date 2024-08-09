@@ -16,7 +16,7 @@ export type LoginGovOptions = {
   loginGovUrl: LoginGovUrl;
   clientId: string;
   clientSecret: string;
-  redirectURI: string;
+  redirectURI?: string;
 };
 
 export class LoginGov implements OAuth2ProviderWithPKCE {

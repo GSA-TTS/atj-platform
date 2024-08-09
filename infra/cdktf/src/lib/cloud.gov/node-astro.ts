@@ -36,7 +36,7 @@ export class AstroService extends Construct {
           name: `${id}-login-gov-service`,
           space: spaceId,
           credentials: {
-            SECRET_LOGIN_GOV_PRIVATE_KEY: secrets.loginGovPrivateKey,
+            loginGovPrivateKey: secrets.loginGovPrivateKey,
           },
         }
       );
