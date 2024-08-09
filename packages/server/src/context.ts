@@ -61,7 +61,7 @@ const getDefaultServerOptions = async (): Promise<ServerOptions> => {
       loginGovUrl: 'https://idp.int.identitysandbox.gov',
       clientId:
         'urn:gov:gsa:openidconnect.profiles:sp:sso:gsa:tts-10x-atj-dev-server-doj',
-      clientSecret: import.meta.env.SECRET_LOGIN_GOV_PRIVATE_KEY,
+      //clientSecret: import.meta.env.SECRET_LOGIN_GOV_PRIVATE_KEY,
       redirectURI: 'http://localhost:4322/signin/callback',
     },
   };
