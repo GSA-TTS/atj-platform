@@ -7,9 +7,7 @@ import { type PatternComponent } from '../../../Form';
 const FormSummary: PatternComponent<RichTextProps> = props => {
   return (
     <>
-      <div
-        dangerouslySetInnerHTML={{ __html: props.text }}
-      />
+      <div dangerouslySetInnerHTML={{ __html: props.text }} />
     </>
   );
 };
