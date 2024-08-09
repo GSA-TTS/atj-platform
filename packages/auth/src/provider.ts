@@ -66,7 +66,7 @@ export class LoginGov implements OAuth2ProviderWithPKCE {
         code,
         {
           authenticateWith: 'request_body',
-          credentials: this.clientSecret,
+          //credentials: this.clientSecret,
           codeVerifier,
         }
       );
