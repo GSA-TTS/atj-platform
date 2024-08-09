@@ -21,7 +21,7 @@ export const createCustomServer = async (): Promise<any> => {
       loginGovUrl: 'https://idp.int.identitysandbox.gov',
       clientId:
         'urn:gov:gsa:openidconnect.profiles:sp:sso:gsa:tts-10x-atj-dev-server-doj',
-      clientSecret: '', // secrets.loginGovClientSecret,
+      //clientSecret: '', // secrets.loginGovClientSecret,
     },
   });
 };

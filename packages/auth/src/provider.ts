@@ -15,13 +15,13 @@ const getAuthorizeEndpoint = (url: LoginGovUrl) =>
 export type LoginGovOptions = {
   loginGovUrl: LoginGovUrl;
   clientId: string;
-  clientSecret: string;
+  //clientSecret: string;
   redirectURI?: string;
 };
 
 export class LoginGov implements OAuth2ProviderWithPKCE {
   private client: OAuth2Client;
-  private clientSecret: string;
+  //private clientSecret: string;
 
   constructor(opts: LoginGovOptions) {
     this.client = new OAuth2Client(
@@ -32,7 +32,7 @@ export class LoginGov implements OAuth2ProviderWithPKCE {
         redirectURI: opts.redirectURI,
       }
     );
-    this.clientSecret = opts.clientSecret;
+    //this.clientSecret = opts.clientSecret;
   }
 
   public async createAuthorizationURL(
