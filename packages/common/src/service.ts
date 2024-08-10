@@ -1,3 +1,9 @@
+/**
+ * Exports `createService`, which creates a service object from a context and a
+ * set of service functions.
+ * Each service function takes a context as its first argument, with subsequent
+ * arguments being the function's parameters.
+ */
 type ServiceFunction<Args extends any[], Return, Context> = (
   context: Context,
   ...args: Args
