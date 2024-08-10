@@ -10,7 +10,6 @@ export { logOut } from './services/logout';
 export { processProviderCallback } from './services/process-provider-callback';
 export { processSessionCookie } from './services/process-session-cookie';
 
-// Need to move Lucia into the auth module in order to access these types.
 export type UserSession = {
   user: User | null;
   session: Session | null;
