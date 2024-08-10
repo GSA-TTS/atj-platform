@@ -489,9 +489,6 @@ importers:
       jwt-decode:
         specifier: ^4.0.0
         version: 4.0.0
-      lucia:
-        specifier: ^3.2.0
-        version: 3.2.0
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -9691,7 +9688,7 @@ packages:
     dependencies:
       semver: 7.6.3
       shelljs: 0.8.5
-      typescript: 5.6.0-dev.20240808
+      typescript: 5.6.0-dev.20240810
     dev: false
 
   /dset@3.1.3:
@@ -18608,8 +18605,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  /typescript@5.6.0-dev.20240808:
-    resolution: {integrity: sha512-Fn1H6AFLEKTJkakCqVOAkqNoGCSXhYi9GKW13/a5WWOMAdCtzBcdcViWbfNgu96DcSB9mVulqpHe6XCVdzWERg==}
+  /typescript@5.6.0-dev.20240810:
+    resolution: {integrity: sha512-X1G99j+LKr2crVMNe9WpoKgzRSK3yv32I/HJU+9Fa8WPeHGmHooAkdZSUaY1U9rYRs3m2Ueg4S+GLwy8RpQZKg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false

@@ -9,6 +9,7 @@ export { getProviderRedirect } from './services/get-provider-redirect';
 export { logOut } from './services/logout';
 export { processProviderCallback } from './services/process-provider-callback';
 export { processSessionCookie } from './services/process-session-cookie';
+export { User, Session };
 
 export type UserSession = {
   user: User | null;
