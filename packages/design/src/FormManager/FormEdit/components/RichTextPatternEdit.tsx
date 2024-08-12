@@ -40,26 +40,19 @@ export default RichTextPatternEdit;
 const modules = {
   history: {
     delay: 2500,
-    userOnly: true
+    userOnly: true,
   },
   toolbar: {
     container: [
       [{ header: [1, 2, false] }],
       ['bold'],
-      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-      ['clean']
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['clean'],
     ],
-  }
+  },
 };
 
-export const formats = [
-  "header",
-  "size",
-  "bold",
-  "list",
-  "bullet",
-  "indent"
-];
+export const formats = ['header', 'size', 'bold', 'list', 'bullet', 'indent'];
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const pattern = useFormManagerStore<RichTextPattern>(
