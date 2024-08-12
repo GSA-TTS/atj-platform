@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import QuillEditor from 'react-quill';
+import QuillEditor, { UnprivilegedEditor } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import React, { useState } from 'react';
 
@@ -64,7 +64,12 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
 
   const [editorContent, setEditorContent] = useState(pattern.data.text);
 
-  const handleEditorChange = (content, delta, source, editor) => {
+  const handleEditorChange = (
+    value: string,
+    delta: unknown,
+    source: 'user' | 'api' | 'silent',
+    editor: UnprivilegedEditor
+  ) => {
     setEditorContent(editor.getHTML());
     setValue('text', editor.getHTML());
   };
