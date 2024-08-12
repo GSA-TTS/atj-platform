@@ -37,6 +37,30 @@ const RichTextPatternEdit: PatternEditComponent<RichTextProps> = ({
 
 export default RichTextPatternEdit;
 
+const modules = {
+  history: {
+    delay: 2500,
+    userOnly: true
+  },
+  toolbar: {
+    container: [
+      [{ header: [1, 2, false] }],
+      ['bold'],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      ['clean']
+    ],
+  }
+};
+
+export const formats = [
+  "header",
+  "size",
+  "bold",
+  "list",
+  "bullet",
+  "indent"
+];
+
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const pattern = useFormManagerStore<RichTextPattern>(
     state => state.session.form.patterns[patternId]
@@ -72,12 +96,13 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           theme="snow"
           value={editorContent}
           onChange={handleEditorChange}
+          modules={modules}
+          formats={formats}
         />
         <input
           id={fieldId('text')}
           {...register('text')}
           defaultValue={pattern.data.text}
-          type="hidden"
         ></input>
       </div>
       <PatternEditActions />
