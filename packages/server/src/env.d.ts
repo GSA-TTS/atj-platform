@@ -5,10 +5,16 @@
 // @see ./context.ts@getAppContext
 namespace App {
   interface Locals {
-    // User-provided server configuration.
-    serverOptions: import('./context').ServerOptions;
+    // User-provided server configuration. Will be undefined when running in
+    // dev mode.
+    serverOptions?: import('./context').ServerOptions;
 
-    // Lazy-loaded app context, derived from `serverOptions`.
-    ctx?: AppContext;
+    // Lazy-loaded app context, derived from `serverOptions` and the Astro
+    // global context, via getAstroAppContext().
+    ctx?: AppContext | null;
+
+    // Auth types from Lucia
+    session: import('@atj/auth').Session | null;
+    user: import('@atj/auth').User | null;
   }
 }

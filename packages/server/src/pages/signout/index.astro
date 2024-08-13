@@ -1,0 +1,40 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getUserSession } from '../../context';
+import * as routes from '../../routes';
+import { getAstroAppContext } from '../../context';
+
+const ctx = await getAstroAppContext(Astro);
+const userSession = getUserSession(Astro);
+---
+
+<Layout title="10x Access to Justice">
+  <div class="grid-container grid-row margin-top-4">
+    <div class="tablet:grid-col-3 grid-col-4"></div>
+    <div class="usa-card mobile:grid-col-12 tablet:grid-col-6 grid-col-4">
+      <div class="usa-card__container">
+        <div class="usa-card__header">
+          <h4 class="usa-card__heading">Sign out</h4>
+        </div>
+        <div class="usa-card__body">
+          <p>
+            Are you sure you want to sign out of the account {
+              userSession.user.email
+            }?
+          </p>
+        </div>
+        <div class="usa-card__footer">
+          <form
+            action={routes.getLogoutConfirmUrl(ctx.baseUrl)}
+            method="post"
+            class="usa-form"
+          >
+            <button type="submit" class="usa-button text-center"
+              >Sign out {userSession.user.email}</button
+            >
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

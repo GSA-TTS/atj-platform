@@ -56,12 +56,12 @@ jobs:
 
       - name: Run test suite
         shell: bash
-        run: pnpm test:ci
+        run: AUTH_SECRET=not-super-secret pnpm test:ci
 
       - name: Initialize Terraform CDK configuration
         shell: bash
         run: |
-          cd infra
+          cd infra/cdktf
           pnpm cdktf get
           pnpm build:tsc
 
@@ -69,6 +69,6 @@ jobs:
         shell: bash
         run: pnpm typecheck
 
-      #- name: Vitest Coverage Report
-      #  if: always()
-      #  uses: davelosert/vitest-coverage-report-action@v2.2.0
+      # - name: Vitest Coverage Report
+      #   if: always()
+      #   uses: davelosert/vitest-coverage-report-action@v2.5.0

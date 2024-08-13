@@ -6,13 +6,14 @@
   "license": "CC0",
   "main": "src/index.ts",
   "scripts": {
-    "build": "echo 'skipping...' #tsc -p .",
-    "cli": "ts-node src/index.ts",
+    "build": "node ./build.js",
+    "cli": "node dist/index.js",
     "dev": "tsup src/* --watch",
     "test": "vitest run --coverage"
   },
   "dependencies": {
     "@atj/dependency-graph": "workspace:*",
+    "@atj/infra-core": "workspace:*",
     "commander": "^11.1.0"
   }
 }
