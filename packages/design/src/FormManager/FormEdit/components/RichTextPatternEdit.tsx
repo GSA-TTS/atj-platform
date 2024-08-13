@@ -52,14 +52,7 @@ const modules = {
   },
 };
 
-export const formats = [
-  'header',
-  'bold',
-  'small',
-  'list',
-  'bullet',
-  'indent',
-];
+export const formats = ['header', 'bold', 'small', 'list', 'bullet', 'indent'];
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const pattern = useFormManagerStore<RichTextPattern>(
@@ -109,6 +102,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           id={fieldId('text')}
           {...register('text')}
           defaultValue={pattern.data.text}
+          type="hidden"
         ></input>
       </div>
       <PatternEditActions />
