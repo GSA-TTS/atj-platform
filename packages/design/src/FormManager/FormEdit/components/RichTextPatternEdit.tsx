@@ -1,6 +1,5 @@
 import classnames from 'classnames';
 import QuillEditor, { UnprivilegedEditor } from 'react-quill';
-import Quill from 'quill';
 import 'react-quill/dist/quill.snow.css';
 import React, { useState } from 'react';
 
@@ -38,15 +37,6 @@ const RichTextPatternEdit: PatternEditComponent<RichTextProps> = ({
 
 export default RichTextPatternEdit;
 
-const Inline = Quill.import('blots/inline');
-
-class SmallBlot extends Inline {
-  static blotName = 'small';
-  static tagName = 'small';
-}
-
-Quill.register(SmallBlot);
-
 const modules = {
   history: {
     delay: 2500,
@@ -56,7 +46,6 @@ const modules = {
     container: [
       [{ header: [1, 2, false] }],
       ['bold'],
-      [{ small: true }],
       [{ list: 'ordered' }, { list: 'bullet' }],
       ['clean'],
     ],
@@ -70,7 +59,6 @@ export const formats = [
   'list',
   'bullet',
   'indent',
-  'small',
 ];
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
