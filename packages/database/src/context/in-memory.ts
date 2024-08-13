@@ -1,10 +1,8 @@
-import path, { dirname } from 'path';
-import { fileURLToPath } from 'url';
-
 import { type Database as SqliteDatabase } from 'better-sqlite3';
-import knex, { type Knex } from 'knex';
+import { type Knex } from 'knex';
 import { type Kysely } from 'kysely';
 
+import { getTestKnex } from '../clients/knex.js';
 import {
   type Database,
   createSqliteDatabase,
@@ -13,33 +11,16 @@ import { migrateDatabase } from '../management/migrate-database.js';
 
 import { type DatabaseContext } from './types.js';
 
-const getDirname = () => dirname(fileURLToPath(import.meta.url));
-const migrationsDirectory = path.resolve(getDirname(), '../../migrations');
-
-export class DevDatabaseContext implements DatabaseContext {
+export class InMemoryDatabaseContext implements DatabaseContext {
   knex?: Knex;
   kysely?: Kysely<Database>;
   sqlite3?: SqliteDatabase;
 
-  constructor(private path: string) {}
+  constructor() {}
 
   async getKnex() {
     if (!this.knex) {
-      this.knex = knex({
-        client: 'better-sqlite3',
-        connection: {
-          filename: this.path,
-        },
-        pool: {
-          min: 1,
-          max: 20,
-        },
-        useNullAsDefault: true,
-        migrations: {
-          directory: migrationsDirectory,
-          loadExtensions: ['.mjs'],
-        },
-      });
+      this.knex = getTestKnex();
     }
     return this.knex;
   }
@@ -61,8 +42,8 @@ export class DevDatabaseContext implements DatabaseContext {
   }
 }
 
-export const createDevDatabaseContext = async (path: string) => {
-  const ctx = new DevDatabaseContext(path);
+export const createInMemoryDatabaseContext = async () => {
+  const ctx = new InMemoryDatabaseContext();
   await migrateDatabase(ctx);
   return ctx;
 };

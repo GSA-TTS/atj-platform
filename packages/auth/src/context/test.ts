@@ -3,7 +3,7 @@ import { vi } from 'vitest';
 
 import {
   type DatabaseGateway,
-  createTestDatabaseContext,
+  createInMemoryDatabaseContext,
   createDatabaseGateway,
 } from '@atj/database';
 
@@ -23,7 +23,7 @@ export const createTestAuthContext = async (opts?: Partial<Options>) => {
     setCookie: opts?.setCookie || vi.fn(),
     setUserSession: opts?.setUserSession || vi.fn(),
   };
-  const dbContext = await createTestDatabaseContext();
+  const dbContext = await createInMemoryDatabaseContext();
   const database = createDatabaseGateway(dbContext);
   return new TestAuthContext(
     database,

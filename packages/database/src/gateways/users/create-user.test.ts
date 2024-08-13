@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import { createTestDatabaseContext } from '../../context/test';
+import { createInMemoryDatabaseContext } from '../../context/test';
 import { createUser } from './create-user';
 
 describe('create user', () => {
   it('works with unknown email address', async () => {
-    const ctx = await createTestDatabaseContext();
+    const ctx = await createInMemoryDatabaseContext();
     const resultUser = await createUser(ctx, 'new-user@email.com');
     if (resultUser === null) {
       expect.fail('User was not created');
@@ -23,7 +23,7 @@ describe('create user', () => {
   });
 
   it('fails with known email address', async () => {
-    const ctx = await createTestDatabaseContext();
+    const ctx = await createInMemoryDatabaseContext();
     const existingUserResult = await createUser(ctx, 'new-user@email.com');
     if (existingUserResult === null) {
       expect.fail('User was not created');

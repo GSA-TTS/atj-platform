@@ -74,10 +74,11 @@ const getServerOptions = async (Astro: AstroGlobal | APIContext) => {
 const getDirname = () => dirname(fileURLToPath(import.meta.url));
 
 const createDefaultDatabaseGateway = async () => {
-  const { createDatabaseGateway, createDevDatabaseContext } = await import(
-    '@atj/database'
+  const { createDatabaseGateway, createFilesystemDatabaseContext } =
+    await import('@atj/database');
+  const ctx = await createFilesystemDatabaseContext(
+    join(getDirname(), '../main.db')
   );
-  const ctx = await createDevDatabaseContext(join(getDirname(), '../main.db'));
   const gateway = createDatabaseGateway(ctx);
   return Promise.resolve(gateway);
 };

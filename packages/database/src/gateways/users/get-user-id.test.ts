@@ -1,19 +1,19 @@
 import { randomUUID } from 'crypto';
 import { describe, expect, it } from 'vitest';
 
-import { createTestDatabaseContext } from '../../context/test';
+import { createInMemoryDatabaseContext } from '../../context/test';
 
 import { getUserId } from './get-user-id';
 
 describe('get user id', () => {
   it('returns null for non-existent user', async () => {
-    const ctx = await createTestDatabaseContext();
+    const ctx = await createInMemoryDatabaseContext();
     const userId = await getUserId(ctx, 'new-user@email.com');
     expect(userId).to.be.null;
   });
 
   it('returns null for non-existent user', async () => {
-    const ctx = await createTestDatabaseContext();
+    const ctx = await createInMemoryDatabaseContext();
     const id = randomUUID();
 
     const db = await ctx.getKysely();

@@ -6,10 +6,10 @@ import { createUser } from './gateways/users/create-user.js';
 import { getUserId } from './gateways/users/get-user-id.js';
 
 export {
-  type DevDatabaseContext,
-  createDevDatabaseContext,
-} from './context/dev.js';
-export { createTestDatabaseContext } from './context/test.js';
+  type FilesystemDatabaseContext,
+  createFilesystemDatabaseContext,
+} from './context/file-system.js';
+export { createInMemoryDatabaseContext } from './context/in-memory.js';
 export { type Database } from './clients/kysely/index.js';
 export { type DatabaseContext } from './context/types.js';
 export { migrateDatabase } from './management/migrate-database.js';

@@ -4,12 +4,11 @@ import { fileURLToPath } from 'url';
 const getDirname = () => dirname(fileURLToPath(import.meta.url));
 
 export const createCustomServer = async (): Promise<any> => {
-  const { createDevDatabaseContext, createDatabaseGateway } = await import(
-    '@atj/database'
-  );
+  const { createFilesystemDatabaseContext, createDatabaseGateway } =
+    await import('@atj/database');
   const { createServer } = await import('@atj/server');
 
-  const dbCtx = await createDevDatabaseContext(
+  const dbCtx = await createFilesystemDatabaseContext(
     path.join(getDirname(), '../doj.db')
   );
   const db = createDatabaseGateway(dbCtx);

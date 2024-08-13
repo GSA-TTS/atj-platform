@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
-import { createTestDatabaseContext } from '../../context/test';
+import { createInMemoryDatabaseContext } from '../../context/test';
 import { createSession } from './create-session';
 import { createUser } from '../users/create-user';
 
 describe('create session', () => {
   it('fails with unknown userId', async () => {
-    const ctx = await createTestDatabaseContext();
+    const ctx = await createInMemoryDatabaseContext();
     expect(() =>
       createSession(ctx, {
         id: '1',
@@ -18,7 +18,7 @@ describe('create session', () => {
   });
 
   it('works with existing user', async () => {
-    const ctx = await createTestDatabaseContext();
+    const ctx = await createInMemoryDatabaseContext();
     const user = await createUser(ctx, 'user@test.gov');
     if (user === null) {
       expect.fail('User was not created');
