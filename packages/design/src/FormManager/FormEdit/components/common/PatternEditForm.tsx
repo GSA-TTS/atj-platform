@@ -38,17 +38,14 @@ export const PatternEditForm = ({
   return (
     <FormProvider {...methods}>
       <form
-        // onBlur={methods.handleSubmit(formData => {
-        //   updateActivePattern(formData);
-        //   console.group('blur');
-        //   console.log(formData);
-        //   console.groupEnd();
-        // })}
-        onSubmit={methods.handleSubmit(formData => {
-          const success = updateActivePattern(formData);
-          console.group('submit');
+        onBlur={methods.handleSubmit(formData => {
+          updateActivePattern(formData);
+          console.group('blur');
           console.log(formData);
           console.groupEnd();
+        })}
+        onSubmit={methods.handleSubmit(formData => {
+          const success = updateActivePattern(formData);
           if (success) {
             clearFocus();
           }

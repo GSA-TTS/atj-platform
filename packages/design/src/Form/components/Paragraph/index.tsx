@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { type RichTextProps } from '@atj/forms';
+import { type ParagraphProps } from '@atj/forms';
 
 import { type PatternComponent } from '../../../Form';
 
-const FormSummary: PatternComponent<RichTextProps> = props => {
+const FormSummary: PatternComponent<ParagraphProps> = props => {
   return (
     <>
       <p className="maxw-tablet">{props.text}</p>
