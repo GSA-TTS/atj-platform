@@ -181,10 +181,6 @@ export const createFormEditSlice =
       if (state.focus === undefined) {
         return false;
       }
-      console.group('updateActivePattern');
-      // console.log(state.focus?.pattern);
-      console.log(formData);
-      console.groupEnd();
       const builder = new BlueprintBuilder(
         state.context.config,
         state.session.form
