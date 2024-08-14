@@ -40,9 +40,6 @@ export const PatternEditForm = ({
       <form
         onBlur={methods.handleSubmit(formData => {
           updateActivePattern(formData);
-          console.group('blur');
-          console.log(formData);
-          console.groupEnd();
         })}
         onSubmit={methods.handleSubmit(formData => {
           const success = updateActivePattern(formData);
