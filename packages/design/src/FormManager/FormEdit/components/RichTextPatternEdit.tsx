@@ -52,7 +52,7 @@ const modules = {
   },
 };
 
-export const formats = ['header', 'bold', 'small', 'list', 'bullet', 'indent'];
+export const formats = ['header', 'bold', 'small', 'list', 'bullet', 'indent', 'br'];
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const pattern = useFormManagerStore<RichTextPattern>(
