@@ -31,7 +31,7 @@ export const en = {
       errorTextMustContainChar: 'String must contain at least 1 character(s)',
     },
     richText: {
-      fieldLabel: 'Rich Text',
+      fieldLabel: 'Rich text',
       displayName: 'Rich text',
       errorTextMustContainChar: 'String must contain at least 1 character(s)',
     },
