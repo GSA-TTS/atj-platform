@@ -69,6 +69,7 @@
     "deep-equal": "^2.2.3",
     "react": "^18.3.1",
     "react-hook-form": "^7.52.2",
+    "react-quill": "^2.0.0",
     "react-router-dom": "^6.26.0",
     "storybook": "^8.2.8",
     "zustand": "^4.5.4",
