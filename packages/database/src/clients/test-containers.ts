@@ -5,21 +5,21 @@ import {
 import { Client } from 'pg';
 import { afterAll, afterEach, beforeAll, beforeEach } from 'vitest';
 
-let dbHelper: TestDbManager | null = null;
+let dbHelper: PgTestDbManager | null = null;
 let referenceCount = 0;
 
 export const setupPersistentDatabaseTests = () => {
   if (!dbHelper) {
-    dbHelper = new TestDbManager();
+    dbHelper = new PgTestDbManager();
   }
   if (dbHelper === null) {
-    throw new Error('TestDbManager is not initialized');
+    throw new Error('PgTestDbManager is not initialized');
   }
 
   let connectionString: string;
 
   beforeAll(async () => {
-    if (!TestDbManager.isContainerRunning()) {
+    if (!PgTestDbManager.isContainerRunning()) {
       await dbHelper!.startContainer();
     }
     referenceCount++;
@@ -51,7 +51,7 @@ function isWatchMode() {
   return process.env.VITEST_MODE === 'WATCH';
 }
 
-class TestDbManager {
+class PgTestDbManager {
   private static referenceCount = 0;
   private static container: StartedPostgreSqlContainer | null = null;
 
@@ -62,27 +62,27 @@ class TestDbManager {
   }
 
   async startContainer() {
-    if (TestDbManager.referenceCount === 0 && !TestDbManager.container) {
-      TestDbManager.container = await new PostgreSqlContainer().start();
+    if (PgTestDbManager.referenceCount === 0 && !PgTestDbManager.container) {
+      PgTestDbManager.container = await new PostgreSqlContainer().start();
     }
 
-    TestDbManager.referenceCount++;
+    PgTestDbManager.referenceCount++;
   }
 
   async stopContainer() {
-    TestDbManager.referenceCount--;
-    if (TestDbManager.referenceCount === 0 && TestDbManager.container) {
-      await TestDbManager.container.stop();
-      TestDbManager.container = null;
+    PgTestDbManager.referenceCount--;
+    if (PgTestDbManager.referenceCount === 0 && PgTestDbManager.container) {
+      await PgTestDbManager.container.stop();
+      PgTestDbManager.container = null;
     }
   }
 
   async createDatabase() {
     const client = new Client({
-      host: TestDbManager.container!.getHost(),
-      port: TestDbManager.container!.getMappedPort(5432),
-      user: TestDbManager.container!.getUsername(),
-      password: TestDbManager.container!.getPassword(),
+      host: PgTestDbManager.container!.getHost(),
+      port: PgTestDbManager.container!.getMappedPort(5432),
+      user: PgTestDbManager.container!.getUsername(),
+      password: PgTestDbManager.container!.getPassword(),
       database: 'postgres',
     });
     await client.connect();
@@ -95,10 +95,10 @@ class TestDbManager {
   async dropDatabase() {
     if (this.databaseName) {
       const client = new Client({
-        host: TestDbManager.container!.getHost(),
-        port: TestDbManager.container!.getMappedPort(5432),
-        user: TestDbManager.container!.getUsername(),
-        password: TestDbManager.container!.getPassword(),
+        host: PgTestDbManager.container!.getHost(),
+        port: PgTestDbManager.container!.getMappedPort(5432),
+        user: PgTestDbManager.container!.getUsername(),
+        password: PgTestDbManager.container!.getPassword(),
         database: 'postgres',
       });
       await client.connect();
@@ -108,10 +108,10 @@ class TestDbManager {
   }
 
   getConnectionString() {
-    const userName = TestDbManager.container!.getUsername();
-    const password = TestDbManager.container!.getPassword();
-    const hostName = TestDbManager.container!.getHost();
-    const port = TestDbManager.container!.getMappedPort(5432);
+    const userName = PgTestDbManager.container!.getUsername();
+    const password = PgTestDbManager.container!.getPassword();
+    const hostName = PgTestDbManager.container!.getHost();
+    const port = PgTestDbManager.container!.getMappedPort(5432);
     return `postgresql://${userName}:${password}@${hostName}:${port}/${this.databaseName}`;
   }
 
@@ -125,6 +125,6 @@ class TestDbManager {
   }
 
   static isContainerRunning() {
-    return TestDbManager.container !== null;
+    return PgTestDbManager.container !== null;
   }
 }

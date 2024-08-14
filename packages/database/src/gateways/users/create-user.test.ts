@@ -1,18 +1,18 @@
-import { describe, expect, it } from 'vitest';
+import { expect, it } from 'vitest';
 
-import { createInMemoryDatabaseContext } from '../../context/in-memory';
+import { type DbTestContext, describeDatabase } from '../../testing';
+
 import { createUser } from './create-user';
 
-describe('create user', () => {
-  it('works with unknown email address', async () => {
-    const ctx = await createInMemoryDatabaseContext();
-    const resultUser = await createUser(ctx, 'new-user@email.com');
+describeDatabase('create user', () => {
+  it<DbTestContext>('works with unknown email address', async ({ db }) => {
+    const resultUser = await createUser(db.ctx, 'new-user@email.com');
     if (resultUser === null) {
       expect.fail('User was not created');
     }
 
-    const db = await ctx.getKysely();
-    const insertedUser = await db
+    const kysely = await db.ctx.getKysely();
+    const insertedUser = await kysely
       .selectFrom('users')
       .select(['email', 'id'])
       .where('id', '=', resultUser.id)
@@ -22,20 +22,19 @@ describe('create user', () => {
     expect(insertedUser?.id).toEqual(resultUser.id);
   });
 
-  it('fails with known email address', async () => {
-    const ctx = await createInMemoryDatabaseContext();
-    const existingUserResult = await createUser(ctx, 'new-user@email.com');
+  it<DbTestContext>('fails with known email address', async ({ db }) => {
+    const existingUserResult = await createUser(db.ctx, 'new-user@email.com');
     if (existingUserResult === null) {
       expect.fail('User was not created');
     }
-    const resultUser = await createUser(ctx, 'new-user@email.com');
+    const resultUser = await createUser(db.ctx, 'new-user@email.com');
     expect(resultUser).toBeNull();
 
     // Check that there is only one row in the users table
-    const db = await ctx.getKysely();
-    const insertedUser = await db
+    const kysely = await db.ctx.getKysely();
+    const insertedUser = await kysely
       .selectFrom('users')
-      .select(db.fn.count('id').as('count'))
+      .select(kysely.fn.count('id').as('count'))
       .executeTakeFirst();
     expect(Number(insertedUser?.count)).toEqual(1);
   });

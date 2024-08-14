@@ -10,7 +10,7 @@ export {
   createFilesystemDatabaseContext,
 } from './context/file-system.js';
 export { createInMemoryDatabaseContext } from './context/in-memory.js';
-export { type Database } from './clients/kysely/index.js';
+export { type Database } from './clients/kysely/types.js';
 export { type DatabaseContext } from './context/types.js';
 export { migrateDatabase } from './management/migrate-database.js';
 

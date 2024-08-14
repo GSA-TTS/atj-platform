@@ -3,15 +3,14 @@ import { type Knex } from 'knex';
 import { type Kysely } from 'kysely';
 
 import { getInMemoryKnex } from '../clients/knex.js';
-import {
-  type Database,
-  createSqliteDatabase,
-} from '../clients/kysely/index.js';
+import { createSqliteDatabase } from '../clients/kysely/sqlite3.js';
+import { type Database } from '../clients/kysely/types.js';
 import { migrateDatabase } from '../management/migrate-database.js';
 
 import { type DatabaseContext } from './types.js';
 
 export class InMemoryDatabaseContext implements DatabaseContext {
+  public readonly engine = 'sqlite';
   knex?: Knex;
   kysely?: Kysely<Database>;
   sqlite3?: SqliteDatabase;
@@ -39,6 +38,18 @@ export class InMemoryDatabaseContext implements DatabaseContext {
       this.kysely = createSqliteDatabase(sqlite3);
     }
     return this.kysely;
+  }
+
+  async destroy() {
+    if (this.knex && this.sqlite3) {
+      this.knex.client.releaseConnection(this.sqlite3);
+    }
+    if (this.knex) {
+      await this.knex.destroy();
+    }
+    if (this.kysely) {
+      await this.kysely.destroy();
+    }
   }
 }
 

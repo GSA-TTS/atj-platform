@@ -2,12 +2,14 @@ import { type Knex } from 'knex';
 import { type Kysely } from 'kysely';
 
 import { getPostgresKnex } from '../clients/knex.js';
-import { type Database } from '../clients/kysely/index.js';
+import { type Database } from '../clients/kysely/types.js';
+import { createPostgresDatabase } from '../clients/kysely/postgres.js';
 import { migrateDatabase } from '../management/migrate-database.js';
 
 import { type DatabaseContext } from './types.js';
 
 export class PostgresDatabaseContext implements DatabaseContext {
+  public readonly engine = 'postgres';
   knex?: Knex;
   kysely?: Kysely<Database>;
 
@@ -21,14 +23,19 @@ export class PostgresDatabaseContext implements DatabaseContext {
   }
 
   async getKysely(): Promise<Kysely<Database>> {
-    throw new Error('Not implemented');
-    /*
     if (!this.kysely) {
-      const sqlite3 = await this.getSqlite3();
-      this.kysely = createSqliteDatabase(sqlite3);
+      this.kysely = createPostgresDatabase(this.connectionUri);
     }
     return this.kysely;
-    */
+  }
+
+  async destroy() {
+    if (this.kysely) {
+      await this.kysely.destroy();
+    }
+    if (this.knex) {
+      await this.knex.destroy();
+    }
   }
 }
 

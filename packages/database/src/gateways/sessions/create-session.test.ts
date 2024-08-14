@@ -1,15 +1,14 @@
-import { describe, expect, it } from 'vitest';
+import { expect, it } from 'vitest';
 
-import { createInMemoryDatabaseContext } from '../../context/in-memory';
-import { createSession } from './create-session';
+import { type DbTestContext, describeDatabase } from '../../testing';
 import { createUser } from '../users/create-user';
+import { createSession } from './create-session';
 
-describe('create session', () => {
-  it('fails with unknown userId', async () => {
-    const ctx = await createInMemoryDatabaseContext();
+describeDatabase('create session', () => {
+  it<DbTestContext>('fails with unknown userId', async ({ db }) => {
     expect(() =>
-      createSession(ctx, {
-        id: '1',
+      createSession(db.ctx, {
+        id: '31b72aca-116e-412d-b9b8-467300a53748',
         expiresAt: new Date(),
         sessionToken: 'token',
         userId: 'user-id',
@@ -17,14 +16,13 @@ describe('create session', () => {
     ).rejects.toThrow();
   });
 
-  it('works with existing user', async () => {
-    const ctx = await createInMemoryDatabaseContext();
-    const user = await createUser(ctx, 'user@test.gov');
+  it<DbTestContext>('works with existing user', async ({ db }) => {
+    const user = await createUser(db.ctx, 'user@test.gov');
     if (user === null) {
       expect.fail('User was not created');
     }
-    const sessionId = await createSession(ctx, {
-      id: '1',
+    const sessionId = await createSession(db.ctx, {
+      id: '31b72aca-116e-412d-b9b8-467300a53748',
       expiresAt: new Date(),
       sessionToken: 'token',
       userId: user.id,
@@ -33,8 +31,8 @@ describe('create session', () => {
       expect.fail('Session was not created');
     }
 
-    const db = await ctx.getKysely();
-    const insertedSession = await db
+    const kysely = await db.ctx.getKysely();
+    const insertedSession = await kysely
       .selectFrom('sessions')
       .select(['id'])
       .where('id', '=', sessionId)

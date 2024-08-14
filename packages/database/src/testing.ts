@@ -12,6 +12,7 @@ import { type Engine } from './clients/kysely/types';
 import { InMemoryDatabaseContext } from './context/in-memory';
 import { PostgresDatabaseContext } from './context/postgres';
 import { type DatabaseContext } from './context/types';
+import { migrateDatabase } from './management/migrate-database';
 
 export type DbTestContext = {
   db: {
@@ -28,31 +29,47 @@ type PostgresDbTestContext = DbTestContext & {
 
 export const describeDatabase = (
   name: string,
-  fn: (...args: Parameters<SuiteFactory>) => ReturnType<SuiteFactory>
+  fn: (...args: Parameters<SuiteFactory>) => ReturnType<SuiteFactory>,
+  runMigrations: boolean = true
 ) => {
   describe(`PostgreSQL - ${name}`, { timeout: 60000 }, test => {
     beforeEach<PostgresDbTestContext>(async context => {
       const container = await new PostgreSqlContainer().start();
       const connectionUri = container.getConnectionUri();
       const ctx = new PostgresDatabaseContext(connectionUri);
+      if (runMigrations) {
+        await migrateDatabase(ctx);
+      }
       context.db = {
         engine: 'postgres',
         container,
         ctx,
       };
     });
-    afterEach<PostgresDbTestContext>(async context => {
-      context.db.container.stop();
+
+    afterEach<PostgresDbTestContext>(async ({ db }) => {
+      db.ctx.destroy();
     });
+
     fn(test);
   });
+
   describe(`SQLite - ${name}`, test => {
     beforeEach<DbTestContext>(async context => {
+      const ctx = new InMemoryDatabaseContext();
+      if (runMigrations) {
+        await migrateDatabase(ctx);
+      }
       context.db = {
         engine: 'sqlite',
-        ctx: new InMemoryDatabaseContext(),
+        ctx,
       };
     });
+
+    afterEach<DbTestContext>(async ({ db }) => {
+      db.ctx.destroy();
+    });
+
     fn(test);
   });
 };

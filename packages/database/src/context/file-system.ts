@@ -5,10 +5,8 @@ import { type Database as SqliteDatabase } from 'better-sqlite3';
 import knex, { type Knex } from 'knex';
 import { type Kysely } from 'kysely';
 
-import {
-  type Database,
-  createSqliteDatabase,
-} from '../clients/kysely/index.js';
+import { type Database } from '../clients/kysely/types.js';
+import { createSqliteDatabase } from '../clients/kysely/sqlite3.js';
 import { migrateDatabase } from '../management/migrate-database.js';
 
 import { type DatabaseContext } from './types.js';
@@ -17,6 +15,7 @@ const getDirname = () => dirname(fileURLToPath(import.meta.url));
 const migrationsDirectory = path.resolve(getDirname(), '../../migrations');
 
 export class FilesystemDatabaseContext implements DatabaseContext {
+  public readonly engine = 'sqlite';
   knex?: Knex;
   kysely?: Kysely<Database>;
   sqlite3?: SqliteDatabase;
@@ -58,6 +57,15 @@ export class FilesystemDatabaseContext implements DatabaseContext {
       this.kysely = createSqliteDatabase(sqlite3);
     }
     return this.kysely;
+  }
+
+  async destroy() {
+    if (this.kysely) {
+      await this.kysely.destroy();
+    }
+    if (this.knex) {
+      await this.knex.destroy();
+    }
   }
 }
 
