@@ -1,19 +1,25 @@
 import classnames from 'classnames';
-import QuillEditor, { UnprivilegedEditor } from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
 import React, { useState } from 'react';
 
 import { PatternId, type RichTextProps } from '@atj/forms';
 import { type RichTextPattern } from '@atj/forms/src/patterns/rich-text';
 
 import RichText from '../../../Form/components/RichText';
-import { PatternEditComponent } from '../types';
-
 import { PatternEditActions } from './common/PatternEditActions';
 import { PatternEditForm } from './common/PatternEditForm';
 import { usePatternEditFormContext } from './common/hooks';
 import { useFormManagerStore } from '../../store';
 import { en as message } from '@atj/common/src/locales/en/app';
+import { EditorContent, useEditor } from '@tiptap/react';
+import { Editor } from '@tiptap/core';
+import StarterKit from '@tiptap/starter-kit';
+
+import { PatternEditComponent } from '../types';
+import classNames from 'classnames';
+
+interface MenuBarProps {
+  editor: Editor | null;
+}
 
 const RichTextPatternEdit: PatternEditComponent<RichTextProps> = ({
   focus,
@@ -37,30 +43,81 @@ const RichTextPatternEdit: PatternEditComponent<RichTextProps> = ({
 
 export default RichTextPatternEdit;
 
-const modules = {
-  history: {
-    delay: 2500,
-    userOnly: true,
-  },
-  toolbar: {
-    container: [
-      [{ header: [1, 2, false] }],
-      ['bold'],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      ['clean'],
-    ],
-  },
-};
+const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
+  if (!editor) {
+    return null;
+  }
 
-export const formats = [
-  'header',
-  'bold',
-  'small',
-  'list',
-  'bullet',
-  'indent',
-  'br',
-];
+  return (
+    <ul className="usa-button-group">
+      <li className="usa-button-group__item">
+        <button
+          onClick={e => {
+            e.preventDefault();
+            return editor.chain().focus().toggleHeading({ level: 1 }).run();
+          }}
+          className={classNames('usa-button', 'font-body-2xs', {
+            'usa-button--outline': !editor.isActive('heading', { level: 1 }),
+          })}
+        >
+          Heading 1
+        </button>
+      </li>
+      <li className="usa-button-group__item">
+        <button
+          onClick={e => {
+            e.preventDefault();
+            return editor.chain().focus().toggleHeading({ level: 2 }).run();
+          }}
+          className={classNames('usa-button', 'font-body-2xs', {
+            'usa-button--outline': !editor.isActive('heading', { level: 2 }),
+          })}
+        >
+          Heading 2
+        </button>
+      </li>
+      <li className="usa-button-group__item">
+        <button
+          onClick={e => {
+            e.preventDefault();
+            return editor.chain().focus().toggleBold().run();
+          }}
+          className={classNames('usa-button', 'font-body-2xs', {
+            'usa-button--outline': !editor.isActive('bold'),
+          })}
+        >
+          Bold
+        </button>
+      </li>
+      <li className="usa-button-group__item">
+        <button
+          onClick={e => {
+            e.preventDefault();
+            return editor.chain().focus().toggleBulletList().run();
+          }}
+          className={classNames('usa-button', 'font-body-2xs', {
+            'usa-button--outline': !editor.isActive('bulletList'),
+          })}
+        >
+          Bullet list
+        </button>
+      </li>
+      <li className="usa-button-group__item">
+        <button
+          onClick={e => {
+            e.preventDefault();
+            return editor.chain().focus().toggleOrderedList().run();
+          }}
+          className={classNames('usa-button', 'font-body-2xs', {
+            'usa-button--outline': !editor.isActive('orderedList'),
+          })}
+        >
+          Ordered list
+        </button>
+      </li>
+    </ul>
+  );
+};
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const pattern = useFormManagerStore<RichTextPattern>(
@@ -72,16 +129,21 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
 
   const [editorContent, setEditorContent] = useState(pattern.data.text);
 
-  const handleEditorChange = (
-    value: string,
-    delta: unknown,
-    source: 'user' | 'api' | 'silent',
-    editor: UnprivilegedEditor
-  ) => {
-    const content = editor.getHTML();
-    setEditorContent(content);
-    setValue('text', content);
-  };
+  const editor = useEditor({
+    extensions: [
+      StarterKit.configure({
+        heading: {
+          levels: [1, 2],
+        },
+      }),
+    ],
+    content: editorContent,
+    onUpdate: ({ editor }) => {
+      const content = editor.getHTML();
+      setEditorContent(content);
+      setValue('text', content);
+    },
+  });
 
   return (
     <div className="grid-row grid-gap-1">
@@ -99,18 +161,15 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
             {text.error.message}
           </span>
         ) : null}
-        <QuillEditor
-          theme="snow"
-          value={editorContent}
-          onChange={handleEditorChange}
-          modules={modules}
-          formats={formats}
-        />
+        <div>
+          <MenuBar editor={editor} />
+          <EditorContent editor={editor} className="cursor-text" />
+        </div>
         <input
           id={fieldId('text')}
           {...register('text')}
           defaultValue={pattern.data.text}
-          type="hidden"
+          // type="hidden"
         ></input>
       </div>
       <PatternEditActions />
