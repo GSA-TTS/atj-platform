@@ -8,7 +8,21 @@ const migrationsDirectory = path.resolve(getDirname(), '../../migrations');
 
 export const createKnex = (config: Knex.Config): Knex => knex(config);
 
-export const getTestKnex = (): Knex => {
+export const getPostgresKnex = (connectionString: string): Knex => {
+  return knex({
+    client: 'pg',
+    connection: {
+      connectionString,
+    },
+    useNullAsDefault: true,
+    migrations: {
+      directory: migrationsDirectory,
+      loadExtensions: ['.mjs'],
+    },
+  });
+};
+
+export const getInMemoryKnex = (): Knex => {
   return knex({
     client: 'better-sqlite3',
     connection: {
@@ -22,7 +36,7 @@ export const getTestKnex = (): Knex => {
   });
 };
 
-export const getDevKnex = (path: string): Knex => {
+export const getFileSystemKnex = (path: string): Knex => {
   return knex({
     client: 'better-sqlite3',
     connection: {

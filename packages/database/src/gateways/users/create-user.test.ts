@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { createInMemoryDatabaseContext } from '../../context/test';
+import { createInMemoryDatabaseContext } from '../../context/in-memory';
 import { createUser } from './create-user';
 
 describe('create user', () => {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { createInMemoryDatabaseContext } from '../../context/test';
+import { createInMemoryDatabaseContext } from '../../context/in-memory';
 import { createSession } from './create-session';
 import { createUser } from '../users/create-user';
 

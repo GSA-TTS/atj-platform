@@ -1,35 +1,19 @@
-import { describe, expect, it } from 'vitest';
+import { expect, it } from 'vitest';
 
-import { InMemoryDatabaseContext } from '../context/test';
-
+import { type DbTestContext, describeDatabase } from '../testing';
 import { migrateDatabase } from './migrate-database';
 
-describe('Knex migrations', {}, () => {
-  it('migrate and rollback successfully', async () => {
-    const ctx = new InMemoryDatabaseContext();
-    const rollback = await migrateDatabase(ctx);
-    const db = await ctx.getKnex();
-    expect(await db.schema.hasTable('users')).to.be.true;
-    expect(await db.schema.hasTable('sessions')).to.be.true;
+describeDatabase('Knex migrations', () => {
+  it<DbTestContext>('migrate and rollback successfully', async ({ db }) => {
+    const rollback = await migrateDatabase(db.ctx);
+    const knex = await db.ctx.getKnex();
+    expect(await knex.schema.hasTable('users')).to.be.true;
+    expect(await knex.schema.hasTable('sessions')).to.be.true;
 
     await rollback();
-    expect(await db.schema.hasTable('users')).to.be.false;
-    expect(await db.schema.hasTable('sessions')).to.be.false;
+    expect(await knex.schema.hasTable('users')).to.be.false;
+    expect(await knex.schema.hasTable('sessions')).to.be.false;
 
-    await db.destroy();
-  });
-
-  it('migrate and rollback successfully', async () => {
-    const ctx = new InMemoryDatabaseContext();
-    const rollback = await migrateDatabase(ctx);
-    const db = await ctx.getKnex();
-    expect(await db.schema.hasTable('users')).to.be.true;
-    expect(await db.schema.hasTable('sessions')).to.be.true;
-
-    await rollback();
-    expect(await db.schema.hasTable('users')).to.be.false;
-    expect(await db.schema.hasTable('sessions')).to.be.false;
-
-    await db.destroy();
+    await knex.destroy();
   });
 });

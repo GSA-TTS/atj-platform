@@ -2,7 +2,7 @@ import { type Database as SqliteDatabase } from 'better-sqlite3';
 import { type Knex } from 'knex';
 import { type Kysely } from 'kysely';
 
-import { getTestKnex } from '../clients/knex.js';
+import { getInMemoryKnex } from '../clients/knex.js';
 import {
   type Database,
   createSqliteDatabase,
@@ -20,7 +20,7 @@ export class InMemoryDatabaseContext implements DatabaseContext {
 
   async getKnex() {
     if (!this.knex) {
-      this.knex = getTestKnex();
+      this.knex = getInMemoryKnex();
     }
     return this.knex;
   }
