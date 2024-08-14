@@ -281,7 +281,6 @@ const AddPatternDropdownContent = ({
   availablePatterns: DropdownPattern[];
   patternSelected: (patternType: string) => void;
 }) => {
-  console.log(availablePatterns);
   return (
     <ul
       className={`${styles.dropdownMenu} usa-list usa-list--unstyled position-absolute bg-white z-100 shadow-3 text-left`}
