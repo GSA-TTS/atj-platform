@@ -3,8 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { type RichTextPattern } from '@atj/forms/src/patterns/rich-text';
 import { en as message } from '@atj/common/src/locales/en/app';
 
-import { createPatternEditStoryMeta } from './common/story-helper';
-import FormEdit from '..';
+import { createPatternEditStoryMeta } from '../common/story-helper';
+import FormEdit from '../../';
 import { expect, userEvent } from '@storybook/test';
 import { within } from '@testing-library/react';
 
@@ -26,7 +26,7 @@ export default storyConfig;
 
 export const Basic: StoryObj<typeof FormEdit> = {};
 
-export const Error: StoryObj<typeof FormEdit> = {
+export const Formatting: StoryObj<typeof FormEdit> = {
   play: async ({ canvasElement }) => {
     userEvent.setup();
 
@@ -36,16 +36,24 @@ export const Error: StoryObj<typeof FormEdit> = {
       canvas.getByText(message.patterns.richText.displayName)
     );
 
-    const input = canvas.getByLabelText(message.patterns.richText.fieldLabel);
-
-    // Clear input, remove focus, and wait for error
-    await userEvent.clear(input);
-    input.blur();
-
+    const heading1 = canvas.getByRole('button', {
+      name: 'Heading 1',
+    });
+    await userEvent.click(heading1);
     await expect(
-      await canvas.findByText(
-        message.patterns.richText.errorTextMustContainChar
-      )
+      canvas.getByText('How to Begin:', { selector: 'h1' })
     ).toBeInTheDocument();
+    await userEvent.click(heading1);
+    await expect(
+      canvas.queryByText('How to Begin:', { selector: 'h1' })
+    ).not.toBeInTheDocument();
+
+    const bulletList = canvas.getByRole('button', {
+      name: 'Bullet list',
+    });
+    await userEvent.click(bulletList);
+    const ulElement = canvas.getAllByRole('list')[0]; // getByRole will return the first match
+    const firstListItem = ulElement.firstChild;
+    await expect(firstListItem).toHaveTextContent('how to begin');
   },
 };
