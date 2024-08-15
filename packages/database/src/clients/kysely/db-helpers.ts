@@ -9,7 +9,7 @@ export const dateValue = <E extends Engine>(engine: E, date: Date) =>
     postgres: date => date,
     sqlite: date => Math.floor(date.getTime() / 1000),
   });
-export type DbDate<T extends Engine> = ReturnType<typeof dateValue<T>>;
+export type DbDate<E extends Engine> = ReturnType<typeof dateValue<E>>;
 
 /**
  * Helper function to map native Typescript values/types to database

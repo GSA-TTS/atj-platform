@@ -5,7 +5,8 @@
     "outDir": "./dist",
     "rootDir": "./src"
   },
-  "include": ["src"],
+  "include": ["vite-env.d.ts", "src"],
   "exclude": ["./dist"],
-  "references": []
+  "references": [],
+  "types": ["vite/client", "node"]
 }

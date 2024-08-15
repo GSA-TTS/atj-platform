@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest';
 
-import { type DbTestContext, describeDatabase } from '../../testing';
+import { describeDatabase, type DbTestContext } from '../../testing';
 
 import { createUser } from './create-user';
 

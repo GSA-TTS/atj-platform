@@ -1,14 +1,11 @@
-/**
- * This module provides a describeDatabase function that can be used to run
- * tests against both SQLite and PostgreSQL databases.
- */
-import {
-  PostgreSqlContainer,
-  StartedPostgreSqlContainer,
-} from '@testcontainers/postgresql';
-import { afterEach, beforeEach, describe, SuiteFactory } from 'vitest';
+import { afterEach, beforeEach, describe, inject, SuiteFactory } from 'vitest';
 
 import { type Engine } from './clients/kysely/types';
+import {
+  type ConnectionDetails,
+  createTestDatabase,
+  deleteTestDatabase,
+} from './clients/test-containers';
 import { InMemoryDatabaseContext } from './context/in-memory';
 import { PostgresDatabaseContext } from './context/postgres';
 import { type DatabaseContext } from './context/types';
@@ -23,7 +20,8 @@ export type DbTestContext = {
 
 type PostgresDbTestContext = DbTestContext & {
   db: DbTestContext['db'] & {
-    container: StartedPostgreSqlContainer;
+    connectionDetails: ConnectionDetails;
+    databaseName: string;
   };
 };
 
@@ -34,21 +32,30 @@ export const describeDatabase = (
 ) => {
   describe(`PostgreSQL - ${name}`, { timeout: 60000 }, test => {
     beforeEach<PostgresDbTestContext>(async context => {
-      const container = await new PostgreSqlContainer().start();
-      const connectionUri = container.getConnectionUri();
+      const connectionDetails = inject('postgresConnectionDetails');
+      if (!connectionDetails) {
+        throw new Error('Connection details not found');
+      }
+
+      const { connectionUri, databaseName } =
+        await createTestDatabase(connectionDetails);
       const ctx = new PostgresDatabaseContext(connectionUri);
       if (runMigrations) {
         await migrateDatabase(ctx);
       }
       context.db = {
         engine: 'postgres',
-        container,
+        connectionDetails,
         ctx,
+        databaseName,
       };
     });
 
     afterEach<PostgresDbTestContext>(async ({ db }) => {
-      db.ctx.destroy();
+      await db.ctx.destroy();
+      const { connectionDetails, databaseName } = db;
+
+      deleteTestDatabase(connectionDetails, databaseName);
     });
 
     fn(test);

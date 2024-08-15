@@ -1,130 +1,80 @@
-import {
-  PostgreSqlContainer,
-  StartedPostgreSqlContainer,
-} from '@testcontainers/postgresql';
+import { PostgreSqlContainer } from '@testcontainers/postgresql';
 import { Client } from 'pg';
-import { afterAll, afterEach, beforeAll, beforeEach } from 'vitest';
 
-let dbHelper: PgTestDbManager | null = null;
-let referenceCount = 0;
+export type ConnectionDetails = {
+  host: string;
+  port: number;
+  username: string;
+  password: string;
+  database: string;
+};
 
-export const setupPersistentDatabaseTests = () => {
-  if (!dbHelper) {
-    dbHelper = new PgTestDbManager();
-  }
-  if (dbHelper === null) {
-    throw new Error('PgTestDbManager is not initialized');
-  }
+/**
+ * Setup PostgreSQL test container. Intended to be exported from a Vitest
+ * globalSetup module.
+ * @param param0.provide Vitest provide function
+ * @returns cleanup function
+ */
+export const setupPostgresContainer = async ({
+  provide,
+}: {
+  provide: (name: string, value: any) => void;
+}) => {
+  process.stdout.write('Starting PostgreSQL test container...');
+  const container = await new PostgreSqlContainer().start();
+  process.stdout.write('... Done!\n');
 
-  let connectionString: string;
+  const connectionDetails: ConnectionDetails = {
+    host: container.getHost(),
+    port: container.getMappedPort(5432),
+    username: container.getUsername(),
+    password: container.getPassword(),
+    database: container.getDatabase(),
+  };
 
-  beforeAll(async () => {
-    if (!PgTestDbManager.isContainerRunning()) {
-      await dbHelper!.startContainer();
-    }
-    referenceCount++;
-  });
+  provide('postgresConnectionDetails', connectionDetails);
 
-  afterAll(async () => {
-    referenceCount--;
-    if (referenceCount === 0 && !isWatchMode()) {
-      await dbHelper!.stopContainer();
-      dbHelper = null;
-    }
-  });
-
-  beforeEach(async () => {
-    connectionString = await dbHelper!.createDatabase();
-    await dbHelper!.initializeSchema(connectionString);
-  });
-
-  afterEach(async () => {
-    await dbHelper!.dropDatabase();
-  });
-
-  return {
-    getConnectionString: () => connectionString,
+  return async () => {
+    process.stdout.write('Stopping PostgreSQL test container...');
+    await container.stop();
+    process.stdout.write('... Done!\n');
   };
 };
 
-function isWatchMode() {
-  return process.env.VITEST_MODE === 'WATCH';
-}
+export const getConnectionString = (connectionDetails: ConnectionDetails) => {
+  return `postgresql://${connectionDetails.username}:${connectionDetails.password}@${connectionDetails.host}:${connectionDetails.port}/${connectionDetails.database}`;
+};
 
-class PgTestDbManager {
-  private static referenceCount = 0;
-  private static container: StartedPostgreSqlContainer | null = null;
+export const createTestDatabase = async (
+  connectionDetails: ConnectionDetails
+) => {
+  const databaseName = `testdb_${Date.now()}_${Math.floor(Math.random() * 1_000_000)}`;
+  const connectionString = getConnectionString(connectionDetails);
 
-  private readonly databaseName: string;
+  const client = new Client({
+    connectionString,
+  });
+  await client.connect();
+  await client.query(`CREATE DATABASE ${databaseName};`);
+  await client.end();
 
-  constructor() {
-    this.databaseName = `testdb_${Date.now()}`;
-  }
+  return {
+    connectionUri: getConnectionString({
+      ...connectionDetails,
+      database: databaseName,
+    }),
+    databaseName,
+  };
+};
 
-  async startContainer() {
-    if (PgTestDbManager.referenceCount === 0 && !PgTestDbManager.container) {
-      PgTestDbManager.container = await new PostgreSqlContainer().start();
-    }
-
-    PgTestDbManager.referenceCount++;
-  }
-
-  async stopContainer() {
-    PgTestDbManager.referenceCount--;
-    if (PgTestDbManager.referenceCount === 0 && PgTestDbManager.container) {
-      await PgTestDbManager.container.stop();
-      PgTestDbManager.container = null;
-    }
-  }
-
-  async createDatabase() {
-    const client = new Client({
-      host: PgTestDbManager.container!.getHost(),
-      port: PgTestDbManager.container!.getMappedPort(5432),
-      user: PgTestDbManager.container!.getUsername(),
-      password: PgTestDbManager.container!.getPassword(),
-      database: 'postgres',
-    });
-    await client.connect();
-    await client.query(`CREATE DATABASE ${this.databaseName};`);
-    await client.end();
-
-    return this.getConnectionString();
-  }
-
-  async dropDatabase() {
-    if (this.databaseName) {
-      const client = new Client({
-        host: PgTestDbManager.container!.getHost(),
-        port: PgTestDbManager.container!.getMappedPort(5432),
-        user: PgTestDbManager.container!.getUsername(),
-        password: PgTestDbManager.container!.getPassword(),
-        database: 'postgres',
-      });
-      await client.connect();
-      await client.query(`DROP DATABASE IF EXISTS ${this.databaseName};`);
-      await client.end();
-    }
-  }
-
-  getConnectionString() {
-    const userName = PgTestDbManager.container!.getUsername();
-    const password = PgTestDbManager.container!.getPassword();
-    const hostName = PgTestDbManager.container!.getHost();
-    const port = PgTestDbManager.container!.getMappedPort(5432);
-    return `postgresql://${userName}:${password}@${hostName}:${port}/${this.databaseName}`;
-  }
-
-  async initializeSchema(connectionString: string) {
-    const client = new Client({ connectionString });
-    await client.connect();
-    await client.query(
-      `CREATE TABLE users (id SERIAL PRIMARY KEY, name VARCHAR(100));`
-    );
-    await client.end();
-  }
-
-  static isContainerRunning() {
-    return PgTestDbManager.container !== null;
-  }
-}
+export const deleteTestDatabase = async (
+  connectionDetails: ConnectionDetails,
+  databaseName: string
+) => {
+  const client = new Client({
+    connectionString: getConnectionString(connectionDetails),
+  });
+  await client.connect();
+  await client.query(`DROP DATABASE IF EXISTS ${databaseName};`);
+  await client.end();
+};

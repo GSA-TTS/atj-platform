@@ -13,7 +13,7 @@ export class PostgresDatabaseContext implements DatabaseContext {
   knex?: Knex;
   kysely?: Kysely<Database>;
 
-  constructor(private connectionUri: string) {}
+  constructor(public readonly connectionUri: string) {}
 
   async getKnex() {
     if (!this.knex) {
