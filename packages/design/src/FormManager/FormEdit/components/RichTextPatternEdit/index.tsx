@@ -48,74 +48,54 @@ const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
     return null;
   }
 
+  const editorActions = [
+    {
+      label: 'Heading 1',
+      property: 'heading',
+      action: () => editor.chain().focus().toggleHeading({ level: 1 }),
+      parameter: { level: 1 },
+    },
+    {
+      label: 'Heading 2',
+      property: 'heading',
+      action: () => editor.chain().focus().toggleHeading({ level: 2 }),
+      parameter: { level: 2 },
+    },
+    {
+      label: 'Bold',
+      property: 'bold',
+      action: () => editor.chain().focus().toggleBold()
+    },
+    {
+      label: 'Bullet list',
+      property: 'bulletList',
+      action: () => editor.chain().focus().toggleBulletList(),
+    },
+    {
+      label: 'Ordered list',
+      property: 'orderedList',
+      action: () => editor.chain().focus().toggleOrderedList()
+    },
+  ];
+
   return (
     <div className="bg-base-lightest padding-x-2 padding-y-1 border-bottom-1px border-base-light">
       <ul className="usa-button-group">
-        <li className="usa-button-group__item">
-          <button
-            onClick={e => {
-              e.preventDefault();
-              return editor.chain().focus().toggleHeading({ level: 1 }).run();
-            }}
-            className={classNames('usa-button', 'font-body-2xs', {
-              'usa-button--outline': !editor.isActive('heading', { level: 1 }),
-            })}
-          >
-            Heading 1
-          </button>
-        </li>
-        <li className="usa-button-group__item">
-          <button
-            onClick={e => {
-              e.preventDefault();
-              return editor.chain().focus().toggleHeading({ level: 2 }).run();
-            }}
-            className={classNames('usa-button', 'font-body-2xs', {
-              'usa-button--outline': !editor.isActive('heading', { level: 2 }),
-            })}
-          >
-            Heading 2
-          </button>
-        </li>
-        <li className="usa-button-group__item">
-          <button
-            onClick={e => {
-              e.preventDefault();
-              return editor.chain().focus().toggleBold().run();
-            }}
-            className={classNames('usa-button', 'font-body-2xs', {
-              'usa-button--outline': !editor.isActive('bold'),
-            })}
-          >
-            Bold
-          </button>
-        </li>
-        <li className="usa-button-group__item">
-          <button
-            onClick={e => {
-              e.preventDefault();
-              return editor.chain().focus().toggleBulletList().run();
-            }}
-            className={classNames('usa-button', 'font-body-2xs', {
-              'usa-button--outline': !editor.isActive('bulletList'),
-            })}
-          >
-            Bullet list
-          </button>
-        </li>
-        <li className="usa-button-group__item">
-          <button
-            onClick={e => {
-              e.preventDefault();
-              return editor.chain().focus().toggleOrderedList().run();
-            }}
-            className={classNames('usa-button', 'font-body-2xs', {
-              'usa-button--outline': !editor.isActive('orderedList'),
-            })}
-          >
-            Ordered list
-          </button>
-        </li>
+        {editorActions.map(({ label, action, parameter, property }, index) => (
+          <li className="usa-button-group__item" key={index}>
+            <button
+              onClick={e => {
+                e.preventDefault();
+                return action().run();
+              }}
+              className={classNames('usa-button', 'font-body-2xs', {
+                'usa-button--outline': !editor.isActive(property, parameter),
+              })}
+            >
+              {label}
+            </button>
+          </li>
+        ))}
       </ul>
     </div>
   );
