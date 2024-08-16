@@ -38,47 +38,47 @@ export const Formatting: StoryObj<typeof FormEdit> = {
       canvas.getByText(message.patterns.richText.displayName)
     );
 
-    const heading1 = canvas.getByRole('button', {
-      name: 'Heading 1',
-    });
-    await userEvent.click(heading1);
-    await expect(
-      canvas.getByText(editorText, { selector: 'h1' })
-    ).toBeInTheDocument();
-    await userEvent.click(heading1);
-    await expect(
-      canvas.queryByText(editorText, { selector: 'h1' })
-    ).not.toBeInTheDocument();
+    const headingMap: Record<string, string> = {
+      'Heading 1': 'h1',
+      'Heading 2': 'h2'
+    };
 
-    const heading2 = canvas.getByRole('button', {
-      name: 'Heading 2',
-    });
-    await userEvent.click(heading2);
-    await expect(
-      canvas.getByText(editorText, { selector: 'h2' })
-    ).toBeInTheDocument();
-    await userEvent.click(heading2);
-    await expect(
-      canvas.queryByText(editorText, { selector: 'h2' })
-    ).not.toBeInTheDocument();
+    const listMap: Record<string, string> = {
+      'Bullet list': 'listitem',
+      'Ordered list': 'listitem'
+    };
 
     const editor = within(canvas.getByRole('textbox'));
-    const bulletList = canvas.getByRole('button', {
-      name: 'Bullet list',
-    });
-    await userEvent.click(bulletList);
-    const ulLi = editor.getByRole('listitem')
-    await expect(ulLi).toBeInTheDocument();
-    await userEvent.click(bulletList);
-    await expect(ulLi).not.toBeInTheDocument();
 
-    const orderedList = canvas.getByRole('button', {
-      name: 'Ordered list',
-    });
-    await userEvent.click(orderedList);
-    const olLi = editor.getByRole('listitem')
-    await expect(olLi).toBeInTheDocument();
-    await userEvent.click(orderedList);
-    await expect(olLi).not.toBeInTheDocument();
+    async function clickButtonAndCheckByText(buttonName: string, selector: string) {
+      const button = canvas.getByRole('button', { name: buttonName });
+
+      await userEvent.click(button);
+      const element = editor.getByText(editorText, { selector });
+      await expect(element).toBeInTheDocument();
+
+      await userEvent.click(button);
+      await expect(element).not.toBeInTheDocument();
+    }
+    
+    async function clickButtonAndCheckByRole(buttonName: string, selector: string) {
+      const button = canvas.getByRole('button', { name: buttonName });
+
+      await userEvent.click(button);
+      const element = editor.getByRole(selector);
+      await expect(element).toBeInTheDocument();
+
+      await userEvent.click(button);
+      await expect(element).not.toBeInTheDocument();
+    }
+
+    // Iterate over the map and call the function for each pair
+    for (const [buttonName, selector] of Object.entries(headingMap)) {
+      await clickButtonAndCheckByText(buttonName, selector);
+    }
+
+    for (const [buttonName, selector] of Object.entries(listMap)) {
+      await clickButtonAndCheckByRole(buttonName, selector);
+    }
   },
 };
