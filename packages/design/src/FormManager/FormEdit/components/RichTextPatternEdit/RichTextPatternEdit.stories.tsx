@@ -8,11 +8,13 @@ import FormEdit from '../../';
 import { expect, userEvent } from '@storybook/test';
 import { within } from '@testing-library/react';
 
+const editorText = 'Rich text...';
+
 const pattern: RichTextPattern = {
   id: '1',
   type: 'rich-text',
   data: {
-    text: '<h2>How to Begin:</h2><p>Filling out and submitting the application is the first step in a lengthy process. You will be asked to provide details about yourself, your reasons for seeking pardon, your current activities, challenges you may be facing because of your conviction, information about your conviction and other criminal history, if any, and letters of support.</p><p>It is not required, but it may be helpful to gather the following documents, if available, before you start:</p><ol><li>Presentence investigation report<br>This report is prepared by the U.S. Probation Office to help the court with sentencing.</li><li>Judgment<br>This document shows what sentence the court gave you.</li><li>Statement of reasons<br>This document gives the court\u2019s reasons for the sentence (not applicable in D.C. Code or military cases).</li><li>Indictment or Information<br>These documents list the charges against you.</li><li>Case docket report<br>The docket lists all the events in the case.</li></ol>',
+    text: `<p>${editorText}</p>`,
   },
 };
 
@@ -41,19 +43,42 @@ export const Formatting: StoryObj<typeof FormEdit> = {
     });
     await userEvent.click(heading1);
     await expect(
-      canvas.getByText('How to Begin:', { selector: 'h1' })
+      canvas.getByText(editorText, { selector: 'h1' })
     ).toBeInTheDocument();
     await userEvent.click(heading1);
     await expect(
-      canvas.queryByText('How to Begin:', { selector: 'h1' })
+      canvas.queryByText(editorText, { selector: 'h1' })
     ).not.toBeInTheDocument();
 
+    const heading2 = canvas.getByRole('button', {
+      name: 'Heading 2',
+    });
+    await userEvent.click(heading2);
+    await expect(
+      canvas.getByText(editorText, { selector: 'h2' })
+    ).toBeInTheDocument();
+    await userEvent.click(heading2);
+    await expect(
+      canvas.queryByText(editorText, { selector: 'h2' })
+    ).not.toBeInTheDocument();
+
+    const editor = within(canvas.getByRole('textbox'));
     const bulletList = canvas.getByRole('button', {
       name: 'Bullet list',
     });
     await userEvent.click(bulletList);
-    const ulElement = canvas.getAllByRole('list')[0]; // getByRole will return the first match
-    const firstListItem = ulElement.firstChild;
-    await expect(firstListItem).toHaveTextContent('how to begin');
+    const ulLi = editor.getByRole('listitem')
+    await expect(ulLi).toBeInTheDocument();
+    await userEvent.click(bulletList);
+    await expect(ulLi).not.toBeInTheDocument();
+
+    const orderedList = canvas.getByRole('button', {
+      name: 'Ordered list',
+    });
+    await userEvent.click(orderedList);
+    const olLi = editor.getByRole('listitem')
+    await expect(olLi).toBeInTheDocument();
+    await userEvent.click(orderedList);
+    await expect(olLi).not.toBeInTheDocument();
   },
 };
