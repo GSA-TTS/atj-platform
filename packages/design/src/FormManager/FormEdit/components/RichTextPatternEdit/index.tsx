@@ -16,6 +16,7 @@ import StarterKit from '@tiptap/starter-kit';
 
 import { PatternEditComponent } from '../../types';
 import classNames from 'classnames';
+import styles from './richTextPatternEditStyles.module.css';
 
 interface MenuBarProps {
   editor: Editor | null;
@@ -142,7 +143,9 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
             {text.error.message}
           </span>
         ) : null}
-        <div className="border-1px border-base-light">
+        <div
+          className={`${styles.richTextEditorWrapper} border-1px border-base-light`}
+        >
           <MenuBar editor={editor} />
           <EditorContent
             editor={editor}

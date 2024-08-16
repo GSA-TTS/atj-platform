@@ -1,0 +1,4 @@
+.richTextEditorWrapper li p:only-child {
+    margin-top: 0;
+    margin-bottom: 0;
+}
