@@ -40,12 +40,12 @@ export const Formatting: StoryObj<typeof FormEdit> = {
 
     const headingMap: Record<string, string> = {
       'Heading 1': 'h1',
-      'Heading 2': 'h2'
+      'Heading 2': 'h2',
     };
 
     const listMap: Record<string, string> = {
       'Bullet list': 'listitem',
-      'Ordered list': 'listitem'
+      'Ordered list': 'listitem',
     };
 
     const editor = within(canvas.getByRole('textbox'));
@@ -66,13 +66,13 @@ export const Formatting: StoryObj<typeof FormEdit> = {
     }
 
     for (const [buttonName, selector] of Object.entries(headingMap)) {
-      await clickButtonAndCheck(buttonName, selector, (selector) =>
+      await clickButtonAndCheck(buttonName, selector, selector =>
         editor.getByText(editorText, { selector })
       );
     }
 
     for (const [buttonName, selector] of Object.entries(listMap)) {
-      await clickButtonAndCheck(buttonName, selector, (selector) =>
+      await clickButtonAndCheck(buttonName, selector, selector =>
         editor.getByRole(selector)
       );
     }

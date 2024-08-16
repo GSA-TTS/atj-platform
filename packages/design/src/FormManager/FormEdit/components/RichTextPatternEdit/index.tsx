@@ -64,7 +64,7 @@ const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
     {
       label: 'Bold',
       property: 'bold',
-      action: () => editor.chain().focus().toggleBold()
+      action: () => editor.chain().focus().toggleBold(),
     },
     {
       label: 'Bullet list',
@@ -74,7 +74,7 @@ const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
     {
       label: 'Ordered list',
       property: 'orderedList',
-      action: () => editor.chain().focus().toggleOrderedList()
+      action: () => editor.chain().focus().toggleOrderedList(),
     },
   ];
 
