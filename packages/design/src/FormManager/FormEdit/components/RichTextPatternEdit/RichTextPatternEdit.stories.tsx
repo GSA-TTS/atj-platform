@@ -50,35 +50,31 @@ export const Formatting: StoryObj<typeof FormEdit> = {
 
     const editor = within(canvas.getByRole('textbox'));
 
-    async function clickButtonAndCheckByText(buttonName: string, selector: string) {
+    async function clickButtonAndCheck(
+      buttonName: string,
+      selector: string,
+      matcherFn: (selector: string) => HTMLElement
+    ) {
       const button = canvas.getByRole('button', { name: buttonName });
 
       await userEvent.click(button);
-      const element = editor.getByText(editorText, { selector });
-      await expect(element).toBeInTheDocument();
-
-      await userEvent.click(button);
-      await expect(element).not.toBeInTheDocument();
-    }
-    
-    async function clickButtonAndCheckByRole(buttonName: string, selector: string) {
-      const button = canvas.getByRole('button', { name: buttonName });
-
-      await userEvent.click(button);
-      const element = editor.getByRole(selector);
+      const element = matcherFn(selector);
       await expect(element).toBeInTheDocument();
 
       await userEvent.click(button);
       await expect(element).not.toBeInTheDocument();
     }
 
-    // Iterate over the map and call the function for each pair
     for (const [buttonName, selector] of Object.entries(headingMap)) {
-      await clickButtonAndCheckByText(buttonName, selector);
+      await clickButtonAndCheck(buttonName, selector, (selector) =>
+        editor.getByText(editorText, { selector })
+      );
     }
 
     for (const [buttonName, selector] of Object.entries(listMap)) {
-      await clickButtonAndCheckByRole(buttonName, selector);
+      await clickButtonAndCheck(buttonName, selector, (selector) =>
+        editor.getByRole(selector)
+      );
     }
   },
 };
