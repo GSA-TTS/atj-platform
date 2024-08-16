@@ -1,6 +1,11 @@
 import { useFormContext } from 'react-hook-form';
 
-import { type Pattern, type PatternId, type PatternMap, type PatternValue } from '@atj/forms';
+import {
+  type Pattern,
+  type PatternId,
+  type PatternMap,
+  type PatternValue,
+} from '@atj/forms';
 
 type NestedKeys<T extends object> = {
   [K in keyof T & (string | number)]: T[K] extends object
