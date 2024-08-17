@@ -190,12 +190,26 @@ export const addPatterns = (
 export const addPatternToPage = (
   bp: Blueprint,
   pagePatternId: PatternId,
-  pattern: Pattern
+  pattern: Pattern,
+  index?: number
 ): Blueprint => {
   const pagePattern = bp.patterns[pagePatternId] as PagePattern;
   if (pagePattern.type !== 'page') {
     throw new Error('Pattern is not a page.');
   }
+
+  let updatedPagePattern: PatternId[];
+
+  if (index && index !== undefined) {
+    updatedPagePattern = [
+      ...pagePattern.data.patterns.slice(0, index + 1),
+      pattern.id,
+      ...pagePattern.data.patterns.slice(index + 1),
+    ];
+  } else {
+    updatedPagePattern = [...pagePattern.data.patterns, pattern.id];
+  }
+
   return {
     ...bp,
     patterns: {
@@ -204,7 +218,7 @@ export const addPatternToPage = (
         ...pagePattern,
         data: {
           ...pagePattern.data,
-          patterns: [...pagePattern.data.patterns, pattern.id],
+          patterns: updatedPagePattern,
         },
       } satisfies SequencePattern,
       [pattern.id]: pattern,
@@ -212,15 +226,195 @@ export const addPatternToPage = (
   };
 };
 
+export const copyPattern = (
+  bp: Blueprint,
+  parentPatternId: PatternId,
+  patternId: PatternId
+): { bp: Blueprint; pattern: Pattern } => {
+  const pattern = bp.patterns[patternId];
+  if (!pattern) {
+    throw new Error(`Pattern with id ${patternId} not found`);
+  }
+
+  const copySimplePattern = (pattern: Pattern): Pattern => {
+    const newId = generatePatternId();
+    const currentDate = new Date();
+    const dateString = currentDate.toLocaleString();
+    const newPattern: Pattern = {
+      ...pattern,
+      id: newId,
+      data: { ...pattern.data },
+    };
+
+    if (newPattern.type === 'form-summary') {
+      newPattern.data.title = `(Copy ${dateString}) ${newPattern.data.title || ''}`;
+    } else if (
+      newPattern.type === 'input' ||
+      newPattern.type === 'radio-group' ||
+      newPattern.type === 'checkbox'
+    ) {
+      newPattern.data.label = `(Copy ${dateString}) ${newPattern.data.label || ''}`;
+    } else {
+      newPattern.data.text = `(Copy ${dateString}) ${newPattern.data.text || ''}`;
+    }
+
+    return newPattern;
+  };
+
+  const copyFieldsetPattern = (pattern: Pattern): Pattern => {
+    const newId = generatePatternId();
+    const currentDate = new Date();
+    const dateString = currentDate.toLocaleString();
+    const newPattern: Pattern = {
+      ...pattern,
+      id: newId,
+      data: { ...pattern.data },
+    };
+
+    if (newPattern.type === 'fieldset') {
+      newPattern.data.legend = `(Copy ${dateString}) ${newPattern.data.legend || ''}`;
+    }
+
+    return newPattern;
+  };
+
+  const findParentFieldset = (
+    bp: Blueprint,
+    childId: PatternId
+  ): PatternId | null => {
+    for (const [id, pattern] of Object.entries(bp.patterns)) {
+      if (
+        pattern.type === 'fieldset' &&
+        pattern.data.patterns.includes(childId)
+      ) {
+        return id as PatternId;
+      }
+    }
+    return null;
+  };
+
+  const copyFieldsetContents = (
+    bp: Blueprint,
+    originalFieldsetId: PatternId,
+    newFieldsetId: PatternId
+  ): Blueprint => {
+    const originalFieldset = bp.patterns[originalFieldsetId] as FieldsetPattern;
+    const newFieldset = bp.patterns[newFieldsetId] as FieldsetPattern;
+    let updatedBp = { ...bp };
+
+    const idMap = new Map<PatternId, PatternId>();
+
+    for (const childId of originalFieldset.data.patterns) {
+      const childPattern = updatedBp.patterns[childId];
+      if (childPattern) {
+        const newChildPattern = copyFieldsetPattern(childPattern);
+        idMap.set(childId, newChildPattern.id);
+
+        updatedBp = {
+          ...updatedBp,
+          patterns: {
+            ...updatedBp.patterns,
+            [newChildPattern.id]: newChildPattern,
+          },
+        };
+
+        if (childPattern.type === 'fieldset') {
+          updatedBp = copyFieldsetContents(
+            updatedBp,
+            childId,
+            newChildPattern.id
+          );
+        }
+      }
+    }
+
+    newFieldset.data.patterns = originalFieldset.data.patterns.map(
+      id => idMap.get(id) || id
+    );
+
+    updatedBp = {
+      ...updatedBp,
+      patterns: {
+        ...updatedBp.patterns,
+        [newFieldsetId]: newFieldset,
+      },
+    };
+
+    return updatedBp;
+  };
+
+  let updatedBp = { ...bp };
+  let newPattern = pattern;
+
+  if (pattern.type === 'fieldset') {
+    newPattern = copyFieldsetPattern(pattern);
+  } else {
+    newPattern = copySimplePattern(pattern);
+  }
+
+  const actualParentId = findParentFieldset(bp, patternId) || parentPatternId;
+  const actualParent = updatedBp.patterns[actualParentId];
+
+  if (
+    !actualParent ||
+    !actualParent.data ||
+    !Array.isArray(actualParent.data.patterns)
+  ) {
+    throw new Error(`Invalid parent pattern with id ${actualParentId}`);
+  }
+
+  const originalIndex = actualParent.data.patterns.indexOf(patternId);
+  if (originalIndex === -1) {
+    throw new Error(
+      `Pattern with id ${patternId} not found in parent's patterns`
+    );
+  }
+
+  actualParent.data.patterns = [
+    ...actualParent.data.patterns.slice(0, originalIndex + 1),
+    newPattern.id,
+    ...actualParent.data.patterns.slice(originalIndex + 1),
+  ];
+
+  updatedBp = {
+    ...updatedBp,
+    patterns: {
+      ...updatedBp.patterns,
+      [newPattern.id]: newPattern,
+      [actualParentId]: actualParent,
+    },
+  };
+
+  if (pattern.type === 'fieldset') {
+    updatedBp = copyFieldsetContents(updatedBp, patternId, newPattern.id);
+  }
+
+  return { bp: updatedBp, pattern: newPattern };
+};
+
 export const addPatternToFieldset = (
   bp: Blueprint,
   fieldsetPatternId: PatternId,
-  pattern: Pattern
+  pattern: Pattern,
+  index?: number
 ): Blueprint => {
   const fieldsetPattern = bp.patterns[fieldsetPatternId] as FieldsetPattern;
   if (fieldsetPattern.type !== 'fieldset') {
     throw new Error('Pattern is not a page.');
   }
+
+  let updatedPagePattern: PatternId[];
+
+  if (index && index !== undefined) {
+    updatedPagePattern = [
+      ...fieldsetPattern.data.patterns.slice(0, index + 1),
+      pattern.id,
+      ...fieldsetPattern.data.patterns.slice(index + 1),
+    ];
+  } else {
+    updatedPagePattern = [...fieldsetPattern.data.patterns, pattern.id];
+  }
+
   return {
     ...bp,
     patterns: {
@@ -229,7 +423,7 @@ export const addPatternToFieldset = (
         ...fieldsetPattern,
         data: {
           ...fieldsetPattern.data,
-          patterns: [...fieldsetPattern.data.patterns, pattern.id],
+          patterns: updatedPagePattern,
         },
       } satisfies FieldsetPattern,
       [pattern.id]: pattern,

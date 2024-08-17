@@ -37,7 +37,7 @@ export const PageEdit: PatternEditComponent<PageProps> = props => {
         ></PatternEditForm>
       ) : (
         <div
-          className={`${styles.titleArea} display-flex flex-justify flex-align-center position-relative margin-bottom-205`}
+          className={`${styles.titleArea} z-0 display-flex flex-justify flex-align-center position-relative margin-bottom-205`}
           onClick={handleParentClick}
           tabIndex={0} // Make the div focusable
         >

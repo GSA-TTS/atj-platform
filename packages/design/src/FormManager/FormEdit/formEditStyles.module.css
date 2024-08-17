@@ -47,32 +47,37 @@
 
 /* Draggable List */
 
-.draggableListWrapper legend {
+.draggableListItemWrapper legend {
   padding-left: 1.5rem;
 }
 
-.draggableListWrapper .radioFormPattern legend {
+.draggableListItemWrapper .radioFormPattern legend {
   padding-left: 0;
 }
 
-.draggableListWrapper button {
+.draggableListItemWrapper button {
   cursor: pointer;
 }
 
-.draggableListWrapper:focus-within,
-.draggableListWrapper button:not([disabled]):focus {
+.draggableListItemWrapper:focus-within,
+.draggableListItemWrapper button:not([disabled]):focus {
   outline: 0.25rem solid #783cb9;
 }
 
-.draggableListWrapper [tabindex]:focus,
-.draggableListWrapper:has(input:focus),
-.draggableListWrapper:has(button:focus),
-.draggableListWrapper:has(textarea:focus) {
+.draggableListItemWrapper [tabindex]:focus,
+.draggableListItemWrapper:has(input:focus),
+.draggableListItemWrapper:has(button:focus),
+.draggableListItemWrapper:has(textarea:focus) {
   outline: none;
 }
 
-.draggableListWrapper .dropdownMenu {
+.draggableListItemWrapper .dropdownMenu {
   margin-top: 5px;
+}
+
+.draggableListItemWrapper p {
+  margin: 0;
+  padding: 1em 0;
 }
 
 /* Configure and Publish Pages */
