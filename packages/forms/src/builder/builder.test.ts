@@ -103,7 +103,9 @@ describe('form builder', () => {
           type: 'input',
           id: newPattern.id,
           data: {
-            label: expect.stringMatching(/^\(\s*Copy\s+\d{1,2}\/\d{1,2}\/\d{4},\s+\d{1,2}:\d{2}:\d{2}\s+[AP]M\)\s*Input Pattern/),
+            label: expect.stringMatching(
+              /^\(\s*Copy\s+\d{1,2}\/\d{1,2}\/\d{4},\s+\d{1,2}:\d{2}:\d{2}\s+[AP]M\)\s*Input Pattern/
+            ),
             initial: '',
             required: true,
             maxLength: 128,
@@ -187,7 +189,9 @@ describe('form builder', () => {
           id: newPattern.id,
           data: {
             description: 'Form extended description',
-            title: expect.stringMatching(/^\(\s*Copy\s+\d{1,2}\/\d{1,2}\/\d{4},\s+\d{1,2}:\d{2}:\d{2}\s+[AP]M\)\s*Form title/),
+            title: expect.stringMatching(
+              /^\(\s*Copy\s+\d{1,2}\/\d{1,2}\/\d{4},\s+\d{1,2}:\d{2}:\d{2}\s+[AP]M\)\s*Form title/
+            ),
           },
         },
       },
@@ -219,7 +223,7 @@ describe('form builder', () => {
             title: 'Page 1',
             patterns: [
               'element-1',
-              'form-summary-1',             
+              'form-summary-1',
               'fieldset-1',
               newPattern.id,
               'radio-group-1',
@@ -267,7 +271,9 @@ describe('form builder', () => {
           type: 'fieldset',
           id: newPattern.id,
           data: {
-            legend: expect.stringMatching(/^\(\s*Copy\s+\d{1,2}\/\d{1,2}\/\d{4},\s+\d{1,2}:\d{2}:\d{2}\s+[AP]M\)\s*Fieldset pattern description/),
+            legend: expect.stringMatching(
+              /^\(\s*Copy\s+\d{1,2}\/\d{1,2}\/\d{4},\s+\d{1,2}:\d{2}:\d{2}\s+[AP]M\)\s*Fieldset pattern description/
+            ),
             patterns: ['element-2'],
           },
         },
@@ -302,7 +308,7 @@ describe('form builder', () => {
             title: 'Page 1',
             patterns: [
               'element-1',
-              'form-summary-1',             
+              'form-summary-1',
               'fieldset-1',
               'radio-group-1',
               newPattern.id,
@@ -350,7 +356,9 @@ describe('form builder', () => {
           type: 'radio-group',
           id: newPattern.id,
           data: {
-            label: expect.stringMatching(/^\(\s*Copy\s+\d{1,2}\/\d{1,2}\/\d{4},\s+\d{1,2}:\d{2}:\d{2}\s+[AP]M\)\s*Radio group label/),
+            label: expect.stringMatching(
+              /^\(\s*Copy\s+\d{1,2}\/\d{1,2}\/\d{4},\s+\d{1,2}:\d{2}:\d{2}\s+[AP]M\)\s*Radio group label/
+            ),
             options: [
               { id: 'option-1', label: 'Option 1' },
               { id: 'option-2', label: 'Option 2' },
