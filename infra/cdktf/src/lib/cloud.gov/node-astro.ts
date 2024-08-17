@@ -41,6 +41,19 @@ export class AstroService extends Construct {
         }
       );
 
+    const dbInstance = new cloudfoundry.serviceInstance.ServiceInstance(
+      this,
+      `${id}-db`,
+      {
+        name: `${id}-db`,
+        servicePlan: 'micro-psql',
+        space: spaceId,
+        lifecycle: {
+          preventDestroy: true,
+        },
+      }
+    );
+
     new cloudfoundry.app.App(this, `${id}-app`, {
       name: `${id}-app`,
       space: spaceId,
@@ -55,6 +68,9 @@ export class AstroService extends Construct {
         },
       ],
       serviceBinding: [
+        {
+          serviceInstance: dbInstance.id,
+        },
         {
           serviceInstance: loginGovService.id,
         },
