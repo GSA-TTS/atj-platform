@@ -1,0 +1,20 @@
+{
+  "name": "@atj/infra-core",
+  "version": "1.0.0",
+  "description": "10x ATJ secrets storage backend",
+  "type": "module",
+  "license": "CC0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@atj/common": "workspace:*",
+    "@atj/forms": "workspace:*",
+    "@aws-sdk/client-ssm": "^3.624.0",
+    "zod": "^3.23.8"
+  }
+}

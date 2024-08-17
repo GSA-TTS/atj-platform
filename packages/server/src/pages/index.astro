@@ -3,7 +3,7 @@ import AppFormManager from '../components/AppFormManager';
 import { getAstroAppContext } from '../context';
 import Layout from '../layouts/Layout.astro';
 
-const { baseUrl, uswdsRoot } = getAstroAppContext(Astro);
+const { baseUrl, uswdsRoot } = await getAstroAppContext(Astro);
 ---
 
 <Layout title="10x Access to Justice">

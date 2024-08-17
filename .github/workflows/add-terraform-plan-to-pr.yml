@@ -15,4 +15,4 @@ jobs:
     uses: ./.github/workflows/_terraform-plan-pr-comment.yml
     secrets: inherit
     with:
-      deploy-env: staging
+      deploy-env: ${{ github.base_ref }}

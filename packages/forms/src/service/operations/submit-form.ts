@@ -7,9 +7,9 @@ import {
   createFormOutputFieldData,
   fillPDF,
   sessionIsComplete,
-} from '../../..';
+} from '../../index.js';
 
-import { getFormFromStorage } from '../context/browser/form-repo';
+import { getFormFromStorage } from '../context/browser/form-repo.js';
 
 export const submitForm = async (
   ctx: { storage: Storage; config: FormConfig },
