@@ -55,7 +55,7 @@ jobs:
 
       - name: Initialize Terraform CDK configuration
         shell: bash
-        working-directory: infra
+        working-directory: infra/cdktf
         run: |
           pnpm cdktf get
           pnpm build:tsc
@@ -70,13 +70,13 @@ jobs:
           cf api https://api.fr.cloud.gov
 
       - name: Synthesize Terraform configuration
-        working-directory: infra
+        working-directory: infra/cdktf
         run: |
           DEPLOY_ENV=${DEPLOY_ENV} pnpm cdktf synth
 
       - name: Get Terraform stack name
         id: get_stack_name
-        working-directory: infra
+        working-directory: infra/cdktf
         run: |
           DEPLOY_ENV=${DEPLOY_ENV} pnpm cdktf output --outputs-file outputs.json
           echo "stack_name=$(jq -r 'keys[0]' outputs.json)" >> $GITHUB_OUTPUT
@@ -84,5 +84,5 @@ jobs:
       - name: Create Terraform plan
         uses: dflook/terraform-plan@v1
         with:
-          path: infra/cdktf.out/stacks/${{ steps.get_stack_name.outputs.stack_name }}
+          path: infra/cdktf/cdktf.out/stacks/${{ steps.get_stack_name.outputs.stack_name }}
           label: ${{ steps.get_stack_name.outputs.stack_name }}

@@ -3,6 +3,7 @@
     "allowSyntheticDefaultImports": true,
     "composite": true,
     "declaration": true,
+    "declarationMap": true,
     "esModuleInterop": true,
     "isolatedModules": true,
     "module": "ESNext",
@@ -11,6 +12,7 @@
     "noImplicitAny": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
+    "sourceMap": true,
     "strict": true,
     "target": "ESNext"
   }

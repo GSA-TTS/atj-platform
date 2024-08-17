@@ -1,3 +1,15 @@
+export const getLoginUrl = (baseUrl: string) => {
+  return `${baseUrl}signin`;
+};
+
+export const getLogoutUrl = (baseUrl: string) => {
+  return `${baseUrl}signout`;
+};
+
+export const getLogoutConfirmUrl = (baseUrl: string) => {
+  return `${baseUrl}signout/confirm`;
+};
+
 export const getFormUrl = (baseUrl: string, formId: string) => {
   return `${baseUrl}forms#${formId}`;
 };
