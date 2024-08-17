@@ -4,11 +4,24 @@
   "description": "10x ATJ database",
   "type": "module",
   "license": "CC0",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./testing": {
+      "import": "./dist/esm/testing.js",
+      "require": "./dist/cjs/testing.js",
+      "types": "./dist/types/testing.d.ts"
+    }
+  },
+  "types": "dist/types/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch",
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
     "test": "vitest run --coverage"
   },
   "dependencies": {
@@ -20,9 +33,15 @@
     "pg": "^8.12.0"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "@testcontainers/postgresql": "^10.11.0",
     "@types/better-sqlite3": "^7.6.11",
+    "rollup": "^4.20.0",
+    "rollup-plugin-typescript2": "^0.36.0",
     "testcontainers": "^10.11.0",
+    "typescript": "^5.5.4",
     "vite-tsconfig-paths": "^4.3.2"
   }
 }

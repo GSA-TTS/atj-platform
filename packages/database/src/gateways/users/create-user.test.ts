@@ -1,8 +1,8 @@
 import { expect, it } from 'vitest';
 
-import { describeDatabase, type DbTestContext } from '../../testing';
+import { describeDatabase, type DbTestContext } from '../../testing.js';
 
-import { createUser } from './create-user';
+import { createUser } from './create-user.js';
 
 describeDatabase('create user', () => {
   it<DbTestContext>('works with unknown email address', async ({ db }) => {

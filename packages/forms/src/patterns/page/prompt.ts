@@ -3,9 +3,9 @@ import {
   type PageProps,
   createPromptForPattern,
   getPattern,
-} from '../..';
+} from '../../index.js';
 
-import { type PagePattern } from './config';
+import { type PagePattern } from './config.js';
 
 export const createPrompt: CreatePrompt<PagePattern> = (
   config,

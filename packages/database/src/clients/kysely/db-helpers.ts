@@ -1,4 +1,4 @@
-import { type Engine } from './types';
+import { type Engine } from './types.js';
 
 /**
  * With Postgres, use TIMESTAMP, which Kysely will accept a Date object for.

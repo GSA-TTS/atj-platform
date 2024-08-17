@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import { BlueprintBuilder } from '.';
-import { createForm, getPattern } from '..';
-import { defaultFormConfig } from '../patterns';
-import { type InputPattern } from '../patterns/input';
-import { PageSetPattern } from '../patterns/page-set/config';
-import { PagePattern } from '../patterns/page/config';
+import { BlueprintBuilder } from './index.js';
+import { createForm, getPattern } from '../index.js';
+import { defaultFormConfig } from '../patterns/index.js';
+import { type InputPattern } from '../patterns/input/index.js';
+import { PageSetPattern } from '../patterns/page-set/config.js';
+import { PagePattern } from '../patterns/page/config.js';
 
 describe('form builder', () => {
   it('addPattern adds initial pattern of given type', () => {

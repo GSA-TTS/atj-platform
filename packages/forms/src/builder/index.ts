@@ -17,9 +17,9 @@ import {
   updatePatternFromFormData,
   createOnePageBlueprint,
   addPatternToFieldset,
-} from '..';
-import { type PageSetPattern } from '../patterns/page-set/config';
-import { FieldsetPattern } from '../patterns/fieldset';
+} from '../index.js';
+import { type PageSetPattern } from '../patterns/page-set/config.js';
+import { FieldsetPattern } from '../patterns/fieldset/index.js';
 
 export class BlueprintBuilder {
   bp: Blueprint;

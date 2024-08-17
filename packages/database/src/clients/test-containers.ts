@@ -1,5 +1,8 @@
-import { PostgreSqlContainer } from '@testcontainers/postgresql';
-import { Client } from 'pg';
+import {
+  PostgreSqlContainer,
+  StartedPostgreSqlContainer,
+} from '@testcontainers/postgresql';
+import pg from 'pg';
 
 export type ConnectionDetails = {
   host: string;
@@ -8,6 +11,10 @@ export type ConnectionDetails = {
   password: string;
   database: string;
 };
+
+declare global {
+  var postgresTestContainer: Promise<StartedPostgreSqlContainer>;
+}
 
 /**
  * Setup PostgreSQL test container. Intended to be exported from a Vitest
@@ -20,8 +27,17 @@ export const setupPostgresContainer = async ({
 }: {
   provide: (name: string, value: any) => void;
 }) => {
-  process.stdout.write('Starting PostgreSQL test container...');
-  const container = await new PostgreSqlContainer().start();
+  // Guard against running multiple PostgreSQL containers using a node.js global
+  if (global.postgresTestContainer === undefined) {
+    process.stdout.write('Starting PostgreSQL test container...');
+    global.postgresTestContainer = new PostgreSqlContainer().start();
+  } else {
+    process.stdout.write(
+      'Using already initialized PostgreSQL test container...'
+    );
+  }
+
+  const container = await global.postgresTestContainer;
   process.stdout.write('... Done!\n');
 
   const connectionDetails: ConnectionDetails = {
@@ -51,7 +67,7 @@ export const createTestDatabase = async (
   const databaseName = `testdb_${Date.now()}_${Math.floor(Math.random() * 1_000_000)}`;
   const connectionString = getConnectionString(connectionDetails);
 
-  const client = new Client({
+  const client = new pg.Client({
     connectionString,
   });
   await client.connect();
@@ -71,7 +87,7 @@ export const deleteTestDatabase = async (
   connectionDetails: ConnectionDetails,
   databaseName: string
 ) => {
-  const client = new Client({
+  const client = new pg.Client({
     connectionString: getConnectionString(connectionDetails),
   });
   await client.connect();

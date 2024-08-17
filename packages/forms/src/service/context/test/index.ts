@@ -1,7 +1,7 @@
-import { defaultFormConfig } from '../../..';
+import { defaultFormConfig } from '../../../index.js';
 
-import { createBrowserFormService } from '../browser';
-import { type TestData, createTestStorage } from './storage';
+import { createBrowserFormService } from '../browser/index.js';
+import { type TestData, createTestStorage } from './storage.js';
 
 // In tests, use the browser form service with fakes injected.
 export const createTestFormService = (testData: TestData = {}) => {

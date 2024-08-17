@@ -5,7 +5,7 @@ import type {
   Selectable,
   Updateable,
 } from 'kysely';
-import { type DbDate } from './db-helpers';
+import { type DbDate } from './db-helpers.js';
 
 export type Engine = 'sqlite' | 'postgres';
 

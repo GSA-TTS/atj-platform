@@ -1,12 +1,16 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "declaration": true,
+    "declarationDir": "./dist/types",
     "emitDeclarationOnly": false,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "outDir": "./dist",
     "rootDir": "./src"
   },
   "include": ["vite-env.d.ts", "src"],
   "exclude": ["./dist"],
   "references": [],
-  "types": ["vite/client", "node"]
+  "types": ["vite/client", "node", "vitest-env.d.ts"]
 }

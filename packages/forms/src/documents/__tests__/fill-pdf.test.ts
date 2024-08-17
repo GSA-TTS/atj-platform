@@ -2,8 +2,8 @@ import { beforeAll, describe, expect, it } from 'vitest';
 
 import { type Failure, type Success } from '@atj/common';
 
-import { getDocumentFieldData, fillPDF } from '..';
-import { loadSamplePDF } from './sample-data';
+import { getDocumentFieldData, fillPDF } from '../index.js';
+import { loadSamplePDF } from './sample-data.js';
 
 describe('PDF form filler', () => {
   let pdfBytes: Uint8Array;

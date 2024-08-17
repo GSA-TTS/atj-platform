@@ -1,17 +1,21 @@
-import path, { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { join } from 'path';
+import {
+  type DatabaseContext,
+  createDatabaseGateway,
+  createFilesystemDatabaseContext,
+} from '@atj/database';
+import { createServer } from '@atj/server';
 
-const getDirname = () => dirname(fileURLToPath(import.meta.url));
+//const getDirname = () => dirname(fileURLToPath(import.meta.url));
 
-export const createCustomServer = async (): Promise<any> => {
-  const { createFilesystemDatabaseContext, createDatabaseGateway } =
-    await import('@atj/database');
-  const { createServer } = await import('@atj/server');
+const createDevDatabase = async () => {
+  return createFilesystemDatabaseContext(join(__dirname, '../doj.db'));
+};
 
-  const dbCtx = await createFilesystemDatabaseContext(
-    path.join(getDirname(), '../doj.db')
-  );
-  const db = createDatabaseGateway(dbCtx);
+export const createCustomServer = async (ctx: {
+  db: DatabaseContext;
+}): Promise<any> => {
+  const db = createDatabaseGateway(ctx.db || createDevDatabase());
 
   return createServer({
     title: 'DOJ Form Service',

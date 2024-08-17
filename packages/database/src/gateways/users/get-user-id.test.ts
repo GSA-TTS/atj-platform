@@ -1,9 +1,9 @@
 import { randomUUID } from 'crypto';
 import { expect, it } from 'vitest';
 
-import { type DbTestContext, describeDatabase } from '../../testing';
+import { type DbTestContext, describeDatabase } from '../../testing.js';
 
-import { getUserId } from './get-user-id';
+import { getUserId } from './get-user-id.js';
 
 describeDatabase('get user id', () => {
   it<DbTestContext>('returns null for non-existent user', async ({ db }) => {

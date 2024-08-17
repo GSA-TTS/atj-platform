@@ -1,6 +1,6 @@
 import { Result } from '@atj/common';
 
-import { getFormSummaryListFromStorage } from '../context/browser/form-repo';
+import { getFormSummaryListFromStorage } from '../context/browser/form-repo.js';
 
 export type FormListItem = {
   id: string;

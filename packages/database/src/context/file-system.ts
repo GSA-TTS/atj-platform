@@ -11,8 +11,10 @@ import { migrateDatabase } from '../management/migrate-database.js';
 
 import { type DatabaseContext } from './types.js';
 
-const getDirname = () => dirname(fileURLToPath(import.meta.url));
-const migrationsDirectory = path.resolve(getDirname(), '../../migrations');
+const migrationsDirectory = path.resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  '../../migrations'
+);
 
 export class FilesystemDatabaseContext implements DatabaseContext {
   public readonly engine = 'sqlite';

@@ -1,7 +1,7 @@
 import { expect, it } from 'vitest';
 
-import { type DbTestContext, describeDatabase } from '../testing';
-import { migrateDatabase } from './migrate-database';
+import { type DbTestContext, describeDatabase } from '../testing.js';
+import { migrateDatabase } from './migrate-database.js';
 
 describeDatabase(
   'Knex migrations',

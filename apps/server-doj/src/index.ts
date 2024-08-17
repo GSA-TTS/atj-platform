@@ -1,8 +1,11 @@
 import { createCustomServer } from './server.js';
+import { createPostgresDatabaseContext } from '@atj/database';
 
 const port = process.env.PORT || 4321;
-const app = await createCustomServer();
 
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-});
+const database = createPostgresDatabaseContext();
+createCustomServer({ db: database }).then((server: any) =>
+  server.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
+  })
+);

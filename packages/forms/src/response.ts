@@ -5,9 +5,13 @@ import {
   getPattern,
   getPatternConfig,
   validatePattern,
-} from '.';
-import { type PromptAction } from './components';
-import { type FormErrorMap, type FormSession, updateSession } from './session';
+} from './index.js';
+import { type PromptAction } from './components.js';
+import {
+  type FormErrorMap,
+  type FormSession,
+  updateSession,
+} from './session.js';
 
 export type PromptResponse = {
   action: PromptAction['type'];

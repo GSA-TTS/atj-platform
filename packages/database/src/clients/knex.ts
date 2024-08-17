@@ -3,8 +3,10 @@ import { fileURLToPath } from 'url';
 
 import knex, { type Knex } from 'knex';
 
-const getDirname = () => dirname(fileURLToPath(import.meta.url));
-const migrationsDirectory = path.resolve(getDirname(), '../../migrations');
+const migrationsDirectory = path.resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  '../../migrations'
+);
 
 export const createKnex = (config: Knex.Config): Knex => knex(config);
 

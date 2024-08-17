@@ -1,10 +1,10 @@
-import { en as message } from '@atj/common/src/locales/en/app';
+import { enLocale as message } from '@atj/common';
 
-import { Pattern, type PatternConfig } from '../../pattern';
+import { Pattern, type PatternConfig } from '../../pattern.js';
 
-import { parseConfigData, type InputConfigSchema } from './config';
-import { createPrompt } from './prompt';
-import { type InputPatternOutput, parseUserInput } from './response';
+import { parseConfigData, type InputConfigSchema } from './config.js';
+import { createPrompt } from './prompt.js';
+import { type InputPatternOutput, parseUserInput } from './response.js';
 
 export type InputPattern = Pattern<InputConfigSchema>;
 

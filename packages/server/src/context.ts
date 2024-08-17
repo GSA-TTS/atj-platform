@@ -7,7 +7,7 @@ import type { AuthContext, LoginGovOptions } from '@atj/auth';
 import { type DatabaseGateway } from '@atj/database';
 import { type FormConfig, defaultFormConfig, service } from '@atj/forms';
 
-import { type GithubRepository } from './lib/github';
+import { type GithubRepository } from './lib/github.js';
 
 export type AppContext = {
   auth: AuthContext;

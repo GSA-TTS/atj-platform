@@ -1,7 +1,7 @@
 import { Knex } from 'knex';
 import { Kysely } from 'kysely';
 
-import { type Database, type Engine } from '../clients/kysely/types';
+import { type Database, type Engine } from '../clients/kysely/types.js';
 
 export interface DatabaseContext {
   readonly engine: Engine;

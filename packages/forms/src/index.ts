@@ -1,5 +1,5 @@
-import { type SequencePattern } from './patterns/sequence';
-import { type DocumentFieldMap } from './documents';
+import { type SequencePattern } from './patterns/sequence.js';
+import { type DocumentFieldMap } from './documents/index.js';
 import {
   type FormConfig,
   type Pattern,
@@ -8,20 +8,20 @@ import {
   getPatternMap,
   removeChildPattern,
   generatePatternId,
-} from './pattern';
-import { type PagePattern } from './patterns/page/config';
-import { type PageSetPattern } from './patterns/page-set/config';
-import { FieldsetPattern } from './patterns/fieldset';
+} from './pattern.js';
+import { type PagePattern } from './patterns/page/config.js';
+import { type PageSetPattern } from './patterns/page-set/config.js';
+import { FieldsetPattern } from './patterns/fieldset/index.js';
 
-export * from './builder';
-export * from './components';
-export * from './config';
-export * from './documents';
-export * from './error';
-export * from './pattern';
-export * from './response';
-export * from './session';
-export * as service from './service';
+export * from './builder/index.js';
+export * from './components.js';
+export * from './config.js';
+export * from './documents/index.js';
+export * from './error.js';
+export * from './pattern.js';
+export * from './response.js';
+export * from './session.js';
+export * as service from './service/index.js';
 
 export type Blueprint = {
   summary: FormSummary;

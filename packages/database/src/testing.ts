@@ -1,15 +1,15 @@
 import { afterEach, beforeEach, describe, inject, SuiteFactory } from 'vitest';
 
-import { type Engine } from './clients/kysely/types';
+import { type Engine } from './clients/kysely/types.js';
 import {
   type ConnectionDetails,
   createTestDatabase,
   deleteTestDatabase,
-} from './clients/test-containers';
-import { InMemoryDatabaseContext } from './context/in-memory';
-import { PostgresDatabaseContext } from './context/postgres';
-import { type DatabaseContext } from './context/types';
-import { migrateDatabase } from './management/migrate-database';
+} from './clients/test-containers.js';
+import { InMemoryDatabaseContext } from './context/in-memory.js';
+import { PostgresDatabaseContext } from './context/postgres.js';
+import { type DatabaseContext } from './context/types.js';
+import { migrateDatabase } from './management/migrate-database.js';
 
 export type DbTestContext = {
   db: {
