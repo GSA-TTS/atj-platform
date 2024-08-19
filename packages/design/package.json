@@ -45,6 +45,7 @@
     "@typescript-eslint/parser": "^7.18.0",
     "@uswds/compile": "1.1.0",
     "@vitejs/plugin-react": "^4.3.1",
+    "@vitest/browser": "^2.0.5",
     "concurrently": "^8.2.2",
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.35.0",
@@ -52,10 +53,12 @@
     "http-server": "^14.1.1",
     "install": "^0.13.0",
     "jsdom": "^24.1.1",
+    "playwright": "^1.46.1",
     "prop-types": "^15.8.1",
     "react-dom": "^18.3.1",
     "vite": "^5.4.0",
     "vite-plugin-dts": "^4.0.1",
+    "vitest": "^2.0.5",
     "wait-on": "^7.2.0"
   },
   "dependencies": {

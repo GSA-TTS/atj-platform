@@ -11,10 +11,12 @@ export default mergeConfig(
       ...sharedTestConfig.test,
       environment: 'jsdom',
       setupFiles: './vitest.setup.ts',
-      exclude: [
-        ...configDefaults.exclude,
-        './src/FormManager/FormEdit/components/RichTextPatternEdit/RichTextPatternEdit.test.tsx',
-      ],
+      browser: {
+        enabled: true,
+        name: 'chromium',
+        headless: false,
+        provider: 'playwright',
+      },
     },
   })
 );
