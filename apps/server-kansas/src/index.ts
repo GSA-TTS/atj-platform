@@ -9,7 +9,7 @@ const getCloudGovServerSecrets = () => {
   const services = JSON.parse(process.env.VCAP_SERVICES || '{}');
   return {
     //loginGovClientSecret: services['user-provided']?.credentials?.SECRET_LOGIN_GOV_PRIVATE_KEY,
-    dbUri: services['aws-rds'].credentials.uri as string,
+    dbUri: services['aws-rds'][0].credentials.uri as string,
   };
 };
 
