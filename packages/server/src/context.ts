@@ -100,8 +100,8 @@ const createDefaultAuthContext = async ({
   db: DatabaseGateway;
   loginGovOptions: LoginGovOptions;
 }) => {
-  const { LoginGov, DevAuthContext } = await import('@atj/auth');
-  return new DevAuthContext(
+  const { LoginGov, BaseAuthContext } = await import('@atj/auth');
+  return new BaseAuthContext(
     db,
     new LoginGov({
       ...loginGovOptions,

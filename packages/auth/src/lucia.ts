@@ -1,15 +1,23 @@
+import { NodePostgresAdapter } from '@lucia-auth/adapter-postgresql';
 import { BetterSqlite3Adapter } from '@lucia-auth/adapter-sqlite';
 import { type Database as Sqlite3Database } from 'better-sqlite3';
 import { Lucia } from 'lucia';
 
 import { type Database } from '@atj/database';
 
-export const createTestLuciaAdapter = (db: Sqlite3Database) => {
+export const createSqliteLuciaAdapter = (db: Sqlite3Database) => {
   const adapter = new BetterSqlite3Adapter(db, {
     user: 'users',
     session: 'sessions',
   });
-  //const adapter = new KyselyAdapter();
+  return adapter;
+};
+
+export const createPostgresLuciaAdapter = (pgPool: any) => {
+  const adapter = new NodePostgresAdapter(pgPool, {
+    user: 'users',
+    session: 'sessions',
+  });
   return adapter;
 };
 

@@ -7,11 +7,13 @@ import { createPostgresDatabase } from '../clients/kysely/postgres.js';
 import { migrateDatabase } from '../management/migrate-database.js';
 
 import { type DatabaseContext } from './types.js';
+import { Pool } from 'pg';
 
 export class PostgresDatabaseContext implements DatabaseContext {
   public readonly engine = 'postgres';
   knex?: Knex;
   kysely?: Kysely<Database>;
+  pool?: Pool;
 
   constructor(
     public readonly connectionUri: string,
@@ -23,6 +25,14 @@ export class PostgresDatabaseContext implements DatabaseContext {
       this.knex = getPostgresKnex(this.connectionUri, this.ssl);
     }
     return this.knex;
+  }
+
+  async getPostgresPool(): Promise<Pool> {
+    const knex = await this.getKnex();
+    if (!this.pool) {
+      this.pool = (await knex.client.acquireConnection()) as Pool;
+    }
+    return this.pool;
   }
 
   async getKysely(): Promise<Kysely<Database>> {

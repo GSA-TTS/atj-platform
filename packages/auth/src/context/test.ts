@@ -8,7 +8,7 @@ import {
 } from '@atj/database';
 
 import { type AuthContext, type UserSession } from '..';
-import { createTestLuciaAdapter } from '../lucia';
+import { createSqliteLuciaAdapter } from '../lucia';
 import { LoginGov } from '../provider';
 
 type Options = {
@@ -53,7 +53,7 @@ export class TestAuthContext implements AuthContext {
 
   async getLucia() {
     const sqlite3 = await (this.db.getContext() as any).getSqlite3();
-    const sqlite3Adapter = createTestLuciaAdapter(sqlite3);
+    const sqlite3Adapter = createSqliteLuciaAdapter(sqlite3);
     if (!this.lucia) {
       this.lucia = new Lucia(sqlite3Adapter, {
         sessionCookie: {
