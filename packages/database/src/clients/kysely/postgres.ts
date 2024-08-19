@@ -11,7 +11,7 @@ export const createPostgresDatabase = (
     dialect: new PostgresDialect({
       pool: new pg.Pool({
         connectionString,
-        ssl,
+        ssl: ssl ? { rejectUnauthorized: false } : false,
       }),
     }),
   });

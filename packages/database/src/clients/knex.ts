@@ -18,7 +18,7 @@ export const getPostgresKnex = (
     client: 'pg',
     connection: {
       connectionString,
-      ssl,
+      ssl: ssl ? { rejectUnauthorized: false } : false,
     },
     useNullAsDefault: true,
     migrations: {
