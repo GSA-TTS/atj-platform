@@ -41,15 +41,30 @@ export class AstroService extends Construct {
         }
       );
 
+    const rds =
+      new cloudfoundry.dataCloudfoundryService.DataCloudfoundryService(
+        scope,
+        `${id}-data-aws-rds`,
+        {
+          name: 'aws-rds',
+        }
+      );
+
     const dbInstance = new cloudfoundry.serviceInstance.ServiceInstance(
       this,
       `${id}-db`,
       {
         name: `${id}-db`,
-        servicePlan: 'micro-psql',
+        servicePlan: rds.servicePlans.lookup('micro-psql'),
         space: spaceId,
+        jsonParams: '{"version": "15"}',
         lifecycle: {
           preventDestroy: true,
+        },
+        timeouts: {
+          create: '60m',
+          update: '60m',
+          delete: '2h',
         },
       }
     );

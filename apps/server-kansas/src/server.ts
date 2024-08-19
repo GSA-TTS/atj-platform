@@ -1,20 +1,18 @@
-import path, { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import {
+  createDatabaseGateway,
+  createPostgresDatabaseContext,
+} from '@atj/database';
+import { createServer } from '@atj/server';
 
-const getDirname = () => dirname(fileURLToPath(import.meta.url));
-
-export const createCustomServer = async (): Promise<any> => {
-  const { createFilesystemDatabaseContext, createDatabaseGateway } =
-    await import('@atj/database');
-  const { createServer } = await import('@atj/server');
-
-  const dbCtx = await createFilesystemDatabaseContext(
-    path.join(getDirname(), '../doj.db')
+export const createCustomServer = async (ctx: {
+  dbUri: string;
+}): Promise<any> => {
+  const db = createDatabaseGateway(
+    await createPostgresDatabaseContext(ctx.dbUri)
   );
-  const db = createDatabaseGateway(dbCtx);
 
   return createServer({
-    title: 'KS Courts Form Service',
+    title: 'DOJ Form Service',
     db,
     loginGovOptions: {
       loginGovUrl: 'https://idp.int.identitysandbox.gov',
@@ -24,14 +22,3 @@ export const createCustomServer = async (): Promise<any> => {
     },
   });
 };
-
-/*
-const getServerSecrets = () => {
-  const services = JSON.parse(process.env.VCAP_SERVICES || '{}');
-  const loginClientSecret =
-    services['user-provided']?.credentials?.SECRET_LOGIN_GOV_PRIVATE_KEY;
-  return {
-    loginGovClientSecret: loginClientSecret,
-  };
-};
-*/

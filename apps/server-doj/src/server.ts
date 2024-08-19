@@ -1,21 +1,15 @@
-import { join } from 'path';
 import {
-  type DatabaseContext,
   createDatabaseGateway,
-  createFilesystemDatabaseContext,
+  createPostgresDatabaseContext,
 } from '@atj/database';
 import { createServer } from '@atj/server';
 
-//const getDirname = () => dirname(fileURLToPath(import.meta.url));
-
-const createDevDatabase = async () => {
-  return createFilesystemDatabaseContext(join(__dirname, '../doj.db'));
-};
-
 export const createCustomServer = async (ctx: {
-  db: DatabaseContext;
+  dbUri: string;
 }): Promise<any> => {
-  const db = createDatabaseGateway(ctx.db || createDevDatabase());
+  const db = createDatabaseGateway(
+    await createPostgresDatabaseContext(ctx.dbUri)
+  );
 
   return createServer({
     title: 'DOJ Form Service',
@@ -28,14 +22,3 @@ export const createCustomServer = async (ctx: {
     },
   });
 };
-
-/*
-const getServerSecrets = () => {
-  const services = JSON.parse(process.env.VCAP_SERVICES || '{}');
-  const loginClientSecret =
-    services['user-provided']?.credentials?.SECRET_LOGIN_GOV_PRIVATE_KEY;
-  return {
-    loginGovClientSecret: loginClientSecret,
-  };
-};
-*/
