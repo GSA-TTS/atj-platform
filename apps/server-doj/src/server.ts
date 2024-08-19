@@ -8,7 +8,7 @@ export const createCustomServer = async (ctx: {
   dbUri: string;
 }): Promise<any> => {
   const db = createDatabaseGateway(
-    await createPostgresDatabaseContext(ctx.dbUri)
+    await createPostgresDatabaseContext(ctx.dbUri, true)
   );
 
   return createServer({

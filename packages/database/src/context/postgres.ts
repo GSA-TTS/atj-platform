@@ -13,18 +13,21 @@ export class PostgresDatabaseContext implements DatabaseContext {
   knex?: Knex;
   kysely?: Kysely<Database>;
 
-  constructor(public readonly connectionUri: string) {}
+  constructor(
+    public readonly connectionUri: string,
+    private ssl: boolean = false
+  ) {}
 
   async getKnex() {
     if (!this.knex) {
-      this.knex = getPostgresKnex(this.connectionUri);
+      this.knex = getPostgresKnex(this.connectionUri, this.ssl);
     }
     return this.knex;
   }
 
   async getKysely(): Promise<Kysely<Database>> {
     if (!this.kysely) {
-      this.kysely = createPostgresDatabase(this.connectionUri);
+      this.kysely = createPostgresDatabase(this.connectionUri, this.ssl);
     }
     return this.kysely;
   }
@@ -39,8 +42,11 @@ export class PostgresDatabaseContext implements DatabaseContext {
   }
 }
 
-export const createPostgresDatabaseContext = async (connectionUri: string) => {
-  const ctx = new PostgresDatabaseContext(connectionUri);
+export const createPostgresDatabaseContext = async (
+  connectionUri: string,
+  ssl: boolean
+) => {
+  const ctx = new PostgresDatabaseContext(connectionUri, ssl);
   await migrateDatabase(ctx);
   return ctx;
 };

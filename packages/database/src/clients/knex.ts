@@ -10,11 +10,15 @@ const migrationsDirectory = path.resolve(
 
 export const createKnex = (config: Knex.Config): Knex => knex(config);
 
-export const getPostgresKnex = (connectionString: string): Knex => {
+export const getPostgresKnex = (
+  connectionString: string,
+  ssl: boolean = false
+): Knex => {
   return knex({
     client: 'pg',
     connection: {
       connectionString,
+      ssl,
     },
     useNullAsDefault: true,
     migrations: {
