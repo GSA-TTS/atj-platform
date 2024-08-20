@@ -3,6 +3,10 @@
     margin-bottom: 0;
 }
 
+.richTextEditorWrapper > div :first-child {
+    margin-top: 0;
+}
+
 .richTextEditorBody {
     cursor: text;
 }
