@@ -17,6 +17,7 @@ import {
   updatePatternFromFormData,
   createOnePageBlueprint,
   addPatternToFieldset,
+  movePatternBetweenPages,
 } from '../index.js';
 import { type PageSetPattern } from '../patterns/page-set/config.js';
 import { FieldsetPattern } from '../patterns/fieldset/index.js';
@@ -58,6 +59,33 @@ export class BlueprintBuilder {
     }
     const pagePatternId = root.data.pages[pageNum];
     this.bp = addPatternToPage(this.form, pagePatternId, pattern);
+
+    return pattern;
+  }
+
+  movePatternBetweenPages(
+    sourcePageId: PatternId,
+    targetPageId: PatternId,
+    patternId: PatternId,
+    position: string
+  ) {
+    const pattern = getPattern(this.form, patternId);
+    if (!pattern) {
+      throw new Error(`Pattern with id ${patternId} not found.`);
+    }
+    const root = this.form.patterns[this.form.root] as PageSetPattern;
+    if (root.type !== 'page-set') {
+      throw new Error('expected root to be a page-set');
+    }
+
+    this.bp = movePatternBetweenPages(
+      this.form,
+      sourcePageId,
+      targetPageId,
+      patternId,
+      position
+    );
+
     return pattern;
   }
 

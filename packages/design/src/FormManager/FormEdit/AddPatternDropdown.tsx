@@ -282,12 +282,9 @@ const AddPatternDropdownContent = ({
       className={`${styles.dropdownMenu} usa-list usa-list--unstyled position-absolute bg-white z-100 shadow-3 text-left`}
     >
       {availablePatterns.map(([patternType, pattern], index) => (
-        <li
-          key={index}
-          className={`${styles.dropdownItem} padding-1 cursor-pointer margin-left-1`}
-        >
+        <li key={index} className={`${styles.dropdownItem} margin-left-1`}>
           <button
-            className="bg-transparent padding-0 border-0"
+            className="bg-transparent padding-1 text-left width-full cursor-pointer border-0"
             onClick={() => {
               patternSelected(patternType);
             }}
