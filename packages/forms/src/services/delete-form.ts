@@ -4,9 +4,10 @@ import {
   deleteFormFromStorage,
   getFormFromStorage,
 } from '../context/browser/form-repo.js';
+import { type FormServiceContext } from '../context/types.js';
 
 export const deleteForm = (
-  ctx: { storage: Storage },
+  ctx: FormServiceContext,
   formId: string
 ): VoidResult => {
   const form = getFormFromStorage(ctx.storage, formId);

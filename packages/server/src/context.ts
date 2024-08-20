@@ -5,7 +5,12 @@ import { type APIContext, type AstroGlobal } from 'astro';
 
 import type { AuthContext, LoginGovOptions } from '@atj/auth';
 import { type DatabaseGateway } from '@atj/database';
-import { type FormConfig, defaultFormConfig, service } from '@atj/forms';
+import {
+  type FormConfig,
+  type FormService,
+  createTestFormService,
+  defaultFormConfig,
+} from '@atj/forms';
 
 import { type GithubRepository } from './lib/github.js';
 
@@ -13,7 +18,7 @@ export type AppContext = {
   auth: AuthContext;
   baseUrl: `${string}/`;
   formConfig: FormConfig;
-  formService: service.FormService;
+  formService: FormService;
   github: GithubRepository;
   title: string;
   uswdsRoot: `${string}/`;
@@ -47,7 +52,7 @@ const createAstroAppContext = async (
     }),
     baseUrl: env.BASE_URL,
     formConfig: defaultFormConfig,
-    formService: service.createTestFormService(),
+    formService: createTestFormService(),
     github: env.GITHUB,
     title: serverOptions.title,
     uswdsRoot: `${env.BASE_URL}uswds/`,

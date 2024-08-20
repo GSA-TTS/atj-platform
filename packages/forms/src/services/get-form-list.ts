@@ -1,6 +1,7 @@
 import { Result } from '@atj/common';
 
 import { getFormSummaryListFromStorage } from '../context/browser/form-repo.js';
+import { type FormServiceContext } from '../context/types.js';
 
 export type FormListItem = {
   id: string;
@@ -8,9 +9,9 @@ export type FormListItem = {
   description: string;
 };
 
-export const getFormList = (ctx: {
-  storage: Storage;
-}): Result<FormListItem[]> => {
+export const getFormList = (
+  ctx: FormServiceContext
+): Result<FormListItem[]> => {
   const forms = getFormSummaryListFromStorage(ctx.storage);
   if (forms === null) {
     return {

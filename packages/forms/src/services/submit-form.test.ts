@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { createForm, createFormSession } from '../../index.js';
+import { createForm, createFormSession } from '../index.js';
 import { createTestFormService } from '../context/test/index.js';
 
 describe('submitForm', () => {

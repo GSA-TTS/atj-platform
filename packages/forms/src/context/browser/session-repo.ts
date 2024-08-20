@@ -1,19 +1,5 @@
 import { type Result, type VoidResult } from '@atj/common';
-import { type FormSession } from '../../../index.js';
-
-export const getSessionFromStorage = (
-  storage: Storage,
-  id?: string
-): FormSession | null => {
-  if (!storage || !id) {
-    return null;
-  }
-  const sessionString = storage.getItem(id);
-  if (!sessionString) {
-    return null;
-  }
-  return parseStringSession(sessionString);
-};
+import { type FormSession } from '../../index.js';
 
 export const addFormToStorage = (
   storage: Storage,
@@ -32,7 +18,7 @@ export const addFormToStorage = (
   };
 };
 
-export const saveSessionToStorage = (
+const saveSessionToStorage = (
   storage: Storage,
   sessionId: string,
   session: FormSession
@@ -50,17 +36,6 @@ export const saveSessionToStorage = (
   };
 };
 
-export const deleteSessionFromStorage = (
-  storage: Storage,
-  sessionId: string
-) => {
-  storage.removeItem(sessionId);
-};
-
 const stringifySession = (session: FormSession) => {
   return JSON.stringify(session);
-};
-
-const parseStringSession = (sessionString: string): FormSession => {
-  return JSON.parse(sessionString) as FormSession;
 };

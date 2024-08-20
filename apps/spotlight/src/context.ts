@@ -1,6 +1,10 @@
-import { FormConfig } from '@atj/forms';
+import {
+  type FormService,
+  type FormConfig,
+  createBrowserFormService,
+  createTestFormService,
+} from '@atj/forms';
 import { defaultFormConfig } from '@atj/forms';
-import { service } from '@atj/forms';
 
 import { type GithubRepository } from './lib/github';
 
@@ -8,7 +12,7 @@ export type AppContext = {
   baseUrl: `${string}/`;
   github: GithubRepository;
   formConfig: FormConfig;
-  formService: service.FormService;
+  formService: FormService;
   uswdsRoot: `${string}/`;
 };
 
@@ -33,8 +37,8 @@ const createAppContext = (env: any): AppContext => {
 
 const createAppFormService = () => {
   if (globalThis.window) {
-    return service.createBrowserFormService();
+    return createBrowserFormService();
   } else {
-    return service.createTestFormService();
+    return createTestFormService();
   }
 };

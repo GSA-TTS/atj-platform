@@ -7,12 +7,13 @@ import {
   createFormOutputFieldData,
   fillPDF,
   sessionIsComplete,
-} from '../../index.js';
+} from '../index.js';
 
 import { getFormFromStorage } from '../context/browser/form-repo.js';
+import { FormServiceContext } from '../context/types.js';
 
 export const submitForm = async (
-  ctx: { storage: Storage; config: FormConfig },
+  ctx: FormServiceContext,
   //sessionId: string,
   session: FormSession, // TODO: load session from storage by ID
   formId: string,

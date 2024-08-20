@@ -1,4 +1,4 @@
-import { defaultFormConfig } from '../../../index.js';
+import { defaultFormConfig } from '../../index.js';
 
 import { createBrowserFormService } from '../browser/index.js';
 import { type TestData, createTestStorage } from './storage.js';

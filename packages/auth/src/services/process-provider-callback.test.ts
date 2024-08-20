@@ -3,7 +3,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { processProviderCallback } from './process-provider-callback';
 import { createTestAuthContext } from '../context/test';
 import { AuthContext } from '..';
-import { success } from '@atj/common';
 
 describe('processProviderCallback', () => {
   let ctx: AuthContext;

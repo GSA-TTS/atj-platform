@@ -1,13 +1,13 @@
 import {
   createForm,
   createFormSession,
+  createTestFormService,
   defaultFormConfig,
   type Blueprint,
   type Pattern,
 } from '@atj/forms';
 import { type SequencePattern } from '@atj/forms/src/patterns/sequence';
 import { type InputPattern } from '@atj/forms/src/patterns/input';
-import { service } from '@atj/forms';
 
 import { type FormUIContext } from './Form';
 import { defaultPatternComponents } from './Form/components';
@@ -209,7 +209,7 @@ export const createTestFormManagerContext = (): FormManagerContext => {
     components: defaultPatternComponents,
     config: defaultFormConfig,
     editComponents: defaultPatternEditComponents,
-    formService: service.createTestFormService(),
+    formService: createTestFormService(),
     uswdsRoot: `/static/uswds/`,
     urlForForm: mockGetUrl,
     urlForFormManager: mockGetUrl,

@@ -1,10 +1,11 @@
 import { Result } from '@atj/common';
-import { Blueprint } from '../../index.js';
+import { Blueprint } from '../index.js';
 
 import { saveFormToStorage } from '../context/browser/form-repo.js';
+import { type FormServiceContext } from '../context/types.js';
 
 export const saveForm = (
-  ctx: { storage: Storage },
+  ctx: FormServiceContext,
   formId: string,
   form: Blueprint
 ): Result<{ timestamp: Date }> => {

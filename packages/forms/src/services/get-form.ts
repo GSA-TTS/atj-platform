@@ -1,10 +1,11 @@
 import { Result } from '@atj/common';
-import { type Blueprint } from '../../index.js';
+import { type Blueprint } from '../index.js';
 
 import { getFormFromStorage } from '../context/browser/form-repo.js';
+import { type FormServiceContext } from '../context/types.js';
 
 export const getForm = (
-  ctx: { storage: Storage },
+  ctx: FormServiceContext,
   formId: string
 ): Result<Blueprint> => {
   const result = getFormFromStorage(ctx.storage, formId);
