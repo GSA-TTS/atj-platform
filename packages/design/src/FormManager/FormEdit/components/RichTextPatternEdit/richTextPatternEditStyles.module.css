@@ -3,7 +3,7 @@
     margin-bottom: 0;
 }
 
-.richTextEditorWrapper > div :first-child {
+.richTextEditorBody > div :first-child {
     margin-top: 0;
 }
 
