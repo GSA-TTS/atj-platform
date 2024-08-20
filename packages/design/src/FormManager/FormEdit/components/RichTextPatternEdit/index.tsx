@@ -85,6 +85,7 @@ const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
         {editorActions.map(({ label, action, parameter, property }, index) => (
           <li className="usa-button-group__item" key={index}>
             <button
+              type="button"
               onClick={e => {
                 e.preventDefault();
                 return action().run();
