@@ -15,6 +15,7 @@ type Options = {
   getCookie: (name: string) => string | undefined;
   setCookie: (cookie: Cookie) => void;
   setUserSession: (userSession: UserSession) => void;
+  isUserAuthorized: (email: string) => Promise<boolean>;
 };
 
 export const createTestAuthContext = async (opts?: Partial<Options>) => {
@@ -22,6 +23,7 @@ export const createTestAuthContext = async (opts?: Partial<Options>) => {
     getCookie: opts?.getCookie || vi.fn(),
     setCookie: opts?.setCookie || vi.fn(),
     setUserSession: opts?.setUserSession || vi.fn(),
+    isUserAuthorized: opts?.isUserAuthorized || vi.fn(async () => true),
   };
   const dbContext = await createInMemoryDatabaseContext();
   const database = createDatabaseGateway(dbContext);
@@ -36,7 +38,8 @@ export const createTestAuthContext = async (opts?: Partial<Options>) => {
     }),
     options.getCookie,
     options.setCookie,
-    options.setUserSession
+    options.setUserSession,
+    options.isUserAuthorized
   );
 };
 
@@ -48,7 +51,8 @@ export class TestAuthContext implements AuthContext {
     public provider: LoginGov,
     public getCookie: (name: string) => string | undefined,
     public setCookie: (cookie: Cookie) => void,
-    public setUserSession: (userSession: UserSession) => void
+    public setUserSession: (userSession: UserSession) => void,
+    public isUserAuthorized: (email: string) => Promise<boolean>
   ) {}
 
   async getLucia() {

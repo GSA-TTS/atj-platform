@@ -23,6 +23,7 @@ export type ServerOptions = {
   title: string;
   db: DatabaseGateway;
   loginGovOptions: LoginGovOptions;
+  isUserAuthorized: (email: string) => Promise<boolean>;
 };
 
 export const getAstroAppContext = async (Astro: any): Promise<AppContext> => {
@@ -42,6 +43,7 @@ const createAstroAppContext = async (
       Astro,
       db: serverOptions.db,
       loginGovOptions: serverOptions.loginGovOptions,
+      isUserAuthorized: serverOptions.isUserAuthorized,
     }),
     baseUrl: env.BASE_URL,
     formConfig: defaultFormConfig,
@@ -63,6 +65,9 @@ const getDefaultServerOptions = async (): Promise<ServerOptions> => {
         'urn:gov:gsa:openidconnect.profiles:sp:sso:gsa:tts-10x-atj-dev-server-doj',
       //clientSecret: import.meta.env.SECRET_LOGIN_GOV_PRIVATE_KEY,
       redirectURI: 'http://localhost:4322/signin/callback',
+    },
+    isUserAuthorized: async (email: string) => {
+      return true;
     },
   };
 };
@@ -95,10 +100,12 @@ const createDefaultAuthContext = async ({
   Astro,
   db,
   loginGovOptions,
+  isUserAuthorized,
 }: {
   Astro: AstroGlobal | APIContext;
   db: DatabaseGateway;
   loginGovOptions: LoginGovOptions;
+  isUserAuthorized: (email: string) => Promise<boolean>;
 }) => {
   const { LoginGov, BaseAuthContext } = await import('@atj/auth');
   return new BaseAuthContext(
@@ -116,7 +123,8 @@ const createDefaultAuthContext = async ({
     function setUserSession({ session, user }) {
       Astro.locals.session = session;
       Astro.locals.user = user;
-    }
+    },
+    isUserAuthorized
   );
 };
 

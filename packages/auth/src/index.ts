@@ -23,4 +23,5 @@ export type AuthContext = {
   setCookie: (cookie: Cookie) => void;
   setUserSession: (userSession: UserSession) => void;
   getLucia: () => Promise<Lucia>;
+  isUserAuthorized: (email: string) => Promise<boolean>;
 };

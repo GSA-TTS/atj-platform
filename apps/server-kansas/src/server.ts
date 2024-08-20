@@ -20,5 +20,14 @@ export const createCustomServer = async (ctx: {
         'urn:gov:gsa:openidconnect.profiles:sp:sso:gsa:tts-10x-atj-dev-server-doj',
       //clientSecret: '', // secrets.loginGovClientSecret,
     },
+    isUserAuthorized: async (email: string) => {
+      return [
+        'daniel.naab@gsa.gov',
+        'jim.moffet@gsa.gov',
+        'ethan.gardner@gsa.gov',
+        'natasha.pierre-louis@gsa.gov',
+        'emily.lordahl@gsa.gov',
+      ].includes(email);
+    },
   });
 };

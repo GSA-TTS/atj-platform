@@ -14,7 +14,8 @@ export class BaseAuthContext implements AuthContext {
     public provider: LoginGov,
     public getCookie: (name: string) => string | undefined,
     public setCookie: (cookie: Cookie) => void,
-    public setUserSession: (userSession: UserSession) => void
+    public setUserSession: (userSession: UserSession) => void,
+    public isUserAuthorized: (email: string) => Promise<boolean>
   ) {}
 
   async getLucia() {
