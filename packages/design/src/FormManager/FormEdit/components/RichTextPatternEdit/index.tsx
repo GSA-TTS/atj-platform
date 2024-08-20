@@ -121,6 +121,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
         },
       }),
     ],
+    autofocus: true,
     content: editorContent,
     onUpdate: ({ editor }) => {
       const content = editor.getHTML();
