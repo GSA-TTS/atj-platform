@@ -1,7 +1,6 @@
 import { Result } from '@atj/common';
 
-import { getFormSummaryListFromStorage } from '../context/browser/form-repo.js';
-import { type FormServiceContext } from '../context/types.js';
+import { type FormServiceContext } from '../context/index.js';
 
 export type FormListItem = {
   id: string;
@@ -12,7 +11,7 @@ export type FormListItem = {
 export const getFormList = (
   ctx: FormServiceContext
 ): Result<FormListItem[]> => {
-  const forms = getFormSummaryListFromStorage(ctx.storage);
+  const forms = ctx.db.getFormSummaryListFromStorage(ctx.storage);
   if (forms === null) {
     return {
       success: false,

@@ -1,6 +1,5 @@
 import { type Result } from '@atj/common';
 import {
-  type FormConfig,
   type Blueprint,
   type FormSession,
   applyPromptResponse,
@@ -9,8 +8,7 @@ import {
   sessionIsComplete,
 } from '../index.js';
 
-import { getFormFromStorage } from '../context/browser/form-repo.js';
-import { FormServiceContext } from '../context/types.js';
+import { FormServiceContext } from '../context/index.js';
 
 export const submitForm = async (
   ctx: FormServiceContext,
@@ -26,7 +24,7 @@ export const submitForm = async (
     }[]
   >
 > => {
-  const form = getFormFromStorage(ctx.storage, formId);
+  const form = ctx.db.getFormFromStorage(ctx.storage, formId);
   if (form === null) {
     return Promise.resolve({
       success: false,

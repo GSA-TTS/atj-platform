@@ -22,8 +22,11 @@ export * from './pattern.js';
 export * from './response.js';
 export * from './session.js';
 export { type FormService, createFormService } from './services/index.js';
-export { type FormServiceContext } from './context/types.js';
-export { createBrowserFormService } from './context/browser/index.js';
+export {
+  type FormServiceContext,
+  type FormRepository,
+  createBrowserFormService,
+} from './context/index.js';
 export { createTestFormService } from './context/test/index.js';
 
 export type Blueprint = {
