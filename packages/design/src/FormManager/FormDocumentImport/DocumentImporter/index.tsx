@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import {
   type DocumentFieldMap,
   type Blueprint,
+  type FormService,
   addDocument,
   addDocumentFieldsToForm,
   createFormSession,
 } from '@atj/forms';
-import { service } from '@atj/forms';
 
 import Form, { FormUIContext } from '../../../Form';
 import { onFileInputChangeGetFile } from '../../FormList/CreateNew/file-input';
@@ -24,7 +24,7 @@ const DocumentImporter = ({
   formId: string;
   context: FormUIContext;
   form: Blueprint;
-  formService: service.FormService;
+  formService: FormService;
 }) => {
   const { state, actions } = useDocumentImporter(formService, form, baseUrl);
 
@@ -131,7 +131,7 @@ type State = {
 };
 
 const useDocumentImporter = (
-  formService: service.FormService,
+  formService: FormService,
   form: Blueprint,
   baseUrl: string
 ) => {

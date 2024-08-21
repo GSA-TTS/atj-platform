@@ -52,7 +52,7 @@ const createAstroAppContext = async (
     }),
     baseUrl: env.BASE_URL,
     formConfig: defaultFormConfig,
-    formService: createTestFormService(),
+    formService: await createTestFormService(),
     github: env.GITHUB,
     title: serverOptions.title,
     uswdsRoot: `${env.BASE_URL}uswds/`,
@@ -114,7 +114,7 @@ const createDefaultAuthContext = async ({
 }) => {
   const { LoginGov, BaseAuthContext } = await import('@atj/auth');
   return new BaseAuthContext(
-    db,
+    db.auth,
     new LoginGov({
       ...loginGovOptions,
       redirectURI: `${getOriginFromRequest(Astro)}/signin/callback`,

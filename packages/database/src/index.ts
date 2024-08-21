@@ -1,14 +1,22 @@
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
-import { createService } from '@atj/common';
-import { type FormRepository } from '@atj/forms';
-
 import { DatabaseContext } from './context/types.js';
-import { createSession } from './gateways/sessions/create-session.js';
-import { createUser } from './gateways/users/create-user.js';
-import { getUserId } from './gateways/users/get-user-id.js';
+import {
+  type FormRepository,
+  createFormsRepository,
+} from './gateways/forms/index.js';
+import {
+  type AuthRepository,
+  createAuthRepository,
+} from './gateways/auth/index.js';
 
+export {
+  type AuthRepository,
+  type FormRepository,
+  createAuthRepository,
+  createFormsRepository,
+};
 export {
   type FilesystemDatabaseContext,
   createFilesystemDatabaseContext,
@@ -23,14 +31,11 @@ export const getDatabaseTestContainerGlobalSetupPath = () => {
   return join(dirname(fileURLToPath(import.meta.url)), '../../vitest.setup.ts');
 };
 
-export const createDatabaseGateway = (ctx: DatabaseContext) =>
-  createService(ctx, {
-    createSession,
-    createUser,
-    getUserId,
-  });
+export const createDatabaseGateway = (ctx: DatabaseContext) => {
+  return {
+    auth: createAuthRepository(ctx),
+    forms: createFormsRepository(ctx),
+  };
+};
 
-export type DatabaseGateway =
-  ReturnType<typeof createDatabaseGateway> extends FormRepository
-    ? ReturnType<typeof createDatabaseGateway>
-    : never;
+export type DatabaseGateway = ReturnType<typeof createDatabaseGateway>;

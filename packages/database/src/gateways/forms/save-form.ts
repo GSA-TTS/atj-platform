@@ -1,5 +1,5 @@
-import { type Blueprint } from '@atj/forms';
-
+//import { type Blueprint } from '@atj/forms';
+type Blueprint = any;
 import { type DatabaseContext } from '../../context/types';
 import { stringifyForm } from './serialize';
 import { failure, success } from '@atj/common';

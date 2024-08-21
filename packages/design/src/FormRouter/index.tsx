@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, HashRouter, Route, Routes } from 'react-router-dom';
 
-import { defaultFormConfig, service } from '@atj/forms';
+import { Blueprint, defaultFormConfig, type FormService } from '@atj/forms';
 import { createFormSession } from '@atj/forms';
 
 import { useQueryString } from './hooks';
 import { defaultPatternComponents } from '..';
 import Form, { FormUIContext } from '../Form';
+import { Result } from '@atj/common';
 
 // Wrapper around Form that includes a client-side router for loading forms.
 export default function FormRouter({
@@ -14,7 +15,7 @@ export default function FormRouter({
   formService,
 }: {
   uswdsRoot: `${string}/`;
-  formService: service.FormService;
+  formService: FormService;
 }) {
   // For now, hardcode the pattern configuration.
   // If these are user-configurable, we'll likely need to, in some manner,
@@ -35,19 +36,28 @@ export default function FormRouter({
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
-            const result = formService.getForm(formId);
-            if (!result.success) {
+
+            const [formResult, setFormResult] =
+              useState<Result<Blueprint> | null>(null);
+            useEffect(() => {
+              formService.getForm(formId).then(setFormResult);
+            });
+
+            if (formResult === null) {
+              return;
+            }
+            if (formResult.success === false) {
               return (
                 <div className="usa-alert usa-alert--error" role="alert">
                   <div className="usa-alert__body">
                     <h4 className="usa-alert__heading">Error loading form</h4>
-                    <p className="usa-alert__text">{result.error}</p>
+                    <p className="usa-alert__text">{formResult.error}</p>
                   </div>
                 </div>
               );
             }
 
-            const session = createFormSession(result.data, queryString);
+            const session = createFormSession(formResult.data, queryString);
             return (
               <Form
                 context={context}

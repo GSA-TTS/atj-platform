@@ -1,4 +1,4 @@
-import { type Blueprint } from '@atj/forms';
+//import { type Blueprint } from '@atj/forms';
 import { type DatabaseContext } from '../../context/types';
 
 export const getFormList = async (ctx: DatabaseContext) => {
@@ -6,7 +6,7 @@ export const getFormList = async (ctx: DatabaseContext) => {
   const rows = await db.selectFrom('forms').select(['id', 'data']).execute();
 
   return rows.map(row => {
-    const form = JSON.parse(row.data) as Blueprint;
+    const form = JSON.parse(row.data);
     return {
       id: row.id,
       title: form.summary.title,

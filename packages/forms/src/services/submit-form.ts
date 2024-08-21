@@ -24,7 +24,7 @@ export const submitForm = async (
     }[]
   >
 > => {
-  const form = ctx.db.getForm(formId);
+  const form = await ctx.db.getForm(formId);
   if (form === null) {
     return Promise.resolve({
       success: false,

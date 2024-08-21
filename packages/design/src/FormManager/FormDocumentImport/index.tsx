@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { service } from '@atj/forms';
+import { Blueprint, type FormService } from '@atj/forms';
 
 import { type FormUIContext } from '../../Form';
 import DocumentImporter from './DocumentImporter';
@@ -14,22 +14,27 @@ export const FormDocumentImport = ({
   baseUrl: string;
   context: FormUIContext;
   formId: string;
-  formService: service.FormService;
+  formService: FormService;
 }) => {
-  // Fallback to hardcoded data if a magic ID is chosen.
-  const result = formService.getForm(formId);
-  if (!result.success) {
-    return 'null form retrieved from storage';
-  }
+  const [form, setForm] = useState<Blueprint | null>(null);
+  useEffect(() => {
+    formService.getForm(formId).then(result => {
+      if (result.success) {
+        setForm(result.data);
+      }
+    });
+  }, []);
   return (
     <>
-      <DocumentImporter
-        context={context}
-        formService={formService}
-        baseUrl={baseUrl}
-        formId={formId}
-        form={result.data}
-      />
+      {form && (
+        <DocumentImporter
+          context={context}
+          formService={formService}
+          baseUrl={baseUrl}
+          formId={formId}
+          form={form}
+        />
+      )}
     </>
   );
 };

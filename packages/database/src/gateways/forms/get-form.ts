@@ -1,10 +1,11 @@
-import { Blueprint } from '@atj/forms';
+//import { Blueprint } from '@atj/forms';
+type Blueprint = any;
 import { DatabaseContext } from '../../context/types';
 
 export const getForm = async (
   ctx: DatabaseContext,
   formId: string
-): Promise<Blueprint | null> => {
+): Promise</*Blueprint*/ any | null> => {
   const db = await ctx.getKysely();
   const selectResult = await db
     .selectFrom('forms')
@@ -23,7 +24,7 @@ const parseStringForm = (formString: string): Blueprint => {
   const form = JSON.parse(formString) as Blueprint;
   return {
     ...form,
-    outputs: form.outputs.map(output => ({
+    outputs: form.outputs.map((output: any) => ({
       ...output,
       data: base64ToUint8Array((output as any).data),
     })),

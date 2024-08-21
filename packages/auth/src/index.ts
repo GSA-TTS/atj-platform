@@ -1,6 +1,6 @@
 import { type Cookie, type User, type Session, type Lucia } from 'lucia';
 
-import { type DatabaseGateway } from '@atj/database';
+import { type AuthRepository } from '@atj/database';
 
 export { BaseAuthContext } from './context/base';
 import { type LoginGovOptions, LoginGov } from './provider';
@@ -17,7 +17,7 @@ export type UserSession = {
 };
 
 export type AuthContext = {
-  db: DatabaseGateway;
+  db: AuthRepository;
   provider: LoginGov;
   getCookie: (name: string) => string | undefined;
   setCookie: (cookie: Cookie) => void;

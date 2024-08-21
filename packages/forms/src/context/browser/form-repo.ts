@@ -1,16 +1,77 @@
-import { Result } from '@atj/common';
+import { failure, Result, VoidResult } from '@atj/common';
+import type { FormRepository } from '@atj/database';
+
 import { type Blueprint } from '../../index.js';
 
-export const getForm = (storage: Storage, id?: string): Blueprint | null => {
-  if (!storage || !id) {
-    return null;
+export class BrowserFormRepository implements FormRepository {
+  constructor(private storage: Storage) {}
+
+  async addForm(
+    form: Blueprint
+  ): Promise<Result<{ timestamp: Date; id: string }>> {
+    const uuid = crypto.randomUUID();
+
+    const result = await this.saveForm(uuid, form);
+    if (!result.success) {
+      return result;
+    }
+
+    return {
+      success: true,
+      data: {
+        timestamp: new Date(),
+        id: uuid,
+      },
+    };
   }
-  const formString = storage.getItem(id);
-  if (!formString) {
-    return null;
+
+  async deleteForm(formId: string): Promise<VoidResult> {
+    this.storage.removeItem(formId);
+    return { success: true };
   }
-  return parseStringForm(formString);
-};
+
+  async getForm(id?: string): Promise<Blueprint | null> {
+    if (!this.storage || !id) {
+      return null;
+    }
+    const formString = this.storage.getItem(id);
+    if (!formString) {
+      return null;
+    }
+    return parseStringForm(formString);
+  }
+
+  async getFormList(): Promise<
+    { id: string; title: string; description: string }[] | null
+  > {
+    const forms = await getFormList(this.storage);
+    if (forms === null) {
+      return null;
+    }
+    return Promise.all(
+      forms.map(async key => {
+        const form = await this.getForm(key);
+        if (form === null) {
+          throw new Error('key mismatch');
+        }
+        return {
+          id: key,
+          title: form.summary.title,
+          description: form.summary.description,
+        };
+      })
+    );
+  }
+
+  async saveForm(formId: string, form: Blueprint): Promise<VoidResult> {
+    try {
+      this.storage.setItem(formId, stringifyForm(form));
+    } catch {
+      return failure(`error saving '${formId}' to storage`);
+    }
+    return { success: true };
+  }
+}
 
 export const getFormList = (storage: Storage) => {
   const keys = [];
@@ -22,44 +83,6 @@ export const getFormList = (storage: Storage) => {
     keys.push(key);
   }
   return keys;
-};
-
-export const getFormSummaryList = (storage: Storage) => {
-  const forms = getFormList(storage);
-  if (forms === null) {
-    return null;
-  }
-  return forms.map(key => {
-    const form = getForm(storage, key) as Blueprint;
-    if (form === null) {
-      throw new Error('key mismatch');
-    }
-    return {
-      id: key,
-      title: form.summary.title,
-      description: form.summary.description,
-    };
-  });
-};
-
-export const addFormToStorage = (
-  storage: Storage,
-  form: Blueprint
-): Result<{ timestamp: Date; id: string }> => {
-  const uuid = crypto.randomUUID();
-
-  const result = saveForm(storage, uuid, form);
-  if (!result.success) {
-    return result;
-  }
-
-  return {
-    success: true,
-    data: {
-      timestamp: new Date(),
-      id: uuid,
-    },
-  };
 };
 
 export const saveForm = (storage: Storage, formId: string, form: Blueprint) => {
@@ -74,10 +97,6 @@ export const saveForm = (storage: Storage, formId: string, form: Blueprint) => {
   return {
     success: true as const,
   };
-};
-
-export const deleteForm = (storage: Storage, formId: string) => {
-  storage.removeItem(formId);
 };
 
 const stringifyForm = (form: Blueprint) => {

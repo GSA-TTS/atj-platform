@@ -3,12 +3,12 @@ import { Blueprint } from '../index.js';
 
 import { type FormServiceContext } from '../context/index.js';
 
-export const saveForm = (
+export const saveForm = async (
   ctx: FormServiceContext,
   formId: string,
   form: Blueprint
-): Result<{ timestamp: Date }> => {
-  const result = ctx.db.saveForm(formId, form);
+): Promise<Result<{ timestamp: Date }>> => {
+  const result = await ctx.db.saveForm(formId, form);
   if (result.success === false) {
     return {
       success: false,

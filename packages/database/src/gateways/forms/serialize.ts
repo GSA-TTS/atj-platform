@@ -1,9 +1,7 @@
-import { type Blueprint } from '@atj/forms';
-
-export const stringifyForm = (form: Blueprint) => {
+export const stringifyForm = (form: /*Blueprint*/ any) => {
   return JSON.stringify({
     ...form,
-    outputs: form.outputs.map(output => ({
+    outputs: form.outputs.map((output: any) => ({
       ...output,
       // TODO: we probably want to do this somewhere in the documents module
       data: uint8ArrayToBase64(output.data),

@@ -5,15 +5,15 @@ import { createTestFormService } from '../context/test/index.js';
 
 describe('submitForm', () => {
   it('succeeds with empty form', async () => {
-    const service = createTestFormService({
-      'test-form': createForm({ title: 'test', description: 'description' }),
-    });
-    const formResult = service.getForm('test-form');
-    if (!formResult.success) {
-      throw new Error('form not found');
+    const service = await createTestFormService();
+    const testForm = createForm({ title: 'test', description: 'description' });
+    const addFormResult = await service.getContext().db.addForm(testForm);
+    if (addFormResult.success === false) {
+      expect.fail('addForm failed');
     }
-    const session = createFormSession(formResult.data);
-    const result = await service.submitForm(session, 'test-form', {});
+    const session = createFormSession(testForm);
+
+    const result = await service.submitForm(session, addFormResult.data.id, {});
     expect(result).toEqual({
       success: true,
       data: [],

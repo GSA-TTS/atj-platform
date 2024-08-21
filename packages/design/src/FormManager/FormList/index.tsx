@@ -1,17 +1,8 @@
 import React from 'react';
-import { service } from '@atj/forms';
 
 import CreateNew from './CreateNew';
 
-export default function FormList({
-  formService,
-}: {
-  formService: service.FormService;
-}) {
-  const result = formService.getFormList();
-  if (!result.success) {
-    return <div>Error loading form list</div>;
-  }
+export default function FormList() {
   return (
     <section className="usa-section grid-container">
       <div className="grid-row flex-justify-center">

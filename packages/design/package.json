@@ -8,7 +8,7 @@
     "build:lib": "vite build",
     "build:storybook": "storybook build",
     "build:styles": "gulp update",
-    "clean": "run-p: clean:*",
+    "clean": "pnpm clean:lib && pnpm clean:styles",
     "clean:lib": "rm -rf dist",
     "clean:styles": "rm -rf static",
     "dev": "run-p dev:*",

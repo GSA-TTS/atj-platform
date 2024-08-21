@@ -3,9 +3,9 @@ import { Blueprint } from '../index.js';
 
 import { type FormServiceContext } from '../context/index.js';
 
-export const addForm = (
+export const addForm = async (
   ctx: FormServiceContext,
   form: Blueprint
-): Result<{ timestamp: Date; id: string }> => {
+): Promise<Result<{ timestamp: Date; id: string }>> => {
   return ctx.db.addForm(form);
 };

@@ -1,6 +1,6 @@
 import { Cookie, Lucia } from 'lucia';
 
-import { type DatabaseGateway } from '@atj/database';
+import { AuthRepository } from '@atj/database';
 
 import { type AuthContext, type UserSession } from '..';
 import { createPostgresLuciaAdapter, createSqliteLuciaAdapter } from '../lucia';
@@ -10,7 +10,7 @@ export class BaseAuthContext implements AuthContext {
   private lucia?: Lucia;
 
   constructor(
-    public db: DatabaseGateway,
+    public db: AuthRepository,
     public provider: LoginGov,
     public getCookie: (name: string) => string | undefined,
     public setCookie: (cookie: Cookie) => void,

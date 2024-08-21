@@ -2,7 +2,7 @@ import { Cookie, Lucia } from 'lucia';
 import { vi } from 'vitest';
 
 import {
-  type DatabaseGateway,
+  type AuthRepository,
   createInMemoryDatabaseContext,
   createDatabaseGateway,
 } from '@atj/database';
@@ -28,7 +28,7 @@ export const createTestAuthContext = async (opts?: Partial<Options>) => {
   const dbContext = await createInMemoryDatabaseContext();
   const database = createDatabaseGateway(dbContext);
   return new TestAuthContext(
-    database,
+    database.auth,
     new LoginGov({
       loginGovUrl: 'https://idp.int.identitysandbox.gov',
       clientId:
@@ -47,7 +47,7 @@ export class TestAuthContext implements AuthContext {
   private lucia?: Lucia;
 
   constructor(
-    public db: DatabaseGateway,
+    public db: AuthRepository,
     public provider: LoginGov,
     public getCookie: (name: string) => string | undefined,
     public setCookie: (cookie: Cookie) => void,

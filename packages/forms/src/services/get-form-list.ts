@@ -8,10 +8,10 @@ export type FormListItem = {
   description: string;
 };
 
-export const getFormList = (
+export const getFormList = async (
   ctx: FormServiceContext
-): Result<FormListItem[]> => {
-  const forms = ctx.db.getFormList();
+): Promise<Result<FormListItem[]>> => {
+  const forms = await ctx.db.getFormList();
   if (forms === null) {
     return {
       success: false,

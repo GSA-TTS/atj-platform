@@ -1,7 +1,5 @@
 import { beforeAll, expect, it, vi } from 'vitest';
 
-import { createForm } from '@atj/forms';
-
 import { type DbTestContext, describeDatabase } from '../../testing.js';
 import { addForm } from './add-form.js';
 
@@ -35,21 +33,9 @@ describeDatabase('add form', () => {
   });
 });
 
-const testForm = createForm(
-  {
-    title: 'Test form',
-    description: 'Test description',
-  },
-  {
-    root: 'root',
-    patterns: [
-      {
-        type: 'sequence',
-        id: 'root',
-        data: {
-          patterns: [],
-        },
-      },
-    ],
-  }
-);
+const testForm = {
+  summary: { title: 'Test form', description: 'Test description' },
+  root: 'root',
+  patterns: { root: { type: 'sequence', id: 'root', data: { patterns: [] } } },
+  outputs: [],
+};

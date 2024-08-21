@@ -3,11 +3,11 @@ import { type Blueprint } from '../index.js';
 
 import { type FormServiceContext } from '../context/index.js';
 
-export const getForm = (
+export const getForm = async (
   ctx: FormServiceContext,
   formId: string
-): Result<Blueprint> => {
-  const result = ctx.db.getForm(formId);
+): Promise<Result<Blueprint>> => {
+  const result = await ctx.db.getForm(formId);
   if (result === null) {
     return {
       success: false,
