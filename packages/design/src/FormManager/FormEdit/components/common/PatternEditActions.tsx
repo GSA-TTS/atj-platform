@@ -28,13 +28,11 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
       p => p.type === 'fieldset' && p.data.patterns.includes(focusPatternId)
     );
   }, [focusPatternId, patterns]);
-
   const isFieldset = focusPatternType === 'fieldset';
   const isPagePattern = focusPatternType === 'page';
   const { copyPattern } = useFormManagerStore(state => ({
     copyPattern: state.copyPattern,
   }));
-  const focusPatternId = useFormManagerStore(state => state.focus?.pattern.id);
   const pages = useFormManagerStore(state =>
     Object.values(state.session.form.patterns).filter(p => p.type === 'page')
   );
@@ -43,7 +41,6 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
       p => p.type === 'fieldset'
     )
   );
-
   const handleCopyPattern = () => {
     const currentPageIndex = pages.findIndex(page =>
       page.data.patterns.includes(focusPatternId || '')

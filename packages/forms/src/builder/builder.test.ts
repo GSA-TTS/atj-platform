@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { BlueprintBuilder } from '.';
-import { createForm, getPattern, Pattern, Pattern } from '..';
+import { createForm, getPattern, Pattern } from '..';
 import { defaultFormConfig } from '../patterns';
 import { type InputPattern } from '../patterns/input';
 import { PageSetPattern } from '../patterns/page-set/config';

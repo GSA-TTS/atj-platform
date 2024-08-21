@@ -45,7 +45,6 @@ export const DraggableList: React.FC<DraggableListProps> = ({
 
   return (
     <div
-      className="position-relative z-100"
       onFocus={event => {
         // Stop onFocus events from bubbling up to parent elements.
         event.stopPropagation();

@@ -38,7 +38,6 @@ export const PatternEditForm = ({
   return (
     <FormProvider {...methods}>
       <form
-        className="position-relative z-0"
         onBlur={methods.handleSubmit(formData => {
           updateActivePattern(formData);
         })}
