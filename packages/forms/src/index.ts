@@ -226,6 +226,84 @@ export const addPatternToPage = (
   };
 };
 
+export const movePatternBetweenPages = (
+  bp: Blueprint,
+  sourcePageId: PatternId,
+  targetPageId: PatternId,
+  patternId: PatternId,
+  position: string
+): Blueprint => {
+  const sourcePage = bp.patterns[sourcePageId] as PagePattern;
+  const targetPage = bp.patterns[targetPageId] as PagePattern;
+
+  if (!sourcePage || !targetPage) {
+    throw new Error('Source or target page not found.');
+  }
+
+  if (sourcePage.type !== 'page' || targetPage.type !== 'page') {
+    throw new Error('Pattern is not a page.');
+  }
+
+  let updatedSourcePatterns: PatternId[];
+  let updatedTargetPatterns: PatternId[];
+
+  if (sourcePageId === targetPageId) {
+    const sourcePagePatterns = sourcePage.data.patterns;
+    const indexToRemove = sourcePagePatterns.indexOf(patternId);
+
+    if (indexToRemove === -1) {
+      throw new Error(`Pattern ID ${patternId} not found in the source page.`);
+    }
+
+    updatedSourcePatterns = [
+      ...sourcePagePatterns.slice(0, indexToRemove),
+      ...sourcePagePatterns.slice(indexToRemove + 1),
+    ];
+
+    updatedTargetPatterns =
+      position === 'top'
+        ? [patternId, ...updatedSourcePatterns]
+        : [...updatedSourcePatterns, patternId];
+  } else {
+    const indexToRemove = sourcePage.data.patterns.indexOf(patternId);
+
+    if (indexToRemove === -1) {
+      throw new Error(`Pattern ID ${patternId} not found in the source page.`);
+    }
+
+    updatedSourcePatterns = [
+      ...sourcePage.data.patterns.slice(0, indexToRemove),
+      ...sourcePage.data.patterns.slice(indexToRemove + 1),
+    ];
+
+    updatedTargetPatterns =
+      position === 'top'
+        ? [patternId, ...targetPage.data.patterns]
+        : [...targetPage.data.patterns, patternId];
+  }
+
+  return {
+    ...bp,
+    patterns: {
+      ...bp.patterns,
+      [sourcePageId]: {
+        ...sourcePage,
+        data: {
+          ...sourcePage.data,
+          patterns: updatedSourcePatterns,
+        },
+      } satisfies PagePattern,
+      [targetPageId]: {
+        ...targetPage,
+        data: {
+          ...targetPage.data,
+          patterns: updatedTargetPatterns,
+        },
+      } satisfies PagePattern,
+    },
+  };
+};
+
 export const copyPattern = (
   bp: Blueprint,
   parentPatternId: PatternId,
@@ -540,6 +618,7 @@ export const removePatternFromBlueprint = (
     },
     {} as PatternMap
   );
+
   // Remove the pattern itself
   delete patterns[id];
   return {
