@@ -7,5 +7,5 @@ export const addForm = (
   ctx: FormServiceContext,
   form: Blueprint
 ): Result<{ timestamp: Date; id: string }> => {
-  return ctx.db.addFormToStorage(ctx.storage, form);
+  return ctx.db.addForm(form);
 };

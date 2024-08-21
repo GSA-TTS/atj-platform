@@ -1,10 +1,7 @@
 import { Result } from '@atj/common';
 import { type Blueprint } from '../../index.js';
 
-export const getFormFromStorage = (
-  storage: Storage,
-  id?: string
-): Blueprint | null => {
+export const getForm = (storage: Storage, id?: string): Blueprint | null => {
   if (!storage || !id) {
     return null;
   }
@@ -15,7 +12,7 @@ export const getFormFromStorage = (
   return parseStringForm(formString);
 };
 
-export const getFormListFromStorage = (storage: Storage) => {
+export const getFormList = (storage: Storage) => {
   const keys = [];
   for (let i = 0; i < storage.length; i++) {
     const key = storage.key(i);
@@ -27,13 +24,13 @@ export const getFormListFromStorage = (storage: Storage) => {
   return keys;
 };
 
-export const getFormSummaryListFromStorage = (storage: Storage) => {
-  const forms = getFormListFromStorage(storage);
+export const getFormSummaryList = (storage: Storage) => {
+  const forms = getFormList(storage);
   if (forms === null) {
     return null;
   }
   return forms.map(key => {
-    const form = getFormFromStorage(storage, key) as Blueprint;
+    const form = getForm(storage, key) as Blueprint;
     if (form === null) {
       throw new Error('key mismatch');
     }
@@ -51,7 +48,7 @@ export const addFormToStorage = (
 ): Result<{ timestamp: Date; id: string }> => {
   const uuid = crypto.randomUUID();
 
-  const result = saveFormToStorage(storage, uuid, form);
+  const result = saveForm(storage, uuid, form);
   if (!result.success) {
     return result;
   }
@@ -65,11 +62,7 @@ export const addFormToStorage = (
   };
 };
 
-export const saveFormToStorage = (
-  storage: Storage,
-  formId: string,
-  form: Blueprint
-) => {
+export const saveForm = (storage: Storage, formId: string, form: Blueprint) => {
   try {
     storage.setItem(formId, stringifyForm(form));
   } catch {
@@ -83,7 +76,7 @@ export const saveFormToStorage = (
   };
 };
 
-export const deleteFormFromStorage = (storage: Storage, formId: string) => {
+export const deleteForm = (storage: Storage, formId: string) => {
   storage.removeItem(formId);
 };
 

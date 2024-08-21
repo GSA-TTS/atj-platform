@@ -2,6 +2,7 @@ import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
 import { createService } from '@atj/common';
+import { type FormRepository } from '@atj/forms';
 
 import { DatabaseContext } from './context/types.js';
 import { createSession } from './gateways/sessions/create-session.js';
@@ -29,4 +30,7 @@ export const createDatabaseGateway = (ctx: DatabaseContext) =>
     getUserId,
   });
 
-export type DatabaseGateway = ReturnType<typeof createDatabaseGateway>;
+export type DatabaseGateway =
+  ReturnType<typeof createDatabaseGateway> extends FormRepository
+    ? ReturnType<typeof createDatabaseGateway>
+    : never;

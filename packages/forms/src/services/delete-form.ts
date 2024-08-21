@@ -6,14 +6,14 @@ export const deleteForm = (
   ctx: FormServiceContext,
   formId: string
 ): VoidResult => {
-  const form = ctx.db.getFormFromStorage(ctx.storage, formId);
+  const form = ctx.db.getForm(formId);
   if (form === null) {
     return {
       success: false,
       error: `form '${formId} does not exist`,
     };
   }
-  ctx.db.deleteFormFromStorage(window.localStorage, formId);
+  ctx.db.deleteForm(formId);
   return {
     success: true,
   };

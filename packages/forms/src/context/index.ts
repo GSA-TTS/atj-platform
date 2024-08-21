@@ -1,4 +1,4 @@
-import { type Result, type VoidResult } from '@atj/common';
+import { type Result, type VoidResult, createService } from '@atj/common';
 import {
   createFormService,
   defaultFormConfig,
@@ -8,11 +8,10 @@ import {
 import { type FormConfig } from '../pattern.js';
 import {
   addFormToStorage,
-  deleteFormFromStorage,
-  getFormFromStorage,
-  getFormListFromStorage,
-  getFormSummaryListFromStorage,
-  saveFormToStorage,
+  deleteForm,
+  getForm,
+  getFormSummaryList,
+  saveForm,
 } from '../context/browser/form-repo.js';
 
 export type FormServiceContext = {
@@ -22,38 +21,29 @@ export type FormServiceContext = {
 };
 
 export interface FormRepository {
-  addFormToStorage(
-    storage: Storage,
-    form: Blueprint
-  ): Result<{ timestamp: Date; id: string }>;
-  deleteFormFromStorage(storage: Storage, formId: string): void;
-  getFormFromStorage(storage: Storage, id?: string): Blueprint | null;
-  getFormListFromStorage(storage: Storage): string[] | null;
-  getFormSummaryListFromStorage(storage: Storage):
+  addForm(form: Blueprint): Result<{ timestamp: Date; id: string }>;
+  deleteForm(formId: string): void;
+  getForm(id?: string): Blueprint | null;
+  getFormList():
     | {
         id: string;
         title: string;
         description: string;
       }[]
     | null;
-  saveFormToStorage(
-    storage: Storage,
-    formId: string,
-    form: Blueprint
-  ): VoidResult;
+  saveForm(formId: string, form: Blueprint): VoidResult;
 }
 
 export const createDefaultBrowserContext = (
   storage: Storage = window?.localStorage
 ): FormServiceContext => ({
-  db: {
-    addFormToStorage,
-    deleteFormFromStorage,
-    getFormFromStorage,
-    getFormListFromStorage,
-    getFormSummaryListFromStorage,
-    saveFormToStorage,
-  },
+  db: createService(storage, {
+    addForm: addFormToStorage,
+    deleteForm,
+    getForm,
+    getFormList: getFormSummaryList,
+    saveForm,
+  }),
   storage,
   config: defaultFormConfig,
 });

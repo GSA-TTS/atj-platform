@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@atj/common": "workspace:*",
+    "@atj/forms": "workspace:*",
     "@types/pg": "^8.11.6",
     "better-sqlite3": "^11.1.2",
     "knex": "^3.1.0",

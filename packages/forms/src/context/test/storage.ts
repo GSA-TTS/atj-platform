@@ -1,5 +1,5 @@
 import { type Blueprint } from '../../index.js';
-import { saveFormToStorage } from '../browser/form-repo.js';
+import { saveForm } from '../browser/form-repo.js';
 
 export type TestData = Record<string, Blueprint>;
 
@@ -30,6 +30,6 @@ export const createTestStorage = (testData: TestData): Storage => {
 
 const populateStorage = (storage: Storage, testData: TestData) => {
   Object.entries(testData).forEach(([formId, form]) => {
-    saveFormToStorage(storage, formId, form);
+    saveForm(storage, formId, form);
   });
 };

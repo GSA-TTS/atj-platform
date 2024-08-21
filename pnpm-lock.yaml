@@ -245,6 +245,9 @@ importers:
       '@atj/common':
         specifier: workspace:*
         version: link:../common
+      '@atj/forms':
+        specifier: workspace:*
+        version: link:../forms
       '@types/pg':
         specifier: ^8.11.6
         version: 8.11.6
@@ -10006,7 +10009,7 @@ packages:
     dependencies:
       semver: 7.6.3
       shelljs: 0.8.5
-      typescript: 5.6.0-dev.20240819
+      typescript: 5.7.0-dev.20240820
     dev: false
 
   /dset@3.1.3:
@@ -19061,8 +19064,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  /typescript@5.6.0-dev.20240819:
-    resolution: {integrity: sha512-uNOMaNm8jBELjhuXZG5tSS6Pa6O/Wf89hawKkWaZcZvbkgkY2ykvNTNrkCP7QCQTSS3jwEVvd+pRhxJPxUeG4g==}
+  /typescript@5.7.0-dev.20240820:
+    resolution: {integrity: sha512-5qaYMUGLvSJ2v7a5i/EtE/UZEL4boEichoP4z50a/bOYX45Lvn+I0RPkV917qdE5cGX+kIVtgmSNUEcng7GWqw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false

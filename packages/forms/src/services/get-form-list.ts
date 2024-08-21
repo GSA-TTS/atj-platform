@@ -11,7 +11,7 @@ export type FormListItem = {
 export const getFormList = (
   ctx: FormServiceContext
 ): Result<FormListItem[]> => {
-  const forms = ctx.db.getFormSummaryListFromStorage(ctx.storage);
+  const forms = ctx.db.getFormList();
   if (forms === null) {
     return {
       success: false,

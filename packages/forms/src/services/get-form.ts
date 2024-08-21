@@ -7,7 +7,7 @@ export const getForm = (
   ctx: FormServiceContext,
   formId: string
 ): Result<Blueprint> => {
-  const result = ctx.db.getFormFromStorage(ctx.storage, formId);
+  const result = ctx.db.getForm(formId);
   if (result === null) {
     return {
       success: false,
