@@ -200,7 +200,7 @@ export const addPatternToPage = (
 
   let updatedPagePattern: PatternId[];
 
-  if (index && index !== undefined) {
+  if (index !== undefined) {
     updatedPagePattern = [
       ...pagePattern.data.patterns.slice(0, index + 1),
       pattern.id,
@@ -405,7 +405,7 @@ export const addPatternToFieldset = (
 
   let updatedPagePattern: PatternId[];
 
-  if (index && index !== undefined) {
+  if (index !== undefined) {
     updatedPagePattern = [
       ...fieldsetPattern.data.patterns.slice(0, index + 1),
       pattern.id,
