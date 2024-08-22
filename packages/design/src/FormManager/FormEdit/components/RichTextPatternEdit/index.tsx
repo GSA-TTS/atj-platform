@@ -51,45 +51,56 @@ const RichTextPatternEdit: PatternEditComponent<RichTextProps> = ({
 
 export default RichTextPatternEdit;
 
-const MenuBar: React.FC<MenuBarProps> = React.memo(({ editor }) => {
+const MenuBar: React.FC<MenuBarProps> = (({ editor }) => {
   if (!editor) {
     return null;
   }
 
   const editorActions = [
     {
-      label: 'Heading 1',
-      property: 'heading',
-      action: () => editor.chain().focus().toggleHeading({ level: 1 }),
-      parameter: { level: 1 },
-    },
-    {
-      label: 'Heading 2',
+      label: 'Heading',
       property: 'heading',
       action: () => editor.chain().focus().toggleHeading({ level: 2 }),
+      disabled: false,
       parameter: { level: 2 },
+    },
+    {
+      label: 'Subheading',
+      property: 'heading',
+      action: () => editor.chain().focus().toggleHeading({ level: 3 }),
+      disabled: false,
+      parameter: { level: 3 },
     },
     {
       label: 'Bold',
       property: 'bold',
       action: () => editor.chain().focus().toggleBold(),
+      disabled: !editor.can().chain().focus().toggleBold().run()
+    },
+    {
+      label: 'Italic',
+      property: 'italic',
+      action: () => editor.chain().focus().toggleItalic(),
+      disabled: !editor.can().chain().focus().toggleItalic().run()
     },
     {
       label: 'Bullet list',
       property: 'bulletList',
       action: () => editor.chain().focus().toggleBulletList(),
+      disabled: false
     },
     {
       label: 'Ordered list',
       property: 'orderedList',
       action: () => editor.chain().focus().toggleOrderedList(),
+      disabled: false
     },
   ];
 
   return (
     <div className="bg-base-lightest padding-x-2 padding-y-1 border-bottom-1px border-base-light">
       <ul className="usa-button-group">
-        {editorActions.map(({ label, action, parameter, property }, index) => (
+        {editorActions.map(({ label, action, parameter, property, disabled }, index) => (
           <li className="usa-button-group__item" key={index}>
             <button
               type="button"
@@ -100,6 +111,7 @@ const MenuBar: React.FC<MenuBarProps> = React.memo(({ editor }) => {
               className={classNames('usa-button', 'font-body-2xs', {
                 'usa-button--outline': !editor.isActive(property, parameter),
               })}
+              disabled={disabled}
             >
               {label}
             </button>
@@ -109,8 +121,6 @@ const MenuBar: React.FC<MenuBarProps> = React.memo(({ editor }) => {
     </div>
   );
 });
-
-MenuBar.displayName = 'MenuBar';
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const pattern = useFormManagerStore<RichTextPattern>(
@@ -130,7 +140,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
     extensions: [
       StarterKit.configure({
         heading: {
-          levels: [1, 2],
+          levels: [2, 3],
         },
       }),
     ],
