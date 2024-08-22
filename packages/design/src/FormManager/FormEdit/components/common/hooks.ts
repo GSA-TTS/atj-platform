@@ -6,6 +6,7 @@ import {
   type PatternMap,
   type PatternValue,
 } from '@atj/forms';
+import { RegisterOptions } from 'react-hook-form/dist/types/validator';
 
 type NestedKeys<T extends object> = {
   [K in keyof T & (string | number)]: T[K] extends object
@@ -21,7 +22,7 @@ export const usePatternEditFormContext = <T extends Pattern>(
   return {
     errors: formState.errors,
     fieldId: (path: NestedKeys<T['data']>) => `${patternId}.${path}`,
-    register: (path: NestedKeys<T['data']>) => register(`${patternId}.${path}`),
+    register: (path: NestedKeys<T['data']>, options?: RegisterOptions) => register(`${patternId}.${path}`, options),
     getFieldState: (path: NestedKeys<T['data']>) =>
       getFieldState(`${patternId}.${path}`, formState),
     setValue: (path: NestedKeys<T['data']>, value: PatternValue) =>

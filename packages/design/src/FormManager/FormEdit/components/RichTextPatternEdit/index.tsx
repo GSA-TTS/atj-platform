@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import React, { useState } from 'react';
 import debounce from 'debounce';
 
-import { PatternId, type RichTextProps } from '@atj/forms';
+import { PatternId, PatternMap, type RichTextProps } from '@atj/forms';
 import { type RichTextPattern } from '@atj/forms/src/patterns/rich-text';
 
 import RichText from '../../../../Form/components/RichText';
@@ -21,6 +21,12 @@ import styles from './richTextPatternEditStyles.module.css';
 
 interface MenuBarProps {
   editor: Editor | null;
+}
+
+type RichTextFormData = PatternMap & {
+  [p: string]: {
+    text: string;
+  }
 }
 
 const RichTextPatternEdit: PatternEditComponent<RichTextProps> = ({
@@ -134,7 +140,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
       const content = editor.getHTML();
       setEditorContent(content);
       setValue('text', content);
-      const data = {
+      const data: RichTextFormData = {
         [patternId]: {
           ...pattern,
           text: content,
@@ -172,7 +178,9 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
         </div>
         <input
           id={fieldId('text')}
-          {...register('text')}
+          {...register('text', {
+            required: false
+          })}
           defaultValue={pattern.data.text}
           type="hidden"
         ></input>
