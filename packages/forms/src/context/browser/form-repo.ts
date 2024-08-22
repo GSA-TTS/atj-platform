@@ -1,7 +1,7 @@
-import { failure, Result, VoidResult } from '@atj/common';
-import type { FormRepository } from '@atj/database';
+import { type Result, type VoidResult, failure } from '@atj/common';
 
 import { type Blueprint } from '../../index.js';
+import { FormRepository } from '../../repository/index.js';
 
 export class BrowserFormRepository implements FormRepository {
   constructor(private storage: Storage) {}

@@ -1,6 +1,6 @@
-//import { Blueprint } from '@atj/forms';
-type Blueprint = any;
-import { DatabaseContext } from '../../context/types';
+import { type DatabaseContext } from '@atj/database';
+
+import { type Blueprint } from '../index.js';
 
 export const getForm = async (
   ctx: DatabaseContext,

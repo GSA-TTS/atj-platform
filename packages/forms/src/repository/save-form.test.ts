@@ -1,8 +1,9 @@
 import { expect, it } from 'vitest';
 
-import { type DbTestContext, describeDatabase } from '../../testing';
-import { saveForm } from './save-form';
-import { addForm } from './add-form';
+import { type DbTestContext, describeDatabase } from '@atj/database/testing';
+
+import { saveForm } from './save-form.js';
+import { addForm } from './add-form.js';
 
 const TEST_FORM = {
   summary: {

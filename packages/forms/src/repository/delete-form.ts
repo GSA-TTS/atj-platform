@@ -1,6 +1,6 @@
 import { type VoidResult, failure } from '@atj/common';
 
-import { type DatabaseContext } from '../../context/types';
+import { type DatabaseContext } from '@atj/database';
 
 export const deleteForm = async (
   ctx: DatabaseContext,

@@ -1,7 +1,7 @@
 import { expect, it } from 'vitest';
 
-import { DbTestContext, describeDatabase } from '../../testing';
-import { getForm } from './get-form';
+import { type DbTestContext, describeDatabase } from '@atj/database/testing';
+import { getForm } from './get-form.js';
 
 describeDatabase('getForm', () => {
   it<DbTestContext>('retrieves form successfully', async ({ db }) => {

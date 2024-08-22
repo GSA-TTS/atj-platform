@@ -1,6 +1,11 @@
 import { createService } from '@atj/common';
 
 import { type FormServiceContext } from '../context/index.js';
+import { type FormConfig } from '../pattern.js';
+import {
+  type FormRepository,
+  createFormsRepository,
+} from '../repository/index.js';
 
 import { addForm } from './add-form.js';
 import { deleteForm } from './delete-form.js';

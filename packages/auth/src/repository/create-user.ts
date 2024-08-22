@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
 
-import { type DatabaseContext } from '../../context/types.js';
+import { type DatabaseContext } from '@atj/database';
 
 export const createUser = async (ctx: DatabaseContext, email: string) => {
   const id = randomUUID();

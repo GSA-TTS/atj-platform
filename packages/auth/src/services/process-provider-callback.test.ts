@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { processProviderCallback } from './process-provider-callback';
-import { createTestAuthContext } from '../context/test';
-import { AuthContext } from '..';
+import { processProviderCallback } from './process-provider-callback.js';
+import { createTestAuthContext } from '../context/test.js';
+import { type AuthServiceContext } from './index.js';
 
 describe('processProviderCallback', () => {
-  let ctx: AuthContext;
+  let ctx: AuthServiceContext;
 
   beforeEach(async () => {
     // Set up global mocks

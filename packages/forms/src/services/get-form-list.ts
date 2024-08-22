@@ -11,7 +11,7 @@ export type FormListItem = {
 export const getFormList = async (
   ctx: FormServiceContext
 ): Promise<Result<FormListItem[]>> => {
-  const forms = await ctx.db.getFormList();
+  const forms = await ctx.repository.getFormList();
   if (forms === null) {
     return {
       success: false,

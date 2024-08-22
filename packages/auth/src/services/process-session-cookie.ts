@@ -2,10 +2,10 @@ import { verifyRequestOrigin } from 'lucia';
 
 import { type VoidResult } from '@atj/common';
 
-import { type AuthContext } from '..';
+import { type AuthServiceContext } from './index.js';
 
 export const processSessionCookie = async (
-  ctx: AuthContext,
+  ctx: AuthServiceContext,
   request: Request
 ): Promise<VoidResult<{ status: number }>> => {
   if (request.method !== 'GET') {

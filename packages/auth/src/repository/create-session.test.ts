@@ -1,7 +1,7 @@
 import { expect, it } from 'vitest';
 
-import { type DbTestContext, describeDatabase } from '../../testing.js';
-import { createUser } from '../auth/create-user.js';
+import { type DbTestContext, describeDatabase } from '@atj/database/testing';
+import { createUser } from './create-user.js';
 import { createSession } from './create-session.js';
 
 describeDatabase('create session', () => {

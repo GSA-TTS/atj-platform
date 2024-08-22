@@ -1,6 +1,6 @@
 import { beforeAll, expect, it, vi } from 'vitest';
 
-import { type DbTestContext, describeDatabase } from '../../testing.js';
+import { type DbTestContext, describeDatabase } from '@atj/database/testing';
 import { addForm } from './add-form.js';
 
 describeDatabase('add form', () => {

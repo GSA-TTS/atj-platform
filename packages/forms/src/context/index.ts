@@ -1,7 +1,7 @@
-import type { FormRepository } from '@atj/database';
 import { type FormConfig } from '../pattern.js';
+import type { FormRepository } from '../repository/index.js';
 
 export type FormServiceContext = {
-  db: FormRepository;
+  repository: FormRepository;
   config: FormConfig;
 };

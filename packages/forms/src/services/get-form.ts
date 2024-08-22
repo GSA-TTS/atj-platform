@@ -7,7 +7,7 @@ export const getForm = async (
   ctx: FormServiceContext,
   formId: string
 ): Promise<Result<Blueprint>> => {
-  const result = await ctx.db.getForm(formId);
+  const result = await ctx.repository.getForm(formId);
   if (result === null) {
     return {
       success: false,

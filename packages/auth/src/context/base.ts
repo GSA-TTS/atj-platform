@@ -1,12 +1,14 @@
 import { Cookie, Lucia } from 'lucia';
 
-import { AuthRepository } from '@atj/database';
+import { type AuthServiceContext, type UserSession } from '../index.js';
+import {
+  createPostgresLuciaAdapter,
+  createSqliteLuciaAdapter,
+} from '../lucia.js';
+import { LoginGov } from '../provider.js';
+import { type AuthRepository } from '../repository/index.js';
 
-import { type AuthContext, type UserSession } from '..';
-import { createPostgresLuciaAdapter, createSqliteLuciaAdapter } from '../lucia';
-import { LoginGov } from '../provider';
-
-export class BaseAuthContext implements AuthContext {
+export class BaseAuthContext implements AuthServiceContext {
   private lucia?: Lucia;
 
   constructor(

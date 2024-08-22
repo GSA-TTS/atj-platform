@@ -1,5 +1,4 @@
-//import { type Blueprint } from '@atj/forms';
-import { type DatabaseContext } from '../../context/types';
+import { type DatabaseContext } from '@atj/database';
 
 export const getFormList = async (ctx: DatabaseContext) => {
   const db = await ctx.getKysely();

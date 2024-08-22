@@ -24,6 +24,7 @@ export * from './session.js';
 export { type FormService, createFormService } from './services/index.js';
 export { type FormServiceContext } from './context/index.js';
 export { createTestFormService } from './context/test/index.js';
+export { type FormRepository } from './repository/index.js';
 
 export type Blueprint = {
   summary: FormSummary;

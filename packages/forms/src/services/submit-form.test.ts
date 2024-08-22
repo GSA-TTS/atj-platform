@@ -7,7 +7,9 @@ describe('submitForm', () => {
   it('succeeds with empty form', async () => {
     const service = await createTestFormService();
     const testForm = createForm({ title: 'test', description: 'description' });
-    const addFormResult = await service.getContext().db.addForm(testForm);
+    const addFormResult = await service
+      .getContext()
+      .repository.addForm(testForm);
     if (addFormResult.success === false) {
       expect.fail('addForm failed');
     }

@@ -6,9 +6,9 @@ import { BrowserFormRepository } from '../browser/form-repo.js';
 // In tests, use the browser form service with fakes injected.
 export const createTestFormService = (testData: TestData = {}) => {
   const storage = createTestStorage(testData);
-  const db = new BrowserFormRepository(storage);
+  const repository = new BrowserFormRepository(storage);
   const formService = createFormService({
-    db,
+    repository,
     config: defaultFormConfig,
   });
   if (testData) {

@@ -1,10 +1,9 @@
 import { createService } from '@atj/common';
+import type { DatabaseContext } from '@atj/database';
 
-import type { DatabaseContext } from '../../context/types';
-
-import { createSession } from './create-session';
-import { createUser } from './create-user';
-import { getUserId } from './get-user-id';
+import { createSession } from './create-session.js';
+import { createUser } from './create-user.js';
+import { getUserId } from './get-user-id.js';
 
 export const createAuthRepository = (ctx: DatabaseContext) =>
   createService(ctx, {

@@ -38,9 +38,9 @@ const createAppContext = (env: any): AppContext => {
 
 const createAppFormService = () => {
   if (globalThis.window) {
-    const db = new BrowserFormRepository(window.localStorage);
+    const repository = new BrowserFormRepository(window.localStorage);
     return createFormService({
-      db,
+      repository,
       config: defaultFormConfig,
     });
   } else {

@@ -1,7 +1,7 @@
 import { type Result, failure, success } from '@atj/common';
 
-import { type DatabaseContext } from '../../context/types';
-import { stringifyForm } from './serialize';
+import { type DatabaseContext } from '@atj/database';
+import { stringifyForm } from './serialize.js';
 
 export const addForm = async (
   ctx: DatabaseContext,

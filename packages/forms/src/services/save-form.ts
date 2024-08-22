@@ -8,7 +8,7 @@ export const saveForm = async (
   formId: string,
   form: Blueprint
 ): Promise<Result<{ timestamp: Date }>> => {
-  const result = await ctx.db.saveForm(formId, form);
+  const result = await ctx.repository.saveForm(formId, form);
   if (result.success === false) {
     return {
       success: false,

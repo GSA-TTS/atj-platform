@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto';
 import { expect, it } from 'vitest';
 
-import { type DbTestContext, describeDatabase } from '../../testing.js';
+import { type DbTestContext, describeDatabase } from '@atj/database/testing';
 
 import { getUserId } from './get-user-id.js';
 

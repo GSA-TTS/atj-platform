@@ -1,27 +1,17 @@
-import { type Cookie, type User, type Session, type Lucia } from 'lucia';
+import { type User, type Session } from 'lucia';
 
-import { type AuthRepository } from '@atj/database';
+import { type LoginGovOptions, LoginGov } from './provider.js';
 
-export { BaseAuthContext } from './context/base';
-import { type LoginGovOptions, LoginGov } from './provider';
+export { BaseAuthContext } from './context/base.js';
 export { type LoginGovOptions, LoginGov };
-export { getProviderRedirect } from './services/get-provider-redirect';
-export { logOut } from './services/logout';
-export { processProviderCallback } from './services/process-provider-callback';
-export { processSessionCookie } from './services/process-session-cookie';
+export { getProviderRedirect } from './services/get-provider-redirect.js';
+export { logOut } from './services/logout.js';
+export { processProviderCallback } from './services/process-provider-callback.js';
+export { processSessionCookie } from './services/process-session-cookie.js';
 export { User, Session };
+export type { AuthServiceContext } from './services/index.js';
 
 export type UserSession = {
   user: User | null;
   session: Session | null;
-};
-
-export type AuthContext = {
-  db: AuthRepository;
-  provider: LoginGov;
-  getCookie: (name: string) => string | undefined;
-  setCookie: (cookie: Cookie) => void;
-  setUserSession: (userSession: UserSession) => void;
-  getLucia: () => Promise<Lucia>;
-  isUserAuthorized: (email: string) => Promise<boolean>;
 };

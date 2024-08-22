@@ -6,14 +6,14 @@ export const deleteForm = async (
   ctx: FormServiceContext,
   formId: string
 ): Promise<VoidResult> => {
-  const form = await ctx.db.getForm(formId);
+  const form = await ctx.repository.getForm(formId);
   if (form === null) {
     return {
       success: false,
       error: `form '${formId} does not exist`,
     };
   }
-  ctx.db.deleteForm(formId);
+  ctx.repository.deleteForm(formId);
   return {
     success: true,
   };

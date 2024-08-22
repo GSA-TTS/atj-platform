@@ -1,6 +1,6 @@
 import { beforeAll, expect, it, vi } from 'vitest';
 
-import { type DbTestContext, describeDatabase } from '../../testing.js';
+import { type DbTestContext, describeDatabase } from '@atj/database/testing';
 import { deleteForm } from './delete-form.js';
 
 describeDatabase('delete form', () => {

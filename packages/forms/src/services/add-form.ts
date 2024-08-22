@@ -7,5 +7,5 @@ export const addForm = async (
   ctx: FormServiceContext,
   form: Blueprint
 ): Promise<Result<{ timestamp: string; id: string }>> => {
-  return ctx.db.addForm(form);
+  return ctx.repository.addForm(form);
 };
