@@ -1,5 +1,6 @@
 import classnames from 'classnames';
 import React, { useState } from 'react';
+import debounce from 'debounce';
 
 import { PatternId, type RichTextProps } from '@atj/forms';
 import { type RichTextPattern } from '@atj/forms/src/patterns/rich-text';
@@ -44,7 +45,7 @@ const RichTextPatternEdit: PatternEditComponent<RichTextProps> = ({
 
 export default RichTextPatternEdit;
 
-const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
+const MenuBar: React.FC<MenuBarProps> = React.memo(({ editor }) => {
   if (!editor) {
     return null;
   }
@@ -101,7 +102,9 @@ const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
       </ul>
     </div>
   );
-};
+});
+
+MenuBar.displayName = 'MenuBar';
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const pattern = useFormManagerStore<RichTextPattern>(
@@ -115,6 +118,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   }));
 
   const [editorContent, setEditorContent] = useState(pattern.data.text);
+  const debouncedUpdate = debounce(updateActivePattern, 200);
 
   const editor = useEditor({
     extensions: [
@@ -136,7 +140,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           text: content,
         },
       };
-      updateActivePattern(data);
+      debouncedUpdate(data);
     },
   });
 

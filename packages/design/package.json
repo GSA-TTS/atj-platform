@@ -69,6 +69,7 @@
     "@tiptap/starter-kit": "^2.6.2",
     "@uswds/uswds": "^3.8.1",
     "classnames": "^2.5.1",
+    "debounce": "^2.1.0",
     "deep-equal": "^2.2.3",
     "react": "^18.3.1",
     "react-hook-form": "^7.52.2",
