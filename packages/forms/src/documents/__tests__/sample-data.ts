@@ -1,7 +1,11 @@
-import path from 'path';
 import { promises as fs } from 'fs';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-const samplesDirectory = path.resolve(__dirname, '../../../sample-documents');
+const samplesDirectory = path.resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  '../../../sample-documents'
+);
 
 export const loadSamplePDF = async (fileName: `${string}.pdf`) => {
   const samplePdfPath = path.join(samplesDirectory, fileName);

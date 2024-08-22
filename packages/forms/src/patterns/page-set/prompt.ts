@@ -6,12 +6,12 @@ import {
   type PromptAction,
   createPromptForPattern,
   getPattern,
-} from '../..';
-import { type RouteData } from '../../route-data';
-import { safeZodParseFormErrors } from '../../util/zod';
+} from '../../index.js';
+import { type RouteData } from '../../route-data.js';
+import { safeZodParseFormErrors } from '../../util/zod.js';
 
-import { type PageSetPattern } from './config';
-import { type PagePattern } from '../page/config';
+import { type PageSetPattern } from './config.js';
+import { type PagePattern } from '../page/config.js';
 
 export const createPrompt: CreatePrompt<PageSetPattern> = (
   config,

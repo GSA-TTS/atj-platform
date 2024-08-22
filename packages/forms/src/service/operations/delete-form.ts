@@ -3,7 +3,7 @@ import { VoidResult } from '@atj/common';
 import {
   deleteFormFromStorage,
   getFormFromStorage,
-} from '../context/browser/form-repo';
+} from '../context/browser/form-repo.js';
 
 export const deleteForm = (
   ctx: { storage: Storage },

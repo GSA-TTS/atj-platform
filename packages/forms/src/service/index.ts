@@ -1,3 +1,3 @@
-export { createBrowserFormService } from './context/browser';
-export { createTestFormService } from './context/test';
-export { type FormService } from './types';
+export { createBrowserFormService } from './context/browser/index.js';
+export { createTestFormService } from './context/test/index.js';
+export { type FormService } from './types.js';

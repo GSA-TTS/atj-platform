@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { processProviderCallback } from './process-provider-callback';
 import { createTestAuthContext } from '../context/test';
 import { AuthContext } from '..';
+import { success } from '@atj/common';
 
 describe('processProviderCallback', () => {
   let ctx: AuthContext;
@@ -99,6 +100,31 @@ describe('processProviderCallback', () => {
         message: 'bad request',
         status: 400,
       },
+    });
+  });
+
+  it('fails with unauthorized email', async () => {
+    const ctx = await createTestAuthContext({
+      isUserAuthorized: async () => false,
+    });
+    const result = await processProviderCallback(
+      ctx,
+      {
+        code: 'params-code',
+        state: 'params-state',
+      },
+      {
+        code: 'params-code',
+        state: 'params-state',
+        nonce: 't0j5AY5k4oLAcxfaZdRsMfVZGBCgBjlfihgoVq34YGo',
+      }
+    );
+    expect(result).toEqual({
+      error: {
+        message: 'permission denied',
+        status: 403,
+      },
+      success: false,
     });
   });
 });

@@ -5,16 +5,16 @@ import {
   addPatterns,
   addPatternMap,
   updateFormSummary,
-} from '..';
-import { InputPattern } from '../patterns/input';
-import { SequencePattern } from '../patterns/sequence';
-import { PDFDocument, getDocumentFieldData } from './pdf';
+} from '../index.js';
+import { InputPattern } from '../patterns/input/index.js';
+import { SequencePattern } from '../patterns/sequence.js';
+import { PDFDocument, getDocumentFieldData } from './pdf/index.js';
 import {
   type FetchPdfApiResponse,
   processApiResponse,
   fetchPdfApiResponse,
-} from './pdf/parsing-api';
-import { DocumentFieldMap } from './types';
+} from './pdf/parsing-api.js';
+import { DocumentFieldMap } from './types.js';
 
 export type DocumentTemplate = PDFDocument;
 

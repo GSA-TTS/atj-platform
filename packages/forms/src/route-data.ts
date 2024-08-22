@@ -1,5 +1,5 @@
 import qs from 'qs';
-import { PatternId } from './pattern';
+import { PatternId } from './pattern.js';
 
 export type RouteData = qs.ParsedQs;
 

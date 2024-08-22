@@ -1,10 +1,10 @@
-import { type InputPattern, inputConfig } from '.';
+import { type InputPattern, inputConfig } from './index.js';
 import {
   type CreatePrompt,
   type TextInputProps,
   getFormSessionValue,
   validatePattern,
-} from '../..';
+} from '../../index.js';
 
 export const createPrompt: CreatePrompt<InputPattern> = (
   _,

@@ -1,12 +1,12 @@
-import { type FormConfig, defaultFormConfig } from '../../..';
+import { type FormConfig, defaultFormConfig } from '../../../index.js';
 
-import { addForm } from '../../operations/add-form';
-import { deleteForm } from '../../operations/delete-form';
-import { getForm } from '../../operations/get-form';
-import { getFormList } from '../../operations/get-form-list';
-import { saveForm } from '../../operations/save-form';
-import { submitForm } from '../../operations/submit-form';
-import type { FormService } from '../../types';
+import { addForm } from '../../operations/add-form.js';
+import { deleteForm } from '../../operations/delete-form.js';
+import { getForm } from '../../operations/get-form.js';
+import { getFormList } from '../../operations/get-form-list.js';
+import { saveForm } from '../../operations/save-form.js';
+import { submitForm } from '../../operations/submit-form.js';
+import type { FormService } from '../../types.js';
 
 type BrowserContext = {
   storage: Storage;

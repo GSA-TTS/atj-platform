@@ -1,8 +1,8 @@
 import { PDFDocument, type PDFForm } from 'pdf-lib';
 
 import { Result } from '@atj/common';
-import { type FormOutput } from '../..';
-import { type PDFFieldType } from '.';
+import { type FormOutput } from '../../index.js';
+import { type PDFFieldType } from './index.js';
 
 export const createFormOutputFieldData = (
   output: FormOutput,

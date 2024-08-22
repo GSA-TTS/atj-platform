@@ -1,9 +1,9 @@
 import { z } from 'zod';
 
-import { ParseUserInput } from '../../pattern';
-import { safeZodParseToFormError } from '../../util/zod';
+import { ParseUserInput } from '../../pattern.js';
+import { safeZodParseToFormError } from '../../util/zod.js';
 
-import { type InputPattern } from '.';
+import { type InputPattern } from './index.js';
 
 const createSchema = (data: InputPattern['data']) => {
   const schema = z.string().max(data.maxLength);

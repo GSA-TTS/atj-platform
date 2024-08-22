@@ -1,16 +1,16 @@
-import { type FormConfig } from '../pattern';
+import { type FormConfig } from '../pattern.js';
 
-import { addressConfig } from './address';
-import { checkboxConfig } from './checkbox';
-import { fieldsetConfig } from './fieldset';
-import { formSummaryConfig } from './form-summary';
-import { inputConfig } from './input';
-import { pageConfig } from './page';
-import { pageSetConfig } from './page-set';
-import { paragraphConfig } from './paragraph';
-import { richTextConfig } from './rich-text';
-import { radioGroupConfig } from './radio-group';
-import { sequenceConfig } from './sequence';
+import { addressConfig } from './address/index.js';
+import { checkboxConfig } from './checkbox.js';
+import { fieldsetConfig } from './fieldset/index.js';
+import { formSummaryConfig } from './form-summary.js';
+import { inputConfig } from './input/index.js';
+import { pageConfig } from './page/index.js';
+import { pageSetConfig } from './page-set/index.js';
+import { paragraphConfig } from './paragraph.js';
+import { radioGroupConfig } from './radio-group.js';
+import { richTextConfig } from './rich-text.js';
+import { sequenceConfig } from './sequence.js';
 
 // This configuration reflects what a user of this library would provide for
 // their usage scenarios. For now, keep here in the form service until we

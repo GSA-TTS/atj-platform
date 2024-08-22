@@ -8,20 +8,20 @@ import {
   type PatternMap,
   createPattern,
   defaultFormConfig,
-} from '../..';
+} from '../../index.js';
 
-import { type FieldsetPattern } from '../../patterns/fieldset';
-import { type InputPattern } from '../../patterns/input';
-import { type ParagraphPattern } from '../../patterns/paragraph';
-import { type RichTextPattern } from '../../patterns/rich-text';
-import { type CheckboxPattern } from '../../patterns/checkbox';
-import { type RadioGroupPattern } from '../../patterns/radio-group';
-import { type FormSummary } from '../../patterns/form-summary';
+import { type FieldsetPattern } from '../../patterns/fieldset/index.js';
+import { type InputPattern } from '../../patterns/input/index.js';
+import { type ParagraphPattern } from '../../patterns/paragraph.js';
+import { type CheckboxPattern } from '../../patterns/checkbox.js';
+import { type RadioGroupPattern } from '../../patterns/radio-group.js';
+import { type RichTextPattern } from '../../patterns/rich-text.js';
+import { type FormSummary } from '../../patterns/form-summary.js';
 
-import { uint8ArrayToBase64 } from '../util';
-import { type DocumentFieldMap } from '../types';
-import { PagePattern } from '../../patterns/page/config';
-import { PageSetPattern } from '../../patterns/page-set/config';
+import { uint8ArrayToBase64 } from '../util.js';
+import { type DocumentFieldMap } from '../types.js';
+import { PagePattern } from '../../patterns/page/config.js';
+import { PageSetPattern } from '../../patterns/page-set/config.js';
 
 /** API v1 response format
  * // formSummary json

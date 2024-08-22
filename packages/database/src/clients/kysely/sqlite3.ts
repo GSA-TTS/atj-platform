@@ -3,7 +3,7 @@ import BetterSqliteDatabase, {
   type Database as SqliteDatabase,
 } from 'better-sqlite3';
 
-import { type Database } from './types';
+import { type Database } from './types.js';
 
 type TestDatabase = {
   kysely: Kysely<Database>;

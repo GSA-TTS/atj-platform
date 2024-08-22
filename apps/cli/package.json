@@ -6,7 +6,7 @@
   "license": "CC0",
   "main": "src/index.ts",
   "scripts": {
-    "build": "node ./build.js",
+    "build": "tsup src/* --format cjs",
     "cli": "node dist/index.js",
     "dev": "tsup src/* --watch",
     "test": "vitest run --coverage"

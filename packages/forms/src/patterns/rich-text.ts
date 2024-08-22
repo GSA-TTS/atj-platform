@@ -1,8 +1,8 @@
 import * as z from 'zod';
 
-import { type Pattern, type PatternConfig } from '../pattern';
-import { type RichTextProps } from '../components';
-import { safeZodParseFormErrors } from '../util/zod';
+import { type Pattern, type PatternConfig } from '../pattern.js';
+import { type RichTextProps } from '../components.js';
+import { safeZodParseFormErrors } from '../util/zod.js';
 
 const configSchema = z.object({
   text: z.string().min(1),
