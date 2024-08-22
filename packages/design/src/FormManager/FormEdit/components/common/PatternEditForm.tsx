@@ -10,17 +10,17 @@ type PatternEditFormProps = {
   editComponent: React.ReactNode;
 };
 
-// const hasRichText = (data: PatternMap): boolean => {
-//   for (const key in data) {
-//     if (
-//       Object.prototype.hasOwnProperty.call(data, key) &&
-//       data[key].type === 'rich-text'
-//     ) {
-//       return true; // If any key type is "rich-text", do not save
-//     }
-//   }
-//   return false;
-// };
+const hasRichText = (data: PatternMap): boolean => {
+  for (const key in data) {
+    if (
+      Object.prototype.hasOwnProperty.call(data, key) &&
+      data[key].type === 'rich-text'
+    ) {
+      return true;
+    }
+  }
+  return false;
+};
 
 export const PatternEditForm = ({
   pattern,
@@ -51,9 +51,9 @@ export const PatternEditForm = ({
     <FormProvider {...methods}>
       <form
         onBlur={methods.handleSubmit(formData => {
-          // if (!hasRichText(formData)) {
+          if (!hasRichText(formData)) {
             updateActivePattern(formData);
-          // }
+          }
         })}
         onSubmit={methods.handleSubmit(formData => {
           const success = updateActivePattern(formData);

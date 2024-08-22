@@ -110,6 +110,9 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const { fieldId, getFieldState, register, setValue } =
     usePatternEditFormContext<RichTextPattern>(patternId);
   const text = getFieldState('text');
+  const { updateActivePattern } = useFormManagerStore(state => ({
+    updateActivePattern: state.updateActivePattern,
+  }));
 
   const [editorContent, setEditorContent] = useState(pattern.data.text);
 
@@ -127,6 +130,13 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
       const content = editor.getHTML();
       setEditorContent(content);
       setValue('text', content);
+      const data = {
+        [patternId]: {
+          ...pattern,
+          text: content,
+        },
+      };
+      updateActivePattern(data);
     },
   });
 
