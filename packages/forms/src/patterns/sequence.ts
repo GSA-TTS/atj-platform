@@ -5,9 +5,9 @@ import {
   type PatternConfig,
   type PatternId,
   getPattern,
-} from '../pattern';
-import { type SequenceProps, createPromptForPattern } from '../components';
-import { safeZodParseFormErrors } from '../util/zod';
+} from '../pattern.js';
+import { type SequenceProps, createPromptForPattern } from '../components.js';
+import { safeZodParseFormErrors } from '../util/zod.js';
 
 export type SequencePattern = Pattern<{
   patterns: PatternId[];

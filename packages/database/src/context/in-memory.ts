@@ -2,16 +2,15 @@ import { type Database as SqliteDatabase } from 'better-sqlite3';
 import { type Knex } from 'knex';
 import { type Kysely } from 'kysely';
 
-import { getTestKnex } from '../clients/knex.js';
-import {
-  type Database,
-  createSqliteDatabase,
-} from '../clients/kysely/index.js';
+import { getInMemoryKnex } from '../clients/knex.js';
+import { createSqliteDatabase } from '../clients/kysely/sqlite3.js';
+import { type Database } from '../clients/kysely/types.js';
 import { migrateDatabase } from '../management/migrate-database.js';
 
 import { type DatabaseContext } from './types.js';
 
-export class TestDatabaseContext implements DatabaseContext {
+export class InMemoryDatabaseContext implements DatabaseContext {
+  public readonly engine = 'sqlite';
   knex?: Knex;
   kysely?: Kysely<Database>;
   sqlite3?: SqliteDatabase;
@@ -20,7 +19,7 @@ export class TestDatabaseContext implements DatabaseContext {
 
   async getKnex() {
     if (!this.knex) {
-      this.knex = getTestKnex();
+      this.knex = getInMemoryKnex();
     }
     return this.knex;
   }
@@ -40,10 +39,22 @@ export class TestDatabaseContext implements DatabaseContext {
     }
     return this.kysely;
   }
+
+  async destroy() {
+    if (this.knex && this.sqlite3) {
+      this.knex.client.releaseConnection(this.sqlite3);
+    }
+    if (this.knex) {
+      await this.knex.destroy();
+    }
+    if (this.kysely) {
+      await this.kysely.destroy();
+    }
+  }
 }
 
-export const createTestDatabaseContext = async () => {
-  const ctx = new TestDatabaseContext();
+export const createInMemoryDatabaseContext = async () => {
+  const ctx = new InMemoryDatabaseContext();
   await migrateDatabase(ctx);
   return ctx;
 };

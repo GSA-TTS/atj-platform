@@ -3,12 +3,32 @@ import { fileURLToPath } from 'url';
 
 import knex, { type Knex } from 'knex';
 
-const getDirname = () => dirname(fileURLToPath(import.meta.url));
-const migrationsDirectory = path.resolve(getDirname(), '../../migrations');
+const migrationsDirectory = path.resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  '../../migrations'
+);
 
 export const createKnex = (config: Knex.Config): Knex => knex(config);
 
-export const getTestKnex = (): Knex => {
+export const getPostgresKnex = (
+  connectionString: string,
+  ssl: boolean = false
+): Knex => {
+  return knex({
+    client: 'pg',
+    connection: {
+      connectionString,
+      ssl: ssl ? { rejectUnauthorized: false } : false,
+    },
+    useNullAsDefault: true,
+    migrations: {
+      directory: migrationsDirectory,
+      loadExtensions: ['.mjs'],
+    },
+  });
+};
+
+export const getInMemoryKnex = (): Knex => {
   return knex({
     client: 'better-sqlite3',
     connection: {
@@ -22,7 +42,7 @@ export const getTestKnex = (): Knex => {
   });
 };
 
-export const getDevKnex = (path: string): Knex => {
+export const getFileSystemKnex = (path: string): Knex => {
   return knex({
     client: 'better-sqlite3',
     connection: {

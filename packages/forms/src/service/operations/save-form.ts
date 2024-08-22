@@ -1,7 +1,7 @@
 import { Result } from '@atj/common';
 import { Blueprint } from '../../index.js';
 
-import { saveFormToStorage } from '../context/browser/form-repo';
+import { saveFormToStorage } from '../context/browser/form-repo.js';
 
 export const saveForm = (
   ctx: { storage: Storage },

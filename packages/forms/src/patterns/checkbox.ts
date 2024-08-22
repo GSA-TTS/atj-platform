@@ -1,9 +1,16 @@
 import * as z from 'zod';
 
-import { type Pattern, type PatternConfig, validatePattern } from '../pattern';
-import { type CheckboxProps } from '../components';
-import { getFormSessionError, getFormSessionValue } from '../session';
-import { safeZodParseFormErrors, safeZodParseToFormError } from '../util/zod';
+import {
+  type Pattern,
+  type PatternConfig,
+  validatePattern,
+} from '../pattern.js';
+import { type CheckboxProps } from '../components.js';
+import { getFormSessionValue } from '../session.js';
+import {
+  safeZodParseFormErrors,
+  safeZodParseToFormError,
+} from '../util/zod.js';
 
 const configSchema = z.object({
   label: z.string().min(1),

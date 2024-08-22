@@ -1,14 +1,15 @@
 import { describe, expect, it } from 'vitest';
 
-import { BlueprintBuilder } from '.';
-import { createForm, getPattern, Pattern } from '..';
-import { defaultFormConfig } from '../patterns';
-import { type InputPattern } from '../patterns/input';
-import { PageSetPattern } from '../patterns/page-set/config';
-import { PagePattern } from '../patterns/page/config';
-import { FieldsetPattern } from '../patterns/fieldset';
-import { FormSummary } from '../patterns/form-summary';
-import { RadioGroupPattern } from '../patterns/radio-group';
+import { type Pattern, createForm, getPattern } from '../index.js';
+import { defaultFormConfig } from '../patterns/index.js';
+import { type FieldsetPattern } from '../patterns/fieldset/index.js';
+import { type FormSummary } from '../patterns/form-summary.js';
+import { type InputPattern } from '../patterns/input/index.js';
+import { type PagePattern } from '../patterns/page/config.js';
+import { type PageSetPattern } from '../patterns/page-set/config.js';
+import { type RadioGroupPattern } from '../patterns/radio-group.js';
+
+import { BlueprintBuilder } from './index.js';
 
 describe('form builder', () => {
   it('addPattern adds initial pattern of given type', () => {

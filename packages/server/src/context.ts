@@ -7,7 +7,7 @@ import type { AuthContext, LoginGovOptions } from '@atj/auth';
 import { type DatabaseGateway } from '@atj/database';
 import { type FormConfig, defaultFormConfig, service } from '@atj/forms';
 
-import { type GithubRepository } from './lib/github';
+import { type GithubRepository } from './lib/github.js';
 
 export type AppContext = {
   auth: AuthContext;
@@ -23,6 +23,7 @@ export type ServerOptions = {
   title: string;
   db: DatabaseGateway;
   loginGovOptions: LoginGovOptions;
+  isUserAuthorized: (email: string) => Promise<boolean>;
 };
 
 export const getAstroAppContext = async (Astro: any): Promise<AppContext> => {
@@ -42,6 +43,7 @@ const createAstroAppContext = async (
       Astro,
       db: serverOptions.db,
       loginGovOptions: serverOptions.loginGovOptions,
+      isUserAuthorized: serverOptions.isUserAuthorized,
     }),
     baseUrl: env.BASE_URL,
     formConfig: defaultFormConfig,
@@ -64,6 +66,9 @@ const getDefaultServerOptions = async (): Promise<ServerOptions> => {
       //clientSecret: import.meta.env.SECRET_LOGIN_GOV_PRIVATE_KEY,
       redirectURI: 'http://localhost:4322/signin/callback',
     },
+    isUserAuthorized: async (email: string) => {
+      return true;
+    },
   };
 };
 
@@ -74,10 +79,11 @@ const getServerOptions = async (Astro: AstroGlobal | APIContext) => {
 const getDirname = () => dirname(fileURLToPath(import.meta.url));
 
 const createDefaultDatabaseGateway = async () => {
-  const { createDatabaseGateway, createDevDatabaseContext } = await import(
-    '@atj/database'
+  const { createDatabaseGateway, createFilesystemDatabaseContext } =
+    await import('@atj/database');
+  const ctx = await createFilesystemDatabaseContext(
+    join(getDirname(), '../main.db')
   );
-  const ctx = await createDevDatabaseContext(join(getDirname(), '../main.db'));
   const gateway = createDatabaseGateway(ctx);
   return Promise.resolve(gateway);
 };
@@ -94,13 +100,15 @@ const createDefaultAuthContext = async ({
   Astro,
   db,
   loginGovOptions,
+  isUserAuthorized,
 }: {
   Astro: AstroGlobal | APIContext;
   db: DatabaseGateway;
   loginGovOptions: LoginGovOptions;
+  isUserAuthorized: (email: string) => Promise<boolean>;
 }) => {
-  const { LoginGov, DevAuthContext } = await import('@atj/auth');
-  return new DevAuthContext(
+  const { LoginGov, BaseAuthContext } = await import('@atj/auth');
+  return new BaseAuthContext(
     db,
     new LoginGov({
       ...loginGovOptions,
@@ -115,7 +123,8 @@ const createDefaultAuthContext = async ({
     function setUserSession({ session, user }) {
       Astro.locals.session = session;
       Astro.locals.user = user;
-    }
+    },
+    isUserAuthorized
   );
 };
 

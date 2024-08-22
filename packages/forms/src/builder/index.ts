@@ -9,20 +9,19 @@ import {
   type PatternMap,
   addDocument,
   addPageToPageSet,
+  addPatternToFieldset,
   addPatternToPage,
+  copyPattern,
   createDefaultPattern,
+  createOnePageBlueprint,
   getPattern,
+  movePatternBetweenPages,
   removePatternFromBlueprint,
   updateFormSummary,
   updatePatternFromFormData,
-  createOnePageBlueprint,
-  addPatternToFieldset,
-  movePatternBetweenPages,
-  copyPattern,
-} from '..';
-import { type PageSetPattern } from '../patterns/page-set/config';
-import { FieldsetPattern } from '../patterns/fieldset';
-import { PagePattern } from '../patterns/page/config';
+} from '../index.js';
+import { type PageSetPattern } from '../patterns/page-set/config.js';
+import { FieldsetPattern } from '../patterns/fieldset/index.js';
 
 export class BlueprintBuilder {
   bp: Blueprint;

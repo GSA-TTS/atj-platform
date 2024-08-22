@@ -1,18 +1,20 @@
 import request from 'supertest';
-import { beforeAll, describe, expect, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
+import { describeDatabase } from '@atj/database/testing';
 
 import { createCustomServer } from '../src/server';
 
-describe('Kansas State Courts Form Service', () => {
-  let app: any;
-
-  beforeAll(async () => {
-    app = await createCustomServer();
+describe('DOJ Form Service', () => {
+  test('avoid "No test suite found in file" error', async () => {
+    expect(true).toBe(true);
   });
+});
 
-  test('renders the home page', async () => {
+describeDatabase('Kansas State Courts Form Service', () => {
+  test('renders the home page', async ({ db }) => {
+    const app = await createCustomServer({ dbUri: db.ctx.connectionUri });
     const response = await request(app).get('/');
     expect(response.ok).toBe(true);
-    expect(response.text).toMatch(/KS Courts Form Service/);
+    expect(response.text).toMatch(/DOJ Form Service/);
   });
 });

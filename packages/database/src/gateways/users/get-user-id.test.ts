@@ -1,23 +1,21 @@
 import { randomUUID } from 'crypto';
-import { describe, expect, it } from 'vitest';
+import { expect, it } from 'vitest';
 
-import { createTestDatabaseContext } from '../../context/test';
+import { type DbTestContext, describeDatabase } from '../../testing.js';
 
-import { getUserId } from './get-user-id';
+import { getUserId } from './get-user-id.js';
 
-describe('get user id', () => {
-  it('returns null for non-existent user', async () => {
-    const ctx = await createTestDatabaseContext();
-    const userId = await getUserId(ctx, 'new-user@email.com');
+describeDatabase('get user id', () => {
+  it<DbTestContext>('returns null for non-existent user', async ({ db }) => {
+    const userId = await getUserId(db.ctx, 'new-user@email.com');
     expect(userId).to.be.null;
   });
 
-  it('returns null for non-existent user', async () => {
-    const ctx = await createTestDatabaseContext();
+  it<DbTestContext>('returns null for non-existent user', async ({ db }) => {
     const id = randomUUID();
 
-    const db = await ctx.getKysely();
-    await db
+    const kysely = await db.ctx.getKysely();
+    await kysely
       .insertInto('users')
       .values({
         id,
@@ -25,7 +23,7 @@ describe('get user id', () => {
       })
       .executeTakeFirst();
 
-    const userId = await getUserId(ctx, 'user@agency.gov');
+    const userId = await getUserId(db.ctx, 'user@agency.gov');
     expect(userId).not.to.be.null;
     expect(userId).to.be.equal(id);
   });

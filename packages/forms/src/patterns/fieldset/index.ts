@@ -2,9 +2,9 @@ import {
   type Pattern,
   type PatternConfig,
   type PatternId,
-} from '../../pattern';
-import { parseConfigData } from './config';
-import { createPrompt } from './prompt';
+} from '../../pattern.js';
+import { parseConfigData } from './config.js';
+import { createPrompt } from './prompt.js';
 
 export type FieldsetPattern = Pattern<{
   legend?: string;
