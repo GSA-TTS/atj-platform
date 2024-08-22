@@ -1,10 +1,11 @@
 import {
-  type FormService,
   type FormConfig,
-  createBrowserFormService,
+  type FormService,
+  createFormService,
   createTestFormService,
 } from '@atj/forms';
 import { defaultFormConfig } from '@atj/forms';
+import { BrowserFormRepository } from '@atj/forms/src/context/browser/form-repo';
 
 import { type GithubRepository } from './lib/github';
 
@@ -37,7 +38,11 @@ const createAppContext = (env: any): AppContext => {
 
 const createAppFormService = () => {
   if (globalThis.window) {
-    return createBrowserFormService();
+    const db = new BrowserFormRepository(window.localStorage);
+    return createFormService({
+      db,
+      config: defaultFormConfig,
+    });
   } else {
     return createTestFormService();
   }

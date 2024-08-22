@@ -8,7 +8,7 @@ export class BrowserFormRepository implements FormRepository {
 
   async addForm(
     form: Blueprint
-  ): Promise<Result<{ timestamp: Date; id: string }>> {
+  ): Promise<Result<{ timestamp: string; id: string }>> {
     const uuid = crypto.randomUUID();
 
     const result = await this.saveForm(uuid, form);
@@ -19,7 +19,7 @@ export class BrowserFormRepository implements FormRepository {
     return {
       success: true,
       data: {
-        timestamp: new Date(),
+        timestamp: new Date().toISOString(),
         id: uuid,
       },
     };
