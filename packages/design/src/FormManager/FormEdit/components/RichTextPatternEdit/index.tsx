@@ -26,8 +26,8 @@ interface MenuBarProps {
 type RichTextFormData = PatternMap & {
   [p: string]: {
     text: string;
-  }
-}
+  };
+};
 
 const RichTextPatternEdit: PatternEditComponent<RichTextProps> = ({
   focus,
@@ -179,7 +179,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
         <input
           id={fieldId('text')}
           {...register('text', {
-            required: false
+            required: false,
           })}
           defaultValue={pattern.data.text}
           type="hidden"

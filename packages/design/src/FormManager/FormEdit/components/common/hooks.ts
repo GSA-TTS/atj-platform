@@ -22,7 +22,8 @@ export const usePatternEditFormContext = <T extends Pattern>(
   return {
     errors: formState.errors,
     fieldId: (path: NestedKeys<T['data']>) => `${patternId}.${path}`,
-    register: (path: NestedKeys<T['data']>, options?: RegisterOptions) => register(`${patternId}.${path}`, options),
+    register: (path: NestedKeys<T['data']>, options?: RegisterOptions) =>
+      register(`${patternId}.${path}`, options),
     getFieldState: (path: NestedKeys<T['data']>) =>
       getFieldState(`${patternId}.${path}`, formState),
     setValue: (path: NestedKeys<T['data']>, value: PatternValue) =>
