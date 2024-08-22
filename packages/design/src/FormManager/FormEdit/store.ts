@@ -27,6 +27,7 @@ export type FormEditSlice = {
   addPattern: (patternType: string) => void;
   addPatternToFieldset: (patternType: string, targetPattern: PatternId) => void;
   clearFocus: () => void;
+  copyPattern: (parentPatternId: PatternId, patternId: PatternId) => void;
   deletePattern: (id: PatternId) => void;
   deleteSelectedPattern: () => void;
   movePattern: (
@@ -102,6 +103,22 @@ export const createFormEditSlice =
       });
       state.addNotification('success', 'Element moved successfully.');
     },
+
+    copyPattern: (parentPatternId, patternId) => {
+      const state = get();
+      const builder = new BlueprintBuilder(
+        state.context.config,
+        state.session.form
+      );
+
+      const copyPattern = builder.copyPattern(parentPatternId, patternId);
+      set({
+        session: mergeSession(state.session, { form: builder.form }),
+        focus: { pattern: copyPattern },
+      });
+      state.addNotification('success', 'Element copied successfully.');
+    },
+
     addPatternToFieldset: (patternType, targetPattern) => {
       const state = get();
       const builder = new BlueprintBuilder(

@@ -28,9 +28,37 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
       p => p.type === 'fieldset' && p.data.patterns.includes(focusPatternId)
     );
   }, [focusPatternId, patterns]);
-
   const isFieldset = focusPatternType === 'fieldset';
   const isPagePattern = focusPatternType === 'page';
+  const { copyPattern } = useFormManagerStore(state => ({
+    copyPattern: state.copyPattern,
+  }));
+  const pages = useFormManagerStore(state =>
+    Object.values(state.session.form.patterns).filter(p => p.type === 'page')
+  );
+  const fieldsets = useFormManagerStore(state =>
+    Object.values(state.session.form.patterns).filter(
+      p => p.type === 'fieldset'
+    )
+  );
+  const handleCopyPattern = () => {
+    const currentPageIndex = pages.findIndex(page =>
+      page.data.patterns.includes(focusPatternId || '')
+    );
+    const currentFieldsetIndex = fieldsets.findIndex(fieldset =>
+      fieldset.data.patterns.includes(focusPatternId)
+    );
+    const sourcePagePatternId = pages[currentPageIndex]?.id;
+    const sourceFieldsetPatternId = fieldsets[currentFieldsetIndex]?.id;
+
+    if (focusPatternId) {
+      if (sourcePagePatternId) {
+        copyPattern(sourcePagePatternId, focusPatternId);
+      } else {
+        copyPattern(sourceFieldsetPatternId, focusPatternId);
+      }
+    }
+  };
 
   return (
     <div
@@ -59,7 +87,7 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
             className="usa-button--outline usa-button--unstyled"
             onClick={event => {
               event.preventDefault();
-              alert('Unimplemented');
+              handleCopyPattern();
             }}
           >
             <svg
