@@ -99,21 +99,30 @@ const createFormManagerSlice =
         return;
       }
       set({
-        saveStatus: { inProgress: true, lastSaved: saveStatus.lastSaved },
+        saveStatus: {
+          inProgress: true,
+          lastSaved: saveStatus.lastSaved,
+        },
       });
       if (formId === undefined) {
         const result = await context.formService.addForm(blueprint);
         if (result.success) {
           set({
             formId: result.data.id,
-            saveStatus: { inProgress: false, lastSaved: result.data.timestamp },
+            saveStatus: {
+              inProgress: false,
+              lastSaved: new Date(result.data.timestamp),
+            },
           });
         }
       } else {
         const result = await context.formService.saveForm(formId, blueprint);
         if (result.success) {
           set({
-            saveStatus: { inProgress: false, lastSaved: result.data.timestamp },
+            saveStatus: {
+              inProgress: false,
+              lastSaved: new Date(result.data.timestamp),
+            },
           });
         }
       }

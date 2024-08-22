@@ -372,6 +372,6 @@ const useBlueprint = (formId: string | undefined, formService: FormService) => {
         console.error('Error loading form', result.error);
       }
     });
-  });
+  }, []);
   return form;
 };

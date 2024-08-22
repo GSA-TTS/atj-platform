@@ -2,11 +2,11 @@ import { VoidResult } from '@atj/common';
 
 import { type FormServiceContext } from '../context/index.js';
 
-export const deleteForm = (
+export const deleteForm = async (
   ctx: FormServiceContext,
   formId: string
-): VoidResult => {
-  const form = ctx.db.getForm(formId);
+): Promise<VoidResult> => {
+  const form = await ctx.db.getForm(formId);
   if (form === null) {
     return {
       success: false,

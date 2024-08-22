@@ -8,7 +8,7 @@ export async function up(knex) {
     // We don't have an immediate need to query over the form, so we'll just
     // store it as `json` rather than `jsonb`
     table.text('data').notNullable();
-    table.timestamps(true, true);
+    //table.timestamps(true, true);
   });
 }
 

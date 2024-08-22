@@ -8,7 +8,7 @@ import { type DatabaseGateway } from '@atj/database';
 import {
   type FormConfig,
   type FormService,
-  createTestFormService,
+  createFormService,
   defaultFormConfig,
 } from '@atj/forms';
 
@@ -52,7 +52,10 @@ const createAstroAppContext = async (
     }),
     baseUrl: env.BASE_URL,
     formConfig: defaultFormConfig,
-    formService: await createTestFormService(),
+    formService: createFormService({
+      db: serverOptions.db.forms,
+      config: defaultFormConfig,
+    }),
     github: env.GITHUB,
     title: serverOptions.title,
     uswdsRoot: `${env.BASE_URL}uswds/`,

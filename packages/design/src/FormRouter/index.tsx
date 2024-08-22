@@ -41,7 +41,7 @@ export default function FormRouter({
               useState<Result<Blueprint> | null>(null);
             useEffect(() => {
               formService.getForm(formId).then(setFormResult);
-            });
+            }, []);
 
             if (formResult === null) {
               return;

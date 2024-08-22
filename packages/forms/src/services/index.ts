@@ -18,4 +18,7 @@ export const createFormService = (ctx: FormServiceContext) =>
     saveForm,
     submitForm,
   });
-export type FormService = ReturnType<typeof createFormService>;
+export type FormService = Omit<
+  ReturnType<typeof createFormService>,
+  'getContext'
+>;

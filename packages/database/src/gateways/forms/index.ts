@@ -10,7 +10,7 @@ import { saveForm } from './save-form';
 export interface FormRepository {
   addForm(
     form: any /*Blueprint*/
-  ): Promise<Result<{ timestamp: Date; id: string }>>;
+  ): Promise<Result<{ timestamp: string; id: string }>>;
   deleteForm(formId: string): Promise<VoidResult>;
   getForm(id?: string): Promise</*Blueprint*/ any | null>;
   getFormList(): Promise<

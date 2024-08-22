@@ -15,7 +15,7 @@ describeDatabase('add form', () => {
     if (result.success === false) {
       expect.fail('addForm failed');
     }
-    expect(result.data.timestamp).toEqual(today);
+    expect(result.data.timestamp).toEqual(today.toISOString());
 
     const kysely = await db.ctx.getKysely();
     const insertedForm = await kysely

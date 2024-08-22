@@ -6,7 +6,7 @@ import { stringifyForm } from './serialize';
 export const addForm = async (
   ctx: DatabaseContext,
   form: any // Blueprint
-): Promise<Result<{ timestamp: Date; id: string }>> => {
+): Promise<Result<{ timestamp: string; id: string }>> => {
   const uuid = crypto.randomUUID();
   const db = await ctx.getKysely();
   return db
@@ -18,7 +18,7 @@ export const addForm = async (
     .execute()
     .then(() =>
       success({
-        timestamp: new Date(),
+        timestamp: new Date().toISOString(),
         id: uuid,
       })
     )

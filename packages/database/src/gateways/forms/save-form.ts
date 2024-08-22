@@ -10,14 +10,13 @@ export const saveForm = async (
   blueprint: Blueprint
 ) => {
   const db = await ctx.getKysely();
+
   return await db
-    .insertInto('forms')
-    .values([
-      {
-        id,
-        data: stringifyForm(blueprint),
-      },
-    ])
+    .updateTable('forms')
+    .set({
+      data: stringifyForm(blueprint),
+    })
+    .where('id', '=', id)
     .execute()
     .then(() =>
       success({

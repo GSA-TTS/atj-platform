@@ -7,5 +7,9 @@ const ctx = await getAstroAppContext(Astro);
 ---
 
 <ContentLayout title="10x Access to Justice">
-  <AppFormRouter client:only="react" uswdsRoot={ctx.uswdsRoot} />
+  <AppFormRouter
+    client:only="react"
+    baseUrl={ctx.baseUrl}
+    uswdsRoot={ctx.uswdsRoot}
+  />
 </ContentLayout>
