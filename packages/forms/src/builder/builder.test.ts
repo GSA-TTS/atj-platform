@@ -6,6 +6,9 @@ import { defaultFormConfig } from '../patterns';
 import { type InputPattern } from '../patterns/input';
 import { PageSetPattern } from '../patterns/page-set/config';
 import { PagePattern } from '../patterns/page/config';
+import { FieldsetPattern } from '../patterns/fieldset';
+import { FormSummary } from '../patterns/form-summary';
+import { RadioGroupPattern } from '../patterns/radio-group';
 
 describe('form builder', () => {
   it('addPattern adds initial pattern of given type', () => {
@@ -235,6 +238,345 @@ describe('form builder', () => {
     });
   });
 
+  it('copy input pattern', () => {
+    const initial = createTestBlueprintMultipleFieldsets();
+    const builder = new BlueprintBuilder(defaultFormConfig, initial);
+    const parentPattern = getPattern<PagePattern>(initial, 'page-1');
+    const updatedParentPattern = getPattern<PagePattern>(
+      builder.form,
+      'page-1'
+    );
+    const pattern = getPattern<Pattern>(builder.form, 'element-1');
+    expect(builder.form.patterns[pattern.id]).toEqual(pattern);
+    const newPattern = builder.copyPattern(parentPattern.id, pattern.id);
+
+    expect(builder.form).toEqual({
+      summary: { title: 'Test form', description: 'Test description' },
+      root: 'root',
+      patterns: {
+        root: { type: 'page-set', id: 'root', data: { pages: ['page-1'] } },
+        'page-1': {
+          type: 'page',
+          id: 'page-1',
+          data: {
+            title: 'Page 1',
+            patterns: [
+              'element-1',
+              newPattern.id,
+              'form-summary-1',
+              'fieldset-1',
+              'radio-group-1',
+            ],
+          },
+        },
+        'element-1': {
+          type: 'input',
+          id: 'element-1',
+          data: {
+            label: 'Input Pattern',
+            initial: '',
+            required: true,
+            maxLength: 128,
+          },
+        },
+        'form-summary-1': {
+          type: 'form-summary',
+          id: 'form-summary-1',
+          data: {
+            description: 'Form extended description',
+            title: 'Form title',
+          },
+        },
+        'fieldset-1': {
+          type: 'fieldset',
+          id: 'fieldset-1',
+          data: {
+            legend: 'Fieldset pattern description',
+            patterns: ['element-2'],
+          },
+        },
+        'radio-group-1': {
+          type: 'radio-group',
+          id: 'radio-group-1',
+          data: {
+            label: 'Radio group label',
+            options: [
+              { id: 'option-1', label: 'Option 1' },
+              { id: 'option-2', label: 'Option 2' },
+            ],
+          },
+        },
+        [newPattern.id]: {
+          type: 'input',
+          id: newPattern.id,
+          data: {
+            label: expect.stringMatching(
+              /^\(\s*Copy\s+\d{1,2}\/\d{1,2}\/\d{4},\s+\d{1,2}:\d{2}:\d{2}\s+[AP]M\)\s*Input Pattern/
+            ),
+            initial: '',
+            required: true,
+            maxLength: 128,
+          },
+        },
+      },
+      outputs: [],
+    });
+  });
+
+  it('copy form summary pattern', () => {
+    const initial = createTestBlueprintMultipleFieldsets();
+    const builder = new BlueprintBuilder(defaultFormConfig, initial);
+    const parentPattern = getPattern<PagePattern>(initial, 'page-1');
+    const updatedParentPattern = getPattern<PagePattern>(
+      builder.form,
+      'page-1'
+    );
+    const pattern = getPattern<Pattern>(builder.form, 'form-summary-1');
+    expect(builder.form.patterns[pattern.id]).toEqual(pattern);
+    const newPattern = builder.copyPattern(parentPattern.id, pattern.id);
+
+    expect(builder.form).toEqual({
+      summary: { title: 'Test form', description: 'Test description' },
+      root: 'root',
+      patterns: {
+        root: { type: 'page-set', id: 'root', data: { pages: ['page-1'] } },
+        'page-1': {
+          type: 'page',
+          id: 'page-1',
+          data: {
+            title: 'Page 1',
+            patterns: [
+              'element-1',
+              'form-summary-1',
+              newPattern.id,
+              'fieldset-1',
+              'radio-group-1',
+            ],
+          },
+        },
+        'element-1': {
+          type: 'input',
+          id: 'element-1',
+          data: {
+            label: 'Input Pattern',
+            initial: '',
+            required: true,
+            maxLength: 128,
+          },
+        },
+        'form-summary-1': {
+          type: 'form-summary',
+          id: 'form-summary-1',
+          data: {
+            description: 'Form extended description',
+            title: 'Form title',
+          },
+        },
+        'fieldset-1': {
+          type: 'fieldset',
+          id: 'fieldset-1',
+          data: {
+            legend: 'Fieldset pattern description',
+            patterns: ['element-2'],
+          },
+        },
+        'radio-group-1': {
+          type: 'radio-group',
+          id: 'radio-group-1',
+          data: {
+            label: 'Radio group label',
+            options: [
+              { id: 'option-1', label: 'Option 1' },
+              { id: 'option-2', label: 'Option 2' },
+            ],
+          },
+        },
+        [newPattern.id]: {
+          type: 'form-summary',
+          id: newPattern.id,
+          data: {
+            description: 'Form extended description',
+            title: expect.stringMatching(
+              /^\(\s*Copy\s+\d{1,2}\/\d{1,2}\/\d{4},\s+\d{1,2}:\d{2}:\d{2}\s+[AP]M\)\s*Form title/
+            ),
+          },
+        },
+      },
+      outputs: [],
+    });
+  });
+
+  it('copy fieldset pattern', () => {
+    const initial = createTestBlueprintMultipleFieldsets();
+    const builder = new BlueprintBuilder(defaultFormConfig, initial);
+    const parentPattern = getPattern<PagePattern>(initial, 'page-1');
+    const updatedParentPattern = getPattern<PagePattern>(
+      builder.form,
+      'page-1'
+    );
+    const pattern = getPattern<Pattern>(builder.form, 'fieldset-1');
+    expect(builder.form.patterns[pattern.id]).toEqual(pattern);
+    const newPattern = builder.copyPattern(parentPattern.id, pattern.id);
+
+    expect(builder.form).toEqual({
+      summary: { title: 'Test form', description: 'Test description' },
+      root: 'root',
+      patterns: {
+        root: { type: 'page-set', id: 'root', data: { pages: ['page-1'] } },
+        'page-1': {
+          type: 'page',
+          id: 'page-1',
+          data: {
+            title: 'Page 1',
+            patterns: [
+              'element-1',
+              'form-summary-1',
+              'fieldset-1',
+              newPattern.id,
+              'radio-group-1',
+            ],
+          },
+        },
+        'element-1': {
+          type: 'input',
+          id: 'element-1',
+          data: {
+            label: 'Input Pattern',
+            initial: '',
+            required: true,
+            maxLength: 128,
+          },
+        },
+        'form-summary-1': {
+          type: 'form-summary',
+          id: 'form-summary-1',
+          data: {
+            description: 'Form extended description',
+            title: 'Form title',
+          },
+        },
+        'fieldset-1': {
+          type: 'fieldset',
+          id: 'fieldset-1',
+          data: {
+            legend: 'Fieldset pattern description',
+            patterns: ['element-2'],
+          },
+        },
+        'radio-group-1': {
+          type: 'radio-group',
+          id: 'radio-group-1',
+          data: {
+            label: 'Radio group label',
+            options: [
+              { id: 'option-1', label: 'Option 1' },
+              { id: 'option-2', label: 'Option 2' },
+            ],
+          },
+        },
+        [newPattern.id]: {
+          type: 'fieldset',
+          id: newPattern.id,
+          data: {
+            legend: expect.stringMatching(
+              /^\(\s*Copy\s+\d{1,2}\/\d{1,2}\/\d{4},\s+\d{1,2}:\d{2}:\d{2}\s+[AP]M\)\s*Fieldset pattern description/
+            ),
+            patterns: ['element-2'],
+          },
+        },
+      },
+      outputs: [],
+    });
+  });
+
+  it('copy radio group pattern', () => {
+    const initial = createTestBlueprintMultipleFieldsets();
+    const builder = new BlueprintBuilder(defaultFormConfig, initial);
+    const parentPattern = getPattern<PagePattern>(initial, 'page-1');
+    const updatedParentPattern = getPattern<PagePattern>(
+      builder.form,
+      'page-1'
+    );
+    const pattern = getPattern<Pattern>(builder.form, 'radio-group-1');
+    expect(builder.form.patterns[pattern.id]).toEqual(pattern);
+    const newPattern = builder.copyPattern(parentPattern.id, pattern.id);
+
+    console.log(JSON.stringify(builder.form));
+
+    expect(builder.form).toEqual({
+      summary: { title: 'Test form', description: 'Test description' },
+      root: 'root',
+      patterns: {
+        root: { type: 'page-set', id: 'root', data: { pages: ['page-1'] } },
+        'page-1': {
+          type: 'page',
+          id: 'page-1',
+          data: {
+            title: 'Page 1',
+            patterns: [
+              'element-1',
+              'form-summary-1',
+              'fieldset-1',
+              'radio-group-1',
+              newPattern.id,
+            ],
+          },
+        },
+        'element-1': {
+          type: 'input',
+          id: 'element-1',
+          data: {
+            label: 'Input Pattern',
+            initial: '',
+            required: true,
+            maxLength: 128,
+          },
+        },
+        'form-summary-1': {
+          type: 'form-summary',
+          id: 'form-summary-1',
+          data: {
+            description: 'Form extended description',
+            title: 'Form title',
+          },
+        },
+        'fieldset-1': {
+          type: 'fieldset',
+          id: 'fieldset-1',
+          data: {
+            legend: 'Fieldset pattern description',
+            patterns: ['element-2'],
+          },
+        },
+        'radio-group-1': {
+          type: 'radio-group',
+          id: 'radio-group-1',
+          data: {
+            label: 'Radio group label',
+            options: [
+              { id: 'option-1', label: 'Option 1' },
+              { id: 'option-2', label: 'Option 2' },
+            ],
+          },
+        },
+        [newPattern.id]: {
+          type: 'radio-group',
+          id: newPattern.id,
+          data: {
+            label: expect.stringMatching(
+              /^\(\s*Copy\s+\d{1,2}\/\d{1,2}\/\d{4},\s+\d{1,2}:\d{2}:\d{2}\s+[AP]M\)\s*Radio group label/
+            ),
+            options: [
+              { id: 'option-1', label: 'Option 1' },
+              { id: 'option-2', label: 'Option 2' },
+            ],
+          },
+        },
+      },
+      outputs: [],
+    });
+  });
+
   it('removePattern removes pattern and sequence reference', () => {
     const initial = createTestBlueprint();
     const builder = new BlueprintBuilder(defaultFormConfig, initial);
@@ -378,6 +720,77 @@ export const createTwoPageThreePatternTestForm = () => {
             maxLength: 128,
           },
         } satisfies InputPattern,
+      ],
+    }
+  );
+};
+
+export const createTestBlueprintMultipleFieldsets = () => {
+  return createForm(
+    {
+      title: 'Test form',
+      description: 'Test description',
+    },
+    {
+      root: 'root',
+      patterns: [
+        {
+          type: 'page-set',
+          id: 'root',
+          data: {
+            pages: ['page-1'],
+          },
+        } satisfies PageSetPattern,
+        {
+          type: 'page',
+          id: 'page-1',
+          data: {
+            title: 'Page 1',
+            patterns: [
+              'element-1',
+              'form-summary-1',
+              'fieldset-1',
+              'radio-group-1',
+            ],
+          },
+        } satisfies PagePattern,
+        {
+          type: 'input',
+          id: 'element-1',
+          data: {
+            label: 'Input Pattern',
+            initial: '',
+            required: true,
+            maxLength: 128,
+          },
+        } satisfies InputPattern,
+        {
+          type: 'form-summary',
+          id: 'form-summary-1',
+          data: {
+            description: 'Form extended description',
+            title: 'Form title',
+          },
+        } satisfies FormSummary,
+        {
+          type: 'fieldset',
+          id: 'fieldset-1',
+          data: {
+            legend: 'Fieldset pattern description',
+            patterns: ['element-2'],
+          },
+        } satisfies FieldsetPattern,
+        {
+          type: 'radio-group',
+          id: 'radio-group-1',
+          data: {
+            label: 'Radio group label',
+            options: [
+              { id: 'option-1', label: 'Option 1' },
+              { id: 'option-2', label: 'Option 2' },
+            ],
+          },
+        } satisfies RadioGroupPattern,
       ],
     }
   );
