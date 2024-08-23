@@ -2,7 +2,7 @@ import { defineMiddleware } from 'astro/middleware';
 
 import { processSessionCookie } from '@atj/auth';
 
-import { getAstroAppContext } from './context';
+import { getAstroAppContext } from './context.js';
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const { auth } = await getAstroAppContext(context);

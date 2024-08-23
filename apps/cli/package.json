@@ -7,6 +7,7 @@
   "main": "src/index.ts",
   "scripts": {
     "build": "tsup src/* --format esm",
+    "clean": "rimraf dist tsconfig.tsbuildinfo coverage",
     "cli": "node dist/index.js",
     "dev": "tsup src/* --watch",
     "test": "vitest run --coverage"

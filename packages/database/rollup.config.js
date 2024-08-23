@@ -11,7 +11,7 @@ import workspacePackageJson from '../../package.json' assert { type: 'json' };
 export default {
   //input: ['src/index.ts', 'src/context/index.ts', 'src/testing.ts'],
   input: {
-    main: 'src/index.ts',
+    index: 'src/index.ts',
     context: 'src/context/index.ts',
     testing: 'src/testing.ts',
   },

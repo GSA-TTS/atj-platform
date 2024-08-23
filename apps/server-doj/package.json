@@ -6,9 +6,10 @@
   "license": "CC0",
   "main": "src/index.ts",
   "scripts": {
-    "start": "VCAP_SERVICES='{\"aws-rds\": [{ \"credentials\": { \"uri\": \"\" }}]}' node dist/index.js",
     "build": "tsup src/* --format esm",
+    "clean": "rimraf dist tsconfig.tsbuildinfo coverage",
     "dev": "tsup src/* --watch  --format esm",
+    "start": "VCAP_SERVICES='{\"aws-rds\": [{ \"credentials\": { \"uri\": \"\" }}]}' node dist/index.js",
     "test": "vitest run --coverage"
   },
   "dependencies": {

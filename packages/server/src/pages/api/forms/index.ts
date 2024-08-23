@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { getAstroAppContext } from '../../../context';
+import { getAstroAppContext } from '../../../context.js';
 
 export const GET: APIRoute = async context => {
   const ctx = await getAstroAppContext(context);

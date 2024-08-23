@@ -1,5 +1,4 @@
 import type { APIRoute } from 'astro';
-import { getAstroAppContext } from '../../context';
 
 export const POST: APIRoute = async context => {
   const form = await context.request.json();

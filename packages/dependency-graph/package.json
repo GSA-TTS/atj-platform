@@ -8,6 +8,7 @@
   "types": "dist/index.d.js",
   "scripts": {
     "build": "tsc",
+    "clean": "rimraf dist tsconfig.tsbuildinfo coverage",
     "dev": "tsc --watch",
     "test": "echo no @atj/dependency-graph tests"
   },

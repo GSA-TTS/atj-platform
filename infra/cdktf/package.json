@@ -10,7 +10,7 @@
     "build:synth:main": "DEPLOY_ENV=main cdktf synth",
     "build:synth:staging": "DEPLOY_ENV=staging cdktf synth",
     "build:tsc": "tsc --pretty",
-    "clean": "rm -rf .gen cdktf.out",
+    "clean": "rimraf .gen cdktf.out dist tsconfig.tsbuildinfo",
     "deploy:main": "DEPLOY_ENV=main cdktf deploy",
     "deploy:staging": "DEPLOY_ENV=staging cdktf deploy",
     "dev": "tsc -w",

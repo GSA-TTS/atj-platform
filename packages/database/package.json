@@ -6,6 +6,7 @@
   "license": "CC0",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
@@ -23,9 +24,9 @@
       "types": "./dist/types/testing.d.ts"
     }
   },
-  "types": "dist/types/index.d.ts",
   "scripts": {
     "build": "rollup -c",
+    "clean": "rimraf dist tsconfig.tsbuildinfo coverage",
     "dev": "rollup -c -w",
     "test": "vitest run --coverage"
   },

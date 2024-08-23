@@ -15,7 +15,6 @@ import { FieldsetPattern } from './patterns/fieldset/index.js';
 
 export * from './builder/index.js';
 export * from './components.js';
-export * from './config.js';
 export * from './documents/index.js';
 export * from './error.js';
 export * from './pattern.js';
@@ -24,6 +23,7 @@ export * from './session.js';
 export { type FormService, createFormService } from './services/index.js';
 export { type FormServiceContext } from './context/index.js';
 export { createTestFormService } from './context/test/index.js';
+export { defaultFormConfig } from './patterns/index.js';
 export {
   type FormRepository,
   createFormsRepository,
