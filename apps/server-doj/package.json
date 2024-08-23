@@ -13,8 +13,7 @@
   },
   "dependencies": {
     "@atj/database": "workspace:*",
-    "@atj/server": "workspace:*",
-    "sqlite3": "^5.1.7"
+    "@atj/server": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.14.14",
