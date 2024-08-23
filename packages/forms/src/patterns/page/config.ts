@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
-import { type Pattern, type ParsePatternConfigData } from '../../pattern';
-import { safeZodParseFormErrors } from '../../util/zod';
+import { type Pattern, type ParsePatternConfigData } from '../../pattern.js';
+import { safeZodParseFormErrors } from '../../util/zod.js';
 
 const configSchema = z.object({
   title: z.string(),

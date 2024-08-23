@@ -1,21 +1,18 @@
-import path, { dirname } from 'path';
-import { fileURLToPath } from 'url';
+import {
+  createDatabaseGateway,
+  createPostgresDatabaseContext,
+} from '@atj/database';
+import { createServer } from '@atj/server';
 
-const getDirname = () => dirname(fileURLToPath(import.meta.url));
-
-export const createCustomServer = async (): Promise<any> => {
-  const { createDevDatabaseContext, createDatabaseGateway } = await import(
-    '@atj/database'
+export const createCustomServer = async (ctx: {
+  dbUri: string;
+}): Promise<any> => {
+  const db = createDatabaseGateway(
+    await createPostgresDatabaseContext(ctx.dbUri, true)
   );
-  const { createServer } = await import('@atj/server');
-
-  const dbCtx = await createDevDatabaseContext(
-    path.join(getDirname(), '../doj.db')
-  );
-  const db = createDatabaseGateway(dbCtx);
 
   return createServer({
-    title: 'KS Courts Form Service',
+    title: 'DOJ Form Service',
     db,
     loginGovOptions: {
       loginGovUrl: 'https://idp.int.identitysandbox.gov',
@@ -23,16 +20,14 @@ export const createCustomServer = async (): Promise<any> => {
         'urn:gov:gsa:openidconnect.profiles:sp:sso:gsa:tts-10x-atj-dev-server-doj',
       //clientSecret: '', // secrets.loginGovClientSecret,
     },
+    isUserAuthorized: async (email: string) => {
+      return [
+        'daniel.naab@gsa.gov',
+        'jim.moffet@gsa.gov',
+        'ethan.gardner@gsa.gov',
+        'natasha.pierre-louis@gsa.gov',
+        'emily.lordahl@gsa.gov',
+      ].includes(email);
+    },
   });
 };
-
-/*
-const getServerSecrets = () => {
-  const services = JSON.parse(process.env.VCAP_SERVICES || '{}');
-  const loginClientSecret =
-    services['user-provided']?.credentials?.SECRET_LOGIN_GOV_PRIVATE_KEY;
-  return {
-    loginGovClientSecret: loginClientSecret,
-  };
-};
-*/

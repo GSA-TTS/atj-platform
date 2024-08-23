@@ -5,6 +5,7 @@ import type {
   Selectable,
   Updateable,
 } from 'kysely';
+import { type DbDate } from './db-helpers.js';
 
 export type Engine = 'sqlite' | 'postgres';
 
@@ -27,7 +28,7 @@ interface SessionsTable<T extends Engine> {
   id: string;
   user_id: string;
   session_token: string;
-  expires_at: T extends 'sqlite' ? number : T extends 'postgres' ? Date : never;
+  expires_at: DbDate<T>;
   created_at: Generated<Date>;
   updated_at: Generated<Date>;
 }

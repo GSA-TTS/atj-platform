@@ -1,5 +1,5 @@
-import { Field } from '../field';
-import { capitalizeFirstLetter } from '../util/string-format';
+import { Field } from '../field.js';
+import { capitalizeFirstLetter } from '../util/string-format.js';
 
 export type FieldTransformer = (field: Field) => Field;
 

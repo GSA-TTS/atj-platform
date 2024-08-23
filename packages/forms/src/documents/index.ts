@@ -1,6 +1,6 @@
-export * from './document';
-export * from './pdf';
-export * from './types';
+export * from './document.js';
+export * from './pdf/index.js';
+export * from './types.js';
 
 export const SAMPLE_DOCUMENTS = [
   {

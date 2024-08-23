@@ -10,8 +10,8 @@ import {
   PDFRadioGroup,
 } from 'pdf-lib';
 
-import { stringToBase64 } from '../util';
-import type { DocumentFieldValue, DocumentFieldMap } from '../types';
+import { stringToBase64 } from '../util.js';
+import type { DocumentFieldValue, DocumentFieldMap } from '../types.js';
 
 // TODO: copied from pdf-lib acrofield internals, check if it's already exposed outside of acroform somewhere
 export const getWidgets = async (pdfDoc: PDFDocument): Promise<PDFDict[]> => {

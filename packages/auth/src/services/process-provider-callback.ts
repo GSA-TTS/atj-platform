@@ -67,6 +67,10 @@ export const processProviderCallback = async (
   if (!userDataResult.success) {
     return userDataResult;
   }
+  const isAuthorized = await ctx.isUserAuthorized(userDataResult.data.email);
+  if (!isAuthorized) {
+    return r.failure({ status: 403, message: 'permission denied' });
+  }
   let userId = await ctx.db.getUserId(userDataResult.data.email);
   if (!userId) {
     const newUser = await ctx.db.createUser(userDataResult.data.email);

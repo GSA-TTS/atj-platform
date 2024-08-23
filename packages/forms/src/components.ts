@@ -1,11 +1,11 @@
-import { type FormError, getRootPattern } from '.';
+import { type FormError, getRootPattern } from './index.js';
 import {
   type FormConfig,
   type Pattern,
   type PatternId,
   getPatternConfig,
-} from './pattern';
-import { type FormSession, nullSession, sessionIsComplete } from './session';
+} from './pattern.js';
+import { type FormSession, nullSession, sessionIsComplete } from './session.js';
 
 export type TextInputProps = PatternProps<{
   type: 'input';

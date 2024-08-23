@@ -3,18 +3,19 @@ import { vi } from 'vitest';
 
 import {
   type DatabaseGateway,
-  createTestDatabaseContext,
+  createInMemoryDatabaseContext,
   createDatabaseGateway,
 } from '@atj/database';
 
 import { type AuthContext, type UserSession } from '..';
-import { createTestLuciaAdapter } from '../lucia';
+import { createSqliteLuciaAdapter } from '../lucia';
 import { LoginGov } from '../provider';
 
 type Options = {
   getCookie: (name: string) => string | undefined;
   setCookie: (cookie: Cookie) => void;
   setUserSession: (userSession: UserSession) => void;
+  isUserAuthorized: (email: string) => Promise<boolean>;
 };
 
 export const createTestAuthContext = async (opts?: Partial<Options>) => {
@@ -22,8 +23,9 @@ export const createTestAuthContext = async (opts?: Partial<Options>) => {
     getCookie: opts?.getCookie || vi.fn(),
     setCookie: opts?.setCookie || vi.fn(),
     setUserSession: opts?.setUserSession || vi.fn(),
+    isUserAuthorized: opts?.isUserAuthorized || vi.fn(async () => true),
   };
-  const dbContext = await createTestDatabaseContext();
+  const dbContext = await createInMemoryDatabaseContext();
   const database = createDatabaseGateway(dbContext);
   return new TestAuthContext(
     database,
@@ -36,7 +38,8 @@ export const createTestAuthContext = async (opts?: Partial<Options>) => {
     }),
     options.getCookie,
     options.setCookie,
-    options.setUserSession
+    options.setUserSession,
+    options.isUserAuthorized
   );
 };
 
@@ -48,12 +51,13 @@ export class TestAuthContext implements AuthContext {
     public provider: LoginGov,
     public getCookie: (name: string) => string | undefined,
     public setCookie: (cookie: Cookie) => void,
-    public setUserSession: (userSession: UserSession) => void
+    public setUserSession: (userSession: UserSession) => void,
+    public isUserAuthorized: (email: string) => Promise<boolean>
   ) {}
 
   async getLucia() {
     const sqlite3 = await (this.db.getContext() as any).getSqlite3();
-    const sqlite3Adapter = createTestLuciaAdapter(sqlite3);
+    const sqlite3Adapter = createSqliteLuciaAdapter(sqlite3);
     if (!this.lucia) {
       this.lucia = new Lucia(sqlite3Adapter, {
         sessionCookie: {

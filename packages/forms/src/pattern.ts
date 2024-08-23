@@ -1,13 +1,12 @@
 import * as r from '@atj/common';
 import {
-  addPatternToFieldset,
   type Blueprint,
   type FormError,
   type FormErrors,
   updatePattern,
-} from '.';
+} from './index.js';
 
-import { type CreatePrompt } from './components';
+import { type CreatePrompt } from './components.js';
 
 export type Pattern<C = any> = {
   type: string;

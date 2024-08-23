@@ -5,14 +5,14 @@ import {
   type Pattern,
   getPatternConfig,
   validatePattern,
-} from '.';
-import { SequencePattern } from './patterns/sequence';
+} from './index.js';
+import { SequencePattern } from './patterns/sequence.js';
 import {
   type PatternId,
   type PatternValue,
   type PatternValueMap,
-} from './pattern';
-import { type RouteData, getRouteDataFromQueryString } from './route-data';
+} from './pattern.js';
+import { type RouteData, getRouteDataFromQueryString } from './route-data.js';
 
 export type FormErrorMap = Record<PatternId, FormError>;
 

@@ -1,4 +1,4 @@
-import { type DatabaseContext } from '../..';
+import { type DatabaseContext } from '../../index.js';
 
 export const getUserId = async (ctx: DatabaseContext, email: string) => {
   const db = await ctx.getKysely();

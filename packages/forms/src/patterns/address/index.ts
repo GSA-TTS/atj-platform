@@ -1,16 +1,16 @@
 import * as z from 'zod';
 
-import { type Pattern, type PatternConfig } from '../../pattern';
-import { PatternProps } from '../../components';
+import { type Pattern, type PatternConfig } from '../../pattern.js';
+import { PatternProps } from '../../components.js';
 import {
   safeZodParseFormErrors,
   safeZodParseToFormError,
-} from '../../util/zod';
+} from '../../util/zod.js';
 import {
   stateTerritoryOrMilitaryPostAbbreviations,
   stateTerritoryOrMilitaryPostList,
-} from './jurisdictions';
-import { getFormSessionValue } from '../../session';
+} from './jurisdictions.js';
+import { getFormSessionValue } from '../../session.js';
 
 export type AddressPattern = Pattern<{}>;
 

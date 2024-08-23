@@ -1,1 +1,1 @@
-export { defaultFormConfig } from './patterns';
+export { defaultFormConfig } from './patterns/index.js';

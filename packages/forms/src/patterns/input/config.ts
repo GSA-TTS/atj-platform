@@ -1,9 +1,9 @@
 import { z } from 'zod';
 
-import { en as message } from '@atj/common/src/locales/en/app';
+import { enLocale as message } from '@atj/common';
 
-import { ParsePatternConfigData } from '../../pattern';
-import { safeZodParseFormErrors } from '../../util/zod';
+import { ParsePatternConfigData } from '../../pattern.js';
+import { safeZodParseFormErrors } from '../../util/zod.js';
 
 const configSchema = z.object({
   label: z.string().min(1, message.patterns.input.fieldLabelRequired),

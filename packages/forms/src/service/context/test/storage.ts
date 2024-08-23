@@ -1,5 +1,5 @@
-import { type Blueprint } from '../../..';
-import { saveFormToStorage } from '../browser/form-repo';
+import { type Blueprint } from '../../../index.js';
+import { saveFormToStorage } from '../browser/form-repo.js';
 
 export type TestData = Record<string, Blueprint>;
 

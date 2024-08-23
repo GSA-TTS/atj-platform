@@ -1,7 +1,7 @@
-import { type PatternConfig } from '../../pattern';
+import { type PatternConfig } from '../../pattern.js';
 
-import { type PagePattern, parseConfigData } from './config';
-import { createPrompt } from './prompt';
+import { type PagePattern, parseConfigData } from './config.js';
+import { createPrompt } from './prompt.js';
 
 export const pageConfig: PatternConfig<PagePattern> = {
   displayName: 'Page',

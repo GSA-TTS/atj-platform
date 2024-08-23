@@ -1,6 +1,6 @@
-export { getDocumentFieldData } from './extract';
-export * from './generate';
-export { generateDummyPDF } from './generate-dummy';
+export { getDocumentFieldData } from './extract.js';
+export * from './generate.js';
+export { generateDummyPDF } from './generate-dummy.js';
 
 export type PDFDocument = {
   type: 'pdf';
