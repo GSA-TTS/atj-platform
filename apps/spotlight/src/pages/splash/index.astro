@@ -11,9 +11,12 @@ import atjInfographics from '../../images/atj-infographics.png';
           <h1 class="usa-hero__heading font-sans- text-base-darkest">
             A people-centered platform for online document assembly
           </h1>
+          <template id="js-modal-content">
+            <iframe src="https://www.loom.com/embed/d958328ec69548ed99c6cd1a15af8a16?sid=ecc5f80b-931b-403d-addc-538215b53092" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+          </template>
           <p class="play-video margin-top-0">
             <a href="#demo-video"
-              class="usa-button text-base-lightest bg-base-darkest" 
+              class="usa-button text-base-lightest bg-base-darkest js-modal-content-trigger" 
               aria-controls="demo-video"
               data-open-modal     
             > 
@@ -22,26 +25,28 @@ import atjInfographics from '../../images/atj-infographics.png';
             </a>
           </p>         
         </div>
-        <div
-          class="offline-homepage-modal usa-modal usa-modal--lg"
-          id="demo-video"
-          aria-labelledby="modal-1-heading"
-          aria-describedby="modal-1-description"
-        >
-          <div class="usa-modal__content">
-            <div class="usa-modal__main">
-              <div style="position: relative; padding-bottom: 62.5%; height: 0;"><iframe src="https://www.loom.com/embed/d958328ec69548ed99c6cd1a15af8a16?sid=ecc5f80b-931b-403d-addc-538215b53092" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+        <div class="display-none">
+            <div
+            class="offline-homepage-modal usa-modal usa-modal--lg"
+            id="demo-video"
+            aria-labelledby="10x A2J Form Demo"
+            aria-describedby="10x A2J Form Demo"
+          >
+            <div class="usa-modal__content">
+              <div class="usa-modal__main">
+                <div class="js-modal-content-target"></div>
+              </div>
+              <button
+                type="button"
+                class="usa-button usa-modal__close"
+                aria-label="Close this window"
+                data-close-modal
+              >
+                &#x2715;
+              </button>
             </div>
-            <button
-              type="button"
-              class="usa-button usa-modal__close"
-              aria-label="Close this window"
-              data-close-modal
-            >
-              &#x2715;
-            </button>
           </div>
-        </div>
+        </div>      
       </div>
     </section>
     <section class="usa-section">
@@ -61,7 +66,7 @@ import atjInfographics from '../../images/atj-infographics.png';
           <div class="grid-container">
             <div class="usa-graphic-list__row grid-row grid-gap">
               <p>
-                <img src={atjInfographics.src} role="img" alt="10x ATJ Infographic" />
+                <img src={atjInfographics.src} role="img" alt="10x ATJ Infographic" width="960" height="275" />
               </p>
               <div class="usa-media-block tablet:grid-col">               
                 <div class="usa-media-block__body">
@@ -111,4 +116,16 @@ import atjInfographics from '../../images/atj-infographics.png';
           </div>
         </section>  
   </div>
+  <script>
+    const template = document.querySelector('#js-modal-content');
+    const button = document.querySelector('.js-modal-content-trigger');
+    const clone = template.content.cloneNode(true);
+    const viewport = document.querySelector('.js-modal-content-target');
+
+    button.addEventListener('click', (e) => {
+      viewport.appendChild(clone);
+    }, {
+      once: true
+    });  
+  </script>
 </ContentLayout>
