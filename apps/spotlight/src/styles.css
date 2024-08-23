@@ -47,6 +47,10 @@
     text-align: left;
 }
 
+.offline-homepage .play-video .usa-button:hover {
+    background: black;
+}
+
 .offline-homepage .play-video a::before {
     content: " ";
     display: block;
