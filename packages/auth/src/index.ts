@@ -4,6 +4,10 @@ import { type LoginGovOptions, LoginGov } from './provider.js';
 
 export { BaseAuthContext } from './context/base.js';
 export { type LoginGovOptions, LoginGov };
+export {
+  type AuthRepository,
+  createAuthRepository,
+} from './repository/index.js';
 export { getProviderRedirect } from './services/get-provider-redirect.js';
 export { logOut } from './services/logout.js';
 export { processProviderCallback } from './services/process-provider-callback.js';

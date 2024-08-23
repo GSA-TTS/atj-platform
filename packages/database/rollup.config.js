@@ -5,7 +5,8 @@ import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import typescript from 'rollup-plugin-typescript2';
 
-import pkg from './package.json' assert { type: 'json' };
+import packageJson from './package.json' assert { type: 'json' };
+import workspacePackageJson from '../../package.json' assert { type: 'json' };
 
 export default {
   input: ['src/index.ts', 'src/testing.ts'],
@@ -31,9 +32,15 @@ export default {
     }),
   ],
   external: (() => {
-    const dependencies = Object.keys(pkg.dependencies || {});
-    const devDependencies = Object.keys(pkg.devDependencies || {});
-    const builtins = builtinModules;
-    return [...new Set([...dependencies, ...devDependencies, ...builtins])];
+    // Externalize all the things
+    return [
+      ...new Set([
+        ...Object.keys(packageJson.dependencies || {}),
+        ...Object.keys(packageJson.devDependencies || {}),
+        ...Object.keys(workspacePackageJson.dependencies || {}),
+        ...Object.keys(workspacePackageJson.devDependencies || {}),
+        ...builtinModules,
+      ]),
+    ];
   })(),
 };

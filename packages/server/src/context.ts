@@ -3,21 +3,25 @@ import { fileURLToPath } from 'url';
 
 import { type APIContext, type AstroGlobal } from 'astro';
 
-import type { AuthServiceContext, LoginGovOptions } from '@atj/auth';
+import {
+  type AuthRepository,
+  type AuthServiceContext,
+  type LoginGovOptions,
+  createAuthRepository,
+} from '@atj/auth';
+import {
+  type DatabaseContext,
+  createInMemoryDatabaseContext,
+} from '@atj/database';
 import {
   type FormConfig,
-  type FormRepository,
   type FormService,
+  createFormsRepository,
   createFormService,
   defaultFormConfig,
 } from '@atj/forms';
 
 import { type GithubRepository } from './lib/github.js';
-import {
-  AuthRepository,
-  createAuthRepository,
-} from '@atj/auth/dist/repository/index.js';
-import { createFormsRepository } from '@atj/forms/src/repository/index.js';
 
 export type AppContext = {
   auth: AuthServiceContext;
@@ -31,10 +35,7 @@ export type AppContext = {
 
 export type ServerOptions = {
   title: string;
-  db: {
-    auth: AuthRepository;
-    forms: FormRepository;
-  };
+  db: DatabaseContext | true;
   loginGovOptions: LoginGovOptions;
   isUserAuthorized: (email: string) => Promise<boolean>;
 };
@@ -51,17 +52,21 @@ const createAstroAppContext = async (
   env: any
 ): Promise<AppContext> => {
   const serverOptions = await getServerOptions(Astro);
+  let db: DatabaseContext =
+    serverOptions.db === true
+      ? await createInMemoryDatabaseContext()
+      : serverOptions.db;
   return {
     auth: await createDefaultAuthContext({
       Astro,
-      authRepository: serverOptions.db.auth,
+      authRepository: createAuthRepository(db),
       loginGovOptions: serverOptions.loginGovOptions,
       isUserAuthorized: serverOptions.isUserAuthorized,
     }),
     baseUrl: env.BASE_URL,
     formConfig: defaultFormConfig,
     formService: createFormService({
-      repository: serverOptions.db.forms,
+      repository: createFormsRepository(db),
       config: defaultFormConfig,
     }),
     github: env.GITHUB,
@@ -71,7 +76,10 @@ const createAstroAppContext = async (
 };
 
 const getDefaultServerOptions = async (): Promise<ServerOptions> => {
-  const db = await createDefaultDatabaseGateway();
+  const { createFilesystemDatabaseContext } = await import('@atj/database');
+  const db = await createFilesystemDatabaseContext(
+    join(dirname(fileURLToPath(import.meta.url)), '../main.db')
+  );
   return {
     title: 'Form Service',
     db,
@@ -90,20 +98,6 @@ const getDefaultServerOptions = async (): Promise<ServerOptions> => {
 
 const getServerOptions = async (Astro: AstroGlobal | APIContext) => {
   return Astro.locals.serverOptions || (await getDefaultServerOptions());
-};
-
-const getDirname = () => dirname(fileURLToPath(import.meta.url));
-
-const createDefaultDatabaseGateway = async () => {
-  const { createFilesystemDatabaseContext } = await import('@atj/database');
-  const ctx = await createFilesystemDatabaseContext(
-    join(getDirname(), '../main.db')
-  );
-  const gateway = {
-    auth: createAuthRepository(ctx),
-    forms: createFormsRepository(ctx),
-  };
-  return Promise.resolve(gateway);
 };
 
 const getOriginFromRequest = (Astro: AstroGlobal | APIContext) => {

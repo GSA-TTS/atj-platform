@@ -328,10 +328,6 @@ describe('form builder', () => {
     const initial = createTestBlueprintMultipleFieldsets();
     const builder = new BlueprintBuilder(defaultFormConfig, initial);
     const parentPattern = getPattern<PagePattern>(initial, 'page-1');
-    const updatedParentPattern = getPattern<PagePattern>(
-      builder.form,
-      'page-1'
-    );
     const pattern = getPattern<Pattern>(builder.form, 'form-summary-1');
     expect(builder.form.patterns[pattern.id]).toEqual(pattern);
     const newPattern = builder.copyPattern(parentPattern.id, pattern.id);
@@ -494,15 +490,9 @@ describe('form builder', () => {
     const initial = createTestBlueprintMultipleFieldsets();
     const builder = new BlueprintBuilder(defaultFormConfig, initial);
     const parentPattern = getPattern<PagePattern>(initial, 'page-1');
-    const updatedParentPattern = getPattern<PagePattern>(
-      builder.form,
-      'page-1'
-    );
     const pattern = getPattern<Pattern>(builder.form, 'radio-group-1');
     expect(builder.form.patterns[pattern.id]).toEqual(pattern);
     const newPattern = builder.copyPattern(parentPattern.id, pattern.id);
-
-    console.log(JSON.stringify(builder.form));
 
     expect(builder.form).toEqual({
       summary: { title: 'Test form', description: 'Test description' },

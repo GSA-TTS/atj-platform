@@ -4,7 +4,6 @@ import { getAstroAppContext } from '../../../context';
 export const GET: APIRoute = async context => {
   const ctx = await getAstroAppContext(context);
   const formId = context.params.id;
-
   if (formId === undefined) {
     return new Response('Form ID is required', {
       status: 400,
@@ -23,7 +22,6 @@ export const GET: APIRoute = async context => {
 export const DELETE: APIRoute = async context => {
   const ctx = await getAstroAppContext(context);
   const formId = context.params.id;
-
   if (formId === undefined) {
     return new Response('Form ID is required', {
       status: 400,
@@ -41,8 +39,8 @@ export const DELETE: APIRoute = async context => {
 
 export const PUT: APIRoute = async context => {
   const ctx = await getAstroAppContext(context);
-  const formId = context.params.id;
 
+  const formId = context.params.id;
   if (formId === undefined) {
     return new Response('Form ID is required', {
       status: 400,
@@ -50,7 +48,6 @@ export const PUT: APIRoute = async context => {
   }
 
   const form = await context.request.json();
-
   const result = await ctx.formService.saveForm(formId, form);
   return new Response(JSON.stringify(result), {
     headers: {

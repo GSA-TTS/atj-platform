@@ -1,3 +1,4 @@
+import { createPostgresDatabaseContext } from '@atj/database';
 import { createCustomServer } from './server.js';
 
 const port = process.env.PORT || 4321;
@@ -14,8 +15,11 @@ const getCloudGovServerSecrets = () => {
 };
 
 const secrets = getCloudGovServerSecrets();
-createCustomServer({ dbUri: secrets?.dbUri }).then((server: any) =>
-  server.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
-  })
+const db = await createPostgresDatabaseContext(
+  secrets?.dbUri,
+  process.env.NODE_ENV === 'production'
 );
+const server = await createCustomServer(db);
+server.listen(port, () => {
+  console.log(`Server running on http://localhost:${port}`);
+});
