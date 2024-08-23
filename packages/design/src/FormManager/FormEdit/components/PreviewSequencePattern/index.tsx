@@ -2,9 +2,9 @@ import React from 'react';
 
 import { type SequenceProps, getPattern } from '@atj/forms';
 
-import { DraggableList } from './DraggableList';
-import { useFormManagerStore } from '../../../store';
-import { PatternEditComponent } from '../../types';
+import { DraggableList } from './DraggableList.js';
+import { useFormManagerStore } from '../../../store.js';
+import { PatternEditComponent } from '../../types.js';
 
 // TODO: consider merging this component with DraggableList, to clean up
 // sematics around how its children are handled.

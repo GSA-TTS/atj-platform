@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import {
   type RouteData,
   getRouteDataFromQueryString,
-} from '@atj/forms/src/route-data';
+} from '@atj/forms/src/route-data.js';
 
 export const useRouteParams = (): {
   routeParams: RouteData;

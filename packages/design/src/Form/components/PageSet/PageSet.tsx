@@ -2,11 +2,11 @@ import React from 'react';
 
 import { type PageSetProps } from '@atj/forms';
 
-import { type PatternComponent } from '../..';
-import ActionBar from '../../../Form/ActionBar';
-import { useRouteParams } from '../../../FormRouter/hooks';
+import { type PatternComponent } from '../../index.js';
+import ActionBar from '../../../Form/ActionBar/index.js';
+import { useRouteParams } from '../../../FormRouter/hooks.js';
 
-import { PageMenu } from './PageMenu';
+import { PageMenu } from './PageMenu/index.js';
 
 const PageSet: PatternComponent<PageSetProps> = props => {
   const { routeParams, pathname } = useRouteParams();

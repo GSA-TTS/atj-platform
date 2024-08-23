@@ -4,14 +4,14 @@ import React from 'react';
 import { PatternId, TextInputProps } from '@atj/forms';
 import { InputPattern } from '@atj/forms/src/patterns/input';
 
-import TextInput from '../../../Form/components/TextInput';
-import { useFormManagerStore } from '../../store';
-import { PatternEditComponent } from '../types';
+import TextInput from '../../../Form/components/TextInput/index.js';
+import { useFormManagerStore } from '../../store.js';
+import { PatternEditComponent } from '../types.js';
 
-import { PatternEditActions } from './common/PatternEditActions';
-import { PatternEditForm } from './common/PatternEditForm';
-import { usePatternEditFormContext } from './common/hooks';
-import { en as message } from '@atj/common/src/locales/en/app';
+import { PatternEditActions } from './common/PatternEditActions.js';
+import { PatternEditForm } from './common/PatternEditForm.js';
+import { usePatternEditFormContext } from './common/hooks.js';
+import { enLocale as message } from '@atj/common';
 
 const InputPatternEdit: PatternEditComponent<TextInputProps> = ({
   focus,

@@ -6,15 +6,15 @@ import {
   type Blueprint,
   type Pattern,
 } from '@atj/forms';
-import { type SequencePattern } from '@atj/forms/src/patterns/sequence';
 import { type InputPattern } from '@atj/forms/src/patterns/input';
+import { type PagePattern } from '@atj/forms/src/patterns/page/config.js';
+import { type PageSetPattern } from '@atj/forms/src/patterns/page-set/config.js';
+import { type SequencePattern } from '@atj/forms/src/patterns/sequence.js';
 
-import { type FormUIContext } from './Form';
-import { defaultPatternComponents } from './Form/components';
-import { defaultPatternEditComponents } from './FormManager/FormEdit/components';
-import { type FormManagerContext } from './FormManager';
-import { type PageSetPattern } from '@atj/forms/src/patterns/page-set/config';
-import { type PagePattern } from '@atj/forms/src/patterns/page/config';
+import { type FormUIContext } from './Form/index.js';
+import { defaultPatternComponents } from './Form/components/index.js';
+import { defaultPatternEditComponents } from './FormManager/FormEdit/components/index.js';
+import { type FormManagerContext } from './FormManager/index.js';
 
 export const createOnePageTwoPatternTestForm = () => {
   return createForm(

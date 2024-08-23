@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import FormRouter from '.';
 import { createTestFormService } from '@atj/forms';
+import FormRouter from './index.js';
 
 export default {
   title: 'Form',

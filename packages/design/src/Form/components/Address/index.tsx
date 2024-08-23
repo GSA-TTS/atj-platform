@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { AddressComponentProps } from '@atj/forms/src/patterns/address';
 
-import { type PatternComponent } from '../..';
+import { type PatternComponent } from '../../index.js';
 
 const Address: PatternComponent<AddressComponentProps> = props => {
   const { register } = useFormContext();

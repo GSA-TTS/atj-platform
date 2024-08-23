@@ -1,16 +1,16 @@
 import classnames from 'classnames';
 import React from 'react';
 
+import { enLocale as message } from '@atj/common';
 import { type CheckboxProps } from '@atj/forms';
-import { type CheckboxPattern } from '@atj/forms/src/patterns/checkbox';
+import { type CheckboxPattern } from '@atj/forms/src/patterns/checkbox.js';
 
-import Checkbox from '../../../Form/components/Checkbox';
-import { PatternEditComponent } from '../types';
+import Checkbox from '../../../Form/components/Checkbox/index.js';
+import { PatternEditComponent } from '../types.js';
 
-import { PatternEditActions } from './common/PatternEditActions';
-import { PatternEditForm } from './common/PatternEditForm';
-import { usePatternEditFormContext } from './common/hooks';
-import { en as message } from '@atj/common/src/locales/en/app';
+import { PatternEditActions } from './common/PatternEditActions.js';
+import { PatternEditForm } from './common/PatternEditForm.js';
+import { usePatternEditFormContext } from './common/hooks.js';
 
 const CheckboxPatternEdit: PatternEditComponent<CheckboxProps> = ({
   focus,

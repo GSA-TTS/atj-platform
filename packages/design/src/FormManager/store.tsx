@@ -10,9 +10,9 @@ import { createContext } from 'zustand-utils';
 import { type Result } from '@atj/common';
 import { type FormSession, type Blueprint, BlueprintBuilder } from '@atj/forms';
 
-import { type FormEditSlice, createFormEditSlice } from './FormEdit/store';
-import { type FormListSlice, createFormListSlice } from './FormList/store';
-import { type FormManagerContext } from '.';
+import { type FormListSlice, createFormListSlice } from './FormList/store.js';
+import { type FormEditSlice, createFormEditSlice } from './FormEdit/store.js';
+import { type FormManagerContext } from './index.js';
 
 type StoreContext = {
   context: FormManagerContext;

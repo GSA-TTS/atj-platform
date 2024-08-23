@@ -3,14 +3,14 @@ import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, userEvent, waitFor, within } from '@storybook/test';
 
-import { FormManagerProvider } from '../store';
+import { FormManagerProvider } from '../store.js';
 
-import FormEdit from '.';
+import FormEdit from './index.js';
 import {
   createTestSession,
   createOnePageTwoPatternTestForm,
   createTestFormManagerContext,
-} from '../../test-form';
+} from '../../test-form.js';
 
 const meta: Meta<typeof FormEdit> = {
   title: 'FormManager/FormEdit',

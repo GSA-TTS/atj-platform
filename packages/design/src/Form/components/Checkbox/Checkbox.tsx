@@ -3,7 +3,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { type CheckboxProps } from '@atj/forms';
 
-import { type PatternComponent } from '../../../Form';
+import { type PatternComponent } from '../../../Form/index.js';
 
 export const CheckboxPattern: PatternComponent<CheckboxProps> = props => {
   const { register } = useFormContext();

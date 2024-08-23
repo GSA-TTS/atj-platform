@@ -2,16 +2,16 @@ import classnames from 'classnames';
 import React from 'react';
 
 import { PageProps } from '@atj/forms';
-import { en as message } from '@atj/common/src/locales/en/app';
-import { PagePattern } from '@atj/forms/src/patterns/page/config';
+import { enLocale as message } from '@atj/common';
+import { PagePattern } from '@atj/forms/src/patterns/page/config.js';
 
-import { useRouteParams } from '../../../FormRouter/hooks';
-import { PatternEditComponent } from '../types';
+import { useRouteParams } from '../../../FormRouter/hooks.js';
+import { PatternEditComponent } from '../types.js';
 
-import { PatternEditActions } from './common/PatternEditActions';
-import { PatternEditForm } from './common/PatternEditForm';
-import { usePatternEditFormContext } from './common/hooks';
-import { PatternPreviewSequence } from './PreviewSequencePattern';
+import { PatternEditActions } from './common/PatternEditActions.js';
+import { PatternEditForm } from './common/PatternEditForm.js';
+import { usePatternEditFormContext } from './common/hooks.js';
+import { PatternPreviewSequence } from './PreviewSequencePattern/index.js';
 import styles from '../formEditStyles.module.css';
 
 export const PageEdit: PatternEditComponent<PageProps> = props => {

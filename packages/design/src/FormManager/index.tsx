@@ -16,25 +16,28 @@ import {
 } from '@atj/forms';
 import { type FormService } from '@atj/forms';
 
-import { type ComponentForPattern } from '../Form';
+import { type ComponentForPattern } from '../Form/index.js';
 
-import FormDelete from './FormDelete';
-import FormEdit from './FormEdit';
-import { type EditComponentForPattern } from './FormEdit/types';
-import { FormInspect } from './FormInspect';
-import FormList from './FormList';
-import { FormManagerLayout } from './FormManagerLayout';
-import { NavPage } from './FormManagerLayout/TopNavigation';
-import { FormPreview } from './FormPreview';
-import * as AppRoutes from './routes';
-import { FormManagerProvider } from './store';
+import FormDelete from './FormDelete/index.js';
+import FormEdit from './FormEdit/index.js';
+import { type EditComponentForPattern } from './FormEdit/types.js';
+import { FormInspect } from './FormInspect/index.js';
+import FormList from './FormList/index.js';
+import { FormManagerLayout } from './FormManagerLayout/index.js';
+import { NavPage } from './FormManagerLayout/TopNavigation.js';
+import { FormPreview } from './FormPreview/index.js';
+import * as AppRoutes from './routes.js';
+import { FormManagerProvider } from './store.js';
 import AvailableFormList, {
   UrlForForm,
   UrlForFormManager,
-} from '../AvailableFormList';
+} from '../AvailableFormList/index.js';
 import styles from './FormEdit/formEditStyles.module.css';
 
-import { defaultPatternComponents, defaultPatternEditComponents } from '..';
+import {
+  defaultPatternComponents,
+  defaultPatternEditComponents,
+} from '../index.js';
 
 export type PatternLessFormManagerContext = {
   baseUrl: `${string}/`;

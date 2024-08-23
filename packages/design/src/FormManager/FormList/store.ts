@@ -1,7 +1,7 @@
 import { type StateCreator } from 'zustand';
 
 import { BlueprintBuilder } from '@atj/forms';
-import { type FormManagerContext } from '../../FormManager';
+import { type FormManagerContext } from '../../FormManager/index.js';
 import { type Result } from '@atj/common';
 
 type StoreContext = {

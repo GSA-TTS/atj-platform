@@ -2,14 +2,14 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { FormPreview } from '.';
+import { FormPreview } from './index.js';
 import {
   createTwoPatternTestForm,
   createTestFormContext,
   createTestSession,
   createTestFormManagerContext,
-} from '../../test-form';
-import { FormManagerProvider } from '../store';
+} from '../../test-form.js';
+import { FormManagerProvider } from '../store.js';
 
 const meta: Meta<typeof FormPreview> = {
   title: 'FormManager/FormPreview',

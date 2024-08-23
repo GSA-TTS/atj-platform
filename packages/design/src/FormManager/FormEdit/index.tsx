@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import Form, { type ComponentForPattern } from '../../Form';
-import { AddPatternMenu } from './AddPatternDropdown';
-import { PreviewPattern } from './PreviewPattern';
-import { useFormManagerStore } from '../store';
 import { useLocation } from 'react-router-dom';
+
+import Form, { type ComponentForPattern } from '../../Form/index.js';
+import { AddPatternMenu } from './AddPatternDropdown.js';
+import { PreviewPattern } from './PreviewPattern.js';
+import { useFormManagerStore } from '../store.js';
 
 const EditForm = () => {
   const session = useFormManagerStore(state => state.session);

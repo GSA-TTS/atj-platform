@@ -2,14 +2,15 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import FormList from '.';
+import { createTestFormService } from '@atj/forms';
+
+import FormList from './index.js';
 import {
   createTwoPatternTestForm,
   createTestSession,
   createTestFormManagerContext,
-} from '../../test-form';
-import { FormManagerProvider } from '../store';
-import { createTestFormService } from '@atj/forms';
+} from '../../test-form.js';
+import { FormManagerProvider } from '../store.js';
 
 const meta: Meta<typeof FormList> = {
   title: 'FormManager/FormList',

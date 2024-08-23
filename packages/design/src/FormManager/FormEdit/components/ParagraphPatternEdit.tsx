@@ -1,17 +1,17 @@
 import classnames from 'classnames';
 import React from 'react';
 
+import { enLocale as message } from '@atj/common';
 import { PatternId, type ParagraphProps } from '@atj/forms';
-import { type ParagraphPattern } from '@atj/forms/src/patterns/paragraph';
+import { type ParagraphPattern } from '@atj/forms/src/patterns/paragraph.js';
 
-import Paragraph from '../../../Form/components/Paragraph';
-import { PatternEditComponent } from '../types';
+import Paragraph from '../../../Form/components/Paragraph/index.js';
+import { PatternEditComponent } from '../types.js';
 
-import { PatternEditActions } from './common/PatternEditActions';
-import { PatternEditForm } from './common/PatternEditForm';
-import { usePatternEditFormContext } from './common/hooks';
-import { useFormManagerStore } from '../../store';
-import { en as message } from '@atj/common/src/locales/en/app';
+import { PatternEditActions } from './common/PatternEditActions.js';
+import { PatternEditForm } from './common/PatternEditForm.js';
+import { usePatternEditFormContext } from './common/hooks.js';
+import { useFormManagerStore } from '../../store.js';
 
 const ParagraphPatternEdit: PatternEditComponent<ParagraphProps> = ({
   focus,

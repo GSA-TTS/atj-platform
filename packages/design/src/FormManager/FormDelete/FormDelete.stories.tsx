@@ -2,9 +2,10 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import FormDelete from '.';
-import { createTwoPatternTestForm } from '../../test-form';
 import { createTestFormService } from '@atj/forms';
+
+import { createTwoPatternTestForm } from '../../test-form.js';
+import FormDelete from './index.js';
 
 const meta: Meta<typeof FormDelete> = {
   title: 'FormManager/FormDelete',

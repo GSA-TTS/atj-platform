@@ -4,14 +4,14 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { type PageSetProps } from '@atj/forms';
 
-import { FormManagerProvider } from '../../../FormManager/store';
+import { FormManagerProvider } from '../../../FormManager/store.js';
 import {
   createTestFormManagerContext,
   createTestSession,
   createTwoPatternTestForm,
-} from '../../../test-form';
+} from '../../../test-form.js';
 
-import PageSet from './PageSet';
+import PageSet from './PageSet.js';
 
 const meta: Meta<typeof PageSet> = {
   title: 'patterns/PageSet',

@@ -4,9 +4,9 @@ import { useParams, HashRouter, Route, Routes } from 'react-router-dom';
 import { Blueprint, defaultFormConfig, type FormService } from '@atj/forms';
 import { createFormSession } from '@atj/forms';
 
-import { useQueryString } from './hooks';
-import { defaultPatternComponents } from '..';
-import Form, { FormUIContext } from '../Form';
+import { useQueryString } from './hooks.js';
+import { defaultPatternComponents } from '../index.js';
+import Form, { FormUIContext } from '../Form/index.js';
 import { Result } from '@atj/common';
 
 // Wrapper around Form that includes a client-side router for loading forms.

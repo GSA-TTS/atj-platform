@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { type CheckboxPattern } from '@atj/forms/src/patterns/checkbox';
+import { type CheckboxPattern } from '@atj/forms/src/patterns/checkbox.js';
 
-import CheckboxPatternEdit from './CheckboxPatternEdit';
+import CheckboxPatternEdit from './CheckboxPatternEdit.js';
 import {
   createPatternEditStoryMeta,
   testEmptyFormLabelError,
   testUpdateFormFieldOnSubmit,
-} from './common/story-helper';
-import FormEdit from '..';
-import { en as message } from '@atj/common/src/locales/en/app';
+} from './common/story-helper.js';
+import FormEdit from '../index.js';
+import { enLocale as message } from '@atj/common';
 
 const pattern: CheckboxPattern = {
   id: '1',

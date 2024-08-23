@@ -1,7 +1,7 @@
 /**
  * @vitest-environment jsdom
  */
-import { describeStories } from '../../../test-helper';
-import meta, * as stories from './FieldsetEdit.stories';
+import { describeStories } from '../../../test-helper.js';
+import meta, * as stories from './FieldsetEdit.stories.js';
 
 describeStories(meta, stories);

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CreateNew from './CreateNew';
+import CreateNew from './CreateNew/index.js';
 
 export default function FormList() {
   return (

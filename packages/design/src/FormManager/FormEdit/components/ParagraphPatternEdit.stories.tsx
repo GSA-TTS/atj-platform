@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { type ParagraphPattern } from '@atj/forms/src/patterns/paragraph';
-import { en as message } from '@atj/common/src/locales/en/app';
+import { type ParagraphPattern } from '@atj/forms/src/patterns/paragraph.js';
+import { enLocale as message } from '@atj/common';
 
-import { createPatternEditStoryMeta } from './common/story-helper';
-import FormEdit from '..';
+import { createPatternEditStoryMeta } from './common/story-helper.js';
+import FormEdit from '../index.js';
 import { expect, userEvent } from '@storybook/test';
 import { within } from '@testing-library/react';
 

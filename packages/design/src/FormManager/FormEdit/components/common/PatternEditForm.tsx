@@ -3,7 +3,7 @@ import { type ErrorOption, FormProvider, useForm } from 'react-hook-form';
 
 import { type FormError, type Pattern, type PatternMap } from '@atj/forms';
 
-import { useFormManagerStore } from '../../../store';
+import { useFormManagerStore } from '../../../store.js';
 
 type PatternEditFormProps = {
   pattern: Pattern;

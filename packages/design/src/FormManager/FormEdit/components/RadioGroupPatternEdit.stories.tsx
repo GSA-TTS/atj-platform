@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { type RadioGroupPattern } from '@atj/forms/src/patterns/radio-group';
+import { type RadioGroupPattern } from '@atj/forms/src/patterns/radio-group.js';
 
-import { createPatternEditStoryMeta } from './common/story-helper';
-import FormEdit from '..';
-import CheckboxPatternEdit from './CheckboxPatternEdit';
-import { en as message } from '@atj/common/src/locales/en/app';
+import { createPatternEditStoryMeta } from './common/story-helper.js';
+import FormEdit from '../index.js';
+import CheckboxPatternEdit from './CheckboxPatternEdit.js';
+import { enLocale as message } from '@atj/common';
 import { expect, userEvent } from '@storybook/test';
 import { within } from '@testing-library/react';
 

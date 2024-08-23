@@ -2,14 +2,14 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { FormManagerLayout } from '.';
+import { FormManagerLayout } from './index.js';
 import {
   createTwoPatternTestForm,
   createTestSession,
   createTestFormManagerContext,
-} from '../../test-form';
-import { FormManagerProvider } from '../store';
-import { NavPage } from './TopNavigation';
+} from '../../test-form.js';
+import { FormManagerProvider } from '../store.js';
+import { NavPage } from './TopNavigation.js';
 
 const meta: Meta<typeof FormManagerLayout> = {
   title: 'FormManagerLayout',

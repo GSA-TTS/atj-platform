@@ -1,3 +1,3 @@
-import { RadioGroupPattern } from './RadioGroup';
+import { RadioGroupPattern } from './RadioGroup.js';
 
 export default RadioGroupPattern;
