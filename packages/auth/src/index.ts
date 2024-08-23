@@ -2,7 +2,7 @@ import { type Cookie, type User, type Session, type Lucia } from 'lucia';
 
 import { type DatabaseGateway } from '@atj/database';
 
-export { DevAuthContext } from './context/dev';
+export { BaseAuthContext } from './context/base';
 import { type LoginGovOptions, LoginGov } from './provider';
 export { type LoginGovOptions, LoginGov };
 export { getProviderRedirect } from './services/get-provider-redirect';
@@ -23,4 +23,5 @@ export type AuthContext = {
   setCookie: (cookie: Cookie) => void;
   setUserSession: (userSession: UserSession) => void;
   getLucia: () => Promise<Lucia>;
+  isUserAuthorized: (email: string) => Promise<boolean>;
 };

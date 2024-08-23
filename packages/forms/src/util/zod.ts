@@ -2,7 +2,7 @@ import * as z from 'zod';
 
 import * as r from '@atj/common';
 
-import { type FormError, type FormErrors, type Pattern } from '..';
+import { type FormError, type FormErrors, type Pattern } from '../index.js';
 
 export const safeZodParse = <T extends Pattern>(
   schema: z.Schema,

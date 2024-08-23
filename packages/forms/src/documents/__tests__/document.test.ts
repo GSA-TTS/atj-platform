@@ -3,14 +3,14 @@
  */
 import { describe, expect, it } from 'vitest';
 
-import { getPattern } from '../..';
-import { BlueprintBuilder } from '../../builder';
-import { defaultFormConfig } from '../../patterns';
-import { type PageSetPattern } from '../../patterns/page-set/config';
-import { type PagePattern } from '../../patterns/page/config';
+import { getPattern } from '../../index.js';
+import { BlueprintBuilder } from '../../builder/index.js';
+import { defaultFormConfig } from '../../patterns/index.js';
+import { type PageSetPattern } from '../../patterns/page-set/config.js';
+import { type PagePattern } from '../../patterns/page/config.js';
 
-import { addDocument } from '../document';
-import { loadSamplePDF } from './sample-data';
+import { addDocument } from '../document.js';
+import { loadSamplePDF } from './sample-data.js';
 
 describe('addDocument document processing', () => {
   it('creates expected blueprint', async () => {
@@ -26,7 +26,7 @@ describe('addDocument document processing', () => {
       },
       {
         fetchPdfApiResponse: async () => {
-          const { mockResponse } = await import('../pdf/mock-response');
+          const { mockResponse } = await import('../pdf/mock-response.js');
           return mockResponse;
         },
       }

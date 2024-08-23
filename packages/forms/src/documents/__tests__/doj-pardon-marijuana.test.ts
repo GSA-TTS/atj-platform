@@ -2,10 +2,10 @@ import { describe, expect, test } from 'vitest';
 
 import { Success } from '@atj/common';
 
-import { type DocumentFieldMap } from '..';
-import { fillPDF, getDocumentFieldData } from '../pdf';
+import { type DocumentFieldMap } from '../index.js';
+import { fillPDF, getDocumentFieldData } from '../pdf/index.js';
 
-import { loadSamplePDF } from './sample-data';
+import { loadSamplePDF } from './sample-data.js';
 
 describe('DOJ Pardon Attorney Office - Marijuana pardon application form', () => {
   /*

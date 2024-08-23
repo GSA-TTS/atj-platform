@@ -2,11 +2,15 @@ import * as z from 'zod';
 
 import { Result } from '@atj/common';
 
-import { type RadioGroupProps } from '../components';
-import { type FormError } from '../error';
-import { type Pattern, type PatternConfig, validatePattern } from '../pattern';
-import { getFormSessionValue } from '../session';
-import { safeZodParseFormErrors } from '../util/zod';
+import { type RadioGroupProps } from '../components.js';
+import { type FormError } from '../error.js';
+import {
+  type Pattern,
+  type PatternConfig,
+  validatePattern,
+} from '../pattern.js';
+import { getFormSessionValue } from '../session.js';
+import { safeZodParseFormErrors } from '../util/zod.js';
 
 const configSchema = z.object({
   label: z.string().min(1),

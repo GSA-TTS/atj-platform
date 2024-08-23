@@ -1,10 +1,10 @@
-import { type FieldsetPattern } from '.';
+import { type FieldsetPattern } from './index.js';
 import {
   type CreatePrompt,
   type FieldsetProps,
   createPromptForPattern,
   getPattern,
-} from '../..';
+} from '../../index.js';
 
 export const createPrompt: CreatePrompt<FieldsetPattern> = (
   config,
