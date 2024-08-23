@@ -193,6 +193,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
             editor={editor}
             className={`padding-2 ${styles.richTextEditorBody}`}
             aria-label="Edit and format this text"
+            spellCheck="false"
             role="textbox"
           />
         </div>
