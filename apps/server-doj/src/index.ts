@@ -1,4 +1,4 @@
-import { createPostgresDatabaseContext } from '@atj/database';
+import { createPostgresDatabaseContext } from '@atj/database/context';
 import { createCustomServer } from './server.js';
 
 const port = process.env.PORT || 4321;

@@ -12,6 +12,11 @@
       "require": "./dist/cjs/index.js",
       "types": "./dist/types/index.d.ts"
     },
+    "./context": {
+      "import": "./dist/esm/context.js",
+      "require": "./dist/cjs/context.js",
+      "types": "./dist/types/context/index.d.ts"
+    },
     "./testing": {
       "import": "./dist/esm/testing.js",
       "require": "./dist/cjs/testing.js",

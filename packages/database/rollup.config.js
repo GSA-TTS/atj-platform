@@ -9,17 +9,26 @@ import packageJson from './package.json' assert { type: 'json' };
 import workspacePackageJson from '../../package.json' assert { type: 'json' };
 
 export default {
-  input: ['src/index.ts', 'src/testing.ts'],
+  //input: ['src/index.ts', 'src/context/index.ts', 'src/testing.ts'],
+  input: {
+    main: 'src/index.ts',
+    context: 'src/context/index.ts',
+    testing: 'src/testing.ts',
+  },
   output: [
     {
       dir: 'dist/esm',
       format: 'esm',
       sourcemap: true,
+      entryFileNames: '[name].js',
+      chunkFileNames: '[name]-[hash].js',
     },
     {
       dir: 'dist/cjs',
       format: 'cjs',
       sourcemap: true,
+      entryFileNames: '[name].js',
+      chunkFileNames: '[name]-[hash].js',
     },
   ],
   plugins: [

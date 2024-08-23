@@ -2,7 +2,7 @@ import path from 'path';
 import { Command } from 'commander';
 
 import { type DeployEnv, commands, getSecretsVault } from '@atj/infra-core';
-import { Context } from './types.js';
+import { type Context } from './types.js';
 
 export const addSecretCommands = (ctx: Context, cli: Command) => {
   const cmd = cli

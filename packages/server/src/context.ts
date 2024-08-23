@@ -69,7 +69,9 @@ const createAstroAppContext = async (
 };
 
 const getDefaultServerOptions = async (): Promise<ServerOptions> => {
-  const { createFilesystemDatabaseContext } = await import('@atj/database');
+  const { createFilesystemDatabaseContext } = await import(
+    '@atj/database/context'
+  );
   const db = await createFilesystemDatabaseContext(
     join(dirname(fileURLToPath(import.meta.url)), '../main.db')
   );

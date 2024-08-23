@@ -1,12 +1,12 @@
 import request from 'supertest';
 import { describe, expect, test } from 'vitest';
 
-import { createInMemoryDatabaseContext } from '@atj/database';
+import { createInMemoryDatabaseContext } from '@atj/database/context';
 
 import { createCustomServer } from '../src/server';
 
 describe('DOJ Form Service', () => {
-  test.fails('renders the home page', async () => {
+  test('renders the home page', async () => {
     const db = await createInMemoryDatabaseContext();
     const app = await createCustomServer(db);
     const response = await request(app).get('/');

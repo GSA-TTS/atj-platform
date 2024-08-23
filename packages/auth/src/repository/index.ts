@@ -1,5 +1,5 @@
 import { createService } from '@atj/common';
-import type { DatabaseContext } from '@atj/database';
+import { type DatabaseContext } from '@atj/database';
 
 import { createSession } from './create-session.js';
 import { createUser } from './create-user.js';
