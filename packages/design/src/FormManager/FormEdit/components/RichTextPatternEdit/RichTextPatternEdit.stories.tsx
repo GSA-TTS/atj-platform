@@ -39,8 +39,8 @@ export const Formatting: StoryObj<typeof FormEdit> = {
     );
 
     const headingMap: Record<string, string> = {
-      'Heading': 'h2',
-      'Subheading': 'h3',
+      Heading: 'h2',
+      Subheading: 'h3',
     };
 
     const listMap: Record<string, string> = {

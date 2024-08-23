@@ -29,6 +29,14 @@ type RichTextFormData = PatternMap & {
   };
 };
 
+interface EditorActions {
+  label: string;
+  property: string;
+  action: () => void;
+  disabled: boolean;
+  parameter?: Record<string, unknown>;
+}
+
 const RichTextPatternEdit: PatternEditComponent<RichTextProps> = ({
   focus,
   previewProps,
@@ -51,76 +59,78 @@ const RichTextPatternEdit: PatternEditComponent<RichTextProps> = ({
 
 export default RichTextPatternEdit;
 
-const MenuBar: React.FC<MenuBarProps> = (({ editor }) => {
+const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
   if (!editor) {
     return null;
   }
 
-  const editorActions = [
+  const editorActions: Array<EditorActions> = [
     {
       label: 'Heading',
       property: 'heading',
-      action: () => editor.chain().focus().toggleHeading({ level: 2 }),
+      action: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
       disabled: false,
       parameter: { level: 2 },
     },
     {
       label: 'Subheading',
       property: 'heading',
-      action: () => editor.chain().focus().toggleHeading({ level: 3 }),
+      action: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
       disabled: false,
       parameter: { level: 3 },
     },
     {
       label: 'Bold',
       property: 'bold',
-      action: () => editor.chain().focus().toggleBold(),
-      disabled: !editor.can().chain().focus().toggleBold().run()
+      action: () => editor.chain().focus().toggleBold().run(),
+      disabled: !editor.can().chain().focus().toggleBold().run(),
     },
     {
       label: 'Italic',
       property: 'italic',
-      action: () => editor.chain().focus().toggleItalic(),
-      disabled: !editor.can().chain().focus().toggleItalic().run()
+      action: () => editor.chain().focus().toggleItalic().run(),
+      disabled: !editor.can().chain().focus().toggleItalic().run(),
     },
     {
       label: 'Bullet list',
       property: 'bulletList',
-      action: () => editor.chain().focus().toggleBulletList(),
-      disabled: false
+      action: () => editor.chain().focus().toggleBulletList().run(),
+      disabled: false,
     },
     {
       label: 'Ordered list',
       property: 'orderedList',
-      action: () => editor.chain().focus().toggleOrderedList(),
-      disabled: false
+      action: () => editor.chain().focus().toggleOrderedList().run(),
+      disabled: false,
     },
   ];
 
   return (
     <div className="bg-base-lightest padding-x-2 padding-y-1 border-bottom-1px border-base-light">
       <ul className="usa-button-group">
-        {editorActions.map(({ label, action, parameter, property, disabled }, index) => (
-          <li className="usa-button-group__item" key={index}>
-            <button
-              type="button"
-              onClick={e => {
-                e.preventDefault();
-                return action().run();
-              }}
-              className={classNames('usa-button', 'font-body-2xs', {
-                'usa-button--outline': !editor.isActive(property, parameter),
-              })}
-              disabled={disabled}
-            >
-              {label}
-            </button>
-          </li>
-        ))}
+        {editorActions.map(
+          ({ label, action, parameter, property, disabled }, index) => (
+            <li className="usa-button-group__item" key={index}>
+              <button
+                type="button"
+                onClick={e => {
+                  e.preventDefault();
+                  return action();
+                }}
+                className={classNames('usa-button', 'font-body-2xs', {
+                  'usa-button--outline': !editor.isActive(property, parameter),
+                })}
+                disabled={disabled}
+              >
+                {label}
+              </button>
+            </li>
+          )
+        )}
       </ul>
     </div>
   );
-});
+};
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const pattern = useFormManagerStore<RichTextPattern>(
