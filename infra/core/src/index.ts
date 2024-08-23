@@ -1,2 +1,2 @@
-export * as commands from './commands';
-export { getSecretsVault } from './lib';
+export * as commands from './commands/index.js';
+export { getSecretsVault } from './lib/index.js';

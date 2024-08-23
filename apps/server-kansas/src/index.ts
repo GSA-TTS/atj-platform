@@ -15,7 +15,7 @@ const getCloudGovServerSecrets = () => {
 };
 
 const secrets = getCloudGovServerSecrets();
-const db = await createPostgresDatabaseContext(secrets?.dbUri, true);
+const db = await createPostgresDatabaseContext(secrets.dbUri, true);
 const server = await createCustomServer(db);
 server.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

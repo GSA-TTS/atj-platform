@@ -9,10 +9,7 @@ import {
   type LoginGovOptions,
   createAuthRepository,
 } from '@atj/auth';
-import {
-  type DatabaseContext,
-  createInMemoryDatabaseContext,
-} from '@atj/database';
+import { type DatabaseContext } from '@atj/database';
 import {
   type FormConfig,
   type FormService,
@@ -35,7 +32,7 @@ export type AppContext = {
 
 export type ServerOptions = {
   title: string;
-  db: DatabaseContext | true;
+  db: DatabaseContext;
   loginGovOptions: LoginGovOptions;
   isUserAuthorized: (email: string) => Promise<boolean>;
 };
@@ -52,21 +49,17 @@ const createAstroAppContext = async (
   env: any
 ): Promise<AppContext> => {
   const serverOptions = await getServerOptions(Astro);
-  let db: DatabaseContext =
-    serverOptions.db === true
-      ? await createInMemoryDatabaseContext()
-      : serverOptions.db;
   return {
     auth: await createDefaultAuthContext({
       Astro,
-      authRepository: createAuthRepository(db),
+      authRepository: createAuthRepository(serverOptions.db),
       loginGovOptions: serverOptions.loginGovOptions,
       isUserAuthorized: serverOptions.isUserAuthorized,
     }),
     baseUrl: env.BASE_URL,
     formConfig: defaultFormConfig,
     formService: createFormService({
-      repository: createFormsRepository(db),
+      repository: createFormsRepository(serverOptions.db),
       config: defaultFormConfig,
     }),
     github: env.GITHUB,

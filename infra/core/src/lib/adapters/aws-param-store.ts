@@ -9,7 +9,12 @@ import {
   SSMClient,
 } from '@aws-sdk/client-ssm';
 
-import type { SecretKey, SecretMap, SecretValue, SecretsVault } from '../types';
+import type {
+  SecretKey,
+  SecretMap,
+  SecretValue,
+  SecretsVault,
+} from '../types.js';
 
 export class AWSParameterStoreSecretsVault implements SecretsVault {
   client: SSMClient;

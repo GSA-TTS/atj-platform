@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { getSecret } from './get-secret';
-import { createInMemorySecretsVault } from '../lib';
+import { getSecret } from './get-secret.js';
+import { createInMemorySecretsVault } from '../lib/index.js';
 
 const getTestVault = (vaultData: any) => {
   const result = createInMemorySecretsVault(JSON.stringify(vaultData));

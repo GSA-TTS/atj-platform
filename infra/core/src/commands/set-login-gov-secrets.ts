@@ -2,8 +2,8 @@ import { exec } from 'child_process';
 import { promises as fs } from 'fs';
 import { promisify } from 'util';
 
-import { type SecretsVault } from '../lib/types';
-import { type DeployEnv, getAppLoginGovKeys } from '../values';
+import { type SecretsVault } from '../lib/types.js';
+import { type DeployEnv, getAppLoginGovKeys } from '../values.js';
 
 const execPromise = promisify(exec);
 

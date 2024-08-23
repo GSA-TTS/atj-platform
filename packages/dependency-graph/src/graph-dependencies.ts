@@ -1,8 +1,9 @@
 import * as graphviz from 'graphviz';
-import { DependencyMap } from './get-dependencies';
+import { DependencyMap } from './get-dependencies.js';
 
 const createGraphvizDigraph = (workspaceDependencies: DependencyMap) => {
   const graph = graphviz.digraph('workspace');
+  graph.set('layout', 'neato');
   Object.entries(workspaceDependencies).forEach(
     ([projectName, projectDependencies]) => {
       graph.addNode(projectName);

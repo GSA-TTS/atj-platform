@@ -1,9 +1,9 @@
 import { randomUUID } from 'crypto';
+import path from 'path';
 import { describe, expect, it } from 'vitest';
 
-import { createInMemorySecretsVault } from '../lib';
-import { setLoginGovSecrets } from './set-login-gov-secrets';
-import path from 'path';
+import { createInMemorySecretsVault } from '../lib/index.js';
+import { setLoginGovSecrets } from './set-login-gov-secrets.js';
 
 const getTestVault = (vaultData: any) => {
   const result = createInMemorySecretsVault(JSON.stringify(vaultData));
