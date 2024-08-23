@@ -10,16 +10,16 @@
     background-image: url("../src/images/video-screenshot-gray-80.jpg");
 }
 
-.usa-modal--lg {
+.offline-homepage-modal.usa-modal--lg {
     max-width: 45rem;
 }
 
-.usa-modal--lg .usa-modal__main {
+.offline-homepage-modal.usa-modal--lg .usa-modal__main {
     max-width: 100%;
     padding: 1.5rem;
 }
 
-.usa-modal__close {
+.offline-homepage-modal .usa-modal__close {
     font-size: 1.5rem;
     padding: 0.5rem;
 }
