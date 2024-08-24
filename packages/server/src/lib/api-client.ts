@@ -49,7 +49,7 @@ export class FormServiceClient implements FormService {
   }
 
   async submitForm(
-    _session: FormSession, // TODO: load session from storage by ID
+    session: FormSession, // TODO: load session from storage by ID
     formId: string,
     formData: Record<string, string>
   ): Promise<
@@ -62,7 +62,7 @@ export class FormServiceClient implements FormService {
   > {
     const response = await fetch(`${this.ctx.baseUrl}forms/${formId}`, {
       method: 'POST',
-      body: JSON.stringify(formData),
+      body: JSON.stringify({ formId, formData, session }),
       headers: {
         'Content-Type': 'application/json',
       },
