@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 import { Blueprint, type FormService } from '@atj/forms';
 
-import { type FormUIContext } from '../../Form';
-import DocumentImporter from './DocumentImporter';
+import { type FormUIContext } from '../../Form/index.js';
+import DocumentImporter from './DocumentImporter/index.js';
 
 export const FormDocumentImport = ({
   baseUrl,

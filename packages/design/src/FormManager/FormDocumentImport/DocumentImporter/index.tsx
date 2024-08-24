@@ -10,8 +10,8 @@ import {
   createFormSession,
 } from '@atj/forms';
 
-import Form, { FormUIContext } from '../../../Form';
-import { onFileInputChangeGetFile } from '../../FormList/CreateNew/file-input';
+import Form, { FormUIContext } from '../../../Form/index.js';
+import { onFileInputChangeGetFile } from '../../FormList/CreateNew/file-input.js';
 
 const DocumentImporter = ({
   baseUrl,
