@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - staging
+      - form-service-wiring
   workflow_dispatch:
 
 jobs:
@@ -13,18 +14,21 @@ jobs:
     secrets: inherit
     with:
       app-name: server-doj
-      tag-name: ${{ github.ref_name }}
+      #tag-name: ${{ github.ref_name }}
+      tag-name: main
 
   build-image-kansas:
     uses: ./.github/workflows/_docker-build-image.yml
     secrets: inherit
     with:
       app-name: server-kansas
-      tag-name: ${{ github.ref_name }}
+      #tag-name: ${{ github.ref_name }}
+      tag-name: main
 
   deploy:
     needs: [build-image-doj, build-image-kansas]
     uses: ./.github/workflows/_terraform-apply.yml
     secrets: inherit
     with:
-      deploy-env: ${{ github.ref_name }}
+      #deploy-env: ${{ github.ref_name }}
+      deploy-env: main
