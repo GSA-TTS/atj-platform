@@ -2,12 +2,12 @@ import {
   type FormConfig,
   type FormService,
   createFormService,
-  createTestFormService,
 } from '@atj/forms';
 import { defaultFormConfig } from '@atj/forms';
-import { BrowserFormRepository } from '@atj/forms/src/context/browser/form-repo';
+import { BrowserFormRepository } from '@atj/forms/context';
 
 import { type GithubRepository } from './lib/github';
+import { createTestBrowserFormService } from '@atj/forms/context';
 
 export type AppContext = {
   baseUrl: `${string}/`;
@@ -42,8 +42,9 @@ const createAppFormService = () => {
     return createFormService({
       repository,
       config: defaultFormConfig,
+      isUserLoggedIn: () => true,
     });
   } else {
-    return createTestFormService();
+    return createTestBrowserFormService();
   }
 };
