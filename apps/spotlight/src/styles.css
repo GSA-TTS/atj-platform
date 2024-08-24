@@ -4,6 +4,7 @@
 
 .offline-homepage .grid-container {
     max-width: 64rem;
+    padding: 3rem 2rem;
 }
 
 .offline-homepage .usa-hero {
@@ -28,7 +29,7 @@
     position: relative; 
     padding-bottom: 62.5%; 
     height: 0;
-    background-image: url("../src/images/video-screenshot-gray-80.jpg");
+    background-image: url("../src/images/video-screenshot-gray-loading-80.jpg");
     background-size: contain;
 }
 
@@ -72,6 +73,26 @@
     border-left: 28px solid white;
 }
 
-.body-content-gray {
+.offline-homepage .body-content-gray {
     background: #f7f9fd;
+}
+
+.offline-homepage .usa-graphic-list .usa-media-block {
+    margin: 3rem 0 0;
+}
+
+.offline-homepage .usa-graphic-list .grid-container,
+.offline-homepage .grid-container.intro-block,
+.offline-homepage .bg-white .grid-container,
+.offline-homepage .body-content-gray .grid-container {
+    padding: 0 2rem;
+}
+
+.offline-homepage .bg-base-darkest {
+    padding-bottom: 3rem;
+}
+
+.offline-homepage .bg-white h2,
+.offline-homepage .body-content-gray h2 {
+    margin-top: 1rem;
 }
