@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { PatternId, TextInputProps } from '@atj/forms';
-import { InputPattern } from '@atj/forms/src/patterns/input';
+import { InputPattern } from '@atj/forms';
 
 import TextInput from '../../../Form/components/TextInput/index.js';
 import { useFormManagerStore } from '../../store.js';

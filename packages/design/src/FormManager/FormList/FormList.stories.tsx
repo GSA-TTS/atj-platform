@@ -2,7 +2,7 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { createTestFormService } from '@atj/forms';
+import { createTestBrowserFormService } from '@atj/forms/context';
 
 import FormList from './index.js';
 import {
@@ -28,7 +28,7 @@ const meta: Meta<typeof FormList> = {
     ),
   ],
   args: {
-    formService: createTestFormService({
+    formService: createTestBrowserFormService({
       'test-form': createTwoPatternTestForm(),
     }),
   },

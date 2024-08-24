@@ -1,20 +1,31 @@
-import { VoidResult } from '@atj/common';
+import { type VoidResult, failure } from '@atj/common';
 
 import { type FormServiceContext } from '../context/index.js';
 
-export const deleteForm = async (
+type DeleteFormError = {
+  status: number;
+  message: string;
+};
+
+type DeleteForm = (
   ctx: FormServiceContext,
   formId: string
-): Promise<VoidResult> => {
+) => Promise<VoidResult<DeleteFormError>>;
+
+export const deleteForm: DeleteForm = async (ctx, formId) => {
+  if (!ctx.isUserLoggedIn()) {
+    return failure({
+      status: 401,
+      message: 'You must be logged in to delete a form',
+    });
+  }
   const form = await ctx.repository.getForm(formId);
   if (form === null) {
-    return {
-      success: false,
-      error: `form '${formId} does not exist`,
-    };
+    return failure({
+      status: 404,
+      message: `form '${formId} does not exist`,
+    });
   }
-  ctx.repository.deleteForm(formId);
-  return {
-    success: true,
-  };
+  await ctx.repository.deleteForm(formId);
+  return { success: true };
 };

@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
 import { createForm, createFormSession } from '../index.js';
-import { createTestFormService } from '../context/test/index.js';
+import { createTestBrowserFormService } from '../context/test/index.js';
 
 describe('submitForm', () => {
   it('succeeds with empty form', async () => {
-    const service = await createTestFormService();
+    const service = await createTestBrowserFormService();
     const testForm = createForm({ title: 'test', description: 'description' });
     const addFormResult = await service
       .getContext()

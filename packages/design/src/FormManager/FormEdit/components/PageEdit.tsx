@@ -3,7 +3,7 @@ import React from 'react';
 
 import { PageProps } from '@atj/forms';
 import { enLocale as message } from '@atj/common';
-import { PagePattern } from '@atj/forms/src/patterns/page/config.js';
+import { PagePattern } from '@atj/forms';
 
 import { useRouteParams } from '../../../FormRouter/hooks.js';
 import { PatternEditComponent } from '../types.js';

@@ -1,5 +1,6 @@
 import { type Result } from '@atj/common';
 import { FormSession, type Blueprint, type FormService } from '@atj/forms';
+import { type FormServiceContext } from '@atj/forms/context';
 
 type FormServiceClientContext = {
   baseUrl: string;
@@ -48,7 +49,7 @@ export class FormServiceClient implements FormService {
   }
 
   async submitForm(
-    session: FormSession, // TODO: load session from storage by ID
+    _session: FormSession, // TODO: load session from storage by ID
     formId: string,
     formData: Record<string, string>
   ): Promise<
@@ -67,5 +68,9 @@ export class FormServiceClient implements FormService {
       },
     });
     return await response.json();
+  }
+
+  getContext() {
+    return {} as unknown as FormServiceContext;
   }
 }

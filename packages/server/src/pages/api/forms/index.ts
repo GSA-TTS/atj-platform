@@ -3,12 +3,12 @@ import { getAstroAppContext } from '../../../context.js';
 
 export const GET: APIRoute = async context => {
   const ctx = await getAstroAppContext(context);
-  const formList = await ctx.formService.getFormList();
-  return new Response(JSON.stringify(formList), {
+  const result = await ctx.formService.getFormList();
+  return new Response(JSON.stringify(result), {
     headers: {
       'Content-Type': 'application/json',
     },
-    status: formList.success ? 200 : 500,
+    status: result.success ? 200 : result.error.status,
   });
 };
 
@@ -20,6 +20,6 @@ export const POST: APIRoute = async context => {
     headers: {
       'Content-Type': 'application/json',
     },
-    status: result.success ? 200 : 500,
+    status: result.success ? 200 : result.error.status,
   });
 };

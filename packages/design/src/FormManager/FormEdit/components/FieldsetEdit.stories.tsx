@@ -3,7 +3,7 @@ import { expect, userEvent } from '@storybook/test';
 import { within } from '@testing-library/react';
 
 import { enLocale as message } from '@atj/common';
-import { type FieldsetPattern } from '@atj/forms/src/patterns/fieldset';
+import { type FieldsetPattern } from '@atj/forms';
 
 import {
   createPatternEditStoryMeta,

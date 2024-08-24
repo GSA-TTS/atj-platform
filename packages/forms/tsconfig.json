@@ -1,13 +1,16 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "declaration": true,
+    "declarationDir": "./dist/types",
     "emitDeclarationOnly": false,
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "outDir": "./dist",
     "rootDir": "./src"
   },
-  "include": ["./src/**/*"],
+  "include": ["src"],
   "exclude": ["./dist"],
-  "references": []
+  "references": [],
+  "types": ["vite/client"]
 }

@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import React, { useState } from 'react';
 
 import { type RadioGroupProps } from '@atj/forms';
-import { type RadioGroupPattern } from '@atj/forms/src/patterns/radio-group.js';
+import { type RadioGroupPattern } from '@atj/forms';
 
 import RadioGroup from '../../../Form/components/RadioGroup/index.js';
 import { PatternEditComponent } from '../types.js';

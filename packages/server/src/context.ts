@@ -61,6 +61,7 @@ const createAstroAppContext = async (
     formService: createFormService({
       repository: createFormsRepository(serverOptions.db),
       config: defaultFormConfig,
+      isUserLoggedIn: () => !!getUserSession(Astro).user,
     }),
     github: env.GITHUB,
     title: serverOptions.title,
@@ -85,7 +86,7 @@ const getDefaultServerOptions = async (): Promise<ServerOptions> => {
       //clientSecret: import.meta.env.SECRET_LOGIN_GOV_PRIVATE_KEY,
       redirectURI: 'http://localhost:4322/signin/callback',
     },
-    isUserAuthorized: async (email: string) => {
+    isUserAuthorized: async (_email: string) => {
       return true;
     },
   };

@@ -2,7 +2,7 @@ import { type StateCreator } from 'zustand';
 
 import { BlueprintBuilder } from '@atj/forms';
 import { type FormManagerContext } from '../../FormManager/index.js';
-import { type Result } from '@atj/common';
+import { type Result, failure } from '@atj/common';
 
 type StoreContext = {
   context: FormManagerContext;
@@ -41,10 +41,7 @@ export const createFormListSlice =
           data: result.data.id,
         };
       } else {
-        return {
-          success: false,
-          error: result.error,
-        };
+        return failure(result.error.message);
       }
     },
     createNewFormByPDFUpload: async fileDetails => {
@@ -61,10 +58,7 @@ export const createFormListSlice =
           data: result.data.id,
         };
       } else {
-        return {
-          success: false,
-          error: result.error,
-        };
+        return failure(result.error.message);
       }
     },
   });

@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { type PatternId, type FieldsetProps } from '@atj/forms';
-import { FieldsetPattern } from '@atj/forms/src/patterns/fieldset';
+import { FieldsetPattern } from '@atj/forms';
 
 import {
   FieldsetAddPatternButton,

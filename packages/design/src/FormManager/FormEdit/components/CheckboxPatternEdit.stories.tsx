@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { type CheckboxPattern } from '@atj/forms/src/patterns/checkbox.js';
+import { type CheckboxPattern } from '@atj/forms';
 
 import CheckboxPatternEdit from './CheckboxPatternEdit.js';
 import {

@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, HashRouter, Route, Routes } from 'react-router-dom';
 
-import { Blueprint, defaultFormConfig, type FormService } from '@atj/forms';
+import { type Result } from '@atj/common';
+import {
+  type Blueprint,
+  type FormService,
+  defaultFormConfig,
+} from '@atj/forms';
 import { createFormSession } from '@atj/forms';
 
 import { useQueryString } from './hooks.js';
 import { defaultPatternComponents } from '../index.js';
 import Form, { FormUIContext } from '../Form/index.js';
-import { Result } from '@atj/common';
 
 // Wrapper around Form that includes a client-side router for loading forms.
 export default function FormRouter({
@@ -37,10 +41,14 @@ export default function FormRouter({
               return <div>formId is undefined</div>;
             }
 
-            const [formResult, setFormResult] =
-              useState<Result<Blueprint> | null>(null);
+            const [formResult, setFormResult] = useState<Result<
+              Blueprint,
+              { status: number; message: string }
+            > | null>(null);
             useEffect(() => {
-              formService.getForm(formId).then(setFormResult);
+              formService.getForm(formId).then(result => {
+                setFormResult(result);
+              });
             }, []);
 
             if (formResult === null) {
@@ -51,7 +59,9 @@ export default function FormRouter({
                 <div className="usa-alert usa-alert--error" role="alert">
                   <div className="usa-alert__body">
                     <h4 className="usa-alert__heading">Error loading form</h4>
-                    <p className="usa-alert__text">{formResult.error}</p>
+                    <p className="usa-alert__text">
+                      {formResult.error.message}
+                    </p>
                   </div>
                 </div>
               );

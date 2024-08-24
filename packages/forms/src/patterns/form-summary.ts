@@ -8,9 +8,9 @@ const configSchema = z.object({
   title: z.string().max(128).min(1, 'Title is required'),
   description: z.string().max(2024),
 });
-export type FormSummary = Pattern<z.infer<typeof configSchema>>;
+export type FormSummaryPattern = Pattern<z.infer<typeof configSchema>>;
 
-export const formSummaryConfig: PatternConfig<FormSummary> = {
+export const formSummaryConfig: PatternConfig<FormSummaryPattern> = {
   displayName: 'Form summary',
   iconPath: 'block-icon.svg',
   initial: {

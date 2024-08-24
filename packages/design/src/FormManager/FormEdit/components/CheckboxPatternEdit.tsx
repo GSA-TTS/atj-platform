@@ -3,7 +3,7 @@ import React from 'react';
 
 import { enLocale as message } from '@atj/common';
 import { type CheckboxProps } from '@atj/forms';
-import { type CheckboxPattern } from '@atj/forms/src/patterns/checkbox.js';
+import { type CheckboxPattern } from '@atj/forms';
 
 import Checkbox from '../../../Form/components/Checkbox/index.js';
 import { PatternEditComponent } from '../types.js';

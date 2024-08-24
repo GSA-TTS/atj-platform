@@ -16,7 +16,7 @@ import {
   type NotificationSlice,
   createNotificationsSlice,
 } from '../Notifications/index.js';
-import { getRouteDataFromQueryString } from '@atj/forms/src/route-data.js';
+import { getRouteDataFromQueryString } from '@atj/forms';
 
 export type FormEditSlice = {
   context: FormManagerContext;

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { type RadioGroupPattern } from '@atj/forms/src/patterns/radio-group.js';
+import { type RadioGroupPattern } from '@atj/forms';
 
 import { createPatternEditStoryMeta } from './common/story-helper.js';
 import FormEdit from '../index.js';

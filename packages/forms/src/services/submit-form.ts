@@ -10,20 +10,28 @@ import {
 
 import { FormServiceContext } from '../context/index.js';
 
-export const submitForm = async (
+type SubmitForm = (
   ctx: FormServiceContext,
   //sessionId: string,
   session: FormSession, // TODO: load session from storage by ID
   formId: string,
   formData: Record<string, string>
-): Promise<
+) => Promise<
   Result<
     {
       fileName: string;
       data: Uint8Array;
     }[]
   >
-> => {
+>;
+
+export const submitForm: SubmitForm = async (
+  ctx,
+  //sessionId: string,
+  session, // TODO: load session from storage by ID
+  formId,
+  formData
+) => {
   const form = await ctx.repository.getForm(formId);
   if (form === null) {
     return Promise.resolve({

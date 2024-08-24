@@ -3,7 +3,7 @@ import React from 'react';
 
 import { enLocale as message } from '@atj/common';
 import { PatternId, type ParagraphProps } from '@atj/forms';
-import { type ParagraphPattern } from '@atj/forms/src/patterns/paragraph.js';
+import { type ParagraphPattern } from '@atj/forms';
 
 import Paragraph from '../../../Form/components/Paragraph/index.js';
 import { PatternEditComponent } from '../types.js';

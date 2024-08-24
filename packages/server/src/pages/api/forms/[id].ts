@@ -10,12 +10,12 @@ export const GET: APIRoute = async context => {
     });
   }
 
-  const form = await ctx.formService.getForm(formId);
-  return new Response(JSON.stringify(form), {
+  const result = await ctx.formService.getForm(formId);
+  return new Response(JSON.stringify(result), {
     headers: {
       'Content-Type': 'application/json',
     },
-    status: form.success ? 200 : 500,
+    status: result.success ? 200 : result.error.status,
   });
 };
 
@@ -33,7 +33,7 @@ export const DELETE: APIRoute = async context => {
     headers: {
       'Content-Type': 'application/json',
     },
-    status: result.success ? 200 : 500,
+    status: result.success ? 200 : result.error.status,
   });
 };
 
@@ -53,6 +53,6 @@ export const PUT: APIRoute = async context => {
     headers: {
       'Content-Type': 'application/json',
     },
-    status: result.success ? 200 : 500,
+    status: result.success ? 200 : result.error.status,
   });
 };

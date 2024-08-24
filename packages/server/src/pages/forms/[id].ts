@@ -1,15 +1,17 @@
 import type { APIRoute } from 'astro';
 
+import { getAstroAppContext } from '../../context.js';
+
 export const POST: APIRoute = async context => {
-  const form = await context.request.json();
   const formData = await context.request.formData();
   const formDataObject: Record<string, string> = {};
   formData.forEach((value, key) => {
     formDataObject[key] = value.toString();
   });
-  return new Response();
-  /*
+
   const ctx = await getAstroAppContext(context);
+  const session = {} as any;
+  const formId = {} as any;
   const result = await ctx.formService.submitForm(
     session,
     formId,
@@ -21,5 +23,4 @@ export const POST: APIRoute = async context => {
     },
     status: result.success ? 200 : 500,
   });
-  */
 };

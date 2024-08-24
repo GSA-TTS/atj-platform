@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { enLocale as message } from '@atj/common';
-import { type InputPattern } from '@atj/forms/src/patterns/input';
+import { type InputPattern } from '@atj/forms';
 
 import {
   createPatternEditStoryMeta,

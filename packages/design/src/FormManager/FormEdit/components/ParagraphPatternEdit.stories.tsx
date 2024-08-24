@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { type ParagraphPattern } from '@atj/forms/src/patterns/paragraph.js';
+import { type ParagraphPattern } from '@atj/forms';
 import { enLocale as message } from '@atj/common';
 
 import { createPatternEditStoryMeta } from './common/story-helper.js';

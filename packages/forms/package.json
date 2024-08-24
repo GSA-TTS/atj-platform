@@ -4,12 +4,25 @@
   "description": "10x ATJ form handling",
   "type": "module",
   "license": "CC0",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./context": {
+      "import": "./dist/esm/context.js",
+      "require": "./dist/cjs/context.js",
+      "types": "./dist/types/context/index.d.ts"
+    }
+  },
   "scripts": {
-    "build": "tsc",
+    "build": "rollup -c",
     "clean": "rimraf dist tsconfig.tsbuildinfo coverage",
-    "dev": "tsc --watch",
+    "dev": "rollup -c -w",
     "test": "vitest run --coverage"
   },
   "dependencies": {

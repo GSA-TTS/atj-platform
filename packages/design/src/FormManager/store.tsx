@@ -7,7 +7,7 @@ import {
 } from 'zustand';
 import { createContext } from 'zustand-utils';
 
-import { type Result } from '@atj/common';
+import { type Result, failure } from '@atj/common';
 import { type FormSession, type Blueprint, BlueprintBuilder } from '@atj/forms';
 
 import { type FormListSlice, createFormListSlice } from './FormList/store.js';
@@ -86,7 +86,7 @@ const createFormManagerSlice =
       });
       const result = await context.formService.addForm(builder.form);
       if (!result.success) {
-        return result;
+        return failure(result.error.message);
       }
       return {
         success: true,
