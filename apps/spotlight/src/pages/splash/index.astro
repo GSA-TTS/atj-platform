@@ -117,15 +117,17 @@ import atjInfographics from '../../images/atj-infographics.png';
         </section>  
   </div>
   <script>
-    const template = document.querySelector('#js-modal-content');
-    const button = document.querySelector('.js-modal-content-trigger');
-    const clone = template.content.cloneNode(true);
-    const viewport = document.querySelector('.js-modal-content-target');
+    (function() {
+      const template = document.querySelector('#js-modal-content');
+      const button = document.querySelector('.js-modal-content-trigger');
+      const clone = template.content.cloneNode(true);
+      const viewport = document.querySelector('.js-modal-content-target');
 
-    button.addEventListener('click', (e) => {
-      viewport.appendChild(clone);
-    }, {
-      once: true
-    });  
+      button.addEventListener('click', (e) => {
+        viewport.appendChild(clone);
+      }, {
+        once: true
+      });
+    })();
   </script>
 </ContentLayout>
