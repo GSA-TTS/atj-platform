@@ -86,9 +86,11 @@ const editFieldLabel = async (
     await userEvent.click(element);
   });
 
-  waitFor(
+  await userEvent.click(canvas.getByText(/save and close/i));
+
+  await waitFor(
     async () => {
-      const newLabel = await canvas.getByLabelText(updatedLabel);
+      const newLabel = canvas.getByLabelText(updatedLabel);
       await expect(newLabel).toBeInTheDocument();
     },
     { interval: 5 }

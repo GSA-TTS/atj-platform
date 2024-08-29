@@ -1,4 +1,4 @@
-import { defineConfig, configDefaults, mergeConfig } from 'vitest/config';
+import { defineConfig, mergeConfig } from 'vitest/config';
 
 import viteConfig from './vite.config';
 import sharedTestConfig from '../../vitest.shared';
@@ -14,7 +14,7 @@ export default mergeConfig(
       browser: {
         enabled: true,
         name: 'chromium',
-        headless: false,
+        headless: true,
         provider: 'playwright',
       },
     },
