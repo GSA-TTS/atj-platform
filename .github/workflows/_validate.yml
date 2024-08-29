@@ -46,7 +46,7 @@ jobs:
         run: pnpm install
 
       - name: Install playwright
-        run: pnpm exec playwright install
+        run: pnpm exec playwright install --with-deps
 
       # While most of the test suite is self-contained, the tests for the demo
       # servers require a prod build of @atj/server.
