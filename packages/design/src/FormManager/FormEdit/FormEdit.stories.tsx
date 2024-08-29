@@ -55,9 +55,11 @@ export const FormEditAddPattern: StoryObj<typeof FormEdit> = {
     await userEvent.click(canvas.getByText('Pattern 1'));
     //await userEvent.selectOptions(select, 'Text input');
 
-    await Promise.all(select.map(async element => {
-      return await userEvent.click(element);
-    }));
+    await Promise.all(
+      select.map(async element => {
+        return await userEvent.click(element);
+      })
+    );
 
     const finalCount = (await canvas.findAllByRole('textbox')).length;
     await expect(finalCount).toBeGreaterThan(initialCount);
@@ -82,9 +84,11 @@ const editFieldLabel = async (
   await userEvent.type(input, updatedLabel);
   //await userEvent.click(canvas.getByText('Add Element'));
 
-  await Promise.all(select.map(async element => {
-    return await userEvent.click(element);
-  }));
+  await Promise.all(
+    select.map(async element => {
+      return await userEvent.click(element);
+    })
+  );
 
   await userEvent.click(canvas.getByText(/save and close/i));
 
