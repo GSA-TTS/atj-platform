@@ -19,6 +19,13 @@ import { PatternEditComponent } from '../../types';
 import classNames from 'classnames';
 import styles from './richTextPatternEditStyles.module.css';
 
+import boldSvg from './images/format_bold.svg';
+import italicSvg from './images/format_italic.svg';
+import bulletListSvg from './images/format_list_bulleted.svg';
+import orderedListSvg from './images/format_list_numbered.svg';
+import headingSvg from './images/format_h2.svg';
+import subheadingSvg from './images/format_h3.svg';
+
 interface MenuBarProps {
   editor: Editor | null;
 }
@@ -31,6 +38,7 @@ type RichTextFormData = PatternMap & {
 
 interface EditorActions {
   label: string;
+  icon: string;
   property: string;
   action: () => void;
   disabled: boolean;
@@ -50,7 +58,6 @@ const RichTextPatternEdit: PatternEditComponent<RichTextProps> = ({
         ></PatternEditForm>
       ) : (
         <div className="padding-left-3 padding-bottom-3 padding-right-3">
-          <p>{message.patterns.richText.displayName}</p>
           <RichText {...previewProps} />
         </div>
       )}
@@ -68,6 +75,7 @@ const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
   const editorActions: Array<EditorActions> = [
     {
       label: 'Heading',
+      icon: `${headingSvg.src}`,
       property: 'heading',
       action: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
       disabled: false,
@@ -75,6 +83,7 @@ const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
     },
     {
       label: 'Subheading',
+      icon: `${subheadingSvg.src}`,
       property: 'heading',
       action: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
       disabled: false,
@@ -82,24 +91,28 @@ const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
     },
     {
       label: 'Bold',
+      icon: `${boldSvg.src}`,
       property: 'bold',
       action: () => editor.chain().focus().toggleBold().run(),
       disabled: !editor.can().chain().focus().toggleBold().run(),
     },
     {
       label: 'Italic',
+      icon: `${italicSvg.src}`,
       property: 'italic',
       action: () => editor.chain().focus().toggleItalic().run(),
       disabled: !editor.can().chain().focus().toggleItalic().run(),
     },
     {
       label: 'Bullet list',
+      icon: `${bulletListSvg.src}`,
       property: 'bulletList',
       action: () => editor.chain().focus().toggleBulletList().run(),
       disabled: false,
     },
     {
       label: 'Ordered list',
+      icon: `${orderedListSvg.src}`,
       property: 'orderedList',
       action: () => editor.chain().focus().toggleOrderedList().run(),
       disabled: false,
@@ -108,9 +121,9 @@ const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
 
   return (
     <div className="bg-base-lightest padding-x-2 padding-y-1 border-bottom-1px border-base-light">
-      <ul className="usa-button-group">
+      <ul className={`usa-button-group ${styles.richTextMenuBar}`}>
         {editorActions.map(
-          ({ label, action, parameter, property, disabled }, index) => (
+          ({ label, icon, action, parameter, property, disabled }, index) => (
             <li className="usa-button-group__item" key={index}>
               <button
                 type="button"
@@ -118,12 +131,30 @@ const MenuBar: React.FC<MenuBarProps> = ({ editor }) => {
                   e.preventDefault();
                   return action();
                 }}
-                className={classNames('usa-button', 'font-body-2xs', {
-                  'usa-button--outline': !editor.isActive(property, parameter),
-                })}
+                className={
+                  classNames(
+                    'usa-button',
+                    `${styles.richTextMenuBarButton}`, 
+                    {'usa-button--outline': !editor.isActive(property, parameter)},
+                  )
+                }
                 disabled={disabled}
               >
-                {label}
+                <img
+                  className={
+                    classNames(
+                      {[styles.richTextMenuBarButtonSelected]: !editor.isActive(property, parameter)}
+                    )
+                  }
+                  style={
+                    !editor.isActive(property, parameter)
+                      ? { filter: 'invert(0) brightness(1)' }
+                      : { filter: 'invert(1) brightness(2)' }
+                  }
+                  role='img'
+                  src={icon}
+                  alt={label}
+                />
               </button>
             </li>
           )
@@ -179,13 +210,12 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
             'usa-label--error': text.error,
           })}
         >
-          {message.patterns.richText.fieldLabel}
+          {text.error ? (
+            <span className="usa-error-message" role="alert">
+              {text.error.message}
+            </span>
+          ) : null}
         </p>
-        {text.error ? (
-          <span className="usa-error-message" role="alert">
-            {text.error.message}
-          </span>
-        ) : null}
         <div
           className={`${styles.richTextEditorWrapper} border-1px border-base-light`}
         >

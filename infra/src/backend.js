@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.withBackend = void 0;
+const cdktf_1 = require("cdktf");
+const withBackend = (stack, stackPrefix) => new cdktf_1.S3Backend(stack, {
+    bucket: '10x-atj-tfstate',
+    key: `${stackPrefix}.tfstate`,
+    region: 'us-east-2',
+});
+exports.withBackend = withBackend;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYmFja2VuZC5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbImJhY2tlbmQudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O0FBQUEsaUNBQWtEO0FBRTNDLE1BQU0sV0FBVyxHQUFHLENBQUMsS0FBcUIsRUFBRSxXQUFtQixFQUFFLEVBQUUsQ0FDeEUsSUFBSSxpQkFBUyxDQUFDLEtBQUssRUFBRTtJQUNuQixNQUFNLEVBQUUsaUJBQWlCO0lBQ3pCLEdBQUcsRUFBRSxHQUFHLFdBQVcsVUFBVTtJQUM3QixNQUFNLEVBQUUsV0FBVztDQUNwQixDQUFDLENBQUM7QUFMUSxRQUFBLFdBQVcsZUFLbkIiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBTM0JhY2tlbmQsIFRlcnJhZm9ybVN0YWNrIH0gZnJvbSAnY2RrdGYnO1xuXG5leHBvcnQgY29uc3Qgd2l0aEJhY2tlbmQgPSAoc3RhY2s6IFRlcnJhZm9ybVN0YWNrLCBzdGFja1ByZWZpeDogc3RyaW5nKSA9PlxuICBuZXcgUzNCYWNrZW5kKHN0YWNrLCB7XG4gICAgYnVja2V0OiAnMTB4LWF0ai10ZnN0YXRlJyxcbiAgICBrZXk6IGAke3N0YWNrUHJlZml4fS50ZnN0YXRlYCxcbiAgICByZWdpb246ICd1cy1lYXN0LTInLFxuICB9KTtcbiJdfQ==

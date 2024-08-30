@@ -1,0 +1,7 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+require("cdktf/lib/testing/adapters/jest");
+describe('atj-platform app stack', () => {
+    it.todo('should be tested');
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibWFpbi10ZXN0LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsibWFpbi10ZXN0LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsMkNBQXlDO0FBRXpDLFFBQVEsQ0FBQyx3QkFBd0IsRUFBRSxHQUFHLEVBQUU7SUFDdEMsRUFBRSxDQUFDLElBQUksQ0FBQyxrQkFBa0IsQ0FBQyxDQUFDO0FBQzlCLENBQUMsQ0FBQyxDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0ICdjZGt0Zi9saWIvdGVzdGluZy9hZGFwdGVycy9qZXN0JztcblxuZGVzY3JpYmUoJ2F0ai1wbGF0Zm9ybSBhcHAgc3RhY2snLCAoKSA9PiB7XG4gIGl0LnRvZG8oJ3Nob3VsZCBiZSB0ZXN0ZWQnKTtcbn0pO1xuIl19
