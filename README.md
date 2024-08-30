@@ -42,7 +42,7 @@ This project uses [pnpm workspaces](https://pnpm.io/workspaces). To work with th
 pnpm install
 ```
 
-To run the complete test suite, with coverage metrics generated:
+To install the browsers needed for the Storybook testing with `@vitest/browser`, you need to do a one-time install with `pnpx install playwright --with-deps`. To run the complete test suite, with coverage metrics generated:
 
 ```bash
 pnpm test
