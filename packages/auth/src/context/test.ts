@@ -1,15 +1,15 @@
 import { Cookie, Lucia } from 'lucia';
 import { vi } from 'vitest';
 
-import {
-  type DatabaseGateway,
-  createInMemoryDatabaseContext,
-  createDatabaseGateway,
-} from '@atj/database';
+import { createInMemoryDatabaseContext } from '@atj/database/context';
 
-import { type AuthContext, type UserSession } from '..';
-import { createSqliteLuciaAdapter } from '../lucia';
-import { LoginGov } from '../provider';
+import { AuthServiceContext, UserSession } from '../index.js';
+import { createSqliteLuciaAdapter } from '../lucia.js';
+import { LoginGov } from '../provider.js';
+import {
+  createAuthRepository,
+  type AuthRepository,
+} from '../repository/index.js';
 
 type Options = {
   getCookie: (name: string) => string | undefined;
@@ -26,9 +26,9 @@ export const createTestAuthContext = async (opts?: Partial<Options>) => {
     isUserAuthorized: opts?.isUserAuthorized || vi.fn(async () => true),
   };
   const dbContext = await createInMemoryDatabaseContext();
-  const database = createDatabaseGateway(dbContext);
+  const authRepo = createAuthRepository(dbContext);
   return new TestAuthContext(
-    database,
+    authRepo,
     new LoginGov({
       loginGovUrl: 'https://idp.int.identitysandbox.gov',
       clientId:
@@ -43,11 +43,11 @@ export const createTestAuthContext = async (opts?: Partial<Options>) => {
   );
 };
 
-export class TestAuthContext implements AuthContext {
+export class TestAuthContext implements AuthServiceContext {
   private lucia?: Lucia;
 
   constructor(
-    public db: DatabaseGateway,
+    public db: AuthRepository,
     public provider: LoginGov,
     public getCookie: (name: string) => string | undefined,
     public setCookie: (cookie: Cookie) => void,

@@ -2,11 +2,12 @@
   "name": "@atj/cli-app",
   "version": "1.0.0",
   "description": "10x ATJ command-line interface",
-  "type": "commonjs",
+  "type": "module",
   "license": "CC0",
   "main": "src/index.ts",
   "scripts": {
-    "build": "tsup src/* --format cjs",
+    "build": "tsup src/* --format esm",
+    "clean": "rimraf dist tsconfig.tsbuildinfo coverage",
     "cli": "node dist/index.js",
     "dev": "tsup src/* --watch",
     "test": "vitest run --coverage"

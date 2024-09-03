@@ -5,16 +5,16 @@ import {
   type Blueprint,
   type Pattern,
 } from '@atj/forms';
-import { type SequencePattern } from '@atj/forms/src/patterns/sequence';
-import { type InputPattern } from '@atj/forms/src/patterns/input';
-import { service } from '@atj/forms';
+import { createTestBrowserFormService } from '@atj/forms/context';
+import { type InputPattern } from '@atj/forms';
+import { type PagePattern } from '@atj/forms';
+import { type PageSetPattern } from '@atj/forms';
+import { type SequencePattern } from '@atj/forms';
 
-import { type FormUIContext } from './Form';
-import { defaultPatternComponents } from './Form/components';
-import { defaultPatternEditComponents } from './FormManager/FormEdit/components';
-import { type FormManagerContext } from './FormManager';
-import { type PageSetPattern } from '@atj/forms/src/patterns/page-set/config';
-import { type PagePattern } from '@atj/forms/src/patterns/page/config';
+import { type FormUIContext } from './Form/index.js';
+import { defaultPatternComponents } from './Form/components/index.js';
+import { defaultPatternEditComponents } from './FormManager/FormEdit/components/index.js';
+import { type FormManagerContext } from './FormManager/index.js';
 
 export const createOnePageTwoPatternTestForm = () => {
   return createForm(
@@ -209,7 +209,7 @@ export const createTestFormManagerContext = (): FormManagerContext => {
     components: defaultPatternComponents,
     config: defaultFormConfig,
     editComponents: defaultPatternEditComponents,
-    formService: service.createTestFormService(),
+    formService: createTestBrowserFormService(),
     uswdsRoot: `/static/uswds/`,
     urlForForm: mockGetUrl,
     urlForFormManager: mockGetUrl,

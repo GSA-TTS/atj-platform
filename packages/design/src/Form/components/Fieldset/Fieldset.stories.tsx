@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import Fieldset from '.';
+import Fieldset from './index.js';
 
 export default {
   title: 'patterns/Fieldset',

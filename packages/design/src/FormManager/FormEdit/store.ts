@@ -10,13 +10,13 @@ import {
   getSessionPage,
   mergeSession,
 } from '@atj/forms';
-import { type FormManagerContext } from '..';
-import { type PatternFocus } from './types';
+import { type FormManagerContext } from '../index.js';
+import { type PatternFocus } from './types.js';
 import {
   type NotificationSlice,
   createNotificationsSlice,
-} from '../Notifications';
-import { getRouteDataFromQueryString } from '@atj/forms/src/route-data';
+} from '../Notifications/index.js';
+import { getRouteDataFromQueryString } from '@atj/forms';
 
 export type FormEditSlice = {
   context: FormManagerContext;

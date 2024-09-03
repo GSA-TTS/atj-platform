@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import { Result } from '@atj/common/src';
+import { type Result } from '@atj/common';
 
 export type SecretKey = string;
 export type SecretValue = string | undefined;

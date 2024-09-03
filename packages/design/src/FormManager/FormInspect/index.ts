@@ -1,1 +1,1 @@
-export { FormInspect } from './FormInspect';
+export { FormInspect } from './FormInspect.js';

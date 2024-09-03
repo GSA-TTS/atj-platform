@@ -3,7 +3,8 @@
   // https://github.com/withastro/astro/blob/main/packages/astro/tsconfigs/base.json
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "module": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "jsx": "react",
     "resolveJsonModule": true
   },

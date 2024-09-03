@@ -10,7 +10,7 @@
     "./src/index.ts",
     "./src/context.ts",
     "./src/secrets.ts",
-    "./src/lib/github.ts",
+    "./src/lib/github.ts"
   ],
   "exclude": ["./dist"],
   "references": []

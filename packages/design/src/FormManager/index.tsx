@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   useParams,
   HashRouter,
@@ -12,32 +12,36 @@ import {
   createFormSession,
   nullSession,
   defaultFormConfig,
+  Blueprint,
 } from '@atj/forms';
-import { service } from '@atj/forms';
+import { type FormService } from '@atj/forms';
 
-import { type ComponentForPattern } from '../Form';
+import { type ComponentForPattern } from '../Form/index.js';
 
-import FormDelete from './FormDelete';
-import FormEdit from './FormEdit';
-import { type EditComponentForPattern } from './FormEdit/types';
-import { FormInspect } from './FormInspect';
-import FormList from './FormList';
-import { FormManagerLayout } from './FormManagerLayout';
-import { NavPage } from './FormManagerLayout/TopNavigation';
-import { FormPreview } from './FormPreview';
-import * as AppRoutes from './routes';
-import { FormManagerProvider } from './store';
+import FormDelete from './FormDelete/index.js';
+import FormEdit from './FormEdit/index.js';
+import { type EditComponentForPattern } from './FormEdit/types.js';
+import { FormInspect } from './FormInspect/index.js';
+import FormList from './FormList/index.js';
+import { FormManagerLayout } from './FormManagerLayout/index.js';
+import { NavPage } from './FormManagerLayout/TopNavigation.js';
+import { FormPreview } from './FormPreview/index.js';
+import * as AppRoutes from './routes.js';
+import { FormManagerProvider } from './store.js';
 import AvailableFormList, {
   UrlForForm,
   UrlForFormManager,
-} from '../AvailableFormList';
+} from '../AvailableFormList/index.js';
 import styles from './FormEdit/formEditStyles.module.css';
 
-import { defaultPatternComponents, defaultPatternEditComponents } from '..';
+import {
+  defaultPatternComponents,
+  defaultPatternEditComponents,
+} from '../index.js';
 
 export type PatternLessFormManagerContext = {
   baseUrl: `${string}/`;
-  formService: service.FormService;
+  formService: FormService;
   uswdsRoot: `${string}/`;
   urlForForm: UrlForForm;
   urlForFormManager: UrlForFormManager;
@@ -89,7 +93,7 @@ export default function FormManager(props: FormManagerProps) {
             return (
               <FormManagerProvider context={context} session={nullSession}>
                 <FormManagerLayout>
-                  <FormList formService={context.formService} />
+                  <FormList />
                 </FormManagerLayout>
               </FormManagerProvider>
             );
@@ -99,18 +103,15 @@ export default function FormManager(props: FormManagerProps) {
           path={AppRoutes.Inspect.path}
           Component={() => {
             const { formId } = useParams();
-            if (formId === undefined) {
-              return <div>formId is undefined</div>;
-            }
-            const formResult = context.formService.getForm(formId);
-            if (!formResult.success) {
-              return <div>Error loading form preview</div>;
+            const form = useBlueprint(formId, context.formService);
+            if (form === null) {
+              return <div>Loading...</div>;
             }
             return (
               <FormManagerProvider
                 context={context}
                 formId={formId}
-                session={createFormSession(formResult.data)}
+                session={createFormSession(form)}
               >
                 <FormManagerLayout>
                   <FormInspect />
@@ -126,15 +127,15 @@ export default function FormManager(props: FormManagerProps) {
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
-            const formResult = context.formService.getForm(formId);
-            if (!formResult.success) {
-              return <div>Error loading form preview</div>;
+            const form = useBlueprint(formId, context.formService);
+            if (form === null) {
+              return <div>Loading...</div>;
             }
             return (
               <FormManagerProvider
                 context={context}
                 formId={formId}
-                session={createFormSession(formResult.data)}
+                session={createFormSession(form)}
               >
                 <FormManagerLayout
                   step={NavPage.preview}
@@ -155,18 +156,15 @@ export default function FormManager(props: FormManagerProps) {
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
-            const formResult = context.formService.getForm(formId);
-            if (!formResult.success) {
-              return <div>Form not found</div>;
+            const form = useBlueprint(formId, context.formService);
+            if (form === null) {
+              return <div>Loading...</div>;
             }
             return (
               <FormManagerProvider
                 context={context}
                 formId={formId}
-                session={createFormSession(
-                  formResult.data,
-                  searchParams.toString()
-                )}
+                session={createFormSession(form, searchParams.toString())}
                 savePeriodically={true}
               >
                 <FormManagerLayout
@@ -188,15 +186,15 @@ export default function FormManager(props: FormManagerProps) {
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
-            const formResult = context.formService.getForm(formId);
-            if (!formResult.success) {
-              return 'Form not found';
+            const form = useBlueprint(formId, context.formService);
+            if (form === null) {
+              return <div>Loading...</div>;
             }
             return (
               <FormManagerProvider
                 context={context}
                 formId={formId}
-                session={createFormSession(formResult.data)}
+                session={createFormSession(form)}
               >
                 <FormManagerLayout
                   step={NavPage.configure}
@@ -283,11 +281,11 @@ export default function FormManager(props: FormManagerProps) {
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
-            const result = context.formService.getForm(formId);
-            if (!result.success) {
-              return 'Form not found';
+            const form = useBlueprint(formId, context.formService);
+            if (form === null) {
+              return <div>Loading...</div>;
             }
-            const session = createFormSession(result.data);
+            const session = createFormSession(form);
             return (
               <FormManagerProvider
                 context={context}
@@ -362,3 +360,21 @@ export default function FormManager(props: FormManagerProps) {
     </HashRouter>
   );
 }
+
+const useBlueprint = (formId: string | undefined, formService: FormService) => {
+  if (formId === undefined) {
+    console.error('formId is undefined');
+    return null;
+  }
+  const [form, setForm] = useState<Blueprint | null>(null);
+  useEffect(() => {
+    formService.getForm(formId).then(result => {
+      if (result.success) {
+        setForm(result.data);
+      } else {
+        console.error('Error loading form', result.error);
+      }
+    });
+  }, []);
+  return form;
+};

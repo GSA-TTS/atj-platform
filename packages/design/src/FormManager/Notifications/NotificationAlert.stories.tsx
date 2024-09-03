@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import { NotificationAlert } from './NotificationAlert';
+import { NotificationAlert } from './NotificationAlert.js';
 
 export default {
   title: 'FormManager/Notifications/NotificationAlert',

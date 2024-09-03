@@ -2,15 +2,15 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { type FormSummaryProps } from '@atj/forms';
-import { type Pattern } from '@atj/forms/src/pattern';
+import { type Pattern } from '@atj/forms';
+import { type FormSummaryPattern } from '@atj/forms';
 
-import FormSummary from '../../../Form/components/FormSummary';
-import { PatternEditComponent } from '../types';
+import FormSummary from '../../../Form/components/FormSummary/index.js';
+import { PatternEditComponent } from '../types.js';
 
-import { PatternEditForm } from './common/PatternEditForm';
-import { usePatternEditFormContext } from './common/hooks';
-import { PatternEditActions } from './common/PatternEditActions';
-import { FormSummary as FormSummaryPattern } from '@atj/forms/src/patterns/form-summary';
+import { PatternEditForm } from './common/PatternEditForm.js';
+import { usePatternEditFormContext } from './common/hooks.js';
+import { PatternEditActions } from './common/PatternEditActions.js';
 
 const FormSummaryEdit: PatternEditComponent<FormSummaryProps> = ({
   focus,

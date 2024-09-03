@@ -2,15 +2,15 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { service } from '@atj/forms';
+import { createTestBrowserFormService } from '@atj/forms/context';
 
-import FormList from '.';
+import FormList from './index.js';
 import {
   createTwoPatternTestForm,
-  createTestFormManagerContext,
   createTestSession,
-} from '../../test-form';
-import { FormManagerProvider } from '../store';
+  createTestFormManagerContext,
+} from '../../test-form.js';
+import { FormManagerProvider } from '../store.js';
 
 const meta: Meta<typeof FormList> = {
   title: 'FormManager/FormList',
@@ -28,7 +28,7 @@ const meta: Meta<typeof FormList> = {
     ),
   ],
   args: {
-    formService: service.createTestFormService({
+    formService: createTestBrowserFormService({
       'test-form': createTwoPatternTestForm(),
     }),
   },

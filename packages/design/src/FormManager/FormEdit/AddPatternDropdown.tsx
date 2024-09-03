@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 
 import { defaultFormConfig, type PatternConfig } from '@atj/forms';
 
-import { useFormManagerStore } from '../store';
+import { useFormManagerStore } from '../store.js';
 
 import styles from './formEditStyles.module.css';
 import blockIcon from './images/block-icon.svg';

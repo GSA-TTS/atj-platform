@@ -3,17 +3,28 @@ import { fileURLToPath } from 'url';
 
 import { type APIContext, type AstroGlobal } from 'astro';
 
-import type { AuthContext, LoginGovOptions } from '@atj/auth';
-import { type DatabaseGateway } from '@atj/database';
-import { type FormConfig, defaultFormConfig, service } from '@atj/forms';
+import {
+  type AuthRepository,
+  type AuthServiceContext,
+  type LoginGovOptions,
+  createAuthRepository,
+} from '@atj/auth';
+import { type DatabaseContext } from '@atj/database';
+import {
+  type FormConfig,
+  type FormService,
+  createFormsRepository,
+  createFormService,
+  defaultFormConfig,
+} from '@atj/forms';
 
 import { type GithubRepository } from './lib/github.js';
 
 export type AppContext = {
-  auth: AuthContext;
+  auth: AuthServiceContext;
   baseUrl: `${string}/`;
   formConfig: FormConfig;
-  formService: service.FormService;
+  formService: FormService;
   github: GithubRepository;
   title: string;
   uswdsRoot: `${string}/`;
@@ -21,7 +32,7 @@ export type AppContext = {
 
 export type ServerOptions = {
   title: string;
-  db: DatabaseGateway;
+  db: DatabaseContext;
   loginGovOptions: LoginGovOptions;
   isUserAuthorized: (email: string) => Promise<boolean>;
 };
@@ -41,13 +52,17 @@ const createAstroAppContext = async (
   return {
     auth: await createDefaultAuthContext({
       Astro,
-      db: serverOptions.db,
+      authRepository: createAuthRepository(serverOptions.db),
       loginGovOptions: serverOptions.loginGovOptions,
       isUserAuthorized: serverOptions.isUserAuthorized,
     }),
     baseUrl: env.BASE_URL,
     formConfig: defaultFormConfig,
-    formService: service.createTestFormService(),
+    formService: createFormService({
+      repository: createFormsRepository(serverOptions.db),
+      config: defaultFormConfig,
+      isUserLoggedIn: () => !!getUserSession(Astro).user,
+    }),
     github: env.GITHUB,
     title: serverOptions.title,
     uswdsRoot: `${env.BASE_URL}uswds/`,
@@ -55,7 +70,12 @@ const createAstroAppContext = async (
 };
 
 const getDefaultServerOptions = async (): Promise<ServerOptions> => {
-  const db = await createDefaultDatabaseGateway();
+  const { createFilesystemDatabaseContext } = await import(
+    '@atj/database/context'
+  );
+  const db = await createFilesystemDatabaseContext(
+    join(dirname(fileURLToPath(import.meta.url)), '../main.db')
+  );
   return {
     title: 'Form Service',
     db,
@@ -66,7 +86,7 @@ const getDefaultServerOptions = async (): Promise<ServerOptions> => {
       //clientSecret: import.meta.env.SECRET_LOGIN_GOV_PRIVATE_KEY,
       redirectURI: 'http://localhost:4322/signin/callback',
     },
-    isUserAuthorized: async (email: string) => {
+    isUserAuthorized: async (_email: string) => {
       return true;
     },
   };
@@ -74,18 +94,6 @@ const getDefaultServerOptions = async (): Promise<ServerOptions> => {
 
 const getServerOptions = async (Astro: AstroGlobal | APIContext) => {
   return Astro.locals.serverOptions || (await getDefaultServerOptions());
-};
-
-const getDirname = () => dirname(fileURLToPath(import.meta.url));
-
-const createDefaultDatabaseGateway = async () => {
-  const { createDatabaseGateway, createFilesystemDatabaseContext } =
-    await import('@atj/database');
-  const ctx = await createFilesystemDatabaseContext(
-    join(getDirname(), '../main.db')
-  );
-  const gateway = createDatabaseGateway(ctx);
-  return Promise.resolve(gateway);
 };
 
 const getOriginFromRequest = (Astro: AstroGlobal | APIContext) => {
@@ -98,18 +106,18 @@ const getOriginFromRequest = (Astro: AstroGlobal | APIContext) => {
 
 const createDefaultAuthContext = async ({
   Astro,
-  db,
+  authRepository,
   loginGovOptions,
   isUserAuthorized,
 }: {
   Astro: AstroGlobal | APIContext;
-  db: DatabaseGateway;
+  authRepository: AuthRepository;
   loginGovOptions: LoginGovOptions;
   isUserAuthorized: (email: string) => Promise<boolean>;
 }) => {
   const { LoginGov, BaseAuthContext } = await import('@atj/auth');
   return new BaseAuthContext(
-    db,
+    authRepository,
     new LoginGov({
       ...loginGovOptions,
       redirectURI: `${getOriginFromRequest(Astro)}/signin/callback`,

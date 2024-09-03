@@ -2,20 +2,20 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { type PatternId, type FieldsetProps } from '@atj/forms';
-import { FieldsetPattern } from '@atj/forms/src/patterns/fieldset';
+import { FieldsetPattern } from '@atj/forms';
 
 import {
   FieldsetAddPatternButton,
   FieldsetEmptyStateAddPatternButton,
-} from '../AddPatternDropdown';
-import { PatternComponent } from '../../../Form';
-import Fieldset from '../../../Form/components/Fieldset';
-import { useFormManagerStore } from '../../store';
-import { PatternEditComponent } from '../types';
+} from '../AddPatternDropdown.js';
+import { PatternComponent } from '../../../Form/index.js';
+import Fieldset from '../../../Form/components/Fieldset/index.js';
+import { useFormManagerStore } from '../../store.js';
+import { PatternEditComponent } from '../types.js';
 
-import { PatternEditActions } from './common/PatternEditActions';
-import { PatternEditForm } from './common/PatternEditForm';
-import { usePatternEditFormContext } from './common/hooks';
+import { PatternEditActions } from './common/PatternEditActions.js';
+import { PatternEditForm } from './common/PatternEditForm.js';
+import { usePatternEditFormContext } from './common/hooks.js';
 import styles from '../formEditStyles.module.css';
 
 const FieldsetEdit: PatternEditComponent<FieldsetProps> = ({

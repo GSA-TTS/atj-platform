@@ -15,7 +15,6 @@ import { type InputPattern } from '../../patterns/input/index.js';
 import { type ParagraphPattern } from '../../patterns/paragraph.js';
 import { type CheckboxPattern } from '../../patterns/checkbox.js';
 import { type RadioGroupPattern } from '../../patterns/radio-group.js';
-import { type FormSummary } from '../../patterns/form-summary.js';
 
 import { uint8ArrayToBase64 } from '../util.js';
 import { type DocumentFieldMap } from '../types.js';

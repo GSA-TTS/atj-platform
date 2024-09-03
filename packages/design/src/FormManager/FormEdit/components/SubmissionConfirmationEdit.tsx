@@ -2,11 +2,11 @@ import React from 'react';
 
 import { type PatternId, SubmissionConfirmationProps } from '@atj/forms';
 
-import SubmissionConfirmation from '../../../Form/components/SubmissionConfirmation';
-import { PatternEditComponent } from '../types';
+import SubmissionConfirmation from '../../../Form/components/SubmissionConfirmation/index.js';
+import { PatternEditComponent } from '../types.js';
 
-import { PatternEditForm } from './common/PatternEditForm';
-import { usePatternEditFormContext } from './common/hooks';
+import { PatternEditForm } from './common/PatternEditForm.js';
+import { usePatternEditFormContext } from './common/hooks.js';
 
 const SubmissionConfirmationEdit: PatternEditComponent<
   SubmissionConfirmationProps

@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { mock } from 'vitest-mock-extended';
 
-import { CliController } from '.';
+import { CliController } from './index.js';
 
 describe('cli controller', () => {
   it('works', async () => {
