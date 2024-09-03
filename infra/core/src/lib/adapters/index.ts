@@ -2,9 +2,9 @@ import { promises as fs } from 'fs';
 
 import * as r from '@atj/common';
 
-import { AWSParameterStoreSecretsVault } from './aws-param-store';
-import { getSecretMapFromJsonString, type SecretsVault } from '../types';
-import { InMemorySecretsVault } from './in-memory';
+import { AWSParameterStoreSecretsVault } from './aws-param-store.js';
+import { getSecretMapFromJsonString, type SecretsVault } from '../types.js';
+import { InMemorySecretsVault } from './in-memory.js';
 
 /**
  * Returns either a production vault or an in-memory vault initialized with the

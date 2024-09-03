@@ -2,15 +2,15 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { expect, userEvent } from '@storybook/test';
 import { within } from '@testing-library/react';
 
-import { en as message } from '@atj/common/src/locales/en/app';
-import { type FieldsetPattern } from '@atj/forms/src/patterns/fieldset';
+import { enLocale as message } from '@atj/common';
+import { type FieldsetPattern } from '@atj/forms';
 
 import {
   createPatternEditStoryMeta,
   testEmptyFormLabelErrorByElement,
   testUpdateFormFieldOnSubmitByElement,
-} from './common/story-helper';
-import FormEdit from '..';
+} from './common/story-helper.js';
+import FormEdit from '../index.js';
 
 const pattern: FieldsetPattern = {
   id: '1',

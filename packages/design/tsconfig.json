@@ -4,6 +4,8 @@
     "baseUrl": "./src",
     "emitDeclarationOnly": true,
     "jsx": "react",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "outDir": "./dist",
     "rootDir": "./src",
     "types": ["vite/client", "node"]

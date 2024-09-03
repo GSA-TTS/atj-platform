@@ -1,8 +1,8 @@
 import { randomUUID } from 'crypto';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { createTestAuthContext } from '../context/test';
-import { processSessionCookie } from './process-session-cookie';
+import { createTestAuthContext } from '../context/test.js';
+import { processSessionCookie } from './process-session-cookie.js';
 
 describe('processSessionCookie', () => {
   const today = new Date(2020, 1, 1);

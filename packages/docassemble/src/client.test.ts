@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createTestDocassembleClient } from './context/test';
+import { createTestDocassembleClient } from './context/test.js';
 
 // These are system integration tests with Docassemble, but we currently do
 // not have anything configured to autoprovision a docassemble instance. As a

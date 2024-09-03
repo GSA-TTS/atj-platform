@@ -1,4 +1,3 @@
-import { type SequencePattern } from './patterns/sequence.js';
 import { type DocumentFieldMap } from './documents/index.js';
 import {
   type FormConfig,
@@ -9,19 +8,27 @@ import {
   removeChildPattern,
   generatePatternId,
 } from './pattern.js';
-import { type PagePattern } from './patterns/page/config.js';
-import { type PageSetPattern } from './patterns/page-set/config.js';
-import { FieldsetPattern } from './patterns/fieldset/index.js';
 
+export * from './patterns/index.js';
 export * from './builder/index.js';
 export * from './components.js';
-export * from './config.js';
 export * from './documents/index.js';
 export * from './error.js';
 export * from './pattern.js';
 export * from './response.js';
 export * from './session.js';
-export * as service from './service/index.js';
+export { type FormService, createFormService } from './services/index.js';
+export { defaultFormConfig } from './patterns/index.js';
+import { type PagePattern } from './patterns/page/config.js';
+import { type PageSetPattern } from './patterns/page-set/config.js';
+export { type RichTextPattern } from './patterns/rich-text.js';
+import { type SequencePattern } from './patterns/sequence.js';
+import { FieldsetPattern } from './patterns/index.js';
+export {
+  type FormRepository,
+  createFormsRepository,
+} from './repository/index.js';
+export { type RouteData, getRouteDataFromQueryString } from './route-data.js';
 
 export type Blueprint = {
   summary: FormSummary;

@@ -1,6 +1,6 @@
 import type { Meta } from '@storybook/react';
 
-import ActionBar from '.';
+import ActionBar from './index.js';
 
 export default {
   title: 'FormManager/ActionBar',

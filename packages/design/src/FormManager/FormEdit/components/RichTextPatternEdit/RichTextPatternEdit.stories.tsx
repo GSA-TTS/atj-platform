@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
-
-import { type RichTextPattern } from '@atj/forms/src/patterns/rich-text';
-import { en as message } from '@atj/common/src/locales/en/app';
-
-import { createPatternEditStoryMeta } from '../common/story-helper';
-import FormEdit from '../../';
 import { expect, userEvent } from '@storybook/test';
 import { within } from '@testing-library/react';
+
+import { type RichTextPattern } from '@atj/forms';
+import { en as message } from '@atj/common/src/locales/en/app.js';
+
+import { createPatternEditStoryMeta } from '../common/story-helper.js';
+import FormEdit from '../../index.js';
 
 const editorText = 'Rich text...';
 

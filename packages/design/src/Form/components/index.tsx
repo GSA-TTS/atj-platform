@@ -1,17 +1,17 @@
-import { PatternComponent, type ComponentForPattern } from '..';
+import { PatternComponent, type ComponentForPattern } from '../index.js';
 
-import Address from './Address';
-import Checkbox from './Checkbox';
-import Fieldset from './Fieldset';
-import FormSummary from './FormSummary';
-import Page from './Page';
-import PageSet from './PageSet';
-import Paragraph from './Paragraph';
-import RadioGroup from './RadioGroup';
-import RichText from './RichText';
-import Sequence from './Sequence';
-import SubmissionConfirmation from './SubmissionConfirmation';
-import TextInput from './TextInput';
+import Address from './Address/index.js';
+import Checkbox from './Checkbox/index.js';
+import Fieldset from './Fieldset/index.js';
+import FormSummary from './FormSummary/index.js';
+import Page from './Page/index.js';
+import PageSet from './PageSet/index.js';
+import Paragraph from './Paragraph/index.js';
+import RadioGroup from './RadioGroup/index.js';
+import RichText from './RichText/index.js';
+import Sequence from './Sequence/index.js';
+import SubmissionConfirmation from './SubmissionConfirmation/index.js';
+import TextInput from './TextInput/index.js';
 
 export const defaultPatternComponents: ComponentForPattern = {
   address: Address as PatternComponent,

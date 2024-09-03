@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 
-import { createTestAuthContext } from '../context/test';
+import { createTestAuthContext } from '../context/test.js';
 
-import { getProviderRedirect } from './get-provider-redirect';
+import { getProviderRedirect } from './get-provider-redirect.js';
 
 describe('getProviderRedirect database gateway', () => {
   it('returns cookies and redirect url', async () => {

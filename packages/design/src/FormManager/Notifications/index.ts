@@ -1,2 +1,2 @@
-export { Notifications } from './Notifications';
-export { type NotificationSlice, createNotificationsSlice } from './store';
+export { Notifications } from './Notifications.js';
+export { type NotificationSlice, createNotificationsSlice } from './store.js';

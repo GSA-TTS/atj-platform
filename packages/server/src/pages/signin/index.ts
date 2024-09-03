@@ -1,7 +1,7 @@
 import type { APIContext } from 'astro';
 import { getProviderRedirect } from '@atj/auth';
 
-import { getAstroAppContext } from '../../context';
+import { getAstroAppContext } from '../../context.js';
 
 export async function GET(context: APIContext): Promise<Response> {
   const { auth } = await getAstroAppContext(context);

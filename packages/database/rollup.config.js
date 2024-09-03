@@ -5,20 +5,30 @@ import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import typescript from 'rollup-plugin-typescript2';
 
-import pkg from './package.json' assert { type: 'json' };
+import packageJson from './package.json' assert { type: 'json' };
+import workspacePackageJson from '../../package.json' assert { type: 'json' };
 
 export default {
-  input: ['src/index.ts', 'src/testing.ts'],
+  //input: ['src/index.ts', 'src/context/index.ts', 'src/testing.ts'],
+  input: {
+    index: 'src/index.ts',
+    context: 'src/context/index.ts',
+    testing: 'src/testing.ts',
+  },
   output: [
     {
       dir: 'dist/esm',
       format: 'esm',
       sourcemap: true,
+      entryFileNames: '[name].js',
+      chunkFileNames: '[name]-[hash].js',
     },
     {
       dir: 'dist/cjs',
       format: 'cjs',
       sourcemap: true,
+      entryFileNames: '[name].js',
+      chunkFileNames: '[name]-[hash].js',
     },
   ],
   plugins: [
@@ -31,9 +41,15 @@ export default {
     }),
   ],
   external: (() => {
-    const dependencies = Object.keys(pkg.dependencies || {});
-    const devDependencies = Object.keys(pkg.devDependencies || {});
-    const builtins = builtinModules;
-    return [...new Set([...dependencies, ...devDependencies, ...builtins])];
+    // Externalize all the things
+    return [
+      ...new Set([
+        ...Object.keys(packageJson.dependencies || {}),
+        ...Object.keys(packageJson.devDependencies || {}),
+        ...Object.keys(workspacePackageJson.dependencies || {}),
+        ...Object.keys(workspacePackageJson.devDependencies || {}),
+        ...builtinModules,
+      ]),
+    ];
   })(),
 };

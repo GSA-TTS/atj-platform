@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { FormManager } from '@atj/design';
-import { service } from '@atj/forms';
 
+import { FormServiceClient } from '../lib/api-client';
 import { type AppContext } from '../context';
 import { getFormManagerUrlById, getFormUrl } from '../routes';
 
@@ -12,7 +12,7 @@ type AppFormManagerContext = {
 };
 
 export default function ({ ctx }: { ctx: AppFormManagerContext }) {
-  const formService = service.createBrowserFormService();
+  const formService = new FormServiceClient({ baseUrl: ctx.baseUrl });
   return (
     <FormManager
       context={{

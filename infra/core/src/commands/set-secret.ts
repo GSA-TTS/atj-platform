@@ -1,4 +1,4 @@
-import { type SecretsVault } from '../lib/types';
+import { type SecretsVault } from '../lib/types.js';
 
 export const setSecret = async (
   vault: SecretsVault,

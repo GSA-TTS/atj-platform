@@ -1,5 +1,13 @@
-import { defineConfig } from 'vitest/config';
+import { defineConfig, mergeConfig } from 'vitest/config';
 
+import { getVitestDatabaseContainerGlobalSetupPath } from '@atj/database';
 import sharedTestConfig from '../../vitest.shared';
 
-export default defineConfig(sharedTestConfig);
+export default mergeConfig(
+  sharedTestConfig,
+  defineConfig({
+    test: {
+      globalSetup: [getVitestDatabaseContainerGlobalSetupPath()],
+    },
+  })
+);

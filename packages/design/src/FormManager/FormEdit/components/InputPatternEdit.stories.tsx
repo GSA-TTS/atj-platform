@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { type InputPattern } from '@atj/forms/src/patterns/input';
+import { enLocale as message } from '@atj/common';
+import { type InputPattern } from '@atj/forms';
 
 import {
   createPatternEditStoryMeta,
   testEmptyFormLabelError,
   testUpdateFormFieldOnSubmit,
-} from './common/story-helper';
-import FormEdit from '..';
-import { en as message } from '@atj/common/src/locales/en/app';
+} from './common/story-helper.js';
+import FormEdit from '../index.js';
 
 const pattern: InputPattern = {
   id: '1',

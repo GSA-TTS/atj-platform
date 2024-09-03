@@ -2,10 +2,10 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { service } from '@atj/forms';
+import { createTestBrowserFormService } from '@atj/forms/context';
 
-import FormDelete from '.';
-import { createTwoPatternTestForm } from '../../test-form';
+import { createTwoPatternTestForm } from '../../test-form.js';
+import FormDelete from './index.js';
 
 const meta: Meta<typeof FormDelete> = {
   title: 'FormManager/FormDelete',
@@ -19,7 +19,7 @@ const meta: Meta<typeof FormDelete> = {
   ],
   args: {
     formId: 'test-form',
-    formService: service.createTestFormService({
+    formService: createTestBrowserFormService({
       'test-form': createTwoPatternTestForm(),
     }),
   },

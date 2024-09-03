@@ -1,7 +1,7 @@
 import { type PropsWithChildren } from 'react';
 
 import { type FormErrors, type Pattern, type PatternProps } from '@atj/forms';
-import { FormManagerContext } from '..';
+import { FormManagerContext } from '../index.js';
 
 export type PatternFocus = {
   pattern: Pattern;

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { service } from '@atj/forms';
-import * as AppRoutes from '../FormManager/routes';
 import { Link } from 'react-router-dom';
+
+import { type FormService } from '@atj/forms';
+
+import * as AppRoutes from '../FormManager/routes.js';
 
 type FormDetails = {
   id: string;
@@ -16,16 +18,17 @@ export default function AvailableFormList({
   urlForForm,
   urlForFormManager,
 }: {
-  formService: service.FormService;
+  formService: FormService;
   urlForForm: UrlForForm;
   urlForFormManager: UrlForFormManager;
 }) {
   const [forms, setForms] = useState<FormDetails[]>([]);
   useEffect(() => {
-    const result = formService.getFormList();
-    if (result.success) {
-      setForms(result.data);
-    }
+    formService.getFormList().then(result => {
+      if (result.success) {
+        setForms(result.data);
+      }
+    });
   }, []);
   return (
     <>

@@ -1,8 +1,8 @@
 import { Command } from 'commander';
 
 import { createDependencyGraph } from '@atj/dependency-graph';
-import type { Context } from './types';
-import { addSecretCommands } from './secrets';
+import type { Context } from './types.js';
+import { addSecretCommands } from './secrets.js';
 
 export const CliController = (ctx: Context) => {
   const cli = new Command().description(

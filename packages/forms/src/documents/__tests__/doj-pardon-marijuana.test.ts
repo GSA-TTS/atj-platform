@@ -10,7 +10,7 @@ import { loadSamplePDF } from './sample-data.js';
 describe('DOJ Pardon Attorney Office - Marijuana pardon application form', () => {
   /*
   test('works end-to-end', async () => {
-    const formService = createTestFormService();
+    const formService = createTestBrowserFormService();
     const builder = new BlueprintBuilder(
       defaultFormConfig,
       createForm({

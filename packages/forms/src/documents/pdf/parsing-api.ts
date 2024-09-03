@@ -15,13 +15,12 @@ import { type InputPattern } from '../../patterns/input/index.js';
 import { type ParagraphPattern } from '../../patterns/paragraph.js';
 import { type CheckboxPattern } from '../../patterns/checkbox.js';
 import { type RadioGroupPattern } from '../../patterns/radio-group.js';
-import { type RichTextPattern } from '../../patterns/rich-text.js';
-import { type FormSummary } from '../../patterns/form-summary.js';
 
 import { uint8ArrayToBase64 } from '../util.js';
 import { type DocumentFieldMap } from '../types.js';
 import { PagePattern } from '../../patterns/page/config.js';
 import { PageSetPattern } from '../../patterns/page-set/config.js';
+import { RichTextPattern } from '../../patterns/rich-text.js';
 
 /** API v1 response format
  * // formSummary json

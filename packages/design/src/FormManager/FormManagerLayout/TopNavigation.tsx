@@ -1,8 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { MyForms } from '../routes';
-import { useFormManagerStore } from '../store';
+import { MyForms } from '../routes.js';
+import { useFormManagerStore } from '../store.js';
 import styles from './formManagerStyles.module.css';
 
 export enum NavPage {

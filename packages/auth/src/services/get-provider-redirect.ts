@@ -1,7 +1,7 @@
 import { generateCodeVerifier, generateState } from 'arctic';
-import { AuthContext } from '..';
+import { type AuthServiceContext } from './index.js';
 
-export const getProviderRedirect = async (ctx: AuthContext) => {
+export const getProviderRedirect = async (ctx: AuthServiceContext) => {
   const state = generateState();
   const codeVerifier = generateCodeVerifier();
   const nonceCode = generateCodeVerifier();

@@ -30,3 +30,16 @@ export const defaultFormConfig: FormConfig = {
     sequence: sequenceConfig,
   },
 } as const;
+
+export * from './address/index.js';
+export * from './fieldset/index.js';
+export * from './input/index.js';
+export * from './page/index.js';
+export { type PagePattern } from './page/config.js';
+export * from './page-set/index.js';
+export { type PageSetPattern } from './page-set/config.js';
+export * from './checkbox.js';
+export * from './form-summary.js';
+export * from './paragraph.js';
+export * from './radio-group.js';
+export * from './sequence.js';

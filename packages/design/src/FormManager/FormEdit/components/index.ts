@@ -1,19 +1,19 @@
 import {
   type PatternEditComponent,
   type EditComponentForPattern,
-} from '../types';
+} from '../types.js';
 
-import CheckboxPatternEdit from './CheckboxPatternEdit';
-import FieldsetEdit from './FieldsetEdit';
-import FormSummaryEdit from './FormSummaryEdit';
-import InputPatternEdit from './InputPatternEdit';
-import { PageEdit } from './PageEdit';
-import PageSetEdit from './PageSetEdit';
-import ParagraphPatternEdit from './ParagraphPatternEdit';
-import RichTextPatternEdit from './RichTextPatternEdit';
-import { PatternPreviewSequence } from './PreviewSequencePattern';
-import RadioGroupPatternEdit from './RadioGroupPatternEdit';
-import SubmissionConfirmationEdit from './SubmissionConfirmationEdit';
+import CheckboxPatternEdit from './CheckboxPatternEdit.js';
+import FieldsetEdit from './FieldsetEdit.js';
+import FormSummaryEdit from './FormSummaryEdit.js';
+import InputPatternEdit from './InputPatternEdit.js';
+import { PageEdit } from './PageEdit.js';
+import PageSetEdit from './PageSetEdit.js';
+import ParagraphPatternEdit from './ParagraphPatternEdit.js';
+import { PatternPreviewSequence } from './PreviewSequencePattern/index.js';
+import RadioGroupPatternEdit from './RadioGroupPatternEdit.js';
+import RichTextPatternEdit from './RichTextPatternEdit/index.js';
+import SubmissionConfirmationEdit from './SubmissionConfirmationEdit.js';
 
 export const defaultPatternEditComponents: EditComponentForPattern = {
   checkbox: CheckboxPatternEdit as PatternEditComponent,

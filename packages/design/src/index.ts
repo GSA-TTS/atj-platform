@@ -1,8 +1,11 @@
 //import '@uswds/uswds';
 
-export { default as AvailableFormList } from './AvailableFormList';
-export { default as Form } from './Form';
-export { defaultPatternComponents } from './Form/components';
-export { default as FormManager, type FormManagerContext } from './FormManager';
-export { defaultPatternEditComponents } from './FormManager/FormEdit/components';
-export { default as FormRouter } from './FormRouter';
+export { default as AvailableFormList } from './AvailableFormList/index.js';
+export { default as Form } from './Form/index.js';
+export { defaultPatternComponents } from './Form/components/index.js';
+export {
+  default as FormManager,
+  type FormManagerContext,
+} from './FormManager/index.js';
+export { defaultPatternEditComponents } from './FormManager/FormEdit/components/index.js';
+export { default as FormRouter } from './FormRouter/index.js';

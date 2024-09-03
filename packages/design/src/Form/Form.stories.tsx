@@ -1,8 +1,8 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import Form from '.';
-import { createTestFormContext, createTestSession } from '../test-form';
+import Form from './index.js';
+import { createTestFormContext, createTestSession } from '../test-form.js';
 import { MemoryRouter } from 'react-router-dom';
 
 const meta: Meta<typeof Form> = {

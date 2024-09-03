@@ -2,14 +2,12 @@ import React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import { AvailableFormList } from '@atj/design';
-import { service } from '@atj/forms';
 
 import { type AppContext } from '../context';
 import { getFormManagerUrlById, getFormUrl } from '../routes';
 import DebugTools from './DebugTools';
 
 export default ({ ctx }: { ctx: AppContext }) => {
-  const formService = service.createBrowserFormService();
   return (
     <ErrorBoundary
       fallback={
@@ -21,7 +19,7 @@ export default ({ ctx }: { ctx: AppContext }) => {
     >
       <AvailableFormList
         urlForFormManager={formId => getFormManagerUrlById(ctx.baseUrl, formId)}
-        formService={formService}
+        formService={ctx.formService}
         urlForForm={formId => getFormUrl(ctx.baseUrl, formId)}
       />
     </ErrorBoundary>

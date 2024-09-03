@@ -12,6 +12,7 @@ export type Engine = 'sqlite' | 'postgres';
 export interface Database<T extends Engine = Engine> {
   users: UsersTable;
   sessions: SessionsTable<T>;
+  forms: FormsTable;
 }
 
 interface UsersTable {
@@ -35,5 +36,15 @@ interface SessionsTable<T extends Engine> {
 export type SessionsSelectable<T extends Engine> = Selectable<SessionsTable<T>>;
 export type SessionsInsertable<T extends Engine> = Insertable<SessionsTable<T>>;
 export type SessionsUpdateable<T extends Engine> = Updateable<SessionsTable<T>>;
+
+interface FormsTable {
+  id: string;
+  data: string; // Blueprint;
+  created_at: Generated<Date>;
+  updated_at: Generated<Date>;
+}
+export type FormsTableSelectable = Selectable<FormsTable>;
+export type FormsTableInsertable = Insertable<FormsTable>;
+export type FormsTableUpdateable = Updateable<FormsTable>;
 
 export type DatabaseClient = Kysely<Database>;

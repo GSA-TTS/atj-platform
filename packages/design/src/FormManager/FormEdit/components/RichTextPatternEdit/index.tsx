@@ -1,22 +1,25 @@
-import classnames from 'classnames';
+import classNames from 'classnames';
 import React, { useState } from 'react';
 import debounce from 'debounce';
-
-import { PatternId, PatternMap, type RichTextProps } from '@atj/forms';
-import { type RichTextPattern } from '@atj/forms/src/patterns/rich-text';
-
-import RichText from '../../../../Form/components/RichText';
-import { PatternEditActions } from '../common/PatternEditActions';
-import { PatternEditForm } from '../common/PatternEditForm';
-import { usePatternEditFormContext } from '../common/hooks';
-import { useFormManagerStore } from '../../../store';
-import { en as message } from '@atj/common/src/locales/en/app';
 import { EditorContent, useEditor } from '@tiptap/react';
 import { Editor } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
 
-import { PatternEditComponent } from '../../types';
-import classNames from 'classnames';
+import { enLocale as message } from '@atj/common';
+import {
+  type PatternId,
+  type PatternMap,
+  type RichTextPattern,
+  type RichTextProps,
+} from '@atj/forms';
+
+import RichText from '../../../../Form/components/RichText/index.js';
+import { PatternEditActions } from '../common/PatternEditActions.js';
+import { PatternEditForm } from '../common/PatternEditForm.js';
+import { usePatternEditFormContext } from '../common/hooks.js';
+import { useFormManagerStore } from '../../../store.js';
+
+import { PatternEditComponent } from '../../types.js';
 import styles from './richTextPatternEditStyles.module.css';
 
 interface MenuBarProps {
@@ -175,7 +178,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
     <div className="grid-row grid-gap-1">
       <div className="tablet:grid-col-12">
         <p
-          className={classnames('usa-label', {
+          className={classNames('usa-label', {
             'usa-label--error': text.error,
           })}
         >

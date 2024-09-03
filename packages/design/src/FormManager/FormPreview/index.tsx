@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 
 import { mergeSession } from '@atj/forms';
 
-import Form from '../../Form';
-import { useFormManagerStore } from '../store';
-import { useRouteParams } from '../../FormRouter/hooks';
+import Form from '../../Form/index.js';
+import { useFormManagerStore } from '../store.js';
+import { useRouteParams } from '../../FormRouter/hooks.js';
 
 export const FormPreview = () => {
   const { context, setSession } = useFormManagerStore(state => ({

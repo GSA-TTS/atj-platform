@@ -1,21 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { service } from '@atj/forms';
+import type { Blueprint, FormService } from '@atj/forms';
 
 export default function FormDelete({
   formId,
   formService,
 }: {
   formId: string;
-  formService: service.FormService;
+  formService: FormService;
 }) {
   const navigate = useNavigate();
-  const result = formService.getForm(formId);
-  if (!result.success) {
-    return <div>Form {formId} not found.</div>;
-  }
-  const form = result.data;
+  const [form, setForm] = useState<Blueprint | null>(null);
+  useEffect(() => {
+    formService.getForm(formId).then(result => {
+      if (!result.success) {
+        navigate('/');
+      } else {
+        setForm(result.data);
+      }
+    });
+  }, []);
   const deleteForm = () => {
     formService.deleteForm(formId);
     navigate('/');
@@ -25,7 +30,7 @@ export default function FormDelete({
       <h1>Delete form</h1>
       <h2>
         Are you sure you want to delete the form:{' '}
-        <span className="text-italic">{result.data.summary.title}</span>?
+        <span className="text-italic">{form?.summary.title}</span>?
       </h2>
       <p className="padding-bottom-3">
         <button className="usa-button" onClick={deleteForm}>

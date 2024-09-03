@@ -21,7 +21,7 @@ import {
   updatePatternFromFormData,
 } from '../index.js';
 import { type PageSetPattern } from '../patterns/page-set/config.js';
-import { FieldsetPattern } from '../patterns/fieldset/index.js';
+import { type FieldsetPattern } from '../patterns/fieldset/index.js';
 
 export class BlueprintBuilder {
   bp: Blueprint;

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useFormManagerStore } from '../../../store';
+import { useFormManagerStore } from '../../../store.js';
 import styles from '../../formEditStyles.module.css';
 
 interface MovePatternDropdownProps {
