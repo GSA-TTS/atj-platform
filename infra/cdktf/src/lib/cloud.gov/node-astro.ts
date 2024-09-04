@@ -1,4 +1,5 @@
 import { Construct } from 'constructs';
+// @ts-ignore: Ignore the module not found error
 import * as cloudfoundry from '../../../.gen/providers/cloudfoundry';
 
 export class AstroService extends Construct {

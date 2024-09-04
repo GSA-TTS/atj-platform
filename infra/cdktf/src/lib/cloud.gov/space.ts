@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-
+// @ts-ignore: Ignore the module not found error
 import * as cloudfoundry from '../../../.gen/providers/cloudfoundry';
 import { CLOUD_GOV_ORG_NAME } from './config';
 import { AstroService } from './node-astro';
