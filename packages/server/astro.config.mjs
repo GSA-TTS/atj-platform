@@ -4,16 +4,16 @@ import react from '@astrojs/react';
 
 import { getGithubRepository } from './src/lib/github';
 
-const githubRepository = await getGithubRepository(process.env);
+const githubRepository = await getGithubRepository(import.meta.env);
 
-console.log('******', process.env.BASEURL);
-console.log('******', addTrailingSlash(process.env.BASEURL || ''));
+console.log('******', import.meta.env.BASEURL);
+console.log('******', addTrailingSlash(import.meta.env.BASEURL || ''));
 
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
   trailingSlash: 'never',
-  base: addTrailingSlash(process.env.BASEURL || ''),
+  base: addTrailingSlash(import.meta.env.BASEURL || ''),
   adapter: node({
     mode: 'middleware',
   }),
