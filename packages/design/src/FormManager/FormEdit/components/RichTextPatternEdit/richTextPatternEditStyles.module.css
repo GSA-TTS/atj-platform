@@ -1,3 +1,15 @@
+.richTextMenuBar {
+  flex-wrap: wrap;
+}
+.richTextMenuBarButton {
+  padding: 5px;
+  height: fit-content;
+}
+
+.richTextMenuBarButtonSelected {
+  filter: invert(1);
+}
+
 .richTextEditorWrapper li > p {
   margin-top: 0;
   margin-bottom: 0;
