@@ -1,4 +1,4 @@
-import { getAppContext } from './context';
+import { getAppContext } from './context.js';
 
 export const getFormUrl = (formId: string) => {
   const context = getAppContext();

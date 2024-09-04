@@ -2,8 +2,8 @@ import React from 'react';
 
 import { FormManager } from '@atj/design';
 
-import { getAppContext } from '../context';
-import { getFormManagerUrlById, getFormUrl } from '../routes';
+import { getAppContext } from '../context.js';
+import { getFormManagerUrlById, getFormUrl } from '../routes.js';
 
 export default function () {
   const ctx = getAppContext();

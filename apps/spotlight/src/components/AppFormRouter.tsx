@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { FormRouter, defaultPatternComponents } from '@atj/design';
-import { getAppContext } from '../context';
+import { FormRouter } from '@atj/design';
+import { getAppContext } from '../context.js';
 
 export default function AppFormRouter() {
   const ctx = getAppContext();
