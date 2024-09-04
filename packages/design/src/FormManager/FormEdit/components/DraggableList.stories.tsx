@@ -2,18 +2,18 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { FormManagerProvider, useFormManagerStore } from '../../store';
+import { FormManagerProvider, useFormManagerStore } from '../../store.js';
 import {
   createTestFormManagerContext,
   createTestSession,
   createTwoPatternTestForm,
-} from '../../../test-form';
+} from '../../../test-form.js';
 
 import {
   DraggableList,
   DraggableListProps,
   DraggableListPresentation,
-} from './PreviewSequencePattern/DraggableList';
+} from './PreviewSequencePattern/DraggableList.js';
 import { getPattern } from '@atj/forms';
 
 const meta: Meta<typeof DraggableList> = {

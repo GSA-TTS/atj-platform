@@ -4,9 +4,9 @@ import { within } from '@testing-library/react';
 import {
   createPatternEditStoryMeta,
   testUpdateFormFieldOnSubmitByElement,
-} from './common/story-helper';
-import PageSetEdit from './PageSetEdit';
-import { createTwoPageTwoPatternTestForm } from '../../../test-form';
+} from './common/story-helper.js';
+import PageSetEdit from './PageSetEdit.js';
+import { createTwoPageTwoPatternTestForm } from '../../../test-form.js';
 
 const blueprint = createTwoPageTwoPatternTestForm();
 

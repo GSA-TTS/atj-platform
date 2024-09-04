@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { type Notification } from './store';
+import { type Notification } from './store.js';
 
 type NotificationAlertProps = {
   type: Notification['type'];

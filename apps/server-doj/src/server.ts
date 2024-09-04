@@ -1,16 +1,7 @@
-import {
-  createDatabaseGateway,
-  createPostgresDatabaseContext,
-} from '@atj/database';
+import { type DatabaseContext } from '@atj/database';
 import { createServer } from '@atj/server';
 
-export const createCustomServer = async (ctx: {
-  dbUri: string;
-}): Promise<any> => {
-  const db = createDatabaseGateway(
-    await createPostgresDatabaseContext(ctx.dbUri, true)
-  );
-
+export const createCustomServer = async (db: DatabaseContext): Promise<any> => {
   return createServer({
     title: 'DOJ Form Service',
     db,

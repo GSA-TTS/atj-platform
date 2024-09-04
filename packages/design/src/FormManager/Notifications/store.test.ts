@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import { create } from 'zustand';
 
-import { createNotificationsSlice } from './store';
+import { createNotificationsSlice } from './store.js';
 
 const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 

@@ -6,7 +6,7 @@
   "scripts": {
     "build": "esbuild src/index.ts --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=dist/index.js",
     "build:client": "tsup src/* --env.NODE_ENV production --dts-resolve",
-    "clean": "rm -rf dist tsconfig.tsbuildinfo",
+    "clean": "rimraf dist tsconfig.tsbuildinfo",
     "dev": "tsup src/* --watch"
   },
   "dependencies": {

@@ -2,17 +2,17 @@ import React from 'react';
 
 import { getPattern, type PageSetProps } from '@atj/forms';
 
-import { PatternEditComponent } from '../types';
+import { PatternEditComponent } from '../types.js';
 
-import ActionBar from '../../../Form/ActionBar';
-import { useRouteParams } from '../../../FormRouter/hooks';
+import ActionBar from '../../../Form/ActionBar/index.js';
+import { useRouteParams } from '../../../FormRouter/hooks.js';
 import classNames from 'classnames';
 import styles from '../../../Form/components/PageSet/PageMenu/pageMenuStyles.module.css';
-import { DraggableList } from './PreviewSequencePattern/DraggableList';
-import { useFormManagerStore } from '../../store';
+import { DraggableList } from './PreviewSequencePattern/DraggableList.js';
+import { useFormManagerStore } from '../../store.js';
 import { useSearchParams } from 'react-router-dom';
 import { UniqueIdentifier } from '@dnd-kit/core';
-import { PageMenuProps } from '../../../Form/components/PageSet/PageMenu/PageMenu';
+import { PageMenuProps } from '../../../Form/components/PageSet/PageMenu/PageMenu.js';
 
 const PageSetEdit: PatternEditComponent<PageSetProps> = ({ previewProps }) => {
   const { routeParams, pathname } = useRouteParams();

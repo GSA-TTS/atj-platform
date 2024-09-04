@@ -7,10 +7,10 @@ import {
   createSimpleTestBlueprint,
   createTestFormManagerContext,
   createTestSession,
-} from '../../../../test-form';
+} from '../../../../test-form.js';
 
-import FormEdit from '../../../FormEdit';
-import { FormManagerProvider } from '../../../store';
+import FormEdit from '../../../FormEdit/index.js';
+import { FormManagerProvider } from '../../../store.js';
 import { expect, userEvent } from '@storybook/test';
 import { within } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';

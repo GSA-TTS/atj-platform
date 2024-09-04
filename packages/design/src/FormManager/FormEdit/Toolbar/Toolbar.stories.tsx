@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Toolbar } from '.';
-import { createTestFormContext } from '../../../test-form';
+import { Toolbar } from './index.js';
+import { createTestFormContext } from '../../../test-form.js';
 
 const meta: Meta<typeof Toolbar> = {
   title: 'FormManager/Toolbar',

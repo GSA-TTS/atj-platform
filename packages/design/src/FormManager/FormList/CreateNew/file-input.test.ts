@@ -1,7 +1,7 @@
-import { it, describe, expect, vi } from 'vitest';
 import type { ChangeEvent } from 'react';
+import { it, describe, expect, vi } from 'vitest';
 
-import { onFileInputChangeGetFile } from './file-input';
+import { onFileInputChangeGetFile } from './file-input.js';
 
 /**
  * @vitest-environment jsdom

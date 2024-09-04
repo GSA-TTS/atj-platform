@@ -1,8 +1,8 @@
 import { OAuth2RequestError } from 'arctic';
+import { randomUUID } from 'crypto';
 
 import * as r from '@atj/common';
-import { type AuthContext } from '..';
-import { randomUUID } from 'crypto';
+import { type AuthServiceContext } from './index.js';
 
 type LoginGovUser = {
   sub: string;
@@ -19,7 +19,7 @@ type Params = {
 };
 
 export const processProviderCallback = async (
-  ctx: AuthContext,
+  ctx: AuthServiceContext,
   params: Params,
   storedParams: Params & { nonce: string | null },
   fetchUserData: typeof fetchUserDataImpl = fetchUserDataImpl

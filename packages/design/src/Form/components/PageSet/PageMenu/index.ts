@@ -1,1 +1,1 @@
-export { PageMenu } from './PageMenu';
+export { PageMenu } from './PageMenu.js';

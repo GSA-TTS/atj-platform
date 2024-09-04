@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { type Pattern, createForm, getPattern } from '../index.js';
 import { defaultFormConfig } from '../patterns/index.js';
 import { type FieldsetPattern } from '../patterns/fieldset/index.js';
-import { type FormSummary } from '../patterns/form-summary.js';
+import { type FormSummaryPattern } from '../patterns/form-summary.js';
 import { type InputPattern } from '../patterns/input/index.js';
 import { type PagePattern } from '../patterns/page/config.js';
 import { type PageSetPattern } from '../patterns/page-set/config.js';
@@ -328,10 +328,6 @@ describe('form builder', () => {
     const initial = createTestBlueprintMultipleFieldsets();
     const builder = new BlueprintBuilder(defaultFormConfig, initial);
     const parentPattern = getPattern<PagePattern>(initial, 'page-1');
-    const updatedParentPattern = getPattern<PagePattern>(
-      builder.form,
-      'page-1'
-    );
     const pattern = getPattern<Pattern>(builder.form, 'form-summary-1');
     expect(builder.form.patterns[pattern.id]).toEqual(pattern);
     const newPattern = builder.copyPattern(parentPattern.id, pattern.id);
@@ -494,15 +490,9 @@ describe('form builder', () => {
     const initial = createTestBlueprintMultipleFieldsets();
     const builder = new BlueprintBuilder(defaultFormConfig, initial);
     const parentPattern = getPattern<PagePattern>(initial, 'page-1');
-    const updatedParentPattern = getPattern<PagePattern>(
-      builder.form,
-      'page-1'
-    );
     const pattern = getPattern<Pattern>(builder.form, 'radio-group-1');
     expect(builder.form.patterns[pattern.id]).toEqual(pattern);
     const newPattern = builder.copyPattern(parentPattern.id, pattern.id);
-
-    console.log(JSON.stringify(builder.form));
 
     expect(builder.form).toEqual({
       summary: { title: 'Test form', description: 'Test description' },
@@ -772,7 +762,7 @@ export const createTestBlueprintMultipleFieldsets = () => {
             description: 'Form extended description',
             title: 'Form title',
           },
-        } satisfies FormSummary,
+        } satisfies FormSummaryPattern,
         {
           type: 'fieldset',
           id: 'fieldset-1',

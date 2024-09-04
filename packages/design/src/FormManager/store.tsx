@@ -7,12 +7,12 @@ import {
 } from 'zustand';
 import { createContext } from 'zustand-utils';
 
-import { type Result } from '@atj/common';
+import { type Result, failure } from '@atj/common';
 import { type FormSession, type Blueprint, BlueprintBuilder } from '@atj/forms';
 
-import { type FormEditSlice, createFormEditSlice } from './FormEdit/store';
-import { type FormListSlice, createFormListSlice } from './FormList/store';
-import { type FormManagerContext } from '.';
+import { type FormListSlice, createFormListSlice } from './FormList/store.js';
+import { type FormEditSlice, createFormEditSlice } from './FormEdit/store.js';
+import { type FormManagerContext } from './index.js';
 
 type StoreContext = {
   context: FormManagerContext;
@@ -86,7 +86,7 @@ const createFormManagerSlice =
       });
       const result = await context.formService.addForm(builder.form);
       if (!result.success) {
-        return result;
+        return failure(result.error.message);
       }
       return {
         success: true,
@@ -99,21 +99,30 @@ const createFormManagerSlice =
         return;
       }
       set({
-        saveStatus: { inProgress: true, lastSaved: saveStatus.lastSaved },
+        saveStatus: {
+          inProgress: true,
+          lastSaved: saveStatus.lastSaved,
+        },
       });
       if (formId === undefined) {
         const result = await context.formService.addForm(blueprint);
         if (result.success) {
           set({
             formId: result.data.id,
-            saveStatus: { inProgress: false, lastSaved: result.data.timestamp },
+            saveStatus: {
+              inProgress: false,
+              lastSaved: new Date(result.data.timestamp),
+            },
           });
         }
       } else {
         const result = await context.formService.saveForm(formId, blueprint);
         if (result.success) {
           set({
-            saveStatus: { inProgress: false, lastSaved: result.data.timestamp },
+            saveStatus: {
+              inProgress: false,
+              lastSaved: new Date(result.data.timestamp),
+            },
           });
         }
       }

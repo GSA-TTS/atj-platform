@@ -1,18 +1,18 @@
+import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import AvailableFormList from '.';
-import { service } from '@atj/forms';
-import { createForm, nullSession } from '@atj/forms';
-import { MemoryRouter } from 'react-router-dom';
-import { FormManagerProvider } from '../FormManager/store';
-import { createTestFormManagerContext } from '../test-form';
-import React from 'react';
+import { type FormService, createForm, nullSession } from '@atj/forms';
+import { createTestBrowserFormService } from '@atj/forms/context';
+import { FormManagerProvider } from '../FormManager/store.js';
+import { createTestFormManagerContext } from '../test-form.js';
+import AvailableFormList from './index.js';
 
 const meta: Meta<typeof AvailableFormList> = {
   title: 'FormManager/AvailableFormList',
   component: AvailableFormList,
   args: {
-    formService: service.createTestFormService({
+    formService: createTestBrowserFormService({
       'form-1': createForm({
         title: 'Form 1',
         description: 'Use this form to...',
@@ -46,7 +46,7 @@ export const Empty = {
   title: 'Empty form list',
   component: AvailableFormList,
   args: {
-    formService: service.createTestFormService({}),
+    formService: createTestBrowserFormService({}) as FormService,
     urlForForm: () => `#`,
     urlForFormManager: () => `#`,
   },

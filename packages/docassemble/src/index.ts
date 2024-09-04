@@ -1,1 +1,1 @@
-export { type DocassembleClientContext, DocassembleClient } from './client';
+export { type DocassembleClientContext, DocassembleClient } from './client.js';

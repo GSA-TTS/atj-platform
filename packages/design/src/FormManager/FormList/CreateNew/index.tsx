@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 
 import { SAMPLE_DOCUMENTS } from '@atj/forms';
 
-import { useFormManagerStore } from '../../store';
-import { onFileInputChangeGetFile } from './file-input';
-import { Notifications } from '../../Notifications';
+import { useFormManagerStore } from '../../store.js';
+import { onFileInputChangeGetFile } from './file-input.js';
+import { Notifications } from '../../Notifications/index.js';
 
 export default function CreateNew() {
   const navigate = useNavigate();

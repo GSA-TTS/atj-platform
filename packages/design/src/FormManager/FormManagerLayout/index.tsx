@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { Notifications } from '../Notifications';
-import { type NavPage, TopNavigation } from './TopNavigation';
-import { BottomNavigation } from './BottomNavigation';
+import { Notifications } from '../Notifications/index.js';
+import { type NavPage, TopNavigation } from './TopNavigation.js';
+import { BottomNavigation } from './BottomNavigation.js';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useFormManagerStore } from '../store';
+import { useFormManagerStore } from '../store.js';
 import styles from './formManagerStyles.module.css';
 
 type FormManagerLayoutProps = {

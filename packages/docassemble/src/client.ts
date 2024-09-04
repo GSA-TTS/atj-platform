@@ -1,4 +1,4 @@
-import { type DocassembleInterview } from './types';
+import { type DocassembleInterview } from './types.js';
 
 export const createDocassembleInterview = (interviewId: string) => {};
 

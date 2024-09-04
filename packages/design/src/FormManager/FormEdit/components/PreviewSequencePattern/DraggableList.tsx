@@ -18,7 +18,7 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-import { useFormManagerStore } from '../../../store';
+import { useFormManagerStore } from '../../../store.js';
 import styles from '../../formEditStyles.module.css';
 import classNames from 'classnames';
 

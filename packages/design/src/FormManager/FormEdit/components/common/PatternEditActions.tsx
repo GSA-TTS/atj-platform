@@ -1,8 +1,8 @@
 import React, { PropsWithChildren, ReactElement, useMemo } from 'react';
 import classNames from 'classnames';
 
-import { useFormManagerStore } from '../../../store';
-import MovePatternDropdown from './MovePatternDropdown';
+import { useFormManagerStore } from '../../../store.js';
+import MovePatternDropdown from './MovePatternDropdown.js';
 import styles from '../../formEditStyles.module.css';
 
 type PatternEditActionsProps = PropsWithChildren<{

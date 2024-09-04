@@ -1,4 +1,4 @@
-import { createDocassembleClient } from '.';
+import { createDocassembleClient } from './index.js';
 
 export const createTestDocassembleClient = () => {
   return createDocassembleClient({

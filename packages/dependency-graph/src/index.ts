@@ -1,5 +1,5 @@
-import { getWorkspaceDependencies } from './get-dependencies';
-import { writeDependencyGraph } from './graph-dependencies';
+import { getWorkspaceDependencies } from './get-dependencies.js';
+import { writeDependencyGraph } from './graph-dependencies.js';
 
 export const createDependencyGraph = async (
   workspaceRoot: string,
