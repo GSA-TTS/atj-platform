@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "astro": "astro",
-    "build": "BASEURL=${BASEURL} astro build",
+    "build": "astro build",
     "clean": "rimraf dist tsconfig.tsbuildinfo coverage",
     "dev": "astro dev",
     "preview": "astro preview"
