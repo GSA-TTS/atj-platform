@@ -5,6 +5,9 @@ import { getGithubRepository } from './src/lib/github';
 
 const githubRepository = await getGithubRepository(process.env);
 
+console.log('import.meta.env', JSON.stringify(import.meta.env));
+console.log('process.env', JSON.stringify(process.env));
+
 // https://astro.build/config
 export default defineConfig({
   base: addTrailingSlash(process.env.BASEURL || ''),
