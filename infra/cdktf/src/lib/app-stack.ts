@@ -1,13 +1,11 @@
 import { App, TerraformStack } from 'cdktf';
 import { Construct } from 'constructs';
-// @ts-ignore: Ignore the module not found error
+
 import { AwsProvider } from '../../.gen/providers/aws/provider';
-// @ts-ignore: Ignore the module not found error
 import { CloudfoundryProvider } from '../../.gen/providers/cloudfoundry/provider';
 
 import { withBackend } from './backend';
 import { CloudGovSpace } from './cloud.gov/space';
-// @ts-ignore: Ignore the module not found error
 import { DataAwsSsmParameter } from '../../.gen/providers/aws/data-aws-ssm-parameter';
 
 export const registerAppStack = (

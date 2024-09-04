@@ -2,7 +2,6 @@ import * as path from 'path';
 
 import { AssetType, TerraformAsset, TerraformOutput } from 'cdktf';
 import { Construct } from 'constructs';
-// @ts-ignore: Ignore the module not found error
 import * as aws from '../../.gen/providers/aws';
 
 export class FormService extends Construct {

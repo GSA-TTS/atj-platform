@@ -1,12 +1,9 @@
 import { TerraformOutput } from 'cdktf';
 import { Construct } from 'constructs';
-// @ts-ignore: Ignore the module not found error
+
 import { LightsailInstance } from '../../.gen/providers/aws/lightsail-instance';
-// @ts-ignore: Ignore the module not found error
 import { LightsailStaticIp } from '../../.gen/providers/aws/lightsail-static-ip';
-// @ts-ignore: Ignore the module not found error
 import { LightsailInstancePublicPorts } from '../../.gen/providers/aws/lightsail-instance-public-ports';
-// @ts-ignore: Ignore the module not found error
 import { LightsailStaticIpAttachment } from '../../.gen/providers/aws/lightsail-static-ip-attachment';
 
 export class Docassemble extends Construct {
