@@ -1,4 +1,4 @@
-# 12. Database strategy
+# 13. Database strategy
 
 Date: 2024-09-04
 
