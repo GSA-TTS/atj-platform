@@ -6,7 +6,7 @@ import {
 import { defaultFormConfig } from '@atj/forms';
 import { BrowserFormRepository } from '@atj/forms/context';
 
-import { type GithubRepository } from './lib/github';
+import { type GithubRepository } from './lib/github.js';
 import { createTestBrowserFormService } from '@atj/forms/context';
 
 export type AppContext = {

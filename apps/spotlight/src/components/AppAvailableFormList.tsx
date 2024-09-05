@@ -2,9 +2,10 @@ import React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import { AvailableFormList } from '@atj/design';
-import { getAppContext } from '../context';
-import { getFormManagerUrlById, getFormUrl } from '../routes';
-import DebugTools from './DebugTools';
+
+import { getAppContext } from '../context.js';
+import { getFormManagerUrlById, getFormUrl } from '../routes.js';
+import DebugTools from './DebugTools.js';
 
 export default () => {
   const ctx = getAppContext();

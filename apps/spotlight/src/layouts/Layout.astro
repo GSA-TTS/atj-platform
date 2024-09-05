@@ -49,10 +49,12 @@ const context = getAppContext();
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
+    <script is:inline src={`${context.uswdsRoot}js/uswds-init.min.js`}></script>  
     <script src="../lib/initialize.ts"></script>
     <title>{title}</title>
   </head>
   <body id="top">
+    <script is:inline defer src={`${context.uswdsRoot}js/uswds.min.js`}></script>
     <div class="usa-app usa-app__theme-1">
       <UsaBanner />
       <Header />

@@ -22,7 +22,9 @@ export const createCustomServer = async (db: DatabaseContext): Promise<any> => {
         // DOJ test users
         'deserene.h.worsley@usdoj.gov',
         'jordan.pendergrass@usdoj.gov',
-      ].includes(email);
+        'kira.gillespie@usdoj.gov',
+        'kameron.c.thomas@usdoj.gov',
+      ].includes(email.toLowerCase());
     },
   });
 };
