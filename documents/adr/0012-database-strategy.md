@@ -28,8 +28,10 @@ Abstract adapters to the database will hide technical details from consuming cod
 
 ## Consequences
 
-The platform will target Postgres, a safe and featureful database, which we can deploy in a wide array of cloud environments.
+The platform will target Postgres, a safe and featureful database, which we can deploy in to a wide array of cloud environments.
 
-Confidence in the correctness of code will be enhanced with the use of integration testing, and the avoidance of mocking.
+Confidence in the correctness of code will be enhanced with the use of integration testing and the avoidance of mocking.
 
 Helpers will be created to facilitate easy testing of database gateway functions against a Testcontainers-managed Postgres database. Additional helpers will be created to enable integration testing against a fast, in-memory SQLite database.
+
+The test strategy is intended to be a pragmatic mix between speed and simplicity, but the reliance on integration tests may eventually lead to a slow test suite. The team should keep an eye on this and continually reevaluate.
