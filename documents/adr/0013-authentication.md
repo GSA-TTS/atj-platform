@@ -8,7 +8,7 @@ Approved
 
 ## Context
 
-The Form Platform requires a method of authenticating users. As a government-wide federated service hosted by [TTS](https://www.gsa.gov/about-us/organization/federal-acquisition-service/technology-transformation-services), we are inclined to default to [Login.gov](https://login.gov/) unless circumstances prevent its usage.
+The Form Platform requires a method of authenticating users. We are inclined to default to [Login.gov](https://login.gov/), a government-wide federated service hosted by [TTS](https://www.gsa.gov/about-us/organization/federal-acquisition-service/technology-transformation-services), unless circumstances prevent its usage.
 
 When using Login.gov, we need to choose which library and other integration details we will leverage.
 
