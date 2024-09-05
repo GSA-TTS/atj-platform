@@ -25,7 +25,10 @@ const PageSet: PatternComponent<PageSetProps> = props => {
           })}
         />
       </nav>
-      <div className="tablet:grid-col-9 tablet:padding-left-4 padding-left-0 padding-bottom-3 padding-top-3 tablet:border-left tablet:border-base-lighter contentWrapper">
+      <div
+        className="tablet:grid-col-9 tablet:padding-left-4 padding-left-0 padding-bottom-3 padding-top-3 tablet:border-left tablet:border-base-lighter contentWrapper"
+        aria-live="polite"
+      >
         {props.children}
         <ActionBar actions={props.actions} />
       </div>

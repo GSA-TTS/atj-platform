@@ -21,8 +21,9 @@ export { type FormService, createFormService } from './services/index.js';
 export { defaultFormConfig } from './patterns/index.js';
 import { type PagePattern } from './patterns/page/config.js';
 import { type PageSetPattern } from './patterns/page-set/config.js';
-import { FieldsetPattern } from './patterns/fieldset/index.js';
+export { type RichTextPattern } from './patterns/rich-text.js';
 import { type SequencePattern } from './patterns/sequence.js';
+import { FieldsetPattern } from './patterns/index.js';
 export {
   type FormRepository,
   createFormsRepository,

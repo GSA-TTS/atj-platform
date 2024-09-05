@@ -20,59 +20,7 @@ import { uint8ArrayToBase64 } from '../util.js';
 import { type DocumentFieldMap } from '../types.js';
 import { PagePattern } from '../../patterns/page/config.js';
 import { PageSetPattern } from '../../patterns/page-set/config.js';
-
-/** API v1 response format
- * // formSummary json
- * {
- *   "component_type": "form_summary",
- *   "title": "", // The title of the form.
- *   "description": "" // A brief description of the form.
- * }
- *
- * // TxInput json
- * {
- *   "component_type": "text_input",
- *   "id": "", // A unique identifier for the text input.
- *   "label": "", // The label text for the text input.
- *   "default_value": "", // The default value of the text input.
- *   "required": true // Whether the text input is required.
- * }
- *
- * // checkbox json
- * {
- *   "component_type": "checkbox",
- *   "id": "", // A unique identifier for the checkbox.
- *   "label": "", // The label text for the checkbox.
- *   "default_checked": false // Whether the checkbox is checked by default.
- * }
- *
- * // radioGroup json
- * {
- *   "component_type": "radio_group",
- *   "legend": "", // The legend for the radio group.
- *   "options": [
- *     {
- *       "id": "", // A unique identifier for each option.
- *       "label": "", // The label text for the option.
- *       "name": "", // The name shared by all options in the group.
- *       "default_checked": false // Whether the option is checked by default.
- *     }
- *   ]
- * }
- *
- * // paragraph json
- * {
- *   "component_type": "paragraph",
- *   "text": "" // The text content of the paragraph.
- * }
- *
- * // fieldset json
- * {
- *   "component_type": "fieldset",
- *   "legend": "", // The legend for the field set.
- *   "fields": [] // An array of elements, can include text inputs and checkboxes.
- * }
- */
+import { RichTextPattern } from '../../patterns/rich-text.js';
 
 const FormSummary = z.object({
   component_type: z.literal('form_summary'),
@@ -86,7 +34,7 @@ const TxInput = z.object({
   label: z.string(),
   default_value: z.string(),
   required: z.boolean(),
-  page: z.number(),
+  page: z.union([z.number(), z.string()]),
 });
 
 const Checkbox = z.object({
@@ -94,7 +42,7 @@ const Checkbox = z.object({
   id: z.string(),
   label: z.string(),
   default_checked: z.boolean(),
-  page: z.number(),
+  page: z.union([z.number(), z.string()]),
 });
 
 const RadioGroupOption = z.object({
@@ -102,34 +50,41 @@ const RadioGroupOption = z.object({
   label: z.string(),
   name: z.string(),
   default_checked: z.boolean(),
+  page: z.union([z.number(), z.string()]),
 });
 
 const RadioGroup = z.object({
-  id: z.string(),
+  // id: z.string(),
   component_type: z.literal('radio_group'),
   legend: z.string(),
   options: RadioGroupOption.array(),
-  page: z.number(),
+  page: z.union([z.number(), z.string()]),
 });
 
 const Paragraph = z.object({
   component_type: z.literal('paragraph'),
   text: z.string(),
-  page: z.number(),
+  page: z.union([z.number(), z.string()]),
+});
+
+const RichText = z.object({
+  component_type: z.literal('rich_text'),
+  text: z.string(),
+  page: z.union([z.number(), z.string()]),
 });
 
 const Fieldset = z.object({
   component_type: z.literal('fieldset'),
   legend: z.string(),
   fields: z.union([TxInput, Checkbox]).array(),
-  page: z.number(),
+  page: z.union([z.number(), z.string()]),
 });
 
 const ExtractedObject = z.object({
   raw_text: z.string(),
   form_summary: FormSummary,
   elements: z
-    .union([TxInput, Checkbox, RadioGroup, Paragraph, Fieldset])
+    .union([TxInput, Checkbox, RadioGroup, Paragraph, Fieldset, RichText])
     .array(),
 });
 
@@ -155,7 +110,7 @@ export type FetchPdfApiResponse = (
 
 export const fetchPdfApiResponse: FetchPdfApiResponse = async (
   rawData: Uint8Array,
-  url: string = 'https://10x-atj-doc-automation-staging.app.cloud.gov/api/v1/parse'
+  url: string = 'https://10x-atj-doc-automation-staging.app.cloud.gov/api/v2/parse' // 'http://localhost:5000/api/v2/parse'
 ) => {
   const base64 = await uint8ArrayToBase64(rawData);
   const response = await fetch(url, {
@@ -217,6 +172,23 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
       if (paragraph) {
         pagePatterns[element.page] = (pagePatterns[element.page] || []).concat(
           paragraph.id
+        );
+      }
+      continue;
+    }
+
+    if (element.component_type === 'rich_text') {
+      const richText = processPatternData<RichTextPattern>(
+        defaultFormConfig,
+        parsedPdf,
+        'rich-text',
+        {
+          text: element.text,
+        }
+      );
+      if (richText) {
+        pagePatterns[element.page] = (pagePatterns[element.page] || []).concat(
+          richText.id
         );
       }
       continue;
@@ -356,17 +328,17 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
 
   // Create a pattern for the single, first page.
   const pages: PatternId[] = Object.entries(pagePatterns)
-    .map(([page, patterns]) => {
+    .map(([page, patterns], idx) => {
       const pagePattern = processPatternData<PagePattern>(
         defaultFormConfig,
         parsedPdf,
         'page',
         {
-          title: `Page ${parseInt(page) + 1}`,
+          title: `${page}`,
           patterns,
         },
         undefined,
-        parseInt(page)
+        idx
       );
       return pagePattern?.id;
     })
