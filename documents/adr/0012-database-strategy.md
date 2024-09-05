@@ -28,7 +28,7 @@ Abstract adapters to the database will hide technical details from consuming cod
 
 ## Consequences
 
-The platform will target Postgres, a safe and featureful database, which we can deploy in to a wide array of cloud environments.
+The platform will target Postgres, a safe and featureful database, which we can deploy to a wide array of cloud environments.
 
 Confidence in the correctness of code will be enhanced with the use of integration testing and the avoidance of mocking.
 
