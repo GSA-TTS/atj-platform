@@ -92,6 +92,7 @@ const sidebarPatterns: DropdownPattern[] = [
   ['input', defaultFormConfig.patterns['input']],
   ['paragraph', defaultFormConfig.patterns['paragraph']],
   ['rich-text', defaultFormConfig.patterns['rich-text']],
+  ['repeater', defaultFormConfig.patterns['repeater']],
   ['radio-group', defaultFormConfig.patterns['radio-group']],
 ] as const;
 export const fieldsetPatterns: DropdownPattern[] = [
