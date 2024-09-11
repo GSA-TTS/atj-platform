@@ -17,6 +17,7 @@ import ParagraphPatternEdit from './ParagraphPatternEdit.js';
 import { PatternPreviewSequence } from './PreviewSequencePattern/index.js';
 import PhoneNumberPatternEdit from './PhoneNumberPatternEdit.js';
 import RadioGroupPatternEdit from './RadioGroupPatternEdit.js';
+import RepeaterPatternEdit from './RepeaterPatternEdit.js';
 import RichTextPatternEdit from './RichTextPatternEdit/index.js';
 import SelectDropdownPatternEdit from './SelectDropdownPatternEdit.js';
 import SocialSecurityNumberPatternEdit from './SocialSecurityNumberPatternEdit.js';
@@ -36,6 +37,7 @@ export const defaultPatternEditComponents: EditComponentForPattern = {
   paragraph: ParagraphPatternEdit as PatternEditComponent,
   'phone-number': PhoneNumberPatternEdit as PatternEditComponent,
   'radio-group': RadioGroupPatternEdit as PatternEditComponent,
+  repeater: RepeaterPatternEdit as PatternEditComponent,
   'rich-text': RichTextPatternEdit as PatternEditComponent,
   'select-dropdown': SelectDropdownPatternEdit as PatternEditComponent,
   sequence: PatternPreviewSequence as PatternEditComponent,
