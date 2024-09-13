@@ -4,9 +4,9 @@ import { DatabaseContext } from '@atj/database';
 export const upsertFormSession = async (
   ctx: DatabaseContext,
   opts: {
+    id?: string;
     formId: string;
     data: any;
-    id?: string;
   }
 ) => {
   const db = await ctx.getKysely();
