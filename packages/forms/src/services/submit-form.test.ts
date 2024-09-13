@@ -1,4 +1,4 @@
-import { describe, expect, expectTypeOf, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import {
   addDocument,
@@ -13,20 +13,8 @@ import {
   type PatternValueMap,
 } from '../index.js';
 import { createTestFormServiceContext } from '../testing.js';
-import { submitForm } from './submit-form.js';
 import { loadSamplePDF } from '../documents/__tests__/sample-data.js';
-
-const setupTestForm = async (form?: Blueprint) => {
-  form = form || createForm({ title: 'test', description: 'description' });
-  const ctx = await createTestFormServiceContext({
-    isUserLoggedIn: () => false,
-  });
-  const addFormResult = await ctx.repository.addForm(form);
-  if (addFormResult.success === false) {
-    expect.fail('addForm failed');
-  }
-  return { ctx, id: addFormResult.data.id, form };
-};
+import { submitForm } from './submit-form.js';
 
 describe('submitForm', () => {
   it('succeeds with empty form', async () => {
@@ -88,7 +76,85 @@ describe('submitForm', () => {
       })
     );
   });
+
+  it.fails('handles page one of a multi-page form', async () => {
+    const form = createForm(
+      {
+        title: 'Test form',
+        description: 'Test description',
+      },
+      {
+        root: 'root',
+        patterns: [
+          {
+            type: 'page-set',
+            id: 'root',
+            data: {
+              pages: ['page-1', 'page-2'],
+            },
+          } satisfies PageSetPattern,
+          {
+            type: 'page',
+            id: 'page-1',
+            data: {
+              title: 'Page 1',
+              patterns: ['element-1'],
+            },
+          } satisfies PagePattern,
+          {
+            type: 'input',
+            id: 'element-1',
+            data: {
+              label: 'Pattern 1',
+              initial: '',
+              required: true,
+              maxLength: 128,
+            },
+          } satisfies InputPattern,
+          {
+            type: 'page',
+            id: 'page-2',
+            data: {
+              title: 'Page 2',
+              patterns: ['element-2'],
+            },
+          } satisfies PagePattern,
+          {
+            type: 'input',
+            id: 'element-2',
+            data: {
+              label: 'Pattern 2',
+              initial: '',
+              required: true,
+              maxLength: 128,
+            },
+          } satisfies InputPattern,
+        ],
+      }
+    );
+    const { ctx, id } = await setupTestForm(form);
+    const session = createFormSession(form);
+    const result = await submitForm(ctx, session, id, {
+      'element-1': 'test',
+    });
+    expect(result).toEqual({
+      success: true,
+      data: [],
+    });
+  });
 });
+
+const setupTestForm = async (form?: Blueprint) => {
+  form = form || createForm({ title: 'test', description: 'description' });
+  const ctx = await createTestFormServiceContext({
+    isUserLoggedIn: () => false,
+  });
+  const addFormResult = await ctx.repository.addForm(form);
+  if (addFormResult.success === false) {
+    expect.fail('addForm failed');
+  }
+  return { ctx, id: addFormResult.data.id, form };
+};
 
 const createOnePatternTestForm = () => {
   return createForm(
