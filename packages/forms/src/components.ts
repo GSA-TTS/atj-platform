@@ -84,6 +84,7 @@ export type RadioGroupProps = PatternProps<{
 export type RepeaterProps = PatternProps<{
   type: 'repeater';
   legend?: string;
+  showControls?: boolean;
   subHeading?: string;
   error?: FormError;
 }>;
