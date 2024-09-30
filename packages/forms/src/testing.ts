@@ -15,3 +15,7 @@ export const createTestFormServiceContext = async (opts?: Partial<Options>) => {
     isUserLoggedIn: opts?.isUserLoggedIn || (() => true),
   };
 };
+
+export type TestFormServiceContext = Awaited<
+  ReturnType<typeof createTestFormServiceContext>
+>;
