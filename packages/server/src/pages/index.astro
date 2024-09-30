@@ -1,6 +1,6 @@
 ---
-import AppFormManager from '../components/AppFormManager';
-import { getAstroAppContext } from '../context';
+import AppFormManager from '../components/AppFormManager.js';
+import { getAstroAppContext } from '../config/astro.js';
 import Layout from '../layouts/Layout.astro';
 
 const { baseUrl, uswdsRoot } = await getAstroAppContext(Astro);

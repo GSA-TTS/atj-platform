@@ -2,8 +2,8 @@ import React from 'react';
 
 import { FormRouter } from '@atj/design';
 
-import { type AppContext } from '../context';
-import { FormServiceClient } from '../lib/api-client';
+import { type AppContext } from '../config/context.js';
+import { FormServiceClient } from '../lib/api-client.js';
 
 export default function AppFormRouter({
   baseUrl,

@@ -30,8 +30,8 @@ describeDatabase('getFormSession', () => {
 
     expect(formSessionResult.data).toEqual({
       id: formSessionId,
-      form_id: form.data.id,
-      data: '{}',
+      formId: form.data.id,
+      data: {},
     });
   });
 

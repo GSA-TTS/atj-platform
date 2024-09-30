@@ -1,8 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { getUserSession } from '../../context';
 import * as routes from '../../routes';
-import { getAstroAppContext } from '../../context';
+import { getAstroAppContext, getUserSession } from '../../config/astro.js';
 
 const ctx = await getAstroAppContext(Astro);
 const userSession = getUserSession(Astro);

@@ -40,20 +40,24 @@ describeDatabase('upsertFormSession', () => {
     }
 
     const kysely = await ctx.db.ctx.getKysely();
-    const formSession = await kysely
+    const formSessionResult = await kysely
       .selectFrom('form_sessions')
       .select(['data'])
       .where('id', '=', result.data.id)
       .where('form_id', '=', ctx.formId)
       .executeTakeFirstOrThrow();
-    expect(JSON.parse(formSession.data)).toEqual(ctx.sessionData);
+    expect(JSON.parse(formSessionResult.data)).toEqual(ctx.sessionData);
 
     // Upsert a second time
-    const result2 = await upsertFormSession(ctx.db.ctx, {
+    const formSession = {
       id: result.data.id,
       formId: ctx.formId,
-      data: {},
-    });
+      data: {
+        data: { errors: {}, values: {} },
+        form: ctx.form,
+      },
+    };
+    const result2 = await upsertFormSession(ctx.db.ctx, formSession);
     if (!result2.success) {
       expect.fail(result2.error);
     }
@@ -64,6 +68,6 @@ describeDatabase('upsertFormSession', () => {
       .where('id', '=', result.data.id)
       .where('form_id', '=', ctx.formId)
       .executeTakeFirstOrThrow();
-    expect(JSON.parse(formSession2.data)).toEqual({});
+    expect(JSON.parse(formSession2.data)).toEqual(formSession.data);
   });
 });

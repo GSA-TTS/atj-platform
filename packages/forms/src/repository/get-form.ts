@@ -2,11 +2,14 @@ import { type DatabaseContext } from '@atj/database';
 
 import { type Blueprint } from '../index.js';
 
-export const getForm = async (
+export type GetForm = (
   ctx: DatabaseContext,
   formId: string
-): Promise</*Blueprint*/ any | null> => {
+) => Promise</*Blueprint*/ any | null>;
+
+export const getForm: GetForm = async (ctx, formId) => {
   const db = await ctx.getKysely();
+  console.log('getting', formId);
   const selectResult = await db
     .selectFrom('forms')
     .select(['data'])

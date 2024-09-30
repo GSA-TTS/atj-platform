@@ -2,7 +2,7 @@
 import closeSvg from '@atj/design/static/uswds/img/usa-icons/close.svg';
 import logoSvg from '@atj/design/images/logo.svg';
 
-import { getAstroAppContext, getUserSession } from '../context';
+import { getAstroAppContext, getUserSession } from '../config/astro.js';
 import * as routes from '../routes';
 
 const { baseUrl, title } = await getAstroAppContext(Astro);

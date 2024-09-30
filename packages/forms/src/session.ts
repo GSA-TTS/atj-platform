@@ -16,6 +16,7 @@ import { type RouteData, getRouteDataFromQueryString } from './route-data.js';
 
 export type FormErrorMap = Record<PatternId, FormError>;
 
+export type FormSessionId = string;
 export type FormSession = {
   data: {
     errors: FormErrorMap;

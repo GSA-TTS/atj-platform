@@ -44,8 +44,8 @@ export const createPrompt: CreatePrompt<PageSetPattern> = (
           throw new Error('Page set children must be pages');
         }
         return {
-          title: childPattern.data.title || 'Untitled',
           active: index === activePage,
+          title: childPattern.data.title || 'Untitled',
         };
       }),
     } satisfies PageSetProps,

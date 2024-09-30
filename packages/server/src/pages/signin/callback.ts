@@ -1,7 +1,7 @@
 import type { APIContext } from 'astro';
 
 import { processProviderCallback } from '@atj/auth';
-import { getAstroAppContext } from '../../context.js';
+import { getAstroAppContext } from '../../config/astro.js';
 import * as routes from '../../routes.js';
 
 export async function GET(context: APIContext): Promise<Response> {

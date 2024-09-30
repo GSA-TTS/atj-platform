@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 
-import { getAstroAppContext } from '../../context.js';
+import { getAstroAppContext } from '../../config/astro.js';
 
 export const POST: APIRoute = async context => {
   /*
@@ -19,6 +19,7 @@ export const POST: APIRoute = async context => {
       status: 400,
     });
   }
+  const queryString = context.url.searchParams;
   const result = await ctx.formService.submitForm(session, formId, formData);
   return new Response(JSON.stringify(result), {
     headers: {

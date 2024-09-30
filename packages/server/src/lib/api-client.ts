@@ -49,9 +49,10 @@ export class FormServiceClient implements FormService {
   }
 
   async submitForm(
-    session: FormSession, // TODO: load session from storage by ID
+    sessionId: string | undefined,
     formId: string,
-    formData: Record<string, string>
+    formData: Record<string, string>,
+    queryString?: string
   ): Promise<
     Result<
       {
@@ -60,9 +61,17 @@ export class FormServiceClient implements FormService {
       }[]
     >
   > {
+    const payload: any = { formId, formData };
+    if (sessionId !== undefined) {
+      payload['sessionId'] = sessionId;
+    }
+    if (queryString !== undefined) {
+      payload['queryString'] = queryString;
+    }
+
     const response = await fetch(`${this.ctx.baseUrl}forms/${formId}`, {
       method: 'POST',
-      body: JSON.stringify({ formId, formData, session }),
+      body: JSON.stringify(payload),
       headers: {
         'Content-Type': 'application/json',
       },

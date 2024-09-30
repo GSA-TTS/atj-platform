@@ -20,8 +20,15 @@ describe('submitForm', () => {
   it('succeeds with empty form', async () => {
     const { ctx, id, form } = await setupTestForm();
     const session = createFormSession(form);
+    const formSessionResult = await ctx.repository.upsertFormSession({
+      formId: id,
+      data: session,
+    });
+    if (!formSessionResult.success) {
+      expect.fail('upsertFormSession failed');
+    }
 
-    const result = await submitForm(ctx, session, id, {});
+    const result = await submitForm(ctx, formSessionResult.data.id, id, {});
     expect(result).toEqual({
       success: true,
       data: [],
@@ -29,9 +36,21 @@ describe('submitForm', () => {
   });
 
   it('fails with invalid form ID', async () => {
-    const { ctx, form } = await setupTestForm();
+    const { ctx, form, id } = await setupTestForm();
     const session = createFormSession(form);
-    const result = await submitForm(ctx, session, 'invalid-id', {});
+    const formSessionResult = await ctx.repository.upsertFormSession({
+      formId: id,
+      data: session,
+    });
+    if (!formSessionResult.success) {
+      expect.fail('upsertFormSession failed');
+    }
+    const result = await submitForm(
+      ctx,
+      formSessionResult.data.id,
+      'invalid-id',
+      {}
+    );
     expect(result).toEqual({
       success: false,
       error: 'Form not found',
@@ -41,7 +60,14 @@ describe('submitForm', () => {
   it('fails with incomplete session', async () => {
     const { ctx, form, id } = await setupTestForm(createOnePatternTestForm());
     const session = createFormSession(form);
-    const result = await submitForm(ctx, session, id, {});
+    const formSessionResult = await ctx.repository.upsertFormSession({
+      formId: id,
+      data: session,
+    });
+    if (!formSessionResult.success) {
+      expect.fail('upsertFormSession failed');
+    }
+    const result = await submitForm(ctx, formSessionResult.data.id, id, {});
     expect(result).toEqual({
       success: false,
       error: 'Session is not complete',
@@ -51,7 +77,14 @@ describe('submitForm', () => {
   it('succeeds with complete session', async () => {
     const { ctx, form, id } = await setupTestForm(createOnePatternTestForm());
     const session = createFormSession(form);
-    const result = await submitForm(ctx, session, id, {
+    const formSessionResult = await ctx.repository.upsertFormSession({
+      formId: id,
+      data: session,
+    });
+    if (!formSessionResult.success) {
+      expect.fail('upsertFormSession failed');
+    }
+    const result = await submitForm(ctx, formSessionResult.data.id, id, {
       'element-1': 'test',
     });
     expect(result).toEqual({ success: true, data: [] });
@@ -61,9 +94,20 @@ describe('submitForm', () => {
     const { ctx, form, id } = await setupTestForm(
       await createTestFormWithPDF()
     );
-    const session = createFormSession(form);
     const formData = getMockFormData(form);
-    const result = await submitForm(ctx, session, id, formData);
+    const formSessionResult = await ctx.repository.upsertFormSession({
+      formId: id,
+      data: createFormSession(form),
+    });
+    if (!formSessionResult.success) {
+      expect.fail('upsertFormSession failed');
+    }
+    const result = await submitForm(
+      ctx,
+      formSessionResult.data.id,
+      id,
+      formData
+    );
     expect(result).toEqual(
       expect.objectContaining({
         success: true,
@@ -133,8 +177,14 @@ describe('submitForm', () => {
       }
     );
     const { ctx, id } = await setupTestForm(form);
-    const session = createFormSession(form);
-    const result = await submitForm(ctx, session, id, {
+    const formSessionResult = await ctx.repository.upsertFormSession({
+      formId: id,
+      data: createFormSession(form),
+    });
+    if (!formSessionResult.success) {
+      expect.fail('upsertFormSession failed');
+    }
+    const result = await submitForm(ctx, formSessionResult.data.id, id, {
       'element-1': 'test',
     });
     expect(result).toEqual({

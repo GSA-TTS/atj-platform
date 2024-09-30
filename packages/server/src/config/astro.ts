@@ -1,54 +1,32 @@
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
-
 import { type APIContext, type AstroGlobal } from 'astro';
 
 import {
   type AuthRepository,
-  type AuthServiceContext,
   type LoginGovOptions,
   createAuthRepository,
 } from '@atj/auth';
-import { type DatabaseContext } from '@atj/database';
-import {
-  type FormConfig,
-  type FormService,
-  createFormsRepository,
-  createFormService,
-  defaultFormConfig,
-} from '@atj/forms';
+import { defaultFormConfig } from '@atj/forms';
 
-import { type GithubRepository } from './lib/github.js';
-
-export type AppContext = {
-  auth: AuthServiceContext;
-  baseUrl: `${string}/`;
-  formConfig: FormConfig;
-  formService: FormService;
-  github: GithubRepository;
-  title: string;
-  uswdsRoot: `${string}/`;
-};
-
-export type ServerOptions = {
-  title: string;
-  db: DatabaseContext;
-  loginGovOptions: LoginGovOptions;
-  isUserAuthorized: (email: string) => Promise<boolean>;
-};
+import { type AppContext } from './context.js';
+import { type ServerOptions, createDevServerOptions } from './options.js';
+import { createServerFormService } from './services.js';
 
 export const getAstroAppContext = async (Astro: any): Promise<AppContext> => {
   if (!Astro.locals.ctx) {
-    Astro.locals.ctx = await createAstroAppContext(Astro, import.meta.env);
+    Astro.locals.ctx = await createAstroAppContext(
+      Astro,
+      import.meta.env,
+      Astro.locals.serverOptions || (await createDevServerOptions())
+    );
   }
   return Astro.locals.ctx;
 };
 
 const createAstroAppContext = async (
   Astro: AstroGlobal | APIContext,
-  env: any
+  env: any,
+  serverOptions: ServerOptions
 ): Promise<AppContext> => {
-  const serverOptions = await getServerOptions(Astro);
   return {
     auth: await createDefaultAuthContext({
       Astro,
@@ -58,42 +36,13 @@ const createAstroAppContext = async (
     }),
     baseUrl: env.BASE_URL,
     formConfig: defaultFormConfig,
-    formService: createFormService({
-      repository: createFormsRepository(serverOptions.db),
-      config: defaultFormConfig,
+    formService: createServerFormService(serverOptions, {
       isUserLoggedIn: () => !!getUserSession(Astro).user,
     }),
     github: env.GITHUB,
     title: serverOptions.title,
     uswdsRoot: `${env.BASE_URL}uswds/`,
   };
-};
-
-const getDefaultServerOptions = async (): Promise<ServerOptions> => {
-  const { createFilesystemDatabaseContext } = await import(
-    '@atj/database/context'
-  );
-  const db = await createFilesystemDatabaseContext(
-    join(dirname(fileURLToPath(import.meta.url)), '../main.db')
-  );
-  return {
-    title: 'Form Service',
-    db,
-    loginGovOptions: {
-      loginGovUrl: 'https://idp.int.identitysandbox.gov',
-      clientId:
-        'urn:gov:gsa:openidconnect.profiles:sp:sso:gsa:tts-10x-atj-dev-server-doj',
-      //clientSecret: import.meta.env.SECRET_LOGIN_GOV_PRIVATE_KEY,
-      redirectURI: 'http://localhost:4322/signin/callback',
-    },
-    isUserAuthorized: async (_email: string) => {
-      return true;
-    },
-  };
-};
-
-const getServerOptions = async (Astro: AstroGlobal | APIContext) => {
-  return Astro.locals.serverOptions || (await getDefaultServerOptions());
 };
 
 const getOriginFromRequest = (Astro: AstroGlobal | APIContext) => {

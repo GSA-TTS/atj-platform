@@ -3,8 +3,8 @@ import { ErrorBoundary } from 'react-error-boundary';
 
 import { AvailableFormList } from '@atj/design';
 
-import { type AppContext } from '../context';
-import { getFormManagerUrlById, getFormUrl } from '../routes';
+import { type AppContext } from '../config/context.js';
+import { getFormManagerUrlById, getFormUrl } from '../routes.js';
 import DebugTools from './DebugTools';
 
 export default ({ ctx }: { ctx: AppContext }) => {

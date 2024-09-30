@@ -1,7 +1,19 @@
-import { failure, success } from '@atj/common';
-import { DatabaseContext } from '@atj/database';
+import { type Result, failure, success } from '@atj/common';
+import { type DatabaseContext } from '@atj/database';
+import { type FormSession, type FormSessionId } from '../session';
 
-export const getFormSession = async (ctx: DatabaseContext, id: string) => {
+export type GetFormSession = (
+  ctx: DatabaseContext,
+  id: string
+) => Promise<
+  Result<{
+    id: FormSessionId;
+    formId: string;
+    data: FormSession;
+  }>
+>;
+
+export const getFormSession: GetFormSession = async (ctx, id) => {
   const db = await ctx.getKysely();
   return await db
     .selectFrom('form_sessions')
@@ -9,7 +21,11 @@ export const getFormSession = async (ctx: DatabaseContext, id: string) => {
     .select(['id', 'form_id', 'data'])
     .executeTakeFirstOrThrow()
     .then(result => {
-      return success(result);
+      return success({
+        id: result.id,
+        formId: result.form_id,
+        data: JSON.parse(result.data),
+      });
     })
     .catch(err => {
       return failure(err.message);

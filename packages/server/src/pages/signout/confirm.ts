@@ -1,7 +1,7 @@
 import type { APIContext } from 'astro';
 
 import { logOut } from '@atj/auth';
-import { getAstroAppContext } from '../../context.js';
+import { getAstroAppContext } from '../../config/astro.js';
 import * as routes from '../../routes.js';
 
 export async function POST(context: APIContext): Promise<Response> {

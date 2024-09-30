@@ -1,21 +1,25 @@
-import { type Result } from '@atj/common';
+import { failure, success, type Result } from '@atj/common';
 import {
   type Blueprint,
   type FormSession,
+  FormSessionId,
   applyPromptResponse,
   createFormOutputFieldData,
+  createFormSession,
   fillPDF,
   sessionIsComplete,
 } from '../index.js';
 
 import { FormServiceContext } from '../context/index.js';
+import QueryString from 'qs';
 
 type SubmitForm = (
   ctx: FormServiceContext,
-  //sessionId: string,
-  session: FormSession, // TODO: load session from storage by ID
+  sessionId: FormSessionId | undefined,
+  //session: FormSession, // TODO: load session from storage by ID
   formId: string,
-  formData: Record<string, string>
+  formData: Record<string, string>,
+  queryString?: string
 ) => Promise<
   Result<
     {
@@ -27,10 +31,10 @@ type SubmitForm = (
 
 export const submitForm: SubmitForm = async (
   ctx,
-  //sessionId: string,
-  session, // TODO: load session from storage by ID
+  sessionId,
   formId,
-  formData
+  formData,
+  queryString
 ) => {
   const form = await ctx.repository.getForm(formId);
   if (form === null) {
@@ -39,10 +43,24 @@ export const submitForm: SubmitForm = async (
       error: 'Form not found',
     });
   }
+
+  const sessionResult = await getFormSessionOrCreate(
+    ctx,
+    form,
+    queryString,
+    sessionId
+  );
+  if (!sessionResult.success) {
+    return Promise.resolve({
+      success: false,
+      error: 'Session not found',
+    });
+  }
+
   //const session = getSessionFromStorage(ctx.storage, sessionId) || createFormSession(form);
   // For now, the client-side is producing its own error messages.
   // In the future, we'll want this service to return errors to the client.
-  const newSessionResult = applyPromptResponse(ctx.config, session, {
+  const newSessionResult = applyPromptResponse(ctx.config, sessionResult.data, {
     action: 'submit',
     data: formData,
   });
@@ -59,6 +77,22 @@ export const submitForm: SubmitForm = async (
     });
   }
   return generateDocumentPackage(form, newSessionResult.data.data.values);
+};
+
+const getFormSessionOrCreate = async (
+  ctx: FormServiceContext,
+  form: Blueprint,
+  queryString?: string,
+  sessionId?: FormSessionId
+) => {
+  if (sessionId === undefined) {
+    return Promise.resolve(success(createFormSession(form, queryString)));
+  }
+  const sessionResult = await ctx.repository.getFormSession(sessionId);
+  if (!sessionResult.success) {
+    return Promise.resolve(failure('Session not found'));
+  }
+  return success(sessionResult.data.data);
 };
 
 const generateDocumentPackage = async (

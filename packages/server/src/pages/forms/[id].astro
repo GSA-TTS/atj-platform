@@ -1,0 +1,31 @@
+---
+import { defaultPatternComponents, Form } from '@atj/design';
+import { createFormSession } from '@atj/forms';
+
+import { getAstroAppContext } from '../../config/astro.js';
+import ContentLayout from '../../layouts/ContentLayout.astro';
+
+const { id } = Astro.params;
+
+const ctx = await getAstroAppContext(Astro);
+const formResult = await ctx.formService.getForm(id);
+if (!formResult.success) {
+  return new Response(formResult.error.message, {
+    status: 404,
+  });
+}
+
+const session = createFormSession(formResult.data, Astro.url.search);
+---
+
+<ContentLayout title="10x Access to Justice">
+  <Form
+    client:load
+    context={{
+      config: ctx.formConfig,
+      components: defaultPatternComponents,
+      uswdsRoot: ctx.uswdsRoot,
+    }}
+    session={session}
+  />
+</ContentLayout>
