@@ -19,7 +19,7 @@ export const createPrompt: CreatePrompt<PageSetPattern> = (
   pattern,
   options
 ) => {
-  const route = parseRouteData(pattern, session.routeParams);
+  const route = parseRouteData(pattern, session.route?.params);
   const activePage = route.success ? route.data.page : null;
   const children =
     activePage !== null
@@ -43,9 +43,14 @@ export const createPrompt: CreatePrompt<PageSetPattern> = (
         if (childPattern.type !== 'page') {
           throw new Error('Page set children must be pages');
         }
+        const params = new URLSearchParams({
+          ...session.route?.params,
+          page: index.toString(),
+        });
         return {
-          active: index === activePage,
           title: childPattern.data.title || 'Untitled',
+          selected: index === activePage,
+          url: session.route?.url + '?' + params.toString(),
         };
       }),
     } satisfies PageSetProps,

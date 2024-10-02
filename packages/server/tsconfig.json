@@ -6,8 +6,9 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "jsx": "react",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "types": ["@testing-library/jest-dom"]
   },
-  "include": ["src/**/*.ts", "src/**/*.astro"],
-  "exclude": [".astro", "dist", "node_modules", "src/components/**"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.astro"],
+  "exclude": [".astro", "dist", "node_modules"]
 }

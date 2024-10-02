@@ -1,7 +1,7 @@
 ---
-import { defaultPatternComponents, Form } from '@atj/design';
-import { createFormSession } from '@atj/forms';
+import { createFormSession, getRouteDataFromQueryString } from '@atj/forms';
 
+import { AppForm } from '../../components/AppForm';
 import { getAstroAppContext } from '../../config/astro.js';
 import ContentLayout from '../../layouts/ContentLayout.astro';
 
@@ -15,17 +15,12 @@ if (!formResult.success) {
   });
 }
 
-const session = createFormSession(formResult.data, Astro.url.search);
+const session = createFormSession(formResult.data, {
+  params: getRouteDataFromQueryString(Astro.url.search),
+  url: Astro.url.pathname,
+});
 ---
 
 <ContentLayout title="10x Access to Justice">
-  <Form
-    client:load
-    context={{
-      config: ctx.formConfig,
-      components: defaultPatternComponents,
-      uswdsRoot: ctx.uswdsRoot,
-    }}
-    session={session}
-  />
+  <AppForm client:load session={session} uswdsRoot={ctx.uswdsRoot} />
 </ContentLayout>

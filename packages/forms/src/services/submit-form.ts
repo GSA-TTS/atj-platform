@@ -1,7 +1,6 @@
 import { failure, success, type Result } from '@atj/common';
 import {
   type Blueprint,
-  type FormSession,
   FormSessionId,
   applyPromptResponse,
   createFormOutputFieldData,
@@ -11,7 +10,7 @@ import {
 } from '../index.js';
 
 import { FormServiceContext } from '../context/index.js';
-import QueryString from 'qs';
+import { type FormRoute } from '../route-data.js';
 
 type SubmitForm = (
   ctx: FormServiceContext,
@@ -19,7 +18,7 @@ type SubmitForm = (
   //session: FormSession, // TODO: load session from storage by ID
   formId: string,
   formData: Record<string, string>,
-  queryString?: string
+  route?: FormRoute
 ) => Promise<
   Result<
     {
@@ -34,7 +33,7 @@ export const submitForm: SubmitForm = async (
   sessionId,
   formId,
   formData,
-  queryString
+  route
 ) => {
   const form = await ctx.repository.getForm(formId);
   if (form === null) {
@@ -47,7 +46,7 @@ export const submitForm: SubmitForm = async (
   const sessionResult = await getFormSessionOrCreate(
     ctx,
     form,
-    queryString,
+    route,
     sessionId
   );
   if (!sessionResult.success) {
@@ -82,11 +81,11 @@ export const submitForm: SubmitForm = async (
 const getFormSessionOrCreate = async (
   ctx: FormServiceContext,
   form: Blueprint,
-  queryString?: string,
+  route?: FormRoute,
   sessionId?: FormSessionId
 ) => {
   if (sessionId === undefined) {
-    return Promise.resolve(success(createFormSession(form, queryString)));
+    return Promise.resolve(success(createFormSession(form, route)));
   }
   const sessionResult = await ctx.repository.getFormSession(sessionId);
   if (!sessionResult.success) {

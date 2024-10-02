@@ -9,7 +9,6 @@ export type GetForm = (
 
 export const getForm: GetForm = async (ctx, formId) => {
   const db = await ctx.getKysely();
-  console.log('getting', formId);
   const selectResult = await db
     .selectFrom('forms')
     .select(['data'])

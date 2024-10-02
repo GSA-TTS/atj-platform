@@ -9,7 +9,7 @@ import {
 } from '@atj/forms';
 import { createFormSession } from '@atj/forms';
 
-import { useQueryString } from './hooks.js';
+import { useRouteParams } from './hooks.js';
 import { defaultPatternComponents } from '../index.js';
 import Form, { FormUIContext } from '../Form/index.js';
 
@@ -36,7 +36,7 @@ export default function FormRouter({
           path="/:formId"
           Component={() => {
             const { formId } = useParams();
-            const queryString = useQueryString();
+            const { routeParams, pathname } = useRouteParams();
             if (formId === undefined) {
               return <div>formId is undefined</div>;
             }
@@ -67,7 +67,10 @@ export default function FormRouter({
               );
             }
 
-            const session = createFormSession(formResult.data, queryString);
+            const session = createFormSession(formResult.data, {
+              params: routeParams,
+              url: pathname,
+            });
             return (
               <Form
                 context={context}

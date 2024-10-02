@@ -15,8 +15,8 @@ export const FormPreview = () => {
   const { routeParams } = useRouteParams();
 
   useEffect(() => {
-    if (routeParams.page !== session.routeParams?.page) {
-      const newSession = mergeSession(session, { routeParams });
+    if (routeParams.page !== session.route?.params.page) {
+      const newSession = mergeSession(session, { route: session.route });
       setSession(newSession);
     }
   }, [routeParams]);
