@@ -69,7 +69,7 @@ export default function FormRouter({
 
             const session = createFormSession(formResult.data, {
               params: routeParams,
-              url: pathname,
+              url: `#${pathname}`,
             });
             return (
               <Form
