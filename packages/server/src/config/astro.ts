@@ -91,3 +91,26 @@ export const getUserSession = (Astro: any) => {
     user: Astro.locals.user,
   };
 };
+
+export const getAstroRouteParams = <const T extends readonly string[]>(
+  Astro: AstroGlobal | APIContext,
+  params: T
+) => {
+  return params.reduce(
+    (acc: Record<T[number], string>, param: T[number]) => {
+      const value = Astro.params[param];
+      if (value === undefined) {
+        throw new Error(`Missing required parameter: ${param}`);
+      }
+      acc[param] = value;
+      return acc;
+    },
+    {} as Record<T[number], string>
+  );
+};
+
+export const getSearchString = (Astro: AstroGlobal | APIContext) => {
+  return Astro.url.search.startsWith('?')
+    ? Astro.url.search.substring(1)
+    : Astro.url.search;
+};

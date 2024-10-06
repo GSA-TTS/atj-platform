@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 import {
   type CreatePrompt,
+  type FormSession,
   type PageSetProps,
   type PromptAction,
   createPromptForPattern,
@@ -32,7 +33,11 @@ export const createPrompt: CreatePrompt<PageSetPattern> = (
           ),
         ]
       : [];
-  const actions = getActionsForPage(pattern.data.pages.length, activePage);
+  const actions = getActionsForPage({
+    session,
+    pageCount: pattern.data.pages.length,
+    pageIndex: activePage,
+  });
   return {
     props: {
       _patternId: pattern.id,
@@ -73,25 +78,24 @@ const parseRouteData = (pattern: PageSetPattern, routeParams?: RouteData) => {
   return safeZodParseFormErrors(schema, routeParams || {});
 };
 
-const getActionsForPage = (
-  pageCount: number,
-  pageIndex: number | null
-): PromptAction[] => {
-  if (pageIndex === null) {
+const getActionsForPage = (opts: {
+  session: FormSession;
+  pageCount: number;
+  pageIndex: number | null;
+}): PromptAction[] => {
+  if (opts.pageIndex === null) {
     return [];
   }
   const actions: PromptAction[] = [];
-  if (pageIndex > 0) {
-    // FIXME: HACK! Don't do this here. We need to pass the form's ID, or its
-    // URL, to createPrompt.
-    const pathName = location.hash.split('?')[0];
+  if (opts.pageIndex > 0) {
+    const pathName = opts.session.route?.url || '';
     actions.push({
       type: 'link',
       text: 'Back',
-      url: `${pathName}?page=${pageIndex - 1}`,
+      url: `${pathName}?page=${opts.pageIndex - 1}`,
     });
   }
-  if (pageIndex < pageCount - 1) {
+  if (opts.pageIndex < opts.pageCount - 1) {
     actions.push({
       type: 'submit',
       submitAction: 'next',

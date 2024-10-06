@@ -1,7 +1,7 @@
 import { failure, success, type Result } from '@atj/common';
 import {
   type Blueprint,
-  FormSessionId,
+  type FormSessionId,
   applyPromptResponse,
   createFormOutputFieldData,
   createFormSession,

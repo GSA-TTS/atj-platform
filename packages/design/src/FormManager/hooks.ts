@@ -15,11 +15,3 @@ export const useRouteParams = (): {
     pathname: location.pathname,
   };
 };
-
-export const useQueryString = (): string => {
-  const location = useLocation();
-  const queryString = location.search.startsWith('?')
-    ? location.search.substring(1)
-    : location.search;
-  return queryString;
-};

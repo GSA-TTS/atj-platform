@@ -23,7 +23,7 @@ export class BrowserFormRepository implements FormRepository {
   ): Promise<Result<{ id: FormSessionId; formId: string; data: FormSession }>> {
     const formSession = this.storage.getItem(formSessionKey(id));
     if (!formSession) {
-      return Promise.resolve(failure('not found'));
+      return Promise.resolve(failure(`not found: ${id}`));
     }
     return Promise.resolve({
       success: true,

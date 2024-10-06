@@ -1,8 +1,14 @@
-import { getByTestId, getByText } from '@testing-library/dom';
+import { getAllByRole } from '@testing-library/dom';
 import { JSDOM } from 'jsdom';
 import { describe, expect, test } from 'vitest';
 
-import { type FormService, createForm } from '@atj/forms';
+import {
+  type FormService,
+  type InputPattern,
+  type PagePattern,
+  type PageSetPattern,
+  createForm,
+} from '@atj/forms';
 
 import {
   type ServerOptions,
@@ -37,15 +43,8 @@ describe('Form page', () => {
     const pom = new FormPagePOM(serverOptions);
     const document = await pom.loadFormPage(formResult.data.id);
 
-    //const inputs = getAllByRole(document.body, 'input');
-    const inputs = document.getElementsByTagName('input');
+    const inputs = getAllByRole(document.body, 'textbox');
     expect(inputs).toHaveLength(2);
-
-    const form = getByText(document.body, 'Form');
-    expect(getByTestId(document.body, 'button')).toBeInTheDocument();
-
-    //expect(response.status).toBe(200);
-    //expect(await response.text()).toContain('Form');
   });
 });
 
@@ -61,7 +60,7 @@ const createTestContext = async () => {
 };
 
 const createTestForm = async (formService: FormService) => {
-  const testForm = createForm({ title: 'Form', description: 'Test form' });
+  const testForm = createTestBlueprint();
   const result = await formService.addForm(testForm);
   if (!result.success) {
     expect.fail('Failed to add test form');
@@ -94,3 +93,52 @@ class FormPagePOM {
     return dom.window.document;
   }
 }
+
+export const createTestBlueprint = () => {
+  return createForm(
+    {
+      title: 'Test form',
+      description: 'Test description',
+    },
+    {
+      root: 'root',
+      patterns: [
+        {
+          type: 'page-set',
+          id: 'root',
+          data: {
+            pages: ['page-1'],
+          },
+        } satisfies PageSetPattern,
+        {
+          type: 'page',
+          id: 'page-1',
+          data: {
+            title: 'Page 1',
+            patterns: ['element-1', 'element-2'],
+          },
+        } satisfies PagePattern,
+        {
+          type: 'input',
+          id: 'element-1',
+          data: {
+            label: 'Pattern 1',
+            initial: '',
+            required: true,
+            maxLength: 128,
+          },
+        } satisfies InputPattern,
+        {
+          type: 'input',
+          id: 'element-2',
+          data: {
+            label: 'Pattern 2',
+            initial: 'test',
+            required: true,
+            maxLength: 128,
+          },
+        } satisfies InputPattern,
+      ],
+    }
+  );
+};

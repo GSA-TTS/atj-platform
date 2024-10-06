@@ -11,7 +11,6 @@ export const POST: APIRoute = async context => {
   });
   */
   const { formData, session } = await context.request.json();
-
   const ctx = await getAstroAppContext(context);
   const formId = context.params.id;
   if (formId === undefined) {

@@ -6,6 +6,7 @@ import { addForm } from './add-form.js';
 import { deleteForm } from './delete-form.js';
 import { getForm } from './get-form.js';
 import { getFormList } from './get-form-list.js';
+import { getFormSession } from './get-form-session.js';
 import { saveForm } from './save-form.js';
 import { submitForm } from './submit-form.js';
 
@@ -15,6 +16,7 @@ export const createFormService = (ctx: FormServiceContext) =>
     deleteForm,
     getForm,
     getFormList,
+    getFormSession,
     saveForm,
     submitForm,
   });
