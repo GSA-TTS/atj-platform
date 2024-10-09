@@ -1,6 +1,7 @@
 import { failure, success, type Result } from '@atj/common';
 import {
   type Blueprint,
+  type FormSession,
   type FormSessionId,
   applyPromptResponse,
   createFormOutputFieldData,
@@ -12,7 +13,7 @@ import {
 import { FormServiceContext } from '../context/index.js';
 import { type FormRoute } from '../route-data.js';
 
-type SubmitForm = (
+export type SubmitForm = (
   ctx: FormServiceContext,
   sessionId: FormSessionId | undefined,
   //session: FormSession, // TODO: load session from storage by ID
@@ -20,12 +21,14 @@ type SubmitForm = (
   formData: Record<string, string>,
   route?: FormRoute
 ) => Promise<
-  Result<
-    {
+  Result<{
+    sessionId: FormSessionId;
+    session: FormSession;
+    documents?: {
       fileName: string;
       data: Uint8Array;
-    }[]
-  >
+    }[];
+  }>
 >;
 
 export const submitForm: SubmitForm = async (
@@ -37,10 +40,7 @@ export const submitForm: SubmitForm = async (
 ) => {
   const form = await ctx.repository.getForm(formId);
   if (form === null) {
-    return Promise.resolve({
-      success: false,
-      error: 'Form not found',
-    });
+    return failure('Form not found');
   }
 
   const sessionResult = await getFormSessionOrCreate(
@@ -50,10 +50,7 @@ export const submitForm: SubmitForm = async (
     sessionId
   );
   if (!sessionResult.success) {
-    return Promise.resolve({
-      success: false,
-      error: 'Session not found',
-    });
+    return failure('Session not found');
   }
 
   //const session = getSessionFromStorage(ctx.storage, sessionId) || createFormSession(form);
@@ -64,18 +61,39 @@ export const submitForm: SubmitForm = async (
     data: formData,
   });
   if (!newSessionResult.success) {
-    return Promise.resolve({
-      success: false,
-      error: newSessionResult.error,
+    return failure(newSessionResult.error);
+  }
+
+  const saveFormSessionResult = await ctx.repository.upsertFormSession({
+    id: sessionId,
+    formId,
+    data: newSessionResult.data,
+  });
+  if (!saveFormSessionResult.success) {
+    return failure(saveFormSessionResult.error);
+  }
+
+  /* TODO: consider whether this is necessary, or should happen elsewhere. */
+  if (sessionIsComplete(ctx.config, newSessionResult.data)) {
+    const documentsResult = await generateDocumentPackage(
+      form,
+      newSessionResult.data.data.values
+    );
+    if (!documentsResult.success) {
+      return failure(documentsResult.error);
+    }
+
+    return success({
+      sessionId: saveFormSessionResult.data.id,
+      session: newSessionResult.data,
+      documents: documentsResult.data,
     });
   }
-  if (!sessionIsComplete(ctx.config, newSessionResult.data)) {
-    return Promise.resolve({
-      success: false,
-      error: 'Session is not complete',
-    });
-  }
-  return generateDocumentPackage(form, newSessionResult.data.data.values);
+
+  return success({
+    sessionId: saveFormSessionResult.data.id,
+    session: newSessionResult.data,
+  });
 };
 
 const getFormSessionOrCreate = async (
@@ -85,11 +103,11 @@ const getFormSessionOrCreate = async (
   sessionId?: FormSessionId
 ) => {
   if (sessionId === undefined) {
-    return Promise.resolve(success(createFormSession(form, route)));
+    return success(createFormSession(form, route));
   }
   const sessionResult = await ctx.repository.getFormSession(sessionId);
   if (!sessionResult.success) {
-    return Promise.resolve(failure('Session not found'));
+    return failure('Session not found');
   }
   return success(sessionResult.data.data);
 };

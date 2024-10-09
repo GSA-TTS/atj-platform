@@ -6,6 +6,7 @@ import {
   applyPromptResponse,
   createPrompt,
   type FormConfig,
+  type FormRoute,
   type FormSession,
   type PatternProps,
   type Prompt,
@@ -56,6 +57,17 @@ const usePrompt = (
   return { prompt, setPrompt, updatePrompt };
 };
 
+const getRouteUrl = (route?: FormRoute) => {
+  if (!route) {
+    return '';
+  } else {
+    const queryString = new URLSearchParams(
+      route.params as Record<string, string>
+    ).toString();
+    return `${route.url}?${queryString}`;
+  }
+};
+
 export default function Form({
   context,
   session,
@@ -93,13 +105,16 @@ export default function Form({
               <form
                 className="usa-form margin-bottom-3 maxw-full"
                 onSubmit={
-                  onSubmit &&
-                  formMethods.handleSubmit(async data => {
-                    updatePrompt(data);
-                    console.log('Submitting form...');
-                    onSubmit(data);
-                  })
+                  onSubmit
+                    ? formMethods.handleSubmit(async data => {
+                        updatePrompt(data);
+                        console.log('Submitting form...');
+                        onSubmit(data);
+                      })
+                    : undefined
                 }
+                method="POST"
+                action={getRouteUrl(session.route)}
               >
                 <FormContents context={context} prompt={prompt} />
               </form>

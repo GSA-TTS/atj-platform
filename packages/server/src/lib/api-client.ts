@@ -1,5 +1,11 @@
 import { type Result } from '@atj/common';
-import { FormSession, type Blueprint, type FormService } from '@atj/forms';
+import {
+  type FormRoute,
+  type FormSession,
+  type FormSessionId,
+  type Blueprint,
+  type FormService,
+} from '@atj/forms';
 import { type FormServiceContext } from '@atj/forms/context';
 
 type FormServiceClientContext = {
@@ -49,24 +55,26 @@ export class FormServiceClient implements FormService {
   }
 
   async submitForm(
-    sessionId: string | undefined,
+    sessionId: FormSessionId | undefined,
     formId: string,
     formData: Record<string, string>,
-    queryString?: string
+    route?: FormRoute
   ): Promise<
-    Result<
-      {
+    Result<{
+      sessionId: string;
+      session: FormSession;
+      documents: {
         fileName: string;
         data: Uint8Array;
-      }[]
-    >
+      }[];
+    }>
   > {
     const payload: any = { formId, formData };
     if (sessionId !== undefined) {
       payload['sessionId'] = sessionId;
     }
-    if (queryString !== undefined) {
-      payload['queryString'] = queryString;
+    if (route !== undefined) {
+      payload['route'] = route;
     }
 
     const response = await fetch(`${this.ctx.baseUrl}forms/${formId}`, {
@@ -77,6 +85,15 @@ export class FormServiceClient implements FormService {
       },
     });
     return await response.json();
+  }
+
+  async getFormSession(_opts: {
+    formId: string;
+    formRoute: FormRoute;
+    sessionId?: string;
+  }) {
+    throw new Error('Not implemented');
+    return {} as unknown as Promise<Result<FormSession, string>>;
   }
 
   getContext() {

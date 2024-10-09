@@ -49,9 +49,9 @@ export const AppFormPage = () => {
                     data
                   );
                   if (submission.success) {
-                    submission.data.forEach(document => {
+                    for (const document of submission.data.documents) {
                       downloadPdfDocument(document.fileName, document.data);
-                    });
+                    }
                   } else {
                     console.error(submission.error);
                   }

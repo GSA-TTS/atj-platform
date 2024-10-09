@@ -5,7 +5,7 @@ import { AvailableFormList } from '@atj/design';
 
 import { type AppContext } from '../config/context.js';
 import { getFormManagerUrlById, getFormUrl } from '../routes.js';
-import DebugTools from './DebugTools';
+import DebugTools from './DebugTools.js';
 
 export default ({ ctx }: { ctx: AppContext }) => {
   return (

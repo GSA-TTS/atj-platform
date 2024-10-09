@@ -8,7 +8,7 @@ type GetFormError = {
   message: string;
 };
 
-type GetForm = (
+export type GetForm = (
   ctx: FormServiceContext,
   formId: string
 ) => Promise<Result<Blueprint, GetFormError>>;

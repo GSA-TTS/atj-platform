@@ -15,6 +15,7 @@ import {
 import { createTestFormServiceContext } from '../testing.js';
 import { loadSamplePDF } from '../documents/__tests__/sample-data.js';
 import { submitForm } from './submit-form.js';
+import { object } from 'zod';
 
 describe('submitForm', () => {
   it('succeeds with empty form', async () => {
@@ -31,7 +32,11 @@ describe('submitForm', () => {
     const result = await submitForm(ctx, formSessionResult.data.id, id, {});
     expect(result).toEqual({
       success: true,
-      data: [],
+      data: {
+        session: session,
+        sessionId: formSessionResult.data.id,
+        documents: [],
+      },
     });
   });
 
@@ -87,7 +92,14 @@ describe('submitForm', () => {
     const result = await submitForm(ctx, formSessionResult.data.id, id, {
       'element-1': 'test',
     });
-    expect(result).toEqual({ success: true, data: [] });
+    expect(result).toEqual({
+      success: true,
+      data: {
+        session: expect.any(Object),
+        sessionId: formSessionResult.data.id,
+        documents: [],
+      },
+    });
   });
 
   it('returns a pdf with completed form', async () => {
@@ -111,12 +123,16 @@ describe('submitForm', () => {
     expect(result).toEqual(
       expect.objectContaining({
         success: true,
-        data: [
-          {
-            data: expect.any(Uint8Array),
-            fileName: 'test.pdf',
-          },
-        ],
+        data: {
+          session: expect.any(Object),
+          sessionId: formSessionResult.data.id,
+          documents: [
+            {
+              fileName: 'test.pdf',
+              data: expect.any(Uint8Array),
+            },
+          ],
+        },
       })
     );
   });
@@ -189,7 +205,7 @@ describe('submitForm', () => {
     });
     expect(result).toEqual({
       success: true,
-      data: [],
+      data: { documents: [] },
     });
   });
 });

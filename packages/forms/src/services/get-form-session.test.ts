@@ -24,9 +24,13 @@ describe('getFormSession', () => {
       expect.fail('Failed to get form session', sessionResult.error);
     }
     expect(sessionResult.data).toEqual({
-      form: form,
-      route: { url: `/ignored`, params: {} },
-      data: { errors: {}, values: {} },
+      id: sessionResult.data.id,
+      formId: formResult.data.id,
+      data: {
+        form: form,
+        route: { url: `/ignored`, params: {} },
+        data: { errors: {}, values: {} },
+      },
     });
   });
 
@@ -48,9 +52,41 @@ describe('getFormSession', () => {
     }
 
     expect(sessionResult.data).toEqual({
-      data: { errors: {}, values: {} },
-      form: testData.form,
-      route: { url: `/ignored`, params: {} },
+      id: testData.sessionId,
+      formId: testData.formId,
+      data: {
+        data: { errors: {}, values: {} },
+        form: testData.form,
+        route: { url: `/ignored`, params: {} },
+      },
+    });
+  });
+
+  it('Returns new, unsaved session if existing session is not found', async () => {
+    const ctx = await createTestFormServiceContext({
+      isUserLoggedIn: () => false,
+    });
+    const testData = await createTestFormSession(ctx);
+
+    const sessionResult = await getFormSession(ctx, {
+      formId: testData.formId,
+      formRoute: { url: `/ignored`, params: {} },
+      sessionId: 'non-existent-session-id',
+    });
+    if (!sessionResult.success) {
+      expect.fail(
+        `Failed to get inserted form session: ${sessionResult.error}`
+      );
+    }
+
+    expect(sessionResult.data).toEqual({
+      id: sessionResult.data.id,
+      formId: testData.formId,
+      data: {
+        data: { errors: {}, values: {} },
+        form: testData.form,
+        route: { url: `/ignored`, params: {} },
+      },
     });
   });
 });

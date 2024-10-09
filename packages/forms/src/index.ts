@@ -28,7 +28,11 @@ export {
   type FormRepository,
   createFormsRepository,
 } from './repository/index.js';
-export { type RouteData, getRouteDataFromQueryString } from './route-data.js';
+export {
+  type FormRoute,
+  type RouteData,
+  getRouteDataFromQueryString,
+} from './route-data.js';
 
 export type Blueprint = {
   summary: FormSummary;
