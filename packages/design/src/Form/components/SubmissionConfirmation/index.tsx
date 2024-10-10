@@ -5,10 +5,7 @@ import { type PatternComponent } from '../../../Form/index.js';
 
 const SubmissionConfirmation: PatternComponent<
   SubmissionConfirmationProps
-> = props => {
-  console.group('SubmissionConfirmation');
-  console.log(props);
-  console.groupEnd();
+> = (/* props */) => {
   return (
     <>
       <legend className="usa-legend usa-legend--large">
