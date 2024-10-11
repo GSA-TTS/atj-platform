@@ -7,10 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      playwright:
-        specifier: ^1.47.2
-        version: 1.48.0
     devDependencies:
       '@rollup/plugin-commonjs':
         specifier: ^26.0.1
@@ -10636,6 +10632,7 @@ packages:
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
     requiresBuild: true
+    dev: true
     optional: true
 
   /fsevents@2.3.3:
@@ -15277,6 +15274,7 @@ packages:
     resolution: {integrity: sha512-RBvzjM9rdpP7UUFrQzRwR8L/xR4HyC1QXMzGYTbf1vjw25/ya9NRAVnXi/0fvFopjebvyPzsmoK58xxeEOaVvA==}
     engines: {node: '>=18'}
     hasBin: true
+    dev: true
 
   /playwright@1.48.0:
     resolution: {integrity: sha512-qPqFaMEHuY/ug8o0uteYJSRfMGFikhUysk8ZvAtfKmUK3kc/6oNl/y3EczF8OFGYIi/Ex2HspMfzYArk6+XQSA==}
@@ -15286,6 +15284,7 @@ packages:
       playwright-core: 1.48.0
     optionalDependencies:
       fsevents: 2.3.2
+    dev: true
 
   /plugin-error@1.0.1:
     resolution: {integrity: sha512-L1zP0dk7vGweZME2i+EeakvUNqSrdiI3F91TwEoYiGrAfUXmVv6fJIq4g82PAXxNsWOp0J7ZqQy/3Szz0ajTxA==}
