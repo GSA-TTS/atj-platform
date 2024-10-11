@@ -1,9 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-
 import { defaultFormConfig, type PatternConfig } from '@atj/forms';
-
 import { useFormManagerStore } from '../store.js';
-
 import styles from './formEditStyles.module.css';
 import blockIcon from './images/block-icon.svg';
 import checkboxIcon from './images/checkbox-icon.svg';
@@ -22,7 +19,7 @@ import classNames from 'classnames';
 const icons: Record<string, string | any> = {
   'block-icon.svg': blockIcon,
   'checkbox-icon.svg': checkboxIcon,
-  'date-icon.svg.svg': dateIcon,
+  'date-icon.svg': dateIcon,
   'dropdown-icon.svg': dropDownIcon,
   'dropdownoption-icon.svg': dropDownOptionIcon,
   'richtext-icon.svg': richTextIcon,
@@ -37,9 +34,14 @@ const getIconPath = (iconPath: string) => {
   return Object.values(icons[iconPath])[0] as string;
 };
 
+interface PatternMenuProps {
+  patternSelected: (patternType: string) => void;
+  title: string;
+}
+
 export const AddPatternMenu = () => {
-  const addPage = useFormManagerStore(state => state.addPage);
-  const { addPattern } = useFormManagerStore(state => ({
+  const { addPage, addPattern } = useFormManagerStore(state => ({
+    addPage: state.addPage,
     addPattern: state.addPattern,
   }));
 
@@ -59,31 +61,45 @@ export const AddPatternMenu = () => {
             />
           </li>
           <li className="tablet:grid-col-12 grid-col-5 text-center">
-            <button
-              className={`${styles.dropdownButton} tablet:width-full text-left width-auto text-base-darkest text-normal padding-0 bg-white border-0 cursor-pointer`}
-              onClick={() => {
-                addPage();
-              }}
-            >
-              <span className="tablet:display-inline-block tablet:width-auto tablet:margin-right-1 display-block width-full text-ttop text-center">
-                <img
-                  className="usa-icon"
-                  src={getIconPath('page-icon.svg')}
-                  alt=""
-                  width="24"
-                  height="24"
-                />
-              </span>
-              <span className="display-inline-block text-ttop tablet:width-auto width-9 text-center">
-                Page
-              </span>
-            </button>
+            <MenuItemButton
+              title="Page"
+              onClick={addPage}
+              iconPath="page-icon.svg"
+            />
           </li>
         </ul>
       </div>
     </fieldset>
   );
 };
+
+const MenuItemButton = ({
+  title,
+  onClick,
+  iconPath,
+}: {
+  title: string;
+  onClick: () => void;
+  iconPath: string;
+}) => (
+  <button
+    className={`${styles.dropdownButton} tablet:width-full text-left width-auto text-base-darkest text-normal padding-0 bg-white border-0 cursor-pointer`}
+    onClick={onClick}
+  >
+    <span className="tablet:display-inline-block tablet:width-auto tablet:margin-right-1 display-block width-full text-ttop text-center">
+      <img
+        className="usa-icon"
+        src={getIconPath(iconPath)}
+        alt=""
+        width="24"
+        height="24"
+      />
+    </span>
+    <span className="display-inline-block text-ttop tablet:width-auto width-9 text-center">
+      {title}
+    </span>
+  </button>
+);
 
 type DropdownPattern = [string, PatternConfig];
 const sidebarPatterns: DropdownPattern[] = [
@@ -92,23 +108,17 @@ const sidebarPatterns: DropdownPattern[] = [
   ['input', defaultFormConfig.patterns['input']],
   ['paragraph', defaultFormConfig.patterns['paragraph']],
   ['rich-text', defaultFormConfig.patterns['rich-text']],
+  ['repeater', defaultFormConfig.patterns['repeater']],
   ['radio-group', defaultFormConfig.patterns['radio-group']],
 ] as const;
-export const fieldsetPatterns: DropdownPattern[] = [
-  ['form-summary', defaultFormConfig.patterns['form-summary']],
-  ['input', defaultFormConfig.patterns['input']],
-  ['paragraph', defaultFormConfig.patterns['paragraph']],
-  ['rich-text', defaultFormConfig.patterns['rich-text']],
-  ['radio-group', defaultFormConfig.patterns['radio-group']],
-] as const;
+export const fieldsetPatterns: DropdownPattern[] = sidebarPatterns.filter(
+  ([key]) => key !== 'fieldset' && key !== 'repeater'
+);
 
 export const SidebarAddPatternMenuItem = ({
   patternSelected,
   title,
-}: {
-  patternSelected: (patternType: string) => void;
-  title: string;
-}) => {
+}: PatternMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const { uswdsRoot } = useFormManagerStore(state => ({
     uswdsRoot: state.context.uswdsRoot,
@@ -137,7 +147,6 @@ export const SidebarAddPatternMenuItem = ({
             <use xlinkHref={`${uswdsRoot}img/sprite.svg#add_circle`}></use>
           </svg>
         </span>
-
         <span className="display-inline-block text-ttop tablet:width-auto text-center">
           <span className="display-inline-block text-ttop margin-right-1 width-9">
             {title}
@@ -155,17 +164,15 @@ export const SidebarAddPatternMenuItem = ({
   );
 };
 
-export const FieldsetAddPatternButton = ({
+export const CompoundAddPatternButton = ({
   patternSelected,
   title,
-}: {
-  patternSelected: (patternType: string) => void;
-  title: string;
-}) => {
+}: PatternMenuProps) => {
   const { uswdsRoot } = useFormManagerStore(state => ({
     uswdsRoot: state.context.uswdsRoot,
   }));
   const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div
       className={classNames(styles.dottedLine, 'margin-top-2 cursor-default')}
@@ -203,13 +210,10 @@ export const FieldsetAddPatternButton = ({
   );
 };
 
-export const FieldsetEmptyStateAddPatternButton = ({
+export const CompoundAddNewPatternButton = ({
   patternSelected,
   title,
-}: {
-  patternSelected: (patternType: string) => void;
-  title: string;
-}) => {
+}: PatternMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <AddPatternDropdown

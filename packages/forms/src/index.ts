@@ -24,6 +24,7 @@ import { type PageSetPattern } from './patterns/page-set/config.js';
 export { type RichTextPattern } from './patterns/rich-text.js';
 import { type SequencePattern } from './patterns/sequence.js';
 import { FieldsetPattern } from './patterns/index.js';
+import { RepeaterPattern } from './patterns/index.js';
 export {
   type FormRepository,
   createFormsRepository,
@@ -486,6 +487,45 @@ export const addPatternToFieldset = (
   const fieldsetPattern = bp.patterns[fieldsetPatternId] as FieldsetPattern;
   if (fieldsetPattern.type !== 'fieldset') {
     throw new Error('Pattern is not a page.');
+  }
+
+  let updatedPagePattern: PatternId[];
+
+  if (index !== undefined) {
+    updatedPagePattern = [
+      ...fieldsetPattern.data.patterns.slice(0, index + 1),
+      pattern.id,
+      ...fieldsetPattern.data.patterns.slice(index + 1),
+    ];
+  } else {
+    updatedPagePattern = [...fieldsetPattern.data.patterns, pattern.id];
+  }
+
+  return {
+    ...bp,
+    patterns: {
+      ...bp.patterns,
+      [fieldsetPattern.id]: {
+        ...fieldsetPattern,
+        data: {
+          ...fieldsetPattern.data,
+          patterns: updatedPagePattern,
+        },
+      } satisfies FieldsetPattern,
+      [pattern.id]: pattern,
+    },
+  };
+};
+
+export const addPatternToRepeater = (
+  bp: Blueprint,
+  fieldsetPatternId: PatternId,
+  pattern: Pattern,
+  index?: number
+): Blueprint => {
+  const fieldsetPattern = bp.patterns[fieldsetPatternId] as FieldsetPattern;
+  if (fieldsetPattern.type !== 'repeater') {
+    throw new Error('Pattern is not a repeater.');
   }
 
   let updatedPagePattern: PatternId[];
