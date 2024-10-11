@@ -43,8 +43,5 @@
     "typescript": "^5.5.4",
     "vitest": "^2.1.2",
     "vitest-mock-extended": "^2.0.0"
-  },
-  "dependencies": {
-    "playwright": "^1.47.2"
   }
 }
