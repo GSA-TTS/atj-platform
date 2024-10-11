@@ -87,6 +87,15 @@ export const validatePattern = (
   }
   const parseResult = patternConfig.parseUserInput(pattern, value);
   if (!parseResult.success) {
+    if ('required' in pattern.data) {
+      if (pattern.data.required === false && !value) {
+        console.log('Parse result failed for blank input that is not required');
+        return {
+          success: true,
+          data: value,
+        };
+      }
+    }
     return {
       success: false,
       error: parseResult.error,

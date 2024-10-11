@@ -1,4 +1,9 @@
-import { PDFDocument, type PDFForm } from 'pdf-lib';
+import {
+  PDFDocument,
+  PDFName,
+  createPDFAcroFields,
+  type PDFForm,
+} from 'pdf-lib';
 
 import { Result } from '@atj/common';
 import { type FormOutput } from '../../index.js';
@@ -119,14 +124,21 @@ const setFormFieldData = (
       const field = form.getRadioGroup(fieldName);
       field.select(fieldValue);
     } catch (error: any) {
-      console.error(
-        `error setting radio field: ${fieldName}: ${error.message}`
-      );
-      const field = form.getCheckBox(fieldName);
-      if (fieldValue) {
-        field.check();
+      // This logic should work even if pdf-lib misidentifies the field type
+      // TODO: radioParent should contain the name, not the id
+      const [radioParent, radioChild] = fieldValue.split('.');
+      if (radioChild) {
+        // TODO: resolve import failure when spaces are present in name, id
+        const radioChildWithSpace = radioChild.replace('_', ' ');
+        const field = form.getField(fieldName);
+        const acroField = field.acroField;
+        acroField.dict.set(PDFName.of('V'), PDFName.of(radioChildWithSpace));
+        const kids = createPDFAcroFields(acroField.Kids()).map(_ => _[0]);
+        kids.forEach(kid => {
+          kid.dict.set(PDFName.of('AS'), PDFName.of(radioChildWithSpace));
+        });
       } else {
-        field.uncheck();
+        // do nothing
       }
     }
   } else if (fieldType === 'Paragraph' || fieldType === 'RichText') {
