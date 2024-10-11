@@ -23,6 +23,7 @@ import {
 } from '../index.js';
 import { type PageSetPattern } from '../patterns/page-set/config.js';
 import { type FieldsetPattern } from '../patterns/fieldset/index.js';
+import { type RepeaterPattern } from '../patterns/repeater/index.js';
 
 export class BlueprintBuilder {
   bp: Blueprint;
@@ -117,13 +118,13 @@ export class BlueprintBuilder {
     return pattern;
   }
 
-  addPatternToRepeater(patternType: string, fieldsetPatternId: PatternId) {
+  addPatternToRepeater(patternType: string, patternId: PatternId) {
     const pattern = createDefaultPattern(this.config, patternType);
-    const root = this.form.patterns[fieldsetPatternId] as FieldsetPattern;
+    const root = this.form.patterns[patternId] as RepeaterPattern;
     if (root.type !== 'repeater') {
       throw new Error('expected pattern to be a repeater');
     }
-    this.bp = addPatternToRepeater(this.form, fieldsetPatternId, pattern);
+    this.bp = addPatternToRepeater(this.form, patternId, pattern);
     return pattern;
   }
 
