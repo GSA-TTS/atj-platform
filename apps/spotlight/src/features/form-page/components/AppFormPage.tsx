@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { defaultPatternComponents, Form } from '@atj/design';
 import { defaultFormConfig } from '@atj/forms';
@@ -11,32 +11,42 @@ export const AppFormPage = () => {
   const ctx = getAppContext();
   return (
     <FormRouter formService={ctx.formService}>
-      {({ id: formId, routeParams, pathname }) => {
-        const { sessionResponse } = useFormSession({
+      {({ id: formId, route }) => {
+        const { formSessionResponse, setFormSession } = useFormSession({
           formId,
           formService: ctx.formService,
-          routeParams,
-          pathname,
+          route,
         });
+        useEffect(() => {
+          if (formSessionResponse.status !== 'loaded') {
+            return;
+          }
+          setFormSession({
+            ...formSessionResponse.formSession,
+            route,
+          });
+        }, [route]);
         return (
           <>
-            {sessionResponse.status === 'loading' && <div>Loading...</div>}
-            {sessionResponse.status === 'error' && (
+            {formSessionResponse.status === 'loading' && <div>Loading...</div>}
+            {formSessionResponse.status === 'error' && (
               <div className="usa-alert usa-alert--error" role="alert">
                 <div className="usa-alert__body">
                   <h4 className="usa-alert__heading">Error loading form</h4>
-                  <p className="usa-alert__text">{sessionResponse.message}</p>
+                  <p className="usa-alert__text">
+                    {formSessionResponse.message}
+                  </p>
                 </div>
               </div>
             )}
-            {sessionResponse.status === 'loaded' && (
+            {formSessionResponse.status === 'loaded' && (
               <Form
                 context={{
                   config: defaultFormConfig,
                   components: defaultPatternComponents,
                   uswdsRoot: ctx.uswdsRoot,
                 }}
-                session={sessionResponse.formSession}
+                session={formSessionResponse.formSession}
                 onSubmit={async data => {
                   /*const newSession = applyPromptResponse(
                     config,
@@ -49,7 +59,7 @@ export const AppFormPage = () => {
                     data
                   );
                   if (submission.success) {
-                    for (const document of submission.data.documents) {
+                    for (const document of submission.data.documents || []) {
                       downloadPdfDocument(document.fileName, document.data);
                     }
                   } else {

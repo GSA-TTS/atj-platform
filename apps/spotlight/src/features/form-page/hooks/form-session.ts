@@ -5,10 +5,12 @@ import { type FormService, type FormSession, type RouteData } from '@atj/forms';
 export const useFormSession = (opts: {
   formService: FormService;
   formId: string;
-  routeParams: RouteData;
-  pathname: string;
+  route: {
+    params: RouteData;
+    url: string;
+  };
 }) => {
-  const [sessionResponse, setSessionResponse] = useState<
+  const [formSessionResponse, setFormSessionResponse] = useState<
     | { status: 'loading' }
     | { status: 'error'; message: string }
     | { status: 'loaded'; formSession: FormSession }
@@ -18,25 +20,30 @@ export const useFormSession = (opts: {
       .getFormSession({
         formId: opts.formId,
         formRoute: {
-          params: opts.routeParams,
-          url: `#${opts.pathname}`,
+          params: opts.route.params,
+          url: `#${opts.route.url}`,
         },
         //sessionId: undefined,
       })
       .then(result => {
         if (result.success === false) {
           console.error(result.error);
-          setSessionResponse({
+          setFormSessionResponse({
             status: 'error',
             message: result.error,
           });
         } else {
-          setSessionResponse({
+          setFormSessionResponse({
             status: 'loaded',
-            formSession: result.data,
+            formSession: result.data.data,
           });
         }
       });
   }, []);
-  return { sessionResponse };
+  return {
+    formSessionResponse,
+    setFormSession: (formSession: FormSession) => {
+      setFormSessionResponse({ status: 'loaded', formSession });
+    },
+  };
 };

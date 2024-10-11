@@ -8,8 +8,10 @@ import { useRouteParams } from '../hooks/route-params.js';
 type FormRouterProps = {
   children: (props: {
     id: string;
-    routeParams: qs.ParsedQs;
-    pathname: string;
+    route: {
+      params: qs.ParsedQs;
+      url: string;
+    };
   }) => ReactElement;
   formService: FormService;
 };
@@ -22,11 +24,11 @@ export const FormRouter = ({ children }: FormRouterProps) => {
           path="/:id"
           Component={() => {
             const { id } = useParams();
-            const { routeParams, pathname } = useRouteParams();
+            const route = useRouteParams();
             if (id === undefined) {
               return <div>id is undefined</div>;
             }
-            return children({ id, routeParams, pathname });
+            return children({ id, route });
           }}
         />
       </Routes>
