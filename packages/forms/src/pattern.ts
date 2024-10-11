@@ -86,7 +86,27 @@ export const validatePattern = (
     };
   }
   const parseResult = patternConfig.parseUserInput(pattern, value);
+
   if (!parseResult.success) {
+    console.log('validating value:', value);
+    console.log('validating pattern:', pattern);
+    console.log('parseResult:', parseResult);
+    console.log('pattern.data.required:', pattern.data.required);
+    // check if required exists in pattern data
+    if ('required' in pattern.data) {
+      if (pattern.data.required === false) {
+        return {
+          success: true,
+          data: value,
+        };
+      }
+    } else {
+      return {
+        success: true,
+        data: value,
+      };
+    }
+
     return {
       success: false,
       error: parseResult.error,

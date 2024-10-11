@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { MyForms } from '../routes.js';
@@ -42,6 +43,10 @@ export const TopNavigation = ({
 }) => {
   const uswdsRoot = useFormManagerStore(state => state.context.uswdsRoot);
   const lastSaved = useFormManagerStore(state => state.saveStatus.lastSaved);
+  const location = useLocation();
+  const queryString = location.search.startsWith('?')
+    ? location.search.substring(1)
+    : location.search;
   return (
     <div className="position-sticky top-0 z-100 bg-white border-bottom border-bottom-width-1px border-base-lighter padding-1">
       <div className="grid-container grid-row margin-bottom-105 display-block tablet:display-none">
@@ -125,7 +130,7 @@ export const TopNavigation = ({
               </span>
               {preview && (
                 <a
-                  href={preview}
+                  href={`${preview}?${queryString}`}
                   className="usa-button usa-button--outline margin-left-1 display-inline-block text-middle"
                 >
                   Preview

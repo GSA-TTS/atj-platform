@@ -88,6 +88,7 @@ export const AddPatternMenu = () => {
 type DropdownPattern = [string, PatternConfig];
 const sidebarPatterns: DropdownPattern[] = [
   ['form-summary', defaultFormConfig.patterns['form-summary']],
+  ['checkbox', defaultFormConfig.patterns['checkbox']],
   ['fieldset', defaultFormConfig.patterns['fieldset']],
   ['input', defaultFormConfig.patterns['input']],
   ['paragraph', defaultFormConfig.patterns['paragraph']],
@@ -96,6 +97,7 @@ const sidebarPatterns: DropdownPattern[] = [
 ] as const;
 export const fieldsetPatterns: DropdownPattern[] = [
   ['form-summary', defaultFormConfig.patterns['form-summary']],
+  ['checkbox', defaultFormConfig.patterns['checkbox']],
   ['input', defaultFormConfig.patterns['input']],
   ['paragraph', defaultFormConfig.patterns['paragraph']],
   ['rich-text', defaultFormConfig.patterns['rich-text']],

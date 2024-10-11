@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Notifications } from '../Notifications/index.js';
 import { type NavPage, TopNavigation } from './TopNavigation.js';
-import { BottomNavigation } from './BottomNavigation.js';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useFormManagerStore } from '../store.js';
@@ -20,9 +19,6 @@ type FormManagerLayoutProps = {
 export const FormManagerLayout = ({
   children,
   step,
-  back,
-  close,
-  next,
   preview,
 }: FormManagerLayoutProps) => {
   const location = useLocation();
@@ -45,7 +41,6 @@ export const FormManagerLayout = ({
           </div>
         </div>
       </section>
-      {step && <BottomNavigation back={back} next={next} close={close} />}
     </>
   );
 };

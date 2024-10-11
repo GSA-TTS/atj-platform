@@ -85,7 +85,7 @@ export default function CreateNew() {
         <li className="usa-card tablet:grid-col-6">
           <div className="usa-card__container border-1px border-base-lighter radius-md">
             <div className="usa-card__header">
-              <h2 className="usa-card__heading">Start from Import</h2>
+              <h2 className="usa-card__heading">Start from Existing Form</h2>
             </div>
             <div className="usa-card__media bg-primary-lighter">
               <div className="usa-card__img bg-primary-lighter">
@@ -102,7 +102,7 @@ export default function CreateNew() {
               </div>
             </div>
             <div className="usa-card__body margin-bottom-4">
-              <p>Mold your new form from imported pdf contents.</p>
+              <p>Jump start your new web form by importing a pdf form.</p>
             </div>
             <div className="usa-card__footer">
               <div className="usa-file-input usa-sr-only">

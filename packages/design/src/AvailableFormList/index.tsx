@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { type FormService } from '@atj/forms';
 
 import * as AppRoutes from '../FormManager/routes.js';
 
-type FormDetails = {
+export type FormDetails = {
   id: string;
   title: string;
   description: string;
@@ -23,16 +23,22 @@ export default function AvailableFormList({
   urlForFormManager: UrlForFormManager;
 }) {
   const [forms, setForms] = useState<FormDetails[]>([]);
+  const navigate = useNavigate(); // like Navigate, but for side effects/event handlers
+
   useEffect(() => {
     formService.getFormList().then(result => {
       if (result.success) {
-        setForms(result.data);
+        if (result.data.length === 0) {
+          navigate(AppRoutes.GuidedFormCreation.path); // show create if user has no forms
+        } else {
+          setForms(result.data);
+        }
       }
     });
-  }, []);
+  }, [formService, navigate]); // Add formService, navigate as deps to side effect
   return (
     <>
-      <section className="padding-y-3 desktop:margin-top-10 border-base-lighter border-y">
+      <section className="padding-y-3 border-base-lighter border-y">
         <div className="grid-container">
           <div className="grid-row flex-justify-center">
             <div className="grid-col-12 tablet:grid-col-12 desktop:grid-col-12">
