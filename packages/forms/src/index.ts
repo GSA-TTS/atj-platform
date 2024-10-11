@@ -519,12 +519,12 @@ export const addPatternToFieldset = (
 
 export const addPatternToRepeater = (
   bp: Blueprint,
-  fieldsetPatternId: PatternId,
+  repeaterPatternId: PatternId,
   pattern: Pattern,
   index?: number
 ): Blueprint => {
-  const fieldsetPattern = bp.patterns[fieldsetPatternId] as FieldsetPattern;
-  if (fieldsetPattern.type !== 'repeater') {
+  const repeaterPattern = bp.patterns[repeaterPatternId] as RepeaterPattern;
+  if (repeaterPattern.type !== 'repeater') {
     throw new Error('Pattern is not a repeater.');
   }
 
@@ -532,25 +532,25 @@ export const addPatternToRepeater = (
 
   if (index !== undefined) {
     updatedPagePattern = [
-      ...fieldsetPattern.data.patterns.slice(0, index + 1),
+      ...repeaterPattern.data.patterns.slice(0, index + 1),
       pattern.id,
-      ...fieldsetPattern.data.patterns.slice(index + 1),
+      ...repeaterPattern.data.patterns.slice(index + 1),
     ];
   } else {
-    updatedPagePattern = [...fieldsetPattern.data.patterns, pattern.id];
+    updatedPagePattern = [...repeaterPattern.data.patterns, pattern.id];
   }
 
   return {
     ...bp,
     patterns: {
       ...bp.patterns,
-      [fieldsetPattern.id]: {
-        ...fieldsetPattern,
+      [repeaterPattern.id]: {
+        ...repeaterPattern,
         data: {
-          ...fieldsetPattern.data,
+          ...repeaterPattern.data,
           patterns: updatedPagePattern,
         },
-      } satisfies FieldsetPattern,
+      } satisfies RepeaterPattern,
       [pattern.id]: pattern,
     },
   };
