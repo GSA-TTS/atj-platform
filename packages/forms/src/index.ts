@@ -485,18 +485,21 @@ export const addPatternToCompoundField = (
   type: 'fieldset' | 'repeater',
   index?: number
 ): Blueprint => {
-  const targetPattern = bp.patterns[patternId] as FieldsetPattern | RepeaterPattern;
+  const targetPattern = bp.patterns[patternId] as
+    | FieldsetPattern
+    | RepeaterPattern;
   if (targetPattern.type !== type) {
     throw new Error(`Pattern is not a ${type}.`);
   }
 
-  const updatedPatterns = index !== undefined
-    ? [
-      ...targetPattern.data.patterns.slice(0, index + 1),
-      pattern.id,
-      ...targetPattern.data.patterns.slice(index + 1),
-    ]
-    : [...targetPattern.data.patterns, pattern.id];
+  const updatedPatterns =
+    index !== undefined
+      ? [
+          ...targetPattern.data.patterns.slice(0, index + 1),
+          pattern.id,
+          ...targetPattern.data.patterns.slice(index + 1),
+        ]
+      : [...targetPattern.data.patterns, pattern.id];
 
   return {
     ...bp,
@@ -520,7 +523,13 @@ export const addPatternToFieldset = (
   pattern: Pattern,
   index?: number
 ): Blueprint => {
-  return addPatternToCompoundField(bp, fieldsetPatternId, pattern, 'fieldset', index);
+  return addPatternToCompoundField(
+    bp,
+    fieldsetPatternId,
+    pattern,
+    'fieldset',
+    index
+  );
 };
 
 export const addPatternToRepeater = (
@@ -529,7 +538,13 @@ export const addPatternToRepeater = (
   pattern: Pattern,
   index?: number
 ): Blueprint => {
-  return addPatternToCompoundField(bp, repeaterPatternId, pattern, 'repeater', index);
+  return addPatternToCompoundField(
+    bp,
+    repeaterPatternId,
+    pattern,
+    'repeater',
+    index
+  );
 };
 
 export const addPageToPageSet = (
