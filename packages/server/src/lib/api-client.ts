@@ -91,9 +91,10 @@ export class FormServiceClient implements FormService {
     formId: string;
     formRoute: FormRoute;
     sessionId?: string;
-  }) {
+  }): Promise<
+    Result<{ id?: string | undefined; formId: string; data: FormSession }>
+  > {
     throw new Error('Not implemented');
-    return {} as unknown as Promise<Result<FormSession, string>>;
   }
 
   getContext() {

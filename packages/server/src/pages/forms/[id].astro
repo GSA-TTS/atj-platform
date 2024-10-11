@@ -26,6 +26,11 @@ const setFormSessionCookie = (sessionId?: string) => {
   }
 };
 
+const formRoute = {
+  params: getRouteDataFromQueryString(getSearchString(Astro)),
+  url: Astro.url.pathname,
+};
+
 const getNextUrl = (route?: FormRoute) => {
   if (!route) {
     return Astro.request.url;
@@ -35,11 +40,6 @@ const getNextUrl = (route?: FormRoute) => {
     ).toString();
     return `${route.url}?${queryString}`;
   }
-};
-
-const formRoute = {
-  params: getRouteDataFromQueryString(getSearchString(Astro)),
-  url: Astro.url.pathname,
 };
 
 if (Astro.request.method === 'POST') {
