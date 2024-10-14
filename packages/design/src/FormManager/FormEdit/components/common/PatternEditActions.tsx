@@ -25,10 +25,13 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
   const isPatternInCompound = useMemo(() => {
     if (!focusPatternId) return false;
     return patterns.some(
-      p => (p.type === 'fieldset' || p.type === 'repeater') && p.data.patterns.includes(focusPatternId)
+      p =>
+        (p.type === 'fieldset' || p.type === 'repeater') &&
+        p.data.patterns.includes(focusPatternId)
     );
   }, [focusPatternId, patterns]);
-  const isCompound = focusPatternType === 'repeater' || focusPatternType === 'fieldset';
+  const isCompound =
+    focusPatternType === 'repeater' || focusPatternType === 'fieldset';
   const isPagePattern = focusPatternType === 'page';
   const { copyPattern } = useFormManagerStore(state => ({
     copyPattern: state.copyPattern,
@@ -36,26 +39,26 @@ export const PatternEditActions = ({ children }: PatternEditActionsProps) => {
   const pages = useFormManagerStore(state =>
     Object.values(state.session.form.patterns).filter(p => p.type === 'page')
   );
-  const fieldsets = useFormManagerStore(state =>
+  const compoundFields = useFormManagerStore(state =>
     Object.values(state.session.form.patterns).filter(
-      p => p.type === 'fieldset'
+      p => p.type === 'fieldset' || p.type === 'repeater'
     )
   );
   const handleCopyPattern = () => {
     const currentPageIndex = pages.findIndex(page =>
       page.data.patterns.includes(focusPatternId || '')
     );
-    const currentFieldsetIndex = fieldsets.findIndex(fieldset =>
-      fieldset.data.patterns.includes(focusPatternId)
+    const compoundFieldIndex = compoundFields.findIndex(compoundField =>
+      compoundField.data.patterns.includes(focusPatternId)
     );
     const sourcePagePatternId = pages[currentPageIndex]?.id;
-    const sourceFieldsetPatternId = fieldsets[currentFieldsetIndex]?.id;
+    const sourceCompoundFieldPatternId = compoundFields[compoundFieldIndex]?.id;
 
     if (focusPatternId) {
       if (sourcePagePatternId) {
         copyPattern(sourcePagePatternId, focusPatternId);
       } else {
-        copyPattern(sourceFieldsetPatternId, focusPatternId);
+        copyPattern(sourceCompoundFieldPatternId, focusPatternId);
       }
     }
   };
