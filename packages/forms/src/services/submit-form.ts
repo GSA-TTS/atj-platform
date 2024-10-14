@@ -16,7 +16,6 @@ import { type FormRoute } from '../route-data.js';
 export type SubmitForm = (
   ctx: FormServiceContext,
   sessionId: FormSessionId | undefined,
-  //session: FormSession, // TODO: load session from storage by ID
   formId: string,
   formData: Record<string, string>,
   route?: FormRoute
