@@ -3,14 +3,14 @@ import { type FormRoute, getRouteDataFromQueryString } from '@atj/forms';
 
 import { AppForm } from '../../components/AppForm';
 import {
-  getAstroAppContext,
+  getServerContext,
   getAstroRouteParams,
   getSearchString,
 } from '../../config/astro.js';
 import ContentLayout from '../../layouts/ContentLayout.astro';
 
 const { id: formId } = getAstroRouteParams(Astro, ['id']);
-const ctx = await getAstroAppContext(Astro);
+const ctx = await getServerContext(Astro);
 
 const sessionId = Astro.cookies.get('form_session_id')?.value;
 

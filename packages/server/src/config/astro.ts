@@ -11,7 +11,7 @@ import { type AppContext } from './context.js';
 import { type ServerOptions, createDevServerOptions } from './options.js';
 import { createServerFormService } from './services.js';
 
-export const getAstroAppContext = async (Astro: any): Promise<AppContext> => {
+export const getServerContext = async (Astro: any): Promise<AppContext> => {
   if (!Astro.locals.ctx) {
     Astro.locals.ctx = await createAstroAppContext(
       Astro,
