@@ -30,6 +30,11 @@ export const en = {
       displayName: 'Paragraph',
       errorTextMustContainChar: 'String must contain at least 1 character(s)',
     },
+    richText: {
+      fieldLabel: 'Rich text',
+      displayName: 'Rich text',
+      errorTextMustContainChar: 'String must contain at least 1 character(s)',
+    },
     radioGroup: {
       ...defaults,
       displayName: 'Radio group label',

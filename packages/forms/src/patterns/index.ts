@@ -9,6 +9,7 @@ import { pageConfig } from './page/index.js';
 import { pageSetConfig } from './page-set/index.js';
 import { paragraphConfig } from './paragraph.js';
 import { radioGroupConfig } from './radio-group.js';
+import { richTextConfig } from './rich-text.js';
 import { sequenceConfig } from './sequence.js';
 
 // This configuration reflects what a user of this library would provide for
@@ -24,6 +25,7 @@ export const defaultFormConfig: FormConfig = {
     page: pageConfig,
     'page-set': pageSetConfig,
     paragraph: paragraphConfig,
+    'rich-text': richTextConfig,
     'radio-group': radioGroupConfig,
     sequence: sequenceConfig,
   },
