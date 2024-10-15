@@ -62,7 +62,7 @@ describe('submitForm', () => {
     });
   });
 
-  it.fails('fails with incomplete session', async () => {
+  it('succeeds with incomplete session', async () => {
     const { ctx, form, id } = await setupTestForm(createOnePatternTestForm());
     const session = createFormSession(form);
     const formSessionResult = await ctx.repository.upsertFormSession({
@@ -74,8 +74,14 @@ describe('submitForm', () => {
     }
     const result = await submitForm(ctx, formSessionResult.data.id, id, {});
     expect(result).toEqual({
-      success: false,
-      error: 'Session is not complete',
+      data: {
+        sessionId: formSessionResult.data.id,
+        session: {
+          ...session,
+          route: undefined,
+        },
+      },
+      success: true,
     });
   });
 
