@@ -1,9 +1,14 @@
 import { defineWorkspace } from 'vitest/config';
 
 export default defineWorkspace([
-  'apps/*',
+  'apps/*/vitest.config.ts',
   'infra/*',
-  // the design package is run separately due to the browser environment
-  '!packages/design',
-  'packages/*'
+  'packages/auth',
+  'packages/common',
+  'packages/database',
+  'packages/dependency-graph',
+  //'packages/design',
+  'packages/forms',
+  'packages/server/vitest.config.ts',
+  'packages/server/vitest.config.browser.ts',
 ]);
