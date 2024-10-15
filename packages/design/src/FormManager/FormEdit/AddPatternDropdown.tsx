@@ -90,6 +90,7 @@ const sidebarPatterns: DropdownPattern[] = [
   ['form-summary', defaultFormConfig.patterns['form-summary']],
   ['fieldset', defaultFormConfig.patterns['fieldset']],
   ['input', defaultFormConfig.patterns['input']],
+  ['checkbox', defaultFormConfig.patterns['checkbox']],
   ['paragraph', defaultFormConfig.patterns['paragraph']],
   ['rich-text', defaultFormConfig.patterns['rich-text']],
   ['radio-group', defaultFormConfig.patterns['radio-group']],
@@ -97,6 +98,7 @@ const sidebarPatterns: DropdownPattern[] = [
 export const fieldsetPatterns: DropdownPattern[] = [
   ['form-summary', defaultFormConfig.patterns['form-summary']],
   ['input', defaultFormConfig.patterns['input']],
+  ['checkbox', defaultFormConfig.patterns['checkbox']],
   ['paragraph', defaultFormConfig.patterns['paragraph']],
   ['rich-text', defaultFormConfig.patterns['rich-text']],
   ['radio-group', defaultFormConfig.patterns['radio-group']],
