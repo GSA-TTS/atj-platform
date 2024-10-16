@@ -106,6 +106,7 @@ const sidebarPatterns: DropdownPattern[] = [
   ['form-summary', defaultFormConfig.patterns['form-summary']],
   ['fieldset', defaultFormConfig.patterns['fieldset']],
   ['input', defaultFormConfig.patterns['input']],
+  ['checkbox', defaultFormConfig.patterns['checkbox']],
   ['paragraph', defaultFormConfig.patterns['paragraph']],
   ['rich-text', defaultFormConfig.patterns['rich-text']],
   ['repeater', defaultFormConfig.patterns['repeater']],
