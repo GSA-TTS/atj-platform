@@ -115,6 +115,7 @@ export default function Form({
                 }
                 method="POST"
                 action={getRouteUrl(session.route)}
+                aria-label={session.form.summary.title || 'Form'}
               >
                 <FormContents context={context} prompt={prompt} />
               </form>

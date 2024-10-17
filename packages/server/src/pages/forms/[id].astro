@@ -38,7 +38,7 @@ const getNextUrl = (route?: FormRoute) => {
     const queryString = new URLSearchParams(
       route.params as Record<string, string>
     ).toString();
-    return `${route.url}?${queryString}`;
+    return queryString ? `${route.url}?${queryString}` : route.url;
   }
 };
 

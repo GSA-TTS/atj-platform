@@ -1,6 +1,9 @@
 /// <reference types="vitest" />
 import { defineConfig } from 'vitest/config';
 export default defineConfig({
+  optimizeDeps: {
+    exclude: ['chromium-bidi', 'fsevents'],
+  },
   test: {
     name: '@atj/server:browser',
     browser: {
@@ -9,6 +12,6 @@ export default defineConfig({
       name: 'chromium',
       headless: true,
     },
-    include: ['src/**/*.browser.test.ts'],
+    include: ['src/**/*.test.browser.ts'],
   },
 });

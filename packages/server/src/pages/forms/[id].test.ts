@@ -1,5 +1,6 @@
-import { getAllByRole } from '@testing-library/dom';
-import { JSDOM } from 'jsdom';
+import { getByRole } from '@testing-library/dom';
+import { userEvent } from '@testing-library/user-event';
+import { type DOMWindow, JSDOM } from 'jsdom';
 import { describe, expect, test } from 'vitest';
 
 import {
@@ -36,15 +37,43 @@ describe('Form page', () => {
     expect(await response.text()).toContain('Form');
   });
 
-  test('Handles form submission', async () => {
+  test('Renders expected form', async () => {
     const { formService, serverOptions } = await createTestContext();
     const formResult = await createTestForm(formService);
-
     const pom = new FormPagePOM(serverOptions);
-    const document = await pom.loadFormPage(formResult.data.id);
+    const { document, FormData } = await pom.loadFormPage(formResult.data.id);
 
-    const inputs = getAllByRole(document.body, 'textbox');
-    expect(inputs).toHaveLength(2);
+    await userEvent.type(
+      getByRole(document.body, 'textbox', { name: 'Pattern 1' }),
+      'pattern one value'
+    );
+    await userEvent.type(
+      getByRole(document.body, 'textbox', { name: 'Pattern 2' }),
+      'pattern one value'
+    );
+
+    const form = getByRole<HTMLFormElement>(document.body, 'form', {
+      name: 'Test form',
+    });
+    const submit = getByRole(document.body, 'button', { name: 'Submit' });
+    const formData = new FormData(form, submit);
+    const values = Object.fromEntries(formData.entries());
+    expect(values).toEqual({
+      action: 'submit',
+      'element-1': 'pattern one value',
+      'element-2': 'pattern one value',
+    });
+    const postResponse = await pom.postForm(formResult.data.id, formData);
+    expect(postResponse.status).toBe(302);
+    expect(postResponse.headers.get('Location')).toEqual(
+      `/forms/${formResult.data.id}`
+    );
+
+    const { document: document2 } = await pom.loadFormPage(formResult.data.id);
+    const input1 = getByRole(document2.body, 'textbox', { name: 'Pattern 1' });
+    const input2 = getByRole(document2.body, 'textbox', { name: 'Pattern 2' });
+    expect(input1).toHaveValue('pattern one value');
+    expect(input2).toHaveValue('pattern one value');
   });
 });
 
@@ -83,14 +112,38 @@ const renderFormPage = async (serverOptions: ServerOptions, id: string) => {
   });
 };
 
+const postFormPage = async (
+  serverOptions: ServerOptions,
+  id: string,
+  body: FormData
+) => {
+  const container = await createAstroContainer();
+  return await container.renderToResponse(FormPage, {
+    locals: {
+      serverOptions,
+      session: null,
+      user: null,
+    },
+    params: { id },
+    request: new Request(`http://localhost/forms/${id}`, {
+      method: 'POST',
+      body,
+    }),
+  });
+};
+
 class FormPagePOM {
   constructor(private serverOptions: ServerOptions) {}
 
-  async loadFormPage(id: string): Promise<Document> {
+  async loadFormPage(id: string): Promise<DOMWindow> {
     const response = await renderFormPage(this.serverOptions, id);
     const text = await response.text();
     const dom = new JSDOM(text);
-    return dom.window.document;
+    return dom.window;
+  }
+
+  async postForm(id: string, body: FormData) {
+    return postFormPage(this.serverOptions, id, body);
   }
 }
 
