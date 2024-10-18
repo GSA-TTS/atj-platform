@@ -1,10 +1,12 @@
 import { getByRole } from '@testing-library/dom';
 import { userEvent } from '@testing-library/user-event';
+import { experimental_AstroContainer } from 'astro/container';
 import { type DOMWindow, JSDOM } from 'jsdom';
 import { describe, expect, test } from 'vitest';
 
 import {
   type FormService,
+  type FormSession,
   type InputPattern,
   type PagePattern,
   type PageSetPattern,
@@ -18,132 +20,155 @@ import {
 import { createServerFormService } from '../../config/services.js';
 import { createAstroContainer } from '../../config/testing.js';
 
-import FormPage from './[id].astro';
+import PageComponent from './[id].astro';
+
+type TestContext = {
+  serverOptions: ServerOptions;
+  container: experimental_AstroContainer;
+  formService: FormService;
+  formId?: string;
+};
 
 describe('Form page', () => {
-  test('Returns 404 with non-existent form', async () => {
-    const serverOptions = await createTestServerOptions();
-    const response = await renderFormPage(serverOptions, 'does-not-exist');
-    expect(response.status).toBe(404);
+  test('Returns 404 with invalid form ID', async () => {
+    const ctx = await createTestContext();
+    await expect(FormPage.getForm(ctx, 'does-not-exist')).rejects.toThrow(
+      'Failed to load page: Received status 404'
+    );
   });
 
-  test('Renders html form', async () => {
-    const { formService, serverOptions } = await createTestContext();
-    const formResult = await createTestForm(formService);
+  test('Renders HTML form and generates correct form data when inputs are filled', async () => {
+    const ctx = await createTestContext();
+    const formId = await insertTestForm(ctx);
+    const pom = await FormPage.getForm(ctx, formId);
 
-    const response = await renderFormPage(serverOptions, formResult.data.id);
+    await pom.fillInput('Pattern 1', 'pattern one value');
+    await pom.fillInput('Pattern 2', 'pattern two value');
 
-    expect(response.status).toBe(200);
-    expect(await response.text()).toContain('Form');
-  });
-
-  test('Renders expected form', async () => {
-    const { formService, serverOptions } = await createTestContext();
-    const formResult = await createTestForm(formService);
-    const pom = new FormPagePOM(serverOptions);
-    const { document, FormData } = await pom.loadFormPage(formResult.data.id);
-
-    await userEvent.type(
-      getByRole(document.body, 'textbox', { name: 'Pattern 1' }),
-      'pattern one value'
-    );
-    await userEvent.type(
-      getByRole(document.body, 'textbox', { name: 'Pattern 2' }),
-      'pattern one value'
-    );
-
-    const form = getByRole<HTMLFormElement>(document.body, 'form', {
-      name: 'Test form',
-    });
-    const submit = getByRole(document.body, 'button', { name: 'Submit' });
-    const formData = new FormData(form, submit);
+    const formData = pom.getFormData();
     const values = Object.fromEntries(formData.entries());
     expect(values).toEqual({
       action: 'submit',
       'element-1': 'pattern one value',
-      'element-2': 'pattern one value',
+      'element-2': 'pattern two value',
     });
-    const postResponse = await pom.postForm(formResult.data.id, formData);
-    expect(postResponse.status).toBe(302);
-    expect(postResponse.headers.get('Location')).toEqual(
-      `/forms/${formResult.data.id}`
-    );
+  });
 
-    const { document: document2 } = await pom.loadFormPage(formResult.data.id);
-    const input1 = getByRole(document2.body, 'textbox', { name: 'Pattern 1' });
-    const input2 = getByRole(document2.body, 'textbox', { name: 'Pattern 2' });
-    expect(input1).toHaveValue('pattern one value');
-    expect(input2).toHaveValue('pattern one value');
+  test('Submits form and displays stored data correctly', async () => {
+    const ctx = await createTestContext();
+    const formId = await insertTestForm(ctx);
+
+    // Fill out form and get formData for submission
+    const pom = await FormPage.getForm(ctx, formId);
+    await pom.fillInput('Pattern 1', 'pattern one value');
+    await pom.fillInput('Pattern 2', 'pattern two value');
+
+    // Submit form and confirm redirect response
+    // NOTE: this response does not include the `form_session_id` cookie due to
+    // a limitation of the Astro experimental container renderer. Revisit this
+    // in the future, when it hopefully is more feature-complete.
+    const response = await submitForm(ctx, formId, pom.getFormData());
+    expect(response.status).toEqual(302);
+    expect(response.headers.get('Location')).toEqual(`/forms/${formId}`);
+
+    // Confirm that new session is stored with correct values
+    // TODO: Due to the limitation mentioned above, we need to query the
+    // database for the form session. Revisit this in the future.
+    const db = await ctx.serverOptions.db.getKysely();
+    const sessionResult = await db
+      .selectFrom('form_sessions')
+      .where('form_id', '=', formId)
+      .select(['id', 'form_id', 'data'])
+      .executeTakeFirstOrThrow()
+      .then(result => {
+        return {
+          id: result.id,
+          formId: result.form_id,
+          data: JSON.parse(result.data) as FormSession,
+        };
+      });
+    expect(sessionResult.data.data).toEqual({
+      errors: {},
+      values: {
+        'element-1': 'pattern one value',
+        'element-2': 'pattern two value',
+      },
+    });
   });
 });
 
-const createTestContext = async () => {
+const createTestContext = async (): Promise<TestContext> => {
   const serverOptions = await createTestServerOptions();
+  const container = await createAstroContainer();
   const formService = createServerFormService(serverOptions, {
     isUserLoggedIn: () => true,
   });
   return {
-    formService,
     serverOptions,
+    container,
+    formService,
   };
 };
 
-const createTestForm = async (formService: FormService) => {
+const insertTestForm = async (context: TestContext) => {
   const testForm = createTestBlueprint();
-  const result = await formService.addForm(testForm);
+  const result = await context.formService.addForm(testForm);
   if (!result.success) {
     expect.fail('Failed to add test form');
   }
-  return result;
+  return result.data.id;
 };
 
-const renderFormPage = async (serverOptions: ServerOptions, id: string) => {
-  const container = await createAstroContainer();
-  return await container.renderToResponse(FormPage, {
-    locals: {
-      serverOptions,
-      session: null,
-      user: null,
-    },
-    params: { id },
-    request: new Request(`http://localhost/forms/${id}`, {
-      method: 'GET',
-    }),
-  });
-};
+class FormPage {
+  private constructor(private window: DOMWindow) {}
 
-const postFormPage = async (
-  serverOptions: ServerOptions,
-  id: string,
-  body: FormData
-) => {
-  const container = await createAstroContainer();
-  return await container.renderToResponse(FormPage, {
-    locals: {
-      serverOptions,
-      session: null,
-      user: null,
-    },
-    params: { id },
-    request: new Request(`http://localhost/forms/${id}`, {
-      method: 'POST',
-      body,
-    }),
-  });
-};
+  static async getForm(
+    context: TestContext,
+    formId: string
+  ): Promise<FormPage> {
+    const response = await context.container.renderToResponse(PageComponent, {
+      locals: {
+        serverOptions: context.serverOptions,
+        session: null,
+        user: null,
+      },
+      params: { id: formId },
+      request: new Request(`http://localhost/forms/${formId}`, {
+        method: 'GET',
+      }),
+    });
 
-class FormPagePOM {
-  constructor(private serverOptions: ServerOptions) {}
+    if (!response.ok) {
+      return expect.fail(
+        `Failed to load page: Received status ${response.status}`
+      );
+    }
 
-  async loadFormPage(id: string): Promise<DOMWindow> {
-    const response = await renderFormPage(this.serverOptions, id);
+    const contentType = response.headers.get('Content-Type');
+    if (!contentType || !contentType.includes('text/html')) {
+      return expect.fail('Failed to load page: Expected HTML content');
+    }
+
     const text = await response.text();
     const dom = new JSDOM(text);
-    return dom.window;
+    return new FormPage(dom.window);
   }
 
-  async postForm(id: string, body: FormData) {
-    return postFormPage(this.serverOptions, id, body);
+  async fillInput(label: string, value: string): Promise<void> {
+    const input = getByRole(this.window.document.body, 'textbox', {
+      name: label,
+    });
+    await userEvent.type(input, value);
+  }
+
+  getFormData(): FormData {
+    const form = getByRole<HTMLFormElement>(this.window.document.body, 'form', {
+      name: 'Test form',
+    });
+    const submitButton = getByRole(this.window.document.body, 'button', {
+      name: 'Submit',
+    });
+    return new this.window.FormData(form, submitButton);
   }
 }
 
@@ -194,4 +219,27 @@ export const createTestBlueprint = () => {
       ],
     }
   );
+};
+
+const submitForm = async (
+  context: TestContext,
+  formId: string,
+  formData: FormData,
+  sessionId?: string
+): Promise<Response> => {
+  const response = await context.container.renderToResponse(PageComponent, {
+    locals: {
+      serverOptions: context.serverOptions,
+      session: null,
+      user: null,
+    },
+    params: { id: formId },
+    request: new Request(`http://localhost/forms/${formId}`, {
+      method: 'POST',
+      body: formData,
+      headers: sessionId ? { Cookie: `form_session_id=${sessionId}` } : {},
+    }),
+  });
+
+  return response;
 };

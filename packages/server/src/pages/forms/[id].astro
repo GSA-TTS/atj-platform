@@ -16,11 +16,7 @@ const sessionId = Astro.cookies.get('form_session_id')?.value;
 
 const setFormSessionCookie = (sessionId?: string) => {
   if (sessionId) {
-    Astro.cookies.set('form_session_id', sessionId, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
-    });
+    Astro.cookies.set('form_session_id', sessionId);
   } else {
     Astro.cookies.delete('form_session_id');
   }
@@ -58,7 +54,7 @@ if (Astro.request.method === 'POST') {
     formRoute
   );
   if (!submitFormResult.success) {
-    return new Response(submitFormResult.error.message, {
+    return new Response(submitFormResult.error, {
       status: 500,
     });
   }
@@ -84,7 +80,7 @@ if (!sessionResult.success) {
     status: 500,
   });
 }
-setFormSessionCookie(sessionResult.data.id);
+setFormSessionCookie(sessionResult.data.id || 'fake-cookie-session-id');
 
 const formSession = sessionResult.data.data;
 ---
