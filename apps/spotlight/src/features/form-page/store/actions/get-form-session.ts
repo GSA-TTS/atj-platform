@@ -1,4 +1,5 @@
-import { type FormService, type FormSession, type RouteData } from '@atj/forms';
+import { type FormSession, type RouteData } from '@atj/forms';
+import { type FormPageContext } from './index.js';
 
 export type FormSessionResponse =
   | { status: 'loading' }
@@ -8,11 +9,6 @@ export type FormSessionResponse =
       formSession: FormSession;
       sessionId: string | undefined;
     };
-
-type GetFormSessionContext = {
-  formService: FormService;
-  onGetFormSessionResult: (result: FormSessionResponse) => void;
-};
 
 type GetFormSessionOptions = {
   formId: string;
@@ -24,13 +20,14 @@ type GetFormSessionOptions = {
 };
 
 export type GetFormSession = (
-  ctx: GetFormSessionContext,
+  ctx: FormPageContext,
   opts: GetFormSessionOptions
 ) => void;
 
 export const getFormSession: GetFormSession = async (ctx, opts) => {
-  ctx.onGetFormSessionResult({ status: 'loading' });
-  ctx.formService
+  const state = ctx.getState();
+  ctx.setState({ formSessionResponse: { status: 'loading' } });
+  ctx.config.formService
     .getFormSession({
       formId: opts.formId,
       formRoute: {
@@ -42,16 +39,20 @@ export const getFormSession: GetFormSession = async (ctx, opts) => {
     .then(result => {
       if (result.success === false) {
         console.error(result.error);
-        ctx.onGetFormSessionResult({
-          status: 'error',
-          message: result.error,
+        ctx.setState({
+          formSessionResponse: {
+            status: 'error',
+            message: result.error,
+          },
         });
       } else {
         console.log('using session', result.data.data);
-        ctx.onGetFormSessionResult({
-          status: 'loaded',
-          formSession: result.data.data,
-          sessionId: result.data.id,
+        ctx.setState({
+          formSessionResponse: {
+            status: 'loaded',
+            formSession: result.data.data,
+            sessionId: result.data.id,
+          },
         });
       }
     });

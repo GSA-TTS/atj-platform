@@ -1,30 +1,17 @@
-import {
-  type FormRoute,
-  type FormSession,
-  type FormSessionId,
-} from '@atj/forms';
-import { type AppContext } from '../../../context.js';
-import { type FormSessionResponse } from './get-form-session.js';
+import { type FormPageContext } from './index.js';
 
-type SubmitFormOptions = {
-  formId: string;
-  sessionId?: string;
-  data: Record<string, string>;
-  formSessionResponse: FormSessionResponse;
-  onSubmitComplete: (data: {
-    sessionId: FormSessionId;
-    session: FormSession;
-    documents?: {
-      fileName: string;
-      data: Uint8Array;
-    }[];
-  }) => void;
-};
-
-export type OnSubmitForm = (ctx: AppContext, opts: SubmitFormOptions) => void;
+export type OnSubmitForm = (
+  ctx: FormPageContext,
+  opts: {
+    formId: string;
+    sessionId?: string;
+    data: Record<string, string>;
+  }
+) => void;
 
 export const onSubmitForm: OnSubmitForm = async (ctx, opts) => {
-  if (opts.formSessionResponse.status !== 'loaded') {
+  const state = ctx.getState();
+  if (state.formSessionResponse.status !== 'loaded') {
     console.error("Can't submit data. Form session not loaded");
     return;
   }
@@ -33,17 +20,24 @@ export const onSubmitForm: OnSubmitForm = async (ctx, opts) => {
                     session,
                     response
                   );*/
-  const submission = await ctx.formService.submitForm(
+  const submission = await ctx.config.formService.submitForm(
     opts.sessionId,
     opts.formId,
     opts.data,
-    opts.formSessionResponse.formSession.route
+    state.formSessionResponse.formSession.route
   );
   if (submission.success) {
     for (const document of submission.data.documents || []) {
       downloadPdfDocument(document.fileName, document.data);
     }
-    opts.onSubmitComplete(submission.data);
+    ctx.setState({
+      formSessionResponse: {
+        status: 'loaded',
+        formSession: submission.data.session,
+        sessionId: submission.data.sessionId,
+      },
+    });
+    window.localStorage.setItem('form_session_id', submission.data.sessionId);
   } else {
     console.error(submission.error);
   }

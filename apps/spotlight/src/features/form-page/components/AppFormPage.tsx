@@ -12,7 +12,7 @@ import { defaultPatternComponents, Form } from '@atj/design';
 import { defaultFormConfig, getRouteDataFromQueryString } from '@atj/forms';
 
 import { getAppContext } from '../../../context.js';
-import { useFormPageStore } from '../state.js';
+import { useFormPageStore } from '../store/index.js';
 
 export const AppFormPage = () => {
   return (
@@ -25,7 +25,7 @@ export const AppFormPage = () => {
 };
 
 const AppFormRoute = () => {
-  const { formSessionResponse, initialize, onSubmitData } = useFormPageStore();
+  const { actions, formSessionResponse } = useFormPageStore();
   const { id } = useParams();
   const location = useLocation();
   const ctx = getAppContext();
@@ -36,7 +36,10 @@ const AppFormRoute = () => {
 
   useEffect(
     () =>
-      initialize({ formId: id, route: getRouteParamsFromLocation(location) }),
+      actions.initialize({
+        formId: id,
+        route: getRouteParamsFromLocation(location),
+      }),
     [location, id]
   );
   return (
@@ -58,7 +61,7 @@ const AppFormRoute = () => {
             uswdsRoot: ctx.uswdsRoot,
           }}
           session={formSessionResponse.formSession}
-          onSubmit={onSubmitData}
+          onSubmit={data => actions.onSubmitForm({ formId: id, data })}
         />
       )}
     </>
