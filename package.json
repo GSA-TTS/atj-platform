@@ -23,7 +23,7 @@
     "pre-commit": "pnpm format"
   },
   "devDependencies": {
-    "@playwright/test": "^1.48.0",
+    "@playwright/test": "^1.48.1",
     "@rollup/plugin-commonjs": "^28.0.0",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.3.0",
