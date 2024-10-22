@@ -10,22 +10,19 @@ export type FormSessionResponse =
       sessionId: string | undefined;
     };
 
-type GetFormSessionOptions = {
-  formId: string;
-  route: {
-    params: RouteData;
-    url: string;
-  };
-  sessionId?: string;
-};
-
 export type GetFormSession = (
   ctx: FormPageContext,
-  opts: GetFormSessionOptions
+  opts: {
+    formId: string;
+    route: {
+      params: RouteData;
+      url: string;
+    };
+    sessionId?: string;
+  }
 ) => void;
 
 export const getFormSession: GetFormSession = async (ctx, opts) => {
-  const state = ctx.getState();
   ctx.setState({ formSessionResponse: { status: 'loading' } });
   ctx.config.formService
     .getFormSession({
