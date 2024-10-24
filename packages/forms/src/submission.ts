@@ -1,21 +1,68 @@
+import * as z from 'zod';
+
 import { type Result, failure, success } from '@atj/common';
 
-type SubmitHandler = () => void;
+import { type FormConfig, type Pattern, getPattern } from './pattern';
+import { type FormSession } from './session';
+import { type Blueprint } from '.';
+
+export type SubmitHandler<P extends Pattern = Pattern> = (
+  config: FormConfig,
+  opts: {
+    pattern: P;
+    session: FormSession;
+    data: Record<string, string>;
+  }
+) => void;
+
+const actionRegEx = /^action\/([a-z0-9-]+)\/([a-z0-9-]+)$/;
+const actionSchema = z
+  .string()
+  .regex(actionRegEx)
+  .transform(val => {
+    const [, handlerId, patternId] = val.match(actionRegEx) || [];
+    return { handlerId, patternId };
+  });
 
 export class SubmissionRegistry {
+  constructor(private config: FormConfig) {}
+
   private handlers: Record<string, SubmitHandler> = {};
 
-  registerHandler(handlerId: string, handler: SubmitHandler) {
-    if (handlerId in this.handlers) {
-      throw new Error(`Submission handler with id ${handlerId} already exists`);
+  registerHandler(opts: { handlerId: string; handler: SubmitHandler }) {
+    if (opts.handlerId in this.handlers) {
+      throw new Error(
+        `Submission handler with id ${opts.handlerId} already exists`
+      );
     }
-    this.handlers[handlerId] = handler;
+    this.handlers[opts.handlerId] = opts.handler;
   }
 
-  getHandler(handlerId: string): Result<SubmitHandler> {
-    if (!(handlerId in this.handlers)) {
-      return failure(`Submission handler with id ${handlerId} does not exist`);
+  getActionString(opts: { handlerId: string; patternId: string }) {
+    return `action/${opts.handlerId}/${opts.patternId}`;
+  }
+
+  getHandlerForAction(
+    form: Blueprint,
+    action: string
+  ): Result<{ handler: SubmitHandler; pattern: Pattern }> {
+    const result = actionSchema.safeParse(action);
+    if (!result.success) {
+      return failure(`Invalid action: "${action}"`);
     }
-    return success(this.handlers[handlerId]);
+    const handler = this.handlers[result.data.handlerId];
+    if (handler === undefined) {
+      return failure(
+        `Submission handler with id ${result.data.handlerId} does not exist`
+      );
+    }
+    const pattern = getPattern(form, result.data.patternId);
+    if (pattern === undefined) {
+      return failure(`Pattern with id ${result.data.patternId} does not exist`);
+    }
+    return success({
+      handler,
+      pattern,
+    });
   }
 }

@@ -18,7 +18,10 @@ export type PatternId = string;
 export type PatternValue<T extends Pattern = Pattern> = any;
 export type PatternValueMap = Record<PatternId, PatternValue>;
 export type PatternMap = Record<PatternId, Pattern>;
-export type GetPattern = (form: Blueprint, id: PatternId) => Pattern;
+export type GetPattern<T extends Pattern = Pattern> = (
+  form: Blueprint,
+  id: PatternId
+) => Pattern;
 
 export type ParseUserInput<Pattern, PatternOutput> = (
   pattern: Pattern,
@@ -36,6 +39,23 @@ type RemoveChildPattern<P extends Pattern> = (
 
 export const getPattern: GetPattern = (form, patternId) => {
   return form.patterns[patternId];
+};
+
+export const getPatternSafely = <P extends Pattern>(opts: {
+  type: string;
+  form: Blueprint;
+  patternId: PatternId;
+}): r.Result<P> => {
+  const pattern = opts.form.patterns[opts.patternId];
+  if (pattern === undefined) {
+    return r.failure(`Pattern with id ${opts.patternId} does not exist`);
+  }
+  if (pattern.type !== opts.type) {
+    return r.failure(
+      `Pattern with id ${opts.patternId} is not of type ${opts.type}`
+    );
+  }
+  return r.success(pattern as P);
 };
 
 export type PatternConfig<
