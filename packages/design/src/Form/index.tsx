@@ -101,6 +101,9 @@ export default function Form({
               <form
                 className="usa-form margin-bottom-3 maxw-full"
                 onSubmit={formMethods.handleSubmit(async data => {
+                  console.group('handleSubmit');
+                  console.log(data);
+                  console.groupEnd();
                   updatePrompt(data);
                   if (onSubmit) {
                     console.log('Submitting form...');
