@@ -4,7 +4,7 @@ Test bed for ATJ platform tooling, completed as part of the [10x Digital Access 
 
 ## Overview
 
-The workspace dependencies are depicted in this auto-generated [workspace project dependencies graph](./workspace-dependencies.svg).
+A C4-like architectural diagram is [available here](documents/diagram.md).
 
 Additional documentation:
 
@@ -42,7 +42,7 @@ This project uses [pnpm workspaces](https://pnpm.io/workspaces). To work with th
 pnpm install
 ```
 
-To run the complete test suite, with coverage metrics generated:
+To install the browsers needed for the Storybook testing with `@vitest/browser`, you need to do a one-time install with `pnpm dlx playwright@1.48.1 install --with-deps`. This command also needs to be run when Playwright is updated because it requires version parity to find the executables across the local dev environment and CI to get all the tests to pass. To run the complete test suite, with coverage metrics generated:
 
 ```bash
 pnpm test
