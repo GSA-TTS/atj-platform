@@ -1,9 +1,9 @@
-import { failure } from '@atj/common';
+import { failure, success } from '@atj/common';
 
 import {
   getPatternConfig,
   getPatternSafely,
-  validatePattern,
+  validatePatternAndChildren,
 } from '../../pattern';
 import { type FormSession } from '../../session';
 import { type SubmitHandler } from '../../submission';
@@ -12,13 +12,13 @@ import { type PageSetPattern } from './config';
 
 const getPage = (formSession: FormSession) => {
   const page = formSession.route?.params.page?.toString();
-  return typeof page == 'string' ? Number.parseInt(page) : 0;
+  return typeof page == 'string' ? Number.parseInt(page) : 1;
 };
 
 export const submitPage: SubmitHandler<PageSetPattern> = (config, opts) => {
   const pageNumber = getPage(opts.session);
   const pagePatternId = opts.pattern.data.pages[pageNumber - 1];
-  if (pagePatternId) {
+  if (pagePatternId === undefined) {
     return failure(`Page ${pageNumber} does not exist`);
   }
 
@@ -32,12 +32,42 @@ export const submitPage: SubmitHandler<PageSetPattern> = (config, opts) => {
     return failure(pagePattern.error);
   }
 
-  const result = validatePattern(
+  const result = validatePatternAndChildren(
+    config,
+    opts.session.form,
     pagePatternConfig,
     pagePattern.data,
     opts.data
   );
-  if (!result.success) {
-    return failure(result.error);
-  }
+
+  // Increment the page number if there are no errors and this isn't the last page.
+  const lastPage = opts.pattern.data.pages.length;
+  const nextPage =
+    Object.values(result.errors).length === 0 && pageNumber < lastPage
+      ? pageNumber + 1
+      : pageNumber;
+
+  return success<FormSession>({
+    ...opts.session,
+    data: {
+      ...opts.session.data,
+      values: {
+        ...opts.session.data.values,
+        ...result.values,
+      },
+      errors: {
+        ...opts.session.data.errors,
+        ...result.errors,
+      },
+    },
+    route: opts.session.route
+      ? {
+          ...opts.session.route,
+          params: {
+            ...opts.session.route.params,
+            page: nextPage.toString(),
+          },
+        }
+      : undefined,
+  });
 };

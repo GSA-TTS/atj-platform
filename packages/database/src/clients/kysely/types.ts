@@ -54,6 +54,8 @@ interface FormSessionsTable {
   id: string;
   form_id: string;
   data: string;
+  created_at: Generated<Date>;
+  updated_at: Generated<Date>;
 }
 export type FormSessionsTableSelectable = Selectable<FormSessionsTable>;
 export type FormSessionsTableInsertable = Insertable<FormSessionsTable>;

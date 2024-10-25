@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { defaultFormConfig } from './patterns';
 import { type SubmitHandler, SubmissionRegistry } from './submission';
@@ -28,8 +28,8 @@ const testForm: Blueprint = {
 describe('SubmissionRegistry', () => {
   it('should register a submit handler once', () => {
     const registry = new SubmissionRegistry(defaultFormConfig);
-    const handler1: SubmitHandler = () => {};
-    const handler2 = () => {};
+    const handler1 = (() => {}) as unknown as SubmitHandler;
+    const handler2 = (() => {}) as unknown as SubmitHandler;
 
     registry.registerHandler({
       handlerId: 'handler1',

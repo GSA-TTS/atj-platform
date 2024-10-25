@@ -13,7 +13,7 @@ export type SubmitHandler<P extends Pattern = Pattern> = (
     session: FormSession;
     data: Record<string, string>;
   }
-) => void;
+) => Result<FormSession>;
 
 const actionRegEx = /^action\/([a-z0-9-]+)\/([a-z0-9-]+)$/;
 const actionSchema = z
@@ -58,7 +58,9 @@ export class SubmissionRegistry {
     }
     const pattern = getPattern(form, result.data.patternId);
     if (pattern === undefined) {
-      return failure(`Pattern with id ${result.data.patternId} does not exist`);
+      return failure(
+        `asdfPattern with id ${result.data.patternId} does not exist`
+      );
     }
     return success({
       handler,

@@ -37,6 +37,18 @@ type RemoveChildPattern<P extends Pattern> = (
   patternId: PatternId
 ) => P;
 
+export abstract class PatternBuilder<P extends Pattern> {
+  public readonly id: PatternId;
+  public readonly data: P['data'];
+
+  constructor(data: P['data'], id?: PatternId) {
+    this.id = id || generatePatternId();
+    this.data = data;
+  }
+
+  abstract toPattern(): P;
+}
+
 export const getPattern: GetPattern = (form, patternId) => {
   return form.patterns[patternId];
 };
@@ -107,15 +119,56 @@ export const validatePattern = (
   }
   const parseResult = patternConfig.parseUserInput(pattern, value);
   if (!parseResult.success) {
-    return {
-      success: false,
-      error: parseResult.error,
-    };
+    return r.failure(parseResult.error);
   }
-  return {
-    success: true,
-    data: parseResult.data,
+  return r.success(parseResult.data);
+};
+
+export const validatePatternAndChildren = (
+  config: FormConfig,
+  form: Blueprint,
+  patternConfig: PatternConfig,
+  pattern: Pattern,
+  values: Record<string, string>
+) => {
+  const result: {
+    values: Record<PatternId, PatternValue>;
+    errors: Record<PatternId, FormError>;
+  } = {
+    values: {},
+    errors: {},
   };
+
+  if (patternConfig.parseUserInput) {
+    const parseResult = patternConfig.parseUserInput(
+      pattern,
+      values[pattern.id]
+    );
+    if (parseResult.success) {
+      result.values[pattern.id] = parseResult.data;
+    } else {
+      result.values[pattern.id] = values[pattern.id];
+      result.errors[pattern.id] = parseResult.error;
+    }
+  }
+
+  for (const child of patternConfig.getChildren(pattern, form.patterns)) {
+    const childPatternConfig = getPatternConfig(config, child.type);
+    if (childPatternConfig.parseUserInput) {
+      const parseResult = childPatternConfig.parseUserInput(
+        child,
+        values[child.id]
+      );
+      if (parseResult.success) {
+        result.values[child.id] = parseResult.data;
+      } else {
+        result.values[child.id] = values[child.id];
+        result.errors[child.id] = parseResult.error;
+      }
+    }
+  }
+
+  return result;
 };
 
 export const getFirstPattern = (

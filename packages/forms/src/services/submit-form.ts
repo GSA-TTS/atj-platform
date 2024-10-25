@@ -3,15 +3,16 @@ import {
   type Blueprint,
   type FormSession,
   type FormSessionId,
-  applyPromptResponse,
   createFormOutputFieldData,
   createFormSession,
+  defaultFormConfig,
   fillPDF,
-  sessionIsComplete,
 } from '../index.js';
 
 import { FormServiceContext } from '../context/index.js';
+import { submitPage } from '../patterns/page-set/submit';
 import { type FormRoute } from '../route-data.js';
+import { SubmissionRegistry } from '../submission';
 
 export type SubmitForm = (
   ctx: FormServiceContext,
@@ -29,6 +30,13 @@ export type SubmitForm = (
     }[];
   }>
 >;
+
+// Temportary location for the SubmissionRegistry.
+const registry = new SubmissionRegistry(defaultFormConfig);
+registry.registerHandler({
+  handlerId: 'page-set',
+  handler: submitPage,
+});
 
 export const submitForm: SubmitForm = async (
   ctx,
@@ -52,13 +60,33 @@ export const submitForm: SubmitForm = async (
     return failure('Session not found');
   }
 
-  //const session = getSessionFromStorage(ctx.storage, sessionId) || createFormSession(form);
-  // For now, the client-side is producing its own error messages.
-  // In the future, we'll want this service to return errors to the client.
-  const newSessionResult = applyPromptResponse(ctx.config, sessionResult.data, {
-    action: 'submit',
+  const actionString = formData.action;
+  if (typeof actionString !== 'string') {
+    return failure(`Invalid action: ${actionString}`);
+  }
+
+  // Get the root pattern which should be a page-set
+  const rootPatternId = form.root;
+  const submitHandlerResult = registry.getHandlerForAction(
+    form,
+    registry.getActionString({
+      handlerId: 'page-set',
+      patternId: rootPatternId,
+    })
+  );
+  console.log('submitHandlerResult', submitHandlerResult);
+
+  if (!submitHandlerResult.success) {
+    return failure(submitHandlerResult.error);
+  }
+
+  const { handler, pattern } = submitHandlerResult.data;
+  const newSessionResult = handler(ctx.config, {
+    pattern,
+    session: sessionResult.data,
     data: formData,
   });
+
   if (!newSessionResult.success) {
     return failure(newSessionResult.error);
   }
@@ -72,7 +100,7 @@ export const submitForm: SubmitForm = async (
     return failure(saveFormSessionResult.error);
   }
 
-  /* TODO: consider whether this is necessary, or should happen elsewhere. */
+  /*
   if (sessionIsComplete(ctx.config, newSessionResult.data)) {
     const documentsResult = await generateDocumentPackage(
       form,
@@ -88,6 +116,7 @@ export const submitForm: SubmitForm = async (
       documents: documentsResult.data,
     });
   }
+  */
 
   return success({
     sessionId: saveFormSessionResult.data.id,
