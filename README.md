@@ -4,7 +4,7 @@ Test bed for ATJ platform tooling, completed as part of the [10x Digital Access 
 
 ## Overview
 
-The workspace dependencies are depicted in this auto-generated [workspace project dependencies graph](./workspace-dependencies.svg).
+A C4-like architectural diagram is [available here](documents/diagram.md).
 
 Additional documentation:
 
