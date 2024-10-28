@@ -2,7 +2,12 @@ import * as z from 'zod';
 
 import { type Result, failure, success } from '@atj/common';
 
-import { type FormConfig, type Pattern, getPattern } from './pattern';
+import {
+  type FormConfig,
+  type Pattern,
+  type PatternId,
+  getPattern,
+} from './pattern';
 import { type FormSession } from './session';
 import { type Blueprint } from '.';
 
@@ -24,6 +29,14 @@ const actionSchema = z
     return { handlerId, patternId };
   });
 
+export type ActionName = `action/${string}/${PatternId}`;
+export const getActionString = (opts: {
+  handlerId: string;
+  patternId: string;
+}): ActionName => {
+  return `action/${opts.handlerId}/${opts.patternId}`;
+};
+
 export class SubmissionRegistry {
   constructor(private config: FormConfig) {}
 
@@ -36,10 +49,6 @@ export class SubmissionRegistry {
       );
     }
     this.handlers[opts.handlerId] = opts.handler;
-  }
-
-  getActionString(opts: { handlerId: string; patternId: string }) {
-    return `action/${opts.handlerId}/${opts.patternId}`;
   }
 
   getHandlerForAction(

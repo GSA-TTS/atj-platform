@@ -12,7 +12,7 @@ import {
 import { FormServiceContext } from '../context/index.js';
 import { submitPage } from '../patterns/page-set/submit';
 import { type FormRoute } from '../route-data.js';
-import { SubmissionRegistry } from '../submission';
+import { getActionString, SubmissionRegistry } from '../submission';
 
 export type SubmitForm = (
   ctx: FormServiceContext,
@@ -57,8 +57,15 @@ export const submitForm: SubmitForm = async (
     sessionId
   );
   if (!sessionResult.success) {
-    return failure('Session not found');
+    return sessionResult;
   }
+
+  const session: FormSession = route
+    ? {
+        ...sessionResult.data,
+        route,
+      }
+    : sessionResult.data;
 
   const actionString = formData.action;
   if (typeof actionString !== 'string') {
@@ -69,12 +76,11 @@ export const submitForm: SubmitForm = async (
   const rootPatternId = form.root;
   const submitHandlerResult = registry.getHandlerForAction(
     form,
-    registry.getActionString({
+    getActionString({
       handlerId: 'page-set',
       patternId: rootPatternId,
     })
   );
-  console.log('submitHandlerResult', submitHandlerResult);
 
   if (!submitHandlerResult.success) {
     return failure(submitHandlerResult.error);
@@ -83,7 +89,7 @@ export const submitForm: SubmitForm = async (
   const { handler, pattern } = submitHandlerResult.data;
   const newSessionResult = handler(ctx.config, {
     pattern,
-    session: sessionResult.data,
+    session,
     data: formData,
   });
 
@@ -130,6 +136,7 @@ const getFormSessionOrCreate = async (
   route?: FormRoute,
   sessionId?: FormSessionId
 ) => {
+  console.log('got sessionId', sessionId);
   if (sessionId === undefined) {
     return success(createFormSession(form, route));
   }

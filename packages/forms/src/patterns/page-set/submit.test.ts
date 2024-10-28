@@ -30,7 +30,7 @@ describe('Page-set submission', () => {
         route: {
           url: '#',
           params: {
-            page: '2',
+            page: '1',
           },
         },
         form: session.form,
@@ -65,7 +65,7 @@ describe('Page-set submission', () => {
         route: {
           url: '#',
           params: {
-            page: '1',
+            page: '0',
           },
         },
         form: session.form,
@@ -83,7 +83,7 @@ describe('Page-set submission', () => {
         route: {
           url: '#',
           params: {
-            page: '2',
+            page: '1',
           },
         },
       },
@@ -103,7 +103,7 @@ describe('Page-set submission', () => {
         route: {
           url: '#',
           params: {
-            page: '2',
+            page: '1',
           },
         },
         form: session.form,
@@ -140,5 +140,5 @@ const createTestSession = () => {
     },
     outputs: [],
   };
-  return createFormSession(testForm, { url: '#', params: { page: '1' } });
+  return createFormSession(testForm, { url: '#', params: { page: '0' } });
 };

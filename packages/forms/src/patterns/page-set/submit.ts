@@ -12,12 +12,12 @@ import { type PageSetPattern } from './config';
 
 const getPage = (formSession: FormSession) => {
   const page = formSession.route?.params.page?.toString();
-  return typeof page == 'string' ? Number.parseInt(page) : 1;
+  return typeof page == 'string' ? Number.parseInt(page) : 0;
 };
 
 export const submitPage: SubmitHandler<PageSetPattern> = (config, opts) => {
   const pageNumber = getPage(opts.session);
-  const pagePatternId = opts.pattern.data.pages[pageNumber - 1];
+  const pagePatternId = opts.pattern.data.pages[pageNumber];
   if (pagePatternId === undefined) {
     return failure(`Page ${pageNumber} does not exist`);
   }
@@ -41,7 +41,7 @@ export const submitPage: SubmitHandler<PageSetPattern> = (config, opts) => {
   );
 
   // Increment the page number if there are no errors and this isn't the last page.
-  const lastPage = opts.pattern.data.pages.length;
+  const lastPage = opts.pattern.data.pages.length - 1;
   const nextPage =
     Object.values(result.errors).length === 0 && pageNumber < lastPage
       ? pageNumber + 1

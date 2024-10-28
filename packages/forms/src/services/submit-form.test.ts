@@ -255,7 +255,7 @@ describe('multi-page form', () => {
         action: 'action/page-set/root',
         'element-1': 'test',
       },
-      { url: '#', params: { page: '1' } }
+      { url: '#', params: { page: '0' } }
     );
     expect(result).toEqual({
       success: true,
@@ -268,6 +268,12 @@ describe('multi-page form', () => {
             values: {
               'element-1': 'test',
             },
+          },
+          route: {
+            params: {
+              page: '1',
+            },
+            url: '#',
           },
         },
       },
@@ -283,7 +289,7 @@ describe('multi-page form', () => {
       {
         action: 'action/page-set/root',
       },
-      { url: '#', params: { page: '1' } }
+      { url: '#', params: { page: '0' } }
     );
     expect(result).toEqual({
       success: true,
@@ -302,6 +308,12 @@ describe('multi-page form', () => {
               'element-1': undefined,
             },
           },
+          route: {
+            params: {
+              page: '0',
+            },
+            url: '#',
+          },
         },
       },
     });
@@ -311,10 +323,13 @@ describe('multi-page form', () => {
     const { ctx, id, formSessionResult, session } = await setupMultiPageForm();
 
     // First, submit page one
-    await submitForm(ctx, formSessionResult.data.id, id, {
+    const pageOneResult = await submitForm(ctx, formSessionResult.data.id, id, {
       action: 'action/page-set/root',
       'element-1': 'test',
     });
+    if (!pageOneResult.success) {
+      expect.fail('submitForm failed');
+    }
 
     // Then, submit page two
     const result = await submitForm(
@@ -323,9 +338,9 @@ describe('multi-page form', () => {
       id,
       {
         action: 'action/page-set/root',
-        'element-2': 'test',
+        'element-2': 'test2',
       },
-      { url: '#', params: { page: '2' } }
+      { url: '#', params: { page: '1' } }
     );
 
     expect(result).toEqual({
@@ -335,15 +350,17 @@ describe('multi-page form', () => {
         session: {
           ...session,
           data: {
-            errors: {
-              'element-1': {
-                message: 'Required',
-                type: 'custom',
-              },
-            },
+            errors: {},
             values: {
-              'element-1': undefined,
+              'element-1': 'test',
+              'element-2': 'test2',
             },
+          },
+          route: {
+            params: {
+              page: '1',
+            },
+            url: '#',
           },
         },
       },

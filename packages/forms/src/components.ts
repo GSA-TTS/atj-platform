@@ -6,6 +6,7 @@ import {
   getPatternConfig,
 } from './pattern.js';
 import { type FormSession, nullSession, sessionIsComplete } from './session.js';
+import { type ActionName } from './submission.js';
 
 export type TextInputProps = PatternProps<{
   type: 'input';
@@ -92,7 +93,7 @@ export type PatternProps<T = {}> = {
 
 export type SubmitAction = {
   type: 'submit';
-  submitAction: 'next' | 'submit';
+  submitAction: 'next' | 'submit' | ActionName;
   text: string;
 };
 export type LinkAction = {

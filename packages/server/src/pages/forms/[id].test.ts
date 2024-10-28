@@ -48,7 +48,7 @@ describe('Form page', () => {
     const formData = pom.getFormData();
     const values = Object.fromEntries(formData.entries());
     expect(values).toEqual({
-      action: 'submit',
+      action: 'action/page-set/root',
       'element-1': 'pattern one value',
       'element-2': 'pattern two value',
     });
@@ -69,7 +69,7 @@ describe('Form page', () => {
     // in the future, when it hopefully is more feature-complete.
     const response = await submitForm(ctx, formId, pom.getFormData());
     expect(response.status).toEqual(302);
-    expect(response.headers.get('Location')).toEqual(`/forms/${formId}`);
+    expect(response.headers.get('Location')).toEqual(`/forms/${formId}?page=0`);
 
     // Confirm that new session is stored with correct values
     // TODO: Due to the limitation mentioned above, we need to query the
