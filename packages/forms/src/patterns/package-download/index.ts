@@ -2,7 +2,7 @@ import * as z from 'zod';
 
 import { type Pattern, type PatternConfig } from '../../pattern.js';
 import { type PackageDownloadProps } from '../../components.js';
-import { type ActionName, getActionString } from '../../submission.js';
+import { getActionString } from '../../submission.js';
 import { safeZodParseFormErrors } from '../../util/zod.js';
 
 const configSchema = z.object({
@@ -21,10 +21,6 @@ export const packageDownloadConfig: PatternConfig<PackageDownloadPattern> = {
     return [];
   },
   createPrompt(_, session, pattern, options) {
-    const actionName: ActionName = getActionString({
-      handlerId: 'page-set',
-      patternId: pattern.id,
-    });
     return {
       props: {
         _patternId: pattern.id,
@@ -32,7 +28,10 @@ export const packageDownloadConfig: PatternConfig<PackageDownloadPattern> = {
         actions: [
           {
             type: 'submit',
-            submitAction: actionName,
+            submitAction: getActionString({
+              handlerId: 'package-download',
+              patternId: pattern.id,
+            }),
             text: 'Download PDF',
           },
         ],

@@ -23,7 +23,9 @@ export class FormServiceClient implements FormService {
         'Content-Type': 'application/json',
       },
     });
-    return await response.json();
+    const result = await response.json();
+    console.log('addForm result', result);
+    return result;
   }
 
   async deleteForm(formId: string) {

@@ -1,9 +1,8 @@
 import { describe, expect, it } from 'vitest';
 
-import { failure, success } from '@atj/common';
+import { failure } from '@atj/common';
 
-import { Blueprint, getDocumentFieldData, type FormSession } from '../..';
-import { defaultFormConfig } from '../../..';
+import { type Blueprint, type FormSession, defaultFormConfig } from '../..';
 
 import { downloadPackageHandler } from './submit';
 import { PackageDownload } from './builder';

@@ -129,16 +129,12 @@ export const validatePatternAndChildren = (
   form: Blueprint,
   patternConfig: PatternConfig,
   pattern: Pattern,
-  values: Record<string, string>
-) => {
-  const result: {
+  values: Record<string, string>,
+  result: {
     values: Record<PatternId, PatternValue>;
     errors: Record<PatternId, FormError>;
-  } = {
-    values: {},
-    errors: {},
-  };
-
+  } = { values: {}, errors: {} }
+) => {
   if (patternConfig.parseUserInput) {
     const parseResult = patternConfig.parseUserInput(
       pattern,
@@ -151,23 +147,17 @@ export const validatePatternAndChildren = (
       result.errors[pattern.id] = parseResult.error;
     }
   }
-
   for (const child of patternConfig.getChildren(pattern, form.patterns)) {
     const childPatternConfig = getPatternConfig(config, child.type);
-    if (childPatternConfig.parseUserInput) {
-      const parseResult = childPatternConfig.parseUserInput(
-        child,
-        values[child.id]
-      );
-      if (parseResult.success) {
-        result.values[child.id] = parseResult.data;
-      } else {
-        result.values[child.id] = values[child.id];
-        result.errors[child.id] = parseResult.error;
-      }
-    }
+    validatePatternAndChildren(
+      config,
+      form,
+      childPatternConfig,
+      child,
+      values,
+      result
+    );
   }
-
   return result;
 };
 

@@ -15,7 +15,6 @@ export const createFormOutputFieldData = (
       return;
     }
     const outputFieldId = output.formFields[patternId];
-    console.log('***', patternId, docField, outputFieldId);
     if (outputFieldId === '') {
       console.error(`empty outputFieldId for field: ${patternId}: ${docField}`);
       return;
@@ -66,7 +65,7 @@ export const fillPDF = async (
       .sort((a, b) => a.name.localeCompare(b.name));
 
     // Console log the resulting array
-    //console.log('uniqueNamesArray:', uniqueNamesArray);
+    console.log('uniqueNamesArray:', uniqueNamesArray);
 
     // fields.map(field => {
     //   console.log('field name is:', field.getName());

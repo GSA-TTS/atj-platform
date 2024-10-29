@@ -11,7 +11,7 @@ import { FormServiceContext } from '../context/index.js';
 import { submitPage } from '../patterns/page-set/submit';
 import { downloadPackageHandler } from '../patterns/package-download/submit';
 import { type FormRoute } from '../route-data.js';
-import { getActionString, SubmissionRegistry } from '../submission';
+import { SubmissionRegistry } from '../submission';
 
 export type SubmitForm = (
   ctx: FormServiceContext,
@@ -23,7 +23,7 @@ export type SubmitForm = (
   Result<{
     sessionId: FormSessionId;
     session: FormSession;
-    documents?: {
+    attachments?: {
       fileName: string;
       data: Uint8Array;
     }[];
@@ -70,21 +70,12 @@ export const submitForm: SubmitForm = async (
       }
     : sessionResult.data;
 
-  const actionString = formData.action;
+  const actionString = formData['action'];
   if (typeof actionString !== 'string') {
     return failure(`Invalid action: ${actionString}`);
   }
 
-  // Get the root pattern which should be a page-set
-  const rootPatternId = form.root;
-  const submitHandlerResult = registry.getHandlerForAction(
-    form,
-    getActionString({
-      handlerId: 'page-set',
-      patternId: rootPatternId,
-    })
-  );
-
+  const submitHandlerResult = registry.getHandlerForAction(form, actionString);
   if (!submitHandlerResult.success) {
     return failure(submitHandlerResult.error);
   }
@@ -140,7 +131,6 @@ const getFormSessionOrCreate = async (
   route?: FormRoute,
   sessionId?: FormSessionId
 ) => {
-  console.log('got sessionId', sessionId);
   if (sessionId === undefined) {
     return success(createFormSession(form, route));
   }

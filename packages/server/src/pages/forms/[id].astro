@@ -57,6 +57,11 @@ if (Astro.request.method === 'POST') {
     });
   }
   setFormSessionCookie(submitFormResult.data.sessionId);
+
+  if (submitFormResult.data.attachments) {
+    return createMultipartResponse(submitFormResult.data.attachments);
+  }
+
   return Astro.redirect(getNextUrl(submitFormResult.data.session.route));
 }
 
