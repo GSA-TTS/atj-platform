@@ -12,17 +12,25 @@ import {
   type PatternValue,
   type PatternValueMap,
 } from './pattern.js';
-import { type RouteData, getRouteDataFromQueryString } from './route-data.js';
+import {
+  type FormRoute,
+  type RouteData,
+  getRouteDataFromQueryString,
+} from './route-data.js';
 
 export type FormErrorMap = Record<PatternId, FormError>;
 
+export type FormSessionId = string;
 export type FormSession = {
   data: {
     errors: FormErrorMap;
     values: PatternValueMap;
   };
   form: Blueprint;
-  routeParams?: RouteData;
+  route?: {
+    params: RouteData;
+    url: string;
+  };
 };
 
 export const nullSession: FormSession = {
@@ -53,7 +61,7 @@ export const nullSession: FormSession = {
 
 export const createFormSession = (
   form: Blueprint,
-  queryString?: string
+  route?: FormRoute
 ): FormSession => {
   return {
     data: {
@@ -69,9 +77,7 @@ export const createFormSession = (
       */
     },
     form,
-    routeParams: queryString
-      ? getRouteDataFromQueryString(queryString)
-      : undefined,
+    route: route,
   };
 };
 
@@ -202,7 +208,7 @@ export const getPageCount = (bp: Blueprint) => {
 };
 
 export const getSessionPage = (session: FormSession) => {
-  const currentPageIndex = parseInt(session.routeParams?.page as string) || 0;
+  const currentPageIndex = parseInt(session.route?.params.page as string) || 0;
   const lastPageIndex = getPageCount(session.form) - 1;
   if (currentPageIndex <= lastPageIndex) {
     return currentPageIndex;

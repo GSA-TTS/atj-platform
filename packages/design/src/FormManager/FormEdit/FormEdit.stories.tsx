@@ -22,7 +22,12 @@ const meta: Meta<typeof FormEdit> = {
           context={createTestFormManagerContext()}
           session={createTestSession({
             form: createOnePageTwoPatternTestForm(),
-            routeParams: 'page=0',
+            route: {
+              params: {
+                page: '0',
+              },
+              url: '#',
+            },
           })}
         >
           <Story {...args} />
