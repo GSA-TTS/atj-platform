@@ -9,9 +9,9 @@ import { PageSet } from './builder';
 import { submitPage } from './submit';
 
 describe('Page-set submission', () => {
-  it('stores session data for valid page data', () => {
+  it('stores session data for valid page data', async () => {
     const session = createTestSession();
-    const result = submitPage(defaultFormConfig, {
+    const result = await submitPage(defaultFormConfig, {
       pattern: session.form.patterns['page-set-1'],
       session,
       data: {
@@ -20,28 +20,30 @@ describe('Page-set submission', () => {
     });
     expect(result).toEqual({
       data: {
-        ...session,
-        data: {
-          errors: {},
-          values: {
-            'input-1': 'test',
+        session: {
+          ...session,
+          data: {
+            errors: {},
+            values: {
+              'input-1': 'test',
+            },
           },
-        },
-        route: {
-          url: '#',
-          params: {
-            page: '1',
+          route: {
+            url: '#',
+            params: {
+              page: '1',
+            },
           },
+          form: session.form,
         },
-        form: session.form,
       },
       success: true,
     });
   });
 
-  it('stores session data for invalid page data', () => {
+  it('stores session data for invalid page data', async () => {
     const session = createTestSession();
-    const result = submitPage(defaultFormConfig, {
+    const result = await submitPage(defaultFormConfig, {
       pattern: session.form.patterns['page-set-1'],
       session,
       data: {
@@ -50,33 +52,35 @@ describe('Page-set submission', () => {
     });
     expect(result).toEqual({
       data: {
-        ...session,
-        data: {
-          errors: {
-            'input-1': {
-              type: 'custom',
-              message: 'This field is required',
+        session: {
+          ...session,
+          data: {
+            errors: {
+              'input-1': {
+                type: 'custom',
+                message: 'This field is required',
+              },
+            },
+            values: {
+              'input-1': '',
             },
           },
-          values: {
-            'input-1': '',
+          route: {
+            url: '#',
+            params: {
+              page: '0',
+            },
           },
+          form: session.form,
         },
-        route: {
-          url: '#',
-          params: {
-            page: '0',
-          },
-        },
-        form: session.form,
       },
       success: true,
     });
   });
 
-  it('terminates on the last page', () => {
+  it('terminates on the last page', async () => {
     const session = createTestSession();
-    const result = submitPage(defaultFormConfig, {
+    const result = await submitPage(defaultFormConfig, {
       pattern: session.form.patterns['page-set-1'],
       session: {
         ...session,
@@ -93,20 +97,22 @@ describe('Page-set submission', () => {
     });
     expect(result).toEqual({
       data: {
-        ...session,
-        data: {
-          errors: {},
-          values: {
-            'input-2': 'test',
+        session: {
+          ...session,
+          data: {
+            errors: {},
+            values: {
+              'input-2': 'test',
+            },
           },
-        },
-        route: {
-          url: '#',
-          params: {
-            page: '1',
+          route: {
+            url: '#',
+            params: {
+              page: '1',
+            },
           },
+          form: session.form,
         },
-        form: session.form,
       },
       success: true,
     });

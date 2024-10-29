@@ -15,7 +15,10 @@ const getPage = (formSession: FormSession) => {
   return typeof page == 'string' ? Number.parseInt(page) : 0;
 };
 
-export const submitPage: SubmitHandler<PageSetPattern> = (config, opts) => {
+export const submitPage: SubmitHandler<PageSetPattern> = async (
+  config,
+  opts
+) => {
   const pageNumber = getPage(opts.session);
   const pagePatternId = opts.pattern.data.pages[pageNumber];
   if (pagePatternId === undefined) {
@@ -47,27 +50,29 @@ export const submitPage: SubmitHandler<PageSetPattern> = (config, opts) => {
       ? pageNumber + 1
       : pageNumber;
 
-  return success<FormSession>({
-    ...opts.session,
-    data: {
-      ...opts.session.data,
-      values: {
-        ...opts.session.data.values,
-        ...result.values,
+  return success({
+    session: {
+      ...opts.session,
+      data: {
+        ...opts.session.data,
+        values: {
+          ...opts.session.data.values,
+          ...result.values,
+        },
+        errors: {
+          ...opts.session.data.errors,
+          ...result.errors,
+        },
       },
-      errors: {
-        ...opts.session.data.errors,
-        ...result.errors,
-      },
+      route: opts.session.route
+        ? {
+            ...opts.session.route,
+            params: {
+              ...opts.session.route.params,
+              page: nextPage.toString(),
+            },
+          }
+        : undefined,
     },
-    route: opts.session.route
-      ? {
-          ...opts.session.route,
-          params: {
-            ...opts.session.route.params,
-            page: nextPage.toString(),
-          },
-        }
-      : undefined,
   });
 };

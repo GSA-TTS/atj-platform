@@ -3,14 +3,13 @@ import {
   type Blueprint,
   type FormSession,
   type FormSessionId,
-  createFormOutputFieldData,
   createFormSession,
   defaultFormConfig,
-  fillPDF,
 } from '../index.js';
 
 import { FormServiceContext } from '../context/index.js';
 import { submitPage } from '../patterns/page-set/submit';
+import { downloadPackageHandler } from '../patterns/package-download/submit';
 import { type FormRoute } from '../route-data.js';
 import { getActionString, SubmissionRegistry } from '../submission';
 
@@ -36,6 +35,10 @@ const registry = new SubmissionRegistry(defaultFormConfig);
 registry.registerHandler({
   handlerId: 'page-set',
   handler: submitPage,
+});
+registry.registerHandler({
+  handlerId: 'package-download',
+  handler: downloadPackageHandler,
 });
 
 export const submitForm: SubmitForm = async (
@@ -87,7 +90,7 @@ export const submitForm: SubmitForm = async (
   }
 
   const { handler, pattern } = submitHandlerResult.data;
-  const newSessionResult = handler(ctx.config, {
+  const newSessionResult = await handler(ctx.config, {
     pattern,
     session,
     data: formData,
@@ -100,7 +103,7 @@ export const submitForm: SubmitForm = async (
   const saveFormSessionResult = await ctx.repository.upsertFormSession({
     id: sessionId,
     formId,
-    data: newSessionResult.data,
+    data: newSessionResult.data.session,
   });
   if (!saveFormSessionResult.success) {
     return failure(saveFormSessionResult.error);
@@ -126,7 +129,8 @@ export const submitForm: SubmitForm = async (
 
   return success({
     sessionId: saveFormSessionResult.data.id,
-    session: newSessionResult.data,
+    session: newSessionResult.data.session,
+    attachments: newSessionResult.data.attachments,
   });
 };
 
@@ -145,34 +149,4 @@ const getFormSessionOrCreate = async (
     return failure('Session not found');
   }
   return success(sessionResult.data.data);
-};
-
-const generateDocumentPackage = async (
-  form: Blueprint,
-  formData: Record<string, string>
-) => {
-  const errors = new Array<string>();
-  const documents = new Array<{ fileName: string; data: Uint8Array }>();
-  for (const document of form.outputs) {
-    const docFieldData = createFormOutputFieldData(document, formData);
-    const pdfDocument = await fillPDF(document.data, docFieldData);
-    if (!pdfDocument.success) {
-      errors.push(pdfDocument.error);
-    } else {
-      documents.push({
-        fileName: document.path,
-        data: pdfDocument.data,
-      });
-    }
-  }
-  if (errors.length > 0) {
-    return {
-      success: false as const,
-      error: errors.join('\n'),
-    };
-  }
-  return {
-    success: true as const,
-    data: documents,
-  };
 };

@@ -7,6 +7,7 @@ import CheckboxPatternEdit from './CheckboxPatternEdit.js';
 import FieldsetEdit from './FieldsetEdit.js';
 import FormSummaryEdit from './FormSummaryEdit.js';
 import InputPatternEdit from './InputPatternEdit.js';
+import PackageDownloadPatternEdit from './PackageDownloadPatternEdit.js';
 import { PageEdit } from './PageEdit.js';
 import PageSetEdit from './PageSetEdit.js';
 import ParagraphPatternEdit from './ParagraphPatternEdit.js';
@@ -21,6 +22,7 @@ export const defaultPatternEditComponents: EditComponentForPattern = {
   input: InputPatternEdit as PatternEditComponent,
   'form-summary': FormSummaryEdit as PatternEditComponent,
   fieldset: FieldsetEdit as PatternEditComponent,
+  'package-download': PackageDownloadPatternEdit as PatternEditComponent,
   page: PageEdit as PatternEditComponent,
   'page-set': PageSetEdit as PatternEditComponent,
   'radio-group': RadioGroupPatternEdit as PatternEditComponent,

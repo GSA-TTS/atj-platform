@@ -18,7 +18,15 @@ export type SubmitHandler<P extends Pattern = Pattern> = (
     session: FormSession;
     data: Record<string, string>;
   }
-) => Result<FormSession>;
+) => Promise<
+  Result<{
+    session: FormSession;
+    attachments?: {
+      fileName: string;
+      data: Uint8Array;
+    }[];
+  }>
+>;
 
 const actionRegEx = /^action\/([a-z0-9-]+)\/([a-z0-9-]+)$/;
 const actionSchema = z
