@@ -106,10 +106,22 @@ export default function Form({
                 className="usa-form margin-bottom-3 maxw-full"
                 onSubmit={
                   onSubmit
-                    ? formMethods.handleSubmit(async data => {
+                    ? formMethods.handleSubmit(async (data, event) => {
+                        const submitEvent = event?.nativeEvent as
+                          | SubmitEvent
+                          | undefined;
+                        if (submitEvent === undefined) {
+                          console.error(
+                            "Can't handle submission without event"
+                          );
+                          return;
+                        }
+                        const action = (
+                          submitEvent.submitter as HTMLButtonElement
+                        )?.value;
                         updatePrompt(data);
                         console.log('Submitting form...');
-                        onSubmit(data);
+                        onSubmit({ ...data, action });
                       })
                     : undefined
                 }
