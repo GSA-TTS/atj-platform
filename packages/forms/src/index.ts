@@ -10,6 +10,8 @@ export * from './session.js';
 export * from './types.js';
 export { type FormService, createFormService } from './services/index.js';
 export { type RichTextPattern } from './patterns/rich-text.js';
+import { type SequencePattern } from './patterns/sequence.js';
+import { FieldsetPattern } from './patterns/index.js';
 export {
   type FormRepository,
   createFormsRepository,
