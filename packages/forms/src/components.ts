@@ -16,6 +16,15 @@ export type TextInputProps = PatternProps<{
   error?: FormError;
 }>;
 
+export type AttachmentProps = PatternProps<{
+  type: 'attachment';
+  inputId: string;
+  value: string;
+  label: string;
+  required: boolean;
+  error?: FormError;
+}>;
+
 export type FormSummaryProps = PatternProps<{
   type: 'form-summary';
   title: string;

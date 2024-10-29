@@ -1,5 +1,6 @@
 import { type FormConfig } from '../pattern.js';
 
+import { attachmentConfig } from './attachment/index.js';
 import { addressConfig } from './address/index.js';
 import { checkboxConfig } from './checkbox.js';
 import { fieldsetConfig } from './fieldset/index.js';
@@ -19,6 +20,7 @@ export const defaultFormConfig: FormConfig = {
   patterns: {
     'form-summary': formSummaryConfig,
     address: addressConfig,
+    attachment: attachmentConfig,
     checkbox: checkboxConfig,
     fieldset: fieldsetConfig,
     input: inputConfig,
@@ -31,6 +33,7 @@ export const defaultFormConfig: FormConfig = {
   },
 } as const;
 
+export * from './attachment/index.js';
 export * from './address/index.js';
 export * from './fieldset/index.js';
 export * from './input/index.js';

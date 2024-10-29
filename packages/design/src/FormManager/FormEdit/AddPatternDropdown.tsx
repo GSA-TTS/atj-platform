@@ -5,6 +5,7 @@ import { defaultFormConfig, type PatternConfig } from '@atj/forms';
 import { useFormManagerStore } from '../store.js';
 
 import styles from './formEditStyles.module.css';
+import attachmentIcon from './images/page-icon.svg';
 import blockIcon from './images/block-icon.svg';
 import checkboxIcon from './images/checkbox-icon.svg';
 import dateIcon from './images/date-icon.svg';
@@ -20,6 +21,7 @@ import classNames from 'classnames';
 
 // eslint-disable-next-line  @typescript-eslint/no-explicit-any
 const icons: Record<string, string | any> = {
+  'attachment-icon.svg': attachmentIcon,
   'block-icon.svg': blockIcon,
   'checkbox-icon.svg': checkboxIcon,
   'date-icon.svg.svg': dateIcon,
@@ -94,6 +96,7 @@ const sidebarPatterns: DropdownPattern[] = [
   ['paragraph', defaultFormConfig.patterns['paragraph']],
   ['rich-text', defaultFormConfig.patterns['rich-text']],
   ['radio-group', defaultFormConfig.patterns['radio-group']],
+  ['attachment', defaultFormConfig.patterns['attachment']],
 ] as const;
 export const fieldsetPatterns: DropdownPattern[] = [
   ['form-summary', defaultFormConfig.patterns['form-summary']],
@@ -102,6 +105,7 @@ export const fieldsetPatterns: DropdownPattern[] = [
   ['paragraph', defaultFormConfig.patterns['paragraph']],
   ['rich-text', defaultFormConfig.patterns['rich-text']],
   ['radio-group', defaultFormConfig.patterns['radio-group']],
+  ['attachment', defaultFormConfig.patterns['attachment']],
 ] as const;
 
 export const SidebarAddPatternMenuItem = ({
@@ -297,7 +301,9 @@ const AddPatternDropdownContent = ({
           >
             <img
               className="display-inline-block text-ttop margin-right-1"
-              src={getIconPath(pattern.iconPath || 'block-icon.svg')}
+              src={(() => {
+                return getIconPath(pattern.iconPath || 'block-icon.svg');
+              })()}
               alt=""
               width="24"
               height="24"

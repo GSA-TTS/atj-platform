@@ -3,6 +3,7 @@ import {
   type EditComponentForPattern,
 } from '../types.js';
 
+import AttachmentPatternEdit from './AttachmentPatternEdit.js';
 import CheckboxPatternEdit from './CheckboxPatternEdit.js';
 import FieldsetEdit from './FieldsetEdit.js';
 import FormSummaryEdit from './FormSummaryEdit.js';
@@ -16,6 +17,7 @@ import RichTextPatternEdit from './RichTextPatternEdit/index.js';
 import SubmissionConfirmationEdit from './SubmissionConfirmationEdit.js';
 
 export const defaultPatternEditComponents: EditComponentForPattern = {
+  attachment: AttachmentPatternEdit as PatternEditComponent,
   checkbox: CheckboxPatternEdit as PatternEditComponent,
   paragraph: ParagraphPatternEdit as PatternEditComponent,
   input: InputPatternEdit as PatternEditComponent,

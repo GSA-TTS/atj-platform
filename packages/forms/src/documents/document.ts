@@ -7,6 +7,7 @@ import {
   updateFormSummary,
 } from '../index.js';
 import { InputPattern } from '../patterns/input/index.js';
+import { AttachmentPattern } from '../patterns/attachment/index.js';
 import { SequencePattern } from '../patterns/sequence.js';
 import { PDFDocument, getDocumentFieldData } from './pdf/index.js';
 import {
@@ -124,6 +125,17 @@ export const addDocumentFieldsToForm = (
           maxLength: 128,
         },
       } satisfies InputPattern);
+    } else if (field.type === 'Attachment') {
+      patterns.push({
+        type: 'input',
+        id: patternId,
+        data: {
+          label: field.label,
+          initial: '',
+          required: false,
+          maxLength: 128,
+        },
+      } satisfies AttachmentPattern);
     } else if (field.type === 'RadioGroup') {
       patterns.push({
         type: 'input',

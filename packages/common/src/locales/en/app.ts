@@ -7,6 +7,11 @@ const defaults = {
 
 export const en = {
   patterns: {
+    attachment: {
+      ...defaults,
+      displayName: 'Attachment',
+      errorTextMustContainChar: 'String must contain at least 1 character(s)',
+    },
     checkbox: {
       ...defaults,
       displayName: 'Checkbox',
