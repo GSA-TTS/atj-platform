@@ -1,26 +1,25 @@
 import * as z from 'zod';
 
-import {
-  type FormConfig,
-  type FormErrors,
-  type Pattern,
-  type PatternId,
-  type PatternMap,
-  createPattern,
-  defaultFormConfig,
-} from '../../index.js';
-
-import { type FieldsetPattern } from '../../patterns/fieldset/index.js';
-import { type InputPattern } from '../../patterns/input/index.js';
+import { type FieldsetPattern } from '../../patterns/fieldset/config.js';
+import { type InputPattern } from '../../patterns/input/config.js';
+import { PagePattern } from '../../patterns/page/config.js';
+import { PageSetPattern } from '../../patterns/page-set/config.js';
 import { type ParagraphPattern } from '../../patterns/paragraph.js';
 import { type CheckboxPattern } from '../../patterns/checkbox.js';
 import { type RadioGroupPattern } from '../../patterns/radio-group.js';
+import { RichTextPattern } from '../../patterns/rich-text.js';
 
 import { uint8ArrayToBase64 } from '../util.js';
 import { type DocumentFieldMap } from '../types.js';
-import { PagePattern } from '../../patterns/page/config.js';
-import { PageSetPattern } from '../../patterns/page-set/config.js';
-import { RichTextPattern } from '../../patterns/rich-text.js';
+import {
+  createPattern,
+  FormConfig,
+  Pattern,
+  PatternId,
+  PatternMap,
+} from '../../pattern.js';
+import { FormErrors } from '../../error.js';
+import { defaultFormConfig } from '../../patterns/index.js';
 
 const FormSummary = z.object({
   component_type: z.literal('form_summary'),

@@ -1,17 +1,17 @@
 import { failure, success, type Result } from '@atj/common';
-import {
-  type Blueprint,
-  type FormSession,
-  type FormSessionId,
-  createFormSession,
-  defaultFormConfig,
-} from '../index.js';
 
-import { FormServiceContext } from '../context/index.js';
+import { type FormServiceContext } from '../context/index.js';
 import { submitPage } from '../patterns/page-set/submit';
 import { downloadPackageHandler } from '../patterns/package-download/submit';
 import { type FormRoute } from '../route-data.js';
 import { SubmissionRegistry } from '../submission';
+import {
+  createFormSession,
+  type FormSession,
+  type FormSessionId,
+} from '../session.js';
+import { defaultFormConfig } from '../patterns/index.js';
+import type { Blueprint } from '../types.js';
 
 export type SubmitForm = (
   ctx: FormServiceContext,

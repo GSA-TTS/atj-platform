@@ -36,8 +36,10 @@ export const defaultFormConfig: FormConfig = {
 export * from './address/index.js';
 export * from './checkbox.js';
 export * from './fieldset/index.js';
+export { type FieldsetPattern } from './fieldset/config.js';
 export * from './form-summary.js';
 export * from './input/index.js';
+export { type InputPattern } from './input/config.js';
 export * from './package-download/index.js';
 export * from './page/index.js';
 export { type PagePattern } from './page/config.js';

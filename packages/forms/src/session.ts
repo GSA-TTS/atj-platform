@@ -1,22 +1,16 @@
+import { type FormError } from './error.js';
+import { type SequencePattern } from './patterns/sequence.js';
 import {
-  type Blueprint,
   type FormConfig,
-  type FormError,
   type Pattern,
-  getPatternConfig,
-  validatePattern,
-} from './index.js';
-import { SequencePattern } from './patterns/sequence.js';
-import {
   type PatternId,
   type PatternValue,
   type PatternValueMap,
+  getPatternConfig,
+  validatePattern,
 } from './pattern.js';
-import {
-  type FormRoute,
-  type RouteData,
-  getRouteDataFromQueryString,
-} from './route-data.js';
+import { type FormRoute, type RouteData } from './route-data.js';
+import { type Blueprint } from './types.js';
 
 export type FormErrorMap = Record<PatternId, FormError>;
 

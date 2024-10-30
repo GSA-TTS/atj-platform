@@ -1,19 +1,20 @@
 import { z } from 'zod';
 
-import {
-  type CreatePrompt,
-  type FormSession,
-  type PageSetProps,
-  type PromptAction,
-  createPromptForPattern,
-  getPattern,
-} from '../../index.js';
 import { type RouteData } from '../../route-data.js';
 import { safeZodParseFormErrors } from '../../util/zod.js';
 
-import { type PageSetPattern } from './config.js';
 import { type PagePattern } from '../page/config.js';
-import { ActionName, getActionString } from '../../submission.js';
+import { type ActionName, getActionString } from '../../submission.js';
+import {
+  type CreatePrompt,
+  type PageSetProps,
+  type PromptAction,
+  createPromptForPattern,
+} from '../../components.js';
+import { getPattern } from '../../pattern.js';
+import { type FormSession } from '../../session.js';
+
+import { type PageSetPattern } from './config.js';
 
 export const createPrompt: CreatePrompt<PageSetPattern> = (
   config,
