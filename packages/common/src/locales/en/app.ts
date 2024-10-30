@@ -46,5 +46,11 @@ export const en = {
       fieldLabel: 'Radio group label',
       errorTextMustContainChar: 'String must contain at least 1 character(s)',
     },
+    selectDropdown: {
+      ...defaults,
+      displayName: 'Select Dropdown label',
+      fieldLabel: 'Select Dropdown label',
+      errorTextMustContainChar: 'String must contain at least 1 character(s)',
+    },
   },
 };

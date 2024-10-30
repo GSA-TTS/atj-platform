@@ -37,6 +37,16 @@ export type DocumentFieldValue =
       required: boolean;
     }
   | {
+      type: 'SelectDropdown';
+      name: string;
+      options: {
+        value: string;
+        label: string;
+      }[];
+      label: string;
+      required: boolean;
+    }
+  | {
       type: 'Paragraph';
       name: string;
       options: string[];

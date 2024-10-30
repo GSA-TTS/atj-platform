@@ -14,6 +14,7 @@ import ParagraphPatternEdit from './ParagraphPatternEdit.js';
 import { PatternPreviewSequence } from './PreviewSequencePattern/index.js';
 import RadioGroupPatternEdit from './RadioGroupPatternEdit.js';
 import RichTextPatternEdit from './RichTextPatternEdit/index.js';
+import SelectDropdownPatternEdit from './SelectDropdownPatternEdit.js';
 import SubmissionConfirmationEdit from './SubmissionConfirmationEdit.js';
 
 export const defaultPatternEditComponents: EditComponentForPattern = {
@@ -27,6 +28,7 @@ export const defaultPatternEditComponents: EditComponentForPattern = {
   'page-set': PageSetEdit as PatternEditComponent,
   'radio-group': RadioGroupPatternEdit as PatternEditComponent,
   'rich-text': RichTextPatternEdit as PatternEditComponent,
+  'select-dropdown': SelectDropdownPatternEdit as PatternEditComponent,
   sequence: PatternPreviewSequence as PatternEditComponent,
   'submission-confirmation': SubmissionConfirmationEdit as PatternEditComponent,
 };
