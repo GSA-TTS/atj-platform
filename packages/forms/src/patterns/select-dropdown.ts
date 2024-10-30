@@ -7,7 +7,10 @@ import {
   validatePattern,
 } from '../pattern.js';
 import { getFormSessionValue } from '../session.js';
-import { safeZodParseFormErrors } from '../util/zod.js';
+import {
+  safeZodParseFormErrors,
+  safeZodParseToFormError,
+} from '../util/zod.js';
 
 const configSchema = z.object({
   label: z.string().min(1),
@@ -21,14 +24,15 @@ const configSchema = z.object({
     })
     .array(),
 });
+
 export type SelectDropdownPattern = Pattern<z.infer<typeof configSchema>>;
 
-const PatternOutput = z.string();
-type PatternOutput = z.infer<typeof PatternOutput>;
+const SelectDropdownSchema = z.string();
+type SelectDropdownPatternOutput = z.infer<typeof SelectDropdownSchema>;
 
 export const selectDropdownConfig: PatternConfig<
   SelectDropdownPattern,
-  PatternOutput
+  SelectDropdownPatternOutput
 > = {
   displayName: 'Select Dropdown',
   iconPath: 'dropdown-icon.svg',
@@ -36,57 +40,24 @@ export const selectDropdownConfig: PatternConfig<
     label: 'Select-dropdown-label',
     required: true,
     options: [
-      { value: 'value1', label: '-Select-' },
-      { value: 'value2', label: 'Option-1' },
-      { value: 'value3', label: 'Option-2' },
-      { value: 'value4', label: 'Option-3' },
+      { value: 'value1', label: 'Option-1' },
+      { value: 'value2', label: 'Option-2' },
+      { value: 'value3', label: 'Option-3' },
     ],
   },
-
-  parseUserInput: (pattern, input: unknown) => {
-    console.log('TEST parseUserInput');
-
-    // FIXME: Not sure why we're sometimes getting a string here, and sometimes
-    // the expected object. Workaround, by accepting both.
-    if (typeof input === 'string') {
-      return {
-        success: true,
-        data: input,
-      };
-    }
-    // const optionId = getSelectedOption(pattern, input);
-    return {
-      success: true,
-      data: '',
-    };
-    /*
-      if (optionId) {
-        return {
-          success: true,
-          data: optionId,
-        };
-      }
-      return {
-        success: false,
-        error: {
-          type: 'custom',
-          message: `No option selected for radio group: ${pattern.id}. Input: ${input}`,
-        },
-      };
-      */
+  //  STILL IN PROGRESS:
+  parseUserInput: (_, inputObj) => {
+    return safeZodParseToFormError(SelectDropdownSchema, inputObj);
   },
 
   parseConfigData: obj => {
     const result = safeZodParseFormErrors(configSchema, obj);
-    console.log('TEST ParseConfigData', result);
-
     return result;
   },
   getChildren() {
     return [];
   },
 
-  // QUESTION: where are we using this?
   createPrompt(_, session, pattern, options) {
     const extraAttributes: Record<string, any> = {};
     const sessionValue = getFormSessionValue(session, pattern.id);

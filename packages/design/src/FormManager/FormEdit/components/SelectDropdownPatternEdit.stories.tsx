@@ -16,10 +16,9 @@ const pattern: SelectDropdownPattern = {
     label: message.patterns.selectDropdown.displayName,
     required: false,
     options: [
-      { value: 'value1', label: '- select -' },
+      { value: 'value1', label: 'Option-1' },
       { value: 'value2', label: 'Option-2' },
       { value: 'value3', label: 'Option-3' },
-      { value: 'value4', label: 'Option-4' },
     ],
   },
 };
@@ -79,7 +78,7 @@ export const AddField: StoryObj<typeof FormEdit> = {
     );
 
     await expect(
-      await canvas.findByLabelText('Option 4 label')
+      await canvas.findByLabelText('Option 3 label')
     ).toBeInTheDocument();
   },
 };

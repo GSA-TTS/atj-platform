@@ -32,7 +32,6 @@ export const Default: StoryObj<typeof SelectDropdownPattern> = {
     label: 'Select an option',
     required: false,
     options: [
-      { value: 'default', label: '- Select -' },
       { value: 'value1', label: 'Option-1' },
       { value: 'value2', label: 'Option-2' },
       { value: 'value3', label: 'Option-3' },
@@ -48,7 +47,6 @@ export const WithError: StoryObj<typeof SelectDropdownPattern> = {
     label: 'Select an option with error',
     required: false,
     options: [
-      { value: 'default', label: '- Select -' },
       { value: 'value1', label: 'Option-1' },
       { value: 'value2', label: 'Option-2' },
       { value: 'value3', label: 'Option-3' },
@@ -68,10 +66,9 @@ export const Required: StoryObj<typeof SelectDropdownPattern> = {
     label: 'Select a required option',
     required: true,
     options: [
-      { value: 'value1', label: '- Select -' },
-      { value: 'value2', label: 'Option-1' },
-      { value: 'value3', label: 'Option-2' },
-      { value: 'value4', label: 'Option-3' },
+      { value: 'value1', label: 'Option-1' },
+      { value: 'value2', label: 'Option-2' },
+      { value: 'value3', label: 'Option-3' },
     ],
   },
 };
