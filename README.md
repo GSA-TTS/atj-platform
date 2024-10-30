@@ -48,6 +48,8 @@ To install the browsers needed for the Storybook testing with `@vitest/browser`,
 pnpm test
 ```
 
+To run tests, you will need to have either Podman or Docker Desktop installed to enable PostgreSQL to start in a container before the tests execute. While we support both Docker and Podman, we recommend using Podman as a free alternative. For detailed setup instructions, refer to the [Podman Desktop Integration](./documents/podman-integration.md) guide.
+
 To run tests in watch mode (except the `infra` tests, which use Jest):
 
 ```bash
