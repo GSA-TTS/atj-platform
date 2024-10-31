@@ -7,10 +7,7 @@ import {
   validatePattern,
 } from '../pattern.js';
 import { getFormSessionValue } from '../session.js';
-import {
-  safeZodParseFormErrors,
-  safeZodParseToFormError,
-} from '../util/zod.js';
+import { safeZodParseFormErrors } from '../util/zod.js';
 
 const configSchema = z.object({
   label: z.string().min(1),
@@ -27,8 +24,24 @@ const configSchema = z.object({
 
 export type SelectDropdownPattern = Pattern<z.infer<typeof configSchema>>;
 
-const SelectDropdownSchema = z.string();
-type SelectDropdownPatternOutput = z.infer<typeof SelectDropdownSchema>;
+type SelectDropdownPatternOutput = string;
+export type InputPatternOutput = z.infer<ReturnType<typeof createSchema>>;
+
+export const createSchema = (data: SelectDropdownPattern['data']) => {
+  const values = data.options.map(option => option.value);
+
+  if (values.length === 0) {
+    throw new Error('Options must have at least one value');
+  }
+
+  const schema = z.enum([values[0], ...values.slice(1)]);
+
+  if (!data.required) {
+    return z.union([schema, z.literal('')]).transform(val => val || undefined);
+  }
+
+  return schema;
+};
 
 export const selectDropdownConfig: PatternConfig<
   SelectDropdownPattern,
@@ -45,9 +58,34 @@ export const selectDropdownConfig: PatternConfig<
       { value: 'value3', label: 'Option-3' },
     ],
   },
-  //  STILL IN PROGRESS:
-  parseUserInput: (_, inputObj) => {
-    return safeZodParseToFormError(SelectDropdownSchema, inputObj);
+
+  parseUserInput: (pattern, inputObj) => {
+    const expectedInput = inputObj as { value: string };
+
+    const schema = createSchema(pattern.data);
+    try {
+      const parsedValue = schema.parse(expectedInput.value);
+      return parsedValue
+        ? { success: true, data: parsedValue }
+        : {
+            success: false,
+            error: {
+              type: 'custom',
+              message: 'Parsed select dropdown value is undefined',
+            },
+          };
+    } catch (e) {
+      const zodError = e as z.ZodError;
+      return {
+        success: false,
+        error: {
+          type: 'custom',
+          message: zodError.errors
+            ? zodError.errors[0].message
+            : zodError.message,
+        },
+      };
+    }
   },
 
   parseConfigData: obj => {

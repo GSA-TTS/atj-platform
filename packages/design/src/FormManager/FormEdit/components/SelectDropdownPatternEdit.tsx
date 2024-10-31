@@ -90,14 +90,14 @@ const EditComponent = ({ pattern }: { pattern: SelectDropdownPattern }) => {
                   id={fieldId(`options.${index}.value`)}
                   {...register(`options.${index}.value`)}
                   defaultValue={option.value}
-                  aria-label={`Option ${index} value`}
+                  aria-label={`Option ${index + 1} value`}
                 />
                 <input
                   className="usa-input"
                   id={fieldId(`options.${index}.label`)}
                   {...register(`options.${index}.label`)}
                   defaultValue={option.label}
-                  aria-label={`Option ${index} label`}
+                  aria-label={`Option ${index + 1} label`}
                 />
               </div>
             </div>
@@ -108,8 +108,8 @@ const EditComponent = ({ pattern }: { pattern: SelectDropdownPattern }) => {
           type="button"
           onClick={event => {
             event.preventDefault();
-            const optionId = `option-${options.length}`;
-            const optionValue = `value-${options.length}`;
+            const optionId = `option-${options.length + 1}`;
+            const optionValue = `value-${options.length + 1}`;
             setOptions(options.concat({ value: optionValue, label: optionId }));
           }}
         >
