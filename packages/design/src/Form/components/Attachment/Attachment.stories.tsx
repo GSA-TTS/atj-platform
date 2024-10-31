@@ -27,10 +27,10 @@ export default meta;
 export const Required = {
   args: {
     _patternId: '',
-    type: 'input',
+    type: 'attachment',
     inputId: 'test-prompt',
     value: '',
-    label: 'Please enter your first name.',
+    label: 'File upload',
     required: true,
   },
 } satisfies StoryObj<typeof Attachment>;
@@ -38,10 +38,10 @@ export const Required = {
 export const NotRequired = {
   args: {
     _patternId: '',
-    type: 'input',
+    type: 'attachment',
     inputId: 'test-prompt',
     value: '',
-    label: 'Please enter your first name.',
+    label: 'File upload',
     required: false,
   },
 } satisfies StoryObj<typeof Attachment>;
