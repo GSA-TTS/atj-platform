@@ -75,9 +75,7 @@ export class SubmissionRegistry {
     }
     const pattern = getPattern(form, result.data.patternId);
     if (pattern === undefined) {
-      return failure(
-        `asdfPattern with id ${result.data.patternId} does not exist`
-      );
+      return failure(`Pattern with id ${result.data.patternId} does not exist`);
     }
     return success({
       handler,
