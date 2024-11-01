@@ -89,6 +89,18 @@ export type RadioGroupProps = PatternProps<{
   }[];
 }>;
 
+export type SelectDropdownProps = PatternProps<{
+  type: 'select-dropdown';
+  selectId: string;
+  options: {
+    value: string;
+    label: string;
+  }[];
+  label: string;
+  required: boolean;
+  error?: FormError;
+}>;
+
 export type SequenceProps = PatternProps<{
   type: 'sequence';
 }>;
