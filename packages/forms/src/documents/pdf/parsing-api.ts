@@ -83,14 +83,7 @@ const ExtractedObject = z.object({
   raw_text: z.string(),
   form_summary: FormSummary,
   elements: z
-    .union([
-      TxInput,
-      Checkbox,
-      RadioGroup,
-      Paragraph,
-      Fieldset,
-      RichText,
-    ])
+    .union([TxInput, Checkbox, RadioGroup, Paragraph, Fieldset, RichText])
     .array(),
 });
 

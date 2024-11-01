@@ -71,16 +71,15 @@ describe('SelectDropdownPattern tests', () => {
       };
 
       const inputValue = 'value1';
-      if (selectDropdownConfig.parseUserInput) {
-        const result = selectDropdownConfig.parseUserInput(pattern, inputValue);
-        console.log('Test parse result:', result);
-        if (result.success) {
-          expect(result.data).toBe('value1');
-        } else {
-          throw new Error('Unexpected validation failure');
-        }
+      if (!selectDropdownConfig.parseUserInput) {
+        expect.fail('selectDropdownConfig.parseUserInput is not undefined');
+      }
+      const result = selectDropdownConfig.parseUserInput(pattern, inputValue);
+      console.log('Test parse result:', result);
+      if (result.success) {
+        expect(result.data).toBe('value1');
       } else {
-        throw new Error('parseUserInput is undefined');
+        throw new Error('Unexpected validation failure');
       }
     });
 
@@ -99,19 +98,18 @@ describe('SelectDropdownPattern tests', () => {
       };
 
       const inputValue = 'invalid';
-      if (selectDropdownConfig.parseUserInput) {
-        const result = selectDropdownConfig.parseUserInput(pattern, inputValue);
-        console.log('Test parse result (error case):', result);
-        if (!result.success) {
-          expect(result.error).toBeDefined();
-          expect(result.error.message).toBe(
-            "Invalid enum value. Expected 'value1' | 'value2', received 'invalid'"
-          );
-        } else {
-          throw new Error('Unexpected validation success');
-        }
+      if (!selectDropdownConfig.parseUserInput) {
+        expect.fail('selectDropdownConfig.parseUserInput is not undefined');
+      }
+      const result = selectDropdownConfig.parseUserInput(pattern, inputValue);
+      console.log('Test parse result (error case):', result);
+      if (!result.success) {
+        expect(result.error).toBeDefined();
+        expect(result.error.message).toBe(
+          "Invalid enum value. Expected 'value1' | 'value2', received 'invalid'"
+        );
       } else {
-        throw new Error('parseUserInput is undefined');
+        throw new Error('Unexpected validation success');
       }
     });
 
@@ -125,17 +123,16 @@ describe('SelectDropdownPattern tests', () => {
         ],
       };
 
-      if (selectDropdownConfig.parseConfigData) {
-        const result = selectDropdownConfig.parseConfigData(obj);
-        if (result.success) {
-          expect(result.data.label).toBe('Test Dropdown');
-          expect(result.data.required).toBe(true);
-          expect(result.data.options.length).toBe(2);
-        } else {
-          throw new Error('Unexpected validation failure');
-        }
+      if (!selectDropdownConfig.parseConfigData) {
+        expect.fail('selectDropdownConfig.parseConfigData is not undefined');
+      }
+      const result = selectDropdownConfig.parseConfigData(obj);
+      if (result.success) {
+        expect(result.data.label).toBe('Test Dropdown');
+        expect(result.data.required).toBe(true);
+        expect(result.data.options.length).toBe(2);
       } else {
-        throw new Error('parseConfigData is undefined');
+        throw new Error('Unexpected validation failure');
       }
     });
 
@@ -146,15 +143,14 @@ describe('SelectDropdownPattern tests', () => {
         options: [],
       };
 
-      if (selectDropdownConfig.parseConfigData) {
-        const result = selectDropdownConfig.parseConfigData(obj);
-        if (!result.success) {
-          expect(result.error).toBeDefined();
-        } else {
-          throw new Error('Unexpected validation success');
-        }
+      if (!selectDropdownConfig.parseConfigData) {
+        expect.fail('selectDropdownConfig.parseConfigData is not undefined');
+      }
+      const result = selectDropdownConfig.parseConfigData(obj);
+      if (!result.success) {
+        expect(result.error).toBeDefined();
       } else {
-        throw new Error('parseConfigData is undefined');
+        throw new Error('Unexpected validation success');
       }
     });
   });
