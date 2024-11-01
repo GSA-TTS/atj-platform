@@ -61,7 +61,9 @@ const AppFormRoute = () => {
             uswdsRoot: ctx.uswdsRoot,
           }}
           session={formSessionResponse.formSession}
-          onSubmit={data => actions.onSubmitForm({ formId: id, data })}
+          onSubmit={data => {
+            actions.onSubmitForm({ formId: id, data });
+          }}
         />
       )}
     </>

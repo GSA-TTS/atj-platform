@@ -22,6 +22,11 @@ export const en = {
       displayName: 'Short answer',
       maxLength: 'Maximum length',
     },
+    packageDownload: {
+      ...defaults,
+      displayName: 'Package download',
+      fieldLabel: 'Package download label',
+    },
     page: {
       fieldLabel: 'Page title',
     },

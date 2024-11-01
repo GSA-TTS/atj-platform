@@ -3,15 +3,15 @@ import {
   type Blueprint,
   type FormSession,
   type FormSessionId,
-  applyPromptResponse,
-  createFormOutputFieldData,
   createFormSession,
-  fillPDF,
-  sessionIsComplete,
+  defaultFormConfig,
 } from '../index.js';
 
 import { FormServiceContext } from '../context/index.js';
+import { submitPage } from '../patterns/page-set/submit';
+import { downloadPackageHandler } from '../patterns/package-download/submit';
 import { type FormRoute } from '../route-data.js';
+import { SubmissionRegistry } from '../submission';
 
 export type SubmitForm = (
   ctx: FormServiceContext,
@@ -23,12 +23,23 @@ export type SubmitForm = (
   Result<{
     sessionId: FormSessionId;
     session: FormSession;
-    documents?: {
+    attachments?: {
       fileName: string;
       data: Uint8Array;
     }[];
   }>
 >;
+
+// Temportary location for the SubmissionRegistry.
+const registry = new SubmissionRegistry(defaultFormConfig);
+registry.registerHandler({
+  handlerId: 'page-set',
+  handler: submitPage,
+});
+registry.registerHandler({
+  handlerId: 'package-download',
+  handler: downloadPackageHandler,
+});
 
 export const submitForm: SubmitForm = async (
   ctx,
@@ -49,16 +60,33 @@ export const submitForm: SubmitForm = async (
     sessionId
   );
   if (!sessionResult.success) {
-    return failure('Session not found');
+    return sessionResult;
   }
 
-  //const session = getSessionFromStorage(ctx.storage, sessionId) || createFormSession(form);
-  // For now, the client-side is producing its own error messages.
-  // In the future, we'll want this service to return errors to the client.
-  const newSessionResult = applyPromptResponse(ctx.config, sessionResult.data, {
-    action: 'submit',
+  const session: FormSession = route
+    ? {
+        ...sessionResult.data,
+        route,
+      }
+    : sessionResult.data;
+
+  const actionString = formData['action'];
+  if (typeof actionString !== 'string') {
+    return failure(`Invalid action: ${actionString}`);
+  }
+
+  const submitHandlerResult = registry.getHandlerForAction(form, actionString);
+  if (!submitHandlerResult.success) {
+    return failure(submitHandlerResult.error);
+  }
+
+  const { handler, pattern } = submitHandlerResult.data;
+  const newSessionResult = await handler(ctx.config, {
+    pattern,
+    session,
     data: formData,
   });
+
   if (!newSessionResult.success) {
     return failure(newSessionResult.error);
   }
@@ -66,13 +94,13 @@ export const submitForm: SubmitForm = async (
   const saveFormSessionResult = await ctx.repository.upsertFormSession({
     id: sessionId,
     formId,
-    data: newSessionResult.data,
+    data: newSessionResult.data.session,
   });
   if (!saveFormSessionResult.success) {
     return failure(saveFormSessionResult.error);
   }
 
-  /* TODO: consider whether this is necessary, or should happen elsewhere. */
+  /*
   if (sessionIsComplete(ctx.config, newSessionResult.data)) {
     const documentsResult = await generateDocumentPackage(
       form,
@@ -88,10 +116,12 @@ export const submitForm: SubmitForm = async (
       documents: documentsResult.data,
     });
   }
+  */
 
   return success({
     sessionId: saveFormSessionResult.data.id,
-    session: newSessionResult.data,
+    session: newSessionResult.data.session,
+    attachments: newSessionResult.data.attachments,
   });
 };
 
@@ -109,34 +139,4 @@ const getFormSessionOrCreate = async (
     return failure('Session not found');
   }
   return success(sessionResult.data.data);
-};
-
-const generateDocumentPackage = async (
-  form: Blueprint,
-  formData: Record<string, string>
-) => {
-  const errors = new Array<string>();
-  const documents = new Array<{ fileName: string; data: Uint8Array }>();
-  for (const document of form.outputs) {
-    const docFieldData = createFormOutputFieldData(document, formData);
-    const pdfDocument = await fillPDF(document.data, docFieldData);
-    if (!pdfDocument.success) {
-      errors.push(pdfDocument.error);
-    } else {
-      documents.push({
-        fileName: document.path,
-        data: pdfDocument.data,
-      });
-    }
-  }
-  if (errors.length > 0) {
-    return {
-      success: false as const,
-      error: errors.join('\n'),
-    };
-  }
-  return {
-    success: true as const,
-    data: documents,
-  };
 };

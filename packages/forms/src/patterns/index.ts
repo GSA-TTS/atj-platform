@@ -5,6 +5,7 @@ import { checkboxConfig } from './checkbox.js';
 import { fieldsetConfig } from './fieldset/index.js';
 import { formSummaryConfig } from './form-summary.js';
 import { inputConfig } from './input/index.js';
+import { packageDownloadConfig } from './package-download/index.js';
 import { pageConfig } from './page/index.js';
 import { pageSetConfig } from './page-set/index.js';
 import { paragraphConfig } from './paragraph.js';
@@ -22,6 +23,7 @@ export const defaultFormConfig: FormConfig = {
     checkbox: checkboxConfig,
     fieldset: fieldsetConfig,
     input: inputConfig,
+    'package-download': packageDownloadConfig,
     page: pageConfig,
     'page-set': pageSetConfig,
     paragraph: paragraphConfig,
@@ -32,14 +34,15 @@ export const defaultFormConfig: FormConfig = {
 } as const;
 
 export * from './address/index.js';
+export * from './checkbox.js';
 export * from './fieldset/index.js';
+export * from './form-summary.js';
 export * from './input/index.js';
+export * from './package-download/index.js';
 export * from './page/index.js';
 export { type PagePattern } from './page/config.js';
 export * from './page-set/index.js';
 export { type PageSetPattern } from './page-set/config.js';
-export * from './checkbox.js';
-export * from './form-summary.js';
 export * from './paragraph.js';
 export * from './radio-group.js';
 export * from './sequence.js';

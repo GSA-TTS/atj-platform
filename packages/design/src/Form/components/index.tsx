@@ -4,6 +4,7 @@ import Address from './Address/index.js';
 import Checkbox from './Checkbox/index.js';
 import Fieldset from './Fieldset/index.js';
 import FormSummary from './FormSummary/index.js';
+import PackageDownload from './PackageDownload/index.js';
 import Page from './Page/index.js';
 import PageSet from './PageSet/index.js';
 import Paragraph from './Paragraph/index.js';
@@ -19,6 +20,7 @@ export const defaultPatternComponents: ComponentForPattern = {
   fieldset: Fieldset as PatternComponent,
   'form-summary': FormSummary as PatternComponent,
   input: TextInput as PatternComponent,
+  'package-download': PackageDownload as PatternComponent,
   page: Page as PatternComponent,
   'page-set': PageSet as PatternComponent,
   paragraph: Paragraph as PatternComponent,

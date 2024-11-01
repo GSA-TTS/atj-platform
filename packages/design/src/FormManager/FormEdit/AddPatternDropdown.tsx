@@ -94,6 +94,7 @@ const sidebarPatterns: DropdownPattern[] = [
   ['paragraph', defaultFormConfig.patterns['paragraph']],
   ['rich-text', defaultFormConfig.patterns['rich-text']],
   ['radio-group', defaultFormConfig.patterns['radio-group']],
+  ['package-download', defaultFormConfig.patterns['package-download']],
 ] as const;
 export const fieldsetPatterns: DropdownPattern[] = [
   ['form-summary', defaultFormConfig.patterns['form-summary']],
@@ -102,6 +103,7 @@ export const fieldsetPatterns: DropdownPattern[] = [
   ['paragraph', defaultFormConfig.patterns['paragraph']],
   ['rich-text', defaultFormConfig.patterns['rich-text']],
   ['radio-group', defaultFormConfig.patterns['radio-group']],
+  ['package-download', defaultFormConfig.patterns['package-download']],
 ] as const;
 
 export const SidebarAddPatternMenuItem = ({

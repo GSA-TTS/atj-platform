@@ -5,7 +5,7 @@ import { type Blueprint } from '../index.js';
 export type GetForm = (
   ctx: DatabaseContext,
   formId: string
-) => Promise</*Blueprint*/ any | null>;
+) => Promise<Blueprint | null>;
 
 export const getForm: GetForm = async (ctx, formId) => {
   const db = await ctx.getKysely();

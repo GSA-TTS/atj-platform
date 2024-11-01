@@ -13,6 +13,7 @@ import { safeZodParseFormErrors } from '../../util/zod.js';
 
 import { type PageSetPattern } from './config.js';
 import { type PagePattern } from '../page/config.js';
+import { ActionName, getActionString } from '../../submission.js';
 
 export const createPrompt: CreatePrompt<PageSetPattern> = (
   config,
@@ -37,6 +38,7 @@ export const createPrompt: CreatePrompt<PageSetPattern> = (
     session,
     pageCount: pattern.data.pages.length,
     pageIndex: activePage,
+    pattern,
   });
   return {
     props: {
@@ -82,6 +84,7 @@ const getActionsForPage = (opts: {
   session: FormSession;
   pageCount: number;
   pageIndex: number | null;
+  pattern: PageSetPattern;
 }): PromptAction[] => {
   if (opts.pageIndex === null) {
     return [];
@@ -95,16 +98,20 @@ const getActionsForPage = (opts: {
       url: `${pathName}?page=${opts.pageIndex - 1}`,
     });
   }
+  const actionName: ActionName = getActionString({
+    handlerId: 'page-set',
+    patternId: opts.pattern.id,
+  });
   if (opts.pageIndex < opts.pageCount - 1) {
     actions.push({
       type: 'submit',
-      submitAction: 'next',
+      submitAction: actionName,
       text: 'Next',
     });
   } else {
     actions.push({
       type: 'submit',
-      submitAction: 'submit',
+      submitAction: actionName,
       text: 'Submit',
     });
   }

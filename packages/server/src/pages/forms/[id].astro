@@ -42,11 +42,9 @@ if (Astro.request.method === 'POST') {
   const formData = await Astro.request.formData();
   const formDataObject: Record<string, string> = {};
   formData.forEach((value, key) => {
-    if (key === 'action') {
-      return;
-    }
     formDataObject[key] = value.toString();
   });
+
   const submitFormResult = await ctx.formService.submitForm(
     sessionId,
     formId,
@@ -59,7 +57,12 @@ if (Astro.request.method === 'POST') {
     });
   }
   setFormSessionCookie(submitFormResult.data.sessionId);
-  return Astro.redirect(getNextUrl(formRoute));
+
+  if (submitFormResult.data.attachments) {
+    return createMultipartResponse(submitFormResult.data.attachments);
+  }
+
+  return Astro.redirect(getNextUrl(submitFormResult.data.session.route));
 }
 
 const formResult = await ctx.formService.getForm(formId);
@@ -80,7 +83,7 @@ if (!sessionResult.success) {
     status: 500,
   });
 }
-setFormSessionCookie(sessionResult.data.id || 'fake-cookie-session-id');
+setFormSessionCookie(sessionResult.data.id);
 
 const formSession = sessionResult.data.data;
 ---

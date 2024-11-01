@@ -18,7 +18,10 @@ export type PatternId = string;
 export type PatternValue<T extends Pattern = Pattern> = any;
 export type PatternValueMap = Record<PatternId, PatternValue>;
 export type PatternMap = Record<PatternId, Pattern>;
-export type GetPattern = (form: Blueprint, id: PatternId) => Pattern;
+export type GetPattern<T extends Pattern = Pattern> = (
+  form: Blueprint,
+  id: PatternId
+) => Pattern;
 
 export type ParseUserInput<Pattern, PatternOutput> = (
   pattern: Pattern,
@@ -34,8 +37,37 @@ type RemoveChildPattern<P extends Pattern> = (
   patternId: PatternId
 ) => P;
 
+export abstract class PatternBuilder<P extends Pattern> {
+  public readonly id: PatternId;
+  public readonly data: P['data'];
+
+  constructor(data: P['data'], id?: PatternId) {
+    this.id = id || generatePatternId();
+    this.data = data;
+  }
+
+  abstract toPattern(): P;
+}
+
 export const getPattern: GetPattern = (form, patternId) => {
   return form.patterns[patternId];
+};
+
+export const getPatternSafely = <P extends Pattern>(opts: {
+  type: string;
+  form: Blueprint;
+  patternId: PatternId;
+}): r.Result<P> => {
+  const pattern = opts.form.patterns[opts.patternId];
+  if (pattern === undefined) {
+    return r.failure(`Pattern with id ${opts.patternId} does not exist`);
+  }
+  if (pattern.type !== opts.type) {
+    return r.failure(
+      `Pattern with id ${opts.patternId} is not of type ${opts.type}`
+    );
+  }
+  return r.success(pattern as P);
 };
 
 export type PatternConfig<
@@ -87,15 +119,46 @@ export const validatePattern = (
   }
   const parseResult = patternConfig.parseUserInput(pattern, value);
   if (!parseResult.success) {
-    return {
-      success: false,
-      error: parseResult.error,
-    };
+    return r.failure(parseResult.error);
   }
-  return {
-    success: true,
-    data: parseResult.data,
-  };
+  return r.success(parseResult.data);
+};
+
+export const validatePatternAndChildren = (
+  config: FormConfig,
+  form: Blueprint,
+  patternConfig: PatternConfig,
+  pattern: Pattern,
+  values: Record<string, string>,
+  result: {
+    values: Record<PatternId, PatternValue>;
+    errors: Record<PatternId, FormError>;
+  } = { values: {}, errors: {} }
+) => {
+  if (patternConfig.parseUserInput) {
+    const parseResult = patternConfig.parseUserInput(
+      pattern,
+      values[pattern.id]
+    );
+    if (parseResult.success) {
+      result.values[pattern.id] = parseResult.data;
+    } else {
+      result.values[pattern.id] = values[pattern.id];
+      result.errors[pattern.id] = parseResult.error;
+    }
+  }
+  for (const child of patternConfig.getChildren(pattern, form.patterns)) {
+    const childPatternConfig = getPatternConfig(config, child.type);
+    validatePatternAndChildren(
+      config,
+      form,
+      childPatternConfig,
+      child,
+      values,
+      result
+    );
+  }
+  return result;
 };
 
 export const getFirstPattern = (
