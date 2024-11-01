@@ -113,9 +113,6 @@ const setFormFieldData = (
   } else if (fieldType === 'OptionList') {
     const field = form.getDropdown(fieldName);
     field.select(fieldValue);
-  } else if (fieldType === 'SelectDropdown') {
-    const field = form.getDropdown(fieldName);
-    field.select(fieldValue);
   } else if (fieldType === 'RadioGroup') {
     // TODO: remove this when we have a better way to handle radio groups
     try {

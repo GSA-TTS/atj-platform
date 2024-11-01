@@ -137,17 +137,6 @@ export const addDocumentFieldsToForm = (
           maxLength: 128,
         },
       } satisfies InputPattern);
-    } else if (field.type === 'SelectDropdown') {
-      patterns.push({
-        type: 'input',
-        id: patternId,
-        data: {
-          label: field.label,
-          initial: '',
-          required: false,
-          maxLength: 128,
-        },
-      } satisfies InputPattern);
     } else if (field.type === 'Paragraph' || field.type === 'RichText') {
       // skip purely presentational fields
     } else if (field.type === 'not-supported') {
