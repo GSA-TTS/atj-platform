@@ -1,12 +1,8 @@
 import * as r from '@atj/common';
-import {
-  type Blueprint,
-  type FormError,
-  type FormErrors,
-  updatePattern,
-} from './index.js';
 
 import { type CreatePrompt } from './components.js';
+import { type FormError, type FormErrors } from './error.js';
+import { type Blueprint } from './types.js';
 
 export type Pattern<C = any> = {
   type: string;
@@ -49,8 +45,11 @@ export abstract class PatternBuilder<P extends Pattern> {
   abstract toPattern(): P;
 }
 
-export const getPattern: GetPattern = (form, patternId) => {
-  return form.patterns[patternId];
+export const getPattern = <T extends Pattern = Pattern>(
+  form: Blueprint,
+  id: PatternId
+): T => {
+  return form.patterns[id] as T;
 };
 
 export const getPatternSafely = <P extends Pattern>(opts: {
@@ -68,6 +67,16 @@ export const getPatternSafely = <P extends Pattern>(opts: {
     );
   }
   return r.success(pattern as P);
+};
+
+export const updatePattern = (form: Blueprint, pattern: Pattern): Blueprint => {
+  return {
+    ...form,
+    patterns: {
+      ...form.patterns,
+      [pattern.id]: pattern,
+    },
+  };
 };
 
 export type PatternConfig<

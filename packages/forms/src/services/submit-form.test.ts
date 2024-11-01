@@ -1,20 +1,17 @@
 import { describe, expect, it } from 'vitest';
 
-import {
-  createForm,
-  createFormSession,
-  type Blueprint,
-  type InputPattern,
-  type PagePattern,
-  type PageSetPattern,
-  type PatternValueMap,
-} from '../index.js';
 import { createTestFormServiceContext } from '../testing.js';
 import { submitForm } from './submit-form.js';
 import {
   createTestFormWithPDF,
   getMockFormData,
 } from '../documents/__tests__/test-documents.js';
+import { createFormSession } from '../session.js';
+import { createForm } from '../blueprint.js';
+import { type PageSetPattern } from '../patterns/page-set/config.js';
+import { type PagePattern } from '../patterns/page/config.js';
+import { type InputPattern } from '../patterns/input/config.js';
+import { type Blueprint } from '../types.js';
 
 describe('submitForm', () => {
   it('fails with missing action string', async () => {

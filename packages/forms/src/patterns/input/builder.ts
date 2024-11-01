@@ -1,5 +1,5 @@
 import { PatternBuilder } from '../../pattern';
-import { type InputPattern } from '.';
+import { type InputPattern } from './config';
 
 export class Input extends PatternBuilder<InputPattern> {
   toPattern(): InputPattern {

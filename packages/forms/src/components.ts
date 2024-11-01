@@ -1,4 +1,5 @@
-import { type FormError, getRootPattern } from './index.js';
+import { getRootPattern } from './blueprint.js';
+import { type FormError } from './error.js';
 import {
   type FormConfig,
   type Pattern,
