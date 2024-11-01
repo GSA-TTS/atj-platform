@@ -11,7 +11,7 @@ import { pageSetConfig } from './page-set/index.js';
 import { paragraphConfig } from './paragraph.js';
 import { radioGroupConfig } from './radio-group.js';
 import { richTextConfig } from './rich-text.js';
-import { selectDropdownConfig } from './select-dropdown.js';
+import { selectDropdownConfig } from './select-dropdown/select-dropdown.js';
 import { sequenceConfig } from './sequence.js';
 
 // This configuration reflects what a user of this library would provide for
@@ -49,5 +49,5 @@ export * from './page-set/index.js';
 export { type PageSetPattern } from './page-set/config.js';
 export * from './paragraph.js';
 export * from './radio-group.js';
-export * from './select-dropdown.js';
+export * from './select-dropdown/select-dropdown.js';
 export * from './sequence.js';

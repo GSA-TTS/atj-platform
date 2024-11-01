@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createSchema, selectDropdownConfig, type SelectDropdownPattern } from '../src/patterns/select-dropdown';
+import { createSchema, selectDropdownConfig, type SelectDropdownPattern } from './select-dropdown';
 
 describe('SelectDropdownPattern tests', () => {
   describe('createSchema', () => {
@@ -35,7 +35,7 @@ describe('SelectDropdownPattern tests', () => {
       expect(schema.safeParse('option1').success).toBe(true);
       expect(schema.safeParse('option2').success).toBe(true);
       expect(schema.safeParse('invalid').success).toBe(false);
-      expect(schema.safeParse('').success).toBe(true); // Empty string should be valid for optional fields
+      expect(schema.safeParse('').success).toBe(true);
     });
 
     it('should throw error if no options are provided', () => {
@@ -98,6 +98,7 @@ describe('SelectDropdownPattern tests', () => {
         console.log('Test parse result (error case):', result);
         if (!result.success) {
           expect(result.error).toBeDefined();
+          expect(result.error.message).toBe("Invalid enum value. Expected 'option1' | 'option2', received 'invalid'");
         } else {
           throw new Error('Unexpected validation success');
         }

@@ -1,13 +1,13 @@
 import * as z from 'zod';
 
-import { type SelectDropdownProps } from '../components.js';
+import { type SelectDropdownProps } from '../../components.js';
 import {
   type Pattern,
   type PatternConfig,
   validatePattern,
-} from '../pattern.js';
-import { getFormSessionValue } from '../session.js';
-import { safeZodParseFormErrors } from '../util/zod.js';
+} from '../../pattern.js';
+import { getFormSessionValue } from '../../session.js';
+import { safeZodParseFormErrors, safeZodParseToFormError } from '../../util/zod.js';
 
 const configSchema = z.object({
   label: z.string().min(1),
@@ -87,6 +87,22 @@ export const selectDropdownConfig: PatternConfig<
       };
     }
   },
+
+  // parseUserInput: (pattern, inputObj) => {
+  //   const expectedInput = inputObj as { value: string };
+  //   console.log('TEST parseUserInput', pattern, expectedInput); 
+
+  //   const schema = createSchema(pattern.data);
+  //   console.log('TEST schema', schema);
+  //   const result = schema.parse(expectedInput.value);
+  //   console.log('TEST result', result); 
+
+  //   if (result.success) {
+  //     return { success: true, data: result.data };
+  //   } else {
+  //     return { success: false, error: safeZodParseToFormError(schema, obj) };
+  //   }
+  // },
 
   parseConfigData: obj => {
     const result = safeZodParseFormErrors(configSchema, obj);
