@@ -83,6 +83,7 @@ const createTestForm = async (): Promise<Blueprint> => {
     },
     outputs: [
       {
+        id: 'test-id',
         path: 'test.pdf',
         data: new Uint8Array(pdfBytes),
         fields: {

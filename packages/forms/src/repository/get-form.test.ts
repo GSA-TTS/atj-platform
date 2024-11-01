@@ -12,7 +12,7 @@ describeDatabase('getForm', () => {
       .insertInto('forms')
       .values({
         id: '45c66187-64e2-4d75-a45a-e80f1d035bc5',
-        data: '{"summary":{"title":"Title","description":"Description"},"root":"root","patterns":{"root":{"type":"sequence","id":"root","data":{"patterns":[]}}},"outputs":[{"data":"AQID","path":"test.pdf","fields":{},"formFields":{}}]}',
+        data: '{"summary":{"title":"Title","description":"Description"},"root":"root","patterns":{"root":{"type":"sequence","id":"root","data":{"patterns":[]}}},"outputs":[{"id":"test-id","data":"AQID","path":"test.pdf","fields":{},"formFields":{}}]}',
       })
       .execute();
 
@@ -39,6 +39,7 @@ const TEST_FORM: Blueprint = {
   patterns: { root: { type: 'sequence', id: 'root', data: { patterns: [] } } },
   outputs: [
     {
+      id: 'test-id',
       data: new Uint8Array([1, 2, 3]),
       path: 'test.pdf',
       fields: {},

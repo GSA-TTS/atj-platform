@@ -5,6 +5,7 @@ import {
   type FormSessionId,
   type Blueprint,
   type FormService,
+  type FormSummary,
 } from '@atj/forms';
 import { type FormServiceContext } from '@atj/forms/context';
 
@@ -101,5 +102,17 @@ export class FormServiceClient implements FormService {
 
   getContext() {
     return {} as unknown as FormServiceContext;
+  }
+
+  initializeForm(_: {
+    summary?: FormSummary;
+    document?: { fileName: string; data: Uint8Array };
+  }): Promise<
+    Result<
+      { timestamp: string; id: string },
+      { status: number; message: string }
+    >
+  > {
+    throw new Error('Not implemented');
   }
 }

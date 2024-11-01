@@ -23,6 +23,7 @@ const TEST_FORM: Blueprint = {
   },
   outputs: [
     {
+      id: 'test-id',
       data: new Uint8Array([1, 2, 3]),
       path: 'test.pdf',
       fields: {},
@@ -55,7 +56,7 @@ describeDatabase('saveForm', () => {
 
     expect(result[0].id).toEqual(addResult.data.id);
     expect(result[0].data).toEqual(
-      '{"summary":{"title":"Updated title","description":"Updated description"},"root":"root","patterns":{"root":{"type":"sequence","id":"root","data":{"patterns":[]}}},"outputs":[{"data":"AQID","path":"test.pdf","fields":{},"formFields":{}}]}'
+      '{"summary":{"title":"Updated title","description":"Updated description"},"root":"root","patterns":{"root":{"type":"sequence","id":"root","data":{"patterns":[]}}},"outputs":[{"id":"test-id","data":"AQID","path":"test.pdf","fields":{},"formFields":{}}]}'
     );
   });
 });

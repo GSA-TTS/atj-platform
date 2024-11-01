@@ -1,7 +1,8 @@
 import { type Result, failure, success } from '@atj/common';
-import { type FormSummary, BlueprintBuilder } from '../index.js';
 
+import { BlueprintBuilder } from '../builder/index.js';
 import { type FormServiceContext } from '../context/index.js';
+import type { FormSummary } from '../types.js';
 
 type InitializeFormError = {
   status: number;

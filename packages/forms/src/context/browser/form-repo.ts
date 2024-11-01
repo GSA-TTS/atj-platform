@@ -1,8 +1,15 @@
 import { type Result, type VoidResult, failure } from '@atj/common';
 
-import { FormSession, FormSessionId, type Blueprint } from '../../index.js';
+import {
+  FormSession,
+  FormSessionId,
+  type Blueprint,
+  type DocumentFieldMap,
+} from '../../index.js';
 import { FormRepository } from '../../repository/index.js';
+import type { ParsedPdf } from '../../documents/pdf/parsing-api.js';
 
+const documentKey = (id: string) => `documents/${id}`;
 const formKey = (formId: string) => `forms/${formId}`;
 const isFormKey = (key: string) => key.startsWith('forms/');
 const getFormIdFromKey = (key: string) => {
@@ -118,6 +125,25 @@ export class BrowserFormRepository implements FormRepository {
       return failure(`error saving '${formId}' to storage`);
     }
     return { success: true };
+  }
+
+  addDocument(document: {
+    fileName: string;
+    data: Uint8Array;
+    extract: { parsedPdf: ParsedPdf; fields: DocumentFieldMap };
+  }) {
+    const documentId = crypto.randomUUID();
+    this.storage.setItem(
+      documentKey(documentId),
+      JSON.stringify({
+        id: documentId,
+        type: 'pdf',
+        file_name: document.fileName,
+        data: Buffer.from(document.data),
+        extract: JSON.stringify(document.extract),
+      })
+    );
+    return {} as Promise<Result<{ id: string }>>;
   }
 }
 

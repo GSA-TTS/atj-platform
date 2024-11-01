@@ -17,7 +17,6 @@ export const createTestFormServiceContext = async (
   const db: DatabaseContext = await createInMemoryDatabaseContext();
   const repository = createFormsRepository(db);
   return {
-    db,
     repository,
     config: defaultFormConfig,
     isUserLoggedIn: opts?.isUserLoggedIn || (() => true),
