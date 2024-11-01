@@ -21,6 +21,9 @@ export type AttachmentProps = PatternProps<{
   inputId: string;
   value: string;
   label: string;
+  maxAttachments: number;
+  maxSize?: number;
+  allowedTypes: Array<string>;
   required: boolean;
   error?: FormError;
 }>;
