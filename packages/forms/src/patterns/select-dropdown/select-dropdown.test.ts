@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { createSchema, selectDropdownConfig, type SelectDropdownPattern } from './select-dropdown';
+import {
+  createSchema,
+  selectDropdownConfig,
+  type SelectDropdownPattern,
+} from './select-dropdown';
 
 describe('SelectDropdownPattern tests', () => {
   describe('createSchema', () => {
@@ -8,14 +12,14 @@ describe('SelectDropdownPattern tests', () => {
         label: 'Test Label',
         required: true,
         options: [
-          { value: 'option1', label: 'Option 1' },
-          { value: 'option2', label: 'Option 2' },
+          { value: 'value1', label: 'Option 1' },
+          { value: 'value2', label: 'Option 2' },
         ],
       };
 
       const schema = createSchema(data);
-      expect(schema.safeParse('option1').success).toBe(true);
-      expect(schema.safeParse('option2').success).toBe(true);
+      expect(schema.safeParse('value1').success).toBe(true);
+      expect(schema.safeParse('value2').success).toBe(true);
       expect(schema.safeParse('invalid').success).toBe(false);
       expect(schema.safeParse('').success).toBe(false);
       expect(() => schema.parse('')).toThrow();
@@ -26,14 +30,14 @@ describe('SelectDropdownPattern tests', () => {
         label: 'Test Label',
         required: false,
         options: [
-          { value: 'option1', label: 'Option 1' },
-          { value: 'option2', label: 'Option 2' },
+          { value: 'value1', label: 'Option 1' },
+          { value: 'value2', label: 'Option 2' },
         ],
       };
 
       const schema = createSchema(data);
-      expect(schema.safeParse('option1').success).toBe(true);
-      expect(schema.safeParse('option2').success).toBe(true);
+      expect(schema.safeParse('value1').success).toBe(true);
+      expect(schema.safeParse('value2').success).toBe(true);
       expect(schema.safeParse('invalid').success).toBe(false);
       expect(schema.safeParse('').success).toBe(true);
     });
@@ -45,7 +49,9 @@ describe('SelectDropdownPattern tests', () => {
         options: [],
       };
 
-      expect(() => createSchema(data)).toThrow('Options must have at least one value');
+      expect(() => createSchema(data)).toThrow(
+        'Options must have at least one value'
+      );
     });
   });
 
@@ -58,18 +64,18 @@ describe('SelectDropdownPattern tests', () => {
           label: 'Test Dropdown',
           required: true,
           options: [
-            { value: 'option1', label: 'Option 1' },
-            { value: 'option2', label: 'Option 2' },
+            { value: 'value1', label: 'Option 1' },
+            { value: 'value2', label: 'Option 2' },
           ],
         },
       };
 
-      const inputObj = { value: 'option1' };
+      const inputValue = 'value1';
       if (selectDropdownConfig.parseUserInput) {
-        const result = selectDropdownConfig.parseUserInput(pattern, inputObj);
+        const result = selectDropdownConfig.parseUserInput(pattern, inputValue);
         console.log('Test parse result:', result);
         if (result.success) {
-          expect(result.data).toBe('option1');
+          expect(result.data).toBe('value1');
         } else {
           throw new Error('Unexpected validation failure');
         }
@@ -86,19 +92,21 @@ describe('SelectDropdownPattern tests', () => {
           label: 'Test Dropdown',
           required: true,
           options: [
-            { value: 'option1', label: 'Option 1' },
-            { value: 'option2', label: 'Option 2' },
+            { value: 'value1', label: 'Option 1' },
+            { value: 'value2', label: 'Option 2' },
           ],
         },
       };
 
-      const inputObj = { value: 'invalid' };
+      const inputValue = 'invalid';
       if (selectDropdownConfig.parseUserInput) {
-        const result = selectDropdownConfig.parseUserInput(pattern, inputObj);
+        const result = selectDropdownConfig.parseUserInput(pattern, inputValue);
         console.log('Test parse result (error case):', result);
         if (!result.success) {
           expect(result.error).toBeDefined();
-          expect(result.error.message).toBe("Invalid enum value. Expected 'option1' | 'option2', received 'invalid'");
+          expect(result.error.message).toBe(
+            "Invalid enum value. Expected 'value1' | 'value2', received 'invalid'"
+          );
         } else {
           throw new Error('Unexpected validation success');
         }
@@ -112,8 +120,8 @@ describe('SelectDropdownPattern tests', () => {
         label: 'Test Dropdown',
         required: true,
         options: [
-          { value: 'option1', label: 'Option 1' },
-          { value: 'option2', label: 'Option 2' },
+          { value: 'value1', label: 'Option 1' },
+          { value: 'value2', label: 'Option 2' },
         ],
       };
 

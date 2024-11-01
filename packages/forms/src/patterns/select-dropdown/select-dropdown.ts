@@ -7,7 +7,10 @@ import {
   validatePattern,
 } from '../../pattern.js';
 import { getFormSessionValue } from '../../session.js';
-import { safeZodParseFormErrors, safeZodParseToFormError } from '../../util/zod.js';
+import {
+  safeZodParseFormErrors,
+  safeZodParseToFormError,
+} from '../../util/zod.js';
 
 const configSchema = z.object({
   label: z.string().min(1),
@@ -59,50 +62,9 @@ export const selectDropdownConfig: PatternConfig<
     ],
   },
 
-  parseUserInput: (pattern, inputObj) => {
-    const expectedInput = inputObj as { value: string };
-
-    const schema = createSchema(pattern.data);
-    try {
-      const parsedValue = schema.parse(expectedInput.value);
-      return parsedValue
-        ? { success: true, data: parsedValue }
-        : {
-            success: false,
-            error: {
-              type: 'custom',
-              message: 'Parsed select dropdown value is undefined',
-            },
-          };
-    } catch (e) {
-      const zodError = e as z.ZodError;
-      return {
-        success: false,
-        error: {
-          type: 'custom',
-          message: zodError.errors
-            ? zodError.errors[0].message
-            : zodError.message,
-        },
-      };
-    }
+  parseUserInput: (pattern, inputValue) => {
+    return safeZodParseToFormError(createSchema(pattern['data']), inputValue);
   },
-
-  // parseUserInput: (pattern, inputObj) => {
-  //   const expectedInput = inputObj as { value: string };
-  //   console.log('TEST parseUserInput', pattern, expectedInput); 
-
-  //   const schema = createSchema(pattern.data);
-  //   console.log('TEST schema', schema);
-  //   const result = schema.parse(expectedInput.value);
-  //   console.log('TEST result', result); 
-
-  //   if (result.success) {
-  //     return { success: true, data: result.data };
-  //   } else {
-  //     return { success: false, error: safeZodParseToFormError(schema, obj) };
-  //   }
-  // },
 
   parseConfigData: obj => {
     const result = safeZodParseFormErrors(configSchema, obj);
