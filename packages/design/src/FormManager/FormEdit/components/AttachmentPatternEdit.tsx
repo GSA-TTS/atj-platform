@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { PatternId, AttachmentProps } from '@atj/forms';
-import { InputPattern } from '@atj/forms';
+import { AttachmentPattern } from '@atj/forms';
 
 import Attachment from '../../../Form/components/Attachment/index.js';
 import { useFormManagerStore } from '../../store.js';
@@ -13,7 +13,7 @@ import { PatternEditForm } from './common/PatternEditForm.js';
 import { usePatternEditFormContext } from './common/hooks.js';
 import { enLocale as message } from '@atj/common';
 
-const InputPatternEdit: PatternEditComponent<AttachmentProps> = ({
+const AttachmentPatternEdit: PatternEditComponent<AttachmentProps> = ({
   focus,
   previewProps,
 }) => {
@@ -34,22 +34,19 @@ const InputPatternEdit: PatternEditComponent<AttachmentProps> = ({
 };
 
 const EditComponent = ({ patternId }: { patternId: PatternId }) => {
-  const pattern = useFormManagerStore<InputPattern>(
+  const pattern = useFormManagerStore<AttachmentPattern>(
     state => state.session.form.patterns[patternId]
   );
   const { fieldId, register, getFieldState } =
-    usePatternEditFormContext<InputPattern>(patternId);
+    usePatternEditFormContext<AttachmentPattern>(patternId);
 
-  const initial = getFieldState('initial');
+  console.group('EditComponent');
+  console.log(pattern);
+  console.groupEnd();
+
   const label = getFieldState('label');
-  const maxLength = getFieldState('maxLength');
-
-  const maxLengthAttributes =
-    pattern.data.maxLength > 0
-      ? {
-          defaultValue: pattern.data.maxLength,
-        }
-      : {};
+  const maxAttachments = getFieldState('maxAttachments');
+  const allowedFileTypes = getFieldState('allowedFileTypes');
 
   return (
     <div className="grid-row grid-gap-1">
@@ -60,7 +57,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           })}
           htmlFor={fieldId('label')}
         >
-          {message.patterns.input.fieldLabel}
+          {message.patterns.attachment.fieldLabel}
           {label.error ? (
             <span className="usa-error-message" role="alert">
               {label.error.message}
@@ -78,49 +75,87 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           ></input>
         </label>
       </div>
-      <div className="tablet:grid-col-6 mobile-lg:grid-col-12 ohio">
+      <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
         <label
           className={classNames('usa-label', {
-            'usa-label--error': initial.error,
+            'usa-label--error': maxAttachments.error,
           })}
-          htmlFor={fieldId('initial')}
+          htmlFor={fieldId('maxAttachments')}
         >
-          {initial.error ? (
+          {maxAttachments.error ? (
             <span className="usa-error-message" role="alert">
-              {initial.error.message}
+              {maxAttachments.error.message}
             </span>
           ) : null}
-          {message.patterns.input.defaultFieldValue}
+          {message.patterns.attachment.maxAttachmentsLabel}
           <input
             className="usa-input bg-primary-lighter text-bold"
-            id={fieldId('initial')}
-            type="text"
-            defaultValue={pattern.data.initial}
-            {...register('initial')}
+            id={fieldId('maxAttachments')}
+            type="number"
+            defaultValue={pattern.data.maxAttachments}
+            {...register('maxAttachments')}
+            min="1"
           ></input>
         </label>
       </div>
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
-        <label
-          className={classNames('usa-label', {
-            'usa-label--error': maxLength.error,
+        <p
+          className={classNames('usa-label padding-bottom-2', {
+            'usa-label--error': allowedFileTypes.error,
           })}
-          htmlFor={fieldId('maxLength')}
         >
-          {maxLength.error ? (
-            <span className="usa-error-message" role="alert">
-              {maxLength.error.message}
-            </span>
-          ) : null}
-          {message.patterns.input.maxLength}
+          {message.patterns.attachment.allowedFileTypesLabel}
+        </p>
+        {allowedFileTypes.error ? (
+          <span className="usa-error-message" role="alert">
+            {allowedFileTypes.error.message}
+          </span>
+        ) : null}
+        <div className="usa-checkbox">
           <input
-            className="usa-input bg-primary-lighter text-bold"
-            id={fieldId('maxLength')}
-            {...maxLengthAttributes}
-            type="text"
-            {...register('maxLength')}
+            className="usa-checkbox__input"
+            id={`${fieldId('allowedFileTypes')}-jpg`}
+            type="checkbox"
+            {...register('allowedFileTypes')}
+            value="jpg"
           ></input>
-        </label>
+          <label
+            className="usa-checkbox__label"
+            htmlFor={`${fieldId('allowedFileTypes')}-jpg`}
+          >
+            JPEG
+          </label>
+        </div>
+        <div className="usa-checkbox">
+          <input
+            className="usa-checkbox__input"
+            id={`${fieldId('allowedFileTypes')}-pdf`}
+            type="checkbox"
+            {...register('allowedFileTypes')}
+            value="pdf"
+          ></input>
+          <label
+            className="usa-checkbox__label"
+            htmlFor={`${fieldId('allowedFileTypes')}-pdf`}
+          >
+            PDF
+          </label>
+        </div>
+        <div className="usa-checkbox">
+          <input
+            className="usa-checkbox__input"
+            id={`${fieldId('allowedFileTypes')}-png`}
+            type="checkbox"
+            {...register('allowedFileTypes')}
+            value="png"
+          ></input>
+          <label
+            className="usa-checkbox__label"
+            htmlFor={`${fieldId('allowedFileTypes')}-png`}
+          >
+            PNG
+          </label>
+        </div>
       </div>
       <div className="grid-col-12">
         <PatternEditActions>
@@ -147,4 +182,4 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   );
 };
 
-export default InputPatternEdit;
+export default AttachmentPatternEdit;
