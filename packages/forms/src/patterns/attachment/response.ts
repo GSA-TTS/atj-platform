@@ -6,7 +6,7 @@ import { safeZodParseToFormError } from '../../util/zod.js';
 import { type AttachmentPattern } from './index.js';
 
 const createSchema = (data: AttachmentPattern['data']) => {
-  const schema = z.string().max(data.maxLength);
+  const schema = z.string().max(data.maxAttachments);
   if (!data.required) {
     return schema;
   }
