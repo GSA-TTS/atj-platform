@@ -9,8 +9,12 @@ export const en = {
   patterns: {
     attachment: {
       ...defaults,
+      fieldLabel: 'File upload',
       displayName: 'Attachment',
+      maxAttachmentsLabel: 'Max attachments',
+      allowedFileTypesLabel: 'Allowed file types',
       errorTextMustContainChar: 'String must contain at least 1 character(s)',
+      errorUnsupportedFileType: 'Invalid file type found.',
     },
     checkbox: {
       ...defaults,

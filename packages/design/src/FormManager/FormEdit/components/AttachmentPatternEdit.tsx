@@ -1,13 +1,10 @@
 import classNames from 'classnames';
 import React from 'react';
-
 import { PatternId, AttachmentProps } from '@atj/forms';
 import { AttachmentPattern } from '@atj/forms';
-
 import Attachment from '../../../Form/components/Attachment/index.js';
 import { useFormManagerStore } from '../../store.js';
 import { PatternEditComponent } from '../types.js';
-
 import { PatternEditActions } from './common/PatternEditActions.js';
 import { PatternEditForm } from './common/PatternEditForm.js';
 import { usePatternEditFormContext } from './common/hooks.js';
@@ -40,10 +37,6 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
   const { fieldId, register, getFieldState } =
     usePatternEditFormContext<AttachmentPattern>(patternId);
 
-  console.group('EditComponent');
-  console.log(pattern);
-  console.groupEnd();
-
   const label = getFieldState('label');
   const maxAttachments = getFieldState('maxAttachments');
   const allowedFileTypes = getFieldState('allowedFileTypes');
@@ -75,6 +68,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           ></input>
         </label>
       </div>
+
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
         <label
           className={classNames('usa-label', {
@@ -98,6 +92,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           ></input>
         </label>
       </div>
+
       <div className="tablet:grid-col-6 mobile-lg:grid-col-12">
         <p
           className={classNames('usa-label padding-bottom-2', {
@@ -118,6 +113,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
             type="checkbox"
             {...register('allowedFileTypes')}
             value="jpg"
+            defaultChecked={pattern.data.allowedFileTypes.includes('jpg')}
           ></input>
           <label
             className="usa-checkbox__label"
@@ -126,6 +122,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
             JPEG
           </label>
         </div>
+
         <div className="usa-checkbox">
           <input
             className="usa-checkbox__input"
@@ -133,6 +130,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
             type="checkbox"
             {...register('allowedFileTypes')}
             value="pdf"
+            defaultChecked={pattern.data.allowedFileTypes.includes('pdf')}
           ></input>
           <label
             className="usa-checkbox__label"
@@ -141,6 +139,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
             PDF
           </label>
         </div>
+
         <div className="usa-checkbox">
           <input
             className="usa-checkbox__input"
@@ -148,6 +147,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
             type="checkbox"
             {...register('allowedFileTypes')}
             value="png"
+            defaultChecked={pattern.data.allowedFileTypes.includes('png')}
           ></input>
           <label
             className="usa-checkbox__label"
@@ -157,6 +157,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           </label>
         </div>
       </div>
+
       <div className="grid-col-12">
         <PatternEditActions>
           <span className="usa-checkbox">
