@@ -32,6 +32,8 @@ export const createPrompt: CreatePrompt<AttachmentPattern> = (
       value: sessionValue,
       label: pattern.data.label,
       required: pattern.data.required,
+      maxAttachments: pattern.data.maxAttachments,
+      allowedFileTypes: pattern.data.allowedFileTypes,
       ...extraAttributes,
     } as AttachmentProps,
     children: [],

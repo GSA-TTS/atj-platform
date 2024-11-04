@@ -15,10 +15,10 @@ export const attachmentConfig: PatternConfig<
   displayName: message.patterns.attachment.displayName,
   iconPath: 'shortanswer-icon.svg',
   initial: {
-    label: message.patterns.attachment.fieldLabel,
-    initial: '',
+    label: 'Field label',
     required: true,
-    maxLength: 128,
+    maxAttachments: 1,
+    allowedFileTypes: ['jpg', 'pdf', 'png'],
   },
   parseUserInput,
   parseConfigData,
