@@ -53,7 +53,7 @@ describe('initializeForm', () => {
     });
     const result = await initializeForm(ctx, {
       summary,
-      document: { fileName: 'test.pdf', data: new Uint8Array([1, 2, 3]) },
+      document: { fileName: 'test.pdf', data: 'VGhpcyBpcyBub3QgYSBQREYu' },
     });
     expect(result).toEqual({
       success: true,

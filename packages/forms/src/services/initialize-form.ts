@@ -1,8 +1,11 @@
+import * as z from 'zod';
+
 import { type Result, failure, success } from '@atj/common';
 
 import { BlueprintBuilder } from '../builder/index.js';
 import { type FormServiceContext } from '../context/index.js';
 import type { FormSummary } from '../types.js';
+import { base64ToUint8Array } from '../util/base64.js';
 
 type InitializeFormError = {
   status: number;
@@ -15,16 +18,38 @@ type InitializeFormResult = {
 
 export type InitializeForm = (
   ctx: FormServiceContext,
-  opts: {
-    summary?: FormSummary;
-    document?: { fileName: string; data: Uint8Array };
-  }
+  opts:
+    | unknown
+    | {
+        summary?: FormSummary;
+        document?: { fileName: string; data: Uint8Array };
+      }
 ) => Promise<Result<InitializeFormResult, InitializeFormError>>;
 
-export const initializeForm: InitializeForm = async (
-  ctx,
-  { summary, document }
-) => {
+const base64 =
+  /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/;
+
+const optionSchema = z.object({
+  summary: z
+    .object({
+      title: z.string(),
+      description: z.string(),
+    })
+    .optional(),
+  document: z
+    .object({
+      fileName: z.string(),
+      data: z
+        .string()
+        .refine(value => base64.test(value), {
+          message: 'Invalid base64 string',
+        })
+        .transform(value => base64ToUint8Array(value)),
+    })
+    .optional(),
+});
+
+export const initializeForm: InitializeForm = async (ctx, opts) => {
   if (!ctx.isUserLoggedIn()) {
     return failure({
       status: 401,
@@ -32,8 +57,16 @@ export const initializeForm: InitializeForm = async (
     });
   }
 
-  const builder = new BlueprintBuilder(ctx.config);
+  const parseResult = optionSchema.safeParse(opts);
+  if (!parseResult.success) {
+    return failure({
+      status: 400,
+      message: 'Invalid options',
+    });
+  }
+  const { document, summary } = parseResult.data;
 
+  const builder = new BlueprintBuilder(ctx.config);
   if (document !== undefined) {
     const parsePdfResult = await ctx
       .parsePdf(document.data)
