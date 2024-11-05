@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import { PatternId, AttachmentProps } from '@atj/forms';
-import { AttachmentPattern } from '@atj/forms';
+import { AttachmentPattern, attachmentFileTypeOptions } from '@atj/forms';
 import Attachment from '../../../Form/components/Attachment/index.js';
 import { useFormManagerStore } from '../../store.js';
 import { PatternEditComponent } from '../types.js';
@@ -106,56 +106,29 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
             {allowedFileTypes.error.message}
           </span>
         ) : null}
-        <div className="usa-checkbox">
-          <input
-            className="usa-checkbox__input"
-            id={`${fieldId('allowedFileTypes')}-jpg`}
-            type="checkbox"
-            {...register('allowedFileTypes')}
-            value="jpg"
-            defaultChecked={pattern.data.allowedFileTypes.includes('jpg')}
-          ></input>
-          <label
-            className="usa-checkbox__label"
-            htmlFor={`${fieldId('allowedFileTypes')}-jpg`}
-          >
-            JPEG
-          </label>
-        </div>
 
-        <div className="usa-checkbox">
-          <input
-            className="usa-checkbox__input"
-            id={`${fieldId('allowedFileTypes')}-pdf`}
-            type="checkbox"
-            {...register('allowedFileTypes')}
-            value="pdf"
-            defaultChecked={pattern.data.allowedFileTypes.includes('pdf')}
-          ></input>
-          <label
-            className="usa-checkbox__label"
-            htmlFor={`${fieldId('allowedFileTypes')}-pdf`}
-          >
-            PDF
-          </label>
-        </div>
-
-        <div className="usa-checkbox">
-          <input
-            className="usa-checkbox__input"
-            id={`${fieldId('allowedFileTypes')}-png`}
-            type="checkbox"
-            {...register('allowedFileTypes')}
-            value="png"
-            defaultChecked={pattern.data.allowedFileTypes.includes('png')}
-          ></input>
-          <label
-            className="usa-checkbox__label"
-            htmlFor={`${fieldId('allowedFileTypes')}-png`}
-          >
-            PNG
-          </label>
-        </div>
+        {attachmentFileTypeOptions.map(item => {
+          return (
+            <div className="usa-checkbox" key={item.value}>
+              <input
+                className="usa-checkbox__input"
+                id={`${fieldId('allowedFileTypes')}-${item.value}`}
+                type="checkbox"
+                {...register('allowedFileTypes')}
+                value={item.value}
+                defaultChecked={pattern.data.allowedFileTypes.includes(
+                  item.value
+                )}
+              ></input>
+              <label
+                className="usa-checkbox__label"
+                htmlFor={`${fieldId('allowedFileTypes')}-${item.value}`}
+              >
+                {item.label}
+              </label>
+            </div>
+          );
+        })}
       </div>
 
       <div className="grid-col-12">

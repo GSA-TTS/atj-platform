@@ -34,6 +34,7 @@ export const defaultFormConfig: FormConfig = {
 } as const;
 
 export * from './attachment/index.js';
+export * from './attachment/file-type-options.js';
 export * from './address/index.js';
 export * from './fieldset/index.js';
 export * from './input/index.js';
