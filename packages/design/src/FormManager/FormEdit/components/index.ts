@@ -3,7 +3,7 @@ import {
   type EditComponentForPattern,
 } from '../types.js';
 
-import AttachmentPatternEdit from './AttachmentPatternEdit.js';
+import AttachmentPatternEdit from './AttachmentPatternEdit/AttachmentPatternEdit.js';
 import CheckboxPatternEdit from './CheckboxPatternEdit.js';
 import DateOfBirthPatternEdit from './DateOfBirthPatternEdit.js';
 import FieldsetEdit from './FieldsetEdit.js';
