@@ -52,5 +52,13 @@ export const en = {
       fieldLabel: 'Select Dropdown label',
       errorTextMustContainChar: 'String must contain at least 1 character(s)',
     },
+    dateOfBirth: {
+      ...defaults,
+      displayName: 'Date of Birth label',
+      fieldLabel: 'Date Of Birth label',
+      hintLabel: 'Date of Birth Hint label',
+      hint: 'For example: January 19 2000',
+      errorTextMustContainChar: 'String must contain at least 1 character(s)',
+    },
   },
 };

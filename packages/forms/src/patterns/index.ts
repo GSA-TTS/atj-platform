@@ -2,6 +2,7 @@ import { type FormConfig } from '../pattern.js';
 
 import { addressConfig } from './address/index.js';
 import { checkboxConfig } from './checkbox.js';
+import { dateOfBirthConfig } from './date-of-birth/date-of-birth.js';
 import { fieldsetConfig } from './fieldset/index.js';
 import { formSummaryConfig } from './form-summary.js';
 import { inputConfig } from './input/index.js';
@@ -19,10 +20,11 @@ import { sequenceConfig } from './sequence.js';
 // understand the usage scenarios better.
 export const defaultFormConfig: FormConfig = {
   patterns: {
-    'form-summary': formSummaryConfig,
     address: addressConfig,
     checkbox: checkboxConfig,
+    'date-of-birth': dateOfBirthConfig,
     fieldset: fieldsetConfig,
+    'form-summary': formSummaryConfig,
     input: inputConfig,
     'package-download': packageDownloadConfig,
     page: pageConfig,
@@ -37,6 +39,7 @@ export const defaultFormConfig: FormConfig = {
 
 export * from './address/index.js';
 export * from './checkbox.js';
+export * from './date-of-birth/date-of-birth.js';
 export * from './fieldset/index.js';
 export { type FieldsetPattern } from './fieldset/config.js';
 export * from './form-summary.js';

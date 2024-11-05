@@ -101,6 +101,15 @@ export type SelectDropdownProps = PatternProps<{
   error?: FormError;
 }>;
 
+export type DateOfBirthProps = PatternProps<{
+  type: 'date-of-birth';
+  selectId: string;
+  label: string;
+  hint?: string;
+  required: boolean;
+  error?: FormError;
+}>;
+
 export type SequenceProps = PatternProps<{
   type: 'sequence';
 }>;
