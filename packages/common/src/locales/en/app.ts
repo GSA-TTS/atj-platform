@@ -12,7 +12,7 @@ export const en = {
       fieldLabel: 'File upload',
       displayName: 'Attachment',
       maxAttachmentsLabel: 'Max attachments',
-      allowedFileTypesLabel: 'Allowed file types',
+      allowedFileTypesLabel: 'Allowable file types',
       errorTextMustContainChar: 'String must contain at least 1 character(s)',
       errorUnsupportedFileType: 'Invalid file type found.',
     },

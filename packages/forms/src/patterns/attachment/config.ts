@@ -2,8 +2,9 @@ import { z } from 'zod';
 import { enLocale as message } from '@atj/common';
 import { ParsePatternConfigData } from '../../pattern.js';
 import { safeZodParseFormErrors } from '../../util/zod.js';
+import { attachmentFileTypeOptions } from './file-type-options';
 
-const ALLOWED_FILETYPES = ['jpg', 'pdf', 'png'] as const;
+const ALLOWED_FILETYPES = attachmentFileTypeOptions.map(item => item.value);
 
 const configSchema = z.object({
   label: z.string().min(1, message.patterns.attachment.fieldLabelRequired),
@@ -11,9 +12,9 @@ const configSchema = z.object({
   maxAttachments: z.coerce.number(),
   allowedFileTypes: z.union([
     z
-      .array(z.enum(ALLOWED_FILETYPES))
+      .array(z.enum(ALLOWED_FILETYPES as [(typeof ALLOWED_FILETYPES)[number]]))
       .nonempty(message.patterns.attachment.errorUnsupportedFileType),
-    z.enum(ALLOWED_FILETYPES),
+    z.enum(ALLOWED_FILETYPES as [(typeof ALLOWED_FILETYPES)[number]]),
   ]),
 });
 
