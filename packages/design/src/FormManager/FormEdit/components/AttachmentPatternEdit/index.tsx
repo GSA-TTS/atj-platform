@@ -150,7 +150,7 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
           </div>
           <div className="tablet:grid-col-8 mobile-lg:grid-col-12">
             <input
-              className="usa-input usa-input--sm bg-primary-lighter text-bold"
+              className={`usa-input bg-primary-lighter text-bold ${styles.attachmentInputSmall}`}
               id={fieldId('maxAttachments')}
               type="number"
               defaultValue={pattern.data.maxAttachments}
