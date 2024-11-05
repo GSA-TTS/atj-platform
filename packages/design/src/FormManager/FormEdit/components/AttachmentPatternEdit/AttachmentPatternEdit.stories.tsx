@@ -7,8 +7,8 @@ import {
   createPatternEditStoryMeta,
   testEmptyFormLabelError,
   testUpdateFormFieldOnSubmit,
-} from './common/story-helper.js';
-import FormEdit from '../index.js';
+} from '../common/story-helper.js';
+import FormEdit from '../../index.js';
 
 const pattern: AttachmentPattern = {
   id: '1',
