@@ -33,6 +33,7 @@ export const createPrompt: CreatePrompt<AttachmentPattern> = (
       label: pattern.data.label,
       required: pattern.data.required,
       maxAttachments: pattern.data.maxAttachments,
+      maxFileSizeMB: 10,
       allowedFileTypes: pattern.data.allowedFileTypes,
       ...extraAttributes,
     } as AttachmentProps,

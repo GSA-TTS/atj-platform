@@ -30,7 +30,7 @@ export type AttachmentProps = PatternProps<{
   value: string;
   label: string;
   maxAttachments: number;
-  maxSize?: number;
+  maxFileSizeMB: number;
   allowedFileTypes: Array<string>;
   required: boolean;
   error?: FormError;
