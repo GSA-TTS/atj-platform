@@ -1,4 +1,5 @@
 import * as r from '@atj/common';
+import set from 'set-value';
 
 import { type CreatePrompt } from './components.js';
 import { type FormError, type FormErrors } from './error.js';
@@ -139,16 +140,7 @@ const aggregateValuesByPrefix = (
   const aggregatedValues: Record<string, any> = {};
 
   for (const [key, value] of Object.entries(values)) {
-    const [prefix, suffix] = key.split('.');
-
-    if (suffix === undefined) {
-      aggregatedValues[prefix] = value;
-    } else {
-      if (!aggregatedValues[prefix]) {
-        aggregatedValues[prefix] = {};
-      }
-      aggregatedValues[prefix][suffix] = value;
-    }
+    set(aggregatedValues, key, value);
   }
 
   return aggregatedValues;
