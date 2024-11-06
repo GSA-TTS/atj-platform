@@ -2,32 +2,28 @@ import classNames from 'classnames';
 import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { type AttachmentProps } from '@atj/forms';
+import { attachmentFileTypeOptions } from '@atj/forms';
 import { type PatternComponent } from '../../../Form/index.js';
-
-const MAX_ATTACHMENTS = 2; // Define the maximum number of permitted attachments
 
 const Attachment: PatternComponent<AttachmentProps> = props => {
   const { register } = useFormContext();
-  const {
-    onChange: registerOnChange,
-    onBlur,
-    name,
-    ref,
-  } = register(props.inputId || Math.random().toString());
+  const { onChange, onBlur, name, ref } = register(
+    props.inputId || Math.random().toString()
+  );
   const [attachments, setAttachments] = useState<File[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
 
-    if (files.length > MAX_ATTACHMENTS) {
-      setError(`There is a maximum of ${MAX_ATTACHMENTS} files.`);
+    if (files.length > props.maxAttachments) {
+      setError(`There is a maximum of ${props.maxAttachments} files.`);
     } else {
       setError(null);
       setAttachments(files);
     }
 
-    return registerOnChange(event);
+    return onChange(event);
   };
 
   return (
@@ -38,8 +34,23 @@ const Attachment: PatternComponent<AttachmentProps> = props => {
         })}
       >
         <div className="usa-form-group">
-          <label className="usa-label" htmlFor={`input-${props.inputId}`}>
+          <p className="text-bold" id={`label-${props.inputId}`}>
             {props.label}
+          </p>
+          <label className="usa-label" htmlFor={`input-${props.inputId}`}>
+            {props.maxAttachments === 1
+              ? `Attach a ${new Intl.ListFormat('en', {
+                  style: 'short',
+                  type: 'disjunction',
+                }).format(
+                  attachmentFileTypeOptions.map(item => item.label)
+                )} file`
+              : `Attach ${new Intl.ListFormat('en', {
+                  style: 'short',
+                  type: 'disjunction',
+                }).format(
+                  attachmentFileTypeOptions.map(item => item.label)
+                )} files`}
             {(props.error || error) && (
               <span
                 className="usa-error-message"
@@ -50,8 +61,10 @@ const Attachment: PatternComponent<AttachmentProps> = props => {
               </span>
             )}
           </label>
-          <span className="usa-hint" id="file-input-specific-hint">
-            Select PDF or TXT files
+          <span className="usa-hint" id={`input-hint-${props.inputId}`}>
+            {props.maxAttachments === 1
+              ? `Select ${props.maxAttachments} file`
+              : `Select up to ${props.maxAttachments} files`}
           </span>
           <div className="usa-file-input">
             <div className="usa-file-input__target">
@@ -95,13 +108,13 @@ const Attachment: PatternComponent<AttachmentProps> = props => {
                   'usa-input--error': props.error || error,
                 })}
                 id={`input-${props.inputId}`}
-                aria-describedby={`input-message-${props.inputId}`}
-                onChange={onChange}
+                aria-describedby={`input-message-${props.inputId} label-${props.inputId}`}
+                onChange={handleChange}
                 onBlur={onBlur}
                 name={name}
                 ref={ref}
                 type="file"
-                {...(MAX_ATTACHMENTS === 1 ? {} : { multiple: true })}
+                {...(props.maxAttachments === 1 ? {} : { multiple: true })}
               />
             </div>
           </div>

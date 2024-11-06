@@ -5,6 +5,7 @@ import { Pattern, type PatternConfig } from '../../pattern.js';
 import { parseConfigData, type AttachmentConfigSchema } from './config.js';
 import { createPrompt } from './prompt.js';
 import { type AttachmentPatternOutput, parseUserInput } from './response.js';
+import { attachmentFileTypeMimes } from './file-type-options';
 
 export type AttachmentPattern = Pattern<AttachmentConfigSchema>;
 
@@ -18,7 +19,7 @@ export const attachmentConfig: PatternConfig<
     label: 'Field label',
     required: true,
     maxAttachments: 1,
-    allowedFileTypes: ['jpg', 'pdf', 'png'],
+    allowedFileTypes: attachmentFileTypeMimes as [string, ...string[]],
   },
   parseUserInput,
   parseConfigData,
