@@ -8,7 +8,7 @@ import {
 } from '../index.js';
 import { InputPattern } from '../patterns/input/index.js';
 import { AttachmentPattern } from '../patterns/attachment/index.js';
-import { attachmentFileTypeMimes } from '../patterns/attachment/file-type-options.js'
+import { attachmentFileTypeMimes } from '../patterns/attachment/file-type-options.js';
 import { SequencePattern } from '../patterns/sequence.js';
 import { PDFDocument, getDocumentFieldData } from './pdf/index.js';
 import {
@@ -134,7 +134,9 @@ export const addDocumentFieldsToForm = (
           label: field.label,
           required: false,
           maxAttachments: 1,
-          allowedFileTypes: attachmentFileTypeMimes as [(typeof attachmentFileTypeMimes)[number]]
+          allowedFileTypes: attachmentFileTypeMimes as [
+            (typeof attachmentFileTypeMimes)[number],
+          ],
         },
       } satisfies AttachmentPattern);
     } else if (field.type === 'RadioGroup') {

@@ -20,6 +20,7 @@ export const attachmentConfig: PatternConfig<
     required: true,
     maxAttachments: 1,
     allowedFileTypes: attachmentFileTypeMimes as [string, ...string[]],
+    maxFileSizeMB: 10,
   },
   parseUserInput,
   parseConfigData,

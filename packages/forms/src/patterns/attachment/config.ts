@@ -7,7 +7,8 @@ import { attachmentFileTypeMimes } from './file-type-options';
 const configSchema = z.object({
   label: z.string().min(1, message.patterns.attachment.fieldLabelRequired),
   required: z.boolean(),
-  maxAttachments: z.coerce.number().gt(0),
+  maxAttachments: z.coerce.number().int().gt(0),
+  maxFileSizeMB: z.coerce.number().int().gt(1).lte(10),
   allowedFileTypes: z.union([
     z
       .array(

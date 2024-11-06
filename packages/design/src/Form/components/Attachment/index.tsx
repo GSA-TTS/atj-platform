@@ -13,26 +13,41 @@ const Attachment: PatternComponent<AttachmentProps> = props => {
   const [attachments, setAttachments] = useState<File[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(event.target.files || []);
-
+  const validateFiles = (files: File[]) => {
     if (files.length > props.maxAttachments) {
-      setError(`There is a maximum of ${props.maxAttachments} files.`);
-      return;
+      return `There is a maximum of ${props.maxAttachments} files.`;
     }
 
     const allowedFileTypes = Array.isArray(props.allowedFileTypes)
       ? props.allowedFileTypes
       : [props.allowedFileTypes];
-
     const invalidFile = files.find(
       file => !allowedFileTypes.includes(file.type)
     );
-
     if (invalidFile) {
-      setError(
-        `Sorry. One or more of the files you tried to upload is not allowed.`
-      );
+      return `Sorry. Only ${new Intl.ListFormat('en', {
+        style: 'short',
+        type: 'disjunction',
+      }).format(
+        getFileTypeLabelFromMimes(props.allowedFileTypes)
+      )} files are accepted.`;
+    }
+
+    const maxFileSizeBytes = props.maxFileSizeMB * 1024 * 1024;
+    const oversizedFile = files.find(file => file.size > maxFileSizeBytes);
+    if (oversizedFile) {
+      return `The maximum allowable size per file is ${props.maxFileSizeMB} MB.`;
+    }
+
+    return null;
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+
+    const errorMsg = validateFiles(files);
+    if (errorMsg) {
+      setError(errorMsg);
       return;
     }
 
