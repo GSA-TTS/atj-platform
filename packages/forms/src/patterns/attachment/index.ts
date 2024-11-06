@@ -16,7 +16,7 @@ export const attachmentConfig: PatternConfig<
   displayName: message.patterns.attachment.displayName,
   iconPath: 'shortanswer-icon.svg',
   initial: {
-    label: 'Field label',
+    label: 'File upload',
     required: true,
     maxAttachments: 1,
     allowedFileTypes: attachmentFileTypeMimes as [string, ...string[]],
