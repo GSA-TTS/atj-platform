@@ -6,14 +6,18 @@ interface AttachmentFileTypeOption {
 export const attachmentFileTypeOptions: AttachmentFileTypeOption[] = [
   {
     label: 'JPEG',
-    value: 'jpg',
+    value: 'image/jpeg',
   },
   {
     label: 'PDF',
-    value: 'pdf',
+    value: 'application/pdf',
   },
   {
     label: 'PNG',
-    value: 'png',
+    value: 'image/png',
   },
 ];
+
+export const attachmentFileTypeMimes = attachmentFileTypeOptions.map(
+  item => item.value
+);
