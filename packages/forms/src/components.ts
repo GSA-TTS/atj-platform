@@ -103,7 +103,9 @@ export type SelectDropdownProps = PatternProps<{
 
 export type DateOfBirthProps = PatternProps<{
   type: 'date-of-birth';
-  selectId: string;
+  dayId: string;
+  monthId: string;
+  yearId: string;
   label: string;
   hint?: string;
   required: boolean;

@@ -19,7 +19,9 @@ const months = [
 ];
 
 export const DateOfBirthPattern: PatternComponent<DateOfBirthProps> = ({
-  selectId,
+  monthId,
+  dayId,
+  yearId,
   label,
   hint,
   required,
@@ -40,13 +42,13 @@ export const DateOfBirthPattern: PatternComponent<DateOfBirthProps> = ({
       )}
       <div className="usa-memorable-date">
         <div className="usa-form-group usa-form-group--month usa-form-group--select">
-          <label className="usa-label" htmlFor={`month_${selectId}`}>
+          <label className="usa-label" htmlFor={monthId}>
             Month
           </label>
           <select
             className="usa-select"
-            id={`month_${selectId}`}
-            {...register(`month_${selectId}`)}
+            id={monthId}
+            {...register(monthId)}
             aria-describedby="mdHint"
           >
             <option key="default" value="">
@@ -60,15 +62,14 @@ export const DateOfBirthPattern: PatternComponent<DateOfBirthProps> = ({
           </select>
         </div>
         <div className="usa-form-group usa-form-group--day">
-          <label className="usa-label" htmlFor={`day_${selectId}`}>
+          <label className="usa-label" htmlFor={dayId}>
             Day
           </label>
           <input
             className="usa-input"
             aria-describedby="mdHint"
-            id={`day_${selectId}`}
-            {...register(`day_${selectId}`, { valueAsNumber: true })}
-            name={`day_${selectId}`}
+            id={dayId}
+            {...register(dayId)}
             minLength={2}
             maxLength={2}
             pattern="[0-9]*"
@@ -76,15 +77,14 @@ export const DateOfBirthPattern: PatternComponent<DateOfBirthProps> = ({
           />
         </div>
         <div className="usa-form-group usa-form-group--year">
-          <label className="usa-label" htmlFor={`year_${selectId}`}>
+          <label className="usa-label" htmlFor={yearId}>
             Year
           </label>
           <input
             className="usa-input"
             aria-describedby="mdHint"
-            id={`year_${selectId}`}
-            {...register(`year_${selectId}`, { valueAsNumber: true })}
-            name={`year_${selectId}`}
+            id={yearId}
+            {...register(yearId)}
             minLength={4}
             maxLength={4}
             pattern="[0-9]*"

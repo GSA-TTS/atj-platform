@@ -10,7 +10,13 @@ const meta: Meta<typeof DateOfBirthPattern> = {
   decorators: [
     (Story, args) => {
       const FormDecorator = () => {
-        const formMethods = useForm();
+        const formMethods = useForm({
+          defaultValues: {
+            'date-of-birth-1.day': '',
+            'date-of-birth-1.month': '',
+            'date-of-birth-1.year': '',
+          },
+        });
         return (
           <FormProvider {...formMethods}>
             <Story {...args} />
@@ -29,7 +35,9 @@ export const Default: StoryObj<typeof DateOfBirthPattern> = {
   args: {
     _patternId: '',
     type: 'date-of-birth',
-    selectId: 'date-of-birth-1',
+    monthId: 'date-of-birth-1.month',
+    dayId: 'date-of-birth-1.day',
+    yearId: 'date-of-birth-1.year',
     label: 'Select a date of birth',
     hint: 'For example: January 19, 2000',
     required: false,
@@ -40,9 +48,11 @@ export const WithoutHint: StoryObj<typeof DateOfBirthPattern> = {
   args: {
     _patternId: '',
     type: 'date-of-birth',
-    selectId: 'date-of-birth-without-hint',
+    monthId: 'date-of-birth-1.month',
+    dayId: 'date-of-birth-1.day',
+    yearId: 'date-of-birth-1.year',
     label: 'Select a date of birth',
-    hint: '',
+    hint: undefined,
     required: false,
   },
 };
@@ -51,7 +61,9 @@ export const WithError: StoryObj<typeof DateOfBirthPattern> = {
   args: {
     _patternId: '',
     type: 'date-of-birth',
-    selectId: 'date-of-birth-with-error',
+    monthId: 'date-of-birth-1.month',
+    dayId: 'date-of-birth-1.day',
+    yearId: 'date-of-birth-1.year',
     label: 'Select a date of birth with error',
     hint: 'For example: January 19, 2000',
     required: false,
@@ -66,7 +78,9 @@ export const Required: StoryObj<typeof DateOfBirthPattern> = {
   args: {
     _patternId: '',
     type: 'date-of-birth',
-    selectId: 'date-of-birth-required',
+    monthId: 'date-of-birth-1.month',
+    dayId: 'date-of-birth-1.day',
+    yearId: 'date-of-birth-1.year',
     label: 'Select a required date of birth',
     hint: 'For example: January 19, 2000',
     required: true,

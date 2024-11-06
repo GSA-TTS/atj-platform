@@ -91,13 +91,16 @@ export const dateOfBirthConfig: PatternConfig<
         extraAttributes['error'] = isValidResult.error;
       }
     }
+
     return {
       props: {
         _patternId: pattern.id,
         type: 'date-of-birth',
         label: pattern.data.label,
         hint: pattern.data.hint,
-        selectId: pattern.id,
+        dayId: `${pattern.id}.day`,
+        monthId: `${pattern.id}.month`,
+        yearId: `${pattern.id}.year`,
         required: pattern.data.required,
         ...extraAttributes,
       } as DateOfBirthProps,
