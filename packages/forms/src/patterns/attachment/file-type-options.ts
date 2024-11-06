@@ -5,7 +5,7 @@ interface AttachmentFileTypeOption {
 
 export const attachmentFileTypeOptions: AttachmentFileTypeOption[] = [
   {
-    label: 'JPEG',
+    label: 'JPG',
     value: 'image/jpeg',
   },
   {

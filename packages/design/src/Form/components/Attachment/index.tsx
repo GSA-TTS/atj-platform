@@ -18,11 +18,26 @@ const Attachment: PatternComponent<AttachmentProps> = props => {
 
     if (files.length > props.maxAttachments) {
       setError(`There is a maximum of ${props.maxAttachments} files.`);
-    } else {
-      setError(null);
-      setAttachments(files);
+      return;
     }
 
+    const allowedFileTypes = Array.isArray(props.allowedFileTypes)
+      ? props.allowedFileTypes
+      : [props.allowedFileTypes];
+
+    const invalidFile = files.find(
+      file => !allowedFileTypes.includes(file.type)
+    );
+
+    if (invalidFile) {
+      setError(
+        `Sorry. One or more of the files you tried to upload is not allowed.`
+      );
+      return;
+    }
+
+    setError(null);
+    setAttachments(files);
     return onChange(event);
   };
 
@@ -43,13 +58,13 @@ const Attachment: PatternComponent<AttachmentProps> = props => {
                   style: 'short',
                   type: 'disjunction',
                 }).format(
-                  attachmentFileTypeOptions.map(item => item.label)
+                  getFileTypeLabelFromMimes(props.allowedFileTypes)
                 )} file`
               : `Attach ${new Intl.ListFormat('en', {
                   style: 'short',
                   type: 'disjunction',
                 }).format(
-                  attachmentFileTypeOptions.map(item => item.label)
+                  getFileTypeLabelFromMimes(props.allowedFileTypes)
                 )} files`}
             {(props.error || error) && (
               <span
@@ -125,3 +140,13 @@ const Attachment: PatternComponent<AttachmentProps> = props => {
 };
 
 export default Attachment;
+
+const getFileTypeLabelFromMimes = (mimes: Array<string>) => {
+  return attachmentFileTypeOptions
+    .filter(option => {
+      return mimes.includes(option.value);
+    })
+    .map(item => {
+      return item.label;
+    });
+};
