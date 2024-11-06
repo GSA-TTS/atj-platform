@@ -139,6 +139,7 @@ export const addDocumentFieldsToForm = (
           allowedFileTypes: attachmentFileTypeMimes as [
             (typeof attachmentFileTypeMimes)[number],
           ],
+          maxFileSizeMB: 10,
         },
       } satisfies AttachmentPattern);
     } else if (field.type === 'RadioGroup') {
