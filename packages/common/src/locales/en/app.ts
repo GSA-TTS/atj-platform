@@ -9,7 +9,6 @@ export const en = {
   patterns: {
     attachment: {
       ...defaults,
-      fieldLabel: 'File upload',
       displayName: 'Attachment',
       maxAttachmentsLabel: 'Max attachments',
       allowedFileTypesLabel: 'Allowable file types',

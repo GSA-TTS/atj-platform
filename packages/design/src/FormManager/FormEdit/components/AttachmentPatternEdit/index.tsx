@@ -85,12 +85,12 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
               )}
             >
               {message.patterns.attachment.allowedFileTypesLabel}
+              {allowedFileTypes.error ? (
+                <span className="usa-error-message" role="alert">
+                  {allowedFileTypes.error.message}
+                </span>
+              ) : null}
             </p>
-            {allowedFileTypes.error ? (
-              <span className="usa-error-message" role="alert">
-                {allowedFileTypes.error.message}
-              </span>
-            ) : null}
           </div>
           <div className="tablet:grid-col-8 mobile-lg:grid-col-12">
             <div className="grid-row margin-top-1">
@@ -140,12 +140,12 @@ const EditComponent = ({ patternId }: { patternId: PatternId }) => {
               )}
               htmlFor={fieldId('maxAttachments')}
             >
+              {message.patterns.attachment.maxAttachmentsLabel}
               {maxAttachments.error ? (
                 <span className="usa-error-message" role="alert">
                   {maxAttachments.error.message}
                 </span>
               ) : null}
-              {message.patterns.attachment.maxAttachmentsLabel}
             </label>
           </div>
           <div className="tablet:grid-col-8 mobile-lg:grid-col-12">
