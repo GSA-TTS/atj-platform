@@ -22,7 +22,7 @@ import classNames from 'classnames';
 const icons: Record<string, string | any> = {
   'block-icon.svg': blockIcon,
   'checkbox-icon.svg': checkboxIcon,
-  'date-icon.svg.svg': dateIcon,
+  'date-icon.svg': dateIcon,
   'dropdown-icon.svg': dropDownIcon,
   'dropdownoption-icon.svg': dropDownOptionIcon,
   'richtext-icon.svg': richTextIcon,
@@ -96,6 +96,7 @@ const sidebarPatterns: DropdownPattern[] = [
   ['radio-group', defaultFormConfig.patterns['radio-group']],
   ['package-download', defaultFormConfig.patterns['package-download']],
   ['select-dropdown', defaultFormConfig.patterns['select-dropdown']],
+  ['date-of-birth', defaultFormConfig.patterns['date-of-birth']],
 ] as const;
 export const fieldsetPatterns: DropdownPattern[] = [
   ['form-summary', defaultFormConfig.patterns['form-summary']],
@@ -106,6 +107,7 @@ export const fieldsetPatterns: DropdownPattern[] = [
   ['radio-group', defaultFormConfig.patterns['radio-group']],
   ['package-download', defaultFormConfig.patterns['package-download']],
   ['select-dropdown', defaultFormConfig.patterns['select-dropdown']],
+  ['date-of-birth', defaultFormConfig.patterns['date-of-birth']],
 ] as const;
 
 export const SidebarAddPatternMenuItem = ({

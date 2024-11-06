@@ -12,6 +12,7 @@ import RadioGroup from './RadioGroup/index.js';
 import RichText from './RichText/index.js';
 import Sequence from './Sequence/index.js';
 import SelectDropdown from './SelectDropdown/index.js';
+import DateOfBirth from './DateOfBirth/index.js';
 import SubmissionConfirmation from './SubmissionConfirmation/index.js';
 import TextInput from './TextInput/index.js';
 
@@ -28,6 +29,7 @@ export const defaultPatternComponents: ComponentForPattern = {
   'radio-group': RadioGroup as PatternComponent,
   'rich-text': RichText as PatternComponent,
   'select-dropdown': SelectDropdown as PatternComponent,
+  'date-of-birth': DateOfBirth as PatternComponent,
   sequence: Sequence as PatternComponent,
   'submission-confirmation': SubmissionConfirmation as PatternComponent,
 };
