@@ -7,6 +7,7 @@ import {
 import { type Pattern } from '../pattern.js';
 import { type InputPattern } from '../patterns/input/config.js';
 import { type AttachmentPattern } from '../patterns/attachment/config.js';
+import { attachmentFileTypeMimes } from '../patterns/attachment/file-type-options.js'
 import { type SequencePattern } from '../patterns/sequence.js';
 import { type Blueprint } from '../types.js';
 
@@ -135,7 +136,7 @@ export const addDocumentFieldsToForm = (
           label: field.label,
           required: false,
           maxAttachments: 1,
-          allowedFileTypes: ['jpg', 'pdf', 'png'],
+          allowedFileTypes: attachmentFileTypeMimes as [(typeof attachmentFileTypeMimes)[number]]
         },
       } satisfies AttachmentPattern);
     } else if (field.type === 'RadioGroup') {
