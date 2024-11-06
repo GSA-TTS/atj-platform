@@ -8,6 +8,7 @@ import {
   getSearchString,
 } from '../../config/astro.js';
 import ContentLayout from '../../layouts/ContentLayout.astro';
+import { createMultipartResponse } from '../../lib/attachments.js';
 
 const { id: formId } = getAstroRouteParams(Astro, ['id']);
 const ctx = await getServerContext(Astro);
@@ -59,7 +60,23 @@ if (Astro.request.method === 'POST') {
   setFormSessionCookie(submitFormResult.data.sessionId);
 
   if (submitFormResult.data.attachments) {
-    return createMultipartResponse(submitFormResult.data.attachments);
+    if (submitFormResult.data.attachments.length > 1) {
+      return new Response(
+        'Multiple attachments are not supported at this time.',
+        {
+          status: 501,
+        }
+      );
+    }
+    const attachment = submitFormResult.data.attachments[0];
+    return new Response(attachment.data, {
+      headers: {
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `attachment; filename="${attachment.fileName}"`,
+        'Content-Length': attachment.data.length.toString(),
+      },
+      status: 200,
+    });
   }
 
   return Astro.redirect(getNextUrl(submitFormResult.data.session.route));

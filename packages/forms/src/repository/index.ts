@@ -4,6 +4,7 @@ import { type DatabaseContext } from '@atj/database';
 import { type AddDocument, addDocument } from './add-document.js';
 import { type AddForm, addForm } from './add-form.js';
 import { type DeleteForm, deleteForm } from './delete-form.js';
+import { type GetDocument, getDocument } from './get-document.js';
 import { type GetForm, getForm } from './get-form.js';
 import { type GetFormList, getFormList } from './get-form-list.js';
 import { type GetFormSession, getFormSession } from './get-form-session.js';
@@ -17,6 +18,7 @@ export interface FormRepository {
   addDocument: ServiceMethod<AddDocument>;
   addForm: ServiceMethod<AddForm>;
   deleteForm: ServiceMethod<DeleteForm>;
+  getDocument: ServiceMethod<GetDocument>;
   getForm: ServiceMethod<GetForm>;
   getFormSession: ServiceMethod<GetFormSession>;
   getFormList: ServiceMethod<GetFormList>;
@@ -29,6 +31,7 @@ export const createFormsRepository = (ctx: DatabaseContext): FormRepository =>
     addDocument,
     addForm,
     deleteForm,
+    getDocument,
     getFormList,
     getFormSession,
     getForm,

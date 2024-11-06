@@ -145,6 +145,21 @@ export class BrowserFormRepository implements FormRepository {
     );
     return {} as Promise<Result<{ id: string }>>;
   }
+
+  getDocument(id: string): Promise<
+    Result<{
+      id: string;
+      data: Uint8Array;
+      path: string;
+      fields: DocumentFieldMap;
+    }>
+  > {
+    const value = this.storage.getItem(documentKey(id));
+    if (value === null) {
+      return Promise.resolve(failure(`Document with id ${id} not found`));
+    }
+    return Promise.resolve(JSON.parse(value));
+  }
 }
 
 export const getFormList = (storage: Storage) => {

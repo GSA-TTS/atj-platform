@@ -87,8 +87,9 @@ export const initializeForm: InitializeForm = async (ctx, opts) => {
       description: parsedPdf.description,
     });
 
+    const fileName = document.fileName.split('/').pop() || 'my-form.pdf';
     const addDocumentResult = await ctx.repository.addDocument({
-      fileName: document.fileName,
+      fileName,
       data: document.data,
       extract: parsePdfResult.data,
     });
