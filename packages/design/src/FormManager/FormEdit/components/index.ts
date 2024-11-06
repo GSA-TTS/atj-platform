@@ -4,6 +4,7 @@ import {
 } from '../types.js';
 
 import CheckboxPatternEdit from './CheckboxPatternEdit.js';
+import DateOfBirthPatternEdit from './DateOfBirthPatternEdit.js';
 import FieldsetEdit from './FieldsetEdit.js';
 import FormSummaryEdit from './FormSummaryEdit.js';
 import InputPatternEdit from './InputPatternEdit.js';
@@ -19,6 +20,7 @@ import SubmissionConfirmationEdit from './SubmissionConfirmationEdit.js';
 
 export const defaultPatternEditComponents: EditComponentForPattern = {
   checkbox: CheckboxPatternEdit as PatternEditComponent,
+  'date-of-birth': DateOfBirthPatternEdit as PatternEditComponent,
   paragraph: ParagraphPatternEdit as PatternEditComponent,
   input: InputPatternEdit as PatternEditComponent,
   'form-summary': FormSummaryEdit as PatternEditComponent,

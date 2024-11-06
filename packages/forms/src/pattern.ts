@@ -1,4 +1,5 @@
 import * as r from '@atj/common';
+import set from 'set-value';
 
 import { type CreatePrompt } from './components.js';
 import { type FormError, type FormErrors } from './error.js';
@@ -133,6 +134,18 @@ export const validatePattern = (
   return r.success(parseResult.data);
 };
 
+const aggregateValuesByPrefix = (
+  values: Record<string, string>
+): Record<string, any> => {
+  const aggregatedValues: Record<string, any> = {};
+
+  for (const [key, value] of Object.entries(values)) {
+    set(aggregatedValues, key, value);
+  }
+
+  return aggregatedValues;
+};
+
 export const validatePatternAndChildren = (
   config: FormConfig,
   form: Blueprint,
@@ -144,11 +157,12 @@ export const validatePatternAndChildren = (
     errors: Record<PatternId, FormError>;
   } = { values: {}, errors: {} }
 ) => {
+  const aggregatedValues = aggregateValuesByPrefix(values);
+
   if (patternConfig.parseUserInput) {
-    const parseResult = patternConfig.parseUserInput(
-      pattern,
-      values[pattern.id]
-    );
+    const patternValues = aggregatedValues[pattern.id];
+    const parseResult = patternConfig.parseUserInput(pattern, patternValues);
+
     if (parseResult.success) {
       result.values[pattern.id] = parseResult.data;
     } else {
