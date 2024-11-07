@@ -51,11 +51,17 @@ export const PatternEditForm = ({
     <FormProvider {...methods}>
       <form
         onBlur={methods.handleSubmit(formData => {
+          console.group('formData');
+          console.log(formData);
+          console.groupEnd();
           if (!hasRichText(formData)) {
             updateActivePattern(formData);
           }
         })}
         onSubmit={methods.handleSubmit(formData => {
+          console.group('formData');
+          console.log(formData);
+          console.groupEnd();
           const success = updateActivePattern(formData);
           if (success) {
             clearFocus();

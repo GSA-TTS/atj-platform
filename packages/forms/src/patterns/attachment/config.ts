@@ -43,5 +43,16 @@ export type AttachmentConfigSchema = z.infer<typeof configDataSchema>;
 export const parseConfigData: ParsePatternConfigData<
   AttachmentConfigSchema
 > = obj => {
-  return safeZodParseFormErrors(configDataSchema, obj);
+  let newObj;
+
+  if (typeof obj === 'object' && obj !== null && !Array.isArray(obj)) {
+    newObj = {
+      ...(obj as AttachmentConfigSchema),
+      maxFileSizeMB: (obj as AttachmentConfigSchema).maxFileSizeMB ?? 10,
+    };
+  } else {
+    newObj = obj;
+  }
+
+  return safeZodParseFormErrors(configDataSchema, newObj);
 };
