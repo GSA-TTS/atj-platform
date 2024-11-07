@@ -40,6 +40,7 @@ export const defaultFormConfig: FormConfig = {
 } as const;
 
 export * from './attachment/index.js';
+export { type AttachmentPattern } from './attachment/config.js';
 export * from './attachment/file-type-options.js';
 export * from './address/index.js';
 export * from './checkbox.js';

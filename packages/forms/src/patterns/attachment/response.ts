@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { ParseUserInput } from '../../pattern.js';
 import { safeZodParseToFormError } from '../../util/zod.js';
-import { type AttachmentPattern } from './index.js';
+import { type AttachmentPattern } from './config.js';
 
 const createSchema = (data: AttachmentPattern['data']) => {
   // Define the maximum file size in bytes

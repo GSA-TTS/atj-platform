@@ -4,7 +4,7 @@ import { type FieldsetPattern } from '../../patterns/fieldset/config.js';
 import { type InputPattern } from '../../patterns/input/config.js';
 import { PagePattern } from '../../patterns/page/config.js';
 import { PageSetPattern } from '../../patterns/page-set/config.js';
-import { type AttachmentPattern } from '../../patterns/attachment/index.js';
+import { type AttachmentPattern } from '../../patterns/attachment/config.js';
 import { type ParagraphPattern } from '../../patterns/paragraph.js';
 import { type CheckboxPattern } from '../../patterns/checkbox.js';
 import { type RadioGroupPattern } from '../../patterns/radio-group.js';

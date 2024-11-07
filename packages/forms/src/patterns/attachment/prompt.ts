@@ -1,4 +1,5 @@
-import { type AttachmentPattern, attachmentConfig } from './index.js';
+import { attachmentConfig } from './index.js';
+import { type AttachmentPattern } from './config.js';
 import {
   type CreatePrompt,
   type AttachmentProps,

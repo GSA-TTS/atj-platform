@@ -1,8 +1,10 @@
 import { z } from 'zod';
 import { enLocale as message } from '@atj/common';
-import { ParsePatternConfigData } from '../../pattern.js';
+import { ParsePatternConfigData, type Pattern } from '../../pattern.js';
 import { safeZodParseFormErrors } from '../../util/zod.js';
 import { attachmentFileTypeMimes } from './file-type-options';
+
+export type AttachmentPattern = Pattern<AttachmentConfigSchema>;
 
 const configSchema = z.object({
   label: z.string().min(1, message.patterns.attachment.fieldLabelRequired),
