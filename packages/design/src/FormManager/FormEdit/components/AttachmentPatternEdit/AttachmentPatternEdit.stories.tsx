@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react';
-
 import { enLocale as message } from '@atj/common';
 import { type AttachmentPattern } from '@atj/forms';
 
@@ -9,14 +8,20 @@ import {
   testUpdateFormFieldOnSubmit,
 } from '../common/story-helper.js';
 import FormEdit from '../../index.js';
+import { userEvent, expect } from '@storybook/test';
+import { within } from '@testing-library/react';
+
+const label = 'Attach a PDF file';
 
 const pattern: AttachmentPattern = {
   id: '1',
   type: 'attachment',
   data: {
-    label: message.patterns.attachment.displayName,
+    label: 'File upload',
     required: true,
-    maxLength: 128,
+    maxAttachments: 1,
+    maxFileSizeMB: 10,
+    allowedFileTypes: ['application/pdf']
   },
 };
 
@@ -32,7 +37,7 @@ export const Basic: StoryObj<typeof FormEdit> = {
   play: async ({ canvasElement }) => {
     await testUpdateFormFieldOnSubmit(
       canvasElement,
-      message.patterns.attachment.displayName,
+      label,
       message.patterns.attachment.fieldLabel,
       'Updated attachment pattern'
     );
@@ -43,9 +48,21 @@ export const Error: StoryObj<typeof FormEdit> = {
   play: async ({ canvasElement }) => {
     await testEmptyFormLabelError(
       canvasElement,
-      message.patterns.attachment.displayName,
+      label,
       message.patterns.attachment.fieldLabel,
       message.patterns.attachment.fieldLabelRequired
     );
+
+    const canvas = within(canvasElement);
+    const fileTypes = await canvas.findByDisplayValue('application/pdf');
+    await userEvent.click(fileTypes)
+    fileTypes.blur();
+
+    const maxAttachments = await canvas.findByLabelText('Max attachments');
+    await userEvent.clear(maxAttachments);
+    maxAttachments.blur();
+
+    const invalidError = canvas.getByText('Invalid file type found.', { selector: '.usa-error-message' });
+    expect(invalidError).toBeInTheDocument();
   },
 };
