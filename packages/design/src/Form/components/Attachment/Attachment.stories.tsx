@@ -2,6 +2,7 @@ import React from 'react';
 import { within, userEvent } from '@storybook/test';
 import { expect } from '@storybook/test';
 import { attachmentFileTypeMimes } from '@atj/forms';
+import { type AttachmentProps } from '@atj/forms';
 import { FormProvider, useForm } from 'react-hook-form';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -17,7 +18,7 @@ const defaultArgs = {
   maxAttachments: 1,
   maxFileSizeMB: 10,
   required: true,
-};
+} satisfies AttachmentProps;
 
 const meta: Meta<typeof Attachment> = {
   title: 'patterns/Attachment',
@@ -57,11 +58,10 @@ export const SingleWithValidFile = {
     ...defaultArgs,
   },
   play: async ({ canvasElement }) => {
-    // Find the file input element
     const canvas = within(canvasElement);
-    const fileInput = await canvas.getByLabelText(
+    const fileInput = canvas.getByLabelText(
       'Attach a JPG, PDF, or PNG file'
-    );
+    ) as HTMLInputElement;
 
     // Create a file to upload
     const file = new File(['sample content'], 'sample.png', {
@@ -71,9 +71,12 @@ export const SingleWithValidFile = {
     // Simulate attaching the file
     await userEvent.upload(fileInput, file);
 
-    // Assert that the file input now contains the uploaded file
-    expect(fileInput.files[0]).toEqual(file);
-    expect(fileInput.files).toHaveLength(1);
+    await expect(fileInput.files).not.toBeNull();
+
+    if (fileInput.files) {
+      await expect(fileInput.files[0]).toEqual(file);
+      await expect(fileInput.files).toHaveLength(1);
+    }
   },
 } satisfies StoryObj<typeof Attachment>;
 
@@ -84,31 +87,32 @@ export const MultipleWithValidFiles = {
     maxAttachments: 3,
   },
   play: async ({ canvasElement }) => {
-    // Find the file input element
     const canvas = within(canvasElement);
-    const fileInput = await canvas.getByLabelText('Attach PDF files');
+    const fileInput = canvas.getByLabelText(
+      'Attach PDF files'
+    ) as HTMLInputElement;
 
-    // Create multiple files to upload
     const files = [
       new File(['content1'], 'file1.pdf', { type: 'application/pdf' }),
       new File(['content2'], 'file2.pdf', { type: 'application/pdf' }),
       new File(['content3'], 'file3.pdf', { type: 'application/pdf' }),
     ];
 
-    // Simulate attaching the files
     await userEvent.upload(fileInput, files);
 
-    // Assert that the file input now contains the uploaded files
-    expect(fileInput.files).toHaveLength(3);
-    expect(Array.from(fileInput.files)).toEqual(files);
+    await expect(fileInput.files).not.toBeNull();
+
+    if (fileInput.files) {
+      await expect(fileInput.files).toHaveLength(3);
+      await expect(Array.from(fileInput.files)).toEqual(files);
+    }
   },
 } satisfies StoryObj<typeof Attachment>;
 
 export const ErrorTooManyFiles = {
   play: async ({ canvasElement }) => {
-    // Find the file input element
     const canvas = within(canvasElement);
-    const fileInput = await canvas.getByLabelText('Attach PDF files');
+    const fileInput = canvas.getByLabelText('Attach PDF files');
 
     // Create multiple files to upload
     const files = [
@@ -117,7 +121,6 @@ export const ErrorTooManyFiles = {
       new File(['content3'], 'file3.pdf', { type: 'application/pdf' }),
     ];
 
-    // Simulate attaching the files
     await userEvent.upload(fileInput, files);
     expect(
       canvas.getByText(/There is a maximum of 2 files./i)
@@ -132,18 +135,13 @@ export const ErrorTooManyFiles = {
 
 export const ErrorInvalidFileType = {
   play: async ({ canvasElement }) => {
-    // Find the file input element
     const canvas = within(canvasElement);
-    const fileInput = await canvas.getByLabelText(
-      'Attach a JPG, PDF, or PNG file'
-    );
+    const fileInput = canvas.getByLabelText('Attach a JPG, PDF, or PNG file');
 
-    // Create multiple files to upload
     const file = new File(['sample content'], 'sample.txt', {
       type: 'text/plain',
     });
 
-    // Simulate attaching the files
     await userEvent.upload(fileInput, file);
     expect(
       canvas.getByText(/Sorry. Only JPG, PDF, or PNG files are accepted./i)
@@ -156,18 +154,13 @@ export const ErrorInvalidFileType = {
 
 export const ErrorTooBig = {
   play: async ({ canvasElement }) => {
-    // Find the file input element
     const canvas = within(canvasElement);
-    const fileInput = await canvas.getByLabelText(
-      'Attach a JPG, PDF, or PNG file'
-    );
+    const fileInput = canvas.getByLabelText('Attach a JPG, PDF, or PNG file');
 
-    // Create multiple files to upload
     const file = new File(['sample content'], 'sample.png', {
       type: 'image/png',
     });
 
-    // Simulate attaching the files
     await userEvent.upload(fileInput, file);
     expect(
       canvas.getByText(/The maximum allowable size per file is 0 MB./i)

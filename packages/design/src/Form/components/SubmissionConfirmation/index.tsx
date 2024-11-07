@@ -5,6 +5,7 @@ import { type PatternComponent } from '../../../Form/index.js';
 
 const SubmissionConfirmation: PatternComponent<
   SubmissionConfirmationProps
+  // eslint-disable-next-line
 > = props => {
   return (
     <>
