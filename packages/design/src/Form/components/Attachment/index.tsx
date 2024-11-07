@@ -81,21 +81,21 @@ const Attachment: PatternComponent<AttachmentProps> = props => {
                 }).format(
                   getFileTypeLabelFromMimes(props.allowedFileTypes)
                 )} files`}
-            {(props.error || error) && (
-              <span
-                className="usa-error-message"
-                id={`input-error-message-${props.inputId}`}
-                role="alert"
-              >
-                {props.error?.message || error}
-              </span>
-            )}
           </label>
           <span className="usa-hint" id={`input-hint-${props.inputId}`}>
             {props.maxAttachments === 1
               ? `Select ${props.maxAttachments} file`
               : `Select up to ${props.maxAttachments} files`}
           </span>
+          {(props.error || error) && (
+            <span
+              className="usa-error-message"
+              id={`input-error-message-${props.inputId}`}
+              role="alert"
+            >
+              {props.error?.message || error}
+            </span>
+          )}
           <div className="usa-file-input">
             <div className="usa-file-input__target">
               {attachments.length === 0 ? (
@@ -138,7 +138,7 @@ const Attachment: PatternComponent<AttachmentProps> = props => {
                   'usa-input--error': props.error || error,
                 })}
                 id={`input-${props.inputId}`}
-                aria-describedby={`input-message-${props.inputId} label-${props.inputId}`}
+                aria-describedby={`label-${props.inputId} input-hint-${props.inputId} ${props.error || error ? `input-error-message-${props.inputId}` : null}`}
                 onChange={handleChange}
                 onBlur={onBlur}
                 name={name}
