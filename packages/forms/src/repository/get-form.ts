@@ -19,9 +19,5 @@ export const getForm: GetForm = async (ctx, formId) => {
     return null;
   }
 
-  return parseStringForm(selectResult.data);
-};
-
-const parseStringForm = (formString: string): Blueprint => {
-  return JSON.parse(formString);
+  return JSON.parse(selectResult.data);
 };
