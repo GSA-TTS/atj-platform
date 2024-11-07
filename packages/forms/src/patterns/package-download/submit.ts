@@ -14,23 +14,24 @@ export const downloadPackageHandler: SubmitHandler<
     return failure('Form is not complete');
   }
 
-  const outputsResult: Result<FormOutput[]> = await Promise.all(
-    opts.session.form.outputs.map(async output => {
-      const doc = await context.getDocument(output.id);
-      if (!doc.success) {
-        throw new Error(doc.error);
-      }
-      return {
-        id: output.id,
-        data: doc.data.data,
-        path: doc.data.path,
-        fields: output.fields,
-        formFields: output.formFields,
-      } satisfies FormOutput;
-    })
-  )
-    .then(values => success(values))
-    .catch(error => failure(error));
+  const outputsResult: Result<(FormOutput & { data: Uint8Array })[]> =
+    await Promise.all(
+      opts.session.form.outputs.map(async output => {
+        const doc = await context.getDocument(output.id);
+        if (!doc.success) {
+          throw new Error(doc.error);
+        }
+        return {
+          id: output.id,
+          path: doc.data.path,
+          fields: output.fields,
+          formFields: output.formFields,
+          data: doc.data.data,
+        };
+      })
+    )
+      .then(values => success(values))
+      .catch(error => failure(error));
   if (!outputsResult.success) {
     return failure(outputsResult.error);
   }
@@ -50,7 +51,7 @@ export const downloadPackageHandler: SubmitHandler<
 };
 
 const generateDocumentPackage = async (
-  outputs: FormOutput[],
+  outputs: (FormOutput & { data: Uint8Array })[],
   formData: Record<string, string>
 ) => {
   const errors = new Array<string>();

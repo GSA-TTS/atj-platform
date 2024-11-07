@@ -15,7 +15,6 @@ export type FormSummary = {
 
 export type FormOutput = {
   id: string;
-  data: Uint8Array;
   path: string;
   fields: DocumentFieldMap;
   formFields: Record<string, string>;

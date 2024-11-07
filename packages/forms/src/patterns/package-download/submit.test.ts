@@ -105,7 +105,6 @@ const createTestForm = async (): Promise<Blueprint> => {
       {
         id: 'test-id',
         path: 'test.pdf',
-        data: new Uint8Array(pdfBytes),
         fields: {
           [input1.id]: {
             type: 'TextField',

@@ -120,7 +120,7 @@ export class BrowserFormRepository implements FormRepository {
 
   async saveForm(formId: string, form: Blueprint): Promise<VoidResult> {
     try {
-      this.storage.setItem(formKey(formId), stringifyForm(form));
+      this.storage.setItem(formKey(formId), JSON.stringify(form));
     } catch {
       return failure(`error saving '${formId}' to storage`);
     }
@@ -179,7 +179,7 @@ export const getFormList = (storage: Storage) => {
 
 export const saveForm = (storage: Storage, formId: string, form: Blueprint) => {
   try {
-    storage.setItem(formKey(formId), stringifyForm(form));
+    storage.setItem(formKey(formId), JSON.stringify(form));
   } catch {
     return {
       success: false as const,
@@ -189,17 +189,6 @@ export const saveForm = (storage: Storage, formId: string, form: Blueprint) => {
   return {
     success: true as const,
   };
-};
-
-const stringifyForm = (form: Blueprint) => {
-  return JSON.stringify({
-    ...form,
-    outputs: form.outputs.map(output => ({
-      ...output,
-      // TODO: we probably want to do this somewhere in the documents module
-      data: uint8ArrayToBase64(output.data),
-    })),
-  });
 };
 
 const parseStringForm = (formString: string): Blueprint => {

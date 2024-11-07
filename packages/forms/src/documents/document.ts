@@ -33,7 +33,6 @@ export const addParsedPdfToForm = async (
   form = addPatternMap(form, document.extract.patterns, document.extract.root);
   const updatedForm = addFormOutput(form, {
     id: document.id,
-    data: new Uint8Array(), // TODO: remove this no-longer-used field
     path: document.label,
     fields: document.extract.outputs,
     formFields: Object.fromEntries(
@@ -71,7 +70,6 @@ export const addDocument = async (
     form = addPatternMap(form, parsedPdf.patterns, parsedPdf.root);
     const updatedForm = addFormOutput(form, {
       id: 'document-1', // TODO: generate a unique ID
-      data: fileDetails.data,
       path: fileDetails.name,
       fields: parsedPdf.outputs,
       formFields: Object.fromEntries(
@@ -89,7 +87,6 @@ export const addDocument = async (
     const formWithFields = addDocumentFieldsToForm(form, fields);
     const updatedForm = addFormOutput(formWithFields, {
       id: 'document-1', // TODO: generate a unique ID
-      data: fileDetails.data,
       path: fileDetails.name,
       fields,
       // TODO: for now, reuse the field IDs from the PDF. we need to generate
