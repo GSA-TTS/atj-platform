@@ -6,7 +6,6 @@ import {
   type Blueprint,
   type FormService,
   type FormSummary,
-  uint8ArrayToBase64,
 } from '@atj/forms';
 import { type FormServiceContext } from '@atj/forms/context';
 

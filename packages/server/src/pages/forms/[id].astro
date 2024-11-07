@@ -8,7 +8,6 @@ import {
   getSearchString,
 } from '../../config/astro.js';
 import ContentLayout from '../../layouts/ContentLayout.astro';
-import { createMultipartResponse } from '../../lib/attachments.js';
 
 const { id: formId } = getAstroRouteParams(Astro, ['id']);
 const ctx = await getServerContext(Astro);
