@@ -55,7 +55,7 @@ describe('EmailInputPattern tests', () => {
       if (result.success) {
         expect(result.data).toEqual(inputValue);
       } else {
-        throw new Error('Unexpected validation failure');
+        expect.fail('Unexpected validation failure');
       }
     });
 
@@ -77,7 +77,7 @@ describe('EmailInputPattern tests', () => {
       if (!result.success) {
         expect(result.error).toBeDefined();
       } else {
-        throw new Error('Unexpected validation success');
+        expect.fail('Unexpected validation success');
       }
     });
 
@@ -95,7 +95,7 @@ describe('EmailInputPattern tests', () => {
         expect(result.data.label).toBe('Test Email Input Label');
         expect(result.data.required).toBe(true);
       } else {
-        throw new Error('Unexpected validation failure');
+        expect.fail('Unexpected validation failure');
       }
     });
 
@@ -112,7 +112,7 @@ describe('EmailInputPattern tests', () => {
       if (!result.success) {
         expect(result.error).toBeDefined();
       } else {
-        throw new Error('Unexpected validation success');
+        expect.fail('Unexpected validation success');
       }
     });
   });
