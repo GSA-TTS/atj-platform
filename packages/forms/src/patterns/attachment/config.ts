@@ -6,7 +6,7 @@ import { attachmentFileTypeMimes } from './file-type-options';
 
 export type AttachmentPattern = Pattern<AttachmentConfigSchema>;
 
-const configSchema = z.object({
+export const configSchema = z.object({
   label: z.string().min(1, message.patterns.attachment.fieldLabelRequired),
   required: z.boolean(),
   maxAttachments: z.coerce.number().int().gt(0),
@@ -33,7 +33,7 @@ const validateFileTypes = (fileTypes: string | string[]) => {
   return fileTypes.every(type => validTypes.includes(type));
 };
 
-const configDataSchema = configSchema.refine(
+export const configDataSchema = configSchema.refine(
   data => validateFileTypes(data.allowedFileTypes),
   {
     message: `Invalid file type found. Only ${new Intl.ListFormat('en').format(attachmentFileTypeMimes)} are allowed.`,
