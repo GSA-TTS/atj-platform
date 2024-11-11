@@ -33,7 +33,7 @@ const validateFileTypes = (fileTypes: string | string[]) => {
   return fileTypes.every(type => validTypes.includes(type));
 };
 
-export const configDataSchema = configSchema.refine(
+const configDataSchema = configSchema.refine(
   data => validateFileTypes(data.allowedFileTypes),
   {
     message: `Invalid file type found. Only ${new Intl.ListFormat('en').format(attachmentFileTypeMimes)} are allowed.`,

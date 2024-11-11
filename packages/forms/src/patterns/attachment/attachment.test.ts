@@ -4,24 +4,15 @@ import { describe, expect, it } from 'vitest';
 // } from './index.js';
 
 import { type AttachmentPattern, parseConfigData } from './config.js';
-//
-// import {
-//   configSchema as createPatternEditSchema,
-// } from './config.js';
 
 describe('AttachmentPattern tests', () => {
-  //user input schema
-  describe('createPatternEditSchema', () => {
+  describe('parseConfigData', () => {
     const defaultData: AttachmentPattern['data'] = {
-      'label': 'File upload',
-      'required': true,
-      'maxAttachments': 1,
-      'maxFileSizeMB': 10,
-      'allowedFileTypes': [
-        'image/jpeg',
-        'application/pdf',
-        'image/png',
-      ],
+      label: 'File upload',
+      required: true,
+      maxAttachments: 1,
+      maxFileSizeMB: 10,
+      allowedFileTypes: ['image/jpeg', 'application/pdf', 'image/png'],
     };
 
     it('should create schema for required attachment', () => {
@@ -43,32 +34,62 @@ describe('AttachmentPattern tests', () => {
       expect(input.success).toBe(true);
     });
 
-    it('should require an at least 1 attachment type', () => {
+    it('should require at least 1 attachment type', () => {
       const data = {
         ...defaultData,
-        'allowedFileTypes': [],
+        allowedFileTypes: [],
       };
 
       const input = parseConfigData(data);
       expect((input as any).error).toStrictEqual({
-        'allowedFileTypes': {
-          'message': 'Invalid file type found.',
-          'type': 'required',
+        allowedFileTypes: {
+          message: 'Invalid file type found.',
+          type: 'required',
         },
       });
     });
 
-    it('should require an at least 1 attachment type', () => {
+    it('should require a valid attachment type', () => {
       const data = {
         ...defaultData,
-        'allowedFileTypes': [],
+        allowedFileTypes: ['invalid/mimetype'],
       };
 
       const input = parseConfigData(data);
       expect((input as any).error).toStrictEqual({
-        'allowedFileTypes': {
-          'message': 'Invalid file type found.',
-          'type': 'required',
+        allowedFileTypes: {
+          message: 'Invalid input',
+          type: 'custom',
+        },
+      });
+    });
+
+    it('should not allow humongous files', () => {
+      const data = {
+        ...defaultData,
+        maxFileSizeMB: 10000000,
+      };
+
+      const input = parseConfigData(data);
+      expect((input as any).error).toStrictEqual({
+        maxFileSizeMB: {
+          message: 'Number must be less than or equal to 10',
+          type: 'custom',
+        },
+      });
+    });
+
+    it('should require positive integer of max attachments', () => {
+      const data = {
+        ...defaultData,
+        maxAttachments: 0,
+      };
+
+      const input = parseConfigData(data);
+      expect((input as any).error).toStrictEqual({
+        maxAttachments: {
+          message: 'Number must be greater than 0',
+          type: 'custom',
         },
       });
     });
