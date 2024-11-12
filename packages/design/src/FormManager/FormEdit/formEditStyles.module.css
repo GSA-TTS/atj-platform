@@ -55,7 +55,14 @@
   padding-left: 0;
 }
 
-.draggableListItemWrapper .dateOfBirthPattern legend {
+.draggableListItemWrapper .dateOfBirthPattern legend,
+.draggableListItemWrapper
+  .emailInput
+  legend
+  .draggableListItemWrapper
+  .radioFormPattern
+  legend,
+.draggableListItemWrapper .phoneNumberPattern legend {
   padding-left: 0;
 }
 

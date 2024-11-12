@@ -13,6 +13,7 @@ import dropDownOptionIcon from './images/dropdownoption-icon.svg';
 import richTextIcon from './images/richtext-icon.svg';
 import longanswerIcon from './images/longanswer-icon.svg';
 import pageIcon from './images/page-icon.svg';
+import phoneIcon from './images/phone-icon.svg';
 import shortanswerIcon from './images/shortanswer-icon.svg';
 import singleselectIcon from './images/singleselect-icon.svg';
 import templateIcon from './images/template-icon.svg';
@@ -28,6 +29,7 @@ const icons: Record<string, string | any> = {
   'richtext-icon.svg': richTextIcon,
   'longanswer-icon.svg': longanswerIcon,
   'page-icon.svg': pageIcon,
+  'phone-icon.svg': phoneIcon,
   'shortanswer-icon.svg': shortanswerIcon,
   'singleselect-icon.svg': singleselectIcon,
   'template-icon.svg': templateIcon,
@@ -95,6 +97,7 @@ const sidebarPatterns: DropdownPattern[] = [
   ['rich-text', defaultFormConfig.patterns['rich-text']],
   ['radio-group', defaultFormConfig.patterns['radio-group']],
   ['package-download', defaultFormConfig.patterns['package-download']],
+  ['phone-number', defaultFormConfig.patterns['phone-number']],
   ['select-dropdown', defaultFormConfig.patterns['select-dropdown']],
   ['date-of-birth', defaultFormConfig.patterns['date-of-birth']],
 ] as const;
@@ -106,6 +109,7 @@ export const fieldsetPatterns: DropdownPattern[] = [
   ['rich-text', defaultFormConfig.patterns['rich-text']],
   ['radio-group', defaultFormConfig.patterns['radio-group']],
   ['package-download', defaultFormConfig.patterns['package-download']],
+  ['phone-number', defaultFormConfig.patterns['phone-number']],
   ['select-dropdown', defaultFormConfig.patterns['select-dropdown']],
   ['date-of-birth', defaultFormConfig.patterns['date-of-birth']],
 ] as const;

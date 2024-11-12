@@ -43,6 +43,8 @@ export const submitPage: SubmitHandler<PageSetPattern> = async (
     opts.data
   );
 
+  console.log('TEST Result:', result);
+
   // Increment the page number if there are no errors and this isn't the last page.
   const lastPage = opts.pattern.data.pages.length - 1;
   const nextPage =

@@ -13,6 +13,7 @@ import { PageEdit } from './PageEdit.js';
 import PageSetEdit from './PageSetEdit.js';
 import ParagraphPatternEdit from './ParagraphPatternEdit.js';
 import { PatternPreviewSequence } from './PreviewSequencePattern/index.js';
+import PhoneNumberPatternEdit from './PhoneNumberPatternEdit.js';
 import RadioGroupPatternEdit from './RadioGroupPatternEdit.js';
 import RichTextPatternEdit from './RichTextPatternEdit/index.js';
 import SelectDropdownPatternEdit from './SelectDropdownPatternEdit.js';
@@ -28,6 +29,7 @@ export const defaultPatternEditComponents: EditComponentForPattern = {
   'package-download': PackageDownloadPatternEdit as PatternEditComponent,
   page: PageEdit as PatternEditComponent,
   'page-set': PageSetEdit as PatternEditComponent,
+  'phone-number': PhoneNumberPatternEdit as PatternEditComponent,
   'radio-group': RadioGroupPatternEdit as PatternEditComponent,
   'rich-text': RichTextPatternEdit as PatternEditComponent,
   'select-dropdown': SelectDropdownPatternEdit as PatternEditComponent,

@@ -8,6 +8,7 @@ import PackageDownload from './PackageDownload/index.js';
 import Page from './Page/index.js';
 import PageSet from './PageSet/index.js';
 import Paragraph from './Paragraph/index.js';
+import PhoneNumber from './PhoneNumber/index.js';
 import RadioGroup from './RadioGroup/index.js';
 import RichText from './RichText/index.js';
 import Sequence from './Sequence/index.js';
@@ -26,6 +27,7 @@ export const defaultPatternComponents: ComponentForPattern = {
   page: Page as PatternComponent,
   'page-set': PageSet as PatternComponent,
   paragraph: Paragraph as PatternComponent,
+  'phone-number': PhoneNumber as PatternComponent,
   'radio-group': RadioGroup as PatternComponent,
   'rich-text': RichText as PatternComponent,
   'select-dropdown': SelectDropdown as PatternComponent,

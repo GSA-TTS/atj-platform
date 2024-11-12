@@ -96,6 +96,10 @@ export const submitForm: SubmitForm = async (
     formId,
     data: newSessionResult.data.session,
   });
+  console.log(
+    'submitForm: saveFormSessionResult',
+    saveFormSessionResult.success
+  );
   if (!saveFormSessionResult.success) {
     return failure(saveFormSessionResult.error);
   }
@@ -117,7 +121,7 @@ export const submitForm: SubmitForm = async (
     });
   }
   */
-
+  console.log('submitForm: success', newSessionResult.data.session);
   return success({
     sessionId: saveFormSessionResult.data.id,
     session: newSessionResult.data.session,
