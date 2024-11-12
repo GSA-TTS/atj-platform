@@ -156,7 +156,7 @@ export const validatePatternAndChildren = (
   values: Record<string, string>,
   result: {
     values: Record<PatternId, PatternValue>;
-    errors: Record<PatternId, FormError>;
+    errors: Record<PatternId, FormError | undefined>;
   } = { values: {}, errors: {} }
 ) => {
   const aggregatedValues = aggregateValuesByPrefix(values);
@@ -167,6 +167,7 @@ export const validatePatternAndChildren = (
 
     if (parseResult.success) {
       result.values[pattern.id] = parseResult.data;
+      result.errors[pattern.id] = undefined;
     } else {
       result.values[pattern.id] = values[pattern.id];
       result.errors[pattern.id] = parseResult.error;

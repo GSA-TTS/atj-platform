@@ -9,6 +9,7 @@ export const PhoneNumberPattern: PatternComponent<PhoneNumberProps> = ({
   label,
   required,
   error,
+  value,
 }) => {
   const { register } = useFormContext();
 
@@ -29,6 +30,7 @@ export const PhoneNumberPattern: PatternComponent<PhoneNumberProps> = ({
           id={phoneId}
           type="tel"
           {...register(phoneId, { required })}
+          defaultValue={value}
           aria-describedby="primaryPnHint"
           // pattern="[0-9]*"
           // inputMode="numeric"

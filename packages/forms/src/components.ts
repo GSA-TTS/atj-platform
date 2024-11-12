@@ -119,6 +119,7 @@ export type PhoneNumberProps = PatternProps<{
   label: string;
   required: boolean;
   error?: FormError;
+  value: string;
 }>;
 
 export type SequenceProps = PatternProps<{

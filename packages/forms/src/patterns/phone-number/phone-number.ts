@@ -25,25 +25,18 @@ export type PhoneNumberPatternOutput = z.infer<
 >;
 
 export const createPhoneSchema = (data: PhoneNumberPattern['data']) => {
-  const phoneSchema = z
+  let phoneSchema = z
     .string()
     .regex(
       /^\+?(\d{1,3})?[-. \()]?((\d{1,4}[-. \()]?){2,6}\d{1,4}?)$/,
       'Invalid phone format'
-    )
-    .optional();
+    );
 
   if (!data.required) {
-    return z
-      .object({
-        phone: phoneSchema,
-      })
-      .optional();
+    return phoneSchema.optional();
   }
 
-  return z.object({
-    phone: phoneSchema,
-  });
+  return phoneSchema;
 };
 
 export const phoneNumberConfig: PatternConfig<
@@ -78,7 +71,9 @@ export const phoneNumberConfig: PatternConfig<
   createPrompt(_, session, pattern, options) {
     const extraAttributes: Record<string, any> = {};
     const sessionValue = getFormSessionValue(session, pattern.id);
+    const error = session.data.errors[pattern.id];
 
+    /*
     if (options.validate) {
       const isValidResult = validatePattern(
         phoneNumberConfig,
@@ -89,15 +84,18 @@ export const phoneNumberConfig: PatternConfig<
         extraAttributes['error'] = isValidResult.error;
       }
     }
+    */
 
     return {
       props: {
         _patternId: pattern.id,
         type: 'phone-number',
         label: pattern.data.label,
-        phoneId: `${pattern.id}.phone`,
+        phoneId: pattern.id,
         required: pattern.data.required,
         hint: pattern.data.hint,
+        value: sessionValue,
+        error,
         ...extraAttributes,
       } as PhoneNumberProps,
       children: [],
