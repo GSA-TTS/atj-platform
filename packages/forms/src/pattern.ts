@@ -165,6 +165,7 @@ export const validatePatternAndChildren = (
 
     if (parseResult.success) {
       result.values[pattern.id] = parseResult.data;
+      result.errors[pattern.id] = undefined;
     } else {
       result.values[pattern.id] = values[pattern.id];
       result.errors[pattern.id] = parseResult.error;

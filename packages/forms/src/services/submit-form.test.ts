@@ -261,14 +261,17 @@ describe('multi-page form', () => {
         session: {
           ...session,
           data: {
-            errors: {},
+            attachments: undefined,
+            errors: {
+              'element-1': undefined,
+            },
             values: {
               'element-1': 'test',
             },
           },
           route: {
             params: {
-              page: '1',
+              page: '0',
             },
             url: '#',
           },

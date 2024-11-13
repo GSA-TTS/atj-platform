@@ -23,7 +23,9 @@ describe('Page-set submission', () => {
         session: {
           ...session,
           data: {
-            errors: {},
+            errors: {
+              'input-1': undefined,
+            },
             values: {
               'input-1': 'test',
             },
@@ -31,7 +33,7 @@ describe('Page-set submission', () => {
           route: {
             url: '#',
             params: {
-              page: '1',
+              page: '0',
             },
           },
           form: session.form,
