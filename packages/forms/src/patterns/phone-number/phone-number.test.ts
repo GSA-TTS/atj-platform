@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { createPhoneSchema, phoneNumberConfig, type PhoneNumberPattern } from './phone-number';
+import {
+  createPhoneSchema,
+  phoneNumberConfig,
+  type PhoneNumberPattern,
+} from './phone-number';
 
 describe('PhoneNumberPattern tests', () => {
   describe('createPhoneSchema', () => {
@@ -36,10 +40,10 @@ describe('PhoneNumberPattern tests', () => {
         label: 'Test Phone Input Label',
         required: true,
       };
-  
+
       const schema = createPhoneSchema(data);
       const shortInput = '123456789';
-  
+
       expect(schema.safeParse(shortInput).success).toBe(false);
     });
   });
