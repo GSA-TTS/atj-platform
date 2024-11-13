@@ -18,7 +18,11 @@ describe('PhoneNumberPattern tests', () => {
       const invalidInput = '123456abc';
 
       expect(schema.safeParse(validInput).success).toBe(true);
-      expect(schema.safeParse(invalidInput).success).toBe(false);
+      const invalidResult = schema.safeParse(invalidInput);
+      expect(invalidResult.success).toBe(false);
+      expect(invalidResult.error?.issues[0].message).toBe(
+        'Phone number may only contain digits, spaces, parentheses, hyphens, and periods.'
+      );
     });
 
     it('should create schema for optional phone input', () => {
@@ -30,9 +34,16 @@ describe('PhoneNumberPattern tests', () => {
       const schema = createPhoneSchema(data);
       const validInput = '+12223334444';
       const emptyInput = '';
+      const invalidInput = '123456abc';
 
       expect(schema.safeParse(validInput).success).toBe(true);
       expect(schema.safeParse(emptyInput).success).toBe(true);
+
+      const invalidResult = schema.safeParse(invalidInput);
+      expect(invalidResult.success).toBe(false);
+      expect(invalidResult.error?.issues[0].message).toBe(
+        'Phone number may only contain digits, spaces, parentheses, hyphens, and periods.'
+      );
     });
 
     it('should fail with less than 10 digits', () => {
@@ -44,7 +55,11 @@ describe('PhoneNumberPattern tests', () => {
       const schema = createPhoneSchema(data);
       const shortInput = '123456789';
 
-      expect(schema.safeParse(shortInput).success).toBe(false);
+      const shortInputResult = schema.safeParse(shortInput);
+      expect(shortInputResult.success).toBe(false);
+      expect(shortInputResult.error?.issues[0].message).toBe(
+        'Phone number must contain at least 10 digits'
+      );
     });
   });
 
@@ -88,6 +103,9 @@ describe('PhoneNumberPattern tests', () => {
       const result = phoneNumberConfig.parseUserInput(pattern, invalidInput);
       if (!result.success) {
         expect(result.error).toBeDefined();
+        expect(result.error?.message).toContain(
+          'Phone number may only contain digits, spaces, parentheses, hyphens, and periods.'
+        );
       } else {
         expect.fail('Unexpected validation success');
       }

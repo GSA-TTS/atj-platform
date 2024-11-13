@@ -262,16 +262,14 @@ describe('multi-page form', () => {
           ...session,
           data: {
             attachments: undefined,
-            errors: {
-              'element-1': undefined,
-            },
+            errors: {},
             values: {
               'element-1': 'test',
             },
           },
           route: {
             params: {
-              page: '0',
+              page: '1',
             },
             url: '#',
           },
