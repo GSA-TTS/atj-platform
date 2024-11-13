@@ -261,7 +261,6 @@ describe('multi-page form', () => {
         session: {
           ...session,
           data: {
-            attachments: undefined,
             errors: {},
             values: {
               'element-1': 'test',

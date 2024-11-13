@@ -10,11 +10,7 @@ const meta: Meta<typeof PhoneNumberPattern> = {
   decorators: [
     (Story, args) => {
       const FormDecorator = () => {
-        const formMethods = useForm({
-          defaultValues: {
-            phoneId: '',
-          },
-        });
+        const formMethods = useForm();
         return (
           <FormProvider {...formMethods}>
             <Story {...args} />
@@ -33,15 +29,15 @@ export const Default: StoryObj<typeof PhoneNumberPattern> = {
   args: {
     phoneId: 'phone',
     label: 'Phone number',
-    required: true,
+    required: false,
   },
 };
 
-export const WithoutRequired: StoryObj<typeof PhoneNumberPattern> = {
+export const WithRequired: StoryObj<typeof PhoneNumberPattern> = {
   args: {
     phoneId: 'phone',
     label: 'Phone number',
-    required: false,
+    required: true,
   },
 };
 
@@ -63,5 +59,18 @@ export const WithHint: StoryObj<typeof PhoneNumberPattern> = {
     label: 'Phone number',
     hint: '10-digit, U.S. only, for example 999-999-9999',
     required: true,
+  },
+};
+
+export const WithHintAndError: StoryObj<typeof PhoneNumberPattern> = {
+  args: {
+    phoneId: 'phone',
+    label: 'Phone number',
+    hint: '10-digit, U.S. only, for example 999-999-9999',
+    required: true,
+    error: {
+      type: 'custom',
+      message: 'This field has an error',
+    },
   },
 };

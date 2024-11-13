@@ -78,7 +78,9 @@ const EditComponent = ({ pattern }: { pattern: PhoneNumberPattern }) => {
             </span>
           ) : null}
           <input
-            className="usa-input"
+            className={classnames('usa-input', {
+              'usa-input--error': label.error,
+            })}
             id={fieldId('hint')}
             defaultValue={pattern.data.hint}
             {...register('hint')}
