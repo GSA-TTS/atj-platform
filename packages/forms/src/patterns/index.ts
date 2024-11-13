@@ -11,6 +11,7 @@ import { packageDownloadConfig } from './package-download/index.js';
 import { pageConfig } from './page/index.js';
 import { pageSetConfig } from './page-set/index.js';
 import { paragraphConfig } from './paragraph.js';
+import { phoneNumberConfig } from './phone-number/phone-number.js';
 import { radioGroupConfig } from './radio-group.js';
 import { richTextConfig } from './rich-text.js';
 import { selectDropdownConfig } from './select-dropdown/select-dropdown.js';
@@ -32,6 +33,7 @@ export const defaultFormConfig: FormConfig = {
     page: pageConfig,
     'page-set': pageSetConfig,
     paragraph: paragraphConfig,
+    'phone-number': phoneNumberConfig,
     'radio-group': radioGroupConfig,
     'rich-text': richTextConfig,
     'select-dropdown': selectDropdownConfig,
@@ -54,6 +56,7 @@ export { type PagePattern } from './page/config.js';
 export * from './page-set/index.js';
 export { type PageSetPattern } from './page-set/config.js';
 export * from './paragraph.js';
+export * from './phone-number/phone-number.js';
 export * from './radio-group.js';
 export * from './select-dropdown/select-dropdown.js';
 export * from './sequence.js';
