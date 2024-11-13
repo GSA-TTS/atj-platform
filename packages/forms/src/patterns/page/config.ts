@@ -21,6 +21,18 @@ const configSchema = z.object({
       )
       .pipe(z.string().array()),
   ]),
+  rules: z
+    .array(
+      z.object({
+        patternId: z.string(),
+        condition: z.object({
+          operator: z.literal('='),
+          value: z.string(),
+        }),
+        next: z.string(),
+      })
+    )
+    .default([]),
 });
 
 type PageConfigSchema = z.infer<typeof configSchema>;

@@ -8,18 +8,12 @@ export class Form {
 }
 
 export class PageSet extends PatternBuilder<PageSetPattern> {
+  type = 'page-set';
+
   addPage(page: Page) {
     return new PageSet({
       ...this.data,
       pages: [...this.data.pages, page.id],
     });
-  }
-
-  toPattern(): PageSetPattern {
-    return {
-      id: this.id,
-      type: 'page-set',
-      data: this.data,
-    };
   }
 }

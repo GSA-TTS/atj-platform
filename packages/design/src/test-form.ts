@@ -39,6 +39,7 @@ export const createOnePageTwoPatternTestForm = () => {
           data: {
             title: 'Page 1',
             patterns: ['element-1', 'element-2'],
+            rules: [],
           },
         } satisfies PagePattern,
         {
@@ -88,6 +89,7 @@ export const createTwoPageTwoPatternTestForm = () => {
           data: {
             title: 'First page',
             patterns: ['element-1', 'element-2'],
+            rules: [],
           },
         } satisfies PagePattern,
         {
@@ -96,6 +98,7 @@ export const createTwoPageTwoPatternTestForm = () => {
           data: {
             title: 'Second page',
             patterns: [],
+            rules: [],
           },
         } satisfies PagePattern,
         {

@@ -43,11 +43,30 @@ export const submitPage: SubmitHandler<PageSetPattern> = async (
     opts.data
   );
 
-  // Increment the page number if there are no errors and this isn't the last page.
+  // Evaluate page rules
+  const ruleMatch = pagePattern.data.data.rules
+    ? pagePattern.data.data.rules.find(rule => {
+        if (rule.condition.operator === '=') {
+          const value = opts.session.data.values[rule.patternId];
+          if (value === rule.condition.value) {
+            return true;
+          }
+        } else {
+          throw new Error(
+            `Unsupported rule operator: "${rule.condition.operator}"`
+          );
+        }
+      })
+    : undefined;
+
+  // Get the page number for the 1st rule match, or the next page if no rules
+  // match.
   const lastPage = opts.pattern.data.pages.length - 1;
   const nextPage =
     Object.values(result.errors).length === 0 && pageNumber < lastPage
-      ? pageNumber + 1
+      ? ruleMatch
+        ? pagePattern.data.data.patterns.indexOf(ruleMatch.patternId)
+        : pageNumber + 1
       : pageNumber;
 
   return success({

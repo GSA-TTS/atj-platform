@@ -128,8 +128,14 @@ const createTestSession = () => {
     { label: 'label', required: true, maxLength: 10 },
     'input-2'
   );
-  const page1 = new Page({ title: 'Page 1', patterns: [input1.id] }, 'page-1');
-  const page2 = new Page({ title: 'Page 2', patterns: [input2.id] }, 'page-2');
+  const page1 = new Page(
+    { title: 'Page 1', patterns: [input1.id], rules: [] },
+    'page-1'
+  );
+  const page2 = new Page(
+    { title: 'Page 2', patterns: [input2.id], rules: [] },
+    'page-2'
+  );
   const pageSet = new PageSet({ pages: [page1.id, page2.id] }, 'page-set-1');
   const testForm: Blueprint = {
     summary: {

@@ -9,6 +9,7 @@ export const pageConfig: PatternConfig<PagePattern> = {
   initial: {
     title: 'Untitled Page',
     patterns: [],
+    rules: [],
   },
   createPrompt,
   parseConfigData,

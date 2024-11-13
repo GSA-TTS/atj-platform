@@ -37,13 +37,20 @@ type RemoveChildPattern<P extends Pattern> = (
 export abstract class PatternBuilder<P extends Pattern> {
   public readonly id: PatternId;
   public readonly data: P['data'];
+  public abstract readonly type: P['type'];
 
   constructor(data: P['data'], id?: PatternId) {
     this.id = id || generatePatternId();
     this.data = data;
   }
 
-  abstract toPattern(): P;
+  toPattern(): P {
+    return {
+      id: this.id,
+      type: this.type,
+      data: this.data,
+    } as P;
+  }
 }
 
 export const getPattern = <T extends Pattern = Pattern>(

@@ -74,7 +74,10 @@ const createTestForm = async (): Promise<Blueprint> => {
     { label: 'Input 1', required: true, maxLength: 10 },
     'input-1'
   );
-  const page1 = new Page({ title: 'Page 1', patterns: [input1.id] }, 'page-1');
+  const page1 = new Page(
+    { title: 'Page 1', patterns: [input1.id], rules: [] },
+    'page-1'
+  );
   const pageSet = new PageSet({ pages: [page1.id] }, 'page-set');
   return {
     summary: {

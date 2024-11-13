@@ -335,6 +335,7 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
         {
           title: `${page}`,
           patterns,
+          rules: [],
         },
         undefined,
         idx
