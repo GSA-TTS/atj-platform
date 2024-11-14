@@ -8,14 +8,14 @@ import {
 } from '../documents/__tests__/test-documents.js';
 import { createFormSession } from '../session.js';
 import { createForm } from '../blueprint.js';
-import { type PageSetPattern } from '../patterns/page-set/config.js';
-import { type PagePattern } from '../patterns/page/config.js';
+import { type PageSetPattern } from '../patterns/pages/page-set/config.js';
+import { type PagePattern } from '../patterns/pages/page/config.js';
 import { type InputPattern } from '../patterns/input/config.js';
 import { type Blueprint } from '../types.js';
 import { Checkbox } from '../patterns/checkbox.js';
 import { FieldSet } from '../patterns/fieldset/builder.js';
-import { Page } from '../patterns/page/builder.js';
-import { Form, PageSet } from '../patterns/page-set/builder.js';
+import { Page } from '../patterns/pages/page/builder.js';
+import { Form, PageSet } from '../patterns/pages/page-set/builder.js';
 
 describe('submitForm', () => {
   it('fails with missing action string', async () => {

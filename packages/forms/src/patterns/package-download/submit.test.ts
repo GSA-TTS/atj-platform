@@ -6,8 +6,8 @@ import { type Blueprint, type FormSession, defaultFormConfig } from '../..';
 
 import { downloadPackageHandler } from './submit';
 import { PackageDownload } from './builder';
-import { PageSet } from '../page-set/builder';
-import { Page } from '../page/builder';
+import { PageSet } from '../pages/page-set/builder';
+import { Page } from '../pages/page/builder';
 import { Input } from '../input/builder';
 import { loadSamplePDF } from '../../documents/__tests__/sample-data';
 

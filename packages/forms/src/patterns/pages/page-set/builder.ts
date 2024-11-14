@@ -1,5 +1,5 @@
-import { type Blueprint } from '../..';
-import { PatternBuilder } from '../../pattern';
+import { type Blueprint } from '../../..';
+import { PatternBuilder } from '../../../pattern';
 import { type Page } from '../page/builder';
 import { type PageSetPattern } from './config';
 

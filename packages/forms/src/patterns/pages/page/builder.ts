@@ -1,4 +1,4 @@
-import { PatternBuilder } from '../../pattern';
+import { PatternBuilder } from '../../../pattern';
 import { type PagePattern } from './config';
 
 export class Page extends PatternBuilder<PagePattern> {

@@ -4,9 +4,9 @@ import {
   getPatternConfig,
   getPatternSafely,
   validatePatternAndChildren,
-} from '../../pattern';
-import { type FormSession } from '../../session';
-import { type SubmitHandler } from '../../submission';
+} from '../../../pattern';
+import { type FormSession } from '../../../session';
+import { type SubmitHandler } from '../../../submission';
 import { type PagePattern } from '../page/config';
 import { type PageSetPattern } from './config';
 

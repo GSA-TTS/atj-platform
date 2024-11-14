@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
 
-import { type Blueprint, defaultFormConfig } from '../..';
-import { Input } from '../input/builder';
+import { type Blueprint, defaultFormConfig } from '../../..';
+import { Input } from '../../input/builder';
 import { Page } from '../page/builder';
-import { createFormSession } from '../../session';
+import { createFormSession } from '../../../session';
 
 import { PageSet } from './builder';
 import { submitPage } from './submit';

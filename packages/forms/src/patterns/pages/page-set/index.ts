@@ -1,4 +1,4 @@
-import { type PatternConfig, type PatternId } from '../../pattern.js';
+import { type PatternConfig, type PatternId } from '../../../pattern.js';
 
 import { type PageSetPattern, parseConfigData } from './config.js';
 import { createPrompt } from './prompt.js';

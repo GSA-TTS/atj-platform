@@ -21,7 +21,7 @@ import {
   type PatternMap,
 } from '../pattern.js';
 import { type FieldsetPattern } from '../patterns/fieldset/config.js';
-import { type PageSetPattern } from '../patterns/page-set/config.js';
+import { type PageSetPattern } from '../patterns/pages/page-set/config.js';
 import type { Blueprint, FormSummary } from '../types.js';
 
 export class BlueprintBuilder {
