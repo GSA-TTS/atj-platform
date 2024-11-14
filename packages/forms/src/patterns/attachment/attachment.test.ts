@@ -1,20 +1,18 @@
 import { describe, expect, it } from 'vitest';
-// import {
-//   attachmentConfig,
-// } from './index.js';
 
+import { parseUserInput } from './response.js';
 import { type AttachmentPattern, parseConfigData } from './config.js';
 
 describe('AttachmentPattern tests', () => {
-  describe('parseConfigData', () => {
-    const defaultData: AttachmentPattern['data'] = {
-      label: 'File upload',
-      required: true,
-      maxAttachments: 1,
-      maxFileSizeMB: 10,
-      allowedFileTypes: ['image/jpeg', 'application/pdf', 'image/png'],
-    };
+  const defaultData: AttachmentPattern['data'] = {
+    label: 'File upload',
+    required: true,
+    maxAttachments: 1,
+    maxFileSizeMB: 10,
+    allowedFileTypes: ['image/jpeg', 'application/pdf', 'image/png'],
+  };
 
+  describe('parseConfigData', () => {
     it('should create schema for required attachment', () => {
       const data = {
         ...defaultData,
@@ -92,6 +90,102 @@ describe('AttachmentPattern tests', () => {
           type: 'custom',
         },
       });
+    });
+  });
+
+  describe('parseUserInput', () => {
+    it('accepts a single file with valid input', () => {
+      const pattern = {
+        id: '1',
+        type: 'attachment',
+        data: {
+          ...defaultData,
+        },
+      };
+
+      const file = new File(['abc123'], 'mock.jpg', { type: 'image/jpeg' });
+
+      const input = parseUserInput(pattern, [file]);
+      expect(input.success).toBe(true);
+    });
+
+    it('accepts multiple files with valid input', () => {
+      const pattern = {
+        id: '1',
+        type: 'attachment',
+        data: {
+          ...defaultData,
+          maxAttachments: 2,
+        },
+      };
+
+      const file = new File(['abc123'], 'mock.jpg', { type: 'image/jpeg' });
+
+      const input = parseUserInput(pattern, [file, file]);
+      expect(input.success).toBe(true);
+    });
+
+    it('allows empty input if the field is not required', () => {
+      const pattern = {
+        id: '1',
+        type: 'attachment',
+        data: {
+          ...defaultData,
+          required: false,
+        },
+      };
+
+      const input = parseUserInput(pattern, []);
+      expect(input.success).toBe(true);
+    });
+
+    it('checks for too many attachments', () => {
+      const pattern = {
+        id: '1',
+        type: 'attachment',
+        data: {
+          ...defaultData,
+        },
+      };
+
+      const file = new File(['abc123'], 'mock.jpg', { type: 'image/jpeg' });
+
+      const input = parseUserInput(
+        pattern,
+        Array(pattern.data.maxAttachments + 1).fill(file)
+      );
+      expect(input.success).toBe(false);
+    });
+
+    it('checks for valid attachment types', () => {
+      const pattern = {
+        id: '1',
+        type: 'attachment',
+        data: {
+          ...defaultData,
+        },
+      };
+
+      const file = new File(['abc123'], 'mock.txt', { type: 'text/plain' });
+
+      const input = parseUserInput(pattern, [file]);
+      expect(input.success).toBe(false);
+    });
+
+    it('checks for file size compliance', () => {
+      const pattern = {
+        id: '1',
+        type: 'attachment',
+        data: {
+          ...defaultData,
+          maxFileSizeMB: 0,
+        },
+      };
+
+      const file = new File(['abc123'], 'mock.txt', { type: 'text/plain' });
+
+      const input = parseUserInput(pattern, [file]);
+      expect(input.success).toBe(false);
     });
   });
 });
