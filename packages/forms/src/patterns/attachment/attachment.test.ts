@@ -32,6 +32,16 @@ describe('AttachmentPattern tests', () => {
       expect(input.success).toBe(true);
     });
 
+    it('should accept a string of an allowed MIME type', () => {
+      const data = {
+        ...defaultData,
+        allowedFileTypes: defaultData.allowedFileTypes[0],
+      };
+
+      const input = parseConfigData(data);
+      expect(input.success).toBe(true);
+    });
+
     it('should require at least 1 attachment type', () => {
       const data = {
         ...defaultData,
@@ -51,6 +61,21 @@ describe('AttachmentPattern tests', () => {
       const data = {
         ...defaultData,
         allowedFileTypes: ['invalid/mimetype'],
+      };
+
+      const input = parseConfigData(data);
+      expect((input as any).error).toStrictEqual({
+        allowedFileTypes: {
+          message: 'Invalid input',
+          type: 'custom',
+        },
+      });
+    });
+
+    it('should require all attachment types to be valid', () => {
+      const data = {
+        ...defaultData,
+        allowedFileTypes: ['image/jpeg', 'invalid/mimetype'],
       };
 
       const input = parseConfigData(data);

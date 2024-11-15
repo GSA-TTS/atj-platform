@@ -25,36 +25,15 @@ export const configSchema = z.object({
   ]),
 });
 
-const validateFileTypes = (fileTypes: string | string[]) => {
-  const validTypes = [...attachmentFileTypeMimes] as Array<string>;
-  if (typeof fileTypes === 'string') {
-    return validTypes.includes(fileTypes);
-  }
-  return fileTypes.every(type => validTypes.includes(type));
-};
-
-const configDataSchema = configSchema.refine(
-  data => validateFileTypes(data.allowedFileTypes),
-  {
-    message: `Invalid file type found. Only ${new Intl.ListFormat('en').format(attachmentFileTypeMimes)} are allowed.`,
-  }
-);
-
-export type AttachmentConfigSchema = z.infer<typeof configDataSchema>;
+export type AttachmentConfigSchema = z.infer<typeof configSchema>;
 
 export const parseConfigData: ParsePatternConfigData<
   AttachmentConfigSchema
 > = obj => {
-  let newObj;
+  let newObj = {
+    ...(obj as AttachmentConfigSchema),
+    maxFileSizeMB: (obj as AttachmentConfigSchema).maxFileSizeMB ?? 10,
+  };
 
-  if (typeof obj === 'object' && obj !== null && !Array.isArray(obj)) {
-    newObj = {
-      ...(obj as AttachmentConfigSchema),
-      maxFileSizeMB: (obj as AttachmentConfigSchema).maxFileSizeMB ?? 10,
-    };
-  } else {
-    newObj = obj;
-  }
-
-  return safeZodParseFormErrors(configDataSchema, newObj);
+  return safeZodParseFormErrors(configSchema, newObj);
 };
