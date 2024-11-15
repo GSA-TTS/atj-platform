@@ -120,6 +120,16 @@ export type EmailInputProps = PatternProps<{
   error?: FormError;
 }>;
 
+export type PhoneNumberProps = PatternProps<{
+  type: 'phone-number';
+  phoneId: string;
+  hint?: string;
+  label: string;
+  required: boolean;
+  error?: FormError;
+  value: string;
+}>;
+
 export type SequenceProps = PatternProps<{
   type: 'sequence';
 }>;

@@ -3,8 +3,8 @@ import { failure, success } from '@atj/common';
 import {
   getPatternConfig,
   getPatternSafely,
-  validatePatternAndChildren,
-} from '../../pattern';
+  aggregatePatternSessionValues,
+} from '../../pattern.js';
 import { type FormSession } from '../../session';
 import { type SubmitHandler } from '../../submission';
 import { type PagePattern } from '../page/config';
@@ -35,12 +35,16 @@ export const submitPage: SubmitHandler<PageSetPattern> = async (
     return failure(pagePattern.error);
   }
 
-  const result = validatePatternAndChildren(
+  const result = aggregatePatternSessionValues(
     config,
     opts.session.form,
     pagePatternConfig,
     pagePattern.data,
-    opts.data
+    opts.data,
+    {
+      values: { ...opts.session.data.values },
+      errors: { ...opts.session.data.errors },
+    }
   );
 
   // Increment the page number if there are no errors and this isn't the last page.
@@ -53,17 +57,7 @@ export const submitPage: SubmitHandler<PageSetPattern> = async (
   return success({
     session: {
       ...opts.session,
-      data: {
-        ...opts.session.data,
-        values: {
-          ...opts.session.data.values,
-          ...result.values,
-        },
-        errors: {
-          ...opts.session.data.errors,
-          ...result.errors,
-        },
-      },
+      data: result,
       route: opts.session.route
         ? {
             ...opts.session.route,

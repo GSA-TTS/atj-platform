@@ -1,10 +1,10 @@
 import classnames from 'classnames';
 import React from 'react';
 
-import { type EmailInputProps } from '@atj/forms';
-import { type EmailInputPattern } from '@atj/forms';
+import { type PhoneNumberProps } from '@atj/forms';
+import { type PhoneNumberPattern } from '@atj/forms';
 
-import EmailInput from '../../../Form/components/EmailInput/index.js';
+import PhoneNumber from '../../../Form/components/PhoneNumber/index.js';
 import { PatternEditComponent } from '../types.js';
 
 import { PatternEditActions } from './common/PatternEditActions.js';
@@ -13,7 +13,7 @@ import { usePatternEditFormContext } from './common/hooks.js';
 import { enLocale as message } from '@atj/common';
 import styles from '../formEditStyles.module.css';
 
-const EmailInputEdit: PatternEditComponent<EmailInputProps> = ({
+const PhoneNumberPatternEdit: PatternEditComponent<PhoneNumberProps> = ({
   focus,
   previewProps,
 }) => {
@@ -26,29 +26,30 @@ const EmailInputEdit: PatternEditComponent<EmailInputProps> = ({
         ></PatternEditForm>
       ) : (
         <div
-          className={`${styles.emailInputPattern} padding-left-3 padding-bottom-3 padding-right-3`}
+          className={`${styles.phoneNumberPattern} padding-left-3 padding-bottom-3 padding-right-3`}
         >
-          <EmailInput {...previewProps} />
+          <PhoneNumber {...previewProps} />
         </div>
       )}
     </>
   );
 };
 
-const EditComponent = ({ pattern }: { pattern: EmailInputPattern }) => {
+const EditComponent = ({ pattern }: { pattern: PhoneNumberPattern }) => {
   const { fieldId, getFieldState, register } =
-    usePatternEditFormContext<EmailInputPattern>(pattern.id);
+    usePatternEditFormContext<PhoneNumberPattern>(pattern.id);
   const label = getFieldState('label');
+  const hint = getFieldState('hint');
 
   return (
     <div className="grid-row grid-gap">
-      <div className="tablet:grid-col-12 mobile-lg:grid-col-12 margin-bottom-2">
+      <div className="tablet:grid-col-6 mobile-lg:grid-col-12 margin-bottom-2">
         <label
           className={classnames('usa-label', {
             'usa-label--error': label.error,
           })}
         >
-          {message.patterns.emailInput.fieldLabel}
+          {message.patterns.phoneNumber.fieldLabel}
           {label.error ? (
             <span className="usa-error-message" role="alert">
               {label.error.message}
@@ -59,6 +60,30 @@ const EditComponent = ({ pattern }: { pattern: EmailInputPattern }) => {
             id={fieldId('label')}
             defaultValue={pattern.data.label}
             {...register('label')}
+            type="text"
+            autoFocus
+          />
+        </label>
+      </div>
+      <div className="tablet:grid-col-6 mobile-lg:grid-col-12 margin-bottom-2">
+        <label
+          className={classnames('usa-label', {
+            'usa-label--error': hint.error,
+          })}
+        >
+          {message.patterns.phoneNumber.hintLabel}
+          {hint.error ? (
+            <span className="usa-error-message" role="alert">
+              {hint.error.message}
+            </span>
+          ) : null}
+          <input
+            className={classnames('usa-input', {
+              'usa-input--error': label.error,
+            })}
+            id={fieldId('hint')}
+            defaultValue={pattern.data.hint}
+            {...register('hint')}
             type="text"
             autoFocus
           />
@@ -89,4 +114,4 @@ const EditComponent = ({ pattern }: { pattern: EmailInputPattern }) => {
   );
 };
 
-export default EmailInputEdit;
+export default PhoneNumberPatternEdit;
