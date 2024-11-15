@@ -53,7 +53,8 @@
 
 .draggableListItemWrapper .radioFormPattern legend,
 .draggableListItemWrapper .dateOfBirthPattern legend,
-.draggableListItemWrapper .emailInput legend {
+.draggableListItemWrapper .phoneNumberPattern legend,
+.draggableListItemWrapper .emailInputPattern legend {
   padding-left: 0;
 }
 

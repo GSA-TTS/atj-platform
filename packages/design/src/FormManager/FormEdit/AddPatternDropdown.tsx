@@ -14,6 +14,7 @@ import dropDownOptionIcon from './images/dropdownoption-icon.svg';
 import emailInputIcon from './images/email-icon.svg';
 import longanswerIcon from './images/longanswer-icon.svg';
 import pageIcon from './images/page-icon.svg';
+import phoneIcon from './images/phone-icon.svg';
 import richTextIcon from './images/richtext-icon.svg';
 import shortanswerIcon from './images/shortanswer-icon.svg';
 import singleselectIcon from './images/singleselect-icon.svg';
@@ -32,6 +33,7 @@ const icons: Record<string, string | any> = {
   'email-icon.svg': emailInputIcon,
   'longanswer-icon.svg': longanswerIcon,
   'page-icon.svg': pageIcon,
+  'phone-icon.svg': phoneIcon,
   'richtext-icon.svg': richTextIcon,
   'shortanswer-icon.svg': shortanswerIcon,
   'singleselect-icon.svg': singleselectIcon,
@@ -100,6 +102,7 @@ const sidebarPatterns: DropdownPattern[] = [
   ['input', defaultFormConfig.patterns['input']],
   ['package-download', defaultFormConfig.patterns['package-download']],
   ['paragraph', defaultFormConfig.patterns['paragraph']],
+  ['phone-number', defaultFormConfig.patterns['phone-number']],
   ['radio-group', defaultFormConfig.patterns['radio-group']],
   ['rich-text', defaultFormConfig.patterns['rich-text']],
   ['select-dropdown', defaultFormConfig.patterns['select-dropdown']],
@@ -114,6 +117,7 @@ export const fieldsetPatterns: DropdownPattern[] = [
   ['input', defaultFormConfig.patterns['input']],
   ['package-download', defaultFormConfig.patterns['package-download']],
   ['paragraph', defaultFormConfig.patterns['paragraph']],
+  ['phone-number', defaultFormConfig.patterns['phone-number']],
   ['radio-group', defaultFormConfig.patterns['radio-group']],
   ['rich-text', defaultFormConfig.patterns['rich-text']],
   ['select-dropdown', defaultFormConfig.patterns['select-dropdown']],
