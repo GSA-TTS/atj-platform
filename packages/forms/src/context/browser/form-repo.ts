@@ -1,4 +1,4 @@
-import { type Result, type VoidResult, failure } from '@atj/common';
+import { type Result, type VoidResult, failure, success } from '@atj/common';
 
 import {
   FormSession,
@@ -93,7 +93,7 @@ export class BrowserFormRepository implements FormRepository {
     if (!formString) {
       return null;
     }
-    return parseStringForm(formString);
+    return Promise.resolve(JSON.parse(formString));
   }
 
   async getFormList(): Promise<
@@ -133,17 +133,22 @@ export class BrowserFormRepository implements FormRepository {
     extract: { parsedPdf: ParsedPdf; fields: DocumentFieldMap };
   }) {
     const documentId = crypto.randomUUID();
+    const data = uint8ArrayToBase64(document.data);
     this.storage.setItem(
       documentKey(documentId),
       JSON.stringify({
         id: documentId,
         type: 'pdf',
         file_name: document.fileName,
-        data: Buffer.from(document.data),
+        data,
         extract: JSON.stringify(document.extract),
       })
     );
-    return {} as Promise<Result<{ id: string }>>;
+    return Promise.resolve(
+      success({
+        id: documentId,
+      })
+    );
   }
 
   getDocument(id: string): Promise<
@@ -158,7 +163,11 @@ export class BrowserFormRepository implements FormRepository {
     if (value === null) {
       return Promise.resolve(failure(`Document with id ${id} not found`));
     }
-    return Promise.resolve(JSON.parse(value));
+    const json = JSON.parse(value);
+    return Promise.resolve({
+      ...json,
+      data: base64ToUint8Array(json.data),
+    });
   }
 }
 
@@ -211,12 +220,20 @@ const uint8ArrayToBase64 = (buffer: Uint8Array): string => {
   return btoa(binary);
 };
 
+const fixBase64 = (base64: string): string => {
+  const padding = base64.length % 4;
+  if (padding === 2) return base64 + '==';
+  if (padding === 3) return base64 + '=';
+  return base64;
+};
+
 const base64ToUint8Array = (base64: string): Uint8Array => {
-  const binaryString = atob(base64);
-  const len = binaryString.length;
-  const bytes = new Uint8Array(len);
+  const fixedBase64 = fixBase64(base64);
+  const binary = atob(fixedBase64);
+  const len = binary.length;
+  const buffer = new Uint8Array(len);
   for (let i = 0; i < len; i++) {
-    bytes[i] = binaryString.charCodeAt(i);
+    buffer[i] = binary.charCodeAt(i);
   }
-  return bytes;
+  return buffer;
 };
