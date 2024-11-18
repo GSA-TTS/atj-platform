@@ -153,7 +153,7 @@ const aggregateValuesByPrefix = (
   return aggregatedValues;
 };
 
-export const validatePatternAndChildren = (
+export const aggregatePatternSessionValues = (
   config: FormConfig,
   form: Blueprint,
   patternConfig: PatternConfig,
@@ -162,7 +162,7 @@ export const validatePatternAndChildren = (
   result: {
     values: Record<PatternId, PatternValue>;
     errors: Record<PatternId, FormError>;
-  } = { values: {}, errors: {} }
+  }
 ) => {
   const aggregatedValues = aggregateValuesByPrefix(values);
 
@@ -172,6 +172,7 @@ export const validatePatternAndChildren = (
 
     if (parseResult.success) {
       result.values[pattern.id] = parseResult.data;
+      delete result.errors[pattern.id];
     } else {
       result.values[pattern.id] = values[pattern.id];
       result.errors[pattern.id] = parseResult.error;
@@ -179,7 +180,7 @@ export const validatePatternAndChildren = (
   }
   for (const child of patternConfig.getChildren(pattern, form.patterns)) {
     const childPatternConfig = getPatternConfig(config, child.type);
-    validatePatternAndChildren(
+    aggregatePatternSessionValues(
       config,
       form,
       childPatternConfig,

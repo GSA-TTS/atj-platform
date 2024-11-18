@@ -3,6 +3,7 @@ import { type FormConfig } from '../pattern.js';
 import { addressConfig } from './address/index.js';
 import { checkboxConfig } from './checkbox.js';
 import { dateOfBirthConfig } from './date-of-birth/date-of-birth.js';
+import { emailInputConfig } from './email-input/email-input.js';
 import { fieldsetConfig } from './fieldset/index.js';
 import { formSummaryConfig } from './form-summary.js';
 import { inputConfig } from './input/index.js';
@@ -10,6 +11,7 @@ import { packageDownloadConfig } from './package-download/index.js';
 import { pageConfig } from './pages/page/index.js';
 import { pageSetConfig } from './pages/page-set/index.js';
 import { paragraphConfig } from './paragraph.js';
+import { phoneNumberConfig } from './phone-number/phone-number.js';
 import { radioGroupConfig } from './radio-group.js';
 import { richTextConfig } from './rich-text.js';
 import { selectDropdownConfig } from './select-dropdown/select-dropdown.js';
@@ -23,6 +25,7 @@ export const defaultFormConfig: FormConfig = {
     address: addressConfig,
     checkbox: checkboxConfig,
     'date-of-birth': dateOfBirthConfig,
+    'email-input': emailInputConfig,
     fieldset: fieldsetConfig,
     'form-summary': formSummaryConfig,
     input: inputConfig,
@@ -30,8 +33,9 @@ export const defaultFormConfig: FormConfig = {
     page: pageConfig,
     'page-set': pageSetConfig,
     paragraph: paragraphConfig,
-    'rich-text': richTextConfig,
+    'phone-number': phoneNumberConfig,
     'radio-group': radioGroupConfig,
+    'rich-text': richTextConfig,
     'select-dropdown': selectDropdownConfig,
     sequence: sequenceConfig,
   },
@@ -40,6 +44,7 @@ export const defaultFormConfig: FormConfig = {
 export * from './address/index.js';
 export * from './checkbox.js';
 export * from './date-of-birth/date-of-birth.js';
+export * from './email-input/email-input.js';
 export * from './fieldset/index.js';
 export { type FieldsetPattern } from './fieldset/config.js';
 export * from './form-summary.js';
@@ -51,6 +56,7 @@ export { type PagePattern } from './pages/page/config.js';
 export * from './pages/page-set/index.js';
 export { type PageSetPattern } from './pages/page-set/config.js';
 export * from './paragraph.js';
+export * from './phone-number/phone-number.js';
 export * from './radio-group.js';
 export * from './select-dropdown/select-dropdown.js';
 export * from './sequence.js';

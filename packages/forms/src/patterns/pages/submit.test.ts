@@ -1,12 +1,13 @@
 import { describe, expect, it } from 'vitest';
 
-import { type Blueprint, defaultFormConfig } from '../../..';
-import { Input } from '../../input/builder';
-import { Page } from '../page/builder';
-import { createFormSession } from '../../../session';
+import { Input } from '../input/builder';
+import { createFormSession } from '../../session';
 
-import { PageSet } from './builder';
+import { PageSet } from './page-set/builder';
 import { submitPage } from './submit';
+import { defaultFormConfig } from '..';
+import type { Blueprint } from '../../types';
+import { Page } from './page/builder';
 
 describe('Page-set submission', () => {
   it('stores session data for valid page data', async () => {
