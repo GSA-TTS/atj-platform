@@ -40,9 +40,18 @@ const getNextUrl = (route?: FormRoute) => {
 
 if (Astro.request.method === 'POST') {
   const formData = await Astro.request.formData();
-  const formDataObject: Record<string, string> = {};
+  const formDataObject: Record<string, any> = {}; // Changed to 'any' to handle different types
+
   formData.forEach((value, key) => {
-    formDataObject[key] = value.toString();
+    // Values from the attachment input will either be a typeof File or an array of Files.
+    // They're later normalized into an array during response validation
+    if (value instanceof File) {
+      formDataObject[key] = value;
+    } else if (Array.isArray(value) && value.every(item => item instanceof File)) {
+      formDataObject[key] = value;
+    } else {
+      formDataObject[key] = value.toString();
+    }
   });
 
   const submitFormResult = await ctx.formService.submitForm(
@@ -51,11 +60,13 @@ if (Astro.request.method === 'POST') {
     formDataObject,
     formRoute
   );
+
   if (!submitFormResult.success) {
     return new Response(submitFormResult.error, {
       status: 500,
     });
   }
+
   setFormSessionCookie(submitFormResult.data.sessionId);
 
   if (submitFormResult.data.attachments) {

@@ -130,7 +130,7 @@ describe('AttachmentPattern tests', () => {
 
       const file = new File(['abc123'], 'mock.jpg', { type: 'image/jpeg' });
 
-      const input = parseUserInput(pattern, [file]);
+      const input = parseUserInput(pattern, file);
       expect(input.success).toBe(true);
     });
 
@@ -160,7 +160,18 @@ describe('AttachmentPattern tests', () => {
         },
       };
 
-      const input = parseUserInput(pattern, []);
+      /**
+       * this is what an empty input field with a type of file sends in its payload:
+        `File {
+          size: 0,
+          type: 'application/octet-stream',
+          name: '',
+          lastModified: 1731954072461
+        }`
+       */
+      const file = new File([], '', { type: 'application/octet-stream' });
+
+      const input = parseUserInput(pattern, file);
       expect(input.success).toBe(true);
     });
 
