@@ -2,23 +2,23 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { expect, userEvent } from '@storybook/test';
 import { within } from '@testing-library/react';
 
-import { type DateOfBirthPattern } from '@atj/forms';
+import { type PhoneNumberPattern } from '@atj/forms';
 import { createPatternEditStoryMeta } from './common/story-helper.js';
 import FormEdit from '../index.js';
 import { enLocale as message } from '@atj/common';
 
-const pattern: DateOfBirthPattern = {
-  id: 'date-of-birth-1',
-  type: 'date-of-birth',
+const pattern: PhoneNumberPattern = {
+  id: 'phone-number-1',
+  type: 'phone-number',
   data: {
-    label: message.patterns.dateOfBirth.displayName,
+    label: message.patterns.phoneNumber.displayName,
     required: false,
     hint: undefined,
   },
 };
 
 const storyConfig: Meta = {
-  title: 'Edit components/DateOfBirthPattern',
+  title: 'Edit components/PhoneNumberPattern',
   ...createPatternEditStoryMeta({
     pattern,
   }),
@@ -29,21 +29,21 @@ export default storyConfig;
 export const Basic: StoryObj<typeof FormEdit> = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const updatedLabel = 'Date of Birth update';
-    const updatedHint = 'Updated hint for Date of Birth';
+    const updatedLabel = 'Phone Number update';
+    const updatedHint = 'Updated hint for Phone Number';
 
     await userEvent.click(
-      canvas.getByText(message.patterns.dateOfBirth.displayName)
+      canvas.getByText(message.patterns.phoneNumber.displayName)
     );
 
     const labelInput = canvas.getByLabelText(
-      message.patterns.dateOfBirth.fieldLabel
+      message.patterns.phoneNumber.fieldLabel
     );
     await userEvent.clear(labelInput);
     await userEvent.type(labelInput, updatedLabel);
 
     const hintInput = canvas.getByLabelText(
-      message.patterns.dateOfBirth.hintLabel
+      message.patterns.phoneNumber.hintLabel
     );
     await userEvent.clear(hintInput);
     await userEvent.type(hintInput, updatedHint);
@@ -59,14 +59,14 @@ export const Basic: StoryObj<typeof FormEdit> = {
 export const WithoutHint: StoryObj<typeof FormEdit> = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const updatedLabel = 'Date of Birth update';
+    const updatedLabel = 'Phone Number update';
 
     await userEvent.click(
-      canvas.getByText(message.patterns.dateOfBirth.displayName)
+      canvas.getByText(message.patterns.phoneNumber.displayName)
     );
 
     const labelInput = canvas.getByLabelText(
-      message.patterns.dateOfBirth.fieldLabel
+      message.patterns.phoneNumber.fieldLabel
     );
     await userEvent.clear(labelInput);
     await userEvent.type(labelInput, updatedLabel);
@@ -76,7 +76,7 @@ export const WithoutHint: StoryObj<typeof FormEdit> = {
 
     await expect(await canvas.findByText(updatedLabel)).toBeInTheDocument();
     await expect(
-      await canvas.queryByLabelText(message.patterns.dateOfBirth.hintLabel)
+      await canvas.queryByLabelText(message.patterns.phoneNumber.hintLabel)
     ).toBeNull();
   },
 };
@@ -86,18 +86,18 @@ export const Error: StoryObj<typeof FormEdit> = {
     const canvas = within(canvasElement);
 
     await userEvent.click(
-      canvas.getByText(message.patterns.dateOfBirth.displayName)
+      canvas.getByText(message.patterns.phoneNumber.displayName)
     );
 
     const labelInput = canvas.getByLabelText(
-      message.patterns.dateOfBirth.fieldLabel
+      message.patterns.phoneNumber.fieldLabel
     );
     await userEvent.clear(labelInput);
     labelInput.blur();
 
     await expect(
       await canvas.findByText(
-        message.patterns.dateOfBirth.errorTextMustContainChar
+        message.patterns.selectDropdown.errorTextMustContainChar
       )
     ).toBeInTheDocument();
   },
