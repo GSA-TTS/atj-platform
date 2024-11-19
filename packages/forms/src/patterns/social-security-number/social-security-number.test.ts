@@ -1,0 +1,155 @@
+import { describe, expect, it } from 'vitest';
+import {
+  createSSNSchema,
+  socialSecurityNumberConfig,
+  type SocialSecurityNumberPattern,
+} from './social-security-number';
+
+describe('SocialSecurityNumberPattern tests', () => {
+  describe('createSSNSchema', () => {
+    it('should create schema for required SSN input', () => {
+      const data: SocialSecurityNumberPattern['data'] = {
+        label: 'Test SSN Input Label',
+        required: true,
+      };
+
+      const schema = createSSNSchema(data);
+      const validInput = '555-11-0000';
+      const invalidInput = '444-44-56as';
+
+      expect(schema.safeParse(validInput).success).toBe(true);
+      const invalidResult = schema.safeParse(invalidInput);
+      expect(invalidResult.success).toBe(false);
+      expect(invalidResult.error?.issues[0].message).toBe(
+        'Social Security Number must contain exactly 9 digits and be formatted as XXX-XX-XXXX or XXXXXXXXX'
+      );
+    });
+
+    it('should create schema for optional SSN input', () => {
+      const data: SocialSecurityNumberPattern['data'] = {
+        label: 'Test SSN Input Label',
+        required: false,
+      };
+
+      const schema = createSSNSchema(data);
+      const validInput = '555-11-0000';
+      const emptyInput = '';
+      const invalidInput = '444-44-56as';
+
+      expect(schema.safeParse(validInput).success).toBe(true);
+      expect(schema.safeParse(emptyInput).success).toBe(true);
+
+      const invalidResult = schema.safeParse(invalidInput);
+      expect(invalidResult.success).toBe(false);
+      expect(invalidResult.error?.issues[0].message).toBe(
+        'Social Security Number must contain exactly 9 digits and be formatted as XXX-XX-XXXX or XXXXXXXXX'
+      );
+    });
+
+    it('should fail with less than 9 digits', () => {
+      const data: SocialSecurityNumberPattern['data'] = {
+        label: 'Test SSN Input Label',
+        required: true,
+      };
+
+      const schema = createSSNSchema(data);
+      const shortInput = '123-45-678';
+
+      const shortInputResult = schema.safeParse(shortInput);
+      expect(shortInputResult.success).toBe(false);
+      expect(shortInputResult.error?.issues[0].message).toBe(
+        'Social Security Number must contain exactly 9 digits and be formatted as XXX-XX-XXXX or XXXXXXXXX'
+      );
+    });
+  });
+
+  describe('socialSecurityNumberConfig', () => {
+    it('should parse user input correctly', () => {
+      const pattern: SocialSecurityNumberPattern = {
+        type: 'social-security-number',
+        id: 'test',
+        data: {
+          label: 'Test SSN Input Label',
+          required: true,
+        },
+      };
+
+      const inputValue = '555-11-0000';
+      if (!socialSecurityNumberConfig.parseUserInput) {
+        expect.fail('socialSecurityNumberConfig.parseUserInput is undefined');
+      }
+      const result = socialSecurityNumberConfig.parseUserInput(
+        pattern,
+        inputValue
+      );
+      if (result.success) {
+        expect(result.data).toBe(inputValue);
+      } else {
+        expect.fail('Unexpected validation failure');
+      }
+    });
+
+    it('should handle validation error for user input', () => {
+      const pattern: SocialSecurityNumberPattern = {
+        type: 'social-security-number',
+        id: 'test',
+        data: {
+          label: 'Test SSN Input Label',
+          required: true,
+        },
+      };
+
+      const invalidInput = '444-44-56as';
+      if (!socialSecurityNumberConfig.parseUserInput) {
+        expect.fail('socialSecurityNumberConfig.parseUserInput is undefined');
+      }
+      const result = socialSecurityNumberConfig.parseUserInput(
+        pattern,
+        invalidInput
+      );
+      if (!result.success) {
+        expect(result.error).toBeDefined();
+        expect(result.error?.message).toContain(
+          'Social Security Number must contain exactly 9 digits and be formatted as XXX-XX-XXXX or XXXXXXXXX'
+        );
+      } else {
+        expect.fail('Unexpected validation success');
+      }
+    });
+
+    it('should parse config data correctly', () => {
+      const obj = {
+        label: 'Test SSN Input Label',
+        required: true,
+      };
+
+      if (!socialSecurityNumberConfig.parseConfigData) {
+        expect.fail('socialSecurityNumberConfig.parseConfigData is undefined');
+      }
+      const result = socialSecurityNumberConfig.parseConfigData(obj);
+      if (result.success) {
+        expect(result.data.label).toBe('Test SSN Input Label');
+        expect(result.data.required).toBe(true);
+      } else {
+        expect.fail('Unexpected validation failure');
+      }
+    });
+
+    it('should handle invalid config data', () => {
+      const obj = {
+        label: '',
+        required: true,
+      };
+
+      if (!socialSecurityNumberConfig.parseConfigData) {
+        expect.fail('socialSecurityNumberConfig.parseConfigData is undefined');
+      }
+      const result = socialSecurityNumberConfig.parseConfigData(obj);
+      if (!result.success) {
+        expect(result.error).toBeDefined();
+      } else {
+        expect.fail('Unexpected validation success');
+      }
+    });
+  });
+});
