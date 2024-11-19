@@ -4,6 +4,7 @@ import set from 'set-value';
 import { type CreatePrompt } from './components.js';
 import { type FormError, type FormErrors } from './error.js';
 import { type Blueprint } from './types.js';
+import type { FormRoute } from './route-data.js';
 
 export type Pattern<C = any> = {
   type: string;
@@ -65,6 +66,7 @@ export const getPatternSafely = <P extends Pattern>(opts: {
   form: Blueprint;
   patternId: PatternId;
 }): r.Result<P> => {
+  console.log('looking for', opts.patternId);
   const pattern = opts.form.patterns[opts.patternId];
   if (pattern === undefined) {
     return r.failure(`Pattern with id ${opts.patternId} does not exist`);
@@ -102,6 +104,7 @@ export type PatternConfig<
   ) => Pattern[];
   removeChildPattern?: RemoveChildPattern<ThisPattern>;
   createPrompt: CreatePrompt<ThisPattern>;
+  getInitialFormRoute?: (pattern: ThisPattern) => FormRoute;
 };
 
 export type FormConfig<T extends Pattern = Pattern, PatternOutput = unknown> = {

@@ -15,7 +15,9 @@ import { type Blueprint } from '../types.js';
 import { Checkbox } from '../patterns/checkbox.js';
 import { FieldSet } from '../patterns/fieldset/builder.js';
 import { Page } from '../patterns/pages/page/builder.js';
-import { Form, PageSet } from '../patterns/pages/page-set/builder.js';
+import { PageSet } from '../patterns/pages/page-set/builder.js';
+import { Form } from '../builder/index.js';
+import { defaultFormConfig } from '../patterns/index.js';
 
 describe('submitForm', () => {
   it('fails with missing action string', async () => {
@@ -557,7 +559,7 @@ const createMultiPageFormWithSkipLogic = () => {
     },
     'root'
   );
-  const form = new Form({
+  const form = new Form(defaultFormConfig, {
     summary: {
       title: 'Test form',
       description: 'Test description',
@@ -574,5 +576,5 @@ const createMultiPageFormWithSkipLogic = () => {
     },
     outputs: [],
   });
-  return form.blueprint;
+  return form.bp;
 };

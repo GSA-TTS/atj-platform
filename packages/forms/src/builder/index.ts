@@ -23,6 +23,8 @@ import {
 import { type FieldsetPattern } from '../patterns/fieldset/config.js';
 import { type PageSetPattern } from '../patterns/pages/page-set/config.js';
 import type { Blueprint, FormSummary } from '../types.js';
+import type { FormRoute } from '../route-data.js';
+import { PageSet } from '../patterns/pages/page-set/builder.js';
 
 export class BlueprintBuilder {
   bp: Blueprint;
@@ -149,5 +151,27 @@ export class BlueprintBuilder {
     return {
       success: true,
     };
+  }
+}
+
+export class Form {
+  constructor(
+    private config: FormConfig,
+    private readonly _bp: Blueprint
+  ) {}
+
+  get bp() {
+    return this._bp;
+  }
+
+  getInitialFormRoute(): FormRoute {
+    const pattern = this.bp.patterns[this.bp.root];
+    const patternConfig = this.config.patterns[pattern.type];
+    if (!patternConfig.getInitialFormRoute) {
+      throw new Error(
+        `Can't get getInitialFormRoute for pattern '${pattern.type}'`
+      );
+    }
+    return patternConfig.getInitialFormRoute(pattern);
   }
 }

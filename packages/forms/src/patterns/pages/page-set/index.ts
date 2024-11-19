@@ -42,4 +42,13 @@ export const pageSetConfig: PatternConfig<PageSetPattern> = {
       },
     };
   },
+  getInitialFormRoute(pattern) {
+    if (pattern.data.pages.length === 0) {
+      throw new Error('No route for empty page-set.');
+    }
+    return {
+      url: '#',
+      params: { page: '0' },
+    };
+  },
 };
