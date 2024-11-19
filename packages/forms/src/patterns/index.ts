@@ -17,6 +17,7 @@ import { radioGroupConfig } from './radio-group.js';
 import { richTextConfig } from './rich-text.js';
 import { selectDropdownConfig } from './select-dropdown/select-dropdown.js';
 import { sequenceConfig } from './sequence.js';
+import { socialSecurityNumberConfig } from './social-security-number/social-security-number.js';
 
 // This configuration reflects what a user of this library would provide for
 // their usage scenarios. For now, keep here in the form service until we
@@ -39,6 +40,7 @@ export const defaultFormConfig: FormConfig = {
     'radio-group': radioGroupConfig,
     'rich-text': richTextConfig,
     'select-dropdown': selectDropdownConfig,
+    'social-security-number': socialSecurityNumberConfig,
     sequence: sequenceConfig,
   },
 } as const;
@@ -64,4 +66,5 @@ export * from './paragraph.js';
 export * from './phone-number/phone-number.js';
 export * from './radio-group.js';
 export * from './select-dropdown/select-dropdown.js';
+export * from './social-security-number/social-security-number.js';
 export * from './sequence.js';

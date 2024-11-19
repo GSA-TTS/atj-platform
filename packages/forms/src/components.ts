@@ -142,6 +142,16 @@ export type PhoneNumberProps = PatternProps<{
   value: string;
 }>;
 
+export type SocialSecurityNumberProps = PatternProps<{
+  type: 'social-security-number';
+  ssnId: string;
+  hint?: string;
+  label: string;
+  required: boolean;
+  error?: FormError;
+  value: string;
+}>;
+
 export type SequenceProps = PatternProps<{
   type: 'sequence';
 }>;

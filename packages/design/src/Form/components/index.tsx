@@ -38,6 +38,6 @@ export const defaultPatternComponents: ComponentForPattern = {
   'rich-text': RichText as PatternComponent,
   'select-dropdown': SelectDropdown as PatternComponent,
   sequence: Sequence as PatternComponent,
-  "social-security-number": SocialSecurityNumber as PatternComponent,
+  'social-security-number': SocialSecurityNumber as PatternComponent,
   'submission-confirmation': SubmissionConfirmation as PatternComponent,
 };
