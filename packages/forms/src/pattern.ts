@@ -66,7 +66,6 @@ export const getPatternSafely = <P extends Pattern>(opts: {
   form: Blueprint;
   patternId: PatternId;
 }): r.Result<P> => {
-  console.log('looking for', opts.patternId);
   const pattern = opts.form.patterns[opts.patternId];
   if (pattern === undefined) {
     return r.failure(`Pattern with id ${opts.patternId} does not exist`);

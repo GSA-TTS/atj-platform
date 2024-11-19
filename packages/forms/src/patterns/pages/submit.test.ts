@@ -118,7 +118,7 @@ describe('Page-set submission', () => {
     });
   });
 
-  it.fails('honors first matching page rule', async () => {
+  it('honors first matching page rule', async () => {
     const { id, form, formService } = await createTestFormContext();
     const client = new FormClient(
       {
@@ -134,6 +134,7 @@ describe('Page-set submission', () => {
     const state = await client.getState();
     expect(state).toEqual(
       expect.objectContaining({
+        attachments: undefined,
         sessionId: expect.any(String),
         session: {
           data: {

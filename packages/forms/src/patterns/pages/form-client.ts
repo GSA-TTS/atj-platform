@@ -54,6 +54,7 @@ export class FormClient {
 
   async submitPage(formData: Record<string, string>): Promise<void> {
     const state = await this.getState();
+
     const result = await this.ctx.formService.submitForm(
       state.sessionId,
       this.formId,
@@ -69,6 +70,7 @@ export class FormClient {
     if (!result.success) {
       throw new Error(`Error submitting form: ${result.error}`);
     }
+
     this.setState({
       sessionId: result.data.sessionId,
       session: result.data.session,
