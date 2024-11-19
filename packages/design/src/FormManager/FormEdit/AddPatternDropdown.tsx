@@ -17,6 +17,7 @@ import pageIcon from './images/page-icon.svg';
 import phoneIcon from './images/phone-icon.svg';
 import richTextIcon from './images/richtext-icon.svg';
 import shortanswerIcon from './images/shortanswer-icon.svg';
+import ssnIcon from './images/ssn-icon.svg';
 import singleselectIcon from './images/singleselect-icon.svg';
 import templateIcon from './images/template-icon.svg';
 
@@ -36,6 +37,7 @@ const icons: Record<string, string | any> = {
   'phone-icon.svg': phoneIcon,
   'richtext-icon.svg': richTextIcon,
   'shortanswer-icon.svg': shortanswerIcon,
+  'ssn-icon.svg': ssnIcon,
   'singleselect-icon.svg': singleselectIcon,
   'template-icon.svg': templateIcon,
 };
@@ -108,6 +110,10 @@ const sidebarPatterns: DropdownPattern[] = [
   ['select-dropdown', defaultFormConfig.patterns['select-dropdown']],
   ['date-of-birth', defaultFormConfig.patterns['date-of-birth']],
   ['attachment', defaultFormConfig.patterns['attachment']],
+  [
+    'social-security-number',
+    defaultFormConfig.patterns['social-security-number'],
+  ],
 ] as const;
 export const fieldsetPatterns: DropdownPattern[] = [
   ['checkbox', defaultFormConfig.patterns['checkbox']],
@@ -123,6 +129,10 @@ export const fieldsetPatterns: DropdownPattern[] = [
   ['select-dropdown', defaultFormConfig.patterns['select-dropdown']],
   ['date-of-birth', defaultFormConfig.patterns['date-of-birth']],
   ['attachment', defaultFormConfig.patterns['attachment']],
+  [
+    'social-security-number',
+    defaultFormConfig.patterns['social-security-number'],
+  ],
 ] as const;
 
 export const SidebarAddPatternMenuItem = ({

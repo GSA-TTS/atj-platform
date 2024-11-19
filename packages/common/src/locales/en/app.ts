@@ -86,7 +86,7 @@ export const en = {
       displayName: 'Social Security Number label',
       fieldLabel: 'Social Security Number label',
       hintLabel: 'Social Security Number hint label',
-      hint: 'For example, 555 11 0000',
+      hint: 'For example, 555-11-0000',
       errorTextMustContainChar: 'String must contain at least 1 character(s)',
     },
   },

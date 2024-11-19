@@ -57,7 +57,7 @@ export const WithHint: StoryObj<typeof SocialSecurityNumberPattern> = {
   args: {
     ssnId: 'ssn',
     label: 'Social Security Number',
-    hint: 'For example, 555 11 0000',
+    hint: 'For example, 555-11-0000',
     required: true,
   },
 };
@@ -66,7 +66,7 @@ export const WithHintAndError: StoryObj<typeof SocialSecurityNumberPattern> = {
   args: {
     ssnId: 'ssn',
     label: 'Social Security Number',
-    hint: 'For example, 555 11 0000',
+    hint: 'For example, 555-11-0000',
     required: true,
     error: {
       type: 'custom',
