@@ -128,20 +128,6 @@ export const addDocumentFieldsToForm = (
           maxLength: 128,
         },
       } satisfies InputPattern);
-    } else if (field.type === 'Attachment') {
-      patterns.push({
-        type: 'attachment',
-        id: patternId,
-        data: {
-          label: field.label,
-          required: false,
-          maxAttachments: 1,
-          allowedFileTypes: attachmentFileTypeMimes as [
-            (typeof attachmentFileTypeMimes)[number],
-          ],
-          maxFileSizeMB: 10,
-        },
-      } satisfies AttachmentPattern);
     } else if (field.type === 'RadioGroup') {
       patterns.push({
         type: 'input',
