@@ -62,7 +62,20 @@ const createSchema = (data: AttachmentPattern['data']) => {
       {
         message: `The maximum allowable size per file is ${data.maxFileSizeMB}MB`,
       }
-    );
+    )
+    .transform((items: File[]) => {
+      /**
+       * TODO: during the form filler epic, we'll want to switch this and other validation
+       * methods to be async for consistency and talk about how we're returning the object on the session.
+       * The tentative plan is to write the file to storage and return the ID on the session here.
+       */
+      return items.map(item => {
+        return {
+          name: item.name,
+          data: 'YWJj', // Just some dummy base64 encoded data => "abc"
+        };
+      });
+    });
 };
 
 export const parseUserInput: ParseUserInput<
