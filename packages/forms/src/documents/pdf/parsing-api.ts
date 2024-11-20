@@ -4,7 +4,6 @@ import { type FieldsetPattern } from '../../patterns/fieldset/config.js';
 import { type InputPattern } from '../../patterns/input/config.js';
 import { PagePattern } from '../../patterns/page/config.js';
 import { PageSetPattern } from '../../patterns/page-set/config.js';
-import { type AttachmentPattern } from '../../patterns/attachment/config.js';
 import { type ParagraphPattern } from '../../patterns/paragraph.js';
 import { type CheckboxPattern } from '../../patterns/checkbox.js';
 import { type RadioGroupPattern } from '../../patterns/radio-group.js';
@@ -29,15 +28,6 @@ const FormSummary = z.object({
 });
 
 const TxInput = z.object({
-  component_type: z.literal('text_input'),
-  id: z.string(),
-  label: z.string(),
-  default_value: z.string(),
-  required: z.boolean(),
-  page: z.union([z.number(), z.string()]),
-});
-
-const Attachment = z.object({
   component_type: z.literal('text_input'),
   id: z.string(),
   label: z.string(),
@@ -93,15 +83,7 @@ const ExtractedObject = z.object({
   raw_text: z.string(),
   form_summary: FormSummary,
   elements: z
-    .union([
-      TxInput,
-      Checkbox,
-      RadioGroup,
-      Paragraph,
-      Fieldset,
-      RichText,
-      Attachment,
-    ])
+    .union([TxInput, Checkbox, RadioGroup, Paragraph, Fieldset, RichText])
     .array(),
 });
 
@@ -175,9 +157,6 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
 
   for (const element of extracted.elements) {
     const fieldsetPatterns: PatternId[] = [];
-
-    // TODO: discuss parsing API for attachments
-
     // Add paragraph elements
     if (element.component_type === 'paragraph') {
       const paragraph = processPatternData<ParagraphPattern>(
