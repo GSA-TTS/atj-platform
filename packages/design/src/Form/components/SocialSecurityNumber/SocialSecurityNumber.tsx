@@ -9,6 +9,7 @@ export const SocialSecurityNumberPattern: PatternComponent<
   SocialSecurityNumberProps
 > = ({ ssnId, hint, label, required, error, value }) => {
   const { register } = useFormContext();
+  const errorId = `input-error-message-${ssnId}`;
 
   return (
     <fieldset className="usa-fieldset">
@@ -17,23 +18,18 @@ export const SocialSecurityNumberPattern: PatternComponent<
           className={classNames('usa-label', {
             'usa-label--error': error,
           })}
-          id={`input-message-${ssnId}`}
           htmlFor={ssnId}
         >
           {label || 'Social Security Number'}
           {required && <span className="required-indicator">*</span>}
         </label>
         {hint && (
-          <div className="usa-hint" id="ssnHint">
+          <div className="usa-hint" id={`hint-${ssnId}`}>
             {hint}
           </div>
         )}
         {error && (
-          <div
-            className="usa-error-message"
-            id={`input-error-message-${ssnId}`}
-            role="alert"
-          >
+          <div className="usa-error-message" id={errorId} role="alert">
             {error.message}
           </div>
         )}
@@ -45,7 +41,7 @@ export const SocialSecurityNumberPattern: PatternComponent<
           type="text"
           defaultValue={value}
           {...register(ssnId, { required })}
-          aria-describedby="ssnHint"
+          aria-describedby={error ? `${ssnId} ${errorId}` : ssnId}
         />
       </div>
     </fieldset>
