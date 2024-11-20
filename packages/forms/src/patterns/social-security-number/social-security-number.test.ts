@@ -14,14 +14,15 @@ describe('SocialSecurityNumberPattern tests', () => {
       };
 
       const schema = createSSNSchema(data);
-      const validInput = '555-11-0000';
+      const validInput = '555-11-1234';
       const invalidInput = '444-44-56as';
 
       expect(schema.safeParse(validInput).success).toBe(true);
+
       const invalidResult = schema.safeParse(invalidInput);
       expect(invalidResult.success).toBe(false);
       expect(invalidResult.error?.issues[0].message).toBe(
-        'Social Security Number must contain exactly 9 digits and be formatted as XXX-XX-XXXX or XXXXXXXXX'
+        'Social Security Number must contain exactly 9 digits, be formatted as XXX-XX-XXXX or XXXXXXXXX, and meet SSA issuance criteria'
       );
     });
 
@@ -32,7 +33,7 @@ describe('SocialSecurityNumberPattern tests', () => {
       };
 
       const schema = createSSNSchema(data);
-      const validInput = '555-11-0000';
+      const validInput = '555-11-1234';
       const emptyInput = '';
       const invalidInput = '444-44-56as';
 
@@ -42,7 +43,7 @@ describe('SocialSecurityNumberPattern tests', () => {
       const invalidResult = schema.safeParse(invalidInput);
       expect(invalidResult.success).toBe(false);
       expect(invalidResult.error?.issues[0].message).toBe(
-        'Social Security Number must contain exactly 9 digits and be formatted as XXX-XX-XXXX or XXXXXXXXX'
+        'Social Security Number must contain exactly 9 digits, be formatted as XXX-XX-XXXX or XXXXXXXXX, and meet SSA issuance criteria'
       );
     });
 
@@ -58,8 +59,44 @@ describe('SocialSecurityNumberPattern tests', () => {
       const shortInputResult = schema.safeParse(shortInput);
       expect(shortInputResult.success).toBe(false);
       expect(shortInputResult.error?.issues[0].message).toBe(
-        'Social Security Number must contain exactly 9 digits and be formatted as XXX-XX-XXXX or XXXXXXXXX'
+        'Social Security Number must contain exactly 9 digits, be formatted as XXX-XX-XXXX or XXXXXXXXX, and meet SSA issuance criteria'
       );
+    });
+
+    it('should fail with invalid SSN prefixes', () => {
+      const data: SocialSecurityNumberPattern['data'] = {
+        label: 'Test SSN Input Label',
+        required: true,
+      };
+
+      const schema = createSSNSchema(data);
+      const invalidSSNs = ['966-45-6789', '666-45-6789', '000-12-3456'];
+
+      invalidSSNs.forEach(ssn => {
+        const result = schema.safeParse(ssn);
+        expect(result.success).toBe(false);
+        expect(result.error?.issues[0].message).toBe(
+          'Social Security Number must contain exactly 9 digits, be formatted as XXX-XX-XXXX or XXXXXXXXX, and meet SSA issuance criteria'
+        );
+      });
+    });
+
+    it('should fail with invalid middle and suffix digits', () => {
+      const data: SocialSecurityNumberPattern['data'] = {
+        label: 'Test SSN Input Label',
+        required: true,
+      };
+
+      const schema = createSSNSchema(data);
+      const invalidSSNs = ['555-00-6789', '555-12-0000'];
+
+      invalidSSNs.forEach(ssn => {
+        const result = schema.safeParse(ssn);
+        expect(result.success).toBe(false);
+        expect(result.error?.issues[0].message).toBe(
+          'Social Security Number must contain exactly 9 digits, be formatted as XXX-XX-XXXX or XXXXXXXXX, and meet SSA issuance criteria'
+        );
+      });
     });
   });
 
@@ -74,7 +111,7 @@ describe('SocialSecurityNumberPattern tests', () => {
         },
       };
 
-      const inputValue = '555-11-0000';
+      const inputValue = '555-11-1234';
       if (!socialSecurityNumberConfig.parseUserInput) {
         expect.fail('socialSecurityNumberConfig.parseUserInput is undefined');
       }
@@ -110,7 +147,7 @@ describe('SocialSecurityNumberPattern tests', () => {
       if (!result.success) {
         expect(result.error).toBeDefined();
         expect(result.error?.message).toContain(
-          'Social Security Number must contain exactly 9 digits and be formatted as XXX-XX-XXXX or XXXXXXXXX'
+          'Social Security Number must contain exactly 9 digits, be formatted as XXX-XX-XXXX or XXXXXXXXX, and meet SSA issuance criteria'
         );
       } else {
         expect.fail('Unexpected validation success');

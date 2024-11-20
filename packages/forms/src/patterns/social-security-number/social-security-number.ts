@@ -1,11 +1,6 @@
 import * as z from 'zod';
-
 import { type SocialSecurityNumberProps } from '../../components.js';
-import {
-  type Pattern,
-  type PatternConfig,
-  validatePattern,
-} from '../../pattern.js';
+import { type Pattern, type PatternConfig } from '../../pattern.js';
 import { getFormSessionValue } from '../../session.js';
 import {
   safeZodParseFormErrors,
@@ -26,10 +21,29 @@ export type SocialSecurityNumberPatternOutput = z.infer<
 
 export const createSSNSchema = (data: SocialSecurityNumberPattern['data']) => {
   const ssnSchema = z.string().refine(value => {
-    const isValidFormat = /^\d{3}-\d{2}-\d{4}$|^\d{9}$/.test(value);
     const stripped = value.replace(/[^0-9]/g, '');
-    return isValidFormat && stripped.length === 9;
-  }, 'Social Security Number must contain exactly 9 digits and be formatted as XXX-XX-XXXX or XXXXXXXXX');
+
+    const isValidFormat = /^\d{3}-\d{2}-\d{4}$|^\d{9}$/.test(value);
+
+    if (!isValidFormat) {
+      return false;
+    }
+
+    if (stripped.length !== 9) {
+      return false;
+    }
+
+    const hasValidPrefix = !(
+      stripped.startsWith('9') ||
+      stripped.startsWith('666') ||
+      stripped.startsWith('000')
+    );
+
+    const hasValidMiddle = stripped.slice(3, 5) !== '00';
+    const hasValidSuffix = stripped.slice(5) !== '0000';
+
+    return hasValidPrefix && hasValidMiddle && hasValidSuffix;
+  }, 'Social Security Number must contain exactly 9 digits, be formatted as XXX-XX-XXXX or XXXXXXXXX, and meet SSA issuance criteria');
 
   if (!data.required) {
     return ssnSchema.or(z.literal('').optional()).optional();
@@ -69,19 +83,6 @@ export const socialSecurityNumberConfig: PatternConfig<
     const extraAttributes: Record<string, any> = {};
     const sessionValue = getFormSessionValue(session, pattern.id);
     const error = session.data.errors[pattern.id];
-
-    /*
-    if (options.validate) {
-      const isValidResult = validatePattern(
-        socialSecurityNumberConfig,
-        pattern,
-        sessionValue
-      );
-      if (!isValidResult.success) {
-        extraAttributes['error'] = isValidResult.error;
-      }
-    }
-    */
 
     return {
       props: {
