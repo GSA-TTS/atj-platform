@@ -10,7 +10,6 @@ import type { Blueprint } from '../../types';
 import { Page } from './page/builder';
 import { FormClient } from './form-client';
 import { createTestBrowserFormService } from '../../context';
-import { getActionString } from '../../submission';
 
 describe('Page-set submission', () => {
   it('stores session data for valid page data', async () => {
