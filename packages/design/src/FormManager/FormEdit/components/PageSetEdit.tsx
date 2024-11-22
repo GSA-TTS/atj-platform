@@ -1,10 +1,10 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import { getPattern, type PageSetProps } from '@atj/forms';
 
 import { PatternEditComponent } from '../types.js';
 
-import classNames from 'classnames';
 import styles from '../../../Form/components/PageSet/PageMenu/pageMenuStyles.module.css';
 import { DraggableList } from './PreviewSequencePattern/DraggableList.js';
 import { useFormManagerStore } from '../../store.js';
@@ -12,10 +12,7 @@ import { useSearchParams } from 'react-router-dom';
 import { UniqueIdentifier } from '@dnd-kit/core';
 import { PageMenuProps } from '../../../Form/components/PageSet/PageMenu/PageMenu.js';
 
-const PageSetEdit: PatternEditComponent<PageSetProps> = ({
-  context,
-  previewProps,
-}) => {
+const PageSetEdit: PatternEditComponent<PageSetProps> = ({ previewProps }) => {
   return (
     <div className="grid-row">
       <nav className="tablet:grid-col-3 tablet:padding-y-3 tablet:padding-right-4">
@@ -26,31 +23,6 @@ const PageSetEdit: PatternEditComponent<PageSetProps> = ({
         aria-live="polite"
       >
         {previewProps.children}
-        <div>
-          <div className="margin-top-3 margin-bottom-3">
-            <strong>NAVIGATION:</strong> After the current page is completed, go
-            to the next page unless a custom rule applies.
-          </div>
-          <hr className="margin-y-3 border-2px border-base-lighter" />
-          <div className="margin-top-2">
-            <button
-              type="button"
-              className="usa-button usa-button--unstyled display-flex flex-align-center"
-            >
-              <svg
-                className="usa-icon usa-icon--size-3 margin-right-1"
-                aria-hidden="true"
-                focusable="false"
-                role="img"
-              >
-                <use
-                  xlinkHref={`${context.uswdsRoot}img/sprite.svg#add_circle`}
-                ></use>
-              </svg>
-              Create custom rule
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );

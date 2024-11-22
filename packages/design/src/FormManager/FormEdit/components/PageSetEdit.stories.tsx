@@ -7,7 +7,6 @@ import {
 } from './common/story-helper.js';
 import PageSetEdit from './PageSetEdit.js';
 import { createTwoPageTwoPatternTestForm } from '../../../test-form.js';
-import { userEvent } from '@storybook/test';
 
 const blueprint = createTwoPageTwoPatternTestForm();
 
@@ -29,14 +28,5 @@ export const Basic: StoryObj<typeof PageSetEdit> = {
       'Page title',
       'Page 1 updated'
     );
-  },
-};
-
-export const CreateCustomRule: StoryObj<typeof PageSetEdit> = {
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    //const pagesetHeaderElement = await canvas.findByText(/Page 1/);
-    const button = canvas.getByRole('button', { name: /Create custom rule/ });
-    await userEvent.click(button);
   },
 };

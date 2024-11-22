@@ -22,6 +22,7 @@ export const createPrompt: CreatePrompt<PagePattern> = (
       _patternId: pattern.id,
       type: 'page',
       title: pattern.data.title,
+      rules: pattern.data.rules,
     } satisfies PageProps,
     children,
   };

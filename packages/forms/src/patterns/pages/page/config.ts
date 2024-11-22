@@ -11,7 +11,7 @@ const ruleSchema = z.object({
   }),
   next: z.string(),
 });
-type Rule = z.infer<typeof ruleSchema>;
+export type PageRule = z.infer<typeof ruleSchema>;
 
 const configSchema = z.object({
   title: z.string(),

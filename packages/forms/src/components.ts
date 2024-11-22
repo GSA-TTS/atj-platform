@@ -6,6 +6,7 @@ import {
   type PatternId,
   getPatternConfig,
 } from './pattern.js';
+import type { PageRule } from './patterns/pages/page/config.js';
 import { type FormSession, nullSession, sessionIsComplete } from './session.js';
 import { type ActionName } from './submission.js';
 
@@ -75,6 +76,7 @@ export type PageSetProps = PatternProps<{
 export type PageProps = PatternProps<{
   type: 'page';
   title: string;
+  rules: PageRule[];
 }>;
 
 export type RadioGroupProps = PatternProps<{
