@@ -5,12 +5,25 @@ import { type SocialSecurityNumberProps } from '@atj/forms';
 
 import { type PatternComponent } from '../../index.js';
 
+const formatSSN = (value: string) => {
+  const rawValue = value.replace(/[^\d]/g, '');
+  if (rawValue.length <= 3) return rawValue;
+  if (rawValue.length <= 5)
+    return `${rawValue.slice(0, 3)}-${rawValue.slice(3)}`;
+  return `${rawValue.slice(0, 3)}-${rawValue.slice(3, 5)}-${rawValue.slice(5, 9)}`;
+};
+
 export const SocialSecurityNumberPattern: PatternComponent<
   SocialSecurityNumberProps
 > = ({ ssnId, hint, label, required, error, value }) => {
-  const { register } = useFormContext();
+  const { register, setValue } = useFormContext();
   const errorId = `input-error-message-${ssnId}`;
   const hintId = `hint-${ssnId}`;
+
+  const handleSSNChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formattedSSN = formatSSN(e.target.value);
+    setValue(ssnId, formattedSSN, { shouldValidate: true });
+  };
 
   return (
     <fieldset className="usa-fieldset">
@@ -42,7 +55,11 @@ export const SocialSecurityNumberPattern: PatternComponent<
           type="text"
           defaultValue={value}
           {...register(ssnId, { required })}
-          aria-describedby={`${hint ? `${hintId}` : ''}${error ? ` ${errorId}` : ''}`.trim() || undefined}
+          onChange={handleSSNChange}
+          aria-describedby={
+            `${hint ? `${hintId}` : ''}${error ? ` ${errorId}` : ''}`.trim() ||
+            undefined
+          }
         />
       </div>
     </fieldset>
