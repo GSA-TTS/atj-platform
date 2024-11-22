@@ -20,36 +20,68 @@ export type SocialSecurityNumberPatternOutput = z.infer<
 >;
 
 export const createSSNSchema = (data: SocialSecurityNumberPattern['data']) => {
-  const ssnSchema = z.string().refine(value => {
-    const stripped = value.replace(/[^0-9]/g, '');
+  const baseSchema = z
+    .string()
+    .transform(value => value.replace(/[^0-9]/g, ''))
+    .superRefine((value, ctx) => {
+      if (!data.required && value === '') {
+        return;
+      }
 
-    const isValidFormat = /^\d{3}-\d{2}-\d{4}$|^\d{9}$/.test(value);
+      let issues = [];
 
-    if (!isValidFormat) {
-      return false;
-    }
+      if (value.length !== 9) {
+        issues.push('have exactly 9 digits');
+      } else {
+        if (
+          value.startsWith('9') ||
+          value.startsWith('666') ||
+          value.startsWith('000')
+        ) {
+          issues.push('start with a valid prefix (not 9, 666, or 000)');
+        }
 
-    if (stripped.length !== 9) {
-      return false;
-    }
+        if (value.slice(3, 5) === '00') {
+          issues.push('have a valid middle segment (not 00)');
+        }
 
-    const hasValidPrefix = !(
-      stripped.startsWith('9') ||
-      stripped.startsWith('666') ||
-      stripped.startsWith('000')
-    );
+        if (value.slice(5) === '0000') {
+          issues.push('have a valid suffix (not 0000)');
+        }
+      }
 
-    const hasValidMiddle = stripped.slice(3, 5) !== '00';
-    const hasValidSuffix = stripped.slice(5) !== '0000';
+      if (issues.length > 0) {
+        let enhancedMessage = 'Social Security Number must ';
+        if (issues.length === 1) {
+          enhancedMessage += issues[0];
+        } else if (issues.length === 2) {
+          enhancedMessage += `${issues[0]} and ${issues[1]}`;
+        } else {
+          enhancedMessage += `${issues.slice(0, -1).join(', ')}, and ${issues[issues.length - 1]}`;
+        }
 
-    return hasValidPrefix && hasValidMiddle && hasValidSuffix;
-  }, 'Social Security Number must contain exactly 9 digits, be formatted as XXX-XX-XXXX or XXXXXXXXX, and meet SSA issuance criteria');
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: enhancedMessage,
+        });
+      }
+    });
 
-  if (!data.required) {
-    return ssnSchema.or(z.literal('').optional()).optional();
+  if (data.required) {
+    return z
+      .string()
+      .refine(value => value.trim().length > 0, {
+        message: 'This field is required',
+      })
+      .superRefine((value, ctx) => {
+        const result = baseSchema.safeParse(value.trim());
+        if (!result.success) {
+          result.error.issues.forEach(issue => ctx.addIssue(issue));
+        }
+      });
+  } else {
+    return baseSchema.optional();
   }
-
-  return ssnSchema;
 };
 
 export const socialSecurityNumberConfig: PatternConfig<
