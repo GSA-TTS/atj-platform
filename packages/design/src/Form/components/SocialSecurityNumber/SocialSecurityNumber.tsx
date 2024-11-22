@@ -10,6 +10,7 @@ export const SocialSecurityNumberPattern: PatternComponent<
 > = ({ ssnId, hint, label, required, error, value }) => {
   const { register } = useFormContext();
   const errorId = `input-error-message-${ssnId}`;
+  const hintId = `hint-${ssnId}`;
 
   return (
     <fieldset className="usa-fieldset">
@@ -24,7 +25,7 @@ export const SocialSecurityNumberPattern: PatternComponent<
           {required && <span className="required-indicator">*</span>}
         </label>
         {hint && (
-          <div className="usa-hint" id={`hint-${ssnId}`}>
+          <div className="usa-hint" id={hintId}>
             {hint}
           </div>
         )}
@@ -41,7 +42,7 @@ export const SocialSecurityNumberPattern: PatternComponent<
           type="text"
           defaultValue={value}
           {...register(ssnId, { required })}
-          aria-describedby={error ? `${ssnId} ${errorId}` : ssnId}
+          aria-describedby={`${hint ? `${hintId}` : ''}${error ? ` ${errorId}` : ''}`.trim() || undefined}
         />
       </div>
     </fieldset>
