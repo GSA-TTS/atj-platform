@@ -12,7 +12,6 @@ import { createPrompt } from './prompt';
 
 describe('Page prompt', () => {
   it('works', async () => {
-    expect(true).toBe(true);
     const form = await createTestForm();
     const session = createFormSession(form, {
       params: {
@@ -25,46 +24,50 @@ describe('Page prompt', () => {
       validate: true,
     });
     expect(prompt).toEqual({
-      children: [
-        {
-          children: [
-            {
-              children: [],
-              props: {
-                _patternId: 'input-1',
-                error: { message: 'Required', type: 'custom' },
-                inputId: 'input-1',
-                label: 'Input 1',
-                required: true,
-                type: 'input',
-              },
-            },
-          ],
-          props: {
-            _patternId: 'page-1',
-            title: 'Page 1',
-            type: 'page',
-          },
-        },
-      ],
       props: {
         _patternId: 'page-set',
+        type: 'page-set',
         actions: [
           {
+            type: 'submit',
             submitAction: 'action/page-set/page-set',
             text: 'Submit',
-            type: 'submit',
           },
         ],
         pages: [
           {
-            selected: true,
             title: 'Page 1',
+            selected: true,
             url: '?page=0',
           },
         ],
-        type: 'page-set',
       },
+      children: [
+        {
+          props: {
+            _patternId: 'page-1',
+            type: 'page',
+            title: 'Page 1',
+            rules: [],
+          },
+          children: [
+            {
+              props: {
+                _patternId: 'input-1',
+                type: 'input',
+                inputId: 'input-1',
+                label: 'Input 1',
+                required: true,
+                error: {
+                  type: 'custom',
+                  message: 'Required',
+                },
+              },
+              children: [],
+            },
+          ],
+        },
+      ],
     });
   });
 });

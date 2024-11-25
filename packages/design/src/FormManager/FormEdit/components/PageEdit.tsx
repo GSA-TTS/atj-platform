@@ -28,6 +28,7 @@ export const PageEdit: PatternEditComponent<PageProps> = props => {
   const [editingRule, setEditingRule] = useState<
     PageProps['rules'][number] | null
   >(null);
+  console.log(editingRule);
   const { routeParams } = useRouteParams();
   const params = new URLSearchParams(routeParams?.toString());
   const pageNumberText = Number(params.get('page')) + 1;

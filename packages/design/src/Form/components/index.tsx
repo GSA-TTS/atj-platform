@@ -1,5 +1,6 @@
 import { PatternComponent, type ComponentForPattern } from '../index.js';
 
+import Attachment from './Attachment/index.js';
 import Address from './Address/index.js';
 import Checkbox from './Checkbox/index.js';
 import DateOfBirth from './DateOfBirth/index.js';
@@ -15,10 +16,12 @@ import RadioGroup from './RadioGroup/index.js';
 import RichText from './RichText/index.js';
 import Sequence from './Sequence/index.js';
 import SelectDropdown from './SelectDropdown/index.js';
+import SocialSecurityNumber from './SocialSecurityNumber/index.js';
 import SubmissionConfirmation from './SubmissionConfirmation/index.js';
 import TextInput from './TextInput/index.js';
 
 export const defaultPatternComponents: ComponentForPattern = {
+  attachment: Attachment as PatternComponent,
   address: Address as PatternComponent,
   checkbox: Checkbox as PatternComponent,
   'date-of-birth': DateOfBirth as PatternComponent,
@@ -35,5 +38,6 @@ export const defaultPatternComponents: ComponentForPattern = {
   'rich-text': RichText as PatternComponent,
   'select-dropdown': SelectDropdown as PatternComponent,
   sequence: Sequence as PatternComponent,
+  'social-security-number': SocialSecurityNumber as PatternComponent,
   'submission-confirmation': SubmissionConfirmation as PatternComponent,
 };

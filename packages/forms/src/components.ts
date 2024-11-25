@@ -25,6 +25,18 @@ export type TextInputProps = PatternProps<{
   error?: FormError;
 }>;
 
+export type AttachmentProps = PatternProps<{
+  type: 'attachment';
+  inputId: string;
+  value: string;
+  label: string;
+  maxAttachments: number;
+  maxFileSizeMB: number;
+  allowedFileTypes: Array<string>;
+  required: boolean;
+  error?: FormError;
+}>;
+
 export type FormSummaryProps = PatternProps<{
   type: 'form-summary';
   title: string;
@@ -125,6 +137,16 @@ export type EmailInputProps = PatternProps<{
 export type PhoneNumberProps = PatternProps<{
   type: 'phone-number';
   phoneId: string;
+  hint?: string;
+  label: string;
+  required: boolean;
+  error?: FormError;
+  value: string;
+}>;
+
+export type SocialSecurityNumberProps = PatternProps<{
+  type: 'social-security-number';
+  ssnId: string;
   hint?: string;
   label: string;
   required: boolean;

@@ -7,6 +7,14 @@ const defaults = {
 
 export const en = {
   patterns: {
+    attachment: {
+      ...defaults,
+      displayName: 'Attachment',
+      maxAttachmentsLabel: 'Max attachments',
+      allowedFileTypesLabel: 'Allowable file types',
+      errorTextMustContainChar: 'String must contain at least 1 character(s)',
+      errorUnsupportedFileType: 'Invalid file type found.',
+    },
     checkbox: {
       ...defaults,
       displayName: 'Checkbox',
@@ -72,6 +80,13 @@ export const en = {
       fieldLabel: 'Phone number label',
       hintLabel: 'Phone number hint label',
       hint: '10-digit, U.S. only, for example 999-999-9999',
+    },
+    ssn: {
+      ...defaults,
+      displayName: 'Social Security Number label',
+      fieldLabel: 'Social Security Number label',
+      hintLabel: 'Social Security Number hint label',
+      hint: 'For example, 555-11-0000',
       errorTextMustContainChar: 'String must contain at least 1 character(s)',
     },
   },

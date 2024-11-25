@@ -9,6 +9,11 @@ export * from './response.js';
 export * from './session.js';
 export * from './types.js';
 export { type FormService, createFormService } from './services/index.js';
+export {
+  defaultFormConfig,
+  attachmentFileTypeOptions,
+  attachmentFileTypeMimes,
+} from './patterns/index.js';
 export { type RichTextPattern } from './patterns/rich-text.js';
 export {
   type FormRepository,
