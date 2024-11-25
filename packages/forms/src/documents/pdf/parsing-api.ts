@@ -157,7 +157,6 @@ export const processApiResponse = async (json: any): Promise<ParsedPdf> => {
 
   for (const element of extracted.elements) {
     const fieldsetPatterns: PatternId[] = [];
-
     // Add paragraph elements
     if (element.component_type === 'paragraph') {
       const paragraph = processPatternData<ParagraphPattern>(

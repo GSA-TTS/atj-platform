@@ -3,6 +3,7 @@ import {
   type EditComponentForPattern,
 } from '../types.js';
 
+import AttachmentPatternEdit from './AttachmentPatternEdit/index.js';
 import CheckboxPatternEdit from './CheckboxPatternEdit.js';
 import DateOfBirthPatternEdit from './DateOfBirthPatternEdit.js';
 import EmailInputPatternEdit from './EmailInputPatternEdit.js';
@@ -21,6 +22,7 @@ import SelectDropdownPatternEdit from './SelectDropdownPatternEdit.js';
 import SubmissionConfirmationEdit from './SubmissionConfirmationEdit.js';
 
 export const defaultPatternEditComponents: EditComponentForPattern = {
+  attachment: AttachmentPatternEdit as PatternEditComponent,
   checkbox: CheckboxPatternEdit as PatternEditComponent,
   'date-of-birth': DateOfBirthPatternEdit as PatternEditComponent,
   'email-input': EmailInputPatternEdit as PatternEditComponent,

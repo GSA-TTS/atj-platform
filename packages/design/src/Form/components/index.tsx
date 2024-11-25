@@ -1,5 +1,6 @@
 import { PatternComponent, type ComponentForPattern } from '../index.js';
 
+import Attachment from './Attachment/index.js';
 import Address from './Address/index.js';
 import Checkbox from './Checkbox/index.js';
 import DateOfBirth from './DateOfBirth/index.js';
@@ -19,6 +20,7 @@ import SubmissionConfirmation from './SubmissionConfirmation/index.js';
 import TextInput from './TextInput/index.js';
 
 export const defaultPatternComponents: ComponentForPattern = {
+  attachment: Attachment as PatternComponent,
   address: Address as PatternComponent,
   checkbox: Checkbox as PatternComponent,
   'date-of-birth': DateOfBirth as PatternComponent,
