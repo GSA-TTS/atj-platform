@@ -15,7 +15,10 @@ export const createTestFormServiceContext = async (
   opts?: Partial<Options>
 ): Promise<FormServiceContext> => {
   const db: DatabaseContext = await createInMemoryDatabaseContext();
-  const repository = createFormsRepository(db);
+  const repository = createFormsRepository({
+    db,
+    formConfig: defaultFormConfig,
+  });
   return {
     repository,
     config: defaultFormConfig,

@@ -1,11 +1,11 @@
 import { type Result, failure, success } from '@atj/common';
-import { type DatabaseContext } from '@atj/database';
 
 import type { ParsedPdf } from '../documents/pdf/parsing-api';
 import type { DocumentFieldMap } from '../documents/types';
+import type { FormRepositoryContext } from '.';
 
 export type AddDocument = (
-  ctx: DatabaseContext,
+  ctx: FormRepositoryContext,
   document: {
     fileName: string;
     data: Uint8Array;
@@ -18,7 +18,7 @@ export type AddDocument = (
 
 export const addDocument: AddDocument = async (ctx, document) => {
   const uuid = crypto.randomUUID();
-  const db = await ctx.getKysely();
+  const db = await ctx.db.getKysely();
 
   return await db
     .insertInto('form_documents')

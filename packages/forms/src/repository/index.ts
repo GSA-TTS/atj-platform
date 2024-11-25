@@ -1,6 +1,8 @@
 import { type ServiceMethod, createService } from '@atj/common';
 import { type DatabaseContext } from '@atj/database';
 
+import type { FormConfig } from '../pattern.js';
+
 import { type AddDocument, addDocument } from './add-document.js';
 import { type AddForm, addForm } from './add-form.js';
 import { type DeleteForm, deleteForm } from './delete-form.js';
@@ -26,7 +28,14 @@ export interface FormRepository {
   upsertFormSession: ServiceMethod<UpsertFormSession>;
 }
 
-export const createFormsRepository = (ctx: DatabaseContext): FormRepository =>
+export type FormRepositoryContext = {
+  db: DatabaseContext;
+  formConfig: FormConfig;
+};
+
+export const createFormsRepository = (
+  ctx: FormRepositoryContext
+): FormRepository =>
   createService(ctx, {
     addDocument,
     addForm,

@@ -1,15 +1,15 @@
 import { type VoidResult, failure, voidSuccess } from '@atj/common';
-import { type DatabaseContext } from '@atj/database';
 
 import type { FormOutput } from '../types';
+import type { FormRepositoryContext } from '.';
 
 export type DeleteForm = (
-  ctx: DatabaseContext,
+  ctx: FormRepositoryContext,
   formId: string
 ) => Promise<VoidResult>;
 
 export const deleteForm: DeleteForm = async (ctx, formId) => {
-  const db = await ctx.getKysely();
+  const db = await ctx.db.getKysely();
 
   const result = await db.transaction().execute(async trx => {
     const deleteResult = await trx

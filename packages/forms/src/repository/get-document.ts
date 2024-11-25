@@ -1,11 +1,11 @@
 import { type Result, failure, success } from '@atj/common';
-import { type DatabaseContext } from '@atj/database';
 
 import type { ParsedPdf } from '../documents/pdf/parsing-api';
 import type { DocumentFieldMap } from '../documents/types';
+import type { FormRepositoryContext } from '.';
 
 export type GetDocument = (
-  ctx: DatabaseContext,
+  ctx: FormRepositoryContext,
   id: string
 ) => Promise<
   Result<{
@@ -18,7 +18,7 @@ export type GetDocument = (
 >;
 
 export const getDocument: GetDocument = async (ctx, id) => {
-  const db = await ctx.getKysely();
+  const db = await ctx.db.getKysely();
 
   return await db
     .selectFrom('form_documents')

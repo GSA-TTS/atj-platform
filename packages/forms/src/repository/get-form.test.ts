@@ -2,7 +2,7 @@ import { expect, it } from 'vitest';
 
 import { type DbTestContext, describeDatabase } from '@atj/database/testing';
 
-import { type Blueprint } from '../index.js';
+import { defaultFormConfig, type Blueprint } from '../index.js';
 import { getForm } from './get-form.js';
 
 describeDatabase('getForm', () => {
@@ -17,7 +17,7 @@ describeDatabase('getForm', () => {
       .execute();
 
     const result = await getForm(
-      db.ctx,
+      { db: db.ctx, formConfig: defaultFormConfig },
       '45c66187-64e2-4d75-a45a-e80f1d035bc5'
     );
     expect(result).toEqual(TEST_FORM);
@@ -25,7 +25,7 @@ describeDatabase('getForm', () => {
 
   it<DbTestContext>('return null with non-existent form', async ({ db }) => {
     const result = await getForm(
-      db.ctx,
+      { db: db.ctx, formConfig: defaultFormConfig },
       '45c66187-64e2-4d75-a45a-e80f1d035bc5'
     );
     expect(result).toBeNull();
