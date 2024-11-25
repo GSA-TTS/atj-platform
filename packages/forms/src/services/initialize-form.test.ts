@@ -35,7 +35,7 @@ describe('initializeForm', () => {
     });
   });
 
-  it('initializes successfuly with document when user is logged in', async () => {
+  it('initializes successfully with document when user is logged in', async () => {
     const ctx = await createTestFormServiceContext({
       isUserLoggedIn: () => true,
       parsedPdf: async () => ({
