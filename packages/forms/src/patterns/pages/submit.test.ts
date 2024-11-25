@@ -1,12 +1,15 @@
 import { describe, expect, it } from 'vitest';
 
-import { type Blueprint, defaultFormConfig } from '../..';
 import { Input } from '../input/builder';
-import { Page } from '../page/builder';
 import { createFormSession } from '../../session';
 
-import { PageSet } from './builder';
+import { PageSet } from './page-set/builder';
 import { submitPage } from './submit';
+import { defaultFormConfig } from '..';
+import type { Blueprint } from '../../types';
+import { Page } from './page/builder';
+import { FormClient } from './form-client';
+import { createTestBrowserFormService } from '../../context';
 
 describe('Page-set submission', () => {
   it('stores session data for valid page data', async () => {
@@ -87,13 +90,11 @@ describe('Page-set submission', () => {
         route: {
           url: '#',
           params: {
-            page: '1',
+            page: '2',
           },
         },
       },
-      data: {
-        'input-2': 'test',
-      },
+      data: {},
     });
     expect(result).toEqual({
       data: {
@@ -101,14 +102,12 @@ describe('Page-set submission', () => {
           ...session,
           data: {
             errors: {},
-            values: {
-              'input-2': 'test',
-            },
+            values: {},
           },
           route: {
             url: '#',
             params: {
-              page: '1',
+              page: '2',
             },
           },
           form: session.form,
@@ -117,9 +116,51 @@ describe('Page-set submission', () => {
       success: true,
     });
   });
+
+  it('honors first matching page rule', async () => {
+    const { id, form, formService } = await createTestFormContext();
+    const client = new FormClient(
+      {
+        config: defaultFormConfig,
+        formService,
+      },
+      id,
+      form
+    );
+    await client.submitPage({
+      'input-1': 'rule-2',
+    });
+    const state = await client.getState();
+    expect(state).toEqual(
+      expect.objectContaining({
+        attachments: undefined,
+        sessionId: expect.any(String),
+        session: {
+          data: {
+            errors: {},
+            values: {
+              'input-1': 'rule-2',
+            },
+          },
+          route: {
+            url: '#',
+            params: {
+              page: '2',
+            },
+          },
+          form,
+        },
+      })
+    );
+  });
 });
 
 const createTestSession = () => {
+  const testForm = createTestForm();
+  return createFormSession(testForm, { url: '#', params: { page: '0' } });
+};
+
+const createTestForm = () => {
   const input1 = new Input(
     { label: 'label', required: true, maxLength: 10 },
     'input-1'
@@ -128,9 +169,37 @@ const createTestSession = () => {
     { label: 'label', required: true, maxLength: 10 },
     'input-2'
   );
-  const page1 = new Page({ title: 'Page 1', patterns: [input1.id] }, 'page-1');
-  const page2 = new Page({ title: 'Page 2', patterns: [input2.id] }, 'page-2');
-  const pageSet = new PageSet({ pages: [page1.id, page2.id] }, 'page-set-1');
+  const page1 = new Page(
+    {
+      title: 'Page 1',
+      patterns: [input1.id],
+      rules: [
+        {
+          patternId: input1.id,
+          condition: { value: 'rule-1', operator: '=' },
+          next: 'page-2',
+        },
+        {
+          patternId: input1.id,
+          condition: { value: 'rule-2', operator: '=' },
+          next: 'page-3',
+        },
+      ],
+    },
+    'page-1'
+  );
+  const page2 = new Page(
+    { title: 'Page 2', patterns: [input2.id], rules: [] },
+    'page-2'
+  );
+  const page3 = new Page(
+    { title: 'Page 3', patterns: [], rules: [] },
+    'page-3'
+  );
+  const pageSet = new PageSet(
+    { pages: [page1.id, page2.id, page3.id] },
+    'page-set-1'
+  );
   const testForm: Blueprint = {
     summary: {
       description: 'A test form',
@@ -140,11 +209,26 @@ const createTestSession = () => {
     patterns: {
       [page1.id]: page1.toPattern(),
       [page2.id]: page2.toPattern(),
+      [page3.id]: page3.toPattern(),
       [pageSet.id]: pageSet.toPattern(),
       [input1.id]: input1.toPattern(),
       [input2.id]: input2.toPattern(),
     },
     outputs: [],
   };
-  return createFormSession(testForm, { url: '#', params: { page: '0' } });
+  return testForm;
+};
+
+const createTestFormContext = async () => {
+  const form = createTestForm();
+  const formService = createTestBrowserFormService();
+  const addFormResult = await formService.addForm(form);
+  if (!addFormResult.success) {
+    expect.fail('Error adding test form');
+  }
+  return {
+    id: addFormResult.data.id,
+    form,
+    formService,
+  };
 };

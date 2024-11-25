@@ -1,11 +1,10 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import { getPattern, type PageSetProps } from '@atj/forms';
 
 import { PatternEditComponent } from '../types.js';
 
-import ActionBar from '../../../Form/ActionBar/index.js';
-import classNames from 'classnames';
 import styles from '../../../Form/components/PageSet/PageMenu/pageMenuStyles.module.css';
 import { DraggableList } from './PreviewSequencePattern/DraggableList.js';
 import { useFormManagerStore } from '../../store.js';
@@ -24,7 +23,6 @@ const PageSetEdit: PatternEditComponent<PageSetProps> = ({ previewProps }) => {
         aria-live="polite"
       >
         {previewProps.children}
-        <ActionBar actions={previewProps.actions} />
       </div>
     </div>
   );

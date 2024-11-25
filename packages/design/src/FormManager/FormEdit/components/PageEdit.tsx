@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { PageProps } from '@atj/forms';
 import { enLocale as message } from '@atj/common';
@@ -13,6 +13,7 @@ import { PatternEditForm } from './common/PatternEditForm.js';
 import { usePatternEditFormContext } from './common/hooks.js';
 import { PatternPreviewSequence } from './PreviewSequencePattern/index.js';
 import styles from '../formEditStyles.module.css';
+import type { FormManagerContext } from 'FormManager/index.js';
 
 export const PageEdit: PatternEditComponent<PageProps> = props => {
   const handleParentClick = (
@@ -24,6 +25,10 @@ export const PageEdit: PatternEditComponent<PageProps> = props => {
     }
   };
 
+  const [editingRule, setEditingRule] = useState<
+    PageProps['rules'][number] | null
+  >(null);
+  console.log(editingRule);
   const { routeParams } = useRouteParams();
   const params = new URLSearchParams(routeParams?.toString());
   const pageNumberText = Number(params.get('page')) + 1;
@@ -62,6 +67,84 @@ export const PageEdit: PatternEditComponent<PageProps> = props => {
           children: props.previewProps.children,
         }}
       />
+
+      <div data-pattern-edit-control="true">
+        <div className="margin-y-2">
+          <strong>NAVIGATION:</strong> After the current page is completed, go
+          to the next page unless a custom rule applies.
+        </div>
+        {props.previewProps.rules.map((rule, index) => (
+          <div
+            key={index}
+            className="display-flex flex-justify flex-align-center margin-y-1"
+          >
+            <div className="display-flex flex-align-center">
+              <svg
+                className="usa-icon usa-icon--size-3 margin-right-1"
+                aria-hidden="true"
+                focusable="false"
+                role="img"
+              >
+                <use
+                  xlinkHref={`${props.context.uswdsRoot}img/sprite.svg#directions`}
+                ></use>
+              </svg>
+              <div>
+                If{' '}
+                <button
+                  className="usa-button usa-button--unstyled"
+                  onClick={() => setEditingRule(rule)}
+                >
+                  these questions
+                </button>{' '}
+                are selected, go to{' '}
+                <span className="text-bold">{rule.next}</span>.
+              </div>
+            </div>
+            <div className="display-flex flex-align-center">
+              <RuleButton
+                context={props.context}
+                icon="edit"
+                label="Edit rule"
+              />
+              <RuleButton
+                context={props.context}
+                icon="content_copy"
+                label="Copy rule"
+              />
+              <RuleButton
+                context={props.context}
+                icon="delete"
+                label="Delete rule"
+              />
+              <RuleButton
+                context={props.context}
+                icon="drag_handle"
+                label="Reorder rule"
+              />
+            </div>
+          </div>
+        ))}
+        <hr className="border-base-lighter margin-top-2" />
+        <div className="margin-top-2">
+          <button
+            type="button"
+            className="usa-button usa-button--unstyled display-flex flex-align-center"
+          >
+            <svg
+              className="usa-icon usa-icon--size-3 margin-right-1"
+              aria-hidden="true"
+              focusable="false"
+              role="img"
+            >
+              <use
+                xlinkHref={`${props.context.uswdsRoot}img/sprite.svg#add_circle`}
+              ></use>
+            </svg>
+            Create custom rule
+          </button>
+        </div>
+      </div>
     </>
   );
 };
@@ -106,3 +189,23 @@ const PageEditComponent = ({ pattern }: { pattern: PagePattern }) => {
     </div>
   );
 };
+
+const RuleButton = (props: {
+  context: FormManagerContext;
+  icon: string;
+  label: string;
+}) => (
+  <button className="usa-button usa-button--unstyled">
+    <svg
+      className="usa-icon usa-icon--size-3 margin-right-1"
+      aria-label={props.label}
+      aria-hidden="true"
+      focusable="false"
+      role="img"
+    >
+      <use
+        xlinkHref={`${props.context.uswdsRoot}img/sprite.svg#${props.icon}`}
+      ></use>
+    </svg>
+  </button>
+);

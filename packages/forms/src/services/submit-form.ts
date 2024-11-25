@@ -1,7 +1,7 @@
 import { failure, success, type Result } from '@atj/common';
 
 import { type FormServiceContext } from '../context/index.js';
-import { submitPage } from '../patterns/page-set/submit';
+import { submitPage } from '../patterns/pages/submit';
 import { downloadPackageHandler } from '../patterns/package-download/submit';
 import { type FormRoute } from '../route-data.js';
 import { SubmissionRegistry } from '../submission';

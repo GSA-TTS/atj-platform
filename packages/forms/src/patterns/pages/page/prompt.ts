@@ -2,8 +2,8 @@ import {
   type CreatePrompt,
   type PageProps,
   createPromptForPattern,
-} from '../../components.js';
-import { getPattern } from '../../pattern.js';
+} from '../../../components.js';
+import { getPattern } from '../../../pattern.js';
 
 import { type PagePattern } from './config.js';
 
@@ -22,6 +22,7 @@ export const createPrompt: CreatePrompt<PagePattern> = (
       _patternId: pattern.id,
       type: 'page',
       title: pattern.data.title,
+      rules: pattern.data.rules,
     } satisfies PageProps,
     children,
   };
