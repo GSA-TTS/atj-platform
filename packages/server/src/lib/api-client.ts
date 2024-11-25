@@ -17,7 +17,6 @@ export class FormServiceClient implements FormService {
   constructor(private ctx: FormServiceClientContext) {}
 
   async addForm(form: Blueprint) {
-    console.log('add form');
     const response = await fetch(`${this.ctx.baseUrl}api/forms`, {
       method: 'POST',
       body: JSON.stringify(form),
