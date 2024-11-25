@@ -6,7 +6,7 @@ import type { FormRepositoryContext } from '.';
 export type DeleteForm = (
   ctx: FormRepositoryContext,
   formId: string
-) => Promise<VoidResult>;
+) => Promise<VoidResult<{ message: string; code: 'not-found' | 'unknown' }>>;
 
 export const deleteForm: DeleteForm = async (ctx, formId) => {
   const db = await ctx.db.getKysely();
@@ -19,7 +19,7 @@ export const deleteForm: DeleteForm = async (ctx, formId) => {
       .executeTakeFirst();
 
     if (!deleteResult) {
-      return failure('form not found');
+      return failure({ message: 'form not found', code: 'not-found' as const });
     }
 
     const form = JSON.parse(deleteResult.data);
@@ -37,7 +37,7 @@ export const deleteForm: DeleteForm = async (ctx, formId) => {
       .execute()
       .then(_ => voidSuccess)
       .catch((error: Error) => {
-        return failure(error.message);
+        return failure({ message: error.message, code: 'unknown' as const });
       });
   });
 

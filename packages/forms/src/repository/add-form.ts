@@ -10,7 +10,6 @@ export type AddForm = (
 
 export const addForm: AddForm = async (ctx, form) => {
   const uuid = crypto.randomUUID();
-  console.log('ctx', ctx);
   const db = await ctx.db.getKysely();
   return db
     .insertInto('forms')

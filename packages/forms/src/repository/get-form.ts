@@ -1,10 +1,12 @@
+import { failure, success, type Result } from '@atj/common';
+import { parseFormString } from '../builder/parse-form.js';
 import { type Blueprint } from '../index.js';
 import type { FormRepositoryContext } from './index.js';
 
 export type GetForm = (
   ctx: FormRepositoryContext,
   formId: string
-) => Promise<Blueprint | null>;
+) => Promise<Result<Blueprint | null>>;
 
 export const getForm: GetForm = async (ctx, formId) => {
   const db = await ctx.db.getKysely();
@@ -15,8 +17,13 @@ export const getForm: GetForm = async (ctx, formId) => {
     .executeTakeFirst();
 
   if (selectResult === undefined) {
-    return null;
+    return success(null);
   }
 
-  return JSON.parse(selectResult.data);
+  const parseResult = parseFormString(ctx.formConfig, selectResult.data);
+  if (!parseResult.success) {
+    return failure(`Failed to parse form: ${parseResult.error}`);
+  }
+
+  return success(parseResult.data);
 };

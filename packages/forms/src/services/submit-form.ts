@@ -48,14 +48,18 @@ export const submitForm: SubmitForm = async (
   formData,
   route
 ) => {
-  const form = await ctx.repository.getForm(formId);
-  if (form === null) {
+  const formResult = await ctx.repository.getForm(formId);
+  if (!formResult.success) {
+    return failure(formResult.error);
+  }
+
+  if (formResult.data === null) {
     return failure('Form not found');
   }
 
   const sessionResult = await getFormSessionOrCreate(
     ctx,
-    form,
+    formResult.data,
     route,
     sessionId
   );
@@ -75,7 +79,10 @@ export const submitForm: SubmitForm = async (
     return failure(`Invalid action: ${actionString}`);
   }
 
-  const submitHandlerResult = registry.getHandlerForAction(form, actionString);
+  const submitHandlerResult = registry.getHandlerForAction(
+    formResult.data,
+    actionString
+  );
   if (!submitHandlerResult.success) {
     return failure(submitHandlerResult.error);
   }

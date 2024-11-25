@@ -44,6 +44,6 @@ describeDatabase('getFormList', () => {
       context,
       '45c66187-64e2-4d75-a45a-e80f1d035bc5'
     );
-    expect(result).toBeNull();
+    expect(result).toEqual({ success: true, data: null });
   });
 });

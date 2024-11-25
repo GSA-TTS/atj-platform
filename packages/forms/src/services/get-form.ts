@@ -15,21 +15,20 @@ export type GetForm = (
 ) => Promise<Result<Blueprint, GetFormError>>;
 
 export const getForm: GetForm = async (ctx, formId) => {
-  const result = await ctx.repository.getForm(formId);
-  if (result === null) {
+  const formResult = await ctx.repository.getForm(formId);
+  if (!formResult.success) {
+    return failure({
+      status: 500,
+      message: formResult.error,
+    });
+  }
+
+  if (formResult.data === null) {
     return failure({
       status: 404,
       message: 'Form not found',
     });
   }
 
-  const parseResult = parseForm(ctx.config, result);
-  if (!parseResult.success) {
-    return failure({
-      status: 500,
-      message: parseResult.error,
-    });
-  }
-
-  return success(parseResult.data);
+  return success(formResult.data);
 };
