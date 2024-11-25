@@ -1,6 +1,6 @@
 import { type Result, failure, success } from '@atj/common';
 
-import { parseForm } from '../builder/index.js';
+import { parseForm } from '../builder/parse-form.js';
 import { type FormServiceContext } from '../context/index.js';
 import { type Blueprint } from '../types.js';
 
