@@ -80,20 +80,22 @@ export class BrowserFormRepository implements FormRepository {
     };
   }
 
-  async deleteForm(formId: string): Promise<VoidResult> {
+  async deleteForm(
+    formId: string
+  ): Promise<VoidResult<{ message: string; code: 'not-found' | 'unknown' }>> {
     this.storage.removeItem(formKey(formId));
     return { success: true };
   }
 
-  async getForm(id?: string): Promise<Blueprint | null> {
+  async getForm(id?: string): Promise<Result<Blueprint | null>> {
     if (!this.storage || !id) {
-      return null;
+      return success(null);
     }
     const formString = this.storage.getItem(`forms/${id}`);
     if (!formString) {
-      return null;
+      return success(null);
     }
-    return Promise.resolve(JSON.parse(formString));
+    return Promise.resolve(success(JSON.parse(formString)));
   }
 
   async getFormList(): Promise<
@@ -105,14 +107,17 @@ export class BrowserFormRepository implements FormRepository {
     }
     return Promise.all(
       forms.map(async key => {
-        const form = await this.getForm(key);
-        if (form === null) {
+        const formResult = await this.getForm(key);
+        if (!formResult.success) {
+          throw new Error('Error getting form');
+        }
+        if (formResult.data === null) {
           throw new Error('key mismatch');
         }
         return {
           id: key,
-          title: form.summary.title,
-          description: form.summary.description,
+          title: formResult.data.summary.title,
+          description: formResult.data.summary.description,
         };
       })
     );
