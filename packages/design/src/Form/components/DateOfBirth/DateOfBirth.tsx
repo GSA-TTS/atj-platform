@@ -19,6 +19,14 @@ const months = [
   { value: '12', label: 'December' },
 ];
 
+const getAriaDescribedBy = (
+  errorId: string | null,
+  hintId: string | null
+): string | undefined => {
+  const ids = [errorId, hintId].filter(Boolean).join(' ');
+  return ids || undefined;
+};
+
 export const DateOfBirthPattern: PatternComponent<DateOfBirthProps> = ({
   monthId,
   dayId,
@@ -29,6 +37,8 @@ export const DateOfBirthPattern: PatternComponent<DateOfBirthProps> = ({
   error,
 }) => {
   const { register } = useFormContext();
+  const errorId = `input-error-message-${monthId}`;
+  const hintId = `hint-${monthId}`;
 
   return (
     <fieldset className="usa-fieldset">
@@ -37,16 +47,12 @@ export const DateOfBirthPattern: PatternComponent<DateOfBirthProps> = ({
         {required && <span className="required-indicator">*</span>}
       </legend>
       {hint && (
-        <span className="usa-hint" id={`hint-${monthId}`}>
+        <span className="usa-hint" id={hintId}>
           {hint}
         </span>
       )}
       {error && (
-        <div
-          className="usa-error-message"
-          id={`input-error-message-${monthId}`}
-          role="alert"
-        >
+        <div className="usa-error-message" id={errorId} role="alert">
           {error.message}
         </div>
       )}
@@ -57,12 +63,15 @@ export const DateOfBirthPattern: PatternComponent<DateOfBirthProps> = ({
           </label>
           <select
             className={classNames('usa-input', {
-              'usa-input--error': error,
+              'usa-input--error': !!error,
             })}
             id={monthId}
             {...register(monthId)}
             aria-describedby={
-              error ? `${monthId} input-error-message-${monthId}}` : monthId
+              getAriaDescribedBy(
+                error ? errorId : null,
+                hint ? hintId : null
+              ) || undefined
             }
           >
             <option key="default" value="">
@@ -81,17 +90,18 @@ export const DateOfBirthPattern: PatternComponent<DateOfBirthProps> = ({
           </label>
           <input
             className={classNames('usa-input', {
-              'usa-input--error': error,
+              'usa-input--error': !!error,
             })}
             id={dayId}
-            {...register(dayId)}
+            {...register(dayId, { required })}
             minLength={2}
             maxLength={2}
             pattern="[0-9]*"
             inputMode="numeric"
-            aria-describedby={
-              error ? `${dayId} input-error-message-${dayId}}}` : dayId
-            }
+            aria-describedby={getAriaDescribedBy(
+              error ? `input-error-message-${dayId}` : null,
+              hint ? hintId : null
+            )}
           />
         </div>
         <div className="usa-form-group usa-form-group--year">
@@ -100,17 +110,18 @@ export const DateOfBirthPattern: PatternComponent<DateOfBirthProps> = ({
           </label>
           <input
             className={classNames('usa-input', {
-              'usa-input--error': error,
+              'usa-input--error': !!error,
             })}
             id={yearId}
-            {...register(yearId)}
+            {...register(yearId, { required })}
             minLength={4}
             maxLength={4}
             pattern="[0-9]*"
             inputMode="numeric"
-            aria-describedby={
-              error ? `${yearId} input-error-message-${yearId}}}` : yearId
-            }
+            aria-describedby={getAriaDescribedBy(
+              error ? `input-error-message-${yearId}` : null,
+              hint ? hintId : null
+            )}
           />
         </div>
       </div>

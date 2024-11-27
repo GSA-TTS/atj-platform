@@ -34,7 +34,7 @@ export const EmailInputPattern: PatternComponent<EmailInputProps> = ({
           autoCapitalize="off"
           autoCorrect="off"
           {...register(emailId, { required })}
-          aria-describedby={error ? `${emailId} ${errorId}}` : emailId}
+          aria-describedby={error ? errorId : undefined}
         />
       </div>
     </fieldset>

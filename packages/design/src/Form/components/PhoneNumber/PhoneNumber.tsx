@@ -14,6 +14,7 @@ export const PhoneNumberPattern: PatternComponent<PhoneNumberProps> = ({
 }) => {
   const { register } = useFormContext();
   const errorId = `input-error-message-${phoneId}`;
+  const hintId = `hint-${phoneId}`;
 
   return (
     <fieldset className="usa-fieldset">
@@ -22,14 +23,13 @@ export const PhoneNumberPattern: PatternComponent<PhoneNumberProps> = ({
           className={classNames('usa-label', {
             'usa-label--error': error,
           })}
-          id={`input-message-${phoneId}`}
           htmlFor={phoneId}
         >
           {label}
           {required && <span className="required-indicator">*</span>}
         </label>
         {hint && (
-          <div className="usa-hint" id={`hint-${phoneId}`}>
+          <div className="usa-hint" id={hintId}>
             {hint}
           </div>
         )}
@@ -46,7 +46,10 @@ export const PhoneNumberPattern: PatternComponent<PhoneNumberProps> = ({
           type="tel"
           defaultValue={value}
           {...register(phoneId, { required })}
-          aria-describedby={error ? `${phoneId} ${errorId}` : phoneId}
+          aria-describedby={
+            `${hint ? `${hintId}` : ''}${error ? ` ${errorId}` : ''}`.trim() ||
+            undefined
+          }
         />
       </div>
     </fieldset>

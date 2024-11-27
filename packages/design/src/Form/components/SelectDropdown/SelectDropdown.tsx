@@ -31,7 +31,7 @@ export const SelectDropdownPattern: PatternComponent<SelectDropdownProps> = ({
         })}
         id={selectId}
         {...register(selectId, { required })}
-        aria-describedby={error ? `${selectId} ${errorId}` : selectId}
+        aria-describedby={error ? errorId : undefined}
       >
         <option key="default" value="">
           - Select -
