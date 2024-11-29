@@ -97,7 +97,7 @@ export const en = {
       hint: 'For example, man, woman, non-binary',
       errorTextMustContainChar: 'String must contain at least 1 character(s)',
       preferNotToAnswerTextLabel:
-        'Prefer not to share my gender identity label',
+        'Prefer not to share my gender identity checkbox label',
     },
   },
 };

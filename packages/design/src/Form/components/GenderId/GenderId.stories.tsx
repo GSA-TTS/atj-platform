@@ -29,17 +29,17 @@ export const Default: StoryObj<typeof GenderIdPattern> = {
     genderId: 'gender-identity',
     label: 'Gender identity',
     hint: 'For example, man, woman, non-binary',
-    required: false,
+    required: true,
     preferNotToAnswerText: 'Prefer not to share my gender identity',
   },
 };
 
-export const WithRequired: StoryObj<typeof GenderIdPattern> = {
+export const Optional: StoryObj<typeof GenderIdPattern> = {
   args: {
     genderId: 'gender-identity',
     label: 'Gender identity',
     hint: 'For example, man, woman, non-binary',
-    required: true,
+    required: false,
     preferNotToAnswerText: 'Prefer not to share my gender identity',
   },
 };
@@ -73,18 +73,18 @@ export const WithCheckboxChecked: StoryObj<typeof GenderIdPattern> = {
     genderId: 'gender-identity',
     label: 'Gender identity',
     hint: 'For example, man, woman, non-binary',
-    required: false,
+    required: true,
     preferNotToAnswerText: 'Prefer not to share my gender identity',
     preferNotToAnswerChecked: true,
   },
 };
 
-export const WithoutPreferNotToAnswerText: StoryObj<typeof GenderIdPattern> = {
+export const WithoutCheckbox: StoryObj<typeof GenderIdPattern> = {
   args: {
     genderId: 'gender-identity',
     label: 'Gender identity',
     hint: 'For example, man, woman, non-binary',
-    required: false,
+    required: true,
     preferNotToAnswerText: undefined,
   },
 };

@@ -69,6 +69,15 @@ export const GenderIdPattern: PatternComponent<GenderIdProps> = ({
           className={classNames('usa-input', {
             'usa-input--error': error,
           })}
+          style={
+            preferNotToAnswerChecked
+              ? {
+                  backgroundColor: '#e9ecef',
+                  pointerEvents: 'none',
+                  opacity: 0.65,
+                }
+              : {}
+          }
           id={genderId}
           type="text"
           defaultValue={value}
@@ -77,7 +86,6 @@ export const GenderIdPattern: PatternComponent<GenderIdProps> = ({
             `${hint ? `${hintId}` : ''}${error ? ` ${errorId}` : ''}`.trim() ||
             undefined
           }
-          disabled={preferNotToAnswerChecked}
         />
         {preferNotToAnswerText && (
           <div className="usa-checkbox">

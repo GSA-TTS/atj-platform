@@ -12,7 +12,7 @@ const pattern: GenderIdPattern = {
   type: 'gender-id',
   data: {
     label: message.patterns.genderId.displayName,
-    required: false,
+    required: true,
     hint: undefined,
     preferNotToAnswerText: message.patterns.genderId.preferNotToAnswerTextLabel,
   },
