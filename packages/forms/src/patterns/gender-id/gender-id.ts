@@ -38,7 +38,7 @@ export const genderIdConfig: PatternConfig<
   GenderIdPattern,
   GenderIdPatternOutput
 > = {
-  displayName: 'Gender ID',
+  displayName: 'Gender Identity',
   iconPath: 'gender-id-icon.svg',
   initial: {
     label: 'Gender identity',
