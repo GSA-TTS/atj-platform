@@ -10,6 +10,7 @@ import EmailInputPatternEdit from './EmailInputPatternEdit/index.js';
 import FieldsetEdit from './FieldsetEdit/index.js';
 import FormSummaryEdit from './FormSummaryEdit.js';
 import InputPatternEdit from './InputPatternEdit/index.js';
+import GenderIdPatternEdit from './GenderIdPatternEdit/index.js';
 import PackageDownloadPatternEdit from './PackageDownloadPatternEdit.js';
 import PageSetEdit from './PageSetEdit/index.js';
 import { PageEdit } from './PageEdit.js';
@@ -29,6 +30,7 @@ export const defaultPatternEditComponents: EditComponentForPattern = {
   'email-input': EmailInputPatternEdit as PatternEditComponent,
   fieldset: FieldsetEdit as PatternEditComponent,
   'form-summary': FormSummaryEdit as PatternEditComponent,
+  'gender-id': GenderIdPatternEdit as PatternEditComponent,
   input: InputPatternEdit as PatternEditComponent,
   'package-download': PackageDownloadPatternEdit as PatternEditComponent,
   page: PageEdit as PatternEditComponent,
