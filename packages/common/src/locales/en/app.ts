@@ -89,5 +89,10 @@ export const en = {
       hint: 'For example, 555-11-0000',
       errorTextMustContainChar: 'String must contain at least 1 character(s)',
     },
+    repeater: {
+      ...defaults,
+      displayName: 'Repeatable Group',
+      errorTextMustContainChar: 'String must contain at least 1 character(s)',
+    },
   },
 };
