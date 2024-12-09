@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import { type GenderIdProps } from '@atj/forms';
-
 import { type PatternComponent } from '../../index.js';
 
 const GenderIdPattern: PatternComponent<GenderIdProps> = ({
@@ -11,7 +10,7 @@ const GenderIdPattern: PatternComponent<GenderIdProps> = ({
   label,
   required,
   error,
-  value,
+  value = '',
   preferNotToAnswerText,
   preferNotToAnswerChecked: initialPreferNotToAnswerChecked = false,
 }) => {
@@ -22,25 +21,17 @@ const GenderIdPattern: PatternComponent<GenderIdProps> = ({
 
   const errorId = `input-error-message-${genderId}`;
   const hintId = `hint-${genderId}`;
-  const preferNotToAnswerId = `prefer-not-to-answer-${genderId}`;
+  const preferNotToAnswerId = `${genderId}.preferNotToAnswer`;
+  const inputId = `${genderId}.input`;
 
-  useEffect(() => {
-    if (preferNotToAnswerChecked) {
-      setValue(genderId, preferNotToAnswerText, { shouldValidate: true });
-    } else {
-      setValue(genderId, value, { shouldValidate: true });
-    }
-  }, [
-    preferNotToAnswerChecked,
-    setValue,
-    genderId,
-    preferNotToAnswerText,
-    value,
-  ]);
+  const watchedValue = useWatch({ name: inputId, defaultValue: value });
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPreferNotToAnswerChecked(event.target.checked);
-    setValue(preferNotToAnswerId, event.target.checked);
+    const isChecked = event.target.checked;
+    setPreferNotToAnswerChecked(isChecked);
+    setValue(genderId, isChecked ? preferNotToAnswerText : value, {
+      shouldValidate: true,
+    });
   };
 
   return (
@@ -66,35 +57,28 @@ const GenderIdPattern: PatternComponent<GenderIdProps> = ({
           </div>
         )}
         <input
-          className={classNames('usa-input', {
+          className={classNames('usa-input usa-input--xl', {
             'usa-input--error': error,
           })}
-          style={
-            preferNotToAnswerChecked
-              ? {
-                  backgroundColor: '#e9ecef',
-                  pointerEvents: 'none',
-                  opacity: 0.65,
-                }
-              : {}
-          }
-          id={genderId}
+          id={inputId}
           type="text"
-          defaultValue={value}
-          {...register(genderId, { required })}
+          readOnly={preferNotToAnswerChecked}
+          disabled={preferNotToAnswerChecked}
+          defaultValue={preferNotToAnswerChecked ? '' : watchedValue}
+          {...register(inputId, { required })}
           aria-describedby={
             `${hint ? `${hintId}` : ''}${error ? ` ${errorId}` : ''}`.trim() ||
             undefined
           }
         />
         {preferNotToAnswerText && (
-          <div className="usa-checkbox">
+          <div className="usa-checkbox usa-input--xl">
             <input
               className="usa-checkbox__input"
               id={preferNotToAnswerId}
               type="checkbox"
-              value="prefer-not-to-answer"
-              checked={preferNotToAnswerChecked}
+              defaultValue={preferNotToAnswerText}
+              defaultChecked={preferNotToAnswerChecked}
               {...register(preferNotToAnswerId)}
               onChange={handleCheckboxChange}
             />

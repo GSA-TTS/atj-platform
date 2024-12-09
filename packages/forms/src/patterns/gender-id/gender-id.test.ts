@@ -3,6 +3,7 @@ import {
   createGenderIdSchema,
   genderIdConfig,
   type GenderIdPattern,
+  type GenderIdPatternOutput,
 } from './gender-id';
 
 describe('GenderIdPattern tests', () => {
@@ -11,14 +12,19 @@ describe('GenderIdPattern tests', () => {
       const data: GenderIdPattern['data'] = {
         label: 'Test Gender Identity Label',
         required: true,
+        preferNotToAnswerText: 'Prefer not to share my gender identity',
       };
 
       const schema = createGenderIdSchema(data);
-      const validInput = 'Test Gender';
-      const invalidInput = '';
+      const validInput = { input: 'Test Gender' };
+      const invalidInput = { input: '' };
+      const preferNotToAnswerInput = {
+        preferNotToAnswer: 'Prefer not to share my gender identity',
+      };
 
       expect(schema.safeParse(validInput).success).toBe(true);
       expect(schema.safeParse(invalidInput).success).toBe(false);
+      expect(schema.safeParse(preferNotToAnswerInput).success).toBe(true);
     });
 
     it('should create schema for optional gender identity input', () => {
@@ -28,8 +34,8 @@ describe('GenderIdPattern tests', () => {
       };
 
       const schema = createGenderIdSchema(data);
-      const validInput = 'Test Gender';
-      const emptyInput = '';
+      const validInput = { input: 'Test Gender' };
+      const emptyInput = { input: '' };
 
       expect(schema.safeParse(validInput).success).toBe(true);
       expect(schema.safeParse(emptyInput).success).toBe(true);
@@ -44,10 +50,11 @@ describe('GenderIdPattern tests', () => {
         data: {
           label: 'Test Gender Identity Label',
           required: true,
+          preferNotToAnswerText: 'Prefer not to share my gender identity',
         },
       };
 
-      const inputValue = 'Test Gender';
+      const inputValue = { input: 'Test Gender' };
       if (!genderIdConfig.parseUserInput) {
         expect.fail('genderIdConfig.parseUserInput is undefined');
       }
@@ -66,10 +73,11 @@ describe('GenderIdPattern tests', () => {
         data: {
           label: 'Test Gender Identity Label',
           required: true,
+          preferNotToAnswerText: 'Prefer not to share my gender identity',
         },
       };
 
-      const inputValue = '';
+      const inputValue = { input: '' };
       if (!genderIdConfig.parseUserInput) {
         expect.fail('genderIdConfig.parseUserInput is undefined');
       }

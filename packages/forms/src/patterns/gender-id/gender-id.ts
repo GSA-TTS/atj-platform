@@ -21,17 +21,26 @@ export type GenderIdPatternOutput = z.infer<
 >;
 
 export const createGenderIdSchema = (data: GenderIdPattern['data']) => {
-  return z.string().superRefine((value, ctx) => {
-    if (value === data.preferNotToAnswerText) {
-      return;
-    }
-    if (data.required && value.trim() === '') {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'This field is required',
-      });
-    }
-  });
+  return z
+    .object({
+      input: z.string().optional(),
+      preferNotToAnswer: z.string().optional(),
+    })
+    .superRefine((value, ctx) => {
+      const { input, preferNotToAnswer } = value;
+
+      if (
+        data.required &&
+        !input?.trim() &&
+        preferNotToAnswer !== data.preferNotToAnswerText
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'This field is required',
+        });
+        return;
+      }
+    });
 };
 
 export const genderIdConfig: PatternConfig<
@@ -65,6 +74,9 @@ export const genderIdConfig: PatternConfig<
   createPrompt(_, session, pattern, options) {
     const extraAttributes: Record<string, any> = {};
     const sessionValue = getFormSessionValue(session, pattern.id);
+    const value = sessionValue?.input || '';
+    const preferNotToAnswerChecked =
+      sessionValue?.preferNotToAnswer === pattern.data.preferNotToAnswerText;
     const error = session.data.errors[pattern.id];
 
     return {
@@ -76,7 +88,8 @@ export const genderIdConfig: PatternConfig<
         required: pattern.data.required,
         hint: pattern.data.hint,
         preferNotToAnswerText: pattern.data.preferNotToAnswerText,
-        value: sessionValue,
+        preferNotToAnswerChecked,
+        value,
         error,
         ...extraAttributes,
       } as GenderIdProps,
