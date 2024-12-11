@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import editUIImage from '../images/attachments-edit-ui.png';
 import agencySealImage from '../images/agency-seal.png';
+import videoPlaceholderImage from '../images/video-placeholder.png';
 ---
 <style>
 .marketing-button--outline {
@@ -36,6 +37,17 @@ img {
     border-width: 15px 8px 0 8px;
     left: 50%;
     transform: translateX(-50%);
+}
+
+.video-player {
+    max-width: 46.5rem;
+    margin: 0 auto;
+}
+
+.video-content-target {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
 }
 </style>
 <section class="usa-section usa-section--dark" aria-label="Introduction">
@@ -84,12 +96,27 @@ img {
       <h2 class="font-body-xl margin-top-0 tablet:margin-bottom-0 text-center">
         What Makes Us Different
       </h2>
-      <p class="text-center usa-prose font-body-lg text-300">
+      <p class="text-center usa-prose font-body-lg tablet:margin-bottom-5 text-300">
         The 10x Forms Platform is built for feds, by feds.
       </p>
     </div>
-    <div class="tablet:grid-col-12">
-      {/* video goes here */}
+  </div>
+  <div class="grid-row grid-gap">
+    <div class="tablet:grid-col-12 margin-bottom-5 text-center">
+      <div class="video-player">
+        <a href="#" class="video-player__button display-inline-block" aria-label="Play video">
+          <Image src={videoPlaceholderImage} alt="" width="744" height="418" class="display-block margin-x-auto" loading="eager" decoding="sync"  />
+        </a>
+        <template id="video-content">
+          <div class="video-content-target bg-primary-darker">
+            <iframe
+              src="https://www.loom.com/embed/d958328ec69548ed99c6cd1a15af8a16?sid=ecc5f80b-931b-403d-addc-538215b53092&autoplay=1"
+              frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen
+              allow="autoplay; fullscreen"
+              style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+          </div>
+        </template>
+      </div>
     </div>
   </div>
   <div class="grid-row grid-gap">
@@ -305,3 +332,22 @@ img {
     </div>
   </div>
 </section>
+<script>
+  (function() {
+    const template = document.querySelector('#video-content');
+    const button = document.querySelector('.video-player__button');
+
+    if(template) {
+      const clone = template.content.cloneNode(true);
+      const viewport = document.querySelector('.video-player');
+      if(button && viewport){
+        button.addEventListener('click', (e) => {
+          e.preventDefault();
+          viewport.replaceChildren(clone);
+        }, {
+          once: true
+        });
+      }
+    }
+  })();
+</script>
