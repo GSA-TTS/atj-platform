@@ -12,14 +12,14 @@ const { github } = Astro.props;
 
 <footer id="footer" class="usa-footer">
   <div class="usa-identifier usa-footer__primary padding-bottom-0">
-    <div class="grid-container usa-footer__primary-content">
+    <div class="grid-container usa-footer__primary-content maxw-desktop">
       <div class="grid-row padding-top-0 padding-bottom-3">
         <div class="GSAFooter">
           <section
             aria-label="Agency identifier,"
             class="usa-identifier__section usa-identifier__section--masthead"
           >
-            <div class="usa-identifier__container maxw-desktop-lg">
+            <div class="align-center display-flex maxw-desktop">
               <div class="usa-identifier__logos">
                 <a
                   href="https://gsa.gov"
@@ -37,7 +37,7 @@ const { github } = Astro.props;
                 class="usa-identifier__identity"
                 aria-label="Agency description"
               >
-                <p class="usa-identifier__identity-domain">10x.gsa.gov</p>
+                <p class="usa-identifier__identity-domain">10x Forms Platform</p>
                 <p class="usa-identifier__identity-disclaimer">
                   An official website of the
                   <a href="https://gsa.gov/tts"
@@ -53,7 +53,7 @@ const { github } = Astro.props;
         aria-label="Important links,"
         class="usa-identifier__section usa-identifier__section--required-links"
       >
-        <div class="usa-identifier__container maxw-desktop-lg">
+        <div class="align-center display-flex maxw-desktop">
           <ul class="usa-identifier__required-links-list">
             <li class="usa-identifier__required-links-item">
               <a
@@ -120,22 +120,29 @@ const { github } = Astro.props;
                 >Email Us</a
               >
             </li>
+            <li class="usa-identifier__required-links-item">
+              <a
+                href="https://github.com/gsa-tts/forms"
+                class="usa-identifier__required-link usa-link"
+                rel="noopener noreferrer"
+                target="_blank"
+                >Github repo</a
+              >
+            </li>
           </ul>
         </div>
       </nav>
     </div>
     <section
       aria-label="U.S. government information and services,"
-      class="usa-identifier__section usa-identifier__section--usagov margin-top-105 padding-bottom-105"
+      class="usa-identifier__section usa-identifier__section--usagov margin-top-105 padding-bottom-105 maxw-desktop grid-container"
     >
-      <div class="grid-container">
-        <div class="usa-identifier__container maxw-desktop-lg">
+        <div class="align-center display-flex maxw-desktop">
           <div class="usa-identifier__usagov-description">
             Looking for U.S. government information and services?&nbsp;
           </div>
           <a href="https://www.usa.gov/" class="usa-link">Visit USA.gov</a>
         </div>
-      </div>
     </section>
   </div>
 </footer>

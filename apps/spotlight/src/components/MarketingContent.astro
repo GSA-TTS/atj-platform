@@ -1,220 +1,307 @@
-import React from 'react';
-
-export default () => {
-  return (
-    <main id="main-content">
-      <section className="usa-section usa-section--dark" aria-label="Introduction">
-        <div className="grid-container splash-container">
-          <div className="grid-row grid-gap">
-            <div className="tablet:grid-col-9">
-              <h1 className="text-white">
-                Elegant Federal Forms that Work for All Users on All Devices
-              </h1>
-              <ul className="usa-button-group">
-                <li className="usa-button-group__item">
-                  <a href="#" className="usa-button usa-button--outline">Download our Brochure</a>
-                </li>
-                <li className="usa-button-group__item">
-                  <a href="#" className="usa-button">Request a Demo</a>
-                </li>
-              </ul>
-            </div>
-            <div className="tablet:grid-col-3">
-              <img src="/images/spotlight/spotlight-hero.png" alt="A photo of a person using a federal form" />
-            </div>
-          </div>
-        </div>
-      </section>
-      <section className="grid-container usa-section splash-container">
-        <div className="grid-row grid-gap">
-          <div className="tablet:grid-col-12">
-            <h2 className="font-heading-xl margin-top-0 tablet:margin-bottom-0 text-center">
-              What Makes Us Different
-            </h2>
-            <p className="text-center usa-prose">
-              The 10x Forms Platform is built for feds, by feds.
-            </p>
-          </div>
-          <div className="tablet:grid-col-12">
-            {/* video goes here */}
-          </div>
-        </div>
-        <div className="grid-row grid-gap">
-          <div className="tablet:grid-col-6">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                 aria-hidden="true" className="margin-bottom-1">
-              <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M20.5 6C17.89 6.7 14.83 7 12 7C9.17 7 6.11 6.7 3.5 6L3 8C4.86 8.5 7 8.83 9 9V22H11V16H13V22H15V9C17 8.83 19.14 8.5 21 8L20.5 6ZM12 6C13.1 6 14 5.1 14 4C14 2.9 13.1 2 12 2C10.9 2 10 2.9 10 4C10 5.1 10.9 6 12 6Z"
-                    fill="black" />
-            </svg>
-            <h3 className="font-heading-l margin-top-0 tablet:margin-bottom-0">
-              Team control
-            </h3>
-            <p className="usa-prose">
-              Never submit a ticket or tap someone from IT to make a simple content change. Your team controls
-              everything.
-            </p>
-          </div>
-          <div className="tablet:grid-col-6">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                 aria-hidden="true" className="margin-bottom-1">
-              <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M9.4 16.6L4.8 12L9.4 7.4L8 6L2 12L8 18L9.4 16.6ZM14.6 16.6L19.2 12L14.6 7.4L16 6L22 12L16 18L14.6 16.6Z"
-                    fill="black" />
-            </svg>
-            <h3 className="font-heading-l margin-top-0 tablet:margin-bottom-0">
-              No Code
-            </h3>
-            <p className="usa-prose">
-              Feds of any skill levels and disciplines can use our platform and begin designing forms within minutes
-            </p>
-          </div>
-          <div className="tablet:grid-col-6">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="margin-bottom-1">
-              <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M9.00016 16.1698L4.83016 11.9998L3.41016 13.4098L9.00016 18.9998L21.0002 6.99984L19.5902 5.58984L9.00016 16.1698Z"
-                    fill="black" />
-            </svg>
-            <h3 className="font-heading-l margin-top-0 tablet:margin-bottom-0">
-              Check all the Boxes
-            </h3>
-            <p className="usa-prose">
-              Every form made on our platform meets strict security and accessibility standards
-            </p>
-          </div>
-          <div className="tablet:grid-col-6">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="margin-bottom-1">
-              <path fill-rule="evenodd" clip-rule="evenodd"
-                    d="M14 2H6C4.9 2 4.01 2.9 4.01 4L4 20C4 21.1 4.89 22 5.99 22H18C19.1 22 20 21.1 20 20V8L14 2ZM18 20H6V4H13V9H18V20ZM8 15.01L9.41 16.42L11 14.84V19H13V14.84L14.59 16.43L16 15.01L12.01 11L8 15.01Z"
-                    fill="black" />
-            </svg>
-            <h3 className="font-heading-l margin-top-0 tablet:margin-bottom-0">
-              Easy Import
-            </h3>
-            <p className="usa-prose">
-              Upload your existing form PDF and start editing right away
-            </p>
-          </div>
-        </div>
-      </section>
-      <section className="grid-container usa-section--dark">
-        <div className="splash-container">
-          <div className="grid-row grid-gap">
-            <div className="tablet:grid-col-6">
-              <h2 className="font-heading-xl">
-                Compliance with 21C IDEA and M-23-22 out of the box.
-              </h2>
-            </div>
-          </div>
-          <div className="grid-row grid-gap">
-            <div className="tablet:grid-col-3">
-              <h3>21st Century IDEA</h3>
-              <p>We manage keeping up with all the compliance so you don’t have to. We’ll always align with the latest
-                X, Y, Z, not to mention A, B, C</p>
-            </div>
-            <div className="tablet:grid-col-3">
-              <h3>Section 508</h3>
-              <p>We manage keeping up with all the compliance so you don’t have to. We’ll always align with the latest
-                X, Y, Z, not to mention A, B, C</p>
-            </div>
-            <div className="tablet:grid-col-3">
-              <h3>PRA</h3>
-              <p>We manage keeping up with all the compliance so you don’t have to. We’ll always align with the latest
-                X, Y, Z, not to mention A, B, C</p>
-            </div>
-            <div className="tablet:grid-col-3">
-              <h3>Something else</h3>
-              <p>We manage keeping up with all the compliance so you don’t have to. We’ll always align with the latest
-                X, Y, Z, not to mention A, B, C</p>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section className="grid-container usa-section">
-        <div className="splash-container">
-          <div className="grid-row grid-gap">
-            <div className="tablet:grid-col-6">
-              <h2 className="font-heading-xl margin-top-0 tablet:margin-bottom-0">
-                Integrate with your Data
-              </h2>
-            </div>
-            <div className="tablet:grid-col-6 usa-prose">
-              <p>
-                Get started quickly, a month or two, instead of year-long procurement, cheaper. We can start delivering value without requiring a huge process change.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section className="grid-container usa-section">
-        <div className="grid-row grid-gap">
-          <div className="tablet:grid-col-4">
-            <h2 className="font-heading-xl margin-top-0 tablet:margin-bottom-0">
-              We Understand your Concerns
-            </h2>
-          </div>
-          <div className="tablet:grid-col-8 usa-prose">
-            <p>
-              The tagline should inspire confidence and interest, focusing on the
-              value that your overall approach offers to your audience. Use a
-              heading typeface and keep your tagline to just a few words, and
-              don’t confuse or mystify.
-            </p>
-            <p>
-              Use the right side of the grid to explain the tagline a bit more.
-              What are your goals? How do you do your work? Write in the present
-              tense, and stay brief here. People who are interested can find
-              details on internal pages.
-            </p>
-          </div>
-        </div>
-      </section>
-      <section className="grid-container usa-section">
-        <div className="grid-row grid-gap">
-          <div className="tablet:grid-col-4">
-            <h2 className="font-heading-xl margin-top-0 tablet:margin-bottom-0">
-              We’re Gonna Launch the Presidential Pardon Form (Yes, That One)
-            </h2>
-          </div>
-          <div className="tablet:grid-col-8 usa-prose">
-            <p>
-              The tagline should inspire confidence and interest, focusing on the
-              value that your overall approach offers to your audience. Use a
-              heading typeface and keep your tagline to just a few words, and
-              don’t confuse or mystify.
-            </p>
-            <p>
-              Use the right side of the grid to explain the tagline a bit more.
-              What are your goals? How do you do your work? Write in the present
-              tense, and stay brief here. People who are interested can find
-              details on internal pages.
-            </p>
-          </div>
-        </div>
-      </section>
-      <section className="grid-container usa-section">
-        <div className="grid-row grid-gap">
-          <div className="tablet:grid-col-4">
-            <h2 className="font-heading-xl margin-top-0 tablet:margin-bottom-0">
-              Find Out More About Other 10x Projects
-            </h2>
-          </div>
-          <div className="tablet:grid-col-8 usa-prose">
-            <p>
-              The tagline should inspire confidence and interest, focusing on the
-              value that your overall approach offers to your audience. Use a
-              heading typeface and keep your tagline to just a few words, and
-              don’t confuse or mystify.
-            </p>
-            <p>
-              Use the right side of the grid to explain the tagline a bit more.
-              What are your goals? How do you do your work? Write in the present
-              tense, and stay brief here. People who are interested can find
-              details on internal pages.
-            </p>
-          </div>
-        </div>
-      </section>
-    </main>
-  )
+---
+import { Image } from 'astro:assets';
+import editUIImage from '../images/attachments-edit-ui.png';
+import agencySealImage from '../images/agency-seal.png';
+---
+<style>
+.marketing-button--outline {
+    box-shadow: inset 0 0 0 2px #fff;
 }
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.marketing-section--dark {
+    :is(h1, h2, h3, h4) {
+        color: #fff
+    }
+}
+
+.marketing-section--lighter {
+    background: #F2F9FF;
+}
+
+.testimonial-quote {
+    position: relative;
+}
+
+.testimonial-quote:after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: -13px;
+    border-color: #162e51 transparent transparent transparent;
+    border-style: solid;
+    border-width: 15px 8px 0 8px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+</style>
+<section class="usa-section usa-section--dark" aria-label="Introduction">
+  <div class="grid-container maxw-desktop marketing-section--dark">
+    <div class="grid-row grid-gap">
+      <div class="tablet:grid-col-9">
+        <h1>
+          Elegant Federal Forms that Work for All Users on All Devices
+        </h1>
+        <ul class="usa-button-group">
+          <li class="usa-button-group__item">
+            <a href="#" class="usa-button usa-button--outline marketing-button--outline">Download our Brochure</a>
+          </li>
+          <li class="usa-button-group__item">
+            <a href="#" class="usa-button">Request a Demo</a>
+          </li>
+        </ul>
+      </div>
+      <div class="tablet:grid-col-3 display-none tablet:display-block">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 292 279" fill="none" aria-hidden="true">
+          <rect width="292" height="203" y="32" fill="#1C1C1C" rx="4" />
+          <rect width="270" height="170" x="11" y="43" fill="#5842D2" rx="4" />
+          <path fill="#1C1C1C"
+                d="M130 235h32v32h-32v-32ZM73 271a4 4 0 0 1 4-4h138a4 4 0 0 1 4 4v8H73v-8ZM39 4a4 4 0 0 1 4-4h208a4 4 0 0 1 4 4v204H39V4Z" />
+          <path fill="#fff" d="M39 213h216V24H39v189Z" />
+          <rect width="85.023" height="9" fill="#A9AEB1" rx="4" transform="matrix(1 0 0 -1 104 52)" />
+          <rect width="45.423" height="9" fill="#A9AEB1" rx="4" transform="matrix(1 0 0 -1 124 67.08)" />
+          <rect width="150.576" height="7" x="1" y="-1" stroke="#A9AEB1" stroke-width="2" rx="3.5"
+                transform="matrix(1 0 0 -1 71 87.304)" />
+          <rect width="150.576" height="7" x="1" y="-1" stroke="#A9AEB1" stroke-width="2" rx="3.5"
+                transform="matrix(1 0 0 -1 71 106.353)" />
+          <rect width="150.576" height="52" x="1" y="-1" stroke="#A9AEB1" stroke-width="2" rx="4"
+                transform="matrix(1 0 0 -1 71 169.848)" />
+          <rect width="33.776" height="9" fill="#112E51" rx="4" transform="matrix(1 0 0 -1 130 194.315)" />
+          <circle cx="63" cy="11" r="4" fill="#D54309" />
+          <circle cx="76" cy="11" r="4" fill="#FFBE2E" />
+          <circle cx="89" cy="11" r="4" fill="#00A91C" />
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="grid-container usa-section maxw-desktop">
+  <div class="grid-row grid-gap">
+    <div class="tablet:grid-col-12">
+      <h2 class="font-body-xl margin-top-0 tablet:margin-bottom-0 text-center">
+        What Makes Us Different
+      </h2>
+      <p class="text-center usa-prose font-body-lg text-300">
+        The 10x Forms Platform is built for feds, by feds.
+      </p>
+    </div>
+    <div class="tablet:grid-col-12">
+      {/* video goes here */}
+    </div>
+  </div>
+  <div class="grid-row grid-gap">
+    <div class="tablet:grid-col-6">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" aria-hidden="true"
+           class="margin-bottom-1">
+        <path fill="#000" fill-rule="evenodd"
+              d="M20.5 6c-2.61.7-5.67 1-8.5 1s-5.89-.3-8.5-1L3 8c1.86.5 4 .83 6 1v13h2v-6h2v6h2V9c2-.17 4.14-.5 6-1l-.5-2ZM12 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2Z"
+              clip-rule="evenodd" />
+      </svg>
+      <h3 class="font-body-lg margin-top-0 tablet:margin-bottom-0">
+        Team control
+      </h3>
+      <p class="usa-prose">
+        Never submit a ticket or tap someone from IT to make a simple content change. Your team controls
+        everything.
+      </p>
+    </div>
+    <div class="tablet:grid-col-6">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" aria-hidden="true"
+           class="margin-bottom-1">
+        <path fill="#000" fill-rule="evenodd"
+              d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4Zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4Z"
+              clip-rule="evenodd" />
+      </svg>
+      <h3 class="font-body-lg margin-top-0 tablet:margin-bottom-0">
+        No Code
+      </h3>
+      <p class="usa-prose">
+        Feds of any skill levels and disciplines can use our platform and begin designing forms within minutes
+      </p>
+    </div>
+    <div class="tablet:grid-col-6">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" aria-hidden="true"
+           class="margin-bottom-1">
+        <path fill="#000" fill-rule="evenodd" d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17Z"
+              clip-rule="evenodd" />
+      </svg>
+      <h3 class="font-body-lg margin-top-0 tablet:margin-bottom-0">
+        Check all the Boxes
+      </h3>
+      <p class="usa-prose">
+        Every form made on our platform meets strict security and accessibility standards
+      </p>
+    </div>
+    <div class="tablet:grid-col-6">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" aria-hidden="true"
+           class="margin-bottom-1">
+        <path fill="#000" fill-rule="evenodd"
+              d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6Zm4 18H6V4h7v5h5v11ZM8 15.01l1.41 1.41L11 14.84V19h2v-4.16l1.59 1.59L16 15.01 12.01 11 8 15.01Z"
+              clip-rule="evenodd" />
+      </svg>
+      <h3 class="font-body-lg margin-top-0 tablet:margin-bottom-0">
+        Easy Import
+      </h3>
+      <p class="usa-prose">
+        Upload your existing form PDF and start editing right away
+      </p>
+    </div>
+  </div>
+</section>
+<section class="usa-section usa-section--dark">
+  <div class="grid-container maxw-desktop marketing-section--dark">
+    <div class="grid-row grid-gap">
+      <div class="tablet:grid-col-6">
+        <h2 class="font-body-xl">
+          Compliance with 21C IDEA and M-23-22 out of the box.
+        </h2>
+      </div>
+    </div>
+    <div class="grid-row grid-gap">
+      <div class="tablet:grid-col-3">
+        <h3 class="font-body-lg">21st Century IDEA</h3>
+        <p>We manage keeping up with all the compliance so you don’t have to. We’ll always align with the latest
+          X, Y, Z, not to mention A, B, C</p>
+      </div>
+      <div class="tablet:grid-col-3">
+        <h3 class="font-body-lg">Section 508</h3>
+        <p>We manage keeping up with all the compliance so you don’t have to. We’ll always align with the latest
+          X, Y, Z, not to mention A, B, C</p>
+      </div>
+      <div class="tablet:grid-col-3">
+        <h3 class="font-body-lg">PRA</h3>
+        <p>We manage keeping up with all the compliance so you don’t have to. We’ll always align with the latest
+          X, Y, Z, not to mention A, B, C</p>
+      </div>
+      <div class="tablet:grid-col-3">
+        <h3 class="font-body-lg">Something else</h3>
+        <p>We manage keeping up with all the compliance so you don’t have to. We’ll always align with the latest
+          X, Y, Z, not to mention A, B, C</p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="usa-section marketing-section--lighter">
+  <div class="grid-container maxw-desktop">
+    <div class="grid-row grid-gap">
+      <div class="tablet:grid-col-6">
+        <h2 class="font-body-xl margin-top-0 tablet:margin-bottom-0">
+          Integrate with your Data
+        </h2>
+      </div>
+      <div class="tablet:grid-col-6 usa-prose">
+        <p class="margin-top-0">
+          Get started quickly, a month or two, instead of year-long procurement, cheaper. We can start delivering value without requiring a huge process change.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="usa-section">
+  <div class="grid-container maxw-desktop">
+    <div class="grid-row grid-gap margin-bottom-3 tablet:margin-bottom-6">
+      <div class="tablet:grid-col-12">
+        <h2 class="font-body-xl margin-top-0 margin-bottom-3 tablet:margin-bottom-6">
+          We Understand your Concerns
+        </h2>
+      </div>
+      <div class="tablet:grid-col-6">
+        <ul class="usa-list usa-list--unstyled">
+          <li>
+            <h3 class="font-body-lg margin-top-0">Eligibility Screening</h3>
+            <p>Allow your form fillers to attach documents like pdfs, images, etc...</p>
+          </li>
+          <li>
+            <h3 class="font-body-lg">Skip Logic</h3>
+            <p>Allow your form fillers to attach documents like pdfs, images, etc...</p>
+          </li>
+          <li>
+            <h3 class="font-body-lg">Document Attachment</h3>
+            <p>Allow your form fillers to attach documents like pdfs, images, etc...</p>
+          </li>
+        </ul>
+      </div>
+      <div class="tablet:grid-col-6">
+        <Image src={editUIImage} alt="" width="438" height="370" class="display-block margin-x-auto tablet:margin-x-0" />
+      </div>
+    </div>
+    <div class="grid-row grid-gap">
+      <div class="tablet:grid-col-6">
+        <Image src={editUIImage} alt="" width="438" height="370" class="display-block margin-x-auto tablet:margin-x-0" />
+      </div>
+      <div class="tablet:grid-col-6">
+        <ul class="usa-list usa-list--unstyled">
+          <li>
+            <h3 class="font-body-lg">Form Submission via CSV</h3>
+            <p>Allow your form fillers to attach documents like pdfs, images, etc...</p>
+          </li>
+          <li>
+            <h3 class="font-body-lg">Form Submissions directly to your data system</h3>
+            <p>Allow your form fillers to attach documents like pdfs, images, etc...</p>
+          </li>
+          <li>
+            <h3 class="font-body-lg">Forms Submissions via Email</h3>
+            <p>Allow your form fillers to attach documents like pdfs, images, etc...</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="usa-section marketing-section--lighter">
+  <div class="grid-container maxw-desktop">
+    <div class="grid-row grid-gap">
+      <div class="tablet:grid-col-12">
+        <h2 class="font-body-lg margin-top-0 tablet:margin-bottom-0">
+          We’re Gonna Launch the Presidential Pardon Form (Yes, That One)
+        </h2>
+      </div>
+      <figure class="tablet:grid-col-4 margin-left-0 margin-right-0">
+        <blockquote class="bg-primary-darker text-white margin-0 padding-4 radius-md margin-bottom-4 testimonial-quote">
+          <p class="margin-0">It's a much more powerful tool than what we have. And I could do it myself. I wouldn't have to rely on my IT team to do it. I would have some ownership over it.</p>
+        </blockquote>
+        <figcaption class="font-body-sm margin-top-0 text-center">
+          <Image src={agencySealImage} alt="" width="51" height="51" class="display-block margin-bottom-2 margin-x-auto" />
+          <cite>Name, Title at Organization</cite>
+        </figcaption>
+      </figure>
+      <figure class="tablet:grid-col-4 margin-left-0 margin-right-0 tablet:display-block display-none">
+        <blockquote class="bg-primary-darker text-white margin-0 padding-4 radius-md margin-bottom-4 testimonial-quote">
+          <p class="margin-0">It's a much more powerful tool than what we have. And I could do it myself. I wouldn't have to rely on my IT team to do it. I would have some ownership over it.</p>
+        </blockquote>
+        <figcaption class="font-body-sm margin-top-0 text-center">
+          <Image src={agencySealImage} alt="" width="51" height="51" class="display-block margin-bottom-2 margin-x-auto" />
+          <cite>Name, Title at Organization</cite>
+        </figcaption>
+      </figure>
+      <figure class="tablet:grid-col-4 margin-left-0 margin-right-0 tablet:display-block display-none">
+        <blockquote class="bg-primary-darker text-white margin-0 padding-4 radius-md margin-bottom-4 testimonial-quote">
+          <p class="margin-0">It's a much more powerful tool than what we have. And I could do it myself. I wouldn't have to rely on my IT team to do it. I would have some ownership over it.</p>
+        </blockquote>
+        <figcaption class="font-body-sm margin-top-0 text-center">
+          <Image src={agencySealImage} alt="" width="51" height="51" class="display-block margin-bottom-2 margin-x-auto" />
+          <cite>Name, Title at Organization</cite>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+<section class="usa-section usa-section--dark marketing-section--dark">
+  <div class="grid-container maxw-desktop">
+    <div class="grid-row grid-gap">
+      <div class="tablet:grid-col-12">
+        <h2 class="font-body-lg margin-top-0 tablet:margin-bottom-2">
+          Find Out More About Other 10x Projects
+        </h2>
+      </div>
+      <div class="tablet:grid-col-12">
+        <a class="usa-button usa-button--big" href="https://10x.gsa.gov/">
+          10x.gsa.gov
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
