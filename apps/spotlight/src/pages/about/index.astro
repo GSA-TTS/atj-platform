@@ -352,7 +352,7 @@ import videoPlaceholderImage from '../../images/video-placeholder.png';
   </section>
   <script>
     (function() {
-      const template: HTMLTemplateElement = document.querySelector('#video-content');
+      const template: HTMLTemplateElement | null = document.querySelector('#video-content');
       const button = document.querySelector('.video-player__button');
 
       if (template) {
