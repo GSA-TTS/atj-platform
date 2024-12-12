@@ -1,6 +1,7 @@
 ---
 import { type GithubRepository, getBranchTreeUrl } from '../lib/github.js';
 import { Image } from 'astro:assets';
+import { getBaseUrl } from '../routes';
 
 type Props = {
   github: GithubRepository;
@@ -25,7 +26,7 @@ const { github } = Astro.props;
                   class="usa-identifier__logo GSAFooter__logo"
                 >
                   <Image
-                    src="/images/gsa-logo.svg"
+                    src=`${getBaseUrl()}images/gsa-logo.svg`
                     alt="GSA.gov home."
                     width="60"
                     height="60"

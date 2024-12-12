@@ -25,6 +25,11 @@ export const getStorybookUrl = () => {
   return `${context.baseUrl}design/index.html`;
 };
 
+export const getBaseUrl = () => {
+  const context = getAppContext();
+  return context.baseUrl;
+};
+
 export const getAboutUrl = () => {
   const context = getAppContext();
   return `${context.baseUrl}about/index.html`;
