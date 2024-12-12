@@ -13,9 +13,7 @@ const getNavLinkClasses = (url: string) => {
 };
 
 const currentRoute = Astro.url.href;
-console.log(currentRoute);
-console.log(`${routes.getHomeUrl()}about`);
-const isAboutContent = currentRoute.startsWith(`${routes.getHomeUrl()}about`);
+const isAboutContent = currentRoute.includes(`/about/`);
 const showAboutContent = false;
 ---
 
