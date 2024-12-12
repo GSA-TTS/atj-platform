@@ -122,11 +122,11 @@ const { github } = Astro.props;
             </li>
             <li class="usa-identifier__required-links-item">
               <a
-                href="https://github.com/gsa-tts/forms"
+                href={getBranchTreeUrl(github, true)}
                 class="usa-identifier__required-link usa-link"
                 rel="noopener noreferrer"
                 target="_blank"
-                >Github repo</a
+                >Github</a
               >
             </li>
           </ul>

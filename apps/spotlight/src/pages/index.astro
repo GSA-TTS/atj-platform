@@ -1,23 +1,7 @@
 ---
 import AppFormManager from '../components/AppFormManager';
-import MarketingContent from '../components/MarketingContent.astro';
 import Layout from '../layouts/Layout.astro';
 ---
 <Layout title="10x Access to Justice Spotlight">
-  <div id="splashPage" style="display: none;">
-    <MarketingContent />
-  </div>
-  <div id="appFormManager" style="display: none;">
-    <AppFormManager client:only />
-  </div>
-  <script is:inline>
-    (function() {
-    const hasCookie = document.cookie.split('; ').find(row => row.startsWith('formsIsLoggedIn='));
-    if (!hasCookie) {
-      document.getElementById('splashPage').style.display = 'block';
-    } else {
-      document.getElementById('appFormManager').style.display = 'block';
-    }
-  })();
-  </script>
+  <AppFormManager client:only />
 </Layout>
