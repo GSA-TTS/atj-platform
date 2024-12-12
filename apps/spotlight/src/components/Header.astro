@@ -1,8 +1,9 @@
 ---
 import closeSvg from '@atj/design/static/uswds/img/usa-icons/close.svg';
-import logoSvg from '@atj/design/images/logo.svg';
+import logoSvg from '../../public/images/10x-logo.svg';
 
 import * as routes from '../routes';
+import { Image } from 'astro:assets';
 
 const getNavLinkClasses = (url: string) => {
   if (url === Astro.url.pathname) {
@@ -14,30 +15,36 @@ const getNavLinkClasses = (url: string) => {
 
 const currentRoute = Astro.url.pathname;
 const isAboutContent = currentRoute.startsWith('/about');
+const showAboutContent = false;
 ---
 
 <div class="usa-overlay"></div>
 <header class="usa-header usa-header--extended">
-  { !isAboutContent && (
+  {!isAboutContent && (
     <div class="topHeaderBanner bg-yellow">
       <span class="usa-navbar height-auto display-block padding-2"
-        ><strong>STAGING SERVER</strong> - No changes you make here will be visible
+      ><strong>STAGING SERVER</strong> - No changes you make here will be visible
         to the public.</span
       >
     </div>
   )}
-  <div class="bg-base-darkest">
-    <div class="usa-navbar">
-      <div class="usa-logo">
-        <em class="usa-logo__text">
-          <a href={routes.getHomeUrl()} title="10x Forms Platform">
-            <img src={logoSvg.src} role="img" alt="10x Logo" />
-            <span class="text-white">Forms Platform</span>
-          </a>
-        </em>
-      </div>
-      <button type="button" class="usa-menu-btn">Menu</button>
+  <div class="usa-navbar">
+    <div class="usa-logo">
+      <em class="usa-logo__text">
+        <a href={routes.getHomeUrl()} title="10x Forms Platform">
+          <Image
+            src="/images/10x-logo.svg"
+            alt="10x Forms Platform home"
+            width="72"
+            height="34"
+            loading="eager"
+            decoding="sync"
+          />
+          Forms Platform
+        </a>
+      </em>
     </div>
+    <button type="button" class="usa-menu-btn">Menu</button>
   </div>
   <nav aria-label="Primary navigation" class="usa-nav">
     <div class="usa-nav__inner">
@@ -49,17 +56,38 @@ const isAboutContent = currentRoute.startsWith('/about');
           <a
             href={routes.getHomeUrl()}
             class={getNavLinkClasses(routes.getHomeUrl())}
-            ><span>My Forms</span></a
           >
+            <span>My Forms</span>
+          </a>
         </li>
+        {showAboutContent && (
+          <li class="usa-nav__primary-item">
+            <a
+              href={routes.getAboutUrl()}
+              class={getNavLinkClasses(routes.getAboutUrl())}
+            >
+              <span>About</span>
+            </a>
+          </li>
+        )}
         <li class="usa-nav__primary-item">
           <a
             href={routes.getStorybookUrl()}
             class={getNavLinkClasses(routes.getStorybookUrl())}
-            ><span>Storybook</span></a
           >
+            <span>Storybook</span>
+          </a>
         </li>
       </ul>
+      {showAboutContent && (
+        <div class="usa-nav__secondary">
+          <ul class="usa-nav__secondary-links">
+            <li class="usa-nav__secondary-item">
+              <button class="usa-button">Login</button>
+            </li>
+          </ul>
+        </div>
+      )}
     </div>
   </nav>
 </header>
