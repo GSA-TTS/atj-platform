@@ -11,23 +11,28 @@ const getNavLinkClasses = (url: string) => {
     return 'usa-nav-link';
   }
 };
+
+const currentRoute = Astro.url.pathname;
+const isAboutContent = currentRoute.startsWith('/about');
 ---
 
 <div class="usa-overlay"></div>
 <header class="usa-header usa-header--extended">
-  <div class="topHeaderBanner bg-yellow">
-    <span class="usa-navbar height-auto display-block padding-2"
-      ><strong>STAGING SERVER</strong> - No changes you make here will be visible
-      to the public.</span
-    >
-  </div>
+  { !isAboutContent && (
+    <div class="topHeaderBanner bg-yellow">
+      <span class="usa-navbar height-auto display-block padding-2"
+        ><strong>STAGING SERVER</strong> - No changes you make here will be visible
+        to the public.</span
+      >
+    </div>
+  )}
   <div class="bg-base-darkest">
     <div class="usa-navbar">
       <div class="usa-logo">
         <em class="usa-logo__text">
-          <a href={routes.getHomeUrl()} title="10x Access to Justice">
+          <a href={routes.getHomeUrl()} title="10x Forms Platform">
             <img src={logoSvg.src} role="img" alt="10x Logo" />
-            <span class="text-white">A2J Forms</span>
+            <span class="text-white">Forms Platform</span>
           </a>
         </em>
       </div>
