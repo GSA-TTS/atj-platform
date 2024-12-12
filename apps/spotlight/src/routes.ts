@@ -25,7 +25,7 @@ export const getStorybookUrl = () => {
   return `${context.baseUrl}design/index.html`;
 };
 
-export const getBaseUrl = () => {
+export const getPublicDirUrl = () => {
   const context = getAppContext();
   return context.baseUrl;
 };
