@@ -24,3 +24,8 @@ export const getStorybookUrl = () => {
   const context = getAppContext();
   return `${context.baseUrl}design/index.html`;
 };
+
+export const getAboutUrl = () => {
+  const context = getAppContext();
+  return `${context.baseUrl}about/index.html`;
+};
