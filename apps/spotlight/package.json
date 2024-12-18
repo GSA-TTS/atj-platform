@@ -25,7 +25,6 @@
     "@atj/common": "workspace:*",
     "@atj/design": "workspace:*",
     "@atj/forms": "workspace:*",
-    "@size-limit/preset-app": "^11.1.6",
     "astro": "^4.13.2",
     "qs": "^6.13.0",
     "react": "^18.3.1",
