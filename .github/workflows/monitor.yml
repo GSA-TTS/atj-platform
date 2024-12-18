@@ -1,0 +1,11 @@
+name: 'Run tests'
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  performance-budget:
+    uses: ./.github/workflows/_performance-budget.yml
