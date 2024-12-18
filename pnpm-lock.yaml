@@ -146,9 +146,6 @@ importers:
       '@atj/forms':
         specifier: workspace:*
         version: link:../../packages/forms
-      '@size-limit/preset-app':
-        specifier: ^11.1.6
-        version: 11.1.6(size-limit@11.1.6)
       astro:
         specifier: ^4.13.2
         version: 4.15.2(@types/node@22.7.4)(rollup@4.23.0)(sass-embedded@1.69.5)(terser@5.37.0)(typescript@5.8.0-dev.20241218)
@@ -177,6 +174,9 @@ importers:
       '@astrojs/check':
         specifier: ^0.4.1
         version: 0.4.1(prettier@3.3.3)(typescript@5.8.0-dev.20241218)
+      '@size-limit/preset-app':
+        specifier: ^11.1.6
+        version: 11.1.6(size-limit@11.1.6)
       '@types/qs':
         specifier: ^6.9.15
         version: 6.9.15
