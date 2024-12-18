@@ -13,11 +13,51 @@ jobs:
       CI_JOB_NUMBER: 1
     steps:
       - uses: actions/checkout@v4
+
+      - name: Read node version from `.nvmrc` file
+        id: nvmrc
+        shell: bash
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Install required node.js version
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ steps.nvmrc.outputs.NODE_VERSION }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        id: pnpm-install
+        with:
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build
+        run: pnpm build
+
       - uses: andresz1/size-limit-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          skip_step: install
           directory: ./apps/spotlight
+
       - uses: andresz1/size-limit-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          skip_step: install
           directory: ./packages/design
