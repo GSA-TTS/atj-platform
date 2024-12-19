@@ -7,5 +7,9 @@ on:
   pull_request:
 
 jobs:
+  setup-and-build:
+    uses: ./.github/workflows/_setup-node-and-build.yml
+
   performance-budget:
+    needs: setup-and-build
     uses: ./.github/workflows/_performance-budget.yml
