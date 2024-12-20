@@ -66,6 +66,12 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Spotlight performance budget
+        run: pnpm --filter @atj/spotlight size:ci
+
+      - name: Design performance budget
+        run: pnpm --filter @atj/design size:ci
+
       - name: Lint source code
         shell: bash
         run: pnpm lint
