@@ -17,6 +17,7 @@
     "dev:styles": "gulp watch",
     "lint": "eslint --ext ts,tsx --report-unused-disable-directives --max-warnings 0 src",
     "size": "pnpm build && size-limit",
+    "size:ci": "size-limit",
     "test:url": "test-storybook --url http://127.0.0.1:9009 --config-dir .storybook",
     "test:dev": "wait-on tcp:127.0.0.1:9009 && pnpm test:url --maxWorkers=2 # assumes dev server is running",
     "test:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"pnpm build:storybook --quiet && pnpm http-server storybook-static --port 9009 --silent\" \"pnpm test:dev\"",

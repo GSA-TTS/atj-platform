@@ -8,7 +8,8 @@
     "clean": "rimraf dist tsconfig.tsbuildinfo coverage",
     "dev": "astro dev",
     "preview": "astro preview",
-    "size": "pnpm build && size-limit"
+    "size": "pnpm build && size-limit",
+    "size:ci": "size-limit"
   },
   "size-limit": [
     {
