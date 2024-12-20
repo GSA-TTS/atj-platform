@@ -2,6 +2,12 @@ name: Validate
 
 on:
   workflow_call:
+    inputs:
+      playwright_version:
+        description: Installed playwright version
+        required: true
+        default: "1.48.1"
+        type: string
 
 jobs:
   run-tests:
@@ -44,8 +50,16 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Install playwright
-        run: pnpm dlx playwright@1.48.1 install --with-deps
+      - name: Cache Playwright binaries
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ inputs.playwright_version }}
+
+      - name: Install Playwright
+        run: pnpm dlx playwright@${{ inputs.playwright_version }} install --with-deps
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
 
       # While most of the test suite is self-contained, the tests for the demo
       # servers require a prod build of @atj/server.
