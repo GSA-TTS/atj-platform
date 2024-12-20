@@ -9,7 +9,7 @@
     "dev": "astro dev",
     "preview": "astro preview",
     "size": "pnpm build && size-limit",
-    "size:ci": "size-limit"
+    "size:ci": "size-limit --json"
   },
   "size-limit": [
     {
