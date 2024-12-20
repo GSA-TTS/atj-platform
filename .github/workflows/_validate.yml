@@ -61,6 +61,8 @@ jobs:
         run: pnpm dlx playwright@${{ inputs.playwright_version }} install --with-deps
         if: steps.playwright-cache.outputs.cache-hit != 'true'
 
+      # While most of the test suite is self-contained, the tests for the demo
+      # servers require a prod build of @atj/server.
       - name: Build
         run: pnpm build
 
