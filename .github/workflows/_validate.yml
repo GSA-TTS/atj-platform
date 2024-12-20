@@ -5,7 +5,7 @@ on:
     inputs:
       playwright_version:
         description: Installed playwright version
-        required: true
+        required: false
         default: "1.48.1"
         type: string
 
